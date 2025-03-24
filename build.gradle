@@ -19,6 +19,15 @@ group = mod_group_id
 
 repositories {
     mavenLocal()
+    maven {
+        url "https://www.cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
+    maven {
+        url "https://maven.su5ed.dev/releases"
+    }
 }
 
 base {
@@ -113,6 +122,10 @@ configurations {
 }
 
 dependencies {
+    implementation "curse.maven:jei-238222:${jei_id}"
+    implementation "curse.maven:jade-324717:${jade_id}"
+    implementation "org.sinytra.forgified-fabric-api:forgified-fabric-api:${forgified_fabric_api_version}"
+
     // Example optional mod dependency with JEI
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
     // compileOnly "mezz.jei:jei-${mc_version}-common-api:${jei_version}"

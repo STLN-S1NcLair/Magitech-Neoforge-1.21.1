@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "net.stln.magitech.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "EntityAttackStrengthMixin"
+  ],
+  "client": [
+    "ItemRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
