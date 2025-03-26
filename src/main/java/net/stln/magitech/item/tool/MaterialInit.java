@@ -1,6 +1,12 @@
 package net.stln.magitech.item.tool;
 
+import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
+import net.minecraft.world.entity.monster.*;
+import net.minecraft.world.entity.monster.breeze.Breeze;
+import net.minecraft.world.entity.monster.warden.Warden;
 import net.minecraft.world.item.Items;
+import net.stln.magitech.damage.ElementAffinityDictionary;
+import net.stln.magitech.damage.EntityElementDictionary;
 import net.stln.magitech.item.ItemInit;
 
 public class MaterialInit {
@@ -13,6 +19,8 @@ public class MaterialInit {
     public static ToolMaterial FRIGIDITE = new ToolMaterial(null, "frigidite");
 
     public static void registerMaterials() {
+        ToolMaterialDictionary.init();
+
         COPPER.addStats(ToolPart.LIGHT_BLADE, new ToolStats(2.5F, 0.5F, -2.5F, 2.5F, 0F, -0.3F, 0.7F, 57, Element.SURGE, MiningLevel.STONE));
         COPPER.addStats(ToolPart.HANDGUARD, new ToolStats(0F, 0.4F, -0.6F, 0F, 1.1F, 0F, 0F, 92, Element.SURGE, MiningLevel.STONE));
         COPPER.addStats(ToolPart.LIGHT_HANDLE, new ToolStats(0F, 0.2F, 0.1F, 1.3F, 0.3F, 0.1F, 1.6F, 115, Element.SURGE, MiningLevel.STONE));
@@ -49,51 +57,51 @@ public class MaterialInit {
         ToolMaterialDictionary.registerItem(ItemInit.ENDER_METAL_INGOT.get(), ENDER_METAL);
         ToolMaterialDictionary.registerId("frigidite", FRIGIDITE);
         ToolMaterialDictionary.registerItem(ItemInit.POLISHED_FRIGIDITE.get(), FRIGIDITE);
-//    }
-//
-//    public static void registerElements() {
-//        ElementAffinityDictionary.registerAffinity(Element.EMBER, ElementAffinityDictionary.INEFFICIENT, Element.EMBER);
-//        ElementAffinityDictionary.registerAffinity(Element.GLACE, ElementAffinityDictionary.INEFFICIENT, Element.GLACE);
-//        ElementAffinityDictionary.registerAffinity(Element.SURGE, ElementAffinityDictionary.INEFFICIENT, Element.SURGE);
-//        ElementAffinityDictionary.registerAffinity(Element.PHANTOM, ElementAffinityDictionary.INEFFICIENT, Element.PHANTOM);
-//        ElementAffinityDictionary.registerAffinity(Element.TREMOR, ElementAffinityDictionary.INEFFICIENT, Element.TREMOR);
-//        ElementAffinityDictionary.registerAffinity(Element.MAGIC, ElementAffinityDictionary.INEFFICIENT, Element.MAGIC);
-//        ElementAffinityDictionary.registerAffinity(Element.FLOW, ElementAffinityDictionary.INEFFICIENT, Element.FLOW);
-//        ElementAffinityDictionary.registerAffinity(Element.HOLLOW, ElementAffinityDictionary.INEFFICIENT, Element.HOLLOW);
-//
-//        ElementAffinityDictionary.registerAffinity(Element.EMBER, ElementAffinityDictionary.EFFICIENT, Element.SURGE);
-//        ElementAffinityDictionary.registerAffinity(Element.SURGE, ElementAffinityDictionary.EFFICIENT, Element.TREMOR);
-//        ElementAffinityDictionary.registerAffinity(Element.TREMOR, ElementAffinityDictionary.EFFICIENT, Element.GLACE);
-//        ElementAffinityDictionary.registerAffinity(Element.GLACE, ElementAffinityDictionary.EFFICIENT, Element.PHANTOM);
-//        ElementAffinityDictionary.registerAffinity(Element.PHANTOM, ElementAffinityDictionary.EFFICIENT, Element.MAGIC);
-//        ElementAffinityDictionary.registerAffinity(Element.MAGIC, ElementAffinityDictionary.EFFICIENT, Element.FLOW);
-//        ElementAffinityDictionary.registerAffinity(Element.FLOW, ElementAffinityDictionary.EFFICIENT, Element.HOLLOW);
-//        ElementAffinityDictionary.registerAffinity(Element.HOLLOW, ElementAffinityDictionary.EFFICIENT, Element.EMBER);
-//
-//        ElementAffinityDictionary.registerAffinity(Element.EMBER, ElementAffinityDictionary.EFFICIENT, Element.GLACE);
-//        ElementAffinityDictionary.registerAffinity(Element.GLACE, ElementAffinityDictionary.EFFICIENT, Element.MAGIC);
-//        ElementAffinityDictionary.registerAffinity(Element.MAGIC, ElementAffinityDictionary.EFFICIENT, Element.SURGE);
-//        ElementAffinityDictionary.registerAffinity(Element.SURGE, ElementAffinityDictionary.EFFICIENT, Element.TREMOR);
-//        ElementAffinityDictionary.registerAffinity(Element.TREMOR, ElementAffinityDictionary.EFFICIENT, Element.HOLLOW);
-//        ElementAffinityDictionary.registerAffinity(Element.HOLLOW, ElementAffinityDictionary.EFFICIENT, Element.PHANTOM);
-//        ElementAffinityDictionary.registerAffinity(Element.PHANTOM, ElementAffinityDictionary.EFFICIENT, Element.FLOW);
-//        ElementAffinityDictionary.registerAffinity(Element.FLOW, ElementAffinityDictionary.EFFICIENT, Element.EMBER);
-//
-//        EntityElementDictionary.registerEntityElement(BlazeEntity.class, Element.EMBER);
-//        EntityElementDictionary.registerEntityElement(MagmaCubeEntity.class, Element.EMBER);
-//        EntityElementDictionary.registerEntityElement(StrayEntity.class, Element.GLACE);
-//        EntityElementDictionary.registerEntityElement(PhantomEntity.class, Element.PHANTOM);
-//        EntityElementDictionary.registerEntityElement(VexEntity.class, Element.PHANTOM);
-//        EntityElementDictionary.registerEntityElement(WardenEntity.class, Element.TREMOR);
-//        EntityElementDictionary.registerEntityElement(WitchEntity.class, Element.MAGIC);
-//        EntityElementDictionary.registerEntityElement(EvokerEntity.class, Element.MAGIC);
-//        EntityElementDictionary.registerEntityElement(DrownedEntity.class, Element.FLOW);
-//        EntityElementDictionary.registerEntityElement(GuardianEntity.class, Element.FLOW);
-//        EntityElementDictionary.registerEntityElement(ElderGuardianEntity.class, Element.FLOW);
-//        EntityElementDictionary.registerEntityElement(BreezeEntity.class, Element.FLOW);
-//        EntityElementDictionary.registerEntityElement(EndermanEntity.class, Element.HOLLOW);
-//        EntityElementDictionary.registerEntityElement(EnderDragonEntity.class, Element.HOLLOW);
-//        EntityElementDictionary.registerEntityElement(EndermiteEntity.class, Element.HOLLOW);
-//        EntityElementDictionary.registerEntityElement(ShulkerEntity.class, Element.HOLLOW);
+    }
+
+    public static void registerElements() {
+        ElementAffinityDictionary.registerAffinity(Element.EMBER, ElementAffinityDictionary.INEFFICIENT, Element.EMBER);
+        ElementAffinityDictionary.registerAffinity(Element.GLACE, ElementAffinityDictionary.INEFFICIENT, Element.GLACE);
+        ElementAffinityDictionary.registerAffinity(Element.SURGE, ElementAffinityDictionary.INEFFICIENT, Element.SURGE);
+        ElementAffinityDictionary.registerAffinity(Element.PHANTOM, ElementAffinityDictionary.INEFFICIENT, Element.PHANTOM);
+        ElementAffinityDictionary.registerAffinity(Element.TREMOR, ElementAffinityDictionary.INEFFICIENT, Element.TREMOR);
+        ElementAffinityDictionary.registerAffinity(Element.MAGIC, ElementAffinityDictionary.INEFFICIENT, Element.MAGIC);
+        ElementAffinityDictionary.registerAffinity(Element.FLOW, ElementAffinityDictionary.INEFFICIENT, Element.FLOW);
+        ElementAffinityDictionary.registerAffinity(Element.HOLLOW, ElementAffinityDictionary.INEFFICIENT, Element.HOLLOW);
+
+        ElementAffinityDictionary.registerAffinity(Element.EMBER, ElementAffinityDictionary.EFFICIENT, Element.SURGE);
+        ElementAffinityDictionary.registerAffinity(Element.SURGE, ElementAffinityDictionary.EFFICIENT, Element.TREMOR);
+        ElementAffinityDictionary.registerAffinity(Element.TREMOR, ElementAffinityDictionary.EFFICIENT, Element.GLACE);
+        ElementAffinityDictionary.registerAffinity(Element.GLACE, ElementAffinityDictionary.EFFICIENT, Element.PHANTOM);
+        ElementAffinityDictionary.registerAffinity(Element.PHANTOM, ElementAffinityDictionary.EFFICIENT, Element.MAGIC);
+        ElementAffinityDictionary.registerAffinity(Element.MAGIC, ElementAffinityDictionary.EFFICIENT, Element.FLOW);
+        ElementAffinityDictionary.registerAffinity(Element.FLOW, ElementAffinityDictionary.EFFICIENT, Element.HOLLOW);
+        ElementAffinityDictionary.registerAffinity(Element.HOLLOW, ElementAffinityDictionary.EFFICIENT, Element.EMBER);
+
+        ElementAffinityDictionary.registerAffinity(Element.EMBER, ElementAffinityDictionary.EFFICIENT, Element.GLACE);
+        ElementAffinityDictionary.registerAffinity(Element.GLACE, ElementAffinityDictionary.EFFICIENT, Element.MAGIC);
+        ElementAffinityDictionary.registerAffinity(Element.MAGIC, ElementAffinityDictionary.EFFICIENT, Element.SURGE);
+        ElementAffinityDictionary.registerAffinity(Element.SURGE, ElementAffinityDictionary.EFFICIENT, Element.TREMOR);
+        ElementAffinityDictionary.registerAffinity(Element.TREMOR, ElementAffinityDictionary.EFFICIENT, Element.HOLLOW);
+        ElementAffinityDictionary.registerAffinity(Element.HOLLOW, ElementAffinityDictionary.EFFICIENT, Element.PHANTOM);
+        ElementAffinityDictionary.registerAffinity(Element.PHANTOM, ElementAffinityDictionary.EFFICIENT, Element.FLOW);
+        ElementAffinityDictionary.registerAffinity(Element.FLOW, ElementAffinityDictionary.EFFICIENT, Element.EMBER);
+
+        EntityElementDictionary.registerEntityElement(Blaze.class, Element.EMBER);
+        EntityElementDictionary.registerEntityElement(MagmaCube.class, Element.EMBER);
+        EntityElementDictionary.registerEntityElement(Stray.class, Element.GLACE);
+        EntityElementDictionary.registerEntityElement(Phantom.class, Element.PHANTOM);
+        EntityElementDictionary.registerEntityElement(Vex.class, Element.PHANTOM);
+        EntityElementDictionary.registerEntityElement(Warden.class, Element.TREMOR);
+        EntityElementDictionary.registerEntityElement(Witch.class, Element.MAGIC);
+        EntityElementDictionary.registerEntityElement(Evoker.class, Element.MAGIC);
+        EntityElementDictionary.registerEntityElement(Drowned.class, Element.FLOW);
+        EntityElementDictionary.registerEntityElement(Guardian.class, Element.FLOW);
+        EntityElementDictionary.registerEntityElement(ElderGuardian.class, Element.FLOW);
+        EntityElementDictionary.registerEntityElement(Breeze.class, Element.FLOW);
+        EntityElementDictionary.registerEntityElement(EnderMan.class, Element.HOLLOW);
+        EntityElementDictionary.registerEntityElement(EnderDragon.class, Element.HOLLOW);
+        EntityElementDictionary.registerEntityElement(Endermite.class, Element.HOLLOW);
+        EntityElementDictionary.registerEntityElement(Shulker.class, Element.HOLLOW);
     }
 }

@@ -1,13 +1,11 @@
 package net.stln.magitech.item.renderer;
 
-import com.mojang.datafixers.util.Either;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelResolver;
 import net.fabricmc.fabric.api.event.Event;
 import net.minecraft.client.renderer.block.model.BlockModel;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.item.tool.ToolMaterial;
@@ -16,7 +14,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Map;
 
 @Environment(EnvType.CLIENT)
 public class PartToolItemModelRegister {
@@ -51,6 +48,7 @@ public class PartToolItemModelRegister {
     }
 
     private static @NotNull net.minecraft.client.resources.model.UnbakedModel getUnbakedModel(ResourceLocation identifier) {
+        Magitech.LOGGER.info(identifier.toString());
         return BlockModel.fromString(
                 "{\n" +
                         "    \"parent\": \"item/handheld\",\n" +

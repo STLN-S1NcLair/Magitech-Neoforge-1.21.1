@@ -1,10 +1,7 @@
 package net.stln.magitech;
 
 import com.mojang.logging.LogUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.level.block.Blocks;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -14,14 +11,19 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.stln.magitech.block.BlockInit;
+import net.stln.magitech.entity.EntityInit;
+import net.stln.magitech.event.EventInit;
 import net.stln.magitech.item.ItemInit;
+import net.stln.magitech.item.comopnent.ComponentInit;
 import net.stln.magitech.item.creative_tab.CreativeTabInit;
 import net.stln.magitech.item.renderer.PartToolItemModelRegister;
 import net.stln.magitech.item.tool.MaterialInit;
+import net.stln.magitech.particle.ParticleInit;
 import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
@@ -46,7 +48,10 @@ public class Magitech {
         // Register the Deferred Register to the mod event bus so blocks get registered
         BlockInit.registerBlocks(modEventBus);
         ItemInit.registerItems(modEventBus);
+        ComponentInit.registerComponents(modEventBus);
         CreativeTabInit.registerCreativeTabs(modEventBus);
+        EntityInit.registerModEntities(modEventBus);
+        ParticleInit.registerParticleClient(modEventBus);
 
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (ExampleMod) to respond directly to events.
@@ -67,6 +72,7 @@ public class Magitech {
 //        LOGGER.info(Config.magicNumberIntroduction + Config.magicNumber);
 //
 //        Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
+        MaterialInit.registerElements();
         MaterialInit.registerMaterials();
         PartToolItemModelRegister.register();
     }
@@ -90,9 +96,13 @@ public class Magitech {
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
-            // Some client setup code
-            LOGGER.info("HELLO FROM CLIENT SETUP");
-            LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+            EntityInit.registerModEntitiesRenderer();
+            EventInit.registerClientEvent();
+        }
+
+        @SubscribeEvent
+        public static void registerParticleFactories(RegisterParticleProvidersEvent event) {
+            ParticleInit.registerParticleFactories(event);
         }
     }
 }

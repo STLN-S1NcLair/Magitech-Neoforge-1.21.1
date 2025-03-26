@@ -1,18 +1,14 @@
 package net.stln.magitech.util;
 
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.structure.BoundingBox;
-import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.*;
-import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.List;
+import java.util.Optional;
 
 public class EntityUtil {
 
@@ -37,7 +33,7 @@ public class EntityUtil {
     /**
      * プレイヤーの視線の先にある障害物 or エンティティの位置を取得する
      *
-     * @param player プレイヤー
+     * @param player      プレイヤー
      * @param attackRange 最大攻撃範囲 (例: 3.0)
      * @return 攻撃が届く座標
      */
@@ -77,23 +73,26 @@ public class EntityUtil {
     /**
      * プレイヤーの視線上のエンティティを取得する
      */
-    public static EntityHitResult getEntityHitResult(Player player, Vec3 start, Vec3 end, Level level) {
-        double maxDistance = start.distanceTo(end);
+    public static EntityHitResult getEntityHitResult(Player player, Vec3 startLoc, Vec3 endLoc, Level level) {
+        double distance = startLoc.distanceTo(endLoc);
+        AABB searchBox = new AABB(startLoc, endLoc).inflate(1.0); // 線分を含む範囲を検索
+
+        List<Entity> entities = level.getEntities(player, searchBox, entity ->
+                entity.isPickable() && entity.getBoundingBox().clip(startLoc, endLoc).isPresent()
+        );
+
         EntityHitResult closestHit = null;
-        double closestDistance = maxDistance;
+        double closestDistance = distance;
 
-        for (var entity : level.getEntities(player, player.getBoundingBox().expandTowards(end.subtract(start)).inflate(1.0))) {
-            if (!entity.isAlive()) continue;
+        for (Entity entity : entities) {
+            AABB boundingBox = entity.getBoundingBox();
+            Optional<Vec3> hit = boundingBox.clip(startLoc, endLoc);
 
-            // エンティティの当たり判定ボックスを取得
-            var aabb = entity.getBoundingBox().inflate(0.1);
-            var optionalHit = aabb.clip(start, end);
-
-            if (optionalHit.isPresent()) {
-                double distance = start.distanceToSqr(optionalHit.get());
-                if (distance < closestDistance) {
-                    closestDistance = distance;
-                    closestHit = new EntityHitResult(entity, optionalHit.get());
+            if (hit.isPresent()) {
+                double hitDistance = startLoc.distanceTo(hit.get());
+                if (hitDistance < closestDistance) {
+                    closestDistance = hitDistance;
+                    closestHit = new EntityHitResult(entity, hit.get());
                 }
             }
         }

@@ -44,20 +44,22 @@ public class ToolStats {
         MiningLevel minLv = MiningLevel.NONE;
 
         for (ToolStats stats : statsList) {
-            Map<String, Float> map = stats.getStats();
+            if (stats != null) {
+                Map<String, Float> map = stats.getStats();
 
-            atk += map.get(ATK_STAT);
-            spd += map.get(SPD_STAT);
-            min += map.get(MIN_STAT);
-            def += map.get(DEF_STAT);
-            rng += map.get(RNG_STAT);
-            swp += map.get(SWP_STAT);
-            dur += map.get(DUR_STAT);
+                atk += map.get(ATK_STAT);
+                spd += map.get(SPD_STAT);
+                min += map.get(MIN_STAT);
+                def += map.get(DEF_STAT);
+                rng += map.get(RNG_STAT);
+                swp += map.get(SWP_STAT);
+                dur += map.get(DUR_STAT);
 
-            Element currentElm = stats.getElement();
-            elementMap.put(currentElm, elementMap.getOrDefault(currentElm, 0.0F) + map.get(ELM_ATK_STAT));
-            if (stats.getMiningLevel().getTier() > minLv.getTier()) {
-                minLv = stats.getMiningLevel();
+                Element currentElm = stats.getElement();
+                elementMap.put(currentElm, elementMap.getOrDefault(currentElm, 0.0F) + map.get(ELM_ATK_STAT));
+                if (stats.getMiningLevel().getTier() > minLv.getTier()) {
+                    minLv = stats.getMiningLevel();
+                }
             }
 
         }

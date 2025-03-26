@@ -9,17 +9,17 @@ import org.spongepowered.asm.mixin.Unique;
 @Mixin(LivingEntity.class)
 public class EntityAttackStrengthMixin implements AdjustableAttackStrengthEntity {
 
-    @Unique
-    LivingEntity entity = (LivingEntity) (Object) this;
-
     @Shadow
     protected int attackStrengthTicker;
+    @Unique
+    LivingEntity entity = (LivingEntity) (Object) this;
 
     @Override
     @Unique
     public int getLastAttackedTicks() {
         return this.attackStrengthTicker;
     }
+
     @Unique
     public void setLastAttackedTicks(int value) {
         this.attackStrengthTicker = value;

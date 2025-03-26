@@ -1,4 +1,5 @@
 package net.stln.magitech.item.tool;
+
 import net.minecraft.world.item.Item;
 import org.jetbrains.annotations.Nullable;
 

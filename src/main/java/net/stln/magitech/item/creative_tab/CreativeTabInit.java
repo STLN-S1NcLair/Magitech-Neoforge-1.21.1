@@ -9,6 +9,8 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.item.ItemInit;
+import net.stln.magitech.item.tool.MaterialInit;
+import net.stln.magitech.item.tool.PartToolGenerator;
 
 public class CreativeTabInit {
 
@@ -21,6 +23,12 @@ public class CreativeTabInit {
             .icon(() -> ItemInit.WAND.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
                 output.accept(ItemInit.WAND.get());
+                output.accept(PartToolGenerator.generateLightSword(MaterialInit.COPPER, MaterialInit.COPPER, MaterialInit.COPPER));
+                output.accept(PartToolGenerator.generateLightSword(MaterialInit.IRON, MaterialInit.IRON, MaterialInit.IRON));
+                output.accept(PartToolGenerator.generateLightSword(MaterialInit.GOLD, MaterialInit.GOLD, MaterialInit.GOLD));
+                output.accept(PartToolGenerator.generateLightSword(MaterialInit.DIAMOND, MaterialInit.DIAMOND, MaterialInit.DIAMOND));
+                output.accept(PartToolGenerator.generateLightSword(MaterialInit.ENDER_METAL, MaterialInit.ENDER_METAL, MaterialInit.ENDER_METAL));
+                output.accept(PartToolGenerator.generateLightSword(MaterialInit.FRIGIDITE, MaterialInit.FRIGIDITE, MaterialInit.FRIGIDITE));
             }).build());
 
     public static void registerCreativeTabs(IEventBus eventBus) {

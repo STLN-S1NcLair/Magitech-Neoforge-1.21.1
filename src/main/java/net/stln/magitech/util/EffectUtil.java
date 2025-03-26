@@ -1,4 +1,5 @@
 package net.stln.magitech.util;
+
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -14,7 +15,7 @@ public class EffectUtil {
         }
 
         Vec3 lookVec = Vec3.directionFromRotation(player.getRotationVector()); // プレイヤーの視線方向
-        double yawRad = Math.toRadians(player.getRotationVector().x);
+        double yawRad = Math.toRadians(player.getRotationVector().y);
 
         // **視線方向に基づく「右方向ベクトル」を計算**
         Vec3 rightVec = new Vec3(Math.cos(yawRad), 0, Math.sin(yawRad)).normalize(); // 視線の右方向
@@ -34,29 +35,30 @@ public class EffectUtil {
             // **パーティクルをスポーン**
             world.addParticle(particleEffect, x, y, z, 0, 0, 0);
         }
-        }
+    }
 
-        /**
-         * 指定した軸と角度で回転を適用する
-         * @param vector 回転させる3Dベクトル
-         * @param axis   回転軸（正規化された Vec3f）
-         * @param angleDegrees 回転角度（度単位）
-         * @return 回転後のベクトル
-         */
-        public static Vec3 rotateVector(Vec3 vector, Vec3 axis, double angleDegrees) {
-            // 角度をラジアンに変換
-            double angleRadians = Math.toRadians(angleDegrees);
+    /**
+     * 指定した軸と角度で回転を適用する
+     *
+     * @param vector       回転させる3Dベクトル
+     * @param axis         回転軸（正規化された Vec3f）
+     * @param angleDegrees 回転角度（度単位）
+     * @return 回転後のベクトル
+     */
+    public static Vec3 rotateVector(Vec3 vector, Vec3 axis, double angleDegrees) {
+        // 角度をラジアンに変換
+        double angleRadians = Math.toRadians(angleDegrees);
 
-            // クォータニオンを作成（回転軸 + 角度）
-            Quaternionf rotation = new Quaternionf(axis.x, axis.y, axis.z, angleRadians);
+        // クォータニオンを作成（回転軸 + 角度）
+        Quaternionf rotation = new Quaternionf(axis.x, axis.y, axis.z, angleRadians);
 
-            // Vec3 → Vec3f（Minecraftのクォータニオン適用用）
-            Vector3f vec = new Vector3f((float) vector.x, (float) vector.y, (float) vector.z);
+        // Vec3 → Vec3f（Minecraftのクォータニオン適用用）
+        Vector3f vec = new Vector3f((float) vector.x, (float) vector.y, (float) vector.z);
 
-            // クォータニオンを適用（回転）
-            vec.rotate(rotation);
+        // クォータニオンを適用（回転）
+        vec.rotate(rotation);
 
-            // 回転後の Vec3f → Vec3 に戻す
-            return new Vec3(vec.x, vec.y, vec.z);
-        }
+        // 回転後の Vec3f → Vec3 に戻す
+        return new Vec3(vec.x, vec.y, vec.z);
+    }
 }
