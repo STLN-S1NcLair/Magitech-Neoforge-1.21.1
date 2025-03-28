@@ -13,12 +13,12 @@ public class NetworkInit {
     @SubscribeEvent
     public static void registerPayload(final RegisterPayloadHandlersEvent event) {
         final PayloadRegistrar registrar = event.registrar("1");
-        registrar.playToServer(
+        registrar.playBidirectional(
                 LeftClickC2SPayload.TYPE,
                 LeftClickC2SPayload.STREAM_CODEC,
                 new DirectionalPayloadHandler<>(
-                        LeftClickPayLoadHandler::handleDataOnMain,
-                        LeftClickPayLoadHandler::handleDataOnMain
+                        LeftClickPayLoadHandler::handleDataOnMainS2C,
+                        LeftClickPayLoadHandler::handleDataOnMainC2S
                 )
         );
     }

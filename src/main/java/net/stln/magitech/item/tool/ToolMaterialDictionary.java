@@ -39,7 +39,8 @@ public class ToolMaterialDictionary {
 
     public static void init() {
         componentPartId.put(ToolType.LIGHT_SWORD, 0, ToolPart.LIGHT_BLADE);
-        componentPartId.put(ToolType.LIGHT_SWORD, 1, ToolPart.HANDGUARD);
-        componentPartId.put(ToolType.LIGHT_SWORD, 2, ToolPart.LIGHT_HANDLE);
+        componentPartId.put(ToolType.LIGHT_SWORD, 1, ToolPart.LIGHT_HANDLE);
+        componentPartId.put(ToolType.LIGHT_SWORD, 2, ToolPart.HANDGUARD);
+        componentPartId.put(ToolType.LIGHT_SWORD, 3, ToolPart.TOOL_BINDING);
     }
 }

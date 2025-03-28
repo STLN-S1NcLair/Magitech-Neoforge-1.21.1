@@ -7,6 +7,8 @@ import net.fabricmc.fabric.api.client.model.loading.v1.ModelResolver;
 import net.fabricmc.fabric.api.event.Event;
 import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.item.tool.ToolMaterial;
 import net.stln.magitech.item.tool.ToolMaterialDictionary;
@@ -15,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-@Environment(EnvType.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class PartToolItemModelRegister {
 
     private static final List<ToolMaterial> materials = ToolMaterialDictionary.getDictId().values().stream().toList();

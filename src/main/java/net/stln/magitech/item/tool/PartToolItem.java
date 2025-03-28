@@ -62,7 +62,9 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
         List<ToolStats> stats = new ArrayList<>();
         for (int i = 0; i < materials.size(); i++) {
             ToolPart toolPart = ToolMaterialDictionary.getToolPartFromIndex(toolType, i);
-            stats.add(materials.get(i).getStats(toolPart));
+            if (materials.get(i) != null) {
+                stats.add(materials.get(i).getStats(toolPart));
+            }
         }
         return ToolStats.add(stats);
     }
@@ -87,14 +89,21 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
         MutableComponent component = Component.empty();
         if (stack.has(ComponentInit.PART_MATERIAL_COMPONENT)) {
             List<ToolMaterial> materials = stack.get(ComponentInit.PART_MATERIAL_COMPONENT).materials();
-            if (materials.get(0).equals(materials.get(1))) {
-                component.append(Component.translatable("item.magitech." + ((PartToolItem) stack.getItem()).getToolType().get() + ".simple",
-                        Component.translatable("material.magitech." + materials.get(0).id)));
+            ToolType toolType = ((PartToolItem)stack.getItem()).getToolType();
+
+            if (materials.size() == toolType.getSize() && materials.get(0) != null && materials.get(1) != null) {
+                if (materials.get(0).equals(materials.get(1))) {
+                    component.append(Component.translatable("item.magitech." + ((PartToolItem) stack.getItem()).getToolType().get() + ".simple",
+                            Component.translatable("material.magitech." + materials.get(0).id)));
+                } else {
+                    component.append(Component.translatable("item.magitech." + ((PartToolItem) stack.getItem()).getToolType().get() + ".complex",
+                            Component.translatable("material.magitech." + materials.get(0).id),
+                            Component.translatable("material.magitech." + materials.get(1).id)));
+                }
             } else {
-                component.append(Component.translatable("item.magitech." + ((PartToolItem) stack.getItem()).getToolType().get() + ".complex",
-                        Component.translatable("material.magitech." + materials.get(0).id),
-                        Component.translatable("material.magitech." + materials.get(1).id)));
+                component.append(Component.translatable("item.magitech." + ((PartToolItem) stack.getItem()).getToolType().get()));
             }
+
         } else {
             component.append(Component.translatable("item.magitech." + ((PartToolItem) stack.getItem()).getToolType().get()));
         }
@@ -120,6 +129,9 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
             int newMaxDamage = Math.round(map.get(ToolStats.DUR_STAT));
             int oldMaxDamage = stack.getMaxDamage();
             int oldDamage = stack.getDamageValue();
+            if (newMaxDamage <= 0) {
+                newMaxDamage = 1;
+            }
             stack.set(DataComponents.MAX_DAMAGE, newMaxDamage);
             stack.setDamageValue((int) (((float) oldDamage) * newMaxDamage / oldMaxDamage));
         }
@@ -313,9 +325,9 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
             float damage = baseAttackDamage * EntityElementDictionary.getElementAffinity(target, stats.getElement()).getMultiplier();
             if (target instanceof LivingEntity livingEntity) {
                 float targetHealth = livingEntity.getHealth();
+                livingEntity.setLastHurtByPlayer(attacker);
                 target.hurt(ElementalDamageSource, damage);
                 attacker.awardStat(Stats.DAMAGE_DEALT, Math.round((targetHealth - livingEntity.getHealth()) * 10));
-                livingEntity.setLastHurtByPlayer(attacker);
             } else {
                 Vec3 delta = target.getDeltaMovement();
                 target.hurt(ElementalDamageSource, damage);

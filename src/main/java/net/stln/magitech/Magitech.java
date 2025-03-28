@@ -3,6 +3,7 @@ package net.stln.magitech;
 import com.mojang.logging.LogUtils;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
@@ -11,6 +12,8 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.fml.event.lifecycle.FMLDedicatedServerSetupEvent;
+import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
@@ -24,6 +27,7 @@ import net.stln.magitech.item.creative_tab.CreativeTabInit;
 import net.stln.magitech.item.renderer.PartToolItemModelRegister;
 import net.stln.magitech.item.tool.MaterialInit;
 import net.stln.magitech.particle.ParticleInit;
+import org.apache.commons.compress.archivers.sevenz.CLI;
 import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
@@ -52,6 +56,8 @@ public class Magitech {
         CreativeTabInit.registerCreativeTabs(modEventBus);
         EntityInit.registerModEntities(modEventBus);
         ParticleInit.registerParticleClient(modEventBus);
+        MaterialInit.registerElements();
+        MaterialInit.registerMaterials();
 
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (ExampleMod) to respond directly to events.
@@ -63,18 +69,8 @@ public class Magitech {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-//        // Some common setup code
-//        LOGGER.info("HELLO FROM COMMON SETUP");
-//
-//        if (Config.logDirtBlock)
-//            LOGGER.info("DIRT BLOCK >> {}", BuiltInRegistries.BLOCK.getKey(Blocks.DIRT));
-//
-//        LOGGER.info(Config.magicNumberIntroduction + Config.magicNumber);
-//
 //        Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
-        MaterialInit.registerElements();
-        MaterialInit.registerMaterials();
-        PartToolItemModelRegister.register();
+        MaterialInit.registerMaterialItems();
     }
 
     // Add the example block item to the building blocks tab
@@ -88,7 +84,6 @@ public class Magitech {
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
         // Do something when the server starts
-        LOGGER.info("HELLO from server starting");
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent

@@ -6,12 +6,16 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.item.comopnent.ComponentInit;
+import net.stln.magitech.item.renderer.ModelGenerator;
+import net.stln.magitech.item.renderer.ModelRegistrar;
+import net.stln.magitech.item.renderer.ToolModelProvider;
 import net.stln.magitech.item.tool.*;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -30,11 +34,6 @@ public class ItemRendererMixin {
     @Shadow
     private Minecraft minecraft;
 
-    @Unique
-    private ResourceLocation getPartModelId(ToolMaterial material, ToolType toolType, ToolPart part) {
-        return ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "item/tool/" + toolType.get() + "/" + material.getId() + "_" + part.get());
-    }
-
     @Inject(method = "render", at = @At(value = "TAIL"))
     private void renderItem(ItemStack itemStack, ItemDisplayContext displayContext, boolean leftHand, PoseStack poseStack, MultiBufferSource bufferSource, int combinedLight, int combinedOverlay, BakedModel p_model, CallbackInfo ci) {
         if (itemStack.getComponents().has(ComponentInit.PART_MATERIAL_COMPONENT.get())) {
@@ -49,7 +48,8 @@ public class ItemRendererMixin {
                 ToolPart toolPart = ToolMaterialDictionary.getToolPartFromIndex(type, i);
 
                 if (toolPart != null) {
-                    minecraft.getItemRenderer().render(new ItemStack(Items.IRON_INGOT), displayContext, leftHand, poseStack, bufferSource, combinedLight, combinedOverlay, ((FabricBakedModelManager) minecraft.getModelManager()).getModel(getPartModelId(partMaterial, type, toolPart)));
+                    minecraft.getItemRenderer().render(new ItemStack(Items.IRON_INGOT),
+                            displayContext, leftHand, poseStack, bufferSource, combinedLight, combinedOverlay, minecraft.getModelManager().getModel(ModelResourceLocation.standalone(ModelRegistrar.getPartModelId(partMaterial, type.get(), toolPart.get()))));
                 }
             }
 

@@ -1,5 +1,6 @@
 package net.stln.magitech.entity;
 
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
@@ -20,7 +21,7 @@ import org.joml.Vector3f;
 
 public class MagicBulletEntity extends SpellProjectileEntity {
 
-    public MagicBulletEntity(EntityType<? extends AbstractArrow> entityType, Level world) {
+    public MagicBulletEntity(EntityType<? extends SpellProjectileEntity> entityType, Level world) {
         super(entityType, world);
     }
 
@@ -29,11 +30,11 @@ public class MagicBulletEntity extends SpellProjectileEntity {
 
     }
 
-    public MagicBulletEntity(EntityType<? extends AbstractArrow> type, double x, double y, double z, Level world, ItemStack stack, @Nullable ItemStack weapon) {
+    public MagicBulletEntity(EntityType<? extends SpellProjectileEntity> type, double x, double y, double z, Level world, ItemStack stack, @Nullable ItemStack weapon) {
         super(type, x, y, z, world, stack, weapon);
     }
 
-    public MagicBulletEntity(EntityType<? extends AbstractArrow> type, LivingEntity owner, Level world, ItemStack stack, @Nullable ItemStack shotFrom) {
+    public MagicBulletEntity(EntityType<? extends SpellProjectileEntity> type, LivingEntity owner, Level world, ItemStack stack, @Nullable ItemStack shotFrom) {
         super(type, owner, world, stack, shotFrom);
     }
 
@@ -58,7 +59,6 @@ public class MagicBulletEntity extends SpellProjectileEntity {
                 world.addParticle(new UnstableSquareParticleEffect(fromColor, toColor, scale, twinkle), x, y, z, vx, vy, vz);
             }
         }
-        this.pickup = Pickup.DISALLOWED;
     }
 
     @Override
@@ -119,10 +119,5 @@ public class MagicBulletEntity extends SpellProjectileEntity {
     @Override
     protected SoundEvent getDefaultHitGroundSoundEvent() {
         return SoundEvents.BEACON_POWER_SELECT;
-    }
-
-    @Override
-    protected ItemStack getDefaultPickupItem() {
-        return new ItemStack(ItemInit.WAND.get());
     }
 }

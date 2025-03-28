@@ -25,7 +25,9 @@ public record PartMaterialComponent(List<ToolMaterial> materials) {
     public List<String> getMaterialIds() {
         List<String> ids = new ArrayList<>();
         for (ToolMaterial material : materials) {
-            ids.add(material.getId());
+            if (material != null) {
+                ids.add(material.getId());
+            }
         }
         return ids;
     }

@@ -1,25 +1,31 @@
 package net.stln.magitech.item.tool;
 
 public enum ToolType {
-    DAGGER("dagger"),
-    LIGHT_SWORD("light_sword"),
-    HEAVY_SWORD("heavy_sword"),
-    PICKAXE("pickaxe"),
-    HAMMER("hammer"),
-    AXE("axe"),
-    SHOVEL("shovel"),
-    SCYTHE("scythe"),
-    SPEAR("spear"),
-    WAND("wand"),
-    STAFF("staff");
+    DAGGER("dagger", 3),
+    LIGHT_SWORD("light_sword", 4),
+    HEAVY_SWORD("heavy_sword", 4),
+    PICKAXE("pickaxe", 3),
+    HAMMER("hammer", 4),
+    AXE("axe", 4),
+    SHOVEL("shovel", 4),
+    SCYTHE("scythe", 4),
+    SPEAR("spear", 4),
+    WAND("wand", 4),
+    STAFF("staff", 5);
 
     private final String id;
+    private final int size;
 
-    ToolType(String id) {
+    ToolType(String id, int size) {
         this.id = id;
+        this.size = size;
     }
 
     public String get() {
         return this.id;
+    }
+
+    public int getSize() {
+        return size;
     }
 }

@@ -1,6 +1,7 @@
 package net.stln.magitech.item.tool;
 
 import net.minecraft.world.item.Item;
+import net.stln.magitech.item.renderer.ToolModelProvider;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
