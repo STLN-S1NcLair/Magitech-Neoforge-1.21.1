@@ -26,16 +26,16 @@ public class MagicBulletEntity extends SpellProjectileEntity {
     }
 
     public MagicBulletEntity(Level world, Player player) {
-        super(EntityInit.MAGIC_BULLET.get(), player, world, new ItemStack(ItemInit.WAND.get()), null);
+        super(EntityInit.MAGIC_BULLET.get(), player, world, null);
 
     }
 
     public MagicBulletEntity(EntityType<? extends SpellProjectileEntity> type, double x, double y, double z, Level world, ItemStack stack, @Nullable ItemStack weapon) {
-        super(type, x, y, z, world, stack, weapon);
+        super(type, x, y, z, world, weapon);
     }
 
     public MagicBulletEntity(EntityType<? extends SpellProjectileEntity> type, LivingEntity owner, Level world, ItemStack stack, @Nullable ItemStack shotFrom) {
-        super(type, owner, world, stack, shotFrom);
+        super(type, owner, world, shotFrom);
     }
 
     @Override

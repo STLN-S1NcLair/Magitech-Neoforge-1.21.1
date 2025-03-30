@@ -10,10 +10,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.item.tool.HandguardItem;
-import net.stln.magitech.item.tool.LightBladeItem;
-import net.stln.magitech.item.tool.LightHandleItem;
-import net.stln.magitech.item.tool.LightSwordItem;
+import net.stln.magitech.item.tool.toolitem.*;
 
 public class ItemInit {
 
@@ -41,6 +38,10 @@ public class ItemInit {
 
     public static final DeferredItem<Item> LIGHT_SWORD = ITEMS.registerItem("light_sword",
             LightSwordItem::new,
+            new Item.Properties());
+
+    public static final DeferredItem<Item> HEAVY_SWORD = ITEMS.registerItem("heavy_sword",
+            HeavySwordItem::new,
             new Item.Properties());
 
     public static final DeferredItem<Item> ENDER_METAL_INGOT = ITEMS.registerItem("ender_metal_ingot",

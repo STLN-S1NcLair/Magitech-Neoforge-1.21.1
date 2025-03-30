@@ -37,6 +37,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.*;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.stln.magitech.Magitech;
 import org.joml.Vector2f;
 
 import javax.annotation.Nullable;
@@ -49,15 +50,9 @@ public abstract class SpellProjectileEntity extends Projectile {
     protected boolean inGround;
     protected int inGroundTime;
     public AbstractArrow.Pickup pickup = AbstractArrow.Pickup.DISALLOWED;
-    public int shakeTime;
     private int life;
     private double baseDamage = 2.0;
     private SoundEvent soundEvent = this.getDefaultHitGroundSoundEvent();
-    @javax.annotation.Nullable
-    private IntOpenHashSet piercingIgnoreEntityIds;
-    @javax.annotation.Nullable
-    private List<Entity> piercedAndKilledEntities;
-    @javax.annotation.Nullable
     private ItemStack firedFromWeapon = null;
 
 
@@ -65,14 +60,8 @@ public abstract class SpellProjectileEntity extends Projectile {
         super(entityType, level);
     }
 
-    protected SpellProjectileEntity(EntityType<? extends SpellProjectileEntity> entityType, double x, double y, double z, Level level, ItemStack pickupItemStack, @javax.annotation.Nullable ItemStack firedFromWeapon) {
+    protected SpellProjectileEntity(EntityType<? extends SpellProjectileEntity> entityType, double x, double y, double z, Level level, @javax.annotation.Nullable ItemStack firedFromWeapon) {
         this(entityType, level);
-        this.setCustomName(pickupItemStack.get(DataComponents.CUSTOM_NAME));
-        Unit unit = pickupItemStack.remove(DataComponents.INTANGIBLE_PROJECTILE);
-        if (unit != null) {
-            this.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
-        }
-
         this.setPos(x, y, z);
         if (firedFromWeapon != null && level instanceof ServerLevel serverlevel) {
             if (firedFromWeapon.isEmpty()) {
@@ -83,8 +72,8 @@ public abstract class SpellProjectileEntity extends Projectile {
         }
     }
 
-    protected SpellProjectileEntity(EntityType<? extends SpellProjectileEntity> entityType, LivingEntity owner, Level level, ItemStack pickupItemStack, @Nullable ItemStack firedFromWeapon) {
-        this(entityType, owner.getX(), owner.getEyeY() - 0.1F, owner.getZ(), level, pickupItemStack, firedFromWeapon);
+    protected SpellProjectileEntity(EntityType<? extends SpellProjectileEntity> entityType, LivingEntity owner, Level level, @Nullable ItemStack firedFromWeapon) {
+        this(entityType, owner.getX(), owner.getEyeY() - 0.1F, owner.getZ(), level, firedFromWeapon);
         this.setOwner(owner);
     }
 
@@ -104,10 +93,6 @@ public abstract class SpellProjectileEntity extends Projectile {
         BlockPos blockpos = this.blockPosition();
         BlockState blockstate = this.level().getBlockState(blockpos);
         blockstate.isAir();
-
-        if (this.shakeTime > 0) {
-            this.shakeTime--;
-        }
 
         if (this.isInWaterOrRain() || blockstate.is(Blocks.POWDER_SNOW) || this.isInFluidType((fluidType, height) -> this.canFluidExtinguish(fluidType))) {
             this.clearFire();
@@ -135,11 +120,21 @@ public abstract class SpellProjectileEntity extends Projectile {
                 }
             }
 
+            if (hitresult != null && hitresult.getType() != HitResult.Type.MISS) {
+                if (net.neoforged.neoforge.event.EventHooks.onProjectileImpact(this, hitresult))
+                    break;
+                ProjectileDeflection projectiledeflection = this.hitTargetOrDeflectSelf(hitresult);
+                this.hasImpulse = true;
+                if (projectiledeflection != ProjectileDeflection.NONE) {
+                    break;
+                }
+            }
+
             if (hitresult != null) {
                 hitresult.getType();
             }
-                break;
 
+                break;
         }
 
         vec3 = this.getDeltaMovement();
@@ -185,6 +180,7 @@ public abstract class SpellProjectileEntity extends Projectile {
     @Override
     protected void onHitEntity(EntityHitResult result) {
         super.onHitEntity(result);
+        Magitech.LOGGER.info("hit");
         Entity entity = result.getEntity();
         float f = (float)this.getDeltaMovement().length();
         Entity entity1 = this.getOwner();
@@ -192,18 +188,10 @@ public abstract class SpellProjectileEntity extends Projectile {
         if (entity1 instanceof LivingEntity livingentity1) {
             livingentity1.setLastHurtMob(entity);
         }
-
-        boolean flag = entity.getType() == EntityType.ENDERMAN;
         int i = entity.getRemainingFireTicks();
-        if (this.isOnFire() && !flag) {
-            entity.igniteForSeconds(5.0F);
-        }
 
         DamageSource damageSource = this.damageSources().magic();
         if (entity.hurt(damageSource, 6)) {
-            if (flag) {
-                return;
-            }
 
             if (entity instanceof LivingEntity livingentity) {
 
@@ -293,10 +281,7 @@ public abstract class SpellProjectileEntity extends Projectile {
         if (this.lastState != null) {
             compound.put("inBlockState", NbtUtils.writeBlockState(this.lastState));
         }
-
-        compound.putByte("shake", (byte)this.shakeTime);
         compound.putBoolean("inGround", this.inGround);
-        compound.putByte("pickup", (byte)this.pickup.ordinal());
         compound.putDouble("damage", this.baseDamage);
         compound.putString("SoundEvent", BuiltInRegistries.SOUND_EVENT.getKey(this.soundEvent).toString());
         if (this.firedFromWeapon != null) {
@@ -314,8 +299,6 @@ public abstract class SpellProjectileEntity extends Projectile {
         if (compound.contains("inBlockState", 10)) {
             this.lastState = NbtUtils.readBlockState(this.level().holderLookup(Registries.BLOCK), compound.getCompound("inBlockState"));
         }
-
-        this.shakeTime = compound.getByte("shake") & 255;
         this.inGround = compound.getBoolean("inGround");
         if (compound.contains("damage", 99)) {
             this.baseDamage = compound.getDouble("damage");
@@ -331,17 +314,6 @@ public abstract class SpellProjectileEntity extends Projectile {
         } else {
             this.firedFromWeapon = null;
         }
-    }
-
-    @Override
-    public void setOwner(@Nullable Entity entity) {
-        super.setOwner(entity);
-
-        this.pickup = switch (entity) {
-            case Player player when this.pickup == AbstractArrow.Pickup.DISALLOWED -> AbstractArrow.Pickup.ALLOWED;
-            case OminousItemSpawner ominousitemspawner -> AbstractArrow.Pickup.DISALLOWED;
-            case null, default -> this.pickup;
-        };
     }
 
     @Override

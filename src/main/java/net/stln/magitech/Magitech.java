@@ -3,7 +3,6 @@ package net.stln.magitech;
 import com.mojang.logging.LogUtils;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
@@ -12,8 +11,6 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.fml.event.lifecycle.FMLDedicatedServerSetupEvent;
-import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
@@ -24,10 +21,8 @@ import net.stln.magitech.event.EventInit;
 import net.stln.magitech.item.ItemInit;
 import net.stln.magitech.item.comopnent.ComponentInit;
 import net.stln.magitech.item.creative_tab.CreativeTabInit;
-import net.stln.magitech.item.renderer.PartToolItemModelRegister;
-import net.stln.magitech.item.tool.MaterialInit;
+import net.stln.magitech.item.tool.material.MaterialInit;
 import net.stln.magitech.particle.ParticleInit;
-import org.apache.commons.compress.archivers.sevenz.CLI;
 import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file

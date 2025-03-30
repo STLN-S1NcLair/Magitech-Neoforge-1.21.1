@@ -8,7 +8,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.item.tool.PartToolItem;
+import net.stln.magitech.item.tool.toolitem.PartToolItem;
 import net.stln.magitech.item.tool.ToolStats;
 
 public class DamageTypeInit {
@@ -23,7 +23,7 @@ public class DamageTypeInit {
     public static final ResourceKey<DamageType> HOLLOW_DAMAGE = ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "hollow"));
 
     public static float getElementDamage(Player player, Entity target, ItemStack stack) {
-        ToolStats stats = PartToolItem.getSumStats(stack);
+        ToolStats stats = PartToolItem.getSumStats(player, player.level(), stack);
         return stats.getStats().get(ToolStats.ELM_ATK_STAT) * EntityElementDictionary.getElementAffinity(target, stats.getElement()).getMultiplier();
     }
 

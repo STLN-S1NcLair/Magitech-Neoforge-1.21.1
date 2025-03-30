@@ -6,7 +6,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.stln.magitech.item.tool.ToolMaterial;
+import net.stln.magitech.item.tool.material.ToolMaterial;
 
 import java.util.ArrayList;
 import java.util.List;
