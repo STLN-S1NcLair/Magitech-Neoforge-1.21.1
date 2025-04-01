@@ -9,14 +9,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.stln.magitech.item.comopnent.ComponentInit;
 import net.stln.magitech.item.tool.ToolStats;
-import net.stln.magitech.item.tool.material.ToolMaterial;
-import net.stln.magitech.item.tool.toolitem.PartToolItem;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class HardmineTrait extends Trait {
 

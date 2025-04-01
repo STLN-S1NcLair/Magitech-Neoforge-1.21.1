@@ -5,6 +5,7 @@ import net.minecraft.world.item.ItemStack;
 import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.item.tool.toolitem.PartToolItem;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class CatalysisTrait extends Trait {
@@ -13,10 +14,11 @@ public class CatalysisTrait extends Trait {
     public ToolStats modifyStats(ItemStack stack, int traitLevel) {
         super.modifyStats(stack, traitLevel);
         ToolStats stats = ToolStats.DEFAULT;
-        Map<String, Float> modified = stats.getStats();
-        float mul = traitLevel * 0.05F;
-        modified.put(ToolStats.ATK_STAT, PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.ELM_ATK_STAT) * mul);
-        modified.put(ToolStats.MIN_STAT, PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.ELM_ATK_STAT) * mul);
+        Map<String, Float> modified = new HashMap<>(stats.getStats());
+        float mul = traitLevel * 0.08F;
+        Float elmAtk = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.ELM_ATK_STAT);
+        modified.put(ToolStats.ATK_STAT, elmAtk * mul);
+        modified.put(ToolStats.MIN_STAT, elmAtk * mul);
         return new ToolStats(modified, stats.getElement(), stats.getMiningLevel());
     }
 

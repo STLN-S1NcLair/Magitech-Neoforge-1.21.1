@@ -9,7 +9,7 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.stln.magitech.item.comopnent.ComponentInit;
+import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.tool.material.ToolMaterial;
 import net.stln.magitech.item.tool.model.ModelRegistrar;
 import net.stln.magitech.item.tool.*;

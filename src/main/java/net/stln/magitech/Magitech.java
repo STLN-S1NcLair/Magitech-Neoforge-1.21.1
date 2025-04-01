@@ -19,10 +19,11 @@ import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.entity.EntityInit;
 import net.stln.magitech.event.EventInit;
 import net.stln.magitech.item.ItemInit;
-import net.stln.magitech.item.comopnent.ComponentInit;
+import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.creative_tab.CreativeTabInit;
 import net.stln.magitech.item.tool.material.MaterialInit;
 import net.stln.magitech.particle.ParticleInit;
+import net.stln.magitech.sound.SoundInit;
 import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
@@ -51,6 +52,7 @@ public class Magitech {
         CreativeTabInit.registerCreativeTabs(modEventBus);
         EntityInit.registerModEntities(modEventBus);
         ParticleInit.registerParticleClient(modEventBus);
+        SoundInit.registerSoundEvents(modEventBus);
         MaterialInit.registerElements();
         MaterialInit.registerMaterials();
 

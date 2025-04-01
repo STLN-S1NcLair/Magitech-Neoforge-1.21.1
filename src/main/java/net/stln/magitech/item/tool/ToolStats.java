@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ToolStats {
-    public static ToolStats DEFAULT = new ToolStats(0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, Element.NONE, MiningLevel.NONE);
+    public static final ToolStats DEFAULT = new ToolStats(0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, Element.NONE, MiningLevel.NONE);
     public static String ATK_STAT = "attack";
     public static String ELM_ATK_STAT = "element_attack";
     public static String SPD_STAT = "attack_speed";

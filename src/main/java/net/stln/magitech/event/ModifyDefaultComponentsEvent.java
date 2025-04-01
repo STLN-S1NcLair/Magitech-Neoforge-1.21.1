@@ -4,8 +4,8 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.item.ItemInit;
-import net.stln.magitech.item.comopnent.ComponentInit;
-import net.stln.magitech.item.comopnent.PartMaterialComponent;
+import net.stln.magitech.item.component.ComponentInit;
+import net.stln.magitech.item.component.PartMaterialComponent;
 import net.stln.magitech.item.tool.material.MaterialInit;
 
 import java.util.List;

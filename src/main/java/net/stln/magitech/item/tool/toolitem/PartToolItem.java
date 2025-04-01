@@ -1,6 +1,7 @@
 package net.stln.magitech.item.tool.toolitem;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -13,6 +14,7 @@ import net.minecraft.stats.Stats;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffects;
@@ -34,7 +36,7 @@ import net.stln.magitech.Magitech;
 import net.stln.magitech.damage.EntityElementDictionary;
 import net.stln.magitech.entity.AdjustableAttackStrengthEntity;
 import net.stln.magitech.item.LeftClickOverrideItem;
-import net.stln.magitech.item.comopnent.ComponentInit;
+import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.tool.ToolPart;
 import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.item.tool.ToolType;
@@ -143,6 +145,11 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
     @Override
     public void inventoryTick(ItemStack stack, Level world, Entity entity, int slot, boolean selected) {
         super.inventoryTick(stack, world, entity, slot, selected);
+        if (entity instanceof Player player && player.getItemInHand(InteractionHand.MAIN_HAND) == stack) {
+            getTraitLevel(getTraits(stack)).forEach((trait, integer) -> {
+                trait.tick(player, world, stack, integer, getDefaultStats(stack));
+            });
+        }
 
         if (entity instanceof Player player) {
             reloadComponent(player, world, stack);
@@ -353,6 +360,18 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
     }
 
     @Override
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
+        ItemStack stack = player.getItemInHand(usedHand);
+        final InteractionResultHolder[] result = {InteractionResultHolder.pass(stack)};
+        getTraitLevel(getTraits(stack)).forEach((trait, integer) -> {
+            if (trait.use(player, level, stack, integer, getSumStats(player, level, stack), usedHand) != InteractionResult.PASS) {
+                result[0] = InteractionResultHolder.success(stack);
+            }
+        });
+        return result[0];
+    }
+
+    @Override
     public InteractionResult onLeftClick(Player user, InteractionHand hand, Level world) {
 
         Vec3 playerEyePos = user.getEyePosition(1.0F);
@@ -377,18 +396,21 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
     @Override
     public boolean mineBlock(ItemStack stack, Level level, BlockState state, BlockPos pos, LivingEntity miningEntity) {
         List<Trait> traits = getTraits(stack);
-        if (miningEntity instanceof Player player) {
-            Map<Trait, Integer> traitLevel = getTraitLevel(traits);
-            traitLevel.forEach((trait, value) -> {
-                trait.onBreakBlock(player, level, stack, value, getSumStats(player, level, stack), state, pos, 1);
-            });
-        }
         stack.hurtAndBreak(1, (ServerLevel) level, miningEntity, item -> {
         });
         return super.mineBlock(stack, level, state, pos, miningEntity);
     }
 
-    private void sweepAttack(Level world, InteractionHand hand, Player user) {
+    public static Direction getBreakDirection(double range, BlockPos initalBlockPos, Player player) {
+        List<BlockPos> positions = new ArrayList<>();
+
+        BlockHitResult traceResult = player.level().clip(new ClipContext(player.getEyePosition(1f),
+                (player.getEyePosition(1f).add(player.getViewVector(1f).scale(6f))),
+                ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, player));
+        return traceResult.getDirection();
+    }
+
+    public void sweepAttack(Level world, InteractionHand hand, Player user) {
         ItemStack stack = user.getItemInHand(hand);
         ToolStats stats = getSumStats(user, world, stack);
         float swp = stats.getStats().get(ToolStats.SWP_STAT);
@@ -401,7 +423,7 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
         float green2 = green * green;
         float blue2 = blue * blue;
 
-        EffectUtil.sweepEffect(user, world, new UnstableSquareParticleEffect(new Vector3f(red, green, blue), new Vector3f(red2, green2, blue2), 1.0F, 1), effectCenter, 45.0, -45.0, 100, swp * 0.7F, (user.getRandom().nextFloat() - 0.5) * 45.0);
+        EffectUtil.sweepEffect(user, world, new UnstableSquareParticleEffect(new Vector3f(red, green, blue), new Vector3f(red2, green2, blue2), 1.0F, 1), effectCenter, 45.0, -45.0, 100, swp * 0.7F, (user.getRandom().nextFloat() - 0.5) * 45.0, false);
 
         Vec3 center = EntityUtil.getAttackTargetPosition(user, user.entityInteractionRange(), 2, 0.0);
         List<Entity> attackList = EntityUtil.getEntitiesInBox(world, user, center, new Vec3(swp, swp / 3.0F, swp));
@@ -444,7 +466,7 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
                 baseAttackDamage *= 1.5F;
             }
 
-            DamageSource ElementalDamageSource = attacker.damageSources().source(damageType, attacker);
+            DamageSource ElementalDamageSource = stack.has(DataComponents.CUSTOM_NAME) ? attacker.damageSources().source(damageType, attacker) : attacker.damageSources().source(damageType);
             float damage = baseAttackDamage * EntityElementDictionary.getElementAffinity(target, stats.getElement()).getMultiplier();
             if (target instanceof LivingEntity livingEntity) {
                 float targetHealth = livingEntity.getHealth();

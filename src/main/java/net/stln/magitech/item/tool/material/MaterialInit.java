@@ -22,9 +22,10 @@ public class MaterialInit {
     public static ToolMaterial COPPER = new ToolMaterial(new ConductanceTrait(), "copper");
     public static ToolMaterial IRON = new ToolMaterial(new DuranceTrait(), "iron");
     public static ToolMaterial GOLD = new ToolMaterial(new CatalysisTrait(), "gold");
-    public static ToolMaterial DIAMOND = new ToolMaterial(null, "diamond");
-    public static ToolMaterial ENDER_METAL = new ToolMaterial(null, "ender_metal");
-    public static ToolMaterial FRIGIDITE = new ToolMaterial(null, "frigidite");
+    public static ToolMaterial DIAMOND = new ToolMaterial(new LightweightTrait(), "diamond");
+    public static ToolMaterial ENDER_METAL = new ToolMaterial(new EnderDrawTrait(), "ender_metal");
+    public static ToolMaterial FRIGIDITE = new ToolMaterial(new ShatterpiercerTrait(), "frigidite");
+    public static ToolMaterial TRANSLUCIUM = new ToolMaterial(new PhantomSlayerTrait(), "translucium");
 
     public static void registerMaterials() {
         ToolMaterialRegister.init();
@@ -82,6 +83,12 @@ public class MaterialInit {
         FRIGIDITE.addStats(ToolPart.LIGHT_HANDLE, new ToolStats(0.4F, 0.0F, -0.2F, 4.3F, 0.5F, -0.1F, 0.2F, 584, Element.GLACE, MiningLevel.NETHERITE));
         FRIGIDITE.addStats(ToolPart.TOOL_BINDING, new ToolStats(0.0F, 1.4F,  0.0F, 0.0F, 0.0F,  0.0F, 0.0F, 690, Element.GLACE, MiningLevel.NETHERITE));
         FRIGIDITE.addStats(ToolPart.HANDGUARD   , new ToolStats(1.6F, 0.0F, -0.1F, 0.0F, 2.9F,  0.0F, 0.0F, 436, Element.GLACE, MiningLevel.NETHERITE));
+
+        TRANSLUCIUM.addStats(ToolPart.LIGHT_BLADE , new ToolStats(1.9F, 3.9F, -1.9F, 6.1F, 0.0F,  0.2F, 2.4F, 634, Element.PHANTOM, MiningLevel.NETHERITE));
+        TRANSLUCIUM.addStats(ToolPart.HEAVY_BLADE , new ToolStats(6.3F, 4.1F, -2.5F, 6.1F, 0.3F,  0.2F, 2.4F, 993, Element.PHANTOM, MiningLevel.NETHERITE));
+        TRANSLUCIUM.addStats(ToolPart.LIGHT_HANDLE, new ToolStats(0.5F, 0.0F, -0.4F, 4.4F, 0.1F,  0.0F, 0.8F, 607, Element.PHANTOM, MiningLevel.NETHERITE));
+        TRANSLUCIUM.addStats(ToolPart.TOOL_BINDING, new ToolStats(0.0F, 1.6F,  0.0F, 0.0F, 0.0F,  0.0F, 0.0F, 755, Element.PHANTOM, MiningLevel.NETHERITE));
+        TRANSLUCIUM.addStats(ToolPart.HANDGUARD   , new ToolStats(1.5F, 0.0F, -0.2F, 0.0F, 1.4F,  0.0F, 0.0F, 436, Element.PHANTOM, MiningLevel.NETHERITE));
         ToolMaterialRegister.registerId("wood", WOOD);
         ToolMaterialRegister.registerId("stone", STONE);
         ToolMaterialRegister.registerId("deepslate", DEEPSLATE);
@@ -91,6 +98,7 @@ public class MaterialInit {
         ToolMaterialRegister.registerId("diamond", DIAMOND);
         ToolMaterialRegister.registerId("ender_metal", ENDER_METAL);
         ToolMaterialRegister.registerId("frigidite", FRIGIDITE);
+        ToolMaterialRegister.registerId("translucium", TRANSLUCIUM);
     }
 
     public static void registerMaterialItems() {
@@ -103,6 +111,7 @@ public class MaterialInit {
         ToolMaterialRegister.registerItem(Items.DIAMOND, DIAMOND);
         ToolMaterialRegister.registerItem(ItemInit.ENDER_METAL_INGOT.get(), ENDER_METAL);
         ToolMaterialRegister.registerItem(ItemInit.POLISHED_FRIGIDITE.get(), FRIGIDITE);
+        ToolMaterialRegister.registerItem(ItemInit.POLISHED_TRANSLUCIUM.get(), TRANSLUCIUM);
     }
 
     public static void registerElements() {

@@ -2,8 +2,8 @@ package net.stln.magitech.item.tool.toolitem;
 
 import net.minecraft.world.item.ItemStack;
 import net.stln.magitech.item.ItemInit;
-import net.stln.magitech.item.comopnent.ComponentInit;
-import net.stln.magitech.item.comopnent.PartMaterialComponent;
+import net.stln.magitech.item.component.ComponentInit;
+import net.stln.magitech.item.component.PartMaterialComponent;
 import net.stln.magitech.item.tool.material.ToolMaterial;
 
 import java.util.List;

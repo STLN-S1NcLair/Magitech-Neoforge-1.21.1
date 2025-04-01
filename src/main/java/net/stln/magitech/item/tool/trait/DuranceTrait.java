@@ -4,9 +4,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.stln.magitech.Magitech;
 import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.item.tool.toolitem.PartToolItem;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class DuranceTrait extends Trait {
@@ -15,7 +17,7 @@ public class DuranceTrait extends Trait {
     public ToolStats modifyStats(ItemStack stack, int traitLevel) {
         super.modifyStats(stack, traitLevel);
         ToolStats stats = ToolStats.DEFAULT;
-        Map<String, Float> modified = stats.getStats();
+        Map<String, Float> modified = new HashMap<>(stats.getStats());
         float mul = traitLevel * 0.2F;
         modified.put(ToolStats.DUR_STAT, PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.DUR_STAT) * mul);
         return new ToolStats(modified, stats.getElement(), stats.getMiningLevel());

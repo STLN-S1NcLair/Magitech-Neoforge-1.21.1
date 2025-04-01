@@ -1,4 +1,4 @@
-package net.stln.magitech.item.comopnent;
+package net.stln.magitech.item.component;
 
 import net.stln.magitech.item.tool.register.ToolMaterialRegister;
 

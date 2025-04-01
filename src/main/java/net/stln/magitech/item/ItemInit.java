@@ -1,5 +1,6 @@
 package net.stln.magitech.item;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -48,7 +49,27 @@ public class ItemInit {
             Item::new,
             new Item.Properties());
 
+    public static final DeferredItem<Item> FRIGIDITE = ITEMS.registerItem("frigidite",
+            Item::new,
+            new Item.Properties());
+
     public static final DeferredItem<Item> POLISHED_FRIGIDITE = ITEMS.registerItem("polished_frigidite",
+            TooltipTextItem::new,
+            new Item.Properties());
+
+    public static final DeferredItem<Item> TRANSLUCIUM = ITEMS.registerItem("translucium",
+            Item::new,
+            new Item.Properties());
+
+    public static final DeferredItem<Item> POLISHED_TRANSLUCIUM = ITEMS.registerItem("polished_translucium",
+            Item::new,
+            new Item.Properties());
+
+    public static final DeferredItem<Item> ABYSSITE = ITEMS.registerItem("abyssite",
+            Item::new,
+            new Item.Properties());
+
+    public static final DeferredItem<Item> POLISHED_ABYSSITE = ITEMS.registerItem("polished_abyssite",
             Item::new,
             new Item.Properties());
 

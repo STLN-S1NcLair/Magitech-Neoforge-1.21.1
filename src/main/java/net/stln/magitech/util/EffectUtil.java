@@ -1,6 +1,7 @@
 package net.stln.magitech.util;
 
 import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -9,7 +10,35 @@ import org.joml.Vector3f;
 
 public class EffectUtil {
 
-    public static void sweepEffect(Player player, Level world, ParticleOptions particleEffect, Vec3 center, double startDeg, double endDeg, int density, double radius, double slopeDeg) {
+    public static void lineEffect(Level level, ParticleOptions particleOptions, Vec3 start, Vec3 end, int density, boolean alwaysVisible) {
+        if (!level.isClientSide)  {
+            return;
+        }
+
+        int amount = (int) (density * start.distanceTo(end));
+
+        for (int i = 0; i < amount; i++) {
+            double offset = (double) i / (amount - 1);
+            Vec3 currentPos = start.add(end.subtract(start).multiply(offset, offset, offset));
+            if (alwaysVisible) {
+                level.addAlwaysVisibleParticle(particleOptions, currentPos.x, currentPos.y, currentPos.z, 0, 0, 0);
+            } else {
+                level.addParticle(particleOptions, currentPos.x, currentPos.y, currentPos.z, 0, 0, 0);
+            }
+        }
+    }
+
+    public static void entityEffect(Level level, ParticleOptions particleOptions, Entity entity, int amount) {
+        for (int i = 0; i < amount; i++) {
+            Vec3 randomBody = new Vec3(entity.getX() + (entity.getBbWidth() + 0.5F) * (entity.getRandom().nextFloat() - 0.5),
+                    entity.getY(0.5F) + (entity.getBbHeight() + 0.5F) * (entity.getRandom().nextFloat() - 0.5),
+                    entity.getZ() + (entity.getBbWidth() + 0.5F) * (entity.getRandom().nextFloat() - 0.5));
+
+            level.addParticle(particleOptions, randomBody.x, randomBody.y, randomBody.z, 0, 0, 0);
+        }
+    }
+
+    public static void sweepEffect(Player player, Level world, ParticleOptions particleEffect, Vec3 center, double startDeg, double endDeg, int density, double radius, double slopeDeg, boolean alwaysVisible) {
         if (!world.isClientSide) {
             return; // クライアント側のみ処理
         }
@@ -33,7 +62,11 @@ public class EffectUtil {
             double z = center.z - offset.z * radius;
 
             // **パーティクルをスポーン**
-            world.addParticle(particleEffect, x, y, z, 0, 0, 0);
+            if (alwaysVisible) {
+                world.addAlwaysVisibleParticle(particleEffect, x, y, z, 0, 0, 0);
+            } else {
+                world.addParticle(particleEffect, x, y, z, 0, 0, 0);
+            }
         }
     }
 
