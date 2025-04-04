@@ -1,5 +1,6 @@
 package net.stln.magitech.item.tool.trait;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -14,7 +15,7 @@ import net.stln.magitech.item.tool.ToolStats;
 public class HardmineTrait extends Trait {
 
     @Override
-    public float modifyMiningSpeed(ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState) {
+    public float modifyMiningSpeed(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos) {
         return blockState.getBlock().getExplosionResistance() * traitLevel / 5;
     }
 

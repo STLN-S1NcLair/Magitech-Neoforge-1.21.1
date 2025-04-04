@@ -13,8 +13,9 @@ public class SoundInit {
 
     public static final DeferredRegister<SoundEvent> SOUND_EVENTS = DeferredRegister.create(BuiltInRegistries.SOUND_EVENT, Magitech.MOD_ID);
 
-    public static final Supplier<SoundEvent> PHANTOM_SLAYER_DASH = registerSoundEvent("phantom_slayer_dash");
     public static final Supplier<SoundEvent> PHANTOM_BUFF = registerSoundEvent("phantom_buff");
+    public static final Supplier<SoundEvent> GEOMENDING_BREAK = registerSoundEvent("geomending_break");
+    public static final Supplier<SoundEvent> PHANTOM_SLAYER_DASH = registerSoundEvent("phantom_slayer_dash");
 
 
     private static Supplier<SoundEvent> registerSoundEvent(String name) {

@@ -45,12 +45,20 @@ public class ItemInit {
             HeavySwordItem::new,
             new Item.Properties());
 
+    public static final DeferredItem<Item> PICKAXE = ITEMS.registerItem("pickaxe",
+            PickaxeItem::new,
+            new Item.Properties());
+
+    public static final DeferredItem<Item> CHROMIUM_INGOT = ITEMS.registerItem("chromium_ingot",
+            TooltipTextItem::new,
+            new Item.Properties());
+
     public static final DeferredItem<Item> ENDER_METAL_INGOT = ITEMS.registerItem("ender_metal_ingot",
-            Item::new,
+            TooltipTextItem::new,
             new Item.Properties());
 
     public static final DeferredItem<Item> FRIGIDITE = ITEMS.registerItem("frigidite",
-            Item::new,
+            TooltipTextItem::new,
             new Item.Properties());
 
     public static final DeferredItem<Item> POLISHED_FRIGIDITE = ITEMS.registerItem("polished_frigidite",
@@ -58,19 +66,19 @@ public class ItemInit {
             new Item.Properties());
 
     public static final DeferredItem<Item> TRANSLUCIUM = ITEMS.registerItem("translucium",
-            Item::new,
+            TooltipTextItem::new,
             new Item.Properties());
 
     public static final DeferredItem<Item> POLISHED_TRANSLUCIUM = ITEMS.registerItem("polished_translucium",
-            Item::new,
+            TooltipTextItem::new,
             new Item.Properties());
 
     public static final DeferredItem<Item> ABYSSITE = ITEMS.registerItem("abyssite",
-            Item::new,
+            TooltipTextItem::new,
             new Item.Properties());
 
     public static final DeferredItem<Item> POLISHED_ABYSSITE = ITEMS.registerItem("polished_abyssite",
-            Item::new,
+            TooltipTextItem::new,
             new Item.Properties());
 
     public static void registerItems(IEventBus eventBus) {

@@ -1,14 +1,20 @@
 {
-  "phantom_slayer_dash" :  {
-    "subtitle" :  "subtitles.magitech.phantom_slayer_dash" ,
-    "sounds" :  [
-      "magitech:phantom_slayer_dash"
-    ]
-  },
   "phantom_buff" :  {
     "subtitle" :  "subtitles.magitech.phantom_buff" ,
     "sounds" :  [
       "magitech:phantom_buff"
+    ]
+  },
+  "geomending_break" :  {
+    "subtitle" :  "subtitles.magitech.geomending_break" ,
+    "sounds" :  [
+      "magitech:geomending_break"
+    ]
+  },
+  "phantom_slayer_dash" :  {
+    "subtitle" :  "subtitles.magitech.phantom_slayer_dash" ,
+    "sounds" :  [
+      "magitech:phantom_slayer_dash"
     ]
   }
 }

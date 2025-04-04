@@ -16,9 +16,27 @@ public class PartToolGenerator {
         return lightSword;
     }
 
+    public static ItemStack generateLightSword(ToolMaterial material) {
+        return generateLightSword(material, material, material, material);
+    }
+
     public static ItemStack generateHeavySword(ToolMaterial handle, ToolMaterial blade, ToolMaterial toolBinding, ToolMaterial handguard) {
-        ItemStack lightSword = new ItemStack(ItemInit.HEAVY_SWORD.get());
-        lightSword.set(ComponentInit.PART_MATERIAL_COMPONENT, new PartMaterialComponent(List.of(handle, blade, toolBinding, handguard)));
-        return lightSword;
+        ItemStack heavySword = new ItemStack(ItemInit.HEAVY_SWORD.get());
+        heavySword.set(ComponentInit.PART_MATERIAL_COMPONENT, new PartMaterialComponent(List.of(handle, blade, toolBinding, handguard)));
+        return heavySword;
+    }
+
+    public static ItemStack generateHeavySword(ToolMaterial material) {
+        return generateHeavySword(material, material, material, material);
+    }
+
+    public static ItemStack generatePickaxe(ToolMaterial handle, ToolMaterial spikeHead, ToolMaterial toolBinding) {
+        ItemStack pickaxe = new ItemStack(ItemInit.PICKAXE.get());
+        pickaxe.set(ComponentInit.PART_MATERIAL_COMPONENT, new PartMaterialComponent(List.of(handle, spikeHead, toolBinding)));
+        return pickaxe;
+    }
+
+    public static ItemStack generatePickaxe(ToolMaterial material) {
+        return generatePickaxe(material, material, material);
     }
 }

@@ -34,7 +34,7 @@ public class ShatterpiercerTrait extends Trait {
     public Set<BlockPos> addAdditionalBlockBreakFirst(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos, int damageAmount, Direction direction) {
         Set<BlockPos> posSet = new HashSet<>();
         posSet.add(pos);
-        for (int i = 0; i < traitLevel / 2; i++) {
+        for (int i = 0; i < traitLevel / 2.0; i++) {
             if (level.getBlockState(pos.relative(direction, -i - 1)).getBlock() == level.getBlockState(pos).getBlock()) {
                 posSet.add(pos.relative(direction, -i - 1));
             }

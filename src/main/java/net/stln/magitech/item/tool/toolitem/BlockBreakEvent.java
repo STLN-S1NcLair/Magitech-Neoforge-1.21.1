@@ -51,15 +51,15 @@ public class BlockBreakEvent {
             finalBlockList.forEach(pos1 -> {
                 traitMap.forEach((trait, value) -> {
                     if (pos1 != pos) {
-                        serverPlayer.gameMode.destroyBlock(pos1);
-                        BreakBlockS2CPayload payload = new BreakBlockS2CPayload(pos1, pos, player.getUUID().toString());
+                        BreakBlockS2CPayload payload = new BreakBlockS2CPayload(pos1, pos, player.getUUID().toString(), trait.emitEffect(player, event.getPlayer().level(), tool, value, PartToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getState(), pos1, 1, false));
                         PacketDistributor.sendToAllPlayers(payload);
-
                         trait.onBreakBlock(player, event.getPlayer().level(), tool, value, PartToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getLevel().getBlockState(pos1), pos1, 1, false);
+
+                        serverPlayer.gameMode.destroyBlock(pos1);
                     } else {
-                        BreakBlockS2CPayload payload = new BreakBlockS2CPayload(pos1, pos, player.getUUID().toString());
+                        BreakBlockS2CPayload payload = new BreakBlockS2CPayload(pos1, pos, player.getUUID().toString(), trait.emitEffect(player, event.getPlayer().level(), tool, value, PartToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getState(), pos1, 1, true));
                         PacketDistributor.sendToAllPlayers(payload);
-                        trait.onBreakBlock(player, event.getPlayer().level(), tool, value, PartToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getLevel().getBlockState(pos1), pos1, 1, true);
+                        trait.onBreakBlock(player, event.getPlayer().level(), tool, value, PartToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getState(), pos1, 1, true);
                     }
                 });
             });

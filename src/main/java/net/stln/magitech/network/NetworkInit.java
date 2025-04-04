@@ -21,6 +21,14 @@ public class NetworkInit {
                         LeftClickPayLoadHandler::handleDataOnMainC2S
                 )
         );
+        registrar.playBidirectional(
+                UseC2SPayload.TYPE,
+                UseC2SPayload.STREAM_CODEC,
+                new DirectionalPayloadHandler<>(
+                        UsePayLoadHandler::handleDataOnMainS2C,
+                        UsePayLoadHandler::handleDataOnMainC2S
+                )
+        );
         registrar.playToClient(
                 BreakBlockS2CPayload.TYPE,
                 BreakBlockS2CPayload.STREAM_CODEC,

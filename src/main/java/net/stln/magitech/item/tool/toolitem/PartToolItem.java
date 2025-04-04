@@ -32,6 +32,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.network.PacketDistributor;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.damage.EntityElementDictionary;
 import net.stln.magitech.entity.AdjustableAttackStrengthEntity;
@@ -44,6 +45,7 @@ import net.stln.magitech.item.tool.material.MiningLevel;
 import net.stln.magitech.item.tool.material.ToolMaterial;
 import net.stln.magitech.item.tool.register.ToolMaterialRegister;
 import net.stln.magitech.item.tool.trait.Trait;
+import net.stln.magitech.network.UseC2SPayload;
 import net.stln.magitech.particle.particle_option.UnstableSquareParticleEffect;
 import net.stln.magitech.util.EffectUtil;
 import net.stln.magitech.util.EntityUtil;
@@ -215,20 +217,7 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
         }
     }
 
-    @Override
-    public float getDestroySpeed(@NotNull ItemStack stack, @NotNull BlockState state) {
-        ToolStats stats = getSumStatsWithoutConditional(stack);
-        if (stack.getItem() instanceof PartToolItem partToolItem && isCorrectTool(stack, state, partToolItem, stats)) {
-            final float[] speed = {stats.getStats().get(ToolStats.MIN_STAT)};
-            getTraitLevel(getTraits(stack)).forEach((trait, integer) -> {
-                speed[0] += trait.modifyMiningSpeed(stack, integer, stats, state);
-            });
-            return speed[0];
-        }
-        return super.getDestroySpeed(stack, state);
-    }
-
-    private boolean isCorrectTool(ItemStack stack, BlockState state, PartToolItem partToolItem, ToolStats stats) {
+    public boolean isCorrectTool(ItemStack stack, BlockState state, PartToolItem partToolItem, ToolStats stats) {
         final Boolean[] flag = {null};
         getTraitLevel(getTraits(stack)).forEach((trait, integer) -> {
             Boolean isCorrect = trait.isCorrectTool(stack, integer, getModifiedStatsWithoutConditional(stack), state);
@@ -362,6 +351,7 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
         ItemStack stack = player.getItemInHand(usedHand);
+        PacketDistributor.sendToServer(new UseC2SPayload(usedHand == InteractionHand.MAIN_HAND, player.getUUID().toString()));
         final InteractionResultHolder[] result = {InteractionResultHolder.pass(stack)};
         getTraitLevel(getTraits(stack)).forEach((trait, integer) -> {
             if (trait.use(player, level, stack, integer, getSumStats(player, level, stack), usedHand) != InteractionResult.PASS) {

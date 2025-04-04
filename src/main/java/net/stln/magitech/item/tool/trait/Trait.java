@@ -36,7 +36,7 @@ public abstract class Trait {
         return null;
     }
 
-    public float modifyMiningSpeed(ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState) {
+    public float modifyMiningSpeed(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos) {
         return 0;
     }
 
@@ -45,6 +45,14 @@ public abstract class Trait {
             SoundType soundType = level.getBlockState(pos).getSoundType(level, pos, player);
             level.playSound(player, pos, soundType.getBreakSound(), SoundSource.PLAYERS, soundType.getVolume(), soundType.getPitch());
         }
+    }
+
+    public boolean emitEffect(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos, int damageAmount, boolean isInitial) {
+        return false;
+    }
+
+    public void addEffect(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos, int damageAmount, boolean isInitial) {
+
     }
 
     public Set<BlockPos> addAdditionalBlockBreakFirst(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos, int damageAmount, Direction direction) {
