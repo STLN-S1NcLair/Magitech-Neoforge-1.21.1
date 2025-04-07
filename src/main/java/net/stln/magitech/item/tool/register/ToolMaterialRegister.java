@@ -54,5 +54,10 @@ public class ToolMaterialRegister {
         componentPartId.put(ToolType.PICKAXE, 0, ToolPart.HEAVY_HANDLE);
         componentPartId.put(ToolType.PICKAXE, 1, ToolPart.SPIKE_HEAD);
         componentPartId.put(ToolType.PICKAXE, 2, ToolPart.TOOL_BINDING);
+
+        componentPartId.put(ToolType.HAMMER, 0, ToolPart.HEAVY_HANDLE);
+        componentPartId.put(ToolType.HAMMER, 1, ToolPart.STRIKE_HEAD);
+        componentPartId.put(ToolType.HAMMER, 2, ToolPart.PLATE);
+        componentPartId.put(ToolType.HAMMER, 3, ToolPart.TOOL_BINDING);
     }
 }

@@ -43,7 +43,8 @@ public abstract class Trait {
     public void onBreakBlock(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos, int damageAmount, boolean isInitial) {
         if (!isInitial) {
             SoundType soundType = level.getBlockState(pos).getSoundType(level, pos, player);
-            level.playSound(player, pos, soundType.getBreakSound(), SoundSource.PLAYERS, soundType.getVolume(), soundType.getPitch());
+            level.playSound(player, pos, soundType.getBreakSound(), SoundSource.PLAYERS, (soundType.getVolume() + 1.0F) / 2.0F, soundType.getPitch() * 0.8F);
+            level.addDestroyBlockEffect(pos, blockState);
         }
     }
 

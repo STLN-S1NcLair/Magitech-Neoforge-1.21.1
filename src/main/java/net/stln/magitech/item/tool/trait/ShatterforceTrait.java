@@ -22,7 +22,7 @@ public class ShatterforceTrait extends Trait {
     public ToolStats modifyStatsConditional(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
             ToolStats aDefault = ToolStats.DEFAULT;
             Map<String, Float> modified = new HashMap<>(aDefault.getStats());
-            float mul = traitLevel * 0.5F * stack.getDamageValue() / stack.getMaxDamage();
+            float mul = traitLevel * 0.25F * stack.getDamageValue() / stack.getMaxDamage();
             Float swp = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.SWP_STAT);
             modified.put(ToolStats.SWP_STAT, swp * mul);
             return new ToolStats(modified, stats.getElement(), stats.getMiningLevel());
@@ -39,13 +39,13 @@ public class ShatterforceTrait extends Trait {
     public void tick(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
         super.tick(player, level, stack, traitLevel, stats);
         if (player.getRandom().nextFloat() < (float) stack.getDamageValue() / stack.getMaxDamage()) {
-            EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(1.0F, 0.7F, 0.9F), new Vector3f(1.0F, 0.7F, 0.9F), 1F, 1), player, 1);
+            EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(0.9F, 0.6F, 1.0F), new Vector3f(0.9F, 0.6F, 1.0F), 1F, 1), player, 1);
         }
     }
 
     @Override
     public int getColor() {
-        return 0xFFC0F0;
+        return 0xF0A0FF;
     }
 
     @Override

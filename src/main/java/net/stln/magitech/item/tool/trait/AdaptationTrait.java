@@ -2,11 +2,13 @@ package net.stln.magitech.item.tool.trait;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+import net.stln.magitech.Magitech;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.item.tool.material.ToolMaterial;
 import net.stln.magitech.item.tool.toolitem.PartToolItem;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -20,7 +22,7 @@ public class AdaptationTrait extends Trait {
         Set<ToolMaterial> materialSet = PartToolItem.getMaterialSet(materials);
         ToolStats stats = ToolStats.DEFAULT;
         Map<String, Float> defaultStats = PartToolItem.getDefaultStats(stack).getStats();
-        Map<String, Float> modified = stats.getStats();
+        Map<String, Float> modified = new HashMap<>(stats.getStats());
         float mul = (float) ((materialSet.size() - 1) * 0.08);
         modified.put(ToolStats.ATK_STAT, defaultStats.get(ToolStats.ATK_STAT) * mul);
         modified.put(ToolStats.ELM_ATK_STAT, defaultStats.get(ToolStats.ELM_ATK_STAT) * mul);

@@ -12,6 +12,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -97,15 +98,17 @@ public class PhantomSlayerTrait extends Trait {
             if (result != null && player.getAttackStrengthScale(0.5F) > 0.7F) {
 
                 Entity target = result.getEntity();
-                Vec3 position = new Vec3(target.getX(), target.getY(0.5), target.getZ());
-                Vec3 distance = position.subtract(playerEyePos).normalize().multiply(2, 2, 2);
-                Vec3 teleportPos = position.add(distance);
-                BlockHitResult blockResult = level.clip(new ClipContext(position, teleportPos, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, player));
-                boolean flag = blockResult.getType() == HitResult.Type.MISS;
+                if (target instanceof LivingEntity) {
+                    Vec3 position = new Vec3(target.getX(), target.getY(0.5), target.getZ());
+                    Vec3 distance = position.subtract(playerEyePos).normalize().multiply(2, 2, 2);
+                    Vec3 teleportPos = position.add(distance);
+                    BlockHitResult blockResult = level.clip(new ClipContext(position, teleportPos, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, player));
+                    boolean flag = blockResult.getType() == HitResult.Type.MISS;
 
-                if (flag) {
-                    level.addParticle(new SquareFieldParticleEffect(new Vector3f(1.0F, 1.0F, 0.5F), new Vector3f(1.0F, 1.0F, 0.5F), 1F, 1), target.getX(), target.getY() + 0.1, target.getZ(), 0, 0, 0);
-                    EffectUtil.entityEffect(level, new UnstableSquareParticleEffect(new Vector3f(1.0F, 1.0F, 0.5F), new Vector3f(1.0F, 1.0F, 0.5F), 1F, 1), target, 5);
+                    if (flag) {
+                        level.addParticle(new SquareFieldParticleEffect(new Vector3f(1.0F, 1.0F, 0.5F), new Vector3f(1.0F, 1.0F, 0.5F), 1F, 1), target.getX(), target.getY() + 0.1, target.getZ(), 0, 0, 0);
+                        EffectUtil.entityEffect(level, new UnstableSquareParticleEffect(new Vector3f(1.0F, 1.0F, 0.5F), new Vector3f(1.0F, 1.0F, 0.5F), 1F, 1), target, 5);
+                    }
                 }
             }
         }

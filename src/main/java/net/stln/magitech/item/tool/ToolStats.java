@@ -1,6 +1,7 @@
 package net.stln.magitech.item.tool;
 
 import net.stln.magitech.item.tool.material.MiningLevel;
+import oshi.annotation.concurrent.Immutable;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -8,7 +9,9 @@ import java.util.List;
 import java.util.Map;
 
 public class ToolStats {
+    @Immutable
     public static final ToolStats DEFAULT = new ToolStats(0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, Element.NONE, MiningLevel.NONE);
+
     public static String ATK_STAT = "attack";
     public static String ELM_ATK_STAT = "element_attack";
     public static String SPD_STAT = "attack_speed";

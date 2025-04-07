@@ -217,7 +217,7 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
         }
     }
 
-    public boolean isCorrectTool(ItemStack stack, BlockState state, PartToolItem partToolItem, ToolStats stats) {
+    public static boolean isCorrectTool(ItemStack stack, BlockState state, PartToolItem partToolItem, ToolStats stats) {
         final Boolean[] flag = {null};
         getTraitLevel(getTraits(stack)).forEach((trait, integer) -> {
             Boolean isCorrect = trait.isCorrectTool(stack, integer, getModifiedStatsWithoutConditional(stack), state);
@@ -250,7 +250,7 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
         return hasCorrectTier(stack, state, stats);
     }
 
-    private boolean hasCorrectTier(ItemStack stack, BlockState state, ToolStats stats) {
+    private static boolean hasCorrectTier(ItemStack stack, BlockState state, ToolStats stats) {
         if (state.getTags().anyMatch(Predicate.isEqual(BlockTags.INCORRECT_FOR_NETHERITE_TOOL)) && stats.getMiningLevel().getTier() <= MiningLevel.NETHERITE.getTier()) {
             return false;
         }
@@ -371,11 +371,11 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
 
         if (EntityUtil.getEntityHitResult(user, playerEyePos, maxReachPos, world) != null || getPlayerPOVHitResult(world, user, ClipContext.Fluid.NONE).getType() != BlockHitResult.Type.BLOCK) {
             if (user.getAttackStrengthScale(0.5F) > 0.7F) {
-                world.playSound(user, user.getX(), user.getY(), user.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP, SoundSource.PLAYERS);
+                world.playSound(user, user.getX(), user.getY(), user.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP, SoundSource.PLAYERS, 1.0F, (getSumStats(user, world, user.getItemInHand(hand)).getStats().get(ToolStats.SPD_STAT) + 4) / 2);
                 sweepAttack(world, hand, user);
                 user.awardStat(Stats.DAMAGE_DEALT, sweepDamage * 10);
             } else {
-                world.playSound(user, user.getX(), user.getY(), user.getZ(), SoundEvents.PLAYER_ATTACK_NODAMAGE, SoundSource.PLAYERS);
+                world.playSound(user, user.getX(), user.getY(), user.getZ(), SoundEvents.PLAYER_ATTACK_NODAMAGE, SoundSource.PLAYERS, 1.0F, (getSumStats(user, world, user.getItemInHand(hand)).getStats().get(ToolStats.SPD_STAT) + 4) / 2);
             }
             user.swing(hand);
             return InteractionResult.SUCCESS;
@@ -429,7 +429,9 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
                 });
             }
         }
-        stack.hurtAndBreak(1, user, EquipmentSlot.MAINHAND);
+        if (!attackList.isEmpty()) {
+            stack.hurtAndBreak(1, user, EquipmentSlot.MAINHAND);
+        }
 
         user.resetAttackStrengthTicker();
     }

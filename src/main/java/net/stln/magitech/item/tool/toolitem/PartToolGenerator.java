@@ -39,4 +39,14 @@ public class PartToolGenerator {
     public static ItemStack generatePickaxe(ToolMaterial material) {
         return generatePickaxe(material, material, material);
     }
+
+    public static ItemStack generateHammer(ToolMaterial handle, ToolMaterial strikeHead, ToolMaterial plate, ToolMaterial toolBinding) {
+        ItemStack heavySword = new ItemStack(ItemInit.HAMMER.get());
+        heavySword.set(ComponentInit.PART_MATERIAL_COMPONENT, new PartMaterialComponent(List.of(handle, strikeHead, plate, toolBinding)));
+        return heavySword;
+    }
+
+    public static ItemStack generateHammer(ToolMaterial material) {
+        return generateHammer(material, material, material, material);
+    }
 }

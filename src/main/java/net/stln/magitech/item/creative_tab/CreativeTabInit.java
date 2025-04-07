@@ -24,6 +24,8 @@ public class CreativeTabInit {
             .displayItems((parameters, output) -> {
                 output.accept(ItemInit.WAND.get());
                 output.accept(ItemInit.CHROMIUM_INGOT.get());
+                output.accept(ItemInit.REDSTONE_CRYSTAL.get());
+                output.accept(ItemInit.POLISHED_REDSTONE_CRYSTAL.get());
                 output.accept(ItemInit.ENDER_METAL_INGOT.get());
                 output.accept(ItemInit.FRIGIDITE.get());
                 output.accept(ItemInit.POLISHED_FRIGIDITE.get());
@@ -39,6 +41,7 @@ public class CreativeTabInit {
                 output.accept(PartToolGenerator.generateLightSword(MaterialInit.IRON));
                 output.accept(PartToolGenerator.generateLightSword(MaterialInit.GOLD));
                 output.accept(PartToolGenerator.generateLightSword(MaterialInit.AMETHYST));
+                output.accept(PartToolGenerator.generateLightSword(MaterialInit.REDSTONE));
                 output.accept(PartToolGenerator.generateLightSword(MaterialInit.DIAMOND));
                 output.accept(PartToolGenerator.generateLightSword(MaterialInit.ENDER_METAL));
                 output.accept(PartToolGenerator.generateLightSword(MaterialInit.NETHERITE));
@@ -53,6 +56,7 @@ public class CreativeTabInit {
                 output.accept(PartToolGenerator.generateHeavySword(MaterialInit.IRON));
                 output.accept(PartToolGenerator.generateHeavySword(MaterialInit.GOLD));
                 output.accept(PartToolGenerator.generateHeavySword(MaterialInit.AMETHYST));
+                output.accept(PartToolGenerator.generateHeavySword(MaterialInit.REDSTONE));
                 output.accept(PartToolGenerator.generateHeavySword(MaterialInit.DIAMOND));
                 output.accept(PartToolGenerator.generateHeavySword(MaterialInit.ENDER_METAL));
                 output.accept(PartToolGenerator.generateHeavySword(MaterialInit.NETHERITE));
@@ -67,11 +71,27 @@ public class CreativeTabInit {
                 output.accept(PartToolGenerator.generatePickaxe(MaterialInit.IRON));
                 output.accept(PartToolGenerator.generatePickaxe(MaterialInit.GOLD));
                 output.accept(PartToolGenerator.generatePickaxe(MaterialInit.AMETHYST));
+                output.accept(PartToolGenerator.generatePickaxe(MaterialInit.REDSTONE));
                 output.accept(PartToolGenerator.generatePickaxe(MaterialInit.DIAMOND));
                 output.accept(PartToolGenerator.generatePickaxe(MaterialInit.ENDER_METAL));
                 output.accept(PartToolGenerator.generatePickaxe(MaterialInit.NETHERITE));
                 output.accept(PartToolGenerator.generatePickaxe(MaterialInit.FRIGIDITE));
                 output.accept(PartToolGenerator.generatePickaxe(MaterialInit.TRANSLUCIUM));
+
+                output.accept(PartToolGenerator.generateHammer(MaterialInit.WOOD));
+                output.accept(PartToolGenerator.generateHammer(MaterialInit.STONE));
+                output.accept(PartToolGenerator.generateHammer(MaterialInit.DEEPSLATE));
+                output.accept(PartToolGenerator.generateHammer(MaterialInit.COPPER));
+                output.accept(PartToolGenerator.generateHammer(MaterialInit.BONE));
+                output.accept(PartToolGenerator.generateHammer(MaterialInit.IRON));
+                output.accept(PartToolGenerator.generateHammer(MaterialInit.GOLD));
+                output.accept(PartToolGenerator.generateHammer(MaterialInit.AMETHYST));
+                output.accept(PartToolGenerator.generateHammer(MaterialInit.REDSTONE));
+                output.accept(PartToolGenerator.generateHammer(MaterialInit.DIAMOND));
+                output.accept(PartToolGenerator.generateHammer(MaterialInit.ENDER_METAL));
+                output.accept(PartToolGenerator.generateHammer(MaterialInit.NETHERITE));
+                output.accept(PartToolGenerator.generateHammer(MaterialInit.FRIGIDITE));
+                output.accept(PartToolGenerator.generateHammer(MaterialInit.TRANSLUCIUM));
             }).build());
 
     public static void registerCreativeTabs(IEventBus eventBus) {

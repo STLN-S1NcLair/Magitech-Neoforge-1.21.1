@@ -49,6 +49,18 @@ public class ItemInit {
             PickaxeItem::new,
             new Item.Properties());
 
+    public static final DeferredItem<Item> HAMMER = ITEMS.registerItem("hammer",
+            HammerItem::new,
+            new Item.Properties());
+
+    public static final DeferredItem<Item> REDSTONE_CRYSTAL = ITEMS.registerItem("redstone_crystal",
+            TooltipTextItem::new,
+            new Item.Properties());
+
+    public static final DeferredItem<Item> POLISHED_REDSTONE_CRYSTAL = ITEMS.registerItem("polished_redstone_crystal",
+            TooltipTextItem::new,
+            new Item.Properties());
+
     public static final DeferredItem<Item> CHROMIUM_INGOT = ITEMS.registerItem("chromium_ingot",
             TooltipTextItem::new,
             new Item.Properties());
