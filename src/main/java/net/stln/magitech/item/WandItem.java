@@ -60,7 +60,7 @@ public class WandItem extends Item implements LeftClickOverrideItem {
 
     private void sweepAttack(Level world, Player user) {
         Vec3 effectCenter = EntityUtil.getAttackTargetPosition(user, user.entityInteractionRange(), 0.5, 2);
-        EffectUtil.sweepEffect(user, world, new UnstableSquareParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(0.5F, 1.0F, 1.0F), 1.0F, 1), effectCenter, 45.0, -45.0, 100, 2, (user.getRandom().nextFloat() - 0.5) * 45.0, false);
+        EffectUtil.sweepEffect(user, world, new UnstableSquareParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(0.5F, 1.0F, 1.0F), 1.0F, 1, 1F), effectCenter, -45.0, 45.0, 100, 2, (user.getRandom().nextFloat() - 0.5) * 45.0, false);
 
         Vec3 center = EntityUtil.getAttackTargetPosition(user, user.entityInteractionRange(), 2, 0.5);
         List<Entity> attackList = EntityUtil.getEntitiesInBox(world, user, center, new Vec3(3.0, 1.0, 3.0));

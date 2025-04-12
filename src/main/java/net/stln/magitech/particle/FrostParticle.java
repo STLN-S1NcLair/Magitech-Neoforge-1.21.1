@@ -22,12 +22,12 @@ public class FrostParticle extends GlowingParticle {
     public FrostParticle(ClientLevel clientWorld, double x, double y, double z, double vx, double vy, double vz,
                          FrostParticleEffect parameters, SpriteSet spriteProvider) {
         super(clientWorld, x, y, z, vx, vy, vz);
-        this.xd = vx;
-        this.yd = vy;
-        this.zd = vz;
+        this.xd = vx + (clientWorld.random.nextFloat() - 0.5F) / 30;
+        this.yd = vy + (clientWorld.random.nextFloat() - 0.5F) / 30;
+        this.zd = vz + (clientWorld.random.nextFloat() - 0.5F) / 30;
         this.lifetime = 50 + clientWorld.random.nextInt(0, 10);
         this.alpha = 1.0F;
-        this.scale = 0.2F;
+        this.scale = 1F * parameters.getScale();
         this.gravity = 0.05F;
         this.friction = 0.99F;
         this.spriteProvider = spriteProvider;
@@ -35,6 +35,7 @@ public class FrostParticle extends GlowingParticle {
         this.startColor = parameters.getFromColor();
         this.endColor = parameters.getToColor();
         this.twinkle = parameters.getTwinkle();
+        this.rotSpeed = parameters.getRotSpeed() + (clientWorld.random.nextFloat() - 0.5F) / 10;
     }
 
     @Override
@@ -77,6 +78,8 @@ public class FrostParticle extends GlowingParticle {
         this.xd = this.xd * (double) this.friction;
         this.yd = this.yd * (double) this.friction;
         this.zd = this.zd * (double) this.friction;
+
+        rotate();
 
         this.setSpriteFromAge(this.spriteProvider);
     }

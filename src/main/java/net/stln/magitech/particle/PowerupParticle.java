@@ -27,7 +27,7 @@ public class PowerupParticle extends GlowingParticle {
         this.zd = vz;
         this.lifetime = 15;
         this.alpha = 1.0F;
-        this.scale = 0.5F;
+        this.scale = 1F * parameters.getScale();
         this.gravity = -0.1F;
         this.friction = 1.0F;
         this.spriteProvider = spriteProvider;
@@ -35,6 +35,7 @@ public class PowerupParticle extends GlowingParticle {
         this.startColor = parameters.getFromColor();
         this.endColor = parameters.getToColor();
         this.twinkle = parameters.getTwinkle();
+        this.rotSpeed = parameters.getRotSpeed();
     }
 
     @Override
@@ -82,6 +83,8 @@ public class PowerupParticle extends GlowingParticle {
         this.xd = this.xd * (double) this.friction;
         this.yd = this.yd * (double) this.friction;
         this.zd = this.zd * (double) this.friction;
+
+        rotate();
 
         this.setSpriteFromAge(this.spriteProvider);
     }

@@ -12,13 +12,13 @@ import java.util.Map;
 public class LightweightTrait extends Trait {
 
     @Override
-    public ToolStats modifyStats(ItemStack stack, int traitLevel) {
-        ToolStats stats = ToolStats.DEFAULT;
-        Map<String, Float> modified = new HashMap<>(stats.getStats());
+    public ToolStats modifyStats1(ItemStack stack, int traitLevel, ToolStats stats) {
+        ToolStats defaultStats = ToolStats.DEFAULT;
+        Map<String, Float> modified = new HashMap<>(defaultStats.getStats());
         float mul = traitLevel * 0.06F;
-        modified.put(ToolStats.SPD_STAT, (PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.SPD_STAT) + 4.0F) * mul);
-        modified.put(ToolStats.MIN_STAT, PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.MIN_STAT) * mul / 2.0F);
-        return new ToolStats(modified, stats.getElement(), stats.getMiningLevel());
+        modified.put(ToolStats.SPD_STAT, (stats.getStats().get(ToolStats.SPD_STAT)) * mul);
+        modified.put(ToolStats.MIN_STAT, stats.getStats().get(ToolStats.MIN_STAT) * mul / 2.0F);
+        return new ToolStats(modified, defaultStats.getElement(), defaultStats.getMiningLevel());
     }
 
     @Override

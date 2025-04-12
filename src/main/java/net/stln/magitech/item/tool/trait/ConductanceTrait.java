@@ -2,7 +2,6 @@ package net.stln.magitech.item.tool.trait;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
-import net.stln.magitech.Magitech;
 import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.item.tool.toolitem.PartToolItem;
 
@@ -12,13 +11,13 @@ import java.util.Map;
 public class ConductanceTrait extends Trait {
 
     @Override
-    public ToolStats modifyStats(ItemStack stack, int traitLevel) {
-        super.modifyStats(stack, traitLevel);
-        ToolStats stats = ToolStats.DEFAULT;
-        Map<String, Float> modified = new HashMap<>(stats.getStats());
+    public ToolStats modifyStats1(ItemStack stack, int traitLevel, ToolStats stats) {
+        super.modifyStats1(stack, traitLevel, stats);
+        ToolStats defaultStats = ToolStats.DEFAULT;
+        Map<String, Float> modified = new HashMap<>(defaultStats.getStats());
         float mul = traitLevel * 0.1F;
-        modified.put(ToolStats.ELM_ATK_STAT, PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.ELM_ATK_STAT) * mul);
-        return new ToolStats(modified, stats.getElement(), stats.getMiningLevel());
+        modified.put(ToolStats.ELM_ATK_STAT, stats.getStats().get(ToolStats.ELM_ATK_STAT) * mul);
+        return new ToolStats(modified, defaultStats.getElement(), defaultStats.getMiningLevel());
     }
 
     @Override

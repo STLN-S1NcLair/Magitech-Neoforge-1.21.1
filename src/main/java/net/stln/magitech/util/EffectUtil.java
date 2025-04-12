@@ -2,9 +2,11 @@ package net.stln.magitech.util;
 
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import org.joml.Math;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
@@ -20,11 +22,7 @@ public class EffectUtil {
         for (int i = 0; i < amount; i++) {
             double offset = (double) i / (amount - 1);
             Vec3 currentPos = start.add(end.subtract(start).multiply(offset, offset, offset));
-            if (alwaysVisible) {
-                level.addAlwaysVisibleParticle(particleOptions, currentPos.x, currentPos.y, currentPos.z, 0, 0, 0);
-            } else {
-                level.addParticle(particleOptions, currentPos.x, currentPos.y, currentPos.z, 0, 0, 0);
-            }
+            displayParticle(level, particleOptions, alwaysVisible, currentPos.x, currentPos.y, currentPos.z, 0, 0, 0);
         }
     }
 
@@ -42,6 +40,12 @@ public class EffectUtil {
         if (!world.isClientSide) {
             return; // クライアント側のみ処理
         }
+        if (player.getRandom().nextFloat() > (player.getMainArm() == HumanoidArm.LEFT ? 0.2F : 0.8F)) {
+            startDeg *= -1;
+            endDeg *= -1;
+        }
+
+        density *= (radius * Math.abs(endDeg - startDeg) / 200);
 
         Vec3 lookVec = Vec3.directionFromRotation(player.getRotationVector()); // プレイヤーの視線方向
         double yawRad = Math.toRadians(player.getRotationVector().y);
@@ -61,12 +65,37 @@ public class EffectUtil {
             double y = center.y - offset.y * radius;
             double z = center.z - offset.z * radius;
 
-            // **パーティクルをスポーン**
-            if (alwaysVisible) {
-                world.addAlwaysVisibleParticle(particleEffect, x, y, z, 0, 0, 0);
+            double t1 = (double) (i + density / 10) / (density - 1);
+            double angleDeg1 = startDeg + (endDeg - startDeg) * t1;
+
+            Vec3 axisVec1 = rotateVector(upVec, lookVec, slopeDeg);
+            Vec3 offset1 = rotateVector(lookVec, axisVec1, angleDeg1);
+
+            double x1 = center.x - offset1.x * radius;
+            double y1 = center.y - offset1.y * radius;
+            double z1 = center.z - offset1.z * radius;
+
+            double xOffset = (x1 - x) / 10;
+            double yOffset = (y1 - y) / 10;
+            double zOffset = (z1 - z) / 10;
+
+            int delay = (int) Math.floor(t * 3);
+            if (delay < 0) {
+                displayParticle(world, particleEffect, alwaysVisible, x, y, z, xOffset, yOffset, zOffset);
             } else {
-                world.addParticle(particleEffect, x, y, z, 0, 0, 0);
+                TickScheduler.schedule(delay, () -> {
+                    displayParticle(world, particleEffect, alwaysVisible, x, y, z, xOffset, yOffset, zOffset);
+                }, true);
             }
+        }
+    }
+
+    private static void displayParticle(Level world, ParticleOptions particleEffect, boolean alwaysVisible, double x, double y, double z, double xOffset, double yOffset, double zOffset) {
+        // **パーティクルをスポーン**
+        if (alwaysVisible) {
+            world.addAlwaysVisibleParticle(particleEffect, x, y, z, xOffset, yOffset, zOffset);
+        } else {
+            world.addParticle(particleEffect, x, y, z, xOffset, yOffset, zOffset);
         }
     }
 

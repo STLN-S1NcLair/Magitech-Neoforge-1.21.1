@@ -16,7 +16,8 @@ public class FrostParticleEffect extends AbstractCustomizableParticleEffect {
                             ExtraCodecs.VECTOR3F.fieldOf("from_color").forGetter(effect -> effect.fromColor),
                             ExtraCodecs.VECTOR3F.fieldOf("to_color").forGetter(effect -> effect.toColor),
                             SCALE_CODEC.fieldOf("scale").forGetter(AbstractCustomizableParticleEffect::getScale),
-                            TWINKLE_CODEC.fieldOf("twinkle").forGetter(AbstractCustomizableParticleEffect::getTwinkle)
+                            TWINKLE_CODEC.fieldOf("twinkle").forGetter(AbstractCustomizableParticleEffect::getTwinkle),
+                            ROTATE_SPEED_CODEC.fieldOf("rotate_speed").forGetter(AbstractCustomizableParticleEffect::getRotSpeed)
                     )
                     .apply(instance, FrostParticleEffect::new)
     );
@@ -29,14 +30,16 @@ public class FrostParticleEffect extends AbstractCustomizableParticleEffect {
             AbstractCustomizableParticleEffect::getScale,
             ByteBufCodecs.INT,
             AbstractCustomizableParticleEffect::getTwinkle,
+            ByteBufCodecs.FLOAT,
+            AbstractCustomizableParticleEffect::getRotSpeed,
             FrostParticleEffect::new
     );
 
     private final Vector3f fromColor;
     private final Vector3f toColor;
 
-    public FrostParticleEffect(Vector3f fromColor, Vector3f toColor, float scale, int twinkle) {
-        super(scale, twinkle);
+    public FrostParticleEffect(Vector3f fromColor, Vector3f toColor, float scale, int twinkle, float rotSpeed) {
+        super(scale, twinkle, rotSpeed);
         this.fromColor = fromColor;
         this.toColor = toColor;
     }

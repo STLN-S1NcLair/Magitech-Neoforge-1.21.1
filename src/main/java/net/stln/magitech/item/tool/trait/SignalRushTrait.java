@@ -20,7 +20,7 @@ import java.util.Map;
 public class SignalRushTrait extends Trait {
 
     @Override
-    public ToolStats modifyStatsConditional(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
+    public ToolStats modifyStatsConditional1(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
         if (player.getFoodData().getSaturationLevel() > 0) {
             ToolStats aDefault = ToolStats.DEFAULT;
             Map<String, Float> modified = new HashMap<>(aDefault.getStats());
@@ -29,11 +29,11 @@ public class SignalRushTrait extends Trait {
             if (signal > 0) {
                 mul *= signal * 0.08F + 1;
             }
-            Float spd = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.SPD_STAT) + 4;
+            Float spd = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.SPD_STAT);
             modified.put(ToolStats.SPD_STAT, spd * mul);
             return new ToolStats(modified, stats.getElement(), stats.getMiningLevel());
         }
-        return super.modifyStatsConditional(player, level, stack, traitLevel, stats);
+        return super.modifyStatsConditional1(player, level, stack, traitLevel, stats);
     }
 
     @Override
@@ -77,7 +77,7 @@ public class SignalRushTrait extends Trait {
         super.tick(player, level, stack, traitLevel, stats);
         if (player.getFoodData().getSaturationLevel() > 0) {
             int signal = Math.max(level.getBestNeighborSignal(player.getOnPos()), level.getSignal(player.getOnPos(), Direction.UP));
-            EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(1.0F, 0.0F, 0.0F), new Vector3f(1.0F, (float) signal / 20, (float) signal / 20), 1F, 1), player, 1);
+            EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(1.0F, 0.0F, 0.0F), new Vector3f(1.0F, (float) signal / 20, (float) signal / 20), 1F, 1, 0), player, 1);
         }
     }
 

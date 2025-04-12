@@ -13,7 +13,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.stln.magitech.Magitech;
 import net.stln.magitech.item.tool.ToolStats;
 
 import java.util.HashSet;
@@ -21,11 +20,27 @@ import java.util.Set;
 
 public abstract class Trait {
 
-    public ToolStats modifyStats(ItemStack stack, int traitLevel) {
+    public ToolStats modifyStats1(ItemStack stack, int traitLevel, ToolStats stats) {
         return ToolStats.DEFAULT;
     }
 
-    public ToolStats modifyStatsConditional(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
+    public ToolStats modifyStats2(ItemStack stack, int traitLevel, ToolStats stats) {
+        return ToolStats.DEFAULT;
+    }
+
+    public ToolStats modifyStats3(ItemStack stack, int traitLevel, ToolStats stats) {
+        return ToolStats.DEFAULT;
+    }
+
+    public ToolStats modifyStatsConditional1(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
+        return ToolStats.DEFAULT;
+    }
+
+    public ToolStats modifyStatsConditional2(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
+        return ToolStats.DEFAULT;
+    }
+
+    public ToolStats modifyStatsConditional3(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
         return ToolStats.DEFAULT;
     }
 

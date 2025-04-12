@@ -1,6 +1,9 @@
 package net.stln.magitech.item.tool.register;
 
 import net.minecraft.world.item.Item;
+import net.stln.magitech.item.tool.Element;
+import net.stln.magitech.item.tool.ToolStats;
+import net.stln.magitech.item.tool.material.MiningLevel;
 import net.stln.magitech.item.tool.material.ToolMaterial;
 import net.stln.magitech.item.tool.ToolPart;
 import net.stln.magitech.item.tool.ToolType;
@@ -14,6 +17,8 @@ public class ToolMaterialRegister {
     private static final Map<String, ToolMaterial> dictId = new HashMap<>();
     // ツールタイプとインデックスからパーツを取得する
     private static final Map2d<ToolType, Integer, ToolPart> componentPartId = new Map2d<>();
+
+    private static final Map<ToolType, ToolStats> baseStats = new HashMap<>();
 
     public static void registerItem(Item id, ToolMaterial toolMaterial) {
         dictItem.put(id, toolMaterial);
@@ -40,6 +45,10 @@ public class ToolMaterialRegister {
         return componentPartId.get(toolType, index);
     }
 
+    public static ToolStats getBaseStats(ToolType toolType) {
+        return baseStats.get(toolType);
+    }
+
     public static void init() {
         componentPartId.put(ToolType.LIGHT_SWORD, 0, ToolPart.LIGHT_HANDLE);
         componentPartId.put(ToolType.LIGHT_SWORD, 1, ToolPart.LIGHT_BLADE);
@@ -59,5 +68,10 @@ public class ToolMaterialRegister {
         componentPartId.put(ToolType.HAMMER, 1, ToolPart.STRIKE_HEAD);
         componentPartId.put(ToolType.HAMMER, 2, ToolPart.PLATE);
         componentPartId.put(ToolType.HAMMER, 3, ToolPart.TOOL_BINDING);
+
+        baseStats.put(ToolType.LIGHT_SWORD, new ToolStats(4F, 4F, 1.6F, 5F, 2F, 3F, 3F, 261, Element.NONE, MiningLevel.NONE));
+        baseStats.put(ToolType.HEAVY_SWORD, new ToolStats(6F, 4F, 0.8F, 5F, 6F, 3F, 3F, 536, Element.NONE, MiningLevel.NONE));
+        baseStats.put(ToolType.PICKAXE, new ToolStats(2F, 1F, 2.4F, 5F, 1F, 2F, 1.5F, 319, Element.NONE, MiningLevel.NONE));
+        baseStats.put(ToolType.HAMMER, new ToolStats(8F, 7F, 0.6F, 3F, 4F, 2.5F, 2F, 1013, Element.NONE, MiningLevel.NONE));
     }
 }

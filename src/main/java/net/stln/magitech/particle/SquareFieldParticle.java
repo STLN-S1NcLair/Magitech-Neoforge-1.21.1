@@ -29,13 +29,14 @@ public class SquareFieldParticle extends HorizontalParticle implements ParticleO
         this.zd = 0;
         this.lifetime = 15;
         this.alpha = 1.0F;
-        this.quadSize = 0.7F;
+        this.quadSize = 0.7F * parameters.getScale();
         this.gravity = -0.0F;
         this.spriteProvider = spriteProvider;
         this.setSpriteFromAge(spriteProvider);
         this.startColor = parameters.getFromColor();
         this.endColor = parameters.getToColor();
         this.twinkle = parameters.getTwinkle();
+        this.rotSpeed = parameters.getRotSpeed();
     }
 
     @Override
@@ -74,6 +75,8 @@ public class SquareFieldParticle extends HorizontalParticle implements ParticleO
         this.xd = this.xd * (double) this.friction;
         this.yd = this.yd * (double) this.friction;
         this.zd = this.zd * (double) this.friction;
+
+        rotate();
 
         this.setSpriteFromAge(this.spriteProvider);
     }

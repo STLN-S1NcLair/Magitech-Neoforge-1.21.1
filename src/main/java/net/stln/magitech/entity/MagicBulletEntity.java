@@ -47,6 +47,7 @@ public class MagicBulletEntity extends SpellProjectileEntity {
             Vector3f toColor = new Vector3f(0.7F, 0.0F, 1.0F);
             float scale = 1.0F;
             int twinkle = 5;
+            float rotSpeed = 0.0F;
             int particleAmount = 5;
             for (int i = 0; i < particleAmount; i++) {
                 Vec3 deltaMovement = this.getDeltaMovement();
@@ -56,7 +57,7 @@ public class MagicBulletEntity extends SpellProjectileEntity {
                 double vx = deltaMovement.x / 4;
                 double vy = deltaMovement.y / 4;
                 double vz = deltaMovement.z / 4;
-                world.addParticle(new UnstableSquareParticleEffect(fromColor, toColor, scale, twinkle), x, y, z, vx, vy, vz);
+                world.addParticle(new UnstableSquareParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed), x, y, z, vx, vy, vz);
             }
         }
     }
@@ -101,6 +102,7 @@ public class MagicBulletEntity extends SpellProjectileEntity {
             Vector3f fromColor = new Vector3f(1.0F, 0.0F, 1.0F);
             Vector3f toColor = new Vector3f(0.7F, 0.0F, 1.0F);
             float scale = 1.0F;
+            float rotSpeed = 0.0F;
             int particleAmount = 10;
             for (int i = 0; i < particleAmount; i++) {
                 int twinkle = random.nextInt(3, 7);
@@ -111,7 +113,7 @@ public class MagicBulletEntity extends SpellProjectileEntity {
                 double vx = (random.nextFloat() - 0.5) / 6;
                 double vy = (random.nextFloat() - 0.5) / 6;
                 double vz = (random.nextFloat() - 0.5) / 6;
-                world.addParticle(new UnstableSquareParticleEffect(fromColor, toColor, scale, twinkle), x, y, z, vx, vy, vz);
+                world.addParticle(new UnstableSquareParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed), x, y, z, vx, vy, vz);
             }
         }
     }

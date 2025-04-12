@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ToolMaterial {
-    protected Map<ToolPart, ToolStats> statsMap = new HashMap<>();
+    protected ToolStats statsMap = ToolStats.DEFAULT;
     protected String id;
     protected List<Item> materialItem = new ArrayList<>();
     protected Trait materialTrait;
@@ -22,16 +22,16 @@ public class ToolMaterial {
         this.id = id;
     }
 
-    public void addStats(ToolPart part, ToolStats stats) {
-        statsMap.put(part, stats);
+    public void addStats(ToolStats stats) {
+        statsMap = stats;
     }
 
     public List<Item> getMaterialItem() {
         return this.materialItem;
     }
 
-    public ToolStats getStats(ToolPart part) {
-        return statsMap.get(part);
+    public ToolStats getStats() {
+        return statsMap;
     }
 
     public Trait getTrait() {

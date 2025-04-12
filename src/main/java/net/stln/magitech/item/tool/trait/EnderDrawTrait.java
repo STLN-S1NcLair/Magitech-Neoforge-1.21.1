@@ -36,9 +36,9 @@ public class EnderDrawTrait extends Trait {
                 if (item != null) {
                     Vec3 playerPos = new Vec3(player.getX(), player.getY(0.5F), player.getZ());
                     Vec3 itemPos = new Vec3(item.getX(), item.getY(0.5F), item.getZ());
-                    level.addParticle(new SquareFieldParticleEffect(new Vector3f(0.0F, 1.0F, 0.8F), new Vector3f(0.0F, 1.0F, 0.8F), 1.0F, 1), item.getX(), item.getY() + 0.01, item.getZ(), 0, 0, 0);
-                    level.addParticle(new SquareFieldParticleEffect(new Vector3f(0.0F, 1.0F, 0.8F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1), player.getX(), player.getY() + 0.01, player.getZ(), 0, 0, 0);
-                    EffectUtil.lineEffect(level, new UnstableSquareParticleEffect(new Vector3f(0.0F, 1.0F, 0.8F), new Vector3f(0.0F, 1.0F, 0.8F), 1.0F, 4), playerPos, itemPos, 4, false);
+                    level.addParticle(new SquareFieldParticleEffect(new Vector3f(0.0F, 1.0F, 0.8F), new Vector3f(0.0F, 1.0F, 0.8F), 1.0F, 1, 0), item.getX(), item.getY() + 0.01, item.getZ(), 0, 0, 0);
+                    level.addParticle(new SquareFieldParticleEffect(new Vector3f(0.0F, 1.0F, 0.8F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0), player.getX(), player.getY() + 0.01, player.getZ(), 0, 0, 0);
+                    EffectUtil.lineEffect(level, new UnstableSquareParticleEffect(new Vector3f(0.0F, 1.0F, 0.8F), new Vector3f(0.0F, 1.0F, 0.8F), 1.0F, 4, 0), playerPos, itemPos, 4, false);
                     level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_TELEPORT, SoundSource.PLAYERS);
                     item.setPos(player.getPosition(0F));
                 }

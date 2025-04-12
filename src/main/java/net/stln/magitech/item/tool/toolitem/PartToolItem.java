@@ -38,6 +38,7 @@ import net.stln.magitech.damage.EntityElementDictionary;
 import net.stln.magitech.entity.AdjustableAttackStrengthEntity;
 import net.stln.magitech.item.LeftClickOverrideItem;
 import net.stln.magitech.item.component.ComponentInit;
+import net.stln.magitech.item.tool.Element;
 import net.stln.magitech.item.tool.ToolPart;
 import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.item.tool.ToolType;
@@ -45,8 +46,9 @@ import net.stln.magitech.item.tool.material.MiningLevel;
 import net.stln.magitech.item.tool.material.ToolMaterial;
 import net.stln.magitech.item.tool.register.ToolMaterialRegister;
 import net.stln.magitech.item.tool.trait.Trait;
+import net.stln.magitech.network.TraitTickC2SPayload;
 import net.stln.magitech.network.UseC2SPayload;
-import net.stln.magitech.particle.particle_option.UnstableSquareParticleEffect;
+import net.stln.magitech.particle.particle_option.*;
 import net.stln.magitech.util.EffectUtil;
 import net.stln.magitech.util.EntityUtil;
 import net.stln.magitech.util.MathUtil;
@@ -71,10 +73,15 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
         List<ToolMaterial> materials = stack.getComponents().get(ComponentInit.PART_MATERIAL_COMPONENT.get()).materials();
         ToolType toolType = ((PartToolItem) stack.getItem()).getToolType();
         List<ToolStats> stats = new ArrayList<>();
+        ToolStats base = ToolMaterialRegister.getBaseStats(toolType);
         for (int i = 0; i < materials.size(); i++) {
             ToolPart toolPart = ToolMaterialRegister.getToolPartFromIndex(toolType, i);
+            float value = 0;
+            if (toolPart != null) {
+                value = ((PartToolItem) stack.getItem()).getMultiplier(toolPart);
+            }
             if (materials.get(i) != null) {
-                stats.add(materials.get(i).getStats(toolPart));
+                stats.add(ToolStats.mulWithoutElementCode(ToolStats.mulWithoutElementCode(materials.get(i).getStats(), base), value));
             }
         }
         return ToolStats.add(stats);
@@ -90,8 +97,28 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
         statsList.add(getDefaultStats(stack));
         traits.forEach((trait, value) -> {
             if (trait != null) {
-                statsList.add(trait.modifyStats(stack, value));
-                statsList.add(trait.modifyStatsConditional(player, level, stack, value, getDefaultStats(stack)));
+                statsList.add(trait.modifyStats1(stack, value, getDefaultStats(stack)));
+                statsList.add(trait.modifyStatsConditional1(player, level, stack, value, getDefaultStats(stack)));
+            }
+        });
+        ToolStats stats1 = ToolStats.add(statsList);
+        statsList.clear();
+        statsList.add(getDefaultStats(stack));
+
+        traits.forEach((trait, value) -> {
+            if (trait != null) {
+                statsList.add(trait.modifyStats2(stack, value, stats1));
+                statsList.add(trait.modifyStatsConditional2(player, level, stack, value, stats1));
+            }
+        });
+        ToolStats stats2 = ToolStats.add(statsList);
+        statsList.clear();
+        statsList.add(getDefaultStats(stack));
+
+        traits.forEach((trait, value) -> {
+            if (trait != null) {
+                statsList.add(trait.modifyStats3(stack, value, stats2));
+                statsList.add(trait.modifyStatsConditional3(player, level, stack, value, stats2));
             }
         });
         return ToolStats.add(statsList);
@@ -107,7 +134,25 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
         statsList.add(getDefaultStats(stack));
         traits.forEach((trait, value) -> {
             if (trait != null) {
-                statsList.add(trait.modifyStats(stack, value));
+                statsList.add(trait.modifyStats1(stack, value, getDefaultStats(stack)));
+            }
+        });
+        ToolStats stats1 = ToolStats.add(statsList);
+        statsList.clear();
+        statsList.add(getDefaultStats(stack));
+
+        traits.forEach((trait, value) -> {
+            if (trait != null) {
+                statsList.add(trait.modifyStats1(stack, value, stats1));
+            }
+        });
+        ToolStats stats2 = ToolStats.add(statsList);
+        statsList.clear();
+        statsList.add(getDefaultStats(stack));
+
+        traits.forEach((trait, value) -> {
+            if (trait != null) {
+                statsList.add(trait.modifyStats2(stack, value, stats2));
             }
         });
         return ToolStats.add(statsList);
@@ -144,6 +189,9 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
 
     public abstract ToolType getToolType();
 
+
+    public abstract float getMultiplier(ToolPart part);
+
     @Override
     public void inventoryTick(ItemStack stack, Level world, Entity entity, int slot, boolean selected) {
         super.inventoryTick(stack, world, entity, slot, selected);
@@ -151,6 +199,9 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
             getTraitLevel(getTraits(stack)).forEach((trait, integer) -> {
                 trait.tick(player, world, stack, integer, getDefaultStats(stack));
             });
+            if (world.isClientSide) {
+                PacketDistributor.sendToServer(new TraitTickC2SPayload(((Player) entity).getItemInHand(InteractionHand.MAIN_HAND) == stack, entity.getUUID().toString()));
+            }
         }
 
         if (entity instanceof Player player) {
@@ -199,9 +250,9 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
         Map<String, Float> map = finalStats.getStats();
 
         entries.add(new ItemAttributeModifiers.Entry(Attributes.ATTACK_DAMAGE, new AttributeModifier(atkId, map.get(ToolStats.ATK_STAT), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND));
-        entries.add(new ItemAttributeModifiers.Entry(Attributes.ATTACK_SPEED, new AttributeModifier(spdId, map.get(ToolStats.SPD_STAT), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND));
+        entries.add(new ItemAttributeModifiers.Entry(Attributes.ATTACK_SPEED, new AttributeModifier(spdId, map.get(ToolStats.SPD_STAT) - 4, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND));
         entries.add(new ItemAttributeModifiers.Entry(Attributes.ARMOR, new AttributeModifier(defId, map.get(ToolStats.DEF_STAT), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND));
-        entries.add(new ItemAttributeModifiers.Entry(Attributes.ENTITY_INTERACTION_RANGE, new AttributeModifier(rngId, map.get(ToolStats.RNG_STAT), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND));
+        entries.add(new ItemAttributeModifiers.Entry(Attributes.ENTITY_INTERACTION_RANGE, new AttributeModifier(rngId, map.get(ToolStats.RNG_STAT) - 3, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND));
         ItemAttributeModifiers component = new ItemAttributeModifiers(entries, false);
         stack.set(DataComponents.ATTRIBUTE_MODIFIERS, component);
 
@@ -290,39 +341,39 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
         tooltipComponents.add(Component.empty());
         tooltipComponents.add(Component.translatable("attribute.magitech.attack_damage").append(": ").withColor(0xa0a0a0)
                 .append(Component.literal(String.valueOf(
-                        MathUtil.round(finalStats.getStats().get(ToolStats.ATK_STAT) + 1.0F, 1)
+                        MathUtil.round(finalStats.getStats().get(ToolStats.ATK_STAT) + 1.0F, 2)
                 )).withColor(0xFF4040)));
 
         tooltipComponents.add(Component.translatable("attribute.magitech.elemental_damage").append(": ").withColor(0xa0a0a0)
                 .append(Component.translatable("element.magitech." + finalStats.getElement().get())
                         .append(" ")
                         .append(Component.literal(String.valueOf(
-                                MathUtil.round(finalStats.getStats().get(ToolStats.ELM_ATK_STAT), 1)
+                                MathUtil.round(finalStats.getStats().get(ToolStats.ELM_ATK_STAT), 2)
                         ))).withColor(finalStats.getElement().getColor())));
 
         tooltipComponents.add(Component.translatable("attribute.magitech.attack_speed").append(": ").withColor(0xa0a0a0)
                 .append(Component.literal(String.valueOf(
-                        MathUtil.round(finalStats.getStats().get(ToolStats.SPD_STAT) + 4.0F, 1)
+                        MathUtil.round(finalStats.getStats().get(ToolStats.SPD_STAT), 2)
                 )).withColor(0x40FFC0)));
 
         tooltipComponents.add(Component.translatable("attribute.magitech.mining_speed").append(": ").withColor(0xa0a0a0)
                 .append(Component.literal(String.valueOf(
-                        MathUtil.round(finalStats.getStats().get(ToolStats.MIN_STAT), 1)
+                        MathUtil.round(finalStats.getStats().get(ToolStats.MIN_STAT), 2)
                 )).withColor(0x4080C0)));
 
         tooltipComponents.add(Component.translatable("attribute.magitech.defense").append(": ").withColor(0xa0a0a0)
                 .append(Component.literal(String.valueOf(
-                        MathUtil.round(finalStats.getStats().get(ToolStats.DEF_STAT), 1)
+                        MathUtil.round(finalStats.getStats().get(ToolStats.DEF_STAT), 2)
                 )).withColor(0xA0C0C0)));
 
         tooltipComponents.add(Component.translatable("attribute.magitech.attack_range").append(": ").withColor(0xa0a0a0)
                 .append(Component.literal(String.valueOf(
-                        MathUtil.round(finalStats.getStats().get(ToolStats.RNG_STAT) + 3.0F, 1)
+                        MathUtil.round(finalStats.getStats().get(ToolStats.RNG_STAT), 2)
                 )).withColor(0x80c0FF)));
 
         tooltipComponents.add(Component.translatable("attribute.magitech.sweep_range").append(": ").withColor(0xa0a0a0)
                 .append(Component.literal(String.valueOf(
-                        MathUtil.round(finalStats.getStats().get(ToolStats.SWP_STAT), 1)
+                        MathUtil.round(finalStats.getStats().get(ToolStats.SWP_STAT), 2)
                 )).withColor(0xFFFF80)));
 
         tooltipComponents.add(Component.translatable("attribute.magitech.durability").append(": ").withColor(0xa0a0a0)
@@ -371,11 +422,11 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
 
         if (EntityUtil.getEntityHitResult(user, playerEyePos, maxReachPos, world) != null || getPlayerPOVHitResult(world, user, ClipContext.Fluid.NONE).getType() != BlockHitResult.Type.BLOCK) {
             if (user.getAttackStrengthScale(0.5F) > 0.7F) {
-                world.playSound(user, user.getX(), user.getY(), user.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP, SoundSource.PLAYERS, 1.0F, (getSumStats(user, world, user.getItemInHand(hand)).getStats().get(ToolStats.SPD_STAT) + 4) / 2);
+                world.playSound(user, user.getX(), user.getY(), user.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP, SoundSource.PLAYERS, 1.0F, (getSumStats(user, world, user.getItemInHand(hand)).getStats().get(ToolStats.SPD_STAT)) / 2);
                 sweepAttack(world, hand, user);
                 user.awardStat(Stats.DAMAGE_DEALT, sweepDamage * 10);
             } else {
-                world.playSound(user, user.getX(), user.getY(), user.getZ(), SoundEvents.PLAYER_ATTACK_NODAMAGE, SoundSource.PLAYERS, 1.0F, (getSumStats(user, world, user.getItemInHand(hand)).getStats().get(ToolStats.SPD_STAT) + 4) / 2);
+                world.playSound(user, user.getX(), user.getY(), user.getZ(), SoundEvents.PLAYER_ATTACK_NODAMAGE, SoundSource.PLAYERS, 1.0F, (getSumStats(user, world, user.getItemInHand(hand)).getStats().get(ToolStats.SPD_STAT)) / 2);
             }
             user.swing(hand);
             return InteractionResult.SUCCESS;
@@ -413,7 +464,25 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
         float green2 = green * green;
         float blue2 = blue * blue;
 
-        EffectUtil.sweepEffect(user, world, new UnstableSquareParticleEffect(new Vector3f(red, green, blue), new Vector3f(red2, green2, blue2), 1.0F, 1), effectCenter, 45.0, -45.0, 100, swp * 0.7F, (user.getRandom().nextFloat() - 0.5) * 45.0, false);
+        if (stats.getElement() == Element.EMBER) {
+            EffectUtil.sweepEffect(user, world, new FlameParticleEffect(new Vector3f(1, 1, 1), new Vector3f(1, 1, 1), 2F, 1, 0), effectCenter, -45.0, 45.0, 50, swp * 0.7F, (user.getRandom().nextFloat() - 0.5) * 45.0, false);
+        } else if (stats.getElement() == Element.GLACE) {
+            EffectUtil.sweepEffect(user, world, new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, 0), effectCenter, -45.0, 45.0, 50, swp * 0.7F, (user.getRandom().nextFloat() - 0.5) * 45.0, false);
+        } else if (stats.getElement() == Element.SURGE) {
+            EffectUtil.sweepEffect(user, world, new SparkParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 3, 0), effectCenter, -45.0, 45.0, 50, swp * 0.7F, (user.getRandom().nextFloat() - 0.5) * 45.0, false);
+        } else if (stats.getElement() == Element.PHANTOM) {
+            EffectUtil.sweepEffect(user, world, new MembraneParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, 0), effectCenter, -45.0, 45.0, 50, swp * 0.7F, (user.getRandom().nextFloat() - 0.5) * 45.0, false);
+        } else if (stats.getElement() == Element.TREMOR) {
+            EffectUtil.sweepEffect(user, world, new WaveParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, 0), effectCenter, -45.0, 45.0, 50, swp * 0.7F, (user.getRandom().nextFloat() - 0.5) * 45.0, false);
+        } else if (stats.getElement() == Element.MAGIC) {
+            EffectUtil.sweepEffect(user, world, new RuneParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, 0), effectCenter, -45.0, 45.0, 50, swp * 0.7F, (user.getRandom().nextFloat() - 0.5) * 45.0, false);
+        } else if (stats.getElement() == Element.FLOW) {
+            EffectUtil.sweepEffect(user, world, new BlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, 0), effectCenter, -45.0, 45.0, 50, swp * 0.7F, (user.getRandom().nextFloat() - 0.5) * 45.0, false);
+        } else if (stats.getElement() == Element.HOLLOW) {
+            EffectUtil.sweepEffect(user, world, new VoidGlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, 0), effectCenter, -45.0, 45.0, 50, swp * 0.7F, (user.getRandom().nextFloat() - 0.5) * 45.0, false);
+        } else {
+            EffectUtil.sweepEffect(user, world, new UnstableSquareParticleEffect(new Vector3f(red, green, blue), new Vector3f(red2, green2, blue2), 1F, 1, 0), effectCenter, -45.0, 45.0, 100, swp * 0.7F, (user.getRandom().nextFloat() - 0.5) * 45.0, false);
+        }
 
         Vec3 center = EntityUtil.getAttackTargetPosition(user, user.entityInteractionRange(), 2, 0.0);
         List<Entity> attackList = EntityUtil.getEntitiesInBox(world, user, center, new Vec3(swp, swp / 3.0F, swp));

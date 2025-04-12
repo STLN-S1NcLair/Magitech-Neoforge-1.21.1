@@ -19,7 +19,7 @@ import java.util.Map;
 public class ShatterforceTrait extends Trait {
 
     @Override
-    public ToolStats modifyStatsConditional(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
+    public ToolStats modifyStatsConditional1(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
             ToolStats aDefault = ToolStats.DEFAULT;
             Map<String, Float> modified = new HashMap<>(aDefault.getStats());
             float mul = traitLevel * 0.25F * stack.getDamageValue() / stack.getMaxDamage();
@@ -39,7 +39,7 @@ public class ShatterforceTrait extends Trait {
     public void tick(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
         super.tick(player, level, stack, traitLevel, stats);
         if (player.getRandom().nextFloat() < (float) stack.getDamageValue() / stack.getMaxDamage()) {
-            EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(0.9F, 0.6F, 1.0F), new Vector3f(0.9F, 0.6F, 1.0F), 1F, 1), player, 1);
+            EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(0.9F, 0.6F, 1.0F), new Vector3f(0.9F, 0.6F, 1.0F), 1F, 1, 0), player, 1);
         }
     }
 

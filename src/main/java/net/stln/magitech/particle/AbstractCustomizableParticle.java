@@ -11,6 +11,7 @@ import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.util.Mth;
 import org.lwjgl.opengl.GL11;
 
 public class AbstractCustomizableParticle extends TextureSheetParticle {
@@ -30,6 +31,8 @@ public class AbstractCustomizableParticle extends TextureSheetParticle {
             return "PARTICLE_SHEET_TRANSLUCENT";
         }
     };
+    protected float scale;
+    protected float rotSpeed;
     protected int twinkle;
     protected float defaultAlpha;
 
@@ -39,6 +42,17 @@ public class AbstractCustomizableParticle extends TextureSheetParticle {
 
     protected AbstractCustomizableParticle(ClientLevel clientWorld, double d, double e, double f) {
         super(clientWorld, d, e, f);
+    }
+
+    protected void rotate() {
+        this.oRoll = this.roll;
+        this.roll += this.rotSpeed;
+        this.rotSpeed *= this.friction;
+    }
+
+    @Override
+    public float getQuadSize(float scaleFactor) {
+        return this.quadSize * this.scale;
     }
 
     protected float darken(float colorComponent, float multiplier) {

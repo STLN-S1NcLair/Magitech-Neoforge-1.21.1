@@ -11,6 +11,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.item.tool.ToolStats;
+import net.stln.magitech.item.tool.ToolType;
 import net.stln.magitech.item.tool.toolitem.PartToolItem;
 
 import java.util.Optional;
@@ -34,6 +35,9 @@ public class ModifyBreakSpeedEvent {
                 PartToolItem.getTraitLevel(PartToolItem.getTraits(stack)).forEach((trait, integer) -> {
                     speed[0] += trait.modifyMiningSpeed(player, level, stack, integer, stats, state, pos);
                 });
+                if (partToolItem.getToolType() == ToolType.HAMMER) {
+                    speed[0] *= 0.25F;
+                }
                 event.setNewSpeed(speed[0]);
             }
         }

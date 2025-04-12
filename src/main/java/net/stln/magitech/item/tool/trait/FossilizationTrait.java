@@ -6,7 +6,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.dimension.LevelStem;
 import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.item.tool.toolitem.PartToolItem;
 import net.stln.magitech.particle.particle_option.PowerupParticleEffect;
@@ -19,7 +18,7 @@ import java.util.Map;
 public class FossilizationTrait extends Trait {
 
     @Override
-    public ToolStats modifyStatsConditional(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
+    public ToolStats modifyStatsConditional1(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
         if (player.getHealth() < player.getMaxHealth() / 2 && player.getFoodData().getFoodLevel() < 10 && player.getDeltaMovement().length() < 0.1) {
             ToolStats aDefault = ToolStats.DEFAULT;
             Map<String, Float> modified = new HashMap<>(aDefault.getStats());
@@ -28,7 +27,7 @@ public class FossilizationTrait extends Trait {
             modified.put(ToolStats.ATK_STAT, atk * mul);
             return new ToolStats(modified, stats.getElement(), stats.getMiningLevel());
         }
-        return super.modifyStatsConditional(player, level, stack, traitLevel, stats);
+        return super.modifyStatsConditional1(player, level, stack, traitLevel, stats);
     }
 
     @Override
@@ -45,7 +44,7 @@ public class FossilizationTrait extends Trait {
     public void tick(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
         super.tick(player, level, stack, traitLevel, stats);
         if (player.getHealth() < player.getMaxHealth() / 2 && player.getFoodData().getFoodLevel() < 10 && player.getDeltaMovement().length() < 0.1) {
-            EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(0.9F, 1.0F, 0.7F), new Vector3f(0.9F, 1.0F, 0.7F), 1F, 1), player, 1);
+            EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(0.9F, 1.0F, 0.7F), new Vector3f(0.9F, 1.0F, 0.7F), 1F, 1, 0), player, 1);
         }
     }
 

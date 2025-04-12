@@ -5,8 +5,6 @@ import net.minecraft.client.particle.ParticleRenderType;
 
 public class GlowingParticle extends AbstractCustomizableParticle {
 
-    protected float scale = 0.1F;
-
     protected GlowingParticle(ClientLevel world, double x, double y, double z) {
         super(world, x, y, z);
     }

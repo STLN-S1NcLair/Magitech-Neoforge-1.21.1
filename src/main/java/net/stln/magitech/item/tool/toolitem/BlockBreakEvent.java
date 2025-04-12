@@ -6,6 +6,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Blocks;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.level.BlockEvent;
@@ -51,10 +52,15 @@ public class BlockBreakEvent {
             });
             blockList2.forEach(pos1 -> {
                 traitMap.forEach((trait, value) -> {
-                    finalBlockList.addAll(trait.addAdditionalBlockBreakSecond(player, event.getPlayer().level(), tool, value, PartToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getLevel().getBlockState(pos1), pos1, 1, breakDirection));
-                    BROKEN_BLOCKS.addAll(finalBlockList);
+                    if (!event.getLevel().getBlockState(pos1).getBlock().equals(Blocks.AIR)) {
+                        finalBlockList.addAll(trait.addAdditionalBlockBreakSecond(player, event.getPlayer().level(), tool, value, PartToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getLevel().getBlockState(pos1), pos1, 1, breakDirection));
+                    }
                 });
             });
+            BROKEN_BLOCKS.addAll(finalBlockList);
+            if (finalBlockList.size() < 2) {
+                BROKEN_BLOCKS.removeAll(finalBlockList);
+            }
             finalBlockList.forEach(pos1 -> {
                 traitMap.forEach((trait, value) -> {
                     if (pos1 != pos) {
