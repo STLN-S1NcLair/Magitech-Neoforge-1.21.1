@@ -7,23 +7,31 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import net.stln.magitech.Magitech;
 import net.stln.magitech.entity.AdjustableAttackStrengthEntity;
 import net.stln.magitech.entity.MagicBulletEntity;
+import net.stln.magitech.magic.mana.ManaUtil;
+import net.stln.magitech.magic.spell.surge.Stormhaze;
 import net.stln.magitech.particle.particle_option.UnstableSquareParticleEffect;
 import net.stln.magitech.util.EffectUtil;
 import net.stln.magitech.util.EntityUtil;
 import org.joml.Vector3f;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class WandItem extends Item implements LeftClickOverrideItem {
 
     private int sweepDamage = 6;
+    Stormhaze stormhaze = new Stormhaze();
 
     public WandItem(Properties settings) {
         super(settings);
@@ -31,9 +39,16 @@ public class WandItem extends Item implements LeftClickOverrideItem {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player user, InteractionHand hand) {
+        if (ManaUtil.useManaServerOnly(user, stormhaze.getCost())) {
+            user.startUsingItem(hand);
+        }
+
         ItemStack itemStack = user.getItemInHand(hand);
-        if (user.isCrouching()) {
-        } else {
+        Map<ManaUtil.ManaType, Double> map = new HashMap<>();
+        map.put(ManaUtil.ManaType.MANA, 20.0);
+        map.put(ManaUtil.ManaType.LUMINIS, 10.0);
+        map.put(ManaUtil.ManaType.FLUXIA, 5.0);
+        if (ManaUtil.useManaServerOnly(user, map)) {
             world.playSound(user, user.getX(), user.getY(), user.getZ(), SoundEvents.EVOKER_CAST_SPELL, SoundSource.PLAYERS);
             if (!world.isClientSide) {
                 MagicBulletEntity bullet = new MagicBulletEntity(world, user);
@@ -46,7 +61,25 @@ public class WandItem extends Item implements LeftClickOverrideItem {
             }
         }
         user.awardStat(Stats.ITEM_USED.get(this));
-        return InteractionResultHolder.success(itemStack);
+        return InteractionResultHolder.pass(itemStack);
+    }
+
+    @Override
+    public void onUseTick(Level level, LivingEntity livingEntity, ItemStack stack, int remainingUseDuration) {
+        super.onUseTick(level, livingEntity, stack, remainingUseDuration);
+        if (livingEntity instanceof Player user && ManaUtil.useManaServerOnly(user, stormhaze.getTickCost())) {
+            stormhaze.usingTick(level, livingEntity, stack, remainingUseDuration);
+        }
+    }
+
+    @Override
+    public int getUseDuration(ItemStack stack, LivingEntity entity) {
+        return 72000;
+    }
+
+    @Override
+    public UseAnim getUseAnimation(ItemStack stack) {
+        return UseAnim.BOW;
     }
 
     @Override

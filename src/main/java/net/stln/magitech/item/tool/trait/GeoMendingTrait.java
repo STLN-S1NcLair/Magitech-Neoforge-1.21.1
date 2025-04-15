@@ -31,7 +31,6 @@ public class GeoMendingTrait extends Trait {
     @Override
     public void onBreakBlock(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos, int damageAmount, boolean isInitial) {
         super.onBreakBlock(player, level, stack, traitLevel, stats, blockState, pos, damageAmount, isInitial);
-        Magitech.LOGGER.info(blockState.toString());
         if (blockState.getTags().anyMatch(Predicate.isEqual(BlockTags.BASE_STONE_OVERWORLD)) && damageAmount > 0 && stack.getDamageValue() < stack.getMaxDamage()) {
             if (player.getRandom().nextFloat() < traitLevel * 0.22F) {
                 stack.setDamageValue(stack.getDamageValue() - 1);

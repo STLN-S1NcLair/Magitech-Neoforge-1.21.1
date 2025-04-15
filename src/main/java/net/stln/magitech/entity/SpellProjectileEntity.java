@@ -180,7 +180,6 @@ public abstract class SpellProjectileEntity extends Projectile {
     @Override
     protected void onHitEntity(EntityHitResult result) {
         super.onHitEntity(result);
-        Magitech.LOGGER.info("hit");
         Entity entity = result.getEntity();
         float f = (float)this.getDeltaMovement().length();
         Entity entity1 = this.getOwner();

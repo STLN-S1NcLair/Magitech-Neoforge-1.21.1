@@ -6,13 +6,13 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.stln.magitech.item.LeftClickOverrideItem;
-import net.stln.magitech.network.LeftClickC2SPayload;
+import net.stln.magitech.network.LeftClickPayload;
 
 public class ClientLeftClickEvent {
 
     public static void register() {
         ClientPreAttackCallback.EVENT.register(((client, player, clickCount) -> {
-            LeftClickC2SPayload payload = new LeftClickC2SPayload(clickCount, player.getUUID().toString());
+            LeftClickPayload payload = new LeftClickPayload(clickCount, player.getUUID().toString());
             PacketDistributor.sendToServer(payload);
             return callOnLeftClick(player, clickCount) != InteractionResult.PASS;
         }));

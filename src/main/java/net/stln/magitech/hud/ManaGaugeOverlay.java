@@ -1,0 +1,47 @@
+package net.stln.magitech.hud;
+
+import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.LayeredDraw;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
+import net.stln.magitech.Magitech;
+import net.stln.magitech.entity.status.AttributeInit;
+import net.stln.magitech.magic.mana.ManaData;
+import net.stln.magitech.magic.mana.ManaUtil;
+import org.lwjgl.opengl.GL;
+import org.lwjgl.opengl.GL12;
+
+public class ManaGaugeOverlay implements LayeredDraw.Layer {
+
+    private static ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "textures/gui/mana_gauge.png");
+    @Override
+    public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
+        Player player = Minecraft.getInstance().player;
+        double manaRatio = ManaData.getCurrentMana(player, ManaUtil.ManaType.MANA) / ManaUtil.getMaxMana(player, ManaUtil.ManaType.MANA);
+        double noctisRatio = ManaData.getCurrentMana(player, ManaUtil.ManaType.NOCTIS) / ManaUtil.getMaxMana(player, ManaUtil.ManaType.NOCTIS);
+        double luminisRatio = ManaData.getCurrentMana(player, ManaUtil.ManaType.LUMINIS) / ManaUtil.getMaxMana(player, ManaUtil.ManaType.LUMINIS);
+        double fluxiaRatio = ManaData.getCurrentMana(player, ManaUtil.ManaType.FLUXIA) / ManaUtil.getMaxMana(player, ManaUtil.ManaType.FLUXIA);
+        int manaGaugeHeight = (int) (manaRatio * 40);
+        int noctisGaugeWidth = (int) (noctisRatio * 23);
+        int luminisGaugeWidth = (int) (luminisRatio * 23);
+        int fluxiaGaugeWidth = (int) (fluxiaRatio * 23);
+
+
+        guiGraphics.blit(TEXTURE, guiGraphics.guiWidth() - 9 - noctisGaugeWidth, guiGraphics.guiHeight() - 74, 64, 0, noctisGaugeWidth, 5);
+        guiGraphics.blit(TEXTURE, guiGraphics.guiWidth() - 9 - luminisGaugeWidth, guiGraphics.guiHeight() - 66, 64, 8, luminisGaugeWidth, 5);
+        guiGraphics.blit(TEXTURE, guiGraphics.guiWidth() - 9 - fluxiaGaugeWidth, guiGraphics.guiHeight() - 58, 64, 16, fluxiaGaugeWidth, 5);
+
+        guiGraphics.blit(TEXTURE, guiGraphics.guiWidth() - 60, guiGraphics.guiHeight() - 84, 0, 0, 60, 84);
+
+        if (manaRatio >= 1) {
+            guiGraphics.blit(TEXTURE, guiGraphics.guiWidth() - 58, guiGraphics.guiHeight() - 54, 8, 88, 12, 11);
+            int frame = Minecraft.getInstance().player != null ? (Minecraft.getInstance().player.tickCount / 5) % 7 : 0;
+            guiGraphics.blit(TEXTURE, guiGraphics.guiWidth() - 56, guiGraphics.guiHeight() - 62, 0, 128 + 8 * frame, 8, 8);
+        }
+        guiGraphics.blit(TEXTURE, guiGraphics.guiWidth() - 56, guiGraphics.guiHeight() - 3 - manaGaugeHeight, 0, 88, 8, manaGaugeHeight);
+        guiGraphics.blit(TEXTURE, guiGraphics.guiWidth() - 58, guiGraphics.guiHeight() - 43, 8, 104, 12, 41);
+    }
+}

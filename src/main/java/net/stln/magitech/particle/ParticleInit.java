@@ -9,6 +9,7 @@ import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.particle.particle_option.FlameSmokeParticleEffect;
+import net.stln.magitech.particle.particle_option.ZapParticleEffect;
 import net.stln.magitech.particle.particle_type.*;
 
 import java.util.function.Supplier;
@@ -29,6 +30,7 @@ public class ParticleInit {
     public static final Supplier<BlowParticleType> BLOW = PARTICLE_TYPES.register("blow", () -> new BlowParticleType(true));
     public static final Supplier<VoidGlowParticleType> VOID_GLOW = PARTICLE_TYPES.register("void_glow", () -> new VoidGlowParticleType(true));
     public static final Supplier<PowerupParticleType> POWERUP = PARTICLE_TYPES.register("powerup", () -> new PowerupParticleType(true));
+    public static final Supplier<ZapParticleType> ZAP = PARTICLE_TYPES.register("zap", () -> new ZapParticleType(true));
 
     @Environment(EnvType.CLIENT)
     public static void registerParticleClient(IEventBus eventBus) {
@@ -49,5 +51,6 @@ public class ParticleInit {
         event.registerSpriteSet(BLOW.get(), BlowParticle.Provider::new);
         event.registerSpriteSet(VOID_GLOW.get(), VoidGlowParticle.Provider::new);
         event.registerSpriteSet(POWERUP.get(), PowerupParticle.Provider::new);
+        event.registerSpriteSet(ZAP.get(), ZapParticle.Provider::new);
     }
 }

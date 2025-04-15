@@ -16,5 +16,17 @@
     "sounds" :  [
       "magitech:phantom_slayer_dash"
     ]
+  },
+  "frost_break" :  {
+    "subtitle" :  "subtitles.magitech.frost_break" ,
+    "sounds" :  [
+      "magitech:frost_break"
+    ]
+  },
+  "zap" :  {
+    "subtitle" :  "subtitles.magitech.zap" ,
+    "sounds" :  [
+      "magitech:zap"
+    ]
   }
 }

@@ -48,7 +48,6 @@ public class PartToolItemModelRegister {
     }
 
     private static @NotNull net.minecraft.client.resources.model.UnbakedModel getUnbakedModel(ResourceLocation identifier) {
-        Magitech.LOGGER.info(identifier.toString());
         return BlockModel.fromString(
                 "{\n" +
                         "    \"parent\": \"item/handheld\",\n" +

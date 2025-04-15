@@ -8,19 +8,19 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.stln.magitech.Magitech;
 
-public record BreakBlockS2CPayload(BlockPos pos, BlockPos initialPos, String uuid, boolean effect) implements CustomPacketPayload {
+public record BreakBlockPayload(BlockPos pos, BlockPos initialPos, String uuid, boolean effect) implements CustomPacketPayload {
     public static final ResourceLocation BREAK_BLOCK_PAYLOAD_ID = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "break_block");
-    public static final Type<BreakBlockS2CPayload> TYPE = new Type<>(BREAK_BLOCK_PAYLOAD_ID);
-    public static final StreamCodec<ByteBuf, BreakBlockS2CPayload> STREAM_CODEC = StreamCodec.composite(
+    public static final Type<BreakBlockPayload> TYPE = new Type<>(BREAK_BLOCK_PAYLOAD_ID);
+    public static final StreamCodec<ByteBuf, BreakBlockPayload> STREAM_CODEC = StreamCodec.composite(
             BlockPos.STREAM_CODEC,
-            BreakBlockS2CPayload::pos,
+            BreakBlockPayload::pos,
             BlockPos.STREAM_CODEC,
-            BreakBlockS2CPayload::initialPos,
+            BreakBlockPayload::initialPos,
             ByteBufCodecs.STRING_UTF8,
-            BreakBlockS2CPayload::uuid,
+            BreakBlockPayload::uuid,
             ByteBufCodecs.BOOL,
-            BreakBlockS2CPayload::effect,
-            BreakBlockS2CPayload::new
+            BreakBlockPayload::effect,
+            BreakBlockPayload::new
     );
 
     @Override

@@ -20,6 +20,7 @@ import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.damage.DamageTypeInit;
 import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.particle.particle_option.FrostParticleEffect;
+import net.stln.magitech.sound.SoundInit;
 import net.stln.magitech.util.EffectUtil;
 import org.joml.Vector3f;
 
@@ -52,7 +53,7 @@ public class ShatterpiercerTrait extends Trait {
 
                 level.addParticle(new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1F, 1, rotSpeed),
                         offset.x, offset.y, offset.z, 0, 0, 0);
-                level.playSound(player, pos, SoundEvents.GLASS_BREAK, SoundSource.PLAYERS, 0.1F, 0.7F);
+                level.playSound(player, pos, SoundInit.FROST_BREAK.get(), SoundSource.PLAYERS, 0.1F, 0.7F + (player.getRandom().nextFloat() * 0.6F));
             }
         }
     }
@@ -81,7 +82,7 @@ public class ShatterpiercerTrait extends Trait {
                 }
                         livingEntity.setTicksFrozen(0);
                         Vec3 pos = target.position();
-                        level.playSound(player, pos.x, pos.y, pos.z, SoundEvents.GLASS_BREAK, SoundSource.PLAYERS, 1.0F, 0.7F);
+                        level.playSound(player, pos.x, pos.y, pos.z, SoundInit.FROST_BREAK.get(), SoundSource.PLAYERS, 1.0F, 0.7F + (player.getRandom().nextFloat() * 0.6F));
             } else {
                 target.setTicksFrozen(250 * traitLevel / (traitLevel + 1) + target.getTicksFrozen());
 

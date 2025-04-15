@@ -125,6 +125,7 @@ dependencies {
     implementation "curse.maven:jei-238222:${jei_id}"
     implementation "curse.maven:jade-324717:${jade_id}"
     implementation "curse.maven:appleskin-248787:${appleskin_id}"
+    implementation "curse.maven:curios-309927:${curiosapi_id}"
     implementation "org.sinytra.forgified-fabric-api:forgified-fabric-api:${forgified_fabric_api_version}"
 
     // Example optional mod dependency with JEI

@@ -7,15 +7,15 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.stln.magitech.Magitech;
 
-public record TraitTickC2SPayload(boolean isMainHand, String uuid) implements CustomPacketPayload {
+public record TraitTickPayload(boolean isMainHand, String uuid) implements CustomPacketPayload {
     public static final ResourceLocation TRAIT_TICK_PAYLOAD_ID = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "trait_tick");
-    public static final Type<TraitTickC2SPayload> TYPE = new Type<>(TRAIT_TICK_PAYLOAD_ID);
-    public static final StreamCodec<ByteBuf, TraitTickC2SPayload> STREAM_CODEC = StreamCodec.composite(
+    public static final Type<TraitTickPayload> TYPE = new Type<>(TRAIT_TICK_PAYLOAD_ID);
+    public static final StreamCodec<ByteBuf, TraitTickPayload> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.BOOL,
-            TraitTickC2SPayload::isMainHand,
+            TraitTickPayload::isMainHand,
             ByteBufCodecs.STRING_UTF8,
-            TraitTickC2SPayload::uuid,
-            TraitTickC2SPayload::new
+            TraitTickPayload::uuid,
+            TraitTickPayload::new
     );
 
     @Override

@@ -17,6 +17,7 @@ import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.entity.EntityInit;
+import net.stln.magitech.entity.status.AttributeInit;
 import net.stln.magitech.event.EventInit;
 import net.stln.magitech.item.ItemInit;
 import net.stln.magitech.item.component.ComponentInit;
@@ -51,6 +52,7 @@ public class Magitech {
         ComponentInit.registerComponents(modEventBus);
         CreativeTabInit.registerCreativeTabs(modEventBus);
         EntityInit.registerModEntities(modEventBus);
+        AttributeInit.registerEntityAttributes(modEventBus);
         ParticleInit.registerParticleClient(modEventBus);
         SoundInit.registerSoundEvents(modEventBus);
         MaterialInit.registerElements();

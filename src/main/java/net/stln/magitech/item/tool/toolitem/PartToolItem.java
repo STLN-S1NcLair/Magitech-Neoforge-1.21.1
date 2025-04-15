@@ -46,8 +46,8 @@ import net.stln.magitech.item.tool.material.MiningLevel;
 import net.stln.magitech.item.tool.material.ToolMaterial;
 import net.stln.magitech.item.tool.register.ToolMaterialRegister;
 import net.stln.magitech.item.tool.trait.Trait;
-import net.stln.magitech.network.TraitTickC2SPayload;
-import net.stln.magitech.network.UseC2SPayload;
+import net.stln.magitech.network.TraitTickPayload;
+import net.stln.magitech.network.UsePayload;
 import net.stln.magitech.particle.particle_option.*;
 import net.stln.magitech.util.EffectUtil;
 import net.stln.magitech.util.EntityUtil;
@@ -200,7 +200,7 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
                 trait.tick(player, world, stack, integer, getDefaultStats(stack));
             });
             if (world.isClientSide) {
-                PacketDistributor.sendToServer(new TraitTickC2SPayload(((Player) entity).getItemInHand(InteractionHand.MAIN_HAND) == stack, entity.getUUID().toString()));
+                PacketDistributor.sendToServer(new TraitTickPayload(((Player) entity).getItemInHand(InteractionHand.MAIN_HAND) == stack, entity.getUUID().toString()));
             }
         }
 
@@ -402,7 +402,7 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
         ItemStack stack = player.getItemInHand(usedHand);
-        PacketDistributor.sendToServer(new UseC2SPayload(usedHand == InteractionHand.MAIN_HAND, player.getUUID().toString()));
+        PacketDistributor.sendToServer(new UsePayload(usedHand == InteractionHand.MAIN_HAND, player.getUUID().toString()));
         final InteractionResultHolder[] result = {InteractionResultHolder.pass(stack)};
         getTraitLevel(getTraits(stack)).forEach((trait, integer) -> {
             if (trait.use(player, level, stack, integer, getSumStats(player, level, stack), usedHand) != InteractionResult.PASS) {

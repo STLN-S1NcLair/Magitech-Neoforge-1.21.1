@@ -7,15 +7,15 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.stln.magitech.Magitech;
 
-public record UseC2SPayload(boolean isMainHand, String uuid) implements CustomPacketPayload {
+public record UsePayload(boolean isMainHand, String uuid) implements CustomPacketPayload {
     public static final ResourceLocation USE_PAYLOAD_ID = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "use");
-    public static final Type<UseC2SPayload> TYPE = new Type<>(USE_PAYLOAD_ID);
-    public static final StreamCodec<ByteBuf, UseC2SPayload> STREAM_CODEC = StreamCodec.composite(
+    public static final Type<UsePayload> TYPE = new Type<>(USE_PAYLOAD_ID);
+    public static final StreamCodec<ByteBuf, UsePayload> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.BOOL,
-            UseC2SPayload::isMainHand,
+            UsePayload::isMainHand,
             ByteBufCodecs.STRING_UTF8,
-            UseC2SPayload::uuid,
-            UseC2SPayload::new
+            UsePayload::uuid,
+            UsePayload::new
     );
 
     @Override

@@ -14,7 +14,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.item.tool.ToolType;
 import net.stln.magitech.item.tool.trait.Trait;
-import net.stln.magitech.network.BreakBlockS2CPayload;
+import net.stln.magitech.network.BreakBlockPayload;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -64,13 +64,13 @@ public class BlockBreakEvent {
             finalBlockList.forEach(pos1 -> {
                 traitMap.forEach((trait, value) -> {
                     if (pos1 != pos) {
-                        BreakBlockS2CPayload payload = new BreakBlockS2CPayload(pos1, pos, player.getUUID().toString(), trait.emitEffect(player, event.getPlayer().level(), tool, value, PartToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getState(), pos1, 1, false));
+                        BreakBlockPayload payload = new BreakBlockPayload(pos1, pos, player.getUUID().toString(), trait.emitEffect(player, event.getPlayer().level(), tool, value, PartToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getState(), pos1, 1, false));
                         PacketDistributor.sendToAllPlayers(payload);
                         trait.onBreakBlock(player, event.getPlayer().level(), tool, value, PartToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getLevel().getBlockState(pos1), pos1, 1, false);
 
                         serverPlayer.gameMode.destroyBlock(pos1);
                     } else {
-                        BreakBlockS2CPayload payload = new BreakBlockS2CPayload(pos1, pos, player.getUUID().toString(), trait.emitEffect(player, event.getPlayer().level(), tool, value, PartToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getState(), pos1, 1, true));
+                        BreakBlockPayload payload = new BreakBlockPayload(pos1, pos, player.getUUID().toString(), trait.emitEffect(player, event.getPlayer().level(), tool, value, PartToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getState(), pos1, 1, true));
                         PacketDistributor.sendToAllPlayers(payload);
                         trait.onBreakBlock(player, event.getPlayer().level(), tool, value, PartToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getState(), pos1, 1, true);
                     }

@@ -5,30 +5,27 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
-import net.stln.magitech.item.LeftClickOverrideItem;
+import net.stln.magitech.item.tool.toolitem.PartToolItem;
+import net.stln.magitech.magic.mana.ManaData;
+import net.stln.magitech.magic.mana.ManaUtil;
 
 import java.util.Objects;
 import java.util.UUID;
 
-public class LeftClickPayLoadHandler {
+public class SyncManaPayLoadHandler {
 
-    public static void handleDataOnMainS2C(final LeftClickPayload payload, final IPayloadContext context) {
+    public static void handleDataOnMainS2C(final SyncManaPayload payload, final IPayloadContext context) {
         Player player = context.player().level().getPlayerByUUID(UUID.fromString(payload.uuid()));
-        Item item = player.getItemInHand(InteractionHand.MAIN_HAND).getItem();
-        if (item instanceof LeftClickOverrideItem clickOverrideItem && payload.clickCount() != 0) {
-            clickOverrideItem.onLeftClick(player, InteractionHand.MAIN_HAND, player.level());
-        }
+        ManaData.setCurrentMana(player, ManaUtil.getManaType(payload.manaType()), payload.value());
     }
 
-    public static void handleDataOnMainC2S(final LeftClickPayload payload, final IPayloadContext context) {
+    public static void handleDataOnMainC2S(final SyncManaPayload payload, final IPayloadContext context) {
         Player player = context.player();
-        Item item = player.getItemInHand(InteractionHand.MAIN_HAND).getItem();
-        if (item instanceof LeftClickOverrideItem clickOverrideItem && payload.clickCount() != 0) {
-            clickOverrideItem.onLeftClick(player, InteractionHand.MAIN_HAND, player.level());
-        }
+        ManaData.setCurrentMana(player, ManaUtil.getManaType(payload.manaType()), payload.value());
         MinecraftServer server = Objects.requireNonNull(ServerLifecycleHooks.getCurrentServer(), "Cannot send clientbound payloads on the client");
         for (ServerPlayer serverPlayer : server.getPlayerList().getPlayers())
             if (player.getUUID() != serverPlayer.getUUID()) {

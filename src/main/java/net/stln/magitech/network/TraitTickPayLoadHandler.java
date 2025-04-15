@@ -16,7 +16,7 @@ import java.util.UUID;
 
 public class TraitTickPayLoadHandler {
 
-    public static void handleDataOnMainS2C(final TraitTickC2SPayload payload, final IPayloadContext context) {
+    public static void handleDataOnMainS2C(final TraitTickPayload payload, final IPayloadContext context) {
         Player player = context.player().level().getPlayerByUUID(UUID.fromString(payload.uuid()));
         InteractionHand hand = payload.isMainHand() ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
         Item item = player.getItemInHand(hand).getItem();
@@ -28,7 +28,7 @@ public class TraitTickPayLoadHandler {
         }
     }
 
-    public static void handleDataOnMainC2S(final TraitTickC2SPayload payload, final IPayloadContext context) {
+    public static void handleDataOnMainC2S(final TraitTickPayload payload, final IPayloadContext context) {
         Player player = context.player();
         InteractionHand hand = payload.isMainHand() ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
         Item item = player.getItemInHand(hand).getItem();
