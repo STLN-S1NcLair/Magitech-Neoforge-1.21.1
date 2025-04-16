@@ -20,8 +20,9 @@ public class CreativeTabInit {
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MAGITECH_TAB = CREATIVE_MODE_TABS.register("magitech_tab", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.magitech.magitech"))
             .withTabsBefore(CreativeModeTabs.COMBAT)
-            .icon(() -> ItemInit.WAND.get().getDefaultInstance())
+            .icon(() -> ItemInit.GLISTENING_LEXICON.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
+                output.accept(ItemInit.GLISTENING_LEXICON.get());
                 output.accept(ItemInit.WAND.get());
                 output.accept(ItemInit.CHROMIUM_INGOT.get());
                 output.accept(ItemInit.REDSTONE_CRYSTAL.get());
