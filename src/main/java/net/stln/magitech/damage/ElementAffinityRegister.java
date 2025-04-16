@@ -6,7 +6,7 @@ import net.stln.magitech.util.Map2d;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ElementAffinityDictionary {
+public class ElementAffinityRegister {
     private static final Map2d<Element, Boolean, List<Element>> dict = new Map2d<>();
     public static boolean EFFICIENT = true;
     public static boolean INEFFICIENT = false;

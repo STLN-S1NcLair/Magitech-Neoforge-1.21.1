@@ -1,7 +1,7 @@
 {
   "replace": false,
   "size": 1,
-  "operation": "SET",
   "order": 1001,
-  "icon": "magitech:curios/threadbound_slot"
+  "icon": "curios:slot/threadbound_slot",
+  "validators": ["magitech:threadbound"]
 }

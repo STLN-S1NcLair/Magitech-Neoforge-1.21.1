@@ -17,12 +17,18 @@ import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.entity.AdjustableAttackStrengthEntity;
 import net.stln.magitech.entity.MagicBulletEntity;
+import net.stln.magitech.item.component.ComponentInit;
+import net.stln.magitech.item.component.SpellComponent;
 import net.stln.magitech.magic.mana.ManaUtil;
+import net.stln.magitech.magic.spell.Spell;
+import net.stln.magitech.magic.spell.magic.Arcether;
 import net.stln.magitech.magic.spell.surge.Stormhaze;
 import net.stln.magitech.particle.particle_option.UnstableSquareParticleEffect;
 import net.stln.magitech.util.EffectUtil;
 import net.stln.magitech.util.EntityUtil;
 import org.joml.Vector3f;
+import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +38,7 @@ public class WandItem extends Item implements LeftClickOverrideItem {
 
     private int sweepDamage = 6;
     Stormhaze stormhaze = new Stormhaze();
+    Arcether arcether = new Arcether();
 
     public WandItem(Properties settings) {
         super(settings);
@@ -39,25 +46,24 @@ public class WandItem extends Item implements LeftClickOverrideItem {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player user, InteractionHand hand) {
-        if (ManaUtil.useManaServerOnly(user, stormhaze.getCost())) {
-            user.startUsingItem(hand);
-        }
-
         ItemStack itemStack = user.getItemInHand(hand);
-        Map<ManaUtil.ManaType, Double> map = new HashMap<>();
-        map.put(ManaUtil.ManaType.MANA, 20.0);
-        map.put(ManaUtil.ManaType.LUMINIS, 10.0);
-        map.put(ManaUtil.ManaType.FLUXIA, 5.0);
-        if (ManaUtil.useManaServerOnly(user, map)) {
-            world.playSound(user, user.getX(), user.getY(), user.getZ(), SoundEvents.EVOKER_CAST_SPELL, SoundSource.PLAYERS);
-            if (!world.isClientSide) {
-                MagicBulletEntity bullet = new MagicBulletEntity(world, user);
-                Vec3 velocity = Vec3.directionFromRotation(user.getRotationVector());
-                double d = 1 / velocity.length();
-                velocity = velocity.multiply(d, d, d);
-                bullet.setDeltaMovement(velocity);
-                bullet.setPos(user.getX(), user.getEyeY() - 0.3, user.getZ());
-                world.addFreshEntity(bullet);
+        ICuriosItemHandler curiosInventory = CuriosApi.getCuriosInventory(user).get();
+        ItemStack threadbound = curiosInventory.getCurios().get("threadbound").getStacks().getStackInSlot(0);
+
+        if (!threadbound.isEmpty()) {
+            SpellComponent spellComponent = threadbound.get(ComponentInit.SPELL_COMPONENT);
+            if (spellComponent.selected() < spellComponent.spells().size()) {
+                Spell spell = spellComponent.spells().get(spellComponent.selected());
+                if (user.isCrouching()) {
+                    threadbound.set(ComponentInit.SPELL_COMPONENT, new SpellComponent(spellComponent.spells(), spellComponent.selected() >= spellComponent.spells().size() - 1 ? 0 : spellComponent.selected() + 1));
+                    return InteractionResultHolder.pass(itemStack);
+                }
+                if (ManaUtil.useManaServerOnly(user, spell.getCost())) {
+                    spell.use(world, user, hand);
+                }
+            } else {
+                Magitech.LOGGER.info("out of range");
+                threadbound.set(ComponentInit.SPELL_COMPONENT, new SpellComponent(spellComponent.spells(), 0));
             }
         }
         user.awardStat(Stats.ITEM_USED.get(this));
@@ -68,7 +74,15 @@ public class WandItem extends Item implements LeftClickOverrideItem {
     public void onUseTick(Level level, LivingEntity livingEntity, ItemStack stack, int remainingUseDuration) {
         super.onUseTick(level, livingEntity, stack, remainingUseDuration);
         if (livingEntity instanceof Player user && ManaUtil.useManaServerOnly(user, stormhaze.getTickCost())) {
-            stormhaze.usingTick(level, livingEntity, stack, remainingUseDuration);
+            ICuriosItemHandler curiosInventory = CuriosApi.getCuriosInventory(user).get();
+            ItemStack threadbound = curiosInventory.getCurios().get("threadbound").getStacks().getStackInSlot(0);
+
+            if (!threadbound.isEmpty()) {
+                SpellComponent spellComponent = threadbound.get(ComponentInit.SPELL_COMPONENT);
+                Spell spell = spellComponent.spells().get(spellComponent.selected());
+
+                spell.usingTick(level, livingEntity, stack, remainingUseDuration);
+            }
         }
     }
 

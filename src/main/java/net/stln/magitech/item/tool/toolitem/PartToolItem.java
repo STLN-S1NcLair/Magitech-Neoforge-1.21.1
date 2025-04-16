@@ -34,7 +34,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.damage.EntityElementDictionary;
+import net.stln.magitech.damage.EntityElementRegister;
 import net.stln.magitech.entity.AdjustableAttackStrengthEntity;
 import net.stln.magitech.item.LeftClickOverrideItem;
 import net.stln.magitech.item.component.ComponentInit;
@@ -528,7 +528,7 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
             }
 
             DamageSource ElementalDamageSource = stack.has(DataComponents.CUSTOM_NAME) ? attacker.damageSources().source(damageType, attacker) : attacker.damageSources().source(damageType);
-            float damage = baseAttackDamage * EntityElementDictionary.getElementAffinity(target, stats.getElement()).getMultiplier();
+            float damage = baseAttackDamage * EntityElementRegister.getElementAffinity(target, stats.getElement()).getMultiplier();
             if (target instanceof LivingEntity livingEntity) {
                 float targetHealth = livingEntity.getHealth();
                 livingEntity.setLastHurtByPlayer(attacker);

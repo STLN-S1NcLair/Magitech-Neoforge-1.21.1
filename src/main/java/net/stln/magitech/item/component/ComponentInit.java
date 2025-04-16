@@ -19,6 +19,9 @@ public class ComponentInit {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<MaterialComponent>> MATERIAL_COMPONENT = register("material_component",
             builder -> builder.persistent(MaterialComponent.CODEC).networkSynchronized(MaterialComponent.STREAM_CODEC).cacheEncoding());
 
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<SpellComponent>> SPELL_COMPONENT = register("spell_component",
+            builder -> builder.persistent(SpellComponent.CODEC).networkSynchronized(SpellComponent.STREAM_CODEC).cacheEncoding());
+
     public static void registerComponents(IEventBus eventBus) {
         COMPONENT_TYPES.register(eventBus);
     }

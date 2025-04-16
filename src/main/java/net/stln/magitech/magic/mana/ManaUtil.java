@@ -20,14 +20,19 @@ public class ManaUtil {
     }
 
     private static void regenAllMana(Player player) {
-        regenMana(player, ManaType.MANA);
-        regenMana(player, ManaType.NOCTIS);
-        regenMana(player, ManaType.LUMINIS);
-        regenMana(player, ManaType.FLUXIA);
+        regenTickMana(player, ManaType.MANA);
+        regenTickMana(player, ManaType.NOCTIS);
+        regenTickMana(player, ManaType.LUMINIS);
+        regenTickMana(player, ManaType.FLUXIA);
     }
 
     public static void regenMana(Player player, ManaType type) {
         double regenAmount = getManaRegen(player, type);
+        setMana(player, type, Math.min(regenAmount + ManaData.getCurrentMana(player, type), getMaxMana(player, type)));
+    }
+
+    public static void regenTickMana(Player player, ManaType type) {
+        double regenAmount = getManaRegen(player, type) / 20;
         setMana(player, type, Math.min(regenAmount + ManaData.getCurrentMana(player, type), getMaxMana(player, type)));
     }
 

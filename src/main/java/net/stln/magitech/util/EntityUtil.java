@@ -1,5 +1,7 @@
 package net.stln.magitech.util;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.Tuple;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -68,6 +70,67 @@ public class EntityUtil {
             return playerEyePos.add(forward.multiply(hitDistance, hitDistance, hitDistance));
         }
         return playerEyePos.add(forward.multiply(hitDistance, hitDistance, hitDistance)).subtract(forward.multiply(offset, offset, offset));
+    }
+
+    public static Vec3 raycast(Player player) {
+        Level world = player.level();
+
+        // プレイヤーの目線の位置（頭の高さ）
+        Vec3 playerEyePos = player.getEyePosition();
+        // 視線の方向を取得
+        Vec3 forward = Vec3.directionFromRotation(player.getRotationVector());
+        // 最大射程の位置
+        int reachLength = 127;
+        Vec3 maxReachPos = playerEyePos.add(forward.scale(reachLength));
+
+        // Raycast (ブロック)
+        BlockHitResult blockHit = world.clip(new ClipContext(
+                playerEyePos, maxReachPos,
+                ClipContext.Block.COLLIDER,
+                ClipContext.Fluid.NONE,
+                player
+        ));
+
+        // Raycast (エンティティ)
+        EntityHitResult entityHit = getEntityHitResult(player, playerEyePos, maxReachPos, player.level());
+
+        double blockHitDist = blockHit.getType() == HitResult.Type.MISS ? reachLength + 1 : blockHit.getLocation().distanceTo(playerEyePos);
+        double entityHitDist = entityHit != null ? entityHit.getLocation().distanceTo(playerEyePos) : reachLength + 1;
+
+        // 近い方を採用
+        double hitDistance = Math.min(blockHitDist, entityHitDist);
+        return playerEyePos.add(forward.multiply(hitDistance, hitDistance, hitDistance));
+    }
+
+    public static Entity raycastEntity(Player player) {
+        Level world = player.level();
+
+        // プレイヤーの目線の位置（頭の高さ）
+        Vec3 playerEyePos = player.getEyePosition();
+        // 視線の方向を取得
+        Vec3 forward = Vec3.directionFromRotation(player.getRotationVector());
+        // 最大射程の位置
+        int reachLength = 127;
+        Vec3 maxReachPos = playerEyePos.add(forward.scale(reachLength));
+
+        // Raycast (ブロック)
+        BlockHitResult blockHit = world.clip(new ClipContext(
+                playerEyePos, maxReachPos,
+                ClipContext.Block.COLLIDER,
+                ClipContext.Fluid.NONE,
+                player
+        ));
+
+        // Raycast (エンティティ)
+        EntityHitResult entityHit = getEntityHitResult(player, playerEyePos, maxReachPos, player.level());
+
+        double blockHitDist = blockHit.getType() == HitResult.Type.MISS ? reachLength + 1 : blockHit.getLocation().distanceTo(playerEyePos);
+        double entityHitDist = entityHit != null ? entityHit.getLocation().distanceTo(playerEyePos) : reachLength + 1;
+
+        if (blockHitDist > entityHitDist) {
+            return  entityHit.getEntity();
+        }
+        return null;
     }
 
     /**

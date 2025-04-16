@@ -16,6 +16,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.stln.magitech.block.BlockInit;
+import net.stln.magitech.compat.curios.ValidatorInit;
 import net.stln.magitech.entity.EntityInit;
 import net.stln.magitech.entity.status.AttributeInit;
 import net.stln.magitech.event.EventInit;
@@ -23,6 +24,7 @@ import net.stln.magitech.item.ItemInit;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.creative_tab.CreativeTabInit;
 import net.stln.magitech.item.tool.material.MaterialInit;
+import net.stln.magitech.magic.spell.SpellInit;
 import net.stln.magitech.particle.ParticleInit;
 import net.stln.magitech.sound.SoundInit;
 import org.slf4j.Logger;
@@ -57,6 +59,8 @@ public class Magitech {
         SoundInit.registerSoundEvents(modEventBus);
         MaterialInit.registerElements();
         MaterialInit.registerMaterials();
+        SpellInit.registerSpells();
+        ValidatorInit.registerValidators();
 
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (ExampleMod) to respond directly to events.

@@ -7,12 +7,19 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.LayeredDraw;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.entity.status.AttributeInit;
+import net.stln.magitech.item.component.ComponentInit;
+import net.stln.magitech.item.component.SpellComponent;
 import net.stln.magitech.magic.mana.ManaData;
 import net.stln.magitech.magic.mana.ManaUtil;
+import net.stln.magitech.magic.spell.Spell;
+import net.stln.magitech.magic.spell.SpellRegister;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL12;
+import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
 public class ManaGaugeOverlay implements LayeredDraw.Layer {
 
@@ -20,6 +27,8 @@ public class ManaGaugeOverlay implements LayeredDraw.Layer {
     @Override
     public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
         Player player = Minecraft.getInstance().player;
+        ICuriosItemHandler curiosInventory = CuriosApi.getCuriosInventory(player).get();
+        ItemStack threadbound = curiosInventory.getCurios().get("threadbound").getStacks().getStackInSlot(0);
         double manaRatio = ManaData.getCurrentMana(player, ManaUtil.ManaType.MANA) / ManaUtil.getMaxMana(player, ManaUtil.ManaType.MANA);
         double noctisRatio = ManaData.getCurrentMana(player, ManaUtil.ManaType.NOCTIS) / ManaUtil.getMaxMana(player, ManaUtil.ManaType.NOCTIS);
         double luminisRatio = ManaData.getCurrentMana(player, ManaUtil.ManaType.LUMINIS) / ManaUtil.getMaxMana(player, ManaUtil.ManaType.LUMINIS);
@@ -43,5 +52,21 @@ public class ManaGaugeOverlay implements LayeredDraw.Layer {
         }
         guiGraphics.blit(TEXTURE, guiGraphics.guiWidth() - 56, guiGraphics.guiHeight() - 3 - manaGaugeHeight, 0, 88, 8, manaGaugeHeight);
         guiGraphics.blit(TEXTURE, guiGraphics.guiWidth() - 58, guiGraphics.guiHeight() - 43, 8, 104, 12, 41);
+
+        if (threadbound.has(ComponentInit.SPELL_COMPONENT)) {
+            SpellComponent spellComponent = threadbound.get(ComponentInit.SPELL_COMPONENT);
+            if (spellComponent.selected() < spellComponent.spells().size()) {
+                Spell spell = spellComponent.spells().get(spellComponent.selected());
+                ResourceLocation icon = SpellRegister.getId(spell);
+                if (icon != null) {
+                    String namespace = icon.getNamespace();
+                    String path = icon.getPath();
+                    icon = ResourceLocation.fromNamespaceAndPath(namespace, "textures/spell/" + path + ".png");
+                    guiGraphics.blit(icon, guiGraphics.guiWidth() - 40, guiGraphics.guiHeight() - 40, 0, 0, 32, 32, 32, 32);
+                }
+            } else {
+                threadbound.set(ComponentInit.SPELL_COMPONENT, new SpellComponent(spellComponent.spells(), 0));
+            }
+        }
     }
 }

@@ -2,7 +2,6 @@ package net.stln.magitech.magic.spell.surge;
 
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
@@ -14,18 +13,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.stln.magitech.Magitech;
 import net.stln.magitech.damage.DamageTypeInit;
-import net.stln.magitech.damage.EntityElementDictionary;
-import net.stln.magitech.entity.AdjustableAttackStrengthEntity;
+import net.stln.magitech.damage.EntityElementRegister;
 import net.stln.magitech.item.tool.Element;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.Spell;
-import net.stln.magitech.particle.particle_option.SparkParticleEffect;
-import net.stln.magitech.particle.particle_option.UnstableSquareParticleEffect;
 import net.stln.magitech.particle.particle_option.ZapParticleEffect;
 import net.stln.magitech.sound.SoundInit;
-import net.stln.magitech.util.EffectUtil;
 import net.stln.magitech.util.EntityUtil;
 import org.joml.Vector3f;
 
@@ -52,7 +46,7 @@ public class Stormhaze extends Spell {
 
     @Override
     public void use(Level level, Player user, InteractionHand hand) {
-
+        user.startUsingItem(hand);
     }
 
     @Override
@@ -105,7 +99,7 @@ public class Stormhaze extends Spell {
                 if (target instanceof LivingEntity livingTarget) {
                     livingTarget.setLastHurtByMob(livingEntity);
                 }
-                damage *= EntityElementDictionary.getElementAffinity(target, Element.SURGE).getMultiplier();
+                damage *= EntityElementRegister.getElementAffinity(target, Element.SURGE).getMultiplier();
                 target.hurt(ElementalDamageSource, damage);
             }
         }

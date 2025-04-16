@@ -24,7 +24,7 @@ public class DamageTypeInit {
 
     public static float getElementDamage(Player player, Entity target, ItemStack stack) {
         ToolStats stats = PartToolItem.getSumStats(player, player.level(), stack);
-        return stats.getStats().get(ToolStats.ELM_ATK_STAT) * EntityElementDictionary.getElementAffinity(target, stats.getElement()).getMultiplier();
+        return stats.getStats().get(ToolStats.ELM_ATK_STAT) * EntityElementRegister.getElementAffinity(target, stats.getElement()).getMultiplier();
     }
 
 }
