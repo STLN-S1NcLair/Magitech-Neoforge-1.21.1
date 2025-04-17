@@ -1,5 +1,6 @@
 package net.stln.magitech.item.tool.toolitem;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
@@ -7,7 +8,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
@@ -33,6 +36,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.damage.EntityElementRegister;
 import net.stln.magitech.entity.AdjustableAttackStrengthEntity;
@@ -402,7 +406,11 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
         ItemStack stack = player.getItemInHand(usedHand);
-        PacketDistributor.sendToServer(new UsePayload(usedHand == InteractionHand.MAIN_HAND, player.getUUID().toString()));
+        if (level.isClientSide) {
+            PacketDistributor.sendToServer(new UsePayload(usedHand == InteractionHand.MAIN_HAND, player.getUUID().toString()));
+        } else {
+            PacketDistributor.sendToAllPlayers(new UsePayload(usedHand == InteractionHand.MAIN_HAND, player.getUUID().toString()));
+        }
         final InteractionResultHolder[] result = {InteractionResultHolder.pass(stack)};
         getTraitLevel(getTraits(stack)).forEach((trait, integer) -> {
             if (trait.use(player, level, stack, integer, getSumStats(player, level, stack), usedHand) != InteractionResult.PASS) {

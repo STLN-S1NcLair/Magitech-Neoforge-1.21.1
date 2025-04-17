@@ -53,5 +53,13 @@ public class NetworkInit {
                         BreakBlockPayLoadHandler::handleDataOnMainS2C
                 )
         );
+        registrar.playBidirectional(
+                UseSpellPayload.TYPE,
+                UseSpellPayload.STREAM_CODEC,
+                new DirectionalPayloadHandler<>(
+                        UseSpellPayLoadHandler::handleDataOnMainS2C,
+                        UseSpellPayLoadHandler::handleDataOnMainC2S
+                )
+        );
     }
 }

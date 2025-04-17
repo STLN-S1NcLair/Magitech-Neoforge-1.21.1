@@ -80,9 +80,11 @@ public class PhantomSlayerTrait extends Trait {
             } else {
                 return InteractionResult.PASS;
             }
-        } else {
+        } else if (player.getAttackStrengthScale(0.5F) < 0.7F) {
+            Magitech.LOGGER.info("call");
             return InteractionResult.PASS;
         }
+        return InteractionResult.PASS;
     }
 
     @Override

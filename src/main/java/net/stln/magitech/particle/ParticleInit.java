@@ -31,6 +31,7 @@ public class ParticleInit {
     public static final Supplier<VoidGlowParticleType> VOID_GLOW = PARTICLE_TYPES.register("void_glow", () -> new VoidGlowParticleType(true));
     public static final Supplier<PowerupParticleType> POWERUP = PARTICLE_TYPES.register("powerup", () -> new PowerupParticleType(true));
     public static final Supplier<ZapParticleType> ZAP = PARTICLE_TYPES.register("zap", () -> new ZapParticleType(true));
+    public static final Supplier<BeamParticleType> BEAM = PARTICLE_TYPES.register("beam", () -> new BeamParticleType(true));
 
     @Environment(EnvType.CLIENT)
     public static void registerParticleClient(IEventBus eventBus) {
@@ -52,5 +53,6 @@ public class ParticleInit {
         event.registerSpriteSet(VOID_GLOW.get(), VoidGlowParticle.Provider::new);
         event.registerSpriteSet(POWERUP.get(), PowerupParticle.Provider::new);
         event.registerSpriteSet(ZAP.get(), ZapParticle.Provider::new);
+        event.registerSpriteSet(BEAM.get(), BeamParticle.Provider::new);
     }
 }

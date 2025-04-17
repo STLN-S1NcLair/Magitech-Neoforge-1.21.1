@@ -1,4 +1,4 @@
-package net.stln.magitech.magic.spell.surge;
+package net.stln.magitech.magic.spell.ember;
 
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceKey;
@@ -18,20 +18,23 @@ import net.stln.magitech.damage.EntityElementRegister;
 import net.stln.magitech.item.tool.Element;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.Spell;
+import net.stln.magitech.particle.particle_option.FlameParticleEffect;
 import net.stln.magitech.particle.particle_option.ZapParticleEffect;
 import net.stln.magitech.sound.SoundInit;
 import net.stln.magitech.util.EntityUtil;
 import org.joml.Vector3f;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
-public class Stormhaze extends Spell {
+public class Ashveil extends Spell {
     @Override
     public Map<ManaUtil.ManaType, Double> getCost() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
         cost.put(ManaUtil.ManaType.MANA, 10.0);
-        cost.put(ManaUtil.ManaType.LUMINIS, 2.0);
-        cost.put(ManaUtil.ManaType.FLUXIA, 1.0);
+        cost.put(ManaUtil.ManaType.LUMINIS, 3.0);
         return cost;
     }
 
@@ -39,8 +42,7 @@ public class Stormhaze extends Spell {
     public Map<ManaUtil.ManaType, Double> getTickCost() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
         cost.put(ManaUtil.ManaType.MANA, 1.0);
-        cost.put(ManaUtil.ManaType.LUMINIS, 0.5);
-        cost.put(ManaUtil.ManaType.FLUXIA, 0.3);
+        cost.put(ManaUtil.ManaType.LUMINIS, 1.0);
         return cost;
     }
 
@@ -58,32 +60,17 @@ public class Stormhaze extends Spell {
         Vec3 center = livingEntity.getEyePosition().add(forward);
         Vec3 center2 = center.add(forward.scale(2));
         Set<Entity> attackList = new HashSet<>();
-        Set<Entity> attackListLast = new HashSet<>();
         attackList.addAll(EntityUtil.getEntitiesInBox(level, livingEntity, center, new Vec3(3.0, 3.0, 3.0)));
         attackList.addAll(EntityUtil.getEntitiesInBox(level, livingEntity, center2, new Vec3(4.0, 4.0, 4.0)));
         Vec3 startPos = offset;
         for (Entity entity : attackList) {
-            attackListLast.addAll(EntityUtil.getEntitiesInBox(level, livingEntity, entity.position(), new Vec3(2.0, 2.0, 2.0)));
-        }
-        for (Entity entity : attackListLast) {
             Vec3 targetBodyPos = entity.position().add(0, entity.getBbHeight() * 0.7, 0);
-            if (startPos.distanceTo(targetBodyPos) > offset.distanceTo(targetBodyPos)) {
-                startPos = offset;
-            }
-            if (remainingUseDuration % 2 == 0 || startPos == offset) {
-                level.addParticle(new ZapParticleEffect(new Vector3f(1), new Vector3f(1), targetBodyPos.toVector3f(), 2F, 3, 0), startPos.x, startPos.y, startPos.z,
-                        0, 0, 0);
-            }
-            startPos = targetBodyPos;
         }
-        if (attackListLast.isEmpty()) {
-            level.addParticle(new ZapParticleEffect(new Vector3f(1), new Vector3f(1),
-                            center2.add(new Vec3(livingEntity.getRandom().nextFloat() - 0.5, livingEntity.getRandom().nextFloat() - 0.5, livingEntity.getRandom().nextFloat() - 0.5).scale(3)).toVector3f(),
-                            2F, 3, 0), offset.x, offset.y, offset.z,
-                    0, 0, 0);
-        }
+        level.addParticle(new FlameParticleEffect(new Vector3f(1), new Vector3f(1),
+                        2F, 3, 0), offset.x, offset.y, offset.z,
+                forward.x * livingEntity.getRandom().nextFloat(), forward.y * livingEntity.getRandom().nextFloat(), forward.z * livingEntity.getRandom().nextFloat());
 
-        ResourceKey<DamageType> damageType = DamageTypeInit.SURGE_DAMAGE;
+        ResourceKey<DamageType> damageType = DamageTypeInit.EMBER_DAMAGE;
         float damage = 3.0F;
 
         DamageSource ElementalDamageSource = stack.has(DataComponents.CUSTOM_NAME) ? livingEntity.damageSources().source(damageType, livingEntity) : livingEntity.damageSources().source(damageType);
@@ -95,7 +82,7 @@ public class Stormhaze extends Spell {
             }
             player.awardStat(Stats.DAMAGE_DEALT, Math.round((targetHealth - livingEntity.getHealth()) * 10));
         }
-        for (Entity target : attackListLast) {
+        for (Entity target : attackList) {
             if (target.isAttackable()) {
                 if (target instanceof LivingEntity livingTarget) {
                     livingTarget.setLastHurtByMob(livingEntity);

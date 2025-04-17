@@ -13,6 +13,7 @@ import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.PartMaterialComponent;
 import net.stln.magitech.item.component.SpellComponent;
 import net.stln.magitech.item.tool.material.MaterialInit;
+import net.stln.magitech.magic.spell.ember.Ashveil;
 import net.stln.magitech.magic.spell.glace.Frozbeam;
 import net.stln.magitech.magic.spell.magic.Arcether;
 import net.stln.magitech.magic.spell.surge.Stormhaze;
@@ -30,6 +31,6 @@ public class ModifyDefaultComponentsEvent {
         event.modify(ItemInit.HEAVY_SWORD, builder -> builder.set(ComponentInit.PART_MATERIAL_COMPONENT.get(), new PartMaterialComponent(List.of(MaterialInit.DIAMOND, MaterialInit.DIAMOND, MaterialInit.DIAMOND, MaterialInit.DIAMOND))).build());
         event.modify(ItemInit.PICKAXE, builder -> builder.set(ComponentInit.PART_MATERIAL_COMPONENT.get(), new PartMaterialComponent(List.of(MaterialInit.DIAMOND, MaterialInit.DIAMOND, MaterialInit.DIAMOND))).build());
         event.modify(ItemInit.HAMMER, builder -> builder.set(ComponentInit.PART_MATERIAL_COMPONENT.get(), new PartMaterialComponent(List.of(MaterialInit.DIAMOND, MaterialInit.DIAMOND, MaterialInit.DIAMOND, MaterialInit.DIAMOND))).build());
-        event.modify(ItemInit.GLISTENING_LEXICON, builder -> builder.set(ComponentInit.SPELL_COMPONENT.get(), new SpellComponent(List.of(new Stormhaze(), new Arcether(), new Frozbeam()), 0)));
+        event.modify(ItemInit.GLISTENING_LEXICON, builder -> builder.set(ComponentInit.SPELL_COMPONENT.get(), new SpellComponent(List.of(new Stormhaze(), new Arcether(), new Frozbeam(), new Ashveil()), 0)));
     }
 }

@@ -16,7 +16,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.entity.AdjustableAttackStrengthEntity;
-import net.stln.magitech.entity.MagicBulletEntity;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.SpellComponent;
 import net.stln.magitech.magic.mana.ManaUtil;
@@ -30,9 +29,7 @@ import org.joml.Vector3f;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class WandItem extends Item implements LeftClickOverrideItem {
 
@@ -59,7 +56,7 @@ public class WandItem extends Item implements LeftClickOverrideItem {
                     return InteractionResultHolder.pass(itemStack);
                 }
                 if (ManaUtil.useManaServerOnly(user, spell.getCost())) {
-                    spell.use(world, user, hand);
+                    spell.use(world, user, hand, true);
                 }
             } else {
                 Magitech.LOGGER.info("out of range");

@@ -18,49 +18,41 @@ import net.stln.magitech.damage.EntityElementRegister;
 import net.stln.magitech.item.tool.Element;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.Spell;
+import net.stln.magitech.particle.particle_option.BeamParticleEffect;
 import net.stln.magitech.particle.particle_option.FrostParticleEffect;
-import net.stln.magitech.particle.particle_option.MembraneParticleEffect;
-import net.stln.magitech.particle.particle_option.ZapParticleEffect;
 import net.stln.magitech.sound.SoundInit;
 import net.stln.magitech.util.EffectUtil;
 import net.stln.magitech.util.EntityUtil;
 import org.joml.Vector3f;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 public class Frozbeam extends Spell {
     @Override
     public Map<ManaUtil.ManaType, Double> getCost() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
         cost.put(ManaUtil.ManaType.MANA, 10.0);
-        cost.put(ManaUtil.ManaType.LUMINIS, 1.0);
-        cost.put(ManaUtil.ManaType.FLUXIA, 0.3);
+        cost.put(ManaUtil.ManaType.NOCTIS, 1.0);
+        cost.put(ManaUtil.ManaType.FLUXIA, 2.0);
         return cost;
     }
 
     @Override
-    public Map<ManaUtil.ManaType, Double> getTickCost() {
-        Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
-        cost.put(ManaUtil.ManaType.MANA, 1.0);
-        cost.put(ManaUtil.ManaType.LUMINIS, 0.3);
-        cost.put(ManaUtil.ManaType.FLUXIA, 0.1);
-        return cost;
-    }
-
-    @Override
-    public void use(Level level, Player user, InteractionHand hand) {
+    public void use(Level level, Player user, InteractionHand hand, boolean isHost) {
+        super.use(level, user, hand, isHost);
         ItemStack stack = user.getItemInHand(hand);
-        Vec3 hitPos = EntityUtil.raycast(user);
-        Entity target = EntityUtil.raycastEntity(user);
-        EffectUtil.lineEffect(level, new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0), user.position().add(0, user.getBbHeight() * 0.7, 0), hitPos, 7, false);
+        Vec3 forward = Vec3.directionFromRotation(user.getRotationVector());
+        Vec3 hitPos = EntityUtil.raycast(user, 63);
+        Entity target = EntityUtil.raycastEntity(user, 63);
+        Vec3 start = user.position().add(0, user.getBbHeight() * 0.7, 0).add(forward.scale(0.5));
+        EffectUtil.lineEffect(level, new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0), start, hitPos, 2, false);
+        level.addParticle(new BeamParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(0.6F, 1.0F, 1.0F), hitPos.toVector3f(), 0.7F, 1, 1), start.x, start.y, start.z, 0, 0, 0);
         for (int i = 0; i < 20; i++) {
             level.addParticle(new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0),
                     hitPos.x, hitPos.y, hitPos.z, (user.getRandom().nextFloat() - 0.5) / 3, (user.getRandom().nextFloat() - 0.5) / 3, (user.getRandom().nextFloat() - 0.5) / 3);
         }
-        level.playSound(user, user.getX(), user.getY(), user.getZ(), SoundInit.ZAP.get(), SoundSource.PLAYERS, 1.0F, 0.7F + (user.getRandom().nextFloat() * 0.6F));
+        level.playSound(user, user.getX(), user.getY(), user.getZ(), SoundInit.FROST_BREAK.get(), SoundSource.PLAYERS, 1.0F, 0.6F + (user.getRandom().nextFloat() * 0.6F));
 
 
         if (target instanceof LivingEntity livingEntity) {
@@ -68,7 +60,7 @@ public class Frozbeam extends Spell {
         ResourceKey<DamageType> damageType = DamageTypeInit.GLACE_DAMAGE;
         float damage = 6.0F;
 
-        DamageSource ElementalDamageSource = stack.has(DataComponents.CUSTOM_NAME) ? livingEntity.damageSources().source(damageType, livingEntity) : livingEntity.damageSources().source(damageType);
+        DamageSource ElementalDamageSource = stack.has(DataComponents.CUSTOM_NAME) ? user.damageSources().source(damageType, user) : user.damageSources().source(damageType);
             float targetHealth = livingEntity.getHealth();
             if (livingEntity instanceof Player player) {
                 player.awardStat(Stats.DAMAGE_DEALT, Math.round((targetHealth - livingEntity.getHealth()) * 10));

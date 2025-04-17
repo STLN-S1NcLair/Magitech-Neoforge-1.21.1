@@ -5,17 +5,15 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.client.particle.SpriteSet;
+import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
+import net.stln.magitech.Magitech;
 import net.stln.magitech.particle.particle_option.SquareFieldParticleEffect;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
-public class SquareFieldParticle extends HorizontalParticle implements ParticleOptions {
+public class SquareFieldParticle extends HorizontalParticle {
 
     private final SpriteSet spriteProvider;
     private final Vector3f startColor;
@@ -29,7 +27,8 @@ public class SquareFieldParticle extends HorizontalParticle implements ParticleO
         this.zd = 0;
         this.lifetime = 15;
         this.alpha = 1.0F;
-        this.quadSize = 0.7F * parameters.getScale();
+        this.quadSize = 0.2F;
+        this.scale = 4F * parameters.getScale();
         this.gravity = -0.0F;
         this.spriteProvider = spriteProvider;
         this.setSpriteFromAge(spriteProvider);
@@ -76,7 +75,7 @@ public class SquareFieldParticle extends HorizontalParticle implements ParticleO
         this.yd = this.yd * (double) this.friction;
         this.zd = this.zd * (double) this.friction;
 
-        rotate();
+//        rotate();
 
         this.setSpriteFromAge(this.spriteProvider);
     }
@@ -88,16 +87,6 @@ public class SquareFieldParticle extends HorizontalParticle implements ParticleO
         } else {
             return 240;
         }
-    }
-
-    @Override
-    public ParticleRenderType getRenderType() {
-        return AbstractCustomizableParticle.PARTICLE_SHEET_ADDITIVE;
-    }
-
-    @Override
-    public ParticleType<?> getType() {
-        return ParticleInit.SQUARE_FIELD.get();
     }
 
     @Environment(EnvType.CLIENT)

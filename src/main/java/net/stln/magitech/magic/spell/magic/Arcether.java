@@ -20,8 +20,8 @@ public class Arcether extends Spell {
     public Map<ManaUtil.ManaType, Double> getCost() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
         cost.put(ManaUtil.ManaType.MANA, 15.0);
-        cost.put(ManaUtil.ManaType.LUMINIS, 0.5);
-        cost.put(ManaUtil.ManaType.FLUXIA, 0.7);
+        cost.put(ManaUtil.ManaType.LUMINIS, 1.0);
+        cost.put(ManaUtil.ManaType.FLUXIA, 1.5);
         return cost;
     }
 
@@ -31,9 +31,10 @@ public class Arcether extends Spell {
     }
 
     @Override
-    public void use(Level level, Player user, InteractionHand hand) {
+    public void use(Level level, Player user, InteractionHand hand, boolean isHost) {
+        super.use(level, user, hand, isHost);
         level.playSound(user, user.getX(), user.getY(), user.getZ(), SoundEvents.EVOKER_CAST_SPELL, SoundSource.PLAYERS);
-        if (!level.isClientSide) {
+        if (!level.isClientSide && !isHost) {
             MagicBulletEntity bullet = new MagicBulletEntity(level, user);
             Vec3 velocity = Vec3.directionFromRotation(user.getRotationVector());
             double d = 1 / velocity.length();
