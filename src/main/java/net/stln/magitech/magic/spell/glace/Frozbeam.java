@@ -58,7 +58,7 @@ public class Frozbeam extends Spell {
         EffectUtil.lineEffect(level, new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0), user.position().add(0, user.getBbHeight() * 0.7, 0), hitPos, 7, false);
         for (int i = 0; i < 20; i++) {
             level.addParticle(new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0),
-                    hitPos.x, hitPos.y, hitPos.z, user.getRandom().nextFloat() / 3, user.getRandom().nextFloat() / 3, user.getRandom().nextFloat() / 3);
+                    hitPos.x, hitPos.y, hitPos.z, (user.getRandom().nextFloat() - 0.5) / 3, (user.getRandom().nextFloat() - 0.5) / 3, (user.getRandom().nextFloat() - 0.5) / 3);
         }
         level.playSound(user, user.getX(), user.getY(), user.getZ(), SoundInit.ZAP.get(), SoundSource.PLAYERS, 1.0F, 0.7F + (user.getRandom().nextFloat() * 0.6F));
 
