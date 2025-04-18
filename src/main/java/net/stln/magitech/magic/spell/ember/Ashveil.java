@@ -66,10 +66,11 @@ public class Ashveil extends Spell {
         for (Entity entity : attackList) {
             Vec3 targetBodyPos = entity.position().add(0, entity.getBbHeight() * 0.7, 0);
         }
-        level.addParticle(new FlameParticleEffect(new Vector3f(1), new Vector3f(1),
-                        2F, 3, 0), offset.x, offset.y, offset.z,
-                forward.x * livingEntity.getRandom().nextFloat(), forward.y * livingEntity.getRandom().nextFloat(), forward.z * livingEntity.getRandom().nextFloat());
-
+        for (int i = 0; i < 5; i++) {
+            level.addParticle(new FlameParticleEffect(new Vector3f(1), new Vector3f(1),
+                            5F, 1, 0.3F), offset.x, offset.y, offset.z,
+                    forward.x * 0.75 + (livingEntity.getRandom().nextFloat() - 0.5) / 3, forward.y * 0.75 + (livingEntity.getRandom().nextFloat() - 0.5) / 2, forward.z * 0.75 + (livingEntity.getRandom().nextFloat() - 0.5) / 2);
+        }
         ResourceKey<DamageType> damageType = DamageTypeInit.EMBER_DAMAGE;
         float damage = 3.0F;
 
