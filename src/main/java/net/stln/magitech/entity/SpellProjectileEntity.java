@@ -51,18 +51,19 @@ public abstract class SpellProjectileEntity extends Projectile {
     protected int inGroundTime;
     public AbstractArrow.Pickup pickup = AbstractArrow.Pickup.DISALLOWED;
     private int life;
-    private double baseDamage = 2.0;
     private SoundEvent soundEvent = this.getDefaultHitGroundSoundEvent();
     private ItemStack firedFromWeapon = null;
+    protected float damage;
 
 
     protected SpellProjectileEntity(EntityType<? extends SpellProjectileEntity> entityType, Level level) {
         super(entityType, level);
     }
 
-    protected SpellProjectileEntity(EntityType<? extends SpellProjectileEntity> entityType, double x, double y, double z, Level level, @javax.annotation.Nullable ItemStack firedFromWeapon) {
+    protected SpellProjectileEntity(EntityType<? extends SpellProjectileEntity> entityType, double x, double y, double z, Level level, @javax.annotation.Nullable ItemStack firedFromWeapon, float damage) {
         this(entityType, level);
         this.setPos(x, y, z);
+        this.damage = damage;
         if (firedFromWeapon != null && level instanceof ServerLevel serverlevel) {
             if (firedFromWeapon.isEmpty()) {
                 throw new IllegalArgumentException("Invalid weapon firing an arrow");
@@ -72,8 +73,8 @@ public abstract class SpellProjectileEntity extends Projectile {
         }
     }
 
-    protected SpellProjectileEntity(EntityType<? extends SpellProjectileEntity> entityType, LivingEntity owner, Level level, @Nullable ItemStack firedFromWeapon) {
-        this(entityType, owner.getX(), owner.getEyeY() - 0.1F, owner.getZ(), level, firedFromWeapon);
+    protected SpellProjectileEntity(EntityType<? extends SpellProjectileEntity> entityType, LivingEntity owner, Level level, @Nullable ItemStack firedFromWeapon, float damage) {
+        this(entityType, owner.getX(), owner.getEyeY() - 0.1F, owner.getZ(), level, firedFromWeapon, damage);
         this.setOwner(owner);
     }
 
@@ -263,6 +264,10 @@ public abstract class SpellProjectileEntity extends Projectile {
     protected void doPostHurtEffects(LivingEntity target) {
     }
 
+    public void setDamage(float value) {
+        this.damage = value;
+    }
+
     /**
      * Gets the EntityRayTraceResult representing the entity hit
      */
@@ -281,7 +286,7 @@ public abstract class SpellProjectileEntity extends Projectile {
             compound.put("inBlockState", NbtUtils.writeBlockState(this.lastState));
         }
         compound.putBoolean("inGround", this.inGround);
-        compound.putDouble("damage", this.baseDamage);
+        compound.putFloat("damage", this.damage);
         compound.putString("SoundEvent", BuiltInRegistries.SOUND_EVENT.getKey(this.soundEvent).toString());
         if (this.firedFromWeapon != null) {
             compound.put("weapon", this.firedFromWeapon.save(this.registryAccess(), new CompoundTag()));
@@ -300,7 +305,7 @@ public abstract class SpellProjectileEntity extends Projectile {
         }
         this.inGround = compound.getBoolean("inGround");
         if (compound.contains("damage", 99)) {
-            this.baseDamage = compound.getDouble("damage");
+            this.damage = compound.getFloat("damage");
         }
         if (compound.contains("SoundEvent", 8)) {
             this.soundEvent = BuiltInRegistries.SOUND_EVENT

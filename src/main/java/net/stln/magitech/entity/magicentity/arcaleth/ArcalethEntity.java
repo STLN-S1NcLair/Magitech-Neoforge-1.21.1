@@ -1,41 +1,48 @@
-package net.stln.magitech.entity;
+package net.stln.magitech.entity.magicentity.arcaleth;
 
-import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
-import net.stln.magitech.item.ItemInit;
+import net.stln.magitech.damage.DamageTypeInit;
+import net.stln.magitech.entity.EntityInit;
+import net.stln.magitech.entity.SpellProjectileEntity;
 import net.stln.magitech.particle.particle_option.UnstableSquareParticleEffect;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
-public class MagicBulletEntity extends SpellProjectileEntity {
+public class ArcalethEntity extends SpellProjectileEntity {
 
-    public MagicBulletEntity(EntityType<? extends SpellProjectileEntity> entityType, Level world) {
+    public ArcalethEntity(EntityType<? extends SpellProjectileEntity> entityType, Level world) {
         super(entityType, world);
     }
 
-    public MagicBulletEntity(Level world, Player player) {
-        super(EntityInit.MAGIC_BULLET.get(), player, world, null);
-
+    public ArcalethEntity(Level world, Player player, float damage) {
+        super(EntityInit.ARCALETH_ENTITY.get(), player, world, null, damage);
     }
 
-    public MagicBulletEntity(EntityType<? extends SpellProjectileEntity> type, double x, double y, double z, Level world, ItemStack stack, @Nullable ItemStack weapon) {
-        super(type, x, y, z, world, weapon);
+    public ArcalethEntity(Level world, Player player, ItemStack weapon, float damage) {
+        super(EntityInit.ARCALETH_ENTITY.get(), player, world, weapon, damage);
     }
 
-    public MagicBulletEntity(EntityType<? extends SpellProjectileEntity> type, LivingEntity owner, Level world, ItemStack stack, @Nullable ItemStack shotFrom) {
-        super(type, owner, world, shotFrom);
+    public ArcalethEntity(EntityType<? extends SpellProjectileEntity> type, double x, double y, double z, Level world, ItemStack stack, @Nullable ItemStack weapon, float damage) {
+        super(type, x, y, z, world, weapon, damage);
+    }
+
+    public ArcalethEntity(EntityType<? extends SpellProjectileEntity> type, LivingEntity owner, Level world, ItemStack stack, @Nullable ItemStack shotFrom, float damage) {
+        super(type, owner, world, shotFrom, damage);
     }
 
     @Override
@@ -66,7 +73,17 @@ public class MagicBulletEntity extends SpellProjectileEntity {
     protected void onHitEntity(EntityHitResult entityHitResult) {
         super.onHitEntity(entityHitResult);
         Entity entity = entityHitResult.getEntity();
-        entity.hurt(this.damageSources().magic(), 6);
+        Entity owner = this.getOwner();
+
+        ResourceKey<DamageType> damageType = DamageTypeInit.MAGIC_DAMAGE;
+        DamageSource elementalDamageSource;
+        if (this.getWeaponItem() != null) {
+            elementalDamageSource = this.getWeaponItem().has(DataComponents.CUSTOM_NAME) ? owner.damageSources().source(damageType, owner) : owner.damageSources().source(damageType);
+        } else {
+            elementalDamageSource = owner.damageSources().source(damageType);
+        }
+
+        entity.hurt(elementalDamageSource, this.damage);
         hitParticle();
 
         if (!this.level().isClientSide) {

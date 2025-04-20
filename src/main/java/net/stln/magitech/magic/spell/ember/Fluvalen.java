@@ -1,7 +1,19 @@
 package net.stln.magitech.magic.spell.ember;
 
+import dev.kosmx.playerAnim.api.firstPerson.FirstPersonConfiguration;
+import dev.kosmx.playerAnim.api.firstPerson.FirstPersonMode;
+import dev.kosmx.playerAnim.api.layered.IAnimation;
+import dev.kosmx.playerAnim.api.layered.KeyframeAnimationPlayer;
+import dev.kosmx.playerAnim.api.layered.ModifierLayer;
+import dev.kosmx.playerAnim.api.layered.modifier.AbstractFadeModifier;
+import dev.kosmx.playerAnim.core.data.KeyframeAnimation;
+import dev.kosmx.playerAnim.core.util.Ease;
+import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
+import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
+import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
@@ -13,13 +25,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import net.stln.magitech.Magitech;
 import net.stln.magitech.damage.DamageTypeInit;
 import net.stln.magitech.damage.EntityElementRegister;
 import net.stln.magitech.item.tool.Element;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.particle.particle_option.FlameParticleEffect;
-import net.stln.magitech.particle.particle_option.ZapParticleEffect;
 import net.stln.magitech.sound.SoundInit;
 import net.stln.magitech.util.EntityUtil;
 import org.joml.Vector3f;
@@ -29,7 +41,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class Ashveil extends Spell {
+public class Fluvalen extends Spell {
     @Override
     public Map<ManaUtil.ManaType, Double> getCost() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
@@ -47,13 +59,24 @@ public class Ashveil extends Spell {
     }
 
     @Override
-    public void use(Level level, Player user, InteractionHand hand, boolean isHost) {
-        super.use(level, user, hand, isHost);
-        user.startUsingItem(hand);
+    protected void playAnimation(Player user) {
+        var playerAnimationData = (ModifierLayer<IAnimation>) PlayerAnimationAccess.getPlayerAssociatedData((AbstractClientPlayer) user).get(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "animation"));
+        if (playerAnimationData != null) {
+
+            user.yBodyRot = user.yHeadRot;
+            playerAnimationData.replaceAnimationWithFade(AbstractFadeModifier.standardFadeIn(3, Ease.INSINE), new KeyframeAnimationPlayer((KeyframeAnimation) PlayerAnimationRegistry.getAnimation(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "wand_spray")))
+                    .setFirstPersonMode(FirstPersonMode.THIRD_PERSON_MODEL).setFirstPersonConfiguration(new FirstPersonConfiguration(true, true, true, true)));
+        }
     }
 
     @Override
-    public void usingTick(Level level, LivingEntity livingEntity, ItemStack stack, int remainingUseDuration) {
+    public boolean callUsingTick() {
+        return true;
+    }
+
+    @Override
+    public void usingTick(Level level, LivingEntity livingEntity, ItemStack stack, int usingTick) {
+        super.usingTick(level, livingEntity, stack, usingTick);
         Vec3 forward = Vec3.directionFromRotation(livingEntity.getRotationVector());
         Vec3 bodyPos = livingEntity.position().add(0, livingEntity.getBbHeight() * 0.7, 0);
         Vec3 offset = bodyPos.add(forward.scale(0.5));
@@ -69,17 +92,17 @@ public class Ashveil extends Spell {
         for (int i = 0; i < 5; i++) {
             level.addParticle(new FlameParticleEffect(new Vector3f(1), new Vector3f(1),
                             5F, 1, 0.3F), offset.x, offset.y, offset.z,
-                    forward.x * 0.75 + (livingEntity.getRandom().nextFloat() - 0.5) / 3, forward.y * 0.75 + (livingEntity.getRandom().nextFloat() - 0.5) / 2, forward.z * 0.75 + (livingEntity.getRandom().nextFloat() - 0.5) / 2);
+                    forward.x * 0.75 + (livingEntity.getRandom().nextFloat() - 0.5) / 4, forward.y * 0.75 + (livingEntity.getRandom().nextFloat() - 0.5) / 4, forward.z * 0.75 + (livingEntity.getRandom().nextFloat() - 0.5) / 4);
         }
         ResourceKey<DamageType> damageType = DamageTypeInit.EMBER_DAMAGE;
         float damage = 3.0F;
 
-        DamageSource ElementalDamageSource = stack.has(DataComponents.CUSTOM_NAME) ? livingEntity.damageSources().source(damageType, livingEntity) : livingEntity.damageSources().source(damageType);
+        DamageSource elementalDamageSource = stack.has(DataComponents.CUSTOM_NAME) ? livingEntity.damageSources().source(damageType, livingEntity) : livingEntity.damageSources().source(damageType);
 
         float targetHealth = livingEntity.getHealth();
         if (livingEntity instanceof Player player) {
-            if (remainingUseDuration % 5 == 0) {
-                level.playSound(player, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), SoundInit.ZAP.get(), SoundSource.PLAYERS, 1.0F, 0.7F + (player.getRandom().nextFloat() * 0.6F));
+            if (usingTick % 5 == 0) {
+                level.playSound(player, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), SoundInit.FLAME.get(), SoundSource.PLAYERS, 1.0F, 0.7F + (player.getRandom().nextFloat() * 0.6F));
             }
             player.awardStat(Stats.DAMAGE_DEALT, Math.round((targetHealth - livingEntity.getHealth()) * 10));
         }
@@ -89,13 +112,8 @@ public class Ashveil extends Spell {
                     livingTarget.setLastHurtByMob(livingEntity);
                 }
                 damage *= EntityElementRegister.getElementAffinity(target, Element.SURGE).getMultiplier();
-                target.hurt(ElementalDamageSource, damage);
+                target.hurt(elementalDamageSource, damage);
             }
         }
-    }
-
-    @Override
-    public void finishUsing(ItemStack stack, Level level, LivingEntity livingEntity) {
-
     }
 }

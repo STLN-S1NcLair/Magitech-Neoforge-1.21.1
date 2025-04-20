@@ -18,6 +18,7 @@ public class SoundInit {
     public static final Supplier<SoundEvent> PHANTOM_SLAYER_DASH = registerSoundEvent("phantom_slayer_dash");
     public static final Supplier<SoundEvent> FROST_BREAK = registerSoundEvent("frost_break");
     public static final Supplier<SoundEvent> ZAP = registerSoundEvent("zap");
+    public static final Supplier<SoundEvent> FLAME = registerSoundEvent("flame");
 
 
     private static Supplier<SoundEvent> registerSoundEvent(String name) {

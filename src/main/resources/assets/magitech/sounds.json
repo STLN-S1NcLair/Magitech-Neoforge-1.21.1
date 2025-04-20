@@ -28,5 +28,11 @@
     "sounds" :  [
       "magitech:zap"
     ]
+  },
+  "flame" :  {
+    "subtitle" :  "subtitles.magitech.flame" ,
+    "sounds" :  [
+      "magitech:flame"
+    ]
   }
 }

@@ -87,9 +87,14 @@
   "element.magitech.magic": "魔術",
   "element.magitech.flow": "流脈",
   "element.magitech.hollow": "虚滅",
-  "spell.magitech.frozbeam": "フロズビーム",
-  "spell.magitech.stormhaze": "ストームヘイズ",
-  "spell.magitech.arcether": "アルシセア",
+
+  "spell.magitech.fluvalen": "フルヴァレン",
+  "spell.magitech.cryoluxa": "クリオルクサ",
+  "spell.magitech.sparkion": "スパーキオン",
+  "spell.magitech.oscilbeam": "オシルビーム",
+  "spell.magitech.mirazien": "ミラジエン",
+  "spell.magitech.arcaleth": "アルカレス",
+
   "death.attack.magitech_ember": "%1$sは焼き尽くされた",
   "death.attack.magitech_ember.player": "%1$sは%2$sによって灰にされた",
   "death.attack.magitech_ember.item": "%1$sは%2$sの%3$sが放った熱気で調理された",

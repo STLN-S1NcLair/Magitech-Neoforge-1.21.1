@@ -7,7 +7,10 @@ import net.minecraft.world.entity.MobCategory;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.entity.client.MagicBulletRenderer;
+import net.stln.magitech.entity.magicentity.arcaleth.ArcalethRenderer;
+import net.stln.magitech.entity.magicentity.arcaleth.ArcalethEntity;
+import net.stln.magitech.entity.magicentity.mirazien.MirazienEntity;
+import net.stln.magitech.entity.magicentity.mirazien.MirazienRenderer;
 
 import java.util.function.Supplier;
 
@@ -15,8 +18,10 @@ public class EntityInit {
 
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, Magitech.MOD_ID);
 
-    public static final Supplier<EntityType<MagicBulletEntity>> MAGIC_BULLET = ENTITY_TYPES.register("magic_bullet",
-            () -> EntityType.Builder.<MagicBulletEntity>of(MagicBulletEntity::new, MobCategory.MISC).sized(0.25F, 0.25F).build("magic_bullet"));
+    public static final Supplier<EntityType<ArcalethEntity>> ARCALETH_ENTITY = ENTITY_TYPES.register("arcaleth",
+            () -> EntityType.Builder.<ArcalethEntity>of(ArcalethEntity::new, MobCategory.MISC).sized(0.25F, 0.25F).build("arcaleth"));
+    public static final Supplier<EntityType<MirazienEntity>> MIRAZIEN_ENTITY = ENTITY_TYPES.register("mirazien",
+            () -> EntityType.Builder.<MirazienEntity>of(MirazienEntity::new, MobCategory.MISC).sized(0.25F, 0.25F).build("mirazien"));
 
     public static void registerModEntities(IEventBus eventBus) {
         Magitech.LOGGER.info("Registering Entity for " + Magitech.MOD_ID);
@@ -25,7 +30,8 @@ public class EntityInit {
 
     public static void registerModEntitiesRenderer() {
         Magitech.LOGGER.info("Registering Entity Renderer for " + Magitech.MOD_ID);
-        EntityRenderers.register(EntityInit.MAGIC_BULLET.get(), MagicBulletRenderer::new);
+        EntityRenderers.register(EntityInit.ARCALETH_ENTITY.get(), ArcalethRenderer::new);
+        EntityRenderers.register(EntityInit.MIRAZIEN_ENTITY.get(), MirazienRenderer::new);
     }
 
 }

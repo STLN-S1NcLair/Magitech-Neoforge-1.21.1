@@ -20,8 +20,8 @@ import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.SpellComponent;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.Spell;
-import net.stln.magitech.magic.spell.magic.Arcether;
-import net.stln.magitech.magic.spell.surge.Stormhaze;
+import net.stln.magitech.magic.spell.magic.Arcaleth;
+import net.stln.magitech.magic.spell.surge.Sparkion;
 import net.stln.magitech.particle.particle_option.UnstableSquareParticleEffect;
 import net.stln.magitech.util.EffectUtil;
 import net.stln.magitech.util.EntityUtil;
@@ -34,8 +34,8 @@ import java.util.List;
 public class WandItem extends Item implements LeftClickOverrideItem {
 
     private int sweepDamage = 6;
-    Stormhaze stormhaze = new Stormhaze();
-    Arcether arcether = new Arcether();
+    Sparkion stormhaze = new Sparkion();
+    Arcaleth arcether = new Arcaleth();
 
     public WandItem(Properties settings) {
         super(settings);
@@ -78,7 +78,23 @@ public class WandItem extends Item implements LeftClickOverrideItem {
                 SpellComponent spellComponent = threadbound.get(ComponentInit.SPELL_COMPONENT);
                 Spell spell = spellComponent.spells().get(spellComponent.selected());
 
-                spell.usingTick(level, livingEntity, stack, remainingUseDuration);
+                spell.usingTick(level, livingEntity, stack, getUseDuration(stack, livingEntity) - remainingUseDuration);
+            }
+        }
+    }
+
+    @Override
+    public void releaseUsing(ItemStack stack, Level level, LivingEntity livingEntity, int timeCharged) {
+        super.releaseUsing(stack, level, livingEntity, timeCharged);
+        if (livingEntity instanceof Player user && level.isClientSide) {
+            ICuriosItemHandler curiosInventory = CuriosApi.getCuriosInventory(user).get();
+            ItemStack threadbound = curiosInventory.getCurios().get("threadbound").getStacks().getStackInSlot(0);
+
+            if (!threadbound.isEmpty()) {
+                SpellComponent spellComponent = threadbound.get(ComponentInit.SPELL_COMPONENT);
+                Spell spell = spellComponent.spells().get(spellComponent.selected());
+
+                spell.finishUsing(stack, level, livingEntity, getUseDuration(stack, livingEntity) - timeCharged, true);
             }
         }
     }

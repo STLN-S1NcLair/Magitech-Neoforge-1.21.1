@@ -1,4 +1,4 @@
-package net.stln.magitech.entity.client;
+package net.stln.magitech.entity.magicentity.mirazien;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -16,31 +16,23 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.entity.MagicBulletEntity;
 import org.jetbrains.annotations.NotNull;
 
-public class MagicBulletRenderer extends EntityRenderer<MagicBulletEntity> {
+public class MirazienRenderer extends EntityRenderer<MirazienEntity> {
+    protected MirazienModel model;
 
-    public static RenderType ADDITIVE = RenderType.create("additive", DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS, 256, false, true,
-            RenderType.CompositeState.builder()
-                    .setShaderState(RenderStateShard.ShaderStateShard.RENDERTYPE_GLINT_SHADER)
-                    .setCullState(RenderStateShard.NO_CULL)
-                    .setTransparencyState(RenderStateShard.ADDITIVE_TRANSPARENCY)
-                    .createCompositeState(false));
-    protected MagicBulletModel model;
-
-    public MagicBulletRenderer(EntityRendererProvider.Context ctx) {
+    public MirazienRenderer(EntityRendererProvider.Context ctx) {
         super(ctx);
-        this.model = new MagicBulletModel(ctx.bakeLayer(MagicBulletModel.LAYER_LOCATION));
+        this.model = new MirazienModel(ctx.bakeLayer(MirazienModel.LAYER_LOCATION));
     }
 
     @Override
-    public boolean shouldRender(MagicBulletEntity livingEntity, Frustum camera, double camX, double camY, double camZ) {
+    public boolean shouldRender(MirazienEntity livingEntity, Frustum camera, double camX, double camY, double camZ) {
         return true;
     }
 
     @Override
-    public void render(MagicBulletEntity entity, float yaw, float tickDelta, PoseStack poseStack, @NotNull MultiBufferSource bufferSource, int light) {
+    public void render(MirazienEntity entity, float yaw, float tickDelta, PoseStack poseStack, @NotNull MultiBufferSource bufferSource, int light) {
         poseStack.pushPose();
         Vec3 velocity = entity.getDeltaMovement();
 
@@ -67,7 +59,7 @@ public class MagicBulletRenderer extends EntityRenderer<MagicBulletEntity> {
     }
 
     @Override
-    public @NotNull ResourceLocation getTextureLocation(@NotNull MagicBulletEntity entity) {
-        return ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "textures/entity/magic_bullet/magic_bullet.png");
+    public @NotNull ResourceLocation getTextureLocation(@NotNull MirazienEntity entity) {
+        return ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "textures/entity/mirazien/mirazien.png");
     }
 }

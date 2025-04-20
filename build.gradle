@@ -127,6 +127,8 @@ dependencies {
     implementation "curse.maven:appleskin-248787:${appleskin_id}"
     implementation "curse.maven:curios-309927:${curiosapi_id}"
     implementation "org.sinytra.forgified-fabric-api:forgified-fabric-api:${forgified_fabric_api_version}"
+    implementation "curse.maven:playeranimator-658587:${playeranimator_id}"
+    implementation "curse.maven:patchouli-306770:${patchouli_id}"
 
     // Example optional mod dependency with JEI
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime

@@ -1,7 +1,17 @@
 package net.stln.magitech.magic.spell.glace;
 
+import dev.kosmx.playerAnim.api.firstPerson.FirstPersonConfiguration;
+import dev.kosmx.playerAnim.api.firstPerson.FirstPersonMode;
+import dev.kosmx.playerAnim.api.layered.IAnimation;
+import dev.kosmx.playerAnim.api.layered.KeyframeAnimationPlayer;
+import dev.kosmx.playerAnim.api.layered.ModifierLayer;
+import dev.kosmx.playerAnim.core.data.KeyframeAnimation;
+import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
+import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
+import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
@@ -13,6 +23,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import net.stln.magitech.Magitech;
 import net.stln.magitech.damage.DamageTypeInit;
 import net.stln.magitech.damage.EntityElementRegister;
 import net.stln.magitech.item.tool.Element;
@@ -28,7 +39,7 @@ import org.joml.Vector3f;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Frozbeam extends Spell {
+public class Cryoluxa extends Spell {
     @Override
     public Map<ManaUtil.ManaType, Double> getCost() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
@@ -60,7 +71,7 @@ public class Frozbeam extends Spell {
         ResourceKey<DamageType> damageType = DamageTypeInit.GLACE_DAMAGE;
         float damage = 6.0F;
 
-        DamageSource ElementalDamageSource = stack.has(DataComponents.CUSTOM_NAME) ? user.damageSources().source(damageType, user) : user.damageSources().source(damageType);
+        DamageSource elementalDamageSource = stack.has(DataComponents.CUSTOM_NAME) ? user.damageSources().source(damageType, user) : user.damageSources().source(damageType);
             float targetHealth = livingEntity.getHealth();
             if (livingEntity instanceof Player player) {
                 player.awardStat(Stats.DAMAGE_DEALT, Math.round((targetHealth - livingEntity.getHealth()) * 10));
@@ -70,17 +81,19 @@ public class Frozbeam extends Spell {
                     livingTarget.setLastHurtByMob(livingEntity);
                 }
                 damage *= EntityElementRegister.getElementAffinity(target, Element.GLACE).getMultiplier();
-                target.hurt(ElementalDamageSource, damage);
+                target.hurt(elementalDamageSource, damage);
             }
         }
     }
 
     @Override
-    public void usingTick(Level level, LivingEntity livingEntity, ItemStack stack, int remainingUseDuration) {
-    }
+    protected void playAnimation(Player user) {
+            var playerAnimationData = (ModifierLayer<IAnimation>) PlayerAnimationAccess.getPlayerAssociatedData((AbstractClientPlayer) user).get(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "animation"));
+            if (playerAnimationData != null) {
 
-    @Override
-    public void finishUsing(ItemStack stack, Level level, LivingEntity livingEntity) {
-
+                user.yBodyRot = user.yHeadRot;
+                playerAnimationData.setAnimation(new KeyframeAnimationPlayer((KeyframeAnimation) PlayerAnimationRegistry.getAnimation(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "wand_beam")))
+                        .setFirstPersonMode(FirstPersonMode.THIRD_PERSON_MODEL).setFirstPersonConfiguration(new FirstPersonConfiguration(true, true, true, true)));
+            }
     }
 }

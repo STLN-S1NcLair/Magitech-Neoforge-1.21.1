@@ -1,6 +1,7 @@
 {
   "curios.identifier.threadbound": "Threadbound",
   "curios.modifiers.threadbound": "When in Threadbound Slot:",
+
   "item.magitech.wand": "Wand",
   "item.magitech.glistening_lexicon": "Glistening Lexicon",
   "item.magitech.redstone_crystal": "Redstone Crystal",
@@ -12,7 +13,9 @@
   "item.magitech.polished_translucium": "Polished Translucium",
   "item.magitech.abyssite": "Abyssite",
   "item.magitech.polished_abyssite": "Polished Abyssite",
+
   "itemGroup.magitech.magitech": "Magitech Items",
+
   "attribute.magitech.attack_damage": "Attack Damage",
   "attribute.magitech.elemental_damage": "Elemental Damage",
   "attribute.magitech.attack_speed": "Attack Speed",
@@ -29,6 +32,7 @@
   "attribute.magitech.luminis_regen": "Luminis Regen",
   "attribute.magitech.max_fluxia": "Max Fluxia",
   "attribute.magitech.fluxia_regen": "Fluxia Regen",
+
   "item.magitech.light_sword": "Light Sword",
   "item.magitech.light_sword.simple": "%1$s Light Sword",
   "item.magitech.light_sword.complex": "%1$s %2$s Light Sword",
@@ -41,6 +45,7 @@
   "item.magitech.hammer": "Hammer",
   "item.magitech.hammer.simple": "%1$s Hammer",
   "item.magitech.hammer.complex": "%1$s %2$s Hammer",
+
   "tooltip.item.magitech.redstone_crystal": "Looks like jewelry. Acts like authority.",
   "tooltip.item.magitech.polished_redstone_crystal": "Not just a command. A command you can't ignore.",
   "tooltip.item.magitech.ender_metal_ingot": "One ingot holds a day's worth of ender energy!",
@@ -50,6 +55,7 @@
   "tooltip.item.magitech.polished_translucium": "A geometrically impossible solid.",
   "tooltip.item.magitech.abyssite": "Space can be warped in a four-dimensional manner.",
   "tooltip.item.magitech.polished_abyssite": "The void fills everything—even the inside of objects.",
+
   "material.magitech.wood": "Wood",
   "material.magitech.stone": "Stone",
   "material.magitech.deepslate": "Deepslate",
@@ -64,6 +70,7 @@
   "material.magitech.netherite": "Netherite",
   "material.magitech.frigidite": "Frigidite",
   "material.magitech.translucium": "Translucium",
+
   "trait.magitech.ataptation": "Adaptation",
   "trait.magitech.geomending": "Geomending",
   "trait.magitech.hardmine": "Hardmine",
@@ -78,6 +85,7 @@
   "trait.magitech.lavaforged": "Lavaforged",
   "trait.magitech.shatterpiercer": "Shatterpiercer",
   "trait.magitech.phantom_slayer": "Phantom Slayer",
+
   "element.magitech.none": "None",
   "element.magitech.ember": "Ember",
   "element.magitech.glace": "Glace",
@@ -87,9 +95,14 @@
   "element.magitech.magic": "Magic",
   "element.magitech.flow": "Flow",
   "element.magitech.hollow": "Hollow",
-  "spell.magitech.frozbeam": "Frozbeam",
-  "spell.magitech.stormhaze": "Stormhaze",
-  "spell.magitech.arcether": "Arcether",
+
+  "spell.magitech.fluvalen": "Fluvalen",
+  "spell.magitech.cryoluxa": "Cryoluxa",
+  "spell.magitech.sparkion": "Sparkion",
+  "spell.magitech.oscilbeam": "Oscilbeam",
+  "spell.magitech.mirazien": "Mirazien",
+  "spell.magitech.arcaleth": "Arcaleth",
+
   "death.attack.magitech_ember": "%1$s was incinerated",
   "death.attack.magitech_ember.player": "%1$s was reduced to ashes by %2$s",
   "death.attack.magitech_ember.item": "%1$s was cooked by the heat of %2$s's %3$s",

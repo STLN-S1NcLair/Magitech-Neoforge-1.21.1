@@ -28,7 +28,7 @@ public class FlameParticle extends GlowingParticle {
         this.xd = vx + (clientWorld.random.nextFloat() - 0.5F) / 20;
         this.yd = vy + (clientWorld.random.nextFloat() - 0.5F) / 20;
         this.zd = vz + (clientWorld.random.nextFloat() - 0.5F) / 20;
-        this.lifetime = 10 + clientWorld.random.nextInt(0, 5);
+        this.lifetime = 5 + clientWorld.random.nextInt(0, 3);
         this.alpha = 1.0F;
         this.scale = 1F * parameters.getScale();
         this.gravity = -0.02F;
@@ -78,7 +78,9 @@ public class FlameParticle extends GlowingParticle {
             this.yd = this.yd - 0.04 * (double) this.gravity;
         }
         if (this.age == this.lifetime / 5 * 4) {
-            level.addParticle(new FlameSmokeParticleEffect(this.startColor, this.endColor, this.scale, this.twinkle, this.rotSpeed), x, y, z, xd, yd, zd);
+            for (int i = 0; i < 3; i++) {
+                level.addParticle(new FlameSmokeParticleEffect(this.startColor, this.endColor, this.scale, this.twinkle, this.rotSpeed), x + (random.nextFloat() - 0.5) / 10 * scale, y + (random.nextFloat() - 0.5) / 10 * scale, z + (random.nextFloat() - 0.5) / 10 * scale, xd, yd, zd);
+            }
         }
 
         this.xd = this.xd * (double) this.friction;
