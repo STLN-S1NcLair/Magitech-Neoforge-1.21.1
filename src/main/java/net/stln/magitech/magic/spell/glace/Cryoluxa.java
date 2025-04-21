@@ -68,10 +68,6 @@ public class Cryoluxa extends Spell {
 
         if (target instanceof LivingEntity livingEntity) {
 
-        ResourceKey<DamageType> damageType = DamageTypeInit.GLACE_DAMAGE;
-        float damage = 6.0F;
-
-        DamageSource elementalDamageSource = stack.has(DataComponents.CUSTOM_NAME) ? user.damageSources().source(damageType, user) : user.damageSources().source(damageType);
             float targetHealth = livingEntity.getHealth();
             if (livingEntity instanceof Player player) {
                 player.awardStat(Stats.DAMAGE_DEALT, Math.round((targetHealth - livingEntity.getHealth()) * 10));
@@ -80,9 +76,15 @@ public class Cryoluxa extends Spell {
                 if (target instanceof LivingEntity livingTarget) {
                     livingTarget.setLastHurtByMob(livingEntity);
                 }
-                damage *= EntityElementRegister.getElementAffinity(target, Element.GLACE).getMultiplier();
-                target.hurt(elementalDamageSource, damage);
             }
+            livingEntity.setTicksFrozen(livingEntity.getTicksFrozen() + 160);
+        }
+        if (target != null) {
+            ResourceKey<DamageType> damageType = DamageTypeInit.GLACE_DAMAGE;
+            DamageSource elementalDamageSource = stack.has(DataComponents.CUSTOM_NAME) ? user.damageSources().source(damageType, user) : user.damageSources().source(damageType);
+            float damage = 6.0F;
+            damage *= EntityElementRegister.getElementAffinity(target, Element.GLACE).getMultiplier();
+            target.hurt(elementalDamageSource, damage);
         }
     }
 
