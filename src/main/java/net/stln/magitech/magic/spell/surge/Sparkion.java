@@ -23,8 +23,11 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.CollisionContext;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.damage.DamageTypeInit;
 import net.stln.magitech.damage.EntityElementRegister;
@@ -43,7 +46,7 @@ public class Sparkion extends Spell {
     @Override
     public Map<ManaUtil.ManaType, Double> getCost() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
-        cost.put(ManaUtil.ManaType.MANA, 10.0);
+        cost.put(ManaUtil.ManaType.MANA, 25.0);
         cost.put(ManaUtil.ManaType.LUMINIS, 2.0);
         cost.put(ManaUtil.ManaType.FLUXIA, 1.0);
         return cost;
@@ -88,20 +91,31 @@ public class Sparkion extends Spell {
         attackList.addAll(EntityUtil.getEntitiesInBox(level, livingEntity, center2, new Vec3(4.0, 4.0, 4.0)));
         Vec3 startPos = offset;
         for (Entity entity : attackList) {
-            attackListLast.addAll(EntityUtil.getEntitiesInBox(level, livingEntity, entity.position(), new Vec3(2.0, 2.0, 2.0)));
+            attackListLast.addAll(EntityUtil.getEntitiesInBox(level, livingEntity, entity.position(), new Vec3(4.0, 4.0, 4.0)));
         }
+        attackList.clear();
+        attackList.addAll(attackListLast);
+        attackListLast.clear();
+        for (Entity entity : attackList) {
+            attackListLast.addAll(EntityUtil.getEntitiesInBox(level, livingEntity, entity.position(), new Vec3(3.0, 3.0, 3.0)));
+        }
+        boolean hitEntity = false;
         for (Entity entity : attackListLast) {
             Vec3 targetBodyPos = entity.position().add(0, entity.getBbHeight() * 0.7, 0);
             if (startPos.distanceTo(targetBodyPos) > offset.distanceTo(targetBodyPos)) {
                 startPos = offset;
             }
+            if (level.clip(new ClipContext(targetBodyPos, offset, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, livingEntity)).getType() == HitResult.Type.BLOCK) {
+                continue;
+            }
+            hitEntity = true;
             if (usingTick % 2 == 0 || startPos == offset) {
                 level.addParticle(new ZapParticleEffect(new Vector3f(1), new Vector3f(1), targetBodyPos.toVector3f(), 2F, 3, 0), startPos.x, startPos.y, startPos.z,
                         0, 0, 0);
             }
             startPos = targetBodyPos;
         }
-        if (attackListLast.isEmpty()) {
+        if (!hitEntity) {
             level.addParticle(new ZapParticleEffect(new Vector3f(1), new Vector3f(1),
                             center2.add(new Vec3(livingEntity.getRandom().nextFloat() - 0.5, livingEntity.getRandom().nextFloat() - 0.5, livingEntity.getRandom().nextFloat() - 0.5).scale(3)).toVector3f(),
                             2F, 3, 0), offset.x, offset.y, offset.z,

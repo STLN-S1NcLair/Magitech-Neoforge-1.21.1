@@ -53,10 +53,13 @@ public class WandItem extends Item implements LeftClickOverrideItem {
                 Spell spell = spellComponent.spells().get(spellComponent.selected());
                 if (user.isCrouching()) {
                     threadbound.set(ComponentInit.SPELL_COMPONENT, new SpellComponent(spellComponent.spells(), spellComponent.selected() >= spellComponent.spells().size() - 1 ? 0 : spellComponent.selected() + 1));
+                    user.releaseUsingItem();
                     return InteractionResultHolder.pass(itemStack);
                 }
                 if (ManaUtil.useManaServerOnly(user, spell.getCost())) {
                     spell.use(world, user, hand, true);
+                } else {
+                    user.releaseUsingItem();
                 }
             } else {
                 Magitech.LOGGER.info("out of range");
@@ -80,6 +83,8 @@ public class WandItem extends Item implements LeftClickOverrideItem {
 
                 spell.usingTick(level, livingEntity, stack, getUseDuration(stack, livingEntity) - remainingUseDuration);
             }
+        } else {
+            livingEntity.releaseUsingItem();
         }
     }
 

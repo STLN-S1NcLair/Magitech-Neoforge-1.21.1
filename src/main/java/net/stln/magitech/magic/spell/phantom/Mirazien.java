@@ -34,7 +34,7 @@ public class Mirazien extends Spell {
     @Override
     public Map<ManaUtil.ManaType, Double> getCost() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
-        cost.put(ManaUtil.ManaType.MANA, 15.0);
+        cost.put(ManaUtil.ManaType.MANA, 35.0);
         cost.put(ManaUtil.ManaType.LUMINIS, 3.0);
         return cost;
     }

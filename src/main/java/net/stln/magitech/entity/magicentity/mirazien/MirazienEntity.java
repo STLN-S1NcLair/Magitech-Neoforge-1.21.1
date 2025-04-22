@@ -78,7 +78,7 @@ public class MirazienEntity extends SpellProjectileEntity {
         Entity entity = entityHitResult.getEntity();
         Entity owner = this.getOwner();
 
-        ResourceKey<DamageType> damageType = DamageTypeInit.MAGIC_DAMAGE;
+        ResourceKey<DamageType> damageType = DamageTypeInit.PHANTOM_DAMAGE;
         DamageSource elementalDamageSource;
         if (this.getWeaponItem() != null) {
             elementalDamageSource = this.getWeaponItem().has(DataComponents.CUSTOM_NAME) ? owner.damageSources().source(damageType, owner) : owner.damageSources().source(damageType);

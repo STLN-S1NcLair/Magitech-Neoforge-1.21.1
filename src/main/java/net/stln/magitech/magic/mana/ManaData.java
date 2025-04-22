@@ -7,10 +7,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ManaData {
-    private static final Map2d<Player, ManaUtil.ManaType, Double> currentManaMap = new Map2d<>();
+    private static Map2d<Player, ManaUtil.ManaType, Double> currentManaMap = new Map2d<>();
 
     public static Map2d<Player, ManaUtil.ManaType, Double> getCurrentManaMap() {
         return currentManaMap;
+    }
+
+    public static void cleanUp() {
+        currentManaMap = new Map2d<>();
     }
 
     public static void setCurrentMana(Player player, ManaUtil.ManaType type, double value) {

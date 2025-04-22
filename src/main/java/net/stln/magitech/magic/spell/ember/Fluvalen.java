@@ -45,7 +45,7 @@ public class Fluvalen extends Spell {
     @Override
     public Map<ManaUtil.ManaType, Double> getCost() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
-        cost.put(ManaUtil.ManaType.MANA, 10.0);
+        cost.put(ManaUtil.ManaType.MANA, 20.0);
         cost.put(ManaUtil.ManaType.LUMINIS, 3.0);
         return cost;
     }
@@ -53,7 +53,7 @@ public class Fluvalen extends Spell {
     @Override
     public Map<ManaUtil.ManaType, Double> getTickCost() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
-        cost.put(ManaUtil.ManaType.MANA, 1.0);
+        cost.put(ManaUtil.ManaType.MANA, 2.0);
         cost.put(ManaUtil.ManaType.LUMINIS, 1.0);
         return cost;
     }

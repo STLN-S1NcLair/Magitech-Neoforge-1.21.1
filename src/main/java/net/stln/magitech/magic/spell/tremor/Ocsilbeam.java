@@ -27,6 +27,8 @@ import net.stln.magitech.Magitech;
 import net.stln.magitech.damage.DamageTypeInit;
 import net.stln.magitech.damage.EntityElementRegister;
 import net.stln.magitech.item.tool.Element;
+import net.stln.magitech.magic.charge.Charge;
+import net.stln.magitech.magic.charge.ChargeData;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.particle.particle_option.BeamParticleEffect;
@@ -51,51 +53,53 @@ public class Ocsilbeam extends Spell {
     }
 
     @Override
-    public void use(Level level, Player user, InteractionHand hand, boolean isHost) {
-        super.use(level, user, hand, isHost);
+    public Map<ManaUtil.ManaType, Double> getTickCost() {
+        return new HashMap<>();
     }
 
     @Override
-    public void usingTick(Level level, LivingEntity livingEntity, ItemStack stack, int usingTick) {
-        super.usingTick(level, livingEntity, stack, usingTick);
-        if (usingTick > 10) {
-            livingEntity.releaseUsingItem();
-        }
+    public void use(Level level, Player user, InteractionHand hand, boolean isHost) {
+        ChargeData.setCurrentCharge(user, new Charge(10, this, Element.TREMOR));
+        super.use(level, user, hand, isHost);
     }
 
     @Override
     public void finishUsing(ItemStack stack, Level level, LivingEntity livingEntity, int timeCharged, boolean isHost) {
         super.finishUsing(stack, level, livingEntity, timeCharged, isHost);
-        if (livingEntity instanceof Player user && timeCharged > 10) {
-            Magitech.LOGGER.info(String.valueOf(timeCharged));
-            Vec3 forward = Vec3.directionFromRotation(user.getRotationVector());
-            Vec3 hitPos = EntityUtil.raycast(user, 24);
-            Entity target = EntityUtil.raycastEntity(user, 24);
-            Vec3 start = user.position().add(0, user.getBbHeight() * 0.7, 0).add(forward.scale(0.5));
-            EffectUtil.lineEffect(level, new WaveParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0), start, hitPos, 2, false);
-            level.addParticle(new BeamParticleEffect(new Vector3f(0.0F, 0.7F, 0.7F), new Vector3f(0.0F, 1.0F, 1.0F), hitPos.toVector3f(), 1.8F, 1, 1), start.x, start.y, start.z, 0, 0, 0);
-            for (int i = 0; i < 20; i++) {
-                level.addParticle(new WaveParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0),
-                        hitPos.x + (user.getRandom().nextFloat() - 0.5) / 3, hitPos.y + (user.getRandom().nextFloat() - 0.5) / 3, hitPos.z + (user.getRandom().nextFloat() - 0.5) / 3, 0, 0, 0);
-            }
-            level.playSound(user, user.getX(), user.getY(), user.getZ(), SoundInit.FROST_BREAK.get(), SoundSource.PLAYERS, 1.0F, 0.6F + (user.getRandom().nextFloat() * 0.6F));
-
-
-            if (target instanceof LivingEntity livingTarget) {
-
-                ResourceKey<DamageType> damageType = DamageTypeInit.TREMOR_DAMAGE;
-                float damage = 8.0F;
-
-                DamageSource elementalDamageSource = stack.has(DataComponents.CUSTOM_NAME) ? user.damageSources().source(damageType, user) : user.damageSources().source(damageType);
-                float targetHealth = livingTarget.getHealth();
-                if (livingTarget instanceof Player player) {
-                    player.awardStat(Stats.DAMAGE_DEALT, Math.round((targetHealth - livingTarget.getHealth()) * 10));
+        if (livingEntity instanceof Player user) {
+            Magitech.LOGGER.info(String.valueOf(ChargeData.getCurrentCharge(user) == null));
+            if (ChargeData.getCurrentCharge(user) == null) {
+                Vec3 forward = Vec3.directionFromRotation(user.getRotationVector());
+                Vec3 hitPos = EntityUtil.raycast(user, 24);
+                Entity target = EntityUtil.raycastEntity(user, 24);
+                Vec3 start = user.position().add(0, user.getBbHeight() * 0.7, 0).add(forward.scale(0.5));
+                EffectUtil.lineEffect(level, new WaveParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0), start, hitPos, 2, false);
+                level.addParticle(new BeamParticleEffect(new Vector3f(0.0F, 0.7F, 0.7F), new Vector3f(0.0F, 1.0F, 1.0F), hitPos.toVector3f(), 1.8F, 1, 1), start.x, start.y, start.z, 0, 0, 0);
+                for (int i = 0; i < 20; i++) {
+                    level.addParticle(new WaveParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0),
+                            hitPos.x + (user.getRandom().nextFloat() - 0.5) / 3, hitPos.y + (user.getRandom().nextFloat() - 0.5) / 3, hitPos.z + (user.getRandom().nextFloat() - 0.5) / 3, 0, 0, 0);
                 }
-                if (target.isAttackable()) {
-                    livingTarget.setLastHurtByMob(livingTarget);
-                    damage *= EntityElementRegister.getElementAffinity(target, Element.GLACE).getMultiplier();
-                    target.hurt(elementalDamageSource, damage);
+                level.playSound(user, user.getX(), user.getY(), user.getZ(), SoundInit.FROST_BREAK.get(), SoundSource.PLAYERS, 1.0F, 0.6F + (user.getRandom().nextFloat() * 0.6F));
+
+
+                if (target instanceof LivingEntity livingTarget) {
+
+                    ResourceKey<DamageType> damageType = DamageTypeInit.TREMOR_DAMAGE;
+                    float damage = 8.0F;
+
+                    DamageSource elementalDamageSource = stack.has(DataComponents.CUSTOM_NAME) ? user.damageSources().source(damageType, user) : user.damageSources().source(damageType);
+                    float targetHealth = livingTarget.getHealth();
+                    if (livingTarget instanceof Player player) {
+                        player.awardStat(Stats.DAMAGE_DEALT, Math.round((targetHealth - livingTarget.getHealth()) * 10));
+                    }
+                    if (target.isAttackable()) {
+                        livingTarget.setLastHurtByMob(livingTarget);
+                        damage *= EntityElementRegister.getElementAffinity(target, Element.GLACE).getMultiplier();
+                        target.hurt(elementalDamageSource, damage);
+                    }
                 }
+            } else {
+                ChargeData.removeCharge(user);
             }
         }
     }

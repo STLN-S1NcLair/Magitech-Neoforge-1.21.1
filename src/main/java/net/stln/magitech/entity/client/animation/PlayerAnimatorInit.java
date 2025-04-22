@@ -15,6 +15,8 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.magic.mana.UsedHandData;
@@ -24,7 +26,7 @@ import java.util.Optional;
 /**
  * This is an example implementation of PlayerAnimator resourceLoading and playerMapping
  */
-@EventBusSubscriber(modid = Magitech.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = Magitech.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class PlayerAnimatorInit {
 
 
@@ -36,7 +38,6 @@ public class PlayerAnimatorInit {
                 ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "animation"),
                 42,
                 (abstractClientPlayer -> {
-                    if (abstractClientPlayer instanceof LocalPlayer) {
                         boolean mirror = UsedHandData.getUsedHand(abstractClientPlayer) == InteractionHand.OFF_HAND;
                         //animationStack.addAnimLayer(42, testAnimation); //Add and save the animation container for later use.
                         ModifierLayer<IAnimation> testAnimation =  new ModifierLayer<>();
@@ -67,8 +68,6 @@ public class PlayerAnimatorInit {
                             return Optional.empty();
                         }));
                         return testAnimation;
-                    }
-                    return null;
                 }));
     }
 

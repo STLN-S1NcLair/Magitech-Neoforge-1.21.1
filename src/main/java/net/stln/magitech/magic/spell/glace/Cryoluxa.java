@@ -43,7 +43,7 @@ public class Cryoluxa extends Spell {
     @Override
     public Map<ManaUtil.ManaType, Double> getCost() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
-        cost.put(ManaUtil.ManaType.MANA, 10.0);
+        cost.put(ManaUtil.ManaType.MANA, 40.0);
         cost.put(ManaUtil.ManaType.NOCTIS, 1.0);
         cost.put(ManaUtil.ManaType.FLUXIA, 2.0);
         return cost;
@@ -77,7 +77,7 @@ public class Cryoluxa extends Spell {
                     livingTarget.setLastHurtByMob(livingEntity);
                 }
             }
-            livingEntity.setTicksFrozen(livingEntity.getTicksFrozen() + 160);
+            livingEntity.setTicksFrozen(Math.max(livingEntity.getTicksFrozen() + 160, 320));
         }
         if (target != null) {
             ResourceKey<DamageType> damageType = DamageTypeInit.GLACE_DAMAGE;
