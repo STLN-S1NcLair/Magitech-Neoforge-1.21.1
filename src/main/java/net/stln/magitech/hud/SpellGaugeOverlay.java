@@ -2,6 +2,7 @@ package net.stln.magitech.hud;
 
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.LayeredDraw;
 import net.minecraft.resources.ResourceLocation;
@@ -17,8 +18,11 @@ import net.stln.magitech.magic.mana.ManaData;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.magic.spell.SpellRegister;
+import net.stln.magitech.util.MathUtil;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
+
+import java.awt.*;
 
 public class SpellGaugeOverlay implements LayeredDraw.Layer {
 
@@ -47,6 +51,22 @@ public class SpellGaugeOverlay implements LayeredDraw.Layer {
         guiGraphics.blit(TEXTURE, guiGraphics.guiWidth() / 2 - 24, guiGraphics.guiHeight() * 2 / 3 - 12, 0, offset, 48, 23);
 
         guiGraphics.blit(TEXTURE, guiGraphics.guiWidth() / 2 - 20, guiGraphics.guiHeight() * 2 / 3 - 6, 48, offset, chargeGaugeWidth, 11);
+
+            Font font = Minecraft.getInstance().font;
+            String text = MathUtil.round((charge.getMaxCharge() - charge.getCharge()) / 20, 1) + "s";
+            for (int i = -1; i < 2; i++) {
+                for (int j = -1; j < 2; j++) {
+                    if (i == 0 && j == 0) {
+                        continue;
+                    }
+                    guiGraphics.drawString(font, text,
+                            guiGraphics.guiWidth() / 2 + i - font.width(text) / 2, guiGraphics.guiHeight() * 2 / 3 - 4 + j,
+                            0x000000, false);
+                }
+            }
+            guiGraphics.drawString(font, text,
+                    guiGraphics.guiWidth() / 2 - font.width(text) / 2, guiGraphics.guiHeight() * 2 / 3 - 4,
+                    element.getColor(), false);
         }
     }
 }
