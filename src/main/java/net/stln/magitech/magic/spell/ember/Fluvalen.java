@@ -14,6 +14,7 @@ import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
@@ -29,11 +30,15 @@ import net.stln.magitech.Magitech;
 import net.stln.magitech.damage.DamageTypeInit;
 import net.stln.magitech.damage.EntityElementRegister;
 import net.stln.magitech.item.tool.Element;
+import net.stln.magitech.magic.charge.Charge;
+import net.stln.magitech.magic.charge.ChargeData;
+import net.stln.magitech.magic.charge.ChargeUtil;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.particle.particle_option.FlameParticleEffect;
 import net.stln.magitech.sound.SoundInit;
 import net.stln.magitech.util.EntityUtil;
+import net.stln.magitech.util.TickScheduler;
 import org.joml.Vector3f;
 
 import java.util.HashMap;
@@ -42,6 +47,11 @@ import java.util.Map;
 import java.util.Set;
 
 public class Fluvalen extends Spell {
+
+    public Element getElement() {
+        return Element.EMBER;
+    }
+
     @Override
     public Map<ManaUtil.ManaType, Double> getCost() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
@@ -70,50 +80,60 @@ public class Fluvalen extends Spell {
     }
 
     @Override
-    public boolean callUsingTick() {
+    public boolean canHoldUsing() {
         return true;
+    }
+
+    @Override
+    public boolean releaseOnCharged() {
+        return false;
     }
 
     @Override
     public void usingTick(Level level, LivingEntity livingEntity, ItemStack stack, int usingTick) {
         super.usingTick(level, livingEntity, stack, usingTick);
-        Vec3 forward = Vec3.directionFromRotation(livingEntity.getRotationVector());
-        Vec3 bodyPos = livingEntity.position().add(0, livingEntity.getBbHeight() * 0.7, 0);
-        Vec3 offset = bodyPos.add(forward.scale(0.5));
-        Vec3 center = livingEntity.getEyePosition().add(forward);
-        Vec3 center2 = center.add(forward.scale(2));
-        Set<Entity> attackList = new HashSet<>();
-        attackList.addAll(EntityUtil.getEntitiesInBox(level, livingEntity, center, new Vec3(3.0, 3.0, 3.0)));
-        attackList.addAll(EntityUtil.getEntitiesInBox(level, livingEntity, center2, new Vec3(4.0, 4.0, 4.0)));
-        Vec3 startPos = offset;
-        for (Entity entity : attackList) {
-            Vec3 targetBodyPos = entity.position().add(0, entity.getBbHeight() * 0.7, 0);
-        }
-        for (int i = 0; i < 5; i++) {
-            level.addParticle(new FlameParticleEffect(new Vector3f(1), new Vector3f(1),
-                            5F, 1, 0.3F), offset.x, offset.y, offset.z,
-                    forward.x * 0.75 + (livingEntity.getRandom().nextFloat() - 0.5) / 4, forward.y * 0.75 + (livingEntity.getRandom().nextFloat() - 0.5) / 4, forward.z * 0.75 + (livingEntity.getRandom().nextFloat() - 0.5) / 4);
-        }
-        ResourceKey<DamageType> damageType = DamageTypeInit.EMBER_DAMAGE;
-        float damage = 3.0F;
-
-        DamageSource elementalDamageSource = stack.has(DataComponents.CUSTOM_NAME) ? livingEntity.damageSources().source(damageType, livingEntity) : livingEntity.damageSources().source(damageType);
-
-        float targetHealth = livingEntity.getHealth();
         if (livingEntity instanceof Player player) {
-            if (usingTick % 5 == 0) {
-                level.playSound(player, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), SoundInit.FLAME.get(), SoundSource.PLAYERS, 1.0F, 0.7F + (player.getRandom().nextFloat() * 0.6F));
+            Vec3 forward = Vec3.directionFromRotation(livingEntity.getRotationVector());
+            Vec3 bodyPos = livingEntity.position().add(0, livingEntity.getBbHeight() * 0.7, 0);
+            Vec3 offset = bodyPos.add(forward.scale(1));
+            Vec3 center = livingEntity.getEyePosition().add(forward);
+            Vec3 center2 = center.add(forward.scale(2));
+            Set<Entity> attackList = new HashSet<>();
+            attackList.addAll(EntityUtil.getEntitiesInBox(level, livingEntity, center, new Vec3(3.0, 3.0, 3.0)));
+            attackList.addAll(EntityUtil.getEntitiesInBox(level, livingEntity, center2, new Vec3(4.0, 4.0, 4.0)));
+            for (int i = 0; i < 5; i++) {
+                level.addParticle(new FlameParticleEffect(new Vector3f(1), new Vector3f(1),
+                                5F, 1, 0.3F), offset.x, offset.y, offset.z,
+                        forward.x * 0.75 + (livingEntity.getRandom().nextFloat() - 0.5) / 4, forward.y * 0.75 + (livingEntity.getRandom().nextFloat() - 0.5) / 4, forward.z * 0.75 + (livingEntity.getRandom().nextFloat() - 0.5) / 4);
             }
-            player.awardStat(Stats.DAMAGE_DEALT, Math.round((targetHealth - livingEntity.getHealth()) * 10));
-        }
-        for (Entity target : attackList) {
-            if (target.isAttackable()) {
-                if (target instanceof LivingEntity livingTarget) {
-                    livingTarget.setLastHurtByMob(livingEntity);
+            ResourceKey<DamageType> damageType = DamageTypeInit.EMBER_DAMAGE;
+            float damage = 4.0F;
+
+            DamageSource elementalDamageSource = stack.has(DataComponents.CUSTOM_NAME) ? livingEntity.damageSources().source(damageType, livingEntity) : livingEntity.damageSources().source(damageType);
+
+            float targetHealth = livingEntity.getHealth();
+                if (usingTick % 5 == 0) {
+                    level.playSound(player, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), SoundInit.FLAME.get(), SoundSource.PLAYERS, 1.0F, 0.7F + (player.getRandom().nextFloat() * 0.6F));
                 }
-                damage *= EntityElementRegister.getElementAffinity(target, Element.SURGE).getMultiplier();
-                target.hurt(elementalDamageSource, damage);
+                player.awardStat(Stats.DAMAGE_DEALT, Math.round((targetHealth - livingEntity.getHealth()) * 10));
+            for (Entity target : attackList) {
+                if (target.isAttackable()) {
+                    if (target instanceof LivingEntity livingTarget) {
+                        livingTarget.setLastHurtByMob(livingEntity);
+                    }
+                    damage *= EntityElementRegister.getElementAffinity(target, Element.SURGE).getMultiplier();
+                    target.hurt(elementalDamageSource, damage);
+                    target.setRemainingFireTicks(Math.min(200, target.getRemainingFireTicks() + 60));
+                }
             }
+        }
+    }
+
+    @Override
+    public void finishUsing(ItemStack stack, Level level, LivingEntity livingEntity, int timeCharged, boolean isHost) {
+        super.finishUsing(stack, level, livingEntity, timeCharged, isHost);
+        if (livingEntity instanceof Player player) {
+            ChargeData.removeCharge(player);
         }
     }
 }

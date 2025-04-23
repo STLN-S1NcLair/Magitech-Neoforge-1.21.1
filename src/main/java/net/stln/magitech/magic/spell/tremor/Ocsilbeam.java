@@ -5,7 +5,9 @@ import dev.kosmx.playerAnim.api.firstPerson.FirstPersonMode;
 import dev.kosmx.playerAnim.api.layered.IAnimation;
 import dev.kosmx.playerAnim.api.layered.KeyframeAnimationPlayer;
 import dev.kosmx.playerAnim.api.layered.ModifierLayer;
+import dev.kosmx.playerAnim.api.layered.modifier.AbstractFadeModifier;
 import dev.kosmx.playerAnim.core.data.KeyframeAnimation;
+import dev.kosmx.playerAnim.core.util.Ease;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -44,6 +46,10 @@ import java.util.Map;
 
 public class Ocsilbeam extends Spell {
 
+    public Element getElement() {
+        return Element.TREMOR;
+    }
+
     @Override
     public Map<ManaUtil.ManaType, Double> getCost() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
@@ -79,7 +85,7 @@ public class Ocsilbeam extends Spell {
                     level.addParticle(new WaveParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0),
                             hitPos.x + (user.getRandom().nextFloat() - 0.5) / 3, hitPos.y + (user.getRandom().nextFloat() - 0.5) / 3, hitPos.z + (user.getRandom().nextFloat() - 0.5) / 3, 0, 0, 0);
                 }
-                level.playSound(user, user.getX(), user.getY(), user.getZ(), SoundInit.FROST_BREAK.get(), SoundSource.PLAYERS, 1.0F, 0.6F + (user.getRandom().nextFloat() * 0.6F));
+                level.playSound(user, user.getX(), user.getY(), user.getZ(), SoundInit.SONICBOOM.get(), SoundSource.PLAYERS, 1.0F, 0.5F + (user.getRandom().nextFloat() * 0.5F));
 
 
                 if (target instanceof LivingEntity livingTarget) {
@@ -98,24 +104,43 @@ public class Ocsilbeam extends Spell {
                         target.hurt(elementalDamageSource, damage);
                     }
                 }
+
+                if (level.isClientSide) {
+                    playShootAnimation(user);
+                }
             } else {
                 ChargeData.removeCharge(user);
             }
         }
     }
 
-    @Override
-    public boolean callUsingTick() {
-        return true;
-    }
-
-    @Override
-    protected void playAnimation(Player user) {
+    private static void playShootAnimation(Player user) {
         var playerAnimationData = (ModifierLayer<IAnimation>) PlayerAnimationAccess.getPlayerAssociatedData((AbstractClientPlayer) user).get(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "animation"));
         if (playerAnimationData != null) {
 
             user.yBodyRot = user.yHeadRot;
             playerAnimationData.setAnimation(new KeyframeAnimationPlayer((KeyframeAnimation) PlayerAnimationRegistry.getAnimation(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "wand_beam")))
+                    .setFirstPersonMode(FirstPersonMode.THIRD_PERSON_MODEL).setFirstPersonConfiguration(new FirstPersonConfiguration(true, true, true, true)));
+        }
+    }
+
+    @Override
+    public boolean canHoldUsing() {
+        return true;
+    }
+
+    @Override
+    public boolean stopAnimOnRelease() {
+        return false;
+    }
+
+    @Override
+    protected void playAnimation(Player user) {
+        var playerAnimationData = (ModifierLayer<IAnimation>) PlayerAnimationAccess.getPlayerAssociatedData((AbstractClientPlayer) user).get(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "animation"));
+        if (playerAnimationData != null && !playerAnimationData.isActive()) {
+
+            user.yBodyRot = user.yHeadRot;
+            playerAnimationData.replaceAnimationWithFade(AbstractFadeModifier.standardFadeIn(4, Ease.INSINE), new KeyframeAnimationPlayer((KeyframeAnimation) PlayerAnimationRegistry.getAnimation(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "wand_charge_beam")))
                     .setFirstPersonMode(FirstPersonMode.THIRD_PERSON_MODEL).setFirstPersonConfiguration(new FirstPersonConfiguration(true, true, true, true)));
         }
     }

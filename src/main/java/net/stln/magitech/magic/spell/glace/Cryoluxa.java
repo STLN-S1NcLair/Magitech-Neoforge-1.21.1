@@ -40,6 +40,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Cryoluxa extends Spell {
+
+    public Element getElement() {
+        return Element.GLACE;
+    }
+
     @Override
     public Map<ManaUtil.ManaType, Double> getCost() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();

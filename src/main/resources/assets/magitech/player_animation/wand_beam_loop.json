@@ -1,12 +1,12 @@
 {
-    "name": "wand_beam",
+    "name": "wand_beam_loop",
     "author": "stln",
     "description": "description",
     "emote":{
-        "isLoop": "false",
-        "returnTick": 2,
+        "isLoop": "true",
+        "returnTick": 6,
         "beginTick":0,
-        "endTick":12,
+        "endTick":10,
         "stopTick":11,
         "degrees":false,
         "moves":[

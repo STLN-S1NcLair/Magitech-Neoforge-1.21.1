@@ -1,6 +1,5 @@
 package net.stln.magitech.magic.spell;
 
-import com.mojang.authlib.minecraft.client.MinecraftClient;
 import dev.kosmx.playerAnim.api.firstPerson.FirstPersonConfiguration;
 import dev.kosmx.playerAnim.api.firstPerson.FirstPersonMode;
 import dev.kosmx.playerAnim.api.layered.IAnimation;
@@ -9,9 +8,7 @@ import dev.kosmx.playerAnim.api.layered.ModifierLayer;
 import dev.kosmx.playerAnim.core.data.KeyframeAnimation;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
@@ -22,6 +19,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.stln.magitech.Magitech;
+import net.stln.magitech.item.tool.Element;
 import net.stln.magitech.magic.charge.Charge;
 import net.stln.magitech.magic.charge.ChargeData;
 import net.stln.magitech.magic.mana.ManaUtil;
@@ -33,12 +31,24 @@ import java.util.Map;
 
 public abstract class Spell {
 
+    public Element getElement() {
+        return Element.NONE;
+    }
+
     public Map<ManaUtil.ManaType, Double> getCost() {
         return new HashMap<>();
     }
 
     public Map<ManaUtil.ManaType, Double> getTickCost() {
         return new HashMap<>();
+    }
+
+    public boolean needsUseCost(Level level, Player user, ItemStack stack) {
+        return true;
+    }
+
+    public boolean needsTickCost(Level level, Player user, ItemStack stack) {
+        return true;
     }
 
     public void use(Level level, Player user, InteractionHand hand, boolean isHost) {
@@ -48,7 +58,7 @@ public abstract class Spell {
                 PacketDistributor.sendToServer(new UseSpellPayload(hand == InteractionHand.MAIN_HAND, user.getUUID().toString()));
             }
         }
-        if (callUsingTick()) {
+        if (canHoldUsing()) {
             user.startUsingItem(hand);
         }
     }
@@ -64,8 +74,16 @@ public abstract class Spell {
         }
     }
 
-    public boolean callUsingTick() {
+    public boolean canHoldUsing() {
         return false;
+    }
+
+    public boolean stopAnimOnRelease() {
+        return true;
+    }
+
+    public boolean releaseOnCharged() {
+        return true;
     }
 
     public void usingTick(Level level, LivingEntity livingEntity, ItemStack stack, int usingTick) {
@@ -74,16 +92,17 @@ public abstract class Spell {
     public void finishUsing(ItemStack stack, Level level, LivingEntity livingEntity, int timeCharged, boolean isHost) {
         if (livingEntity instanceof Player player) {
             Charge charge = ChargeData.getCurrentCharge(player);
-            Magitech.LOGGER.info(timeCharged + ", " + charge.getCharge() + ", " + charge.getMaxCharge());
-            if (charge.getCharge() >= charge.getMaxCharge() || timeCharged >= charge.getMaxCharge()) {
-                ChargeData.removeCharge(player);
+            if (charge != null) {
+                if (charge.getCharge() >= charge.getMaxCharge() || timeCharged >= charge.getMaxCharge()) {
+                    ChargeData.removeCharge(player);
+                }
             }
         }
         if (level.isClientSide) {
             if (isHost) {
             PacketDistributor.sendToServer(new ReleaseUsingSpellPayload(stack, timeCharged, livingEntity.getUUID().toString()));
             }
-            if (callUsingTick() && livingEntity instanceof Player player) {
+            if (canHoldUsing() && stopAnimOnRelease() && livingEntity instanceof Player player) {
                 stopAnim(player);
             }
         }

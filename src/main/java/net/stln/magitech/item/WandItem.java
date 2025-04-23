@@ -56,7 +56,13 @@ public class WandItem extends Item implements LeftClickOverrideItem {
                     user.releaseUsingItem();
                     return InteractionResultHolder.pass(itemStack);
                 }
-                if (ManaUtil.useManaServerOnly(user, spell.getCost())) {
+                boolean flag = false;
+                if (spell.needsUseCost(world, user, itemStack)) {
+                    flag = ManaUtil.useManaServerOnly(user, spell.getCost());
+                } else {
+                    flag = true;
+                }
+                if (flag) {
                     spell.use(world, user, hand, true);
                 } else {
                     user.releaseUsingItem();
@@ -73,18 +79,25 @@ public class WandItem extends Item implements LeftClickOverrideItem {
     @Override
     public void onUseTick(Level level, LivingEntity livingEntity, ItemStack stack, int remainingUseDuration) {
         super.onUseTick(level, livingEntity, stack, remainingUseDuration);
-        if (livingEntity instanceof Player user && ManaUtil.useManaServerOnly(user, stormhaze.getTickCost())) {
+        if (livingEntity instanceof Player user) {
             ICuriosItemHandler curiosInventory = CuriosApi.getCuriosInventory(user).get();
             ItemStack threadbound = curiosInventory.getCurios().get("threadbound").getStacks().getStackInSlot(0);
 
             if (!threadbound.isEmpty()) {
                 SpellComponent spellComponent = threadbound.get(ComponentInit.SPELL_COMPONENT);
                 Spell spell = spellComponent.spells().get(spellComponent.selected());
-
-                spell.usingTick(level, livingEntity, stack, getUseDuration(stack, livingEntity) - remainingUseDuration);
+                boolean flag = false;
+                if (spell.needsTickCost(level, user, stack)) {
+                    flag = ManaUtil.useManaServerOnly(user, spell.getTickCost());
+                } else {
+                    flag = true;
+                }
+                if (flag) {
+                    spell.usingTick(level, livingEntity, stack, getUseDuration(stack, livingEntity) - remainingUseDuration);
+                } else {
+                    livingEntity.releaseUsingItem();
+                }
             }
-        } else {
-            livingEntity.releaseUsingItem();
         }
     }
 

@@ -7,6 +7,7 @@ import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.magic.charge.ChargeData;
+import net.stln.magitech.magic.cooldown.CooldownData;
 import net.stln.magitech.magic.mana.ManaData;
 import net.stln.magitech.util.Map2d;
 
@@ -16,6 +17,7 @@ public class LoadCleanupEvent {
     @SubscribeEvent
     public static void chargeTick(LevelEvent.Load event) {
         ChargeData.cleanUp();
+        CooldownData.cleanUp();
         ManaData.cleanUp();
     }
 }

@@ -18,7 +18,10 @@ public class ChargeUtil {
             if (charge != null) {
                 charge.setCharge(charge.getCharge() + 1);
                 if (charge.getCharge() > charge.getMaxCharge()) {
-                    player.releaseUsingItem();
+                    if (charge.getSpell().releaseOnCharged()){
+                        player.releaseUsingItem();
+                    }
+                    ChargeData.removeCharge(player);
                 } else {
                     ChargeData.setCurrentCharge(player, charge);
                 }

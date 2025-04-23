@@ -43,6 +43,10 @@ import java.util.*;
 
 public class Sparkion extends Spell {
 
+    public Element getElement() {
+        return Element.SURGE;
+    }
+
     @Override
     public Map<ManaUtil.ManaType, Double> getCost() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
@@ -73,7 +77,7 @@ public class Sparkion extends Spell {
     }
 
     @Override
-    public boolean callUsingTick() {
+    public boolean canHoldUsing() {
         return true;
     }
 

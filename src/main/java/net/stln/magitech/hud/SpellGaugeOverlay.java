@@ -61,7 +61,7 @@ public class SpellGaugeOverlay implements LayeredDraw.Layer {
                     }
                     guiGraphics.drawString(font, text,
                             guiGraphics.guiWidth() / 2 + i - font.width(text) / 2, guiGraphics.guiHeight() * 2 / 3 - 4 + j,
-                            0x000000, false);
+                            element.getDark(), false);
                 }
             }
             guiGraphics.drawString(font, text,

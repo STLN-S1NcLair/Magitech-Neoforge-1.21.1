@@ -19,6 +19,7 @@ import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.entity.magicentity.arcaleth.ArcalethEntity;
 import net.stln.magitech.entity.magicentity.mirazien.MirazienEntity;
+import net.stln.magitech.item.tool.Element;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.particle.particle_option.FrostParticleEffect;
@@ -31,6 +32,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Mirazien extends Spell {
+
+    public Element getElement() {
+        return Element.PHANTOM;
+    }
+
     @Override
     public Map<ManaUtil.ManaType, Double> getCost() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();

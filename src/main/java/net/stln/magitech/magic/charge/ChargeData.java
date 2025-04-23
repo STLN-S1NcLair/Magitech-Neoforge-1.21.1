@@ -1,6 +1,7 @@
 package net.stln.magitech.magic.charge;
 
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.stln.magitech.util.Map2d;
 
 import java.util.HashMap;
@@ -15,6 +16,13 @@ public class ChargeData {
     }
 
     public static Map<Player, Charge> getChargeMapServer() {
+        return chargeMapServer;
+    }
+
+    public static Map<Player, Charge> getChargeMap(boolean isClient) {
+        if (isClient) {
+            return chargeMapClient;
+        }
         return chargeMapServer;
     }
 

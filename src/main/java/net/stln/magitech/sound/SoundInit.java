@@ -19,6 +19,7 @@ public class SoundInit {
     public static final Supplier<SoundEvent> FROST_BREAK = registerSoundEvent("frost_break");
     public static final Supplier<SoundEvent> ZAP = registerSoundEvent("zap");
     public static final Supplier<SoundEvent> FLAME = registerSoundEvent("flame");
+    public static final Supplier<SoundEvent> SONICBOOM = registerSoundEvent("sonicboom");
 
 
     private static Supplier<SoundEvent> registerSoundEvent(String name) {
