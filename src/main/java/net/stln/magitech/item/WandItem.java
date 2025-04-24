@@ -18,6 +18,7 @@ import net.stln.magitech.Magitech;
 import net.stln.magitech.entity.AdjustableAttackStrengthEntity;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.SpellComponent;
+import net.stln.magitech.magic.cooldown.CooldownData;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.magic.spell.magic.Arcaleth;
@@ -63,7 +64,11 @@ public class WandItem extends Item implements LeftClickOverrideItem {
                     flag = true;
                 }
                 if (flag) {
-                    spell.use(world, user, hand, true);
+                    if (CooldownData.getCurrentCooldown(user, spell) == null) {
+                        spell.use(world, user, hand, true);
+                    } else {
+                        return InteractionResultHolder.fail(itemStack);
+                    }
                 } else {
                     user.releaseUsingItem();
                 }

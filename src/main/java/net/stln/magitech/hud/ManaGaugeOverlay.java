@@ -12,6 +12,7 @@ import net.stln.magitech.Magitech;
 import net.stln.magitech.entity.status.AttributeInit;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.SpellComponent;
+import net.stln.magitech.magic.cooldown.CooldownData;
 import net.stln.magitech.magic.mana.ManaData;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.Spell;
@@ -74,6 +75,10 @@ public class ManaGaugeOverlay implements LayeredDraw.Layer {
                     String path = icon.getPath();
                     icon = ResourceLocation.fromNamespaceAndPath(namespace, "textures/spell/" + path + ".png");
                     guiGraphics.blit(icon, x + 25, y + 52, 0, 0, 32, 32, 32, 32);
+
+                    if (CooldownData.getCurrentCooldown(player, spell) != null) {
+                        guiGraphics.blit(TEXTURE, x + 25, y + 52, 16, 96, 32, 32);
+                    }
                 }
             } else {
                 threadbound.set(ComponentInit.SPELL_COMPONENT, new SpellComponent(spellComponent.spells(), 0));

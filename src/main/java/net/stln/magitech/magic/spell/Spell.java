@@ -22,6 +22,8 @@ import net.stln.magitech.Magitech;
 import net.stln.magitech.item.tool.Element;
 import net.stln.magitech.magic.charge.Charge;
 import net.stln.magitech.magic.charge.ChargeData;
+import net.stln.magitech.magic.cooldown.Cooldown;
+import net.stln.magitech.magic.cooldown.CooldownData;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.network.ReleaseUsingSpellPayload;
 import net.stln.magitech.network.UseSpellPayload;
@@ -51,6 +53,14 @@ public abstract class Spell {
         return true;
     }
 
+    public int getCooldown(Level level, Player user, ItemStack stack) {
+        return 60;
+    }
+
+    public Element getElement(Level level, Player user, ItemStack stack) {
+        return Element.NONE;
+    }
+
     public void use(Level level, Player user, InteractionHand hand, boolean isHost) {
         if (level.isClientSide) {
             playAnimation(user);
@@ -60,6 +70,8 @@ public abstract class Spell {
         }
         if (canHoldUsing()) {
             user.startUsingItem(hand);
+        } else {
+            addCooldown(level, user, user.getItemInHand(hand));
         }
     }
 
@@ -102,8 +114,11 @@ public abstract class Spell {
             if (isHost) {
             PacketDistributor.sendToServer(new ReleaseUsingSpellPayload(stack, timeCharged, livingEntity.getUUID().toString()));
             }
-            if (canHoldUsing() && stopAnimOnRelease() && livingEntity instanceof Player player) {
-                stopAnim(player);
+            if (canHoldUsing() && livingEntity instanceof Player player) {
+                if (stopAnimOnRelease()) {
+                    stopAnim(player);
+                }
+                addCooldown(level, player, stack);
             }
         }
     }
@@ -115,5 +130,9 @@ public abstract class Spell {
 
             keyframeAnimationPlayer.stop();
         }
+    }
+
+    public void addCooldown(Level level, Player user, ItemStack stack) {
+        CooldownData.addCurrentCooldown(user, this, new Cooldown(this.getCooldown(level, user, stack), this.getElement()));
     }
 }
