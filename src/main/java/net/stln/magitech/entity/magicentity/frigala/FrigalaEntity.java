@@ -1,4 +1,4 @@
-package net.stln.magitech.entity.magicentity.mirazien;
+package net.stln.magitech.entity.magicentity.frigala;
 
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceKey;
@@ -21,35 +21,37 @@ import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.damage.DamageTypeInit;
 import net.stln.magitech.entity.EntityInit;
 import net.stln.magitech.entity.SpellProjectileEntity;
+import net.stln.magitech.particle.particle_option.FrostParticleEffect;
 import net.stln.magitech.particle.particle_option.UnstableSquareParticleEffect;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
+import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class MirazienEntity extends SpellProjectileEntity {
+public class FrigalaEntity extends SpellProjectileEntity implements GeoEntity {
 
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
 
-    public MirazienEntity(EntityType<? extends SpellProjectileEntity> entityType, Level world) {
+    public FrigalaEntity(EntityType<? extends SpellProjectileEntity> entityType, Level world) {
         super(entityType, world);
     }
 
-    public MirazienEntity(Level world, Player player, float damage) {
-        super(EntityInit.MIRAZIEN_ENTITY.get(), player, world, null, damage);
+    public FrigalaEntity(Level world, Player player, float damage) {
+        super(EntityInit.FRIGALA_ENTITY.get(), player, world, null, damage);
 
     }
 
-    public MirazienEntity(Level world, Player player, ItemStack weapon, float damage) {
-        super(EntityInit.MIRAZIEN_ENTITY.get(), player, world, weapon, damage);
+    public FrigalaEntity(Level world, Player player, ItemStack weapon, float damage) {
+        super(EntityInit.FRIGALA_ENTITY.get(), player, world, weapon, damage);
     }
 
-    public MirazienEntity(EntityType<? extends SpellProjectileEntity> type, double x, double y, double z, Level world, ItemStack stack, @Nullable ItemStack weapon, float damage) {
+    public FrigalaEntity(EntityType<? extends SpellProjectileEntity> type, double x, double y, double z, Level world, ItemStack stack, @Nullable ItemStack weapon, float damage) {
         super(type, x, y, z, world, weapon, damage);
     }
 
-    public MirazienEntity(EntityType<? extends SpellProjectileEntity> type, LivingEntity owner, Level world, ItemStack stack, @Nullable ItemStack shotFrom, float damage) {
+    public FrigalaEntity(EntityType<? extends SpellProjectileEntity> type, LivingEntity owner, Level world, ItemStack stack, @Nullable ItemStack shotFrom, float damage) {
         super(type, owner, world, shotFrom, damage);
     }
 
@@ -58,10 +60,10 @@ public class MirazienEntity extends SpellProjectileEntity {
         super.tick();
         Level world = this.level();
         if (world.isClientSide) {
-            Vector3f fromColor = new Vector3f(1.0F, 1.0F, 0.7F);
-            Vector3f toColor = new Vector3f(1.0F, 1.0F, 0.5F);
+            Vector3f fromColor = new Vector3f(1.0F, 1.0F, 1.0F);
+            Vector3f toColor = new Vector3f(1.0F, 1.0F, 1.0F);
             float scale = 1.0F;
-            int twinkle = 5;
+            int twinkle = 1;
             float rotSpeed = 0.0F;
             int particleAmount = 5;
             for (int i = 0; i < particleAmount; i++) {
@@ -72,7 +74,7 @@ public class MirazienEntity extends SpellProjectileEntity {
                 double vx = deltaMovement.x / 4;
                 double vy = deltaMovement.y / 4;
                 double vz = deltaMovement.z / 4;
-                world.addParticle(new UnstableSquareParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed), x, y, z, vx, vy, vz);
+                world.addParticle(new FrostParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed), x, y, z, vx, vy, vz);
             }
         }
     }
@@ -83,7 +85,7 @@ public class MirazienEntity extends SpellProjectileEntity {
         Entity entity = entityHitResult.getEntity();
         Entity owner = this.getOwner();
 
-        ResourceKey<DamageType> damageType = DamageTypeInit.PHANTOM_DAMAGE;
+        ResourceKey<DamageType> damageType = DamageTypeInit.GLACE_DAMAGE;
         DamageSource elementalDamageSource;
         if (this.getWeaponItem() != null) {
             elementalDamageSource = this.getWeaponItem().has(DataComponents.CUSTOM_NAME) ? owner.damageSources().source(damageType, owner) : owner.damageSources().source(damageType);
@@ -93,7 +95,7 @@ public class MirazienEntity extends SpellProjectileEntity {
 
         entity.hurt(elementalDamageSource, this.damage);
         if (entity instanceof LivingEntity livingEntity) {
-            livingEntity.addEffect(new MobEffectInstance(MobEffects.GLOWING, 200, 0));
+            livingEntity.setTicksFrozen(Math.max(livingEntity.getTicksFrozen() + 120, 180));
         }
         hitParticle();
 
@@ -127,13 +129,13 @@ public class MirazienEntity extends SpellProjectileEntity {
     protected void hitParticle() {
         Level world = this.level();
         if (world.isClientSide) {
-            Vector3f fromColor = new Vector3f(1.0F, 1.0F, 0.7F);
-            Vector3f toColor = new Vector3f(1.0F, 1.0F, 0.5F);
+            Vector3f fromColor = new Vector3f(1.0F, 1.0F, 1.0F);
+            Vector3f toColor = new Vector3f(1.0F, 1.0F, 1.0F);
             float scale = 1.0F;
             float rotSpeed = 0.0F;
             int particleAmount = 10;
             for (int i = 0; i < particleAmount; i++) {
-                int twinkle = random.nextInt(3, 7);
+                int twinkle = 1;
 
                 double x = this.getX() - this.getDeltaMovement().x + (random.nextFloat() - 0.5) / 10;
                 double y = this.getY(0.5F) - this.getDeltaMovement().y + (random.nextFloat() - 0.5) / 10;
@@ -141,7 +143,7 @@ public class MirazienEntity extends SpellProjectileEntity {
                 double vx = (random.nextFloat() - 0.5) / 6;
                 double vy = (random.nextFloat() - 0.5) / 6;
                 double vz = (random.nextFloat() - 0.5) / 6;
-                world.addParticle(new UnstableSquareParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed), x, y, z, vx, vy, vz);
+                world.addParticle(new FrostParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed), x, y, z, vx, vy, vz);
             }
         }
     }

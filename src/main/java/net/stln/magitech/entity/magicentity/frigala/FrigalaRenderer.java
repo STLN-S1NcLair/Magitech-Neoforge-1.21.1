@@ -1,13 +1,10 @@
-package net.stln.magitech.entity.magicentity.arcaleth;
+package net.stln.magitech.entity.magicentity.frigala;
 
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -16,32 +13,30 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.entity.magicentity.frigala.FrigalaEntity;
-import net.stln.magitech.entity.magicentity.frigala.FrigalaModel;
 import net.stln.magitech.util.RenderHelper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 import software.bernie.geckolib.util.Color;
 
-public class ArcalethRenderer extends GeoEntityRenderer<ArcalethEntity> {
+public class FrigalaRenderer extends GeoEntityRenderer<FrigalaEntity> {
 
-    public ArcalethRenderer(EntityRendererProvider.Context ctx) {
-        super(ctx, new ArcalethModel());
+    public FrigalaRenderer(EntityRendererProvider.Context ctx) {
+        super(ctx, new FrigalaModel());
     }
 
     @Override
-    public Color getRenderColor(ArcalethEntity animatable, float partialTick, int packedLight) {
+    public Color getRenderColor(FrigalaEntity animatable, float partialTick, int packedLight) {
         return Color.WHITE;
     }
 
     @Override
-    public @Nullable RenderType getRenderType(ArcalethEntity animatable, ResourceLocation texture, @Nullable MultiBufferSource bufferSource, float partialTick) {
+    public @Nullable RenderType getRenderType(FrigalaEntity animatable, ResourceLocation texture, @Nullable MultiBufferSource bufferSource, float partialTick) {
         return RenderHelper.additiveNoCull(texture);
     }
 
     @Override
-    protected void applyRotations(ArcalethEntity animatable, PoseStack poseStack, float ageInTicks, float rotationYaw, float partialTick, float nativeScale) {
+    protected void applyRotations(FrigalaEntity animatable, PoseStack poseStack, float ageInTicks, float rotationYaw, float partialTick, float nativeScale) {
         Vec3 velocity = animatable.getDeltaMovement();
 
         if (!velocity.equals(Vec3.ZERO)) {

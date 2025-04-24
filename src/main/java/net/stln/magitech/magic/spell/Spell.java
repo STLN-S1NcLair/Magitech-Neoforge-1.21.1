@@ -70,8 +70,6 @@ public abstract class Spell {
         }
         if (canHoldUsing()) {
             user.startUsingItem(hand);
-        } else {
-            addCooldown(level, user, user.getItemInHand(hand));
         }
     }
 
@@ -118,7 +116,6 @@ public abstract class Spell {
                 if (stopAnimOnRelease()) {
                     stopAnim(player);
                 }
-                addCooldown(level, player, stack);
             }
         }
     }

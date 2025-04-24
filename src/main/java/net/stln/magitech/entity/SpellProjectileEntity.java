@@ -39,12 +39,13 @@ import net.minecraft.world.phys.*;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.stln.magitech.Magitech;
 import org.joml.Vector2f;
+import software.bernie.geckolib.animatable.GeoEntity;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class SpellProjectileEntity extends Projectile {
+public abstract class SpellProjectileEntity extends Projectile implements GeoEntity {
     @javax.annotation.Nullable
     private BlockState lastState;
     protected boolean inGround;

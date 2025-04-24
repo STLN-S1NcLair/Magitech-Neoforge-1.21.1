@@ -63,6 +63,7 @@ public class Mirazien extends Spell {
             bullet.setPos(user.getX(), user.getEyeY() - 0.3, user.getZ());
             level.addFreshEntity(bullet);
         }
+        addCooldown(level, user, user.getItemInHand(hand));
     }
 
     @Override

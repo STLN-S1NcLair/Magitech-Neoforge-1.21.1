@@ -1,4 +1,4 @@
-package net.stln.magitech.entity.magicentity.mirazien;
+package net.stln.magitech.entity.magicentity.voltaris;
 
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceKey;
@@ -6,8 +6,6 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityEvent;
 import net.minecraft.world.entity.EntityType;
@@ -26,30 +24,33 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class MirazienEntity extends SpellProjectileEntity {
+public class VoltarisEntity extends SpellProjectileEntity {
+
+    private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
 
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
 
-    public MirazienEntity(EntityType<? extends SpellProjectileEntity> entityType, Level world) {
+    public VoltarisEntity(EntityType<? extends SpellProjectileEntity> entityType, Level world) {
         super(entityType, world);
     }
 
-    public MirazienEntity(Level world, Player player, float damage) {
-        super(EntityInit.MIRAZIEN_ENTITY.get(), player, world, null, damage);
-
+    public VoltarisEntity(Level world, Player player, float damage) {
+        super(EntityInit.VOLTARIS_ENTITY.get(), player, world, null, damage);
     }
 
-    public MirazienEntity(Level world, Player player, ItemStack weapon, float damage) {
-        super(EntityInit.MIRAZIEN_ENTITY.get(), player, world, weapon, damage);
+    public VoltarisEntity(Level world, Player player, ItemStack weapon, float damage) {
+        super(EntityInit.VOLTARIS_ENTITY.get(), player, world, weapon, damage);
     }
 
-    public MirazienEntity(EntityType<? extends SpellProjectileEntity> type, double x, double y, double z, Level world, ItemStack stack, @Nullable ItemStack weapon, float damage) {
+    public VoltarisEntity(EntityType<? extends SpellProjectileEntity> type, double x, double y, double z, Level world, ItemStack stack, @Nullable ItemStack weapon, float damage) {
         super(type, x, y, z, world, weapon, damage);
     }
 
-    public MirazienEntity(EntityType<? extends SpellProjectileEntity> type, LivingEntity owner, Level world, ItemStack stack, @Nullable ItemStack shotFrom, float damage) {
+    public VoltarisEntity(EntityType<? extends SpellProjectileEntity> type, LivingEntity owner, Level world, ItemStack stack, @Nullable ItemStack shotFrom, float damage) {
         super(type, owner, world, shotFrom, damage);
     }
 
@@ -58,8 +59,8 @@ public class MirazienEntity extends SpellProjectileEntity {
         super.tick();
         Level world = this.level();
         if (world.isClientSide) {
-            Vector3f fromColor = new Vector3f(1.0F, 1.0F, 0.7F);
-            Vector3f toColor = new Vector3f(1.0F, 1.0F, 0.5F);
+            Vector3f fromColor = new Vector3f(1.0F, 0.0F, 1.0F);
+            Vector3f toColor = new Vector3f(0.7F, 0.0F, 1.0F);
             float scale = 1.0F;
             int twinkle = 5;
             float rotSpeed = 0.0F;
@@ -83,7 +84,7 @@ public class MirazienEntity extends SpellProjectileEntity {
         Entity entity = entityHitResult.getEntity();
         Entity owner = this.getOwner();
 
-        ResourceKey<DamageType> damageType = DamageTypeInit.PHANTOM_DAMAGE;
+        ResourceKey<DamageType> damageType = DamageTypeInit.MAGIC_DAMAGE;
         DamageSource elementalDamageSource;
         if (this.getWeaponItem() != null) {
             elementalDamageSource = this.getWeaponItem().has(DataComponents.CUSTOM_NAME) ? owner.damageSources().source(damageType, owner) : owner.damageSources().source(damageType);
@@ -92,9 +93,6 @@ public class MirazienEntity extends SpellProjectileEntity {
         }
 
         entity.hurt(elementalDamageSource, this.damage);
-        if (entity instanceof LivingEntity livingEntity) {
-            livingEntity.addEffect(new MobEffectInstance(MobEffects.GLOWING, 200, 0));
-        }
         hitParticle();
 
         if (!this.level().isClientSide) {
@@ -127,8 +125,8 @@ public class MirazienEntity extends SpellProjectileEntity {
     protected void hitParticle() {
         Level world = this.level();
         if (world.isClientSide) {
-            Vector3f fromColor = new Vector3f(1.0F, 1.0F, 0.7F);
-            Vector3f toColor = new Vector3f(1.0F, 1.0F, 0.5F);
+            Vector3f fromColor = new Vector3f(1.0F, 0.0F, 1.0F);
+            Vector3f toColor = new Vector3f(0.7F, 0.0F, 1.0F);
             float scale = 1.0F;
             float rotSpeed = 0.0F;
             int particleAmount = 10;
@@ -153,7 +151,7 @@ public class MirazienEntity extends SpellProjectileEntity {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-
+        controllers.add(new AnimationController<>(this, "idle", (event) -> event.setAndContinue(IDLE)));
     }
 
     @Override

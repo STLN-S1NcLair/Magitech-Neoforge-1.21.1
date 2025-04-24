@@ -134,6 +134,7 @@ public class Fluvalen extends Spell {
         super.finishUsing(stack, level, livingEntity, timeCharged, isHost);
         if (livingEntity instanceof Player player) {
             ChargeData.removeCharge(player);
+            addCooldown(level, player, stack);
         }
     }
 }

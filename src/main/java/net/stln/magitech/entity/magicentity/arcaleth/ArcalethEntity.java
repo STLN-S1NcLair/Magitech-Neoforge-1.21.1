@@ -24,8 +24,13 @@ import net.stln.magitech.entity.SpellProjectileEntity;
 import net.stln.magitech.particle.particle_option.UnstableSquareParticleEffect;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class ArcalethEntity extends SpellProjectileEntity {
+
+    private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
 
     public ArcalethEntity(EntityType<? extends SpellProjectileEntity> entityType, Level world) {
         super(entityType, world);
@@ -140,5 +145,15 @@ public class ArcalethEntity extends SpellProjectileEntity {
     @Override
     protected SoundEvent getDefaultHitGroundSoundEvent() {
         return SoundEvents.BEACON_POWER_SELECT;
+    }
+
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+
+    }
+
+    @Override
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
+        return this.geoCache;
     }
 }

@@ -67,6 +67,7 @@ public class WandItem extends Item implements LeftClickOverrideItem {
                     if (CooldownData.getCurrentCooldown(user, spell) == null) {
                         spell.use(world, user, hand, true);
                     } else {
+                        user.stopUsingItem();
                         return InteractionResultHolder.fail(itemStack);
                     }
                 } else {
@@ -98,7 +99,11 @@ public class WandItem extends Item implements LeftClickOverrideItem {
                     flag = true;
                 }
                 if (flag) {
-                    spell.usingTick(level, livingEntity, stack, getUseDuration(stack, livingEntity) - remainingUseDuration);
+                    if (CooldownData.getCurrentCooldown(user, spell) == null) {
+                        spell.usingTick(level, livingEntity, stack, getUseDuration(stack, livingEntity) - remainingUseDuration);
+                    } else {
+                        livingEntity.stopUsingItem();
+                    }
                 } else {
                     livingEntity.releaseUsingItem();
                 }

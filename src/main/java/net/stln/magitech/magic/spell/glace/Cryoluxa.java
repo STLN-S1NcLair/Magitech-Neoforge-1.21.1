@@ -91,6 +91,7 @@ public class Cryoluxa extends Spell {
             damage *= EntityElementRegister.getElementAffinity(target, Element.GLACE).getMultiplier();
             target.hurt(elementalDamageSource, damage);
         }
+        addCooldown(level, user, stack);
     }
 
     @Override
