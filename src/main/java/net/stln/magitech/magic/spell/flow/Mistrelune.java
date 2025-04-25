@@ -1,4 +1,4 @@
-package net.stln.magitech.magic.spell.ember;
+package net.stln.magitech.magic.spell.flow;
 
 import dev.kosmx.playerAnim.api.firstPerson.FirstPersonConfiguration;
 import dev.kosmx.playerAnim.api.firstPerson.FirstPersonMode;
@@ -14,7 +14,6 @@ import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
@@ -32,13 +31,11 @@ import net.stln.magitech.damage.EntityElementRegister;
 import net.stln.magitech.item.tool.Element;
 import net.stln.magitech.magic.charge.Charge;
 import net.stln.magitech.magic.charge.ChargeData;
-import net.stln.magitech.magic.charge.ChargeUtil;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.Spell;
-import net.stln.magitech.particle.particle_option.FlameParticleEffect;
+import net.stln.magitech.particle.particle_option.BlowParticleEffect;
 import net.stln.magitech.sound.SoundInit;
 import net.stln.magitech.util.EntityUtil;
-import net.stln.magitech.util.TickScheduler;
 import org.joml.Vector3f;
 
 import java.util.HashMap;
@@ -46,10 +43,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class Fluvalen extends Spell {
+public class Mistrelune extends Spell {
 
     public Element getElement() {
-        return Element.EMBER;
+        return Element.FLOW;
     }
 
     @Override
@@ -66,6 +63,12 @@ public class Fluvalen extends Spell {
         cost.put(ManaUtil.ManaType.MANA, 2.0);
         cost.put(ManaUtil.ManaType.LUMINIS, 1.0);
         return cost;
+    }
+
+    @Override
+    public void use(Level level, Player user, InteractionHand hand, boolean isHost) {
+        super.use(level, user, hand, isHost);
+        ChargeData.setCurrentCharge(user, new Charge(20, this, this.getElement()));
     }
 
     @Override
@@ -92,7 +95,7 @@ public class Fluvalen extends Spell {
     @Override
     public void usingTick(Level level, LivingEntity livingEntity, ItemStack stack, int usingTick) {
         super.usingTick(level, livingEntity, stack, usingTick);
-        if (livingEntity instanceof Player player) {
+        if (livingEntity instanceof Player player && ChargeData.getCurrentCharge(player) == null) {
             Vec3 forward = Vec3.directionFromRotation(livingEntity.getRotationVector());
             Vec3 bodyPos = livingEntity.position().add(0, livingEntity.getBbHeight() * 0.7, 0);
             Vec3 offset = bodyPos.add(forward.scale(1));
@@ -102,11 +105,11 @@ public class Fluvalen extends Spell {
             attackList.addAll(EntityUtil.getEntitiesInBox(level, livingEntity, center, new Vec3(3.0, 3.0, 3.0)));
             attackList.addAll(EntityUtil.getEntitiesInBox(level, livingEntity, center2, new Vec3(4.0, 4.0, 4.0)));
             for (int i = 0; i < 5; i++) {
-                level.addParticle(new FlameParticleEffect(new Vector3f(1), new Vector3f(1),
+                level.addParticle(new BlowParticleEffect(new Vector3f(1), new Vector3f(1),
                                 5F, 1, 0.3F), offset.x, offset.y, offset.z,
                         forward.x * 0.75 + (livingEntity.getRandom().nextFloat() - 0.5) / 4, forward.y * 0.75 + (livingEntity.getRandom().nextFloat() - 0.5) / 4, forward.z * 0.75 + (livingEntity.getRandom().nextFloat() - 0.5) / 4);
             }
-            ResourceKey<DamageType> damageType = DamageTypeInit.EMBER_DAMAGE;
+            ResourceKey<DamageType> damageType = DamageTypeInit.FLOW_DAMAGE;
             float damage = 4.0F;
 
             DamageSource elementalDamageSource = stack.has(DataComponents.CUSTOM_NAME) ? livingEntity.damageSources().source(damageType, livingEntity) : livingEntity.damageSources().source(damageType);
@@ -134,6 +137,7 @@ public class Fluvalen extends Spell {
         super.finishUsing(stack, level, livingEntity, timeCharged, isHost);
         if (livingEntity instanceof Player player) {
             addCooldown(level, player, stack);
+            ChargeData.removeCharge(player);
         }
     }
 }

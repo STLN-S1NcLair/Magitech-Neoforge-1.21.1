@@ -137,8 +137,6 @@ public class Sparkion extends Spell {
                 level.playSound(player, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), SoundInit.ZAP.get(), SoundSource.PLAYERS, 1.0F, 0.7F + (player.getRandom().nextFloat() * 0.6F));
             }
             player.awardStat(Stats.DAMAGE_DEALT, Math.round((targetHealth - livingEntity.getHealth()) * 10));
-
-            addCooldown(level, player, stack);
         }
         for (Entity target : attackListLast) {
             if (target.isAttackable()) {
@@ -148,6 +146,14 @@ public class Sparkion extends Spell {
                 damage *= EntityElementRegister.getElementAffinity(target, Element.SURGE).getMultiplier();
                 target.hurt(elementalDamageSource, damage);
             }
+        }
+    }
+
+    @Override
+    public void finishUsing(ItemStack stack, Level level, LivingEntity livingEntity, int timeCharged, boolean isHost) {
+        super.finishUsing(stack, level, livingEntity, timeCharged, isHost);
+        if (livingEntity instanceof Player player) {
+            addCooldown(level, player, stack);
         }
     }
 }
