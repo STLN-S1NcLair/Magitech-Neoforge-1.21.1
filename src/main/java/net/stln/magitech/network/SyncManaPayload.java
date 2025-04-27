@@ -6,7 +6,6 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.magic.mana.ManaUtil;
 
 public record SyncManaPayload(double value, int manaType, String uuid) implements CustomPacketPayload {
     public static final ResourceLocation SYNC_MANA_PAYLOAD_ID = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "sync_mana");

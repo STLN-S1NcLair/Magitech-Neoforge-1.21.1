@@ -3,11 +3,8 @@ package net.stln.magitech.entity.magicentity.arcaleth;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityEvent;
 import net.minecraft.world.entity.EntityType;
@@ -18,10 +15,12 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
-import net.stln.magitech.damage.DamageTypeInit;
+import net.stln.magitech.damage.EntityElementRegister;
 import net.stln.magitech.entity.EntityInit;
 import net.stln.magitech.entity.SpellProjectileEntity;
+import net.stln.magitech.item.tool.Element;
 import net.stln.magitech.particle.particle_option.UnstableSquareParticleEffect;
+import net.stln.magitech.sound.SoundInit;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
@@ -57,8 +56,8 @@ public class ArcalethEntity extends SpellProjectileEntity {
         super.tick();
         Level world = this.level();
         if (world.isClientSide) {
-            Vector3f fromColor = new Vector3f(1.0F, 0.0F, 1.0F);
-            Vector3f toColor = new Vector3f(0.7F, 0.0F, 1.0F);
+            Vector3f fromColor = new Vector3f(1.0F, 0.0F, 0.3F);
+            Vector3f toColor = new Vector3f(1.0F, 0.0F, 0.7F);
             float scale = 1.0F;
             int twinkle = 5;
             float rotSpeed = 0.0F;
@@ -82,20 +81,31 @@ public class ArcalethEntity extends SpellProjectileEntity {
         Entity entity = entityHitResult.getEntity();
         Entity owner = this.getOwner();
 
-        ResourceKey<DamageType> damageType = DamageTypeInit.MAGIC_DAMAGE;
+        ResourceKey<DamageType> damageType = this.getElement().getDamageType();
         DamageSource elementalDamageSource;
-        if (this.getWeaponItem() != null) {
-            elementalDamageSource = this.getWeaponItem().has(DataComponents.CUSTOM_NAME) ? owner.damageSources().source(damageType, owner) : owner.damageSources().source(damageType);
+        if (owner != null) {
+            if (this.getWeaponItem() != null) {
+                elementalDamageSource = this.getWeaponItem().has(DataComponents.CUSTOM_NAME) ? owner.damageSources().source(damageType, owner) : owner.damageSources().source(damageType);
+            } else {
+                elementalDamageSource = owner.damageSources().source(damageType);
+            }
         } else {
-            elementalDamageSource = owner.damageSources().source(damageType);
+            elementalDamageSource = this.damageSources().source(damageType);
         }
 
-        entity.hurt(elementalDamageSource, this.damage);
+
+        float finalDamage = this.damage * EntityElementRegister.getElementAffinity(entity, this.getElement()).getMultiplier();
+        applyDamage(entity, elementalDamageSource, finalDamage);
         hitParticle();
 
         if (!this.level().isClientSide) {
             this.level().broadcastEntityEvent(this, EntityEvent.DEATH);
         }
+    }
+
+    @Override
+    protected Element getElement() {
+        return Element.MAGIC;
     }
 
     @Override
@@ -123,8 +133,8 @@ public class ArcalethEntity extends SpellProjectileEntity {
     protected void hitParticle() {
         Level world = this.level();
         if (world.isClientSide) {
-            Vector3f fromColor = new Vector3f(1.0F, 0.0F, 1.0F);
-            Vector3f toColor = new Vector3f(0.7F, 0.0F, 1.0F);
+            Vector3f fromColor = new Vector3f(1.0F, 0.0F, 0.3F);
+            Vector3f toColor = new Vector3f(1.0F, 0.0F, 0.7F);
             float scale = 1.0F;
             float rotSpeed = 0.0F;
             int particleAmount = 10;
@@ -144,7 +154,7 @@ public class ArcalethEntity extends SpellProjectileEntity {
 
     @Override
     protected SoundEvent getDefaultHitGroundSoundEvent() {
-        return SoundEvents.BEACON_POWER_SELECT;
+        return SoundInit.ARCALETH.get();
     }
 
     @Override

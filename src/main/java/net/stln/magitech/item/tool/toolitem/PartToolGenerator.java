@@ -49,4 +49,14 @@ public class PartToolGenerator {
     public static ItemStack generateHammer(ToolMaterial material) {
         return generateHammer(material, material, material, material);
     }
+
+    public static ItemStack generateWand(ToolMaterial catalyst, ToolMaterial lightHandle, ToolMaterial conductor, ToolMaterial toolBinding) {
+        ItemStack wand = new ItemStack(ItemInit.WAND.get());
+        wand.set(ComponentInit.PART_MATERIAL_COMPONENT, new PartMaterialComponent(List.of(catalyst, lightHandle, conductor, toolBinding)));
+        return wand;
+    }
+
+    public static ItemStack generateWand(ToolMaterial material) {
+        return generateWand(material, material, material, material);
+    }
 }

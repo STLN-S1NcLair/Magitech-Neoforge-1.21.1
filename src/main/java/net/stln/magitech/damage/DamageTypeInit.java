@@ -8,8 +8,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.item.tool.toolitem.PartToolItem;
 import net.stln.magitech.item.tool.ToolStats;
+import net.stln.magitech.item.tool.toolitem.PartToolItem;
 
 public class DamageTypeInit {
 

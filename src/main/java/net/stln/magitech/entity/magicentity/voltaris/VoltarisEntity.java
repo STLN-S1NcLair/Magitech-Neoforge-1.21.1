@@ -3,7 +3,6 @@ package net.stln.magitech.entity.magicentity.voltaris;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
@@ -17,11 +16,13 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.damage.DamageTypeInit;
+import net.stln.magitech.damage.EntityElementRegister;
 import net.stln.magitech.entity.EntityInit;
 import net.stln.magitech.entity.SpellProjectileEntity;
+import net.stln.magitech.item.tool.Element;
 import net.stln.magitech.particle.particle_option.SparkParticleEffect;
-import net.stln.magitech.particle.particle_option.UnstableSquareParticleEffect;
 import net.stln.magitech.particle.particle_option.ZapParticleEffect;
+import net.stln.magitech.sound.SoundInit;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
@@ -78,13 +79,13 @@ public class VoltarisEntity extends SpellProjectileEntity {
                 world.addParticle(new SparkParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed), x, y, z, vx, vy, vz);
             }
             Vec3 deltaMovement = this.getDeltaMovement();
-            double x = this.getX() - deltaMovement.x + (random.nextFloat() - 0.5) / 10;
-            double y = this.getY(0.5F) - deltaMovement.y + (random.nextFloat() - 0.5) / 10;
-            double z = this.getZ() - deltaMovement.z + (random.nextFloat() - 0.5) / 10;
+            double x = this.getX();
+            double y = this.getY(0.5F);
+            double z = this.getZ();
             double vx = deltaMovement.x;
             double vy = deltaMovement.y;
             double vz = deltaMovement.z;
-            Vector3f endPos = this.position().add(new Vec3(this.random.nextFloat() * 2 - 1, this.random.nextFloat() * 2 - 1, this.random.nextFloat() * 2 - 1)).toVector3f();
+            Vector3f endPos = this.position().add(0, this.getBbHeight() * 0.5, 0).add(new Vec3(this.random.nextFloat() * 2 - 1, this.random.nextFloat() * 2 - 1, this.random.nextFloat() * 2 - 1)).toVector3f();
             world.addParticle(new ZapParticleEffect(fromColor, toColor, endPos, scale, twinkle, rotSpeed), x, y, z, vx, vy, vz);
         }
     }
@@ -95,20 +96,31 @@ public class VoltarisEntity extends SpellProjectileEntity {
         Entity entity = entityHitResult.getEntity();
         Entity owner = this.getOwner();
 
-        ResourceKey<DamageType> damageType = DamageTypeInit.MAGIC_DAMAGE;
+        ResourceKey<DamageType> damageType = this.getElement().getDamageType();
         DamageSource elementalDamageSource;
-        if (this.getWeaponItem() != null) {
-            elementalDamageSource = this.getWeaponItem().has(DataComponents.CUSTOM_NAME) ? owner.damageSources().source(damageType, owner) : owner.damageSources().source(damageType);
+        if (owner != null) {
+            if (this.getWeaponItem() != null) {
+                elementalDamageSource = this.getWeaponItem().has(DataComponents.CUSTOM_NAME) ? owner.damageSources().source(damageType, owner) : owner.damageSources().source(damageType);
+            } else {
+                elementalDamageSource = owner.damageSources().source(damageType);
+            }
         } else {
-            elementalDamageSource = owner.damageSources().source(damageType);
+            elementalDamageSource = this.damageSources().source(damageType);
         }
 
-        entity.hurt(elementalDamageSource, this.damage);
+
+        float finalDamage = this.damage * EntityElementRegister.getElementAffinity(entity, this.getElement()).getMultiplier();
+        applyDamage(entity, elementalDamageSource, finalDamage);
         hitParticle();
 
         if (!this.level().isClientSide) {
             this.level().broadcastEntityEvent(this, EntityEvent.DEATH);
         }
+    }
+
+    @Override
+    protected Element getElement() {
+        return Element.SURGE;
     }
 
     @Override
@@ -160,7 +172,7 @@ public class VoltarisEntity extends SpellProjectileEntity {
 
     @Override
     protected SoundEvent getDefaultHitGroundSoundEvent() {
-        return SoundEvents.BEACON_POWER_SELECT;
+        return SoundInit.SPARK.get();
     }
 
     @Override

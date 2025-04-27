@@ -34,7 +34,6 @@ import net.stln.magitech.magic.charge.ChargeData;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.particle.particle_option.BeamParticleEffect;
-import net.stln.magitech.particle.particle_option.FrostParticleEffect;
 import net.stln.magitech.particle.particle_option.WaveParticleEffect;
 import net.stln.magitech.sound.SoundInit;
 import net.stln.magitech.util.EffectUtil;
@@ -46,7 +45,15 @@ import java.util.Map;
 
 public class Ocsilbeam extends Spell {
 
-    public int count = 0;
+    private static void playShootAnimation(Player user) {
+        var playerAnimationData = (ModifierLayer<IAnimation>) PlayerAnimationAccess.getPlayerAssociatedData((AbstractClientPlayer) user).get(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "animation"));
+        if (playerAnimationData != null) {
+
+            user.yBodyRot = user.yHeadRot;
+            playerAnimationData.setAnimation(new KeyframeAnimationPlayer((KeyframeAnimation) PlayerAnimationRegistry.getAnimation(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "wand_beam")))
+                    .setFirstPersonMode(FirstPersonMode.THIRD_PERSON_MODEL).setFirstPersonConfiguration(new FirstPersonConfiguration(true, true, true, true)));
+        }
+    }
 
     public Element getElement() {
         return Element.TREMOR;
@@ -61,8 +68,8 @@ public class Ocsilbeam extends Spell {
     }
 
     @Override
-    public Map<ManaUtil.ManaType, Double> getTickCost() {
-        return new HashMap<>();
+    public int getCooldown(Level level, Player user, ItemStack stack) {
+        return 180;
     }
 
     @Override
@@ -89,10 +96,10 @@ public class Ocsilbeam extends Spell {
                 level.playSound(user, user.getX(), user.getY(), user.getZ(), SoundInit.SONICBOOM.get(), SoundSource.PLAYERS, 1.0F, 0.5F + (user.getRandom().nextFloat() * 0.5F));
 
 
-                if (target instanceof LivingEntity livingTarget) {
+                if (target instanceof LivingEntity livingTarget && !level.isClientSide) {
 
                     ResourceKey<DamageType> damageType = DamageTypeInit.TREMOR_DAMAGE;
-                    float damage = 8.0F;
+                    float damage = 10.0F;
 
                     DamageSource elementalDamageSource = stack.has(DataComponents.CUSTOM_NAME) ? user.damageSources().source(damageType, user) : user.damageSources().source(damageType);
                     float targetHealth = livingTarget.getHealth();
@@ -108,26 +115,11 @@ public class Ocsilbeam extends Spell {
 
                 if (level.isClientSide) {
                     playShootAnimation(user);
-                    count++;
                 }
-                Magitech.LOGGER.info(String.valueOf(count));
-                if (count >= 2) {
-                    addCooldown(level, user, stack);
-                    count = 0;
-                }
+                addCooldown(level, user, stack);
             } else {
                 ChargeData.removeCharge(user);
             }
-        }
-    }
-
-    private static void playShootAnimation(Player user) {
-        var playerAnimationData = (ModifierLayer<IAnimation>) PlayerAnimationAccess.getPlayerAssociatedData((AbstractClientPlayer) user).get(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "animation"));
-        if (playerAnimationData != null) {
-
-            user.yBodyRot = user.yHeadRot;
-            playerAnimationData.setAnimation(new KeyframeAnimationPlayer((KeyframeAnimation) PlayerAnimationRegistry.getAnimation(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "wand_beam")))
-                    .setFirstPersonMode(FirstPersonMode.THIRD_PERSON_MODEL).setFirstPersonConfiguration(new FirstPersonConfiguration(true, true, true, true)));
         }
     }
 

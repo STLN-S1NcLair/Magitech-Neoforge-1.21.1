@@ -23,7 +23,9 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.damage.DamageTypeInit;
@@ -31,6 +33,7 @@ import net.stln.magitech.damage.EntityElementRegister;
 import net.stln.magitech.item.tool.Element;
 import net.stln.magitech.magic.charge.Charge;
 import net.stln.magitech.magic.charge.ChargeData;
+import net.stln.magitech.magic.cooldown.CooldownData;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.particle.particle_option.BlowParticleEffect;
@@ -50,6 +53,14 @@ public class Mistrelune extends Spell {
     }
 
     @Override
+    public Map<ManaUtil.ManaType, Double> getRequiredMana() {
+        Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
+        cost.put(ManaUtil.ManaType.MANA, 30.0);
+        cost.put(ManaUtil.ManaType.LUMINIS, 4.5);
+        return cost;
+    }
+
+    @Override
     public Map<ManaUtil.ManaType, Double> getCost() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
         cost.put(ManaUtil.ManaType.MANA, 20.0);
@@ -63,6 +74,11 @@ public class Mistrelune extends Spell {
         cost.put(ManaUtil.ManaType.MANA, 2.0);
         cost.put(ManaUtil.ManaType.LUMINIS, 1.0);
         return cost;
+    }
+
+    @Override
+    public boolean needsTickCost(Level level, Player user, ItemStack stack) {
+        return ChargeData.getCurrentCharge(user) == null;
     }
 
     @Override
@@ -93,6 +109,11 @@ public class Mistrelune extends Spell {
     }
 
     @Override
+    public int getCooldown(Level level, Player user, ItemStack stack) {
+        return 80;
+    }
+
+    @Override
     public void usingTick(Level level, LivingEntity livingEntity, ItemStack stack, int usingTick) {
         super.usingTick(level, livingEntity, stack, usingTick);
         if (livingEntity instanceof Player player && ChargeData.getCurrentCharge(player) == null) {
@@ -106,8 +127,8 @@ public class Mistrelune extends Spell {
             attackList.addAll(EntityUtil.getEntitiesInBox(level, livingEntity, center2, new Vec3(4.0, 4.0, 4.0)));
             for (int i = 0; i < 5; i++) {
                 level.addParticle(new BlowParticleEffect(new Vector3f(1), new Vector3f(1),
-                                5F, 1, 0.3F), offset.x, offset.y, offset.z,
-                        forward.x * 0.75 + (livingEntity.getRandom().nextFloat() - 0.5) / 4, forward.y * 0.75 + (livingEntity.getRandom().nextFloat() - 0.5) / 4, forward.z * 0.75 + (livingEntity.getRandom().nextFloat() - 0.5) / 4);
+                                5F, 1, 0.3F), offset.x + (livingEntity.getRandom().nextFloat() - 0.5) / 4, offset.y + (livingEntity.getRandom().nextFloat() - 0.5) / 4, offset.z + (livingEntity.getRandom().nextFloat() - 0.5) / 4,
+                        forward.x * 0.75 + (livingEntity.getRandom().nextFloat() - 0.5) / 2, forward.y * 0.75 + (livingEntity.getRandom().nextFloat() - 0.5) / 2, forward.z * 0.75 + (livingEntity.getRandom().nextFloat() - 0.5) / 2);
             }
             ResourceKey<DamageType> damageType = DamageTypeInit.FLOW_DAMAGE;
             float damage = 4.0F;
@@ -115,18 +136,22 @@ public class Mistrelune extends Spell {
             DamageSource elementalDamageSource = stack.has(DataComponents.CUSTOM_NAME) ? livingEntity.damageSources().source(damageType, livingEntity) : livingEntity.damageSources().source(damageType);
 
             float targetHealth = livingEntity.getHealth();
-                if (usingTick % 5 == 0) {
-                    level.playSound(player, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), SoundInit.FLAME.get(), SoundSource.PLAYERS, 1.0F, 0.7F + (player.getRandom().nextFloat() * 0.6F));
-                }
-                player.awardStat(Stats.DAMAGE_DEALT, Math.round((targetHealth - livingEntity.getHealth()) * 10));
+            if (usingTick % 5 == 0) {
+                level.playSound(player, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), SoundInit.BLOW.get(), SoundSource.PLAYERS, 1.0F, 0.7F + (player.getRandom().nextFloat() * 0.6F));
+            }
+            player.awardStat(Stats.DAMAGE_DEALT, Math.round((targetHealth - livingEntity.getHealth()) * 10));
             for (Entity target : attackList) {
                 if (target.isAttackable()) {
+                    Vec3 targetBodyPos = target.position().add(0, target.getBbHeight() * 0.7, 0);
+                    if (level.clip(new ClipContext(targetBodyPos, offset, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, livingEntity)).getType() == HitResult.Type.BLOCK) {
+                        continue;
+                    }
                     if (target instanceof LivingEntity livingTarget) {
                         livingTarget.setLastHurtByMob(livingEntity);
                     }
                     damage *= EntityElementRegister.getElementAffinity(target, Element.SURGE).getMultiplier();
                     target.hurt(elementalDamageSource, damage);
-                    target.setRemainingFireTicks(Math.min(200, target.getRemainingFireTicks() + 60));
+                    target.addDeltaMovement(player.position().subtract(target.position()).add(0, 1, 0).scale(0.005));
                 }
             }
         }
@@ -136,7 +161,9 @@ public class Mistrelune extends Spell {
     public void finishUsing(ItemStack stack, Level level, LivingEntity livingEntity, int timeCharged, boolean isHost) {
         super.finishUsing(stack, level, livingEntity, timeCharged, isHost);
         if (livingEntity instanceof Player player) {
-            addCooldown(level, player, stack);
+            if (ChargeData.getCurrentCharge(player) == null) {
+                addCooldown(level, player, stack);
+            }
             ChargeData.removeCharge(player);
         }
     }

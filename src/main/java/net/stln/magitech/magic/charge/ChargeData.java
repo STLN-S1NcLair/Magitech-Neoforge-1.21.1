@@ -1,8 +1,6 @@
 package net.stln.magitech.magic.charge;
 
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
-import net.stln.magitech.util.Map2d;
 
 import java.util.HashMap;
 import java.util.Map;

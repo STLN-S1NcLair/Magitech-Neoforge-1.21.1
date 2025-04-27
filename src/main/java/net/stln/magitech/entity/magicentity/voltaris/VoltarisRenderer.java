@@ -42,9 +42,9 @@ public class VoltarisRenderer extends GeoEntityRenderer<VoltarisEntity> {
             float pitch = (float) -Math.toDegrees(Math.atan2(-velocity.y, horizontalSpeed));
 
             // 回転を適用
-            poseStack.translate(0.0, 0.0, 0.0); // モデルの中心を基準に
-            poseStack.mulPose(Axis.YP.rotationDegrees(yaw2));
-            poseStack.mulPose(Axis.XN.rotationDegrees(pitch));
+            poseStack.rotateAround(Axis.YP.rotationDegrees(yaw2), 0, animatable.getBbHeight() / 2, 0);
+            poseStack.rotateAround(Axis.XN.rotationDegrees(pitch), 0, animatable.getBbHeight() / 2, 0);
+            poseStack.translate(0.0, animatable.getBbHeight() / 2, 0.0);
         }
         super.applyRotations(animatable, poseStack, ageInTicks, rotationYaw, partialTick, nativeScale);
     }

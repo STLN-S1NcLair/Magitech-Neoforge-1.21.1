@@ -8,8 +8,6 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.particle.particle_option.FlameSmokeParticleEffect;
-import net.stln.magitech.particle.particle_option.ZapParticleEffect;
 import net.stln.magitech.particle.particle_type.*;
 
 import java.util.function.Supplier;

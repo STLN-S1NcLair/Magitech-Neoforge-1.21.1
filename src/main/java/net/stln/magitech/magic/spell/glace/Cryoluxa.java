@@ -55,6 +55,11 @@ public class Cryoluxa extends Spell {
     }
 
     @Override
+    public int getCooldown(Level level, Player user, ItemStack stack) {
+        return 120;
+    }
+
+    @Override
     public void use(Level level, Player user, InteractionHand hand, boolean isHost) {
         super.use(level, user, hand, isHost);
         ItemStack stack = user.getItemInHand(hand);
@@ -71,37 +76,39 @@ public class Cryoluxa extends Spell {
         level.playSound(user, user.getX(), user.getY(), user.getZ(), SoundInit.FROST_BREAK.get(), SoundSource.PLAYERS, 1.0F, 0.6F + (user.getRandom().nextFloat() * 0.6F));
 
 
-        if (target instanceof LivingEntity livingEntity) {
+        if (!level.isClientSide) {
+            if (target instanceof LivingEntity livingEntity) {
 
-            float targetHealth = livingEntity.getHealth();
-            if (livingEntity instanceof Player player) {
-                player.awardStat(Stats.DAMAGE_DEALT, Math.round((targetHealth - livingEntity.getHealth()) * 10));
-            }
-            if (target.isAttackable()) {
-                if (target instanceof LivingEntity livingTarget) {
-                    livingTarget.setLastHurtByMob(livingEntity);
+                float targetHealth = livingEntity.getHealth();
+                if (livingEntity instanceof Player player) {
+                    player.awardStat(Stats.DAMAGE_DEALT, Math.round((targetHealth - livingEntity.getHealth()) * 10));
                 }
+                if (target.isAttackable()) {
+                    if (target instanceof LivingEntity livingTarget) {
+                        livingTarget.setLastHurtByMob(livingEntity);
+                    }
+                }
+                livingEntity.setTicksFrozen(Math.min(livingEntity.getTicksFrozen() + 160, 320));
             }
-            livingEntity.setTicksFrozen(Math.max(livingEntity.getTicksFrozen() + 160, 320));
-        }
-        if (target != null) {
-            ResourceKey<DamageType> damageType = DamageTypeInit.GLACE_DAMAGE;
-            DamageSource elementalDamageSource = stack.has(DataComponents.CUSTOM_NAME) ? user.damageSources().source(damageType, user) : user.damageSources().source(damageType);
-            float damage = 6.0F;
-            damage *= EntityElementRegister.getElementAffinity(target, Element.GLACE).getMultiplier();
-            target.hurt(elementalDamageSource, damage);
+            if (target != null) {
+                ResourceKey<DamageType> damageType = DamageTypeInit.GLACE_DAMAGE;
+                DamageSource elementalDamageSource = stack.has(DataComponents.CUSTOM_NAME) ? user.damageSources().source(damageType, user) : user.damageSources().source(damageType);
+                float damage = 6.0F;
+                damage *= EntityElementRegister.getElementAffinity(target, Element.GLACE).getMultiplier();
+                target.hurt(elementalDamageSource, damage);
+            }
         }
         addCooldown(level, user, stack);
     }
 
     @Override
     protected void playAnimation(Player user) {
-            var playerAnimationData = (ModifierLayer<IAnimation>) PlayerAnimationAccess.getPlayerAssociatedData((AbstractClientPlayer) user).get(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "animation"));
-            if (playerAnimationData != null) {
+        var playerAnimationData = (ModifierLayer<IAnimation>) PlayerAnimationAccess.getPlayerAssociatedData((AbstractClientPlayer) user).get(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "animation"));
+        if (playerAnimationData != null) {
 
-                user.yBodyRot = user.yHeadRot;
-                playerAnimationData.setAnimation(new KeyframeAnimationPlayer((KeyframeAnimation) PlayerAnimationRegistry.getAnimation(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "wand_beam")))
-                        .setFirstPersonMode(FirstPersonMode.THIRD_PERSON_MODEL).setFirstPersonConfiguration(new FirstPersonConfiguration(true, true, true, true)));
-            }
+            user.yBodyRot = user.yHeadRot;
+            playerAnimationData.setAnimation(new KeyframeAnimationPlayer((KeyframeAnimation) PlayerAnimationRegistry.getAnimation(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "wand_beam")))
+                    .setFirstPersonMode(FirstPersonMode.THIRD_PERSON_MODEL).setFirstPersonConfiguration(new FirstPersonConfiguration(true, true, true, true)));
+        }
     }
 }

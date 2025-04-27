@@ -8,9 +8,11 @@ import dev.kosmx.playerAnim.api.layered.ModifierLayer;
 import dev.kosmx.playerAnim.core.data.KeyframeAnimation;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -25,6 +27,7 @@ import net.stln.magitech.magic.charge.ChargeData;
 import net.stln.magitech.magic.cooldown.Cooldown;
 import net.stln.magitech.magic.cooldown.CooldownData;
 import net.stln.magitech.magic.mana.ManaUtil;
+import net.stln.magitech.magic.mana.UsedHandData;
 import net.stln.magitech.network.ReleaseUsingSpellPayload;
 import net.stln.magitech.network.UseSpellPayload;
 
@@ -33,8 +36,21 @@ import java.util.Map;
 
 public abstract class Spell {
 
+    @OnlyIn(Dist.CLIENT)
+    private static void stopAnim(Player player) {
+        var playerAnimationData = (ModifierLayer<IAnimation>) PlayerAnimationAccess.getPlayerAssociatedData((AbstractClientPlayer) player).get(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "animation"));
+        if (playerAnimationData != null && playerAnimationData.getAnimation() instanceof KeyframeAnimationPlayer keyframeAnimationPlayer) {
+
+            keyframeAnimationPlayer.stop();
+        }
+    }
+
     public Element getElement() {
         return Element.NONE;
+    }
+
+    public Map<ManaUtil.ManaType, Double> getRequiredMana() {
+        return this.getCost();
     }
 
     public Map<ManaUtil.ManaType, Double> getCost() {
@@ -71,6 +87,11 @@ public abstract class Spell {
         if (canHoldUsing()) {
             user.startUsingItem(hand);
         }
+        UsedHandData.setUsedHand(user, (hand == InteractionHand.OFF_HAND) ^ (user.getMainArm() == HumanoidArm.LEFT));
+    }
+
+    public boolean isActiveUse(Level level, Player user, InteractionHand hand, boolean isHost) {
+        return true;
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -97,7 +118,15 @@ public abstract class Spell {
     }
 
     public void usingTick(Level level, LivingEntity livingEntity, ItemStack stack, int usingTick) {
-    };
+        if (livingEntity instanceof Player user) {
+            InteractionHand hand = user.getItemInHand(InteractionHand.MAIN_HAND) == stack ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
+            UsedHandData.setUsedHand(user, (hand == InteractionHand.OFF_HAND) ^ (user.getMainArm() == HumanoidArm.LEFT));
+        }
+    }
+
+    public boolean isActiveUsingTick(Level level, LivingEntity livingEntity, ItemStack stack, int usingTick) {
+        return true;
+    }
 
     public void finishUsing(ItemStack stack, Level level, LivingEntity livingEntity, int timeCharged, boolean isHost) {
         if (livingEntity instanceof Player player) {
@@ -110,7 +139,7 @@ public abstract class Spell {
         }
         if (level.isClientSide) {
             if (isHost) {
-            PacketDistributor.sendToServer(new ReleaseUsingSpellPayload(stack, timeCharged, livingEntity.getUUID().toString()));
+                PacketDistributor.sendToServer(new ReleaseUsingSpellPayload(stack, timeCharged, livingEntity.getUUID().toString()));
             }
             if (canHoldUsing() && livingEntity instanceof Player player) {
                 if (stopAnimOnRelease()) {
@@ -118,14 +147,8 @@ public abstract class Spell {
                 }
             }
         }
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    private static void stopAnim(Player player) {
-        var playerAnimationData = (ModifierLayer<IAnimation>) PlayerAnimationAccess.getPlayerAssociatedData((AbstractClientPlayer) player).get(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "animation"));
-        if (playerAnimationData != null && playerAnimationData.getAnimation() instanceof KeyframeAnimationPlayer keyframeAnimationPlayer) {
-
-            keyframeAnimationPlayer.stop();
+        if (!isHost) {
+            livingEntity.stopUsingItem();
         }
     }
 

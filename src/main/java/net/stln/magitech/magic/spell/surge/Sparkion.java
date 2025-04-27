@@ -16,7 +16,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
@@ -27,7 +26,6 @@ import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.phys.shapes.CollisionContext;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.damage.DamageTypeInit;
 import net.stln.magitech.damage.EntityElementRegister;
@@ -39,7 +37,10 @@ import net.stln.magitech.sound.SoundInit;
 import net.stln.magitech.util.EntityUtil;
 import org.joml.Vector3f;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class Sparkion extends Spell {
 
@@ -79,6 +80,11 @@ public class Sparkion extends Spell {
     @Override
     public boolean canHoldUsing() {
         return true;
+    }
+
+    @Override
+    public int getCooldown(Level level, Player user, ItemStack stack) {
+        return 30;
     }
 
     @Override

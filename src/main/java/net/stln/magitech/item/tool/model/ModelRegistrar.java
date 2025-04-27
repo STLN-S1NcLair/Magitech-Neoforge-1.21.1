@@ -1,6 +1,6 @@
 package net.stln.magitech.item.tool.model;
 
-import net.minecraft.client.resources.model.*;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -28,6 +28,7 @@ public class ModelRegistrar {
             }
         }
     }
+
     public static ResourceLocation getPartTextureId(ToolMaterial toolMaterial, String toolType, String part) {
         return ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "item/tool/" + toolType + "/" + toolMaterial.getId() + "_" + part);
     }

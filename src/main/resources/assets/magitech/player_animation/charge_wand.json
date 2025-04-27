@@ -4,9 +4,9 @@
     "description": "description",
     "emote":{
         "isLoop": "false",
-        "returnTick": 2,
+        "returnTick": 16,
         "beginTick":0,
-        "endTick":16,
+        "endTick":25,
         "stopTick":17,
         "degrees":false,
         "moves":[

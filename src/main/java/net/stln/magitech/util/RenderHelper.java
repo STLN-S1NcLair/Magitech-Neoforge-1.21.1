@@ -1,10 +1,18 @@
 package net.stln.magitech.util;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+import net.stln.magitech.item.tool.Element;
+import org.joml.Matrix4f;
 
 public class RenderHelper {
     public static RenderType additiveNoCull(ResourceLocation texture) {
@@ -25,6 +33,7 @@ public class RenderHelper {
                         .createCompositeState(false)
         );
     }
+
     public static RenderType additiveCull(ResourceLocation texture) {
 
         return RenderType.create("additive_nocull",
@@ -42,5 +51,21 @@ public class RenderHelper {
                         .setOverlayState(RenderStateShard.OVERLAY)
                         .createCompositeState(false)
         );
+    }
+
+    public static void renderFramedText(GuiGraphics guiGraphics, Font font, String text, int x, int y, Element element) {
+        for (int i = -2; i < 3; i++) {
+            for (int j = -2; j < 3; j++) {
+                if (i == 0 && j == 0) {
+                    continue;
+                }
+                guiGraphics.drawString(font, text,
+                        x + (float) i / 2, y + (float) j / 2,
+                        element.getDark(), false);
+            }
+        }
+        guiGraphics.drawString(font, text,
+                x, y,
+                element.getColor(), false);
     }
 }

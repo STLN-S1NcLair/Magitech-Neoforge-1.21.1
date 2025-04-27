@@ -1,15 +1,12 @@
 package net.stln.magitech.item.tool.material;
 
 import net.minecraft.world.item.Item;
-import net.stln.magitech.item.tool.ToolPart;
 import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.item.tool.trait.Trait;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ToolMaterial {
     protected ToolStats statsMap = ToolStats.DEFAULT;

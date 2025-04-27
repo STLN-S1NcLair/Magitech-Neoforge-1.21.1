@@ -13,7 +13,7 @@ import org.joml.Vector3f;
 public class EffectUtil {
 
     public static void lineEffect(Level level, ParticleOptions particleOptions, Vec3 start, Vec3 end, int density, boolean alwaysVisible) {
-        if (!level.isClientSide)  {
+        if (!level.isClientSide) {
             return;
         }
 

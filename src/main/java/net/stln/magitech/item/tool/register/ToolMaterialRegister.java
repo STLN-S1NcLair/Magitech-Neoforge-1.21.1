@@ -2,11 +2,11 @@ package net.stln.magitech.item.tool.register;
 
 import net.minecraft.world.item.Item;
 import net.stln.magitech.item.tool.Element;
+import net.stln.magitech.item.tool.ToolPart;
 import net.stln.magitech.item.tool.ToolStats;
+import net.stln.magitech.item.tool.ToolType;
 import net.stln.magitech.item.tool.material.MiningLevel;
 import net.stln.magitech.item.tool.material.ToolMaterial;
-import net.stln.magitech.item.tool.ToolPart;
-import net.stln.magitech.item.tool.ToolType;
 import net.stln.magitech.util.Map2d;
 
 import java.util.HashMap;
@@ -69,9 +69,15 @@ public class ToolMaterialRegister {
         componentPartId.put(ToolType.HAMMER, 2, ToolPart.PLATE);
         componentPartId.put(ToolType.HAMMER, 3, ToolPart.TOOL_BINDING);
 
+        componentPartId.put(ToolType.WAND, 0, ToolPart.CATALYST);
+        componentPartId.put(ToolType.WAND, 1, ToolPart.LIGHT_HANDLE);
+        componentPartId.put(ToolType.WAND, 2, ToolPart.CONDUCTOR);
+        componentPartId.put(ToolType.WAND, 3, ToolPart.TOOL_BINDING);
+
         baseStats.put(ToolType.LIGHT_SWORD, new ToolStats(4F, 4F, 1.6F, 5F, 2F, 3F, 3F, 261, Element.NONE, MiningLevel.NONE));
         baseStats.put(ToolType.HEAVY_SWORD, new ToolStats(6F, 4F, 0.8F, 5F, 6F, 3F, 3F, 536, Element.NONE, MiningLevel.NONE));
         baseStats.put(ToolType.PICKAXE, new ToolStats(2F, 1F, 2.4F, 5F, 1F, 2F, 1.5F, 319, Element.NONE, MiningLevel.NONE));
         baseStats.put(ToolType.HAMMER, new ToolStats(8F, 7F, 0.6F, 3F, 4F, 2.5F, 2F, 1013, Element.NONE, MiningLevel.NONE));
+        baseStats.put(ToolType.WAND, new ToolStats(1F, 1.5F, 1F, 1F, 1F, 1F, 1F, 378, Element.NONE, MiningLevel.NONE));
     }
 }

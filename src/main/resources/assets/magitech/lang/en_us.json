@@ -24,6 +24,13 @@
   "attribute.magitech.attack_range": "Attack Range",
   "attribute.magitech.sweep_range": "Sweep Range",
   "attribute.magitech.durability": "Durability",
+  "attribute.magitech.spell_power": "Spell Power",
+  "attribute.magitech.elemental_spell_power": "Elemental Spell Power",
+  "attribute.magitech.casting_speed": "Casting Speed",
+  "attribute.magitech.cooldown_speed": "Cooldown Speed",
+  "attribute.magitech.projectile_speed": "Projectile Speed",
+  "attribute.magitech.spell_range": "Spell Range",
+
   "attribute.magitech.max_mana": "Max Mana",
   "attribute.magitech.mana_regen": "Mana Regen",
   "attribute.magitech.max_noctis": "Max Noctis",
@@ -45,6 +52,9 @@
   "item.magitech.hammer": "Hammer",
   "item.magitech.hammer.simple": "%1$s Hammer",
   "item.magitech.hammer.complex": "%1$s %2$s Hammer",
+  "item.magitech.wand": "Wand",
+  "item.magitech.wand.simple": "%1$s Wand",
+  "item.magitech.wand.complex": "%1$s %2$s Wand",
 
   "tooltip.item.magitech.redstone_crystal": "Looks like jewelry. Acts like authority.",
   "tooltip.item.magitech.polished_redstone_crystal": "Not just a command. A command you can't ignore.",
@@ -97,11 +107,14 @@
   "element.magitech.hollow": "Hollow",
 
   "spell.magitech.fluvalen": "Fluvalen",
+  "spell.magitech.frigala": "Frigala",
   "spell.magitech.cryoluxa": "Cryoluxa",
+  "spell.magitech.voltaris": "Voltaris",
   "spell.magitech.sparkion": "Sparkion",
   "spell.magitech.oscilbeam": "Oscilbeam",
   "spell.magitech.mirazien": "Mirazien",
   "spell.magitech.arcaleth": "Arcaleth",
+  "spell.magitech.mistrelune": "Mistrelune",
 
   "death.attack.magitech_ember": "%1$s was incinerated",
   "death.attack.magitech_ember.player": "%1$s was reduced to ashes by %2$s",

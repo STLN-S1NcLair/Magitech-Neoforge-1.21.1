@@ -1,7 +1,5 @@
 package net.stln.magitech.util;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.util.Tuple;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -125,7 +123,7 @@ public class EntityUtil {
         double entityHitDist = entityHit != null ? entityHit.getLocation().distanceTo(playerEyePos) : maxReachLength + 1;
 
         if (blockHitDist > entityHitDist) {
-            return  entityHit.getEntity();
+            return entityHit.getEntity();
         }
         return null;
     }

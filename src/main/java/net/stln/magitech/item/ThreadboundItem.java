@@ -16,7 +16,9 @@ import net.stln.magitech.magic.spell.SpellRegister;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ThreadboundItem extends Item implements ICurioItem {
 
@@ -46,10 +48,12 @@ public class ThreadboundItem extends Item implements ICurioItem {
             int i = 0;
             for (Spell spell : stack.get(ComponentInit.SPELL_COMPONENT).spells()) {
                 ResourceLocation location = SpellRegister.getId(spell);
-                if (stack.get(ComponentInit.SPELL_COMPONENT).selected() == i) {
-                    tooltipComponents.add(Component.translatable("spell." + location.getNamespace() + "." + location.getPath()).withColor(0x80FFFF));
-                } else {
-                    tooltipComponents.add(Component.translatable("spell." + location.getNamespace() + "." + location.getPath()).withColor(0x80A0C0));
+                if (location != null) {
+                    if (stack.get(ComponentInit.SPELL_COMPONENT).selected() == i) {
+                        tooltipComponents.add(Component.translatable("spell." + location.getNamespace() + "." + location.getPath()).withColor(0x80FFFF));
+                    } else {
+                        tooltipComponents.add(Component.translatable("spell." + location.getNamespace() + "." + location.getPath()).withColor(0x80A0C0));
+                    }
                 }
                 i++;
             }

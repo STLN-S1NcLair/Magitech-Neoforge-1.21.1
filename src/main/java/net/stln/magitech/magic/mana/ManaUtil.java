@@ -1,11 +1,8 @@
 package net.stln.magitech.magic.mana;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
-import net.stln.magitech.Magitech;
 import net.stln.magitech.entity.status.AttributeInit;
 import net.stln.magitech.network.SyncManaPayload;
 
@@ -36,12 +33,24 @@ public class ManaUtil {
         setMana(player, type, Math.min(regenAmount + ManaData.getCurrentMana(player, type), getMaxMana(player, type)));
     }
 
+    public static boolean checkMana(Player player, Map<ManaType, Double> map) {
+        boolean flag = true;
+        for (Map.Entry<ManaType, Double> entry : map.entrySet()) {
+            ManaType type = entry.getKey();
+            Double value = entry.getValue();
+            if (value > ManaData.getPrevMana(player, type)) {
+                flag = false;
+            }
+        }
+        return flag;
+    }
+
     public static boolean useMana(Player player, Map<ManaType, Double> map) {
         boolean flag = true;
         for (Map.Entry<ManaType, Double> entry : map.entrySet()) {
             ManaType type = entry.getKey();
             Double value = entry.getValue();
-            if (value > ManaData.getCurrentMana(player, type)) {
+            if (value > ManaData.getPrevMana(player, type)) {
                 flag = false;
             }
         }
@@ -63,7 +72,7 @@ public class ManaUtil {
         for (Map.Entry<ManaType, Double> entry : map.entrySet()) {
             ManaType type = entry.getKey();
             Double value = entry.getValue();
-            if (value > ManaData.getCurrentMana(player, type)) {
+            if (value > ManaData.getPrevMana(player, type)) {
                 flag = false;
             }
         }
@@ -80,7 +89,30 @@ public class ManaUtil {
         return false;
     }
 
+    public static boolean useManaClientOnly(Player player, Map<ManaType, Double> map) {
+        boolean flag = true;
+        for (Map.Entry<ManaType, Double> entry : map.entrySet()) {
+            ManaType type = entry.getKey();
+            Double value = entry.getValue();
+            if (value > ManaData.getPrevMana(player, type)) {
+                flag = false;
+            }
+        }
+        if (flag) {
+            if (player.level().isClientSide && !player.isCreative()) {
+                for (Map.Entry<ManaType, Double> entry : map.entrySet()) {
+                    ManaType type = entry.getKey();
+                    Double value = entry.getValue();
+                    setMana(player, type, ManaData.getCurrentMana(player, type) - value);
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
     private static void setMana(Player player, ManaType type, double value) {
+        ManaData.setPrevMana(player, type, ManaData.getCurrentMana(player, type));
         ManaData.setCurrentMana(player, type, value);
         if (player.level().isClientSide) {
             PacketDistributor.sendToServer(new SyncManaPayload(value, type.id, player.getStringUUID()));
@@ -115,6 +147,15 @@ public class ManaUtil {
         };
     }
 
+    public static ManaType getManaType(int id) {
+        for (ManaType manatype : ManaType.values()) {
+            if (manatype.id == id) {
+                return manatype;
+            }
+        }
+        return null;
+    }
+
     public enum ManaType {
         MANA(0),
         NOCTIS(1),
@@ -130,14 +171,5 @@ public class ManaUtil {
         public int getId() {
             return id;
         }
-    }
-
-    public static ManaType getManaType(int id) {
-        for (ManaType manatype : ManaType.values()) {
-            if (manatype.id == id) {
-                return manatype;
-            }
-        }
-        return null;
     }
 }

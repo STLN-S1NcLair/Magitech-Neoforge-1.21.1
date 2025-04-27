@@ -14,31 +14,27 @@ import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.damage.DamageTypeInit;
 import net.stln.magitech.damage.EntityElementRegister;
 import net.stln.magitech.item.tool.Element;
-import net.stln.magitech.magic.charge.Charge;
-import net.stln.magitech.magic.charge.ChargeData;
-import net.stln.magitech.magic.charge.ChargeUtil;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.particle.particle_option.FlameParticleEffect;
 import net.stln.magitech.sound.SoundInit;
 import net.stln.magitech.util.EntityUtil;
-import net.stln.magitech.util.TickScheduler;
 import org.joml.Vector3f;
 
 import java.util.HashMap;
@@ -90,6 +86,11 @@ public class Fluvalen extends Spell {
     }
 
     @Override
+    public int getCooldown(Level level, Player user, ItemStack stack) {
+        return 60;
+    }
+
+    @Override
     public void usingTick(Level level, LivingEntity livingEntity, ItemStack stack, int usingTick) {
         super.usingTick(level, livingEntity, stack, usingTick);
         if (livingEntity instanceof Player player) {
@@ -112,12 +113,16 @@ public class Fluvalen extends Spell {
             DamageSource elementalDamageSource = stack.has(DataComponents.CUSTOM_NAME) ? livingEntity.damageSources().source(damageType, livingEntity) : livingEntity.damageSources().source(damageType);
 
             float targetHealth = livingEntity.getHealth();
-                if (usingTick % 5 == 0) {
-                    level.playSound(player, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), SoundInit.FLAME.get(), SoundSource.PLAYERS, 1.0F, 0.7F + (player.getRandom().nextFloat() * 0.6F));
-                }
-                player.awardStat(Stats.DAMAGE_DEALT, Math.round((targetHealth - livingEntity.getHealth()) * 10));
+            if (usingTick % 5 == 0) {
+                level.playSound(player, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), SoundInit.FLAME.get(), SoundSource.PLAYERS, 1.0F, 0.7F + (player.getRandom().nextFloat() * 0.6F));
+            }
+            player.awardStat(Stats.DAMAGE_DEALT, Math.round((targetHealth - livingEntity.getHealth()) * 10));
             for (Entity target : attackList) {
                 if (target.isAttackable()) {
+                    Vec3 targetBodyPos = target.position().add(0, target.getBbHeight() * 0.7, 0);
+                    if (level.clip(new ClipContext(targetBodyPos, offset, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, livingEntity)).getType() == HitResult.Type.BLOCK) {
+                        continue;
+                    }
                     if (target instanceof LivingEntity livingTarget) {
                         livingTarget.setLastHurtByMob(livingEntity);
                     }
@@ -132,8 +137,8 @@ public class Fluvalen extends Spell {
     @Override
     public void finishUsing(ItemStack stack, Level level, LivingEntity livingEntity, int timeCharged, boolean isHost) {
         super.finishUsing(stack, level, livingEntity, timeCharged, isHost);
-        if (livingEntity instanceof Player player) {
-            addCooldown(level, player, stack);
+        if (livingEntity instanceof Player user) {
+            addCooldown(level, user, stack);
         }
     }
 }

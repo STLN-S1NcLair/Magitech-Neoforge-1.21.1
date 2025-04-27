@@ -5,7 +5,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
@@ -24,7 +23,6 @@ import net.stln.magitech.sound.SoundInit;
 import net.stln.magitech.util.EffectUtil;
 import org.joml.Vector3f;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -67,10 +65,10 @@ public class ShatterpiercerTrait extends Trait {
                 ResourceKey<DamageType> damageType = DamageTypeInit.GLACE_DAMAGE;
                 DamageSource damageSource = stack.has(DataComponents.CUSTOM_NAME) ? player.damageSources().source(damageType, player) : player.damageSources().source(damageType);
                 List<Entity> list = level.getEntities(player, new AABB(target.position().subtract(range), target.position().add(range)), entity -> entity instanceof LivingEntity);
-                        for (Entity entity : list) {
-                            entity.hurt(damageSource, stats.getStats().get(ToolStats.ELM_ATK_STAT) * (float)Math.sqrt(traitLevel - 0.5));
-                            EffectUtil.entityEffect(level, new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, 0.01F), entity, 60);
-                        }
+                for (Entity entity : list) {
+                    entity.hurt(damageSource, stats.getStats().get(ToolStats.ELM_ATK_STAT) * (float) Math.sqrt(traitLevel - 0.5));
+                    EffectUtil.entityEffect(level, new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, 0.01F), entity, 60);
+                }
                 for (int i = 0; i < 60; i++) {
                     float rotSpeed = player.getRandom().nextFloat() / 5 - 0.1F;
 
@@ -80,9 +78,9 @@ public class ShatterpiercerTrait extends Trait {
                     level.addParticle(new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, rotSpeed),
                             randomBody.x, randomBody.y, randomBody.z, offset.x / 10, offset.y / 10, offset.z / 10);
                 }
-                        livingEntity.setTicksFrozen(0);
-                        Vec3 pos = target.position();
-                        level.playSound(player, pos.x, pos.y, pos.z, SoundInit.FROST_BREAK.get(), SoundSource.PLAYERS, 1.0F, 0.7F + (player.getRandom().nextFloat() * 0.6F));
+                livingEntity.setTicksFrozen(0);
+                Vec3 pos = target.position();
+                level.playSound(player, pos.x, pos.y, pos.z, SoundInit.FROST_BREAK.get(), SoundSource.PLAYERS, 1.0F, 0.7F + (player.getRandom().nextFloat() * 0.6F));
             } else {
                 target.setTicksFrozen(250 * traitLevel / (traitLevel + 1) + target.getTicksFrozen());
 

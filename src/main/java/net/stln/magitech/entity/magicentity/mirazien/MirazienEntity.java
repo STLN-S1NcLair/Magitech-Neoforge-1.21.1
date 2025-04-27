@@ -19,9 +19,12 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.damage.DamageTypeInit;
+import net.stln.magitech.damage.EntityElementRegister;
 import net.stln.magitech.entity.EntityInit;
 import net.stln.magitech.entity.SpellProjectileEntity;
+import net.stln.magitech.item.tool.Element;
 import net.stln.magitech.particle.particle_option.UnstableSquareParticleEffect;
+import net.stln.magitech.sound.SoundInit;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
@@ -83,15 +86,21 @@ public class MirazienEntity extends SpellProjectileEntity {
         Entity entity = entityHitResult.getEntity();
         Entity owner = this.getOwner();
 
-        ResourceKey<DamageType> damageType = DamageTypeInit.PHANTOM_DAMAGE;
+        ResourceKey<DamageType> damageType = this.getElement().getDamageType();
         DamageSource elementalDamageSource;
-        if (this.getWeaponItem() != null) {
-            elementalDamageSource = this.getWeaponItem().has(DataComponents.CUSTOM_NAME) ? owner.damageSources().source(damageType, owner) : owner.damageSources().source(damageType);
+        if (owner != null) {
+            if (this.getWeaponItem() != null) {
+                elementalDamageSource = this.getWeaponItem().has(DataComponents.CUSTOM_NAME) ? owner.damageSources().source(damageType, owner) : owner.damageSources().source(damageType);
+            } else {
+                elementalDamageSource = owner.damageSources().source(damageType);
+            }
         } else {
-            elementalDamageSource = owner.damageSources().source(damageType);
+            elementalDamageSource = this.damageSources().source(damageType);
         }
 
-        entity.hurt(elementalDamageSource, this.damage);
+
+        float finalDamage = this.damage * EntityElementRegister.getElementAffinity(entity, this.getElement()).getMultiplier();
+        applyDamage(entity, elementalDamageSource, finalDamage);
         if (entity instanceof LivingEntity livingEntity) {
             livingEntity.addEffect(new MobEffectInstance(MobEffects.GLOWING, 200, 0));
         }
@@ -100,6 +109,11 @@ public class MirazienEntity extends SpellProjectileEntity {
         if (!this.level().isClientSide) {
             this.level().broadcastEntityEvent(this, EntityEvent.DEATH);
         }
+    }
+
+    @Override
+    protected Element getElement() {
+        return Element.PHANTOM;
     }
 
     @Override
@@ -148,7 +162,7 @@ public class MirazienEntity extends SpellProjectileEntity {
 
     @Override
     protected SoundEvent getDefaultHitGroundSoundEvent() {
-        return SoundEvents.BEACON_POWER_SELECT;
+        return SoundInit.MYSTICAL.get();
     }
 
     @Override

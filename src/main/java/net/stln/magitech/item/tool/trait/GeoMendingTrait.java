@@ -3,17 +3,14 @@ package net.stln.magitech.item.tool.trait;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.stats.Stats;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.stln.magitech.Magitech;
 import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.particle.particle_option.PowerupParticleEffect;
 import net.stln.magitech.sound.SoundInit;
-import net.stln.magitech.util.EffectUtil;
 import org.joml.Vector3f;
 
 import java.util.function.Predicate;

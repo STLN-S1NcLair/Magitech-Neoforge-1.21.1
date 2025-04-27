@@ -1,23 +1,13 @@
 package net.stln.magitech.entity.magicentity.mirazien;
 
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Axis;
-import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.culling.Frustum;
-import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec3;
-import net.stln.magitech.Magitech;
 import net.stln.magitech.util.RenderHelper;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 import software.bernie.geckolib.util.Color;
@@ -52,9 +42,9 @@ public class MirazienRenderer extends GeoEntityRenderer<MirazienEntity> {
             float pitch = (float) -Math.toDegrees(Math.atan2(-velocity.y, horizontalSpeed));
 
             // 回転を適用
-            poseStack.translate(0.0, 0.0, 0.0); // モデルの中心を基準に
-            poseStack.mulPose(Axis.YP.rotationDegrees(yaw2));
-            poseStack.mulPose(Axis.XN.rotationDegrees(pitch));
+            poseStack.rotateAround(Axis.YP.rotationDegrees(yaw2), 0, animatable.getBbHeight() / 2, 0);
+            poseStack.rotateAround(Axis.XN.rotationDegrees(pitch), 0, animatable.getBbHeight() / 2, 0);
+            poseStack.translate(0.0, animatable.getBbHeight() / 2, 0.0);
         }
         super.applyRotations(animatable, poseStack, ageInTicks, rotationYaw, partialTick, nativeScale);
     }

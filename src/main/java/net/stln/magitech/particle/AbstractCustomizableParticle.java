@@ -11,7 +11,6 @@ import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.util.Mth;
 import org.lwjgl.opengl.GL11;
 
 public class AbstractCustomizableParticle extends TextureSheetParticle {

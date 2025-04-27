@@ -9,14 +9,18 @@ import net.stln.magitech.item.component.PartMaterialComponent;
 import net.stln.magitech.item.component.SpellComponent;
 import net.stln.magitech.item.tool.material.MaterialInit;
 import net.stln.magitech.magic.spell.ember.Fluvalen;
+import net.stln.magitech.magic.spell.ember.Ignisca;
+import net.stln.magitech.magic.spell.flow.Aeltherin;
 import net.stln.magitech.magic.spell.flow.Mistrelune;
 import net.stln.magitech.magic.spell.glace.Cryoluxa;
 import net.stln.magitech.magic.spell.glace.Frigala;
+import net.stln.magitech.magic.spell.hollow.Nullixis;
 import net.stln.magitech.magic.spell.magic.Arcaleth;
 import net.stln.magitech.magic.spell.phantom.Mirazien;
 import net.stln.magitech.magic.spell.surge.Sparkion;
 import net.stln.magitech.magic.spell.surge.Voltaris;
 import net.stln.magitech.magic.spell.tremor.Ocsilbeam;
+import net.stln.magitech.magic.spell.tremor.Tremivox;
 
 import java.util.List;
 
@@ -29,6 +33,9 @@ public class ModifyDefaultComponentsEvent {
         event.modify(ItemInit.HEAVY_SWORD, builder -> builder.set(ComponentInit.PART_MATERIAL_COMPONENT.get(), new PartMaterialComponent(List.of(MaterialInit.DIAMOND, MaterialInit.DIAMOND, MaterialInit.DIAMOND, MaterialInit.DIAMOND))).build());
         event.modify(ItemInit.PICKAXE, builder -> builder.set(ComponentInit.PART_MATERIAL_COMPONENT.get(), new PartMaterialComponent(List.of(MaterialInit.DIAMOND, MaterialInit.DIAMOND, MaterialInit.DIAMOND))).build());
         event.modify(ItemInit.HAMMER, builder -> builder.set(ComponentInit.PART_MATERIAL_COMPONENT.get(), new PartMaterialComponent(List.of(MaterialInit.DIAMOND, MaterialInit.DIAMOND, MaterialInit.DIAMOND, MaterialInit.DIAMOND))).build());
-        event.modify(ItemInit.GLISTENING_LEXICON, builder -> builder.set(ComponentInit.SPELL_COMPONENT.get(), new SpellComponent(List.of(new Sparkion(), new Arcaleth(), new Cryoluxa(), new Fluvalen(), new Mirazien(), new Ocsilbeam(), new Frigala(), new Voltaris(), new Mistrelune()), 0)));
+        event.modify(ItemInit.GLISTENING_LEXICON, builder -> builder.set(ComponentInit.SPELL_COMPONENT.get(),
+                new SpellComponent(List.of(
+                        new Ignisca(), new Frigala(), new Voltaris(), new Mirazien(), new Tremivox(), new Arcaleth(), new Aeltherin(), new Nullixis(),
+                        new Fluvalen(), new Cryoluxa(), new Sparkion(), new Ocsilbeam(), new Mistrelune()), 0)));
     }
 }

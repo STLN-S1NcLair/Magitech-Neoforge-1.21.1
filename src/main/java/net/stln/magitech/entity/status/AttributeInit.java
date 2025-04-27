@@ -6,6 +6,7 @@ import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.common.PercentageAttribute;
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -24,6 +25,10 @@ public class AttributeInit {
     public static final DeferredHolder<Attribute, Attribute> LUMINIS_REGEN = ATTRIBUTES.register("luminis_regen", () -> (new RangedAttribute("attribute.magitech.luminis_regen", 0.5, 0, Double.MAX_VALUE).setSyncable(true)));
     public static final DeferredHolder<Attribute, Attribute> MAX_FLUXIA = ATTRIBUTES.register("max_fluxia", () -> (new RangedAttribute("attribute.magitech.max_fluxia", 50, 0, Double.MAX_VALUE).setSyncable(true)));
     public static final DeferredHolder<Attribute, Attribute> FLUXIA_REGEN = ATTRIBUTES.register("fluxia_regen", () -> (new RangedAttribute("attribute.magitech.fluxia_regen", 0.5, 0, Double.MAX_VALUE).setSyncable(true)));
+
+    public static final DeferredHolder<Attribute, Attribute> SPELL_POWER = ATTRIBUTES.register("spell_power", () -> (new PercentageAttribute("attribute.magitech.spell_power", 100, 0, Double.MAX_VALUE).setSyncable(true)));
+    public static final DeferredHolder<Attribute, Attribute> CASTING_SPEED = ATTRIBUTES.register("casting_speed", () -> (new PercentageAttribute("attribute.magitech.casting_speed", 100, 0, Double.MAX_VALUE).setSyncable(true)));
+    public static final DeferredHolder<Attribute, Attribute> COOLDOWN_SPEED = ATTRIBUTES.register("cooldown_speed", () -> (new PercentageAttribute("attribute.magitech.cooldown_speed", 100, 0, Double.MAX_VALUE).setSyncable(true)));
 
     public static void registerEntityAttributes(IEventBus eventBus) {
         ATTRIBUTES.register(eventBus);

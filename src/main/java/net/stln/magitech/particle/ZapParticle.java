@@ -1,6 +1,5 @@
 package net.stln.magitech.particle;
 
-import com.mojang.authlib.minecraft.client.MinecraftClient;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -11,14 +10,10 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.Vec3;
-import net.stln.magitech.Magitech;
-import net.stln.magitech.particle.particle_option.ZapParticleEffect;
 import net.stln.magitech.particle.particle_option.ZapParticleEffect;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Random;
 import org.joml.Vector3f;
 
 import java.util.ArrayList;
@@ -73,6 +68,7 @@ public class ZapParticle extends GlowingParticle {
             drawBeam(vertexConsumer, camera, nextFrom, nextTo, 0.2F, 1, 1, 1, 1);
         }
     }
+
     public void drawBeam(VertexConsumer vc, Camera camera, Vec3 start, Vec3 end, float width,
                          int r, int g, int b, int a) {
         Vec3 cameraPos = camera.getPosition();
@@ -109,6 +105,7 @@ public class ZapParticle extends GlowingParticle {
         this.renderVertex(vc, v3.x, v3.y, v3.z, -1.0F, 1.0F, f, f1, f3, i);
         this.renderVertex(vc, v4.x, v4.y, v4.z, -1.0F, -1.0F, f, f1, f4, i);
     }
+
     private void renderVertex(
             VertexConsumer buffer,
             float x,

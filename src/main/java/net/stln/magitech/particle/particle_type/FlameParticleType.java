@@ -5,7 +5,6 @@ import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.stln.magitech.particle.particle_option.FlameParticleEffect;
-import net.stln.magitech.particle.particle_option.FrostParticleEffect;
 
 public class FlameParticleType extends ParticleType<FlameParticleEffect> {
     public FlameParticleType(boolean overrideLimitter) {

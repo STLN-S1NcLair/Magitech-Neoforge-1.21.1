@@ -6,8 +6,6 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityEvent;
 import net.minecraft.world.entity.EntityType;
@@ -18,11 +16,15 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
+import net.stln.magitech.Magitech;
 import net.stln.magitech.damage.DamageTypeInit;
+import net.stln.magitech.damage.ElementAffinityRegister;
+import net.stln.magitech.damage.EntityElementRegister;
 import net.stln.magitech.entity.EntityInit;
 import net.stln.magitech.entity.SpellProjectileEntity;
+import net.stln.magitech.item.tool.Element;
 import net.stln.magitech.particle.particle_option.FrostParticleEffect;
-import net.stln.magitech.particle.particle_option.UnstableSquareParticleEffect;
+import net.stln.magitech.sound.SoundInit;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -85,23 +87,33 @@ public class FrigalaEntity extends SpellProjectileEntity implements GeoEntity {
         Entity entity = entityHitResult.getEntity();
         Entity owner = this.getOwner();
 
-        ResourceKey<DamageType> damageType = DamageTypeInit.GLACE_DAMAGE;
+        ResourceKey<DamageType> damageType = this.getElement().getDamageType();
         DamageSource elementalDamageSource;
-        if (this.getWeaponItem() != null) {
-            elementalDamageSource = this.getWeaponItem().has(DataComponents.CUSTOM_NAME) ? owner.damageSources().source(damageType, owner) : owner.damageSources().source(damageType);
+        if (owner != null) {
+            if (this.getWeaponItem() != null) {
+                elementalDamageSource = this.getWeaponItem().has(DataComponents.CUSTOM_NAME) ? owner.damageSources().source(damageType, owner) : owner.damageSources().source(damageType);
+            } else {
+                elementalDamageSource = owner.damageSources().source(damageType);
+            }
         } else {
-            elementalDamageSource = owner.damageSources().source(damageType);
+            elementalDamageSource = this.damageSources().source(damageType);
         }
 
-        entity.hurt(elementalDamageSource, this.damage);
+        float finalDamage = this.damage * EntityElementRegister.getElementAffinity(entity, this.getElement()).getMultiplier();
+        applyDamage(entity, elementalDamageSource, finalDamage);
         if (entity instanceof LivingEntity livingEntity) {
-            livingEntity.setTicksFrozen(Math.max(livingEntity.getTicksFrozen() + 120, 180));
+            livingEntity.setTicksFrozen(Math.min(livingEntity.getTicksFrozen() + 120, 180));
         }
         hitParticle();
 
         if (!this.level().isClientSide) {
             this.level().broadcastEntityEvent(this, EntityEvent.DEATH);
         }
+    }
+
+    @Override
+    protected Element getElement() {
+        return Element.GLACE;
     }
 
     @Override
@@ -150,7 +162,7 @@ public class FrigalaEntity extends SpellProjectileEntity implements GeoEntity {
 
     @Override
     protected SoundEvent getDefaultHitGroundSoundEvent() {
-        return SoundEvents.BEACON_POWER_SELECT;
+        return SoundInit.GLACE_LAUNCH.get();
     }
 
     @Override

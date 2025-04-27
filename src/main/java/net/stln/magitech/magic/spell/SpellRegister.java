@@ -21,15 +21,20 @@ public class SpellRegister {
     }
 
     public static ResourceLocation getId(Spell spell) {
-        for (Map.Entry<ResourceLocation, Spell> entry : register.entrySet()) {
-            if (entry.getValue().getClass().equals(spell.getClass())) {
-                return entry.getKey();
+        if (spell != null) {
+            for (Map.Entry<ResourceLocation, Spell> entry : register.entrySet()) {
+                if (entry.getValue().getClass().equals(spell.getClass())) {
+                    return entry.getKey();
+                }
             }
         }
         return null;
     }
 
     public static String getStringId(Spell spell) {
+        if (spell != null) {
         return getId(spell).toString();
+        }
+        return "";
     }
 }

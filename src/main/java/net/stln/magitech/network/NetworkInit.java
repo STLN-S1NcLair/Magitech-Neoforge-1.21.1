@@ -69,5 +69,13 @@ public class NetworkInit {
                         ReleaseUsingSpellPayLoadHandler::handleDataOnMainC2S
                 )
         );
+        registrar.playBidirectional(
+                ThreadBoundSelectPayload.TYPE,
+                ThreadBoundSelectPayload.STREAM_CODEC,
+                new DirectionalPayloadHandler<>(
+                        ThreadboundSelectPayLoadHandler::handleDataOnMainS2C,
+                        ThreadboundSelectPayLoadHandler::handleDataOnMainC2S
+                )
+        );
     }
 }

@@ -1,8 +1,5 @@
 package net.stln.magitech.entity;
 
-import com.google.common.collect.Lists;
-import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
-import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
@@ -10,9 +7,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
-import net.minecraft.network.protocol.game.ClientboundGameEventPacket;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -20,9 +14,11 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
-import net.minecraft.util.Unit;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityEvent;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
@@ -35,26 +31,25 @@ import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.*;
-import net.minecraft.world.phys.shapes.VoxelShape;
-import net.stln.magitech.Magitech;
-import org.joml.Vector2f;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
+import net.stln.magitech.item.tool.Element;
 import software.bernie.geckolib.animatable.GeoEntity;
 
 import javax.annotation.Nullable;
-import java.util.Arrays;
-import java.util.List;
 
 public abstract class SpellProjectileEntity extends Projectile implements GeoEntity {
-    @javax.annotation.Nullable
-    private BlockState lastState;
+    public AbstractArrow.Pickup pickup = AbstractArrow.Pickup.DISALLOWED;
     protected boolean inGround;
     protected int inGroundTime;
-    public AbstractArrow.Pickup pickup = AbstractArrow.Pickup.DISALLOWED;
+    protected float damage;
+    @javax.annotation.Nullable
+    private BlockState lastState;
     private int life;
     private SoundEvent soundEvent = this.getDefaultHitGroundSoundEvent();
     private ItemStack firedFromWeapon = null;
-    protected float damage;
 
 
     protected SpellProjectileEntity(EntityType<? extends SpellProjectileEntity> entityType, Level level) {
@@ -136,7 +131,7 @@ public abstract class SpellProjectileEntity extends Projectile implements GeoEnt
                 hitresult.getType();
             }
 
-                break;
+            break;
         }
 
         vec3 = this.getDeltaMovement();
@@ -183,16 +178,27 @@ public abstract class SpellProjectileEntity extends Projectile implements GeoEnt
     protected void onHitEntity(EntityHitResult result) {
         super.onHitEntity(result);
         Entity entity = result.getEntity();
-        float f = (float)this.getDeltaMovement().length();
+        float f = (float) this.getDeltaMovement().length();
         Entity entity1 = this.getOwner();
 
-        if (entity1 instanceof LivingEntity livingentity1) {
-            livingentity1.setLastHurtMob(entity);
+        if (!this.level().isClientSide) {
+            this.level().broadcastEntityEvent(this, EntityEvent.DEATH);
+            this.discard();
         }
-        int i = entity.getRemainingFireTicks();
+    }
 
-        DamageSource damageSource = this.damageSources().magic();
-        if (entity.hurt(damageSource, 6)) {
+    protected void applyDamage(Entity entity, DamageSource damageSource, float amount) {
+        int i = entity.getRemainingFireTicks();
+        Entity owner = this.getOwner();
+
+        if (owner instanceof LivingEntity livingentity1) {
+            livingentity1.setLastHurtMob(entity);
+            if (entity instanceof LivingEntity livingEntity) {
+                livingEntity.setLastHurtByMob(livingentity1);
+            }
+        }
+
+        if (entity.hurt(damageSource, amount)) {
 
             if (entity instanceof LivingEntity livingentity) {
 
@@ -201,7 +207,7 @@ public abstract class SpellProjectileEntity extends Projectile implements GeoEnt
                     EnchantmentHelper.doPostAttackEffectsWithItemSource(serverlevel1, livingentity, damageSource, this.getWeaponItem());
                 }
 
-                if (!this.level().isClientSide && entity1 instanceof ServerPlayer serverplayer) {
+                if (!this.level().isClientSide && owner instanceof ServerPlayer serverplayer) {
                 }
             }
 
@@ -215,16 +221,14 @@ public abstract class SpellProjectileEntity extends Projectile implements GeoEnt
                 this.discard();
             }
         }
+    }
 
-
-        if (!this.level().isClientSide) {
-            this.level().broadcastEntityEvent(this, EntityEvent.DEATH);
-            this.discard();
-        }
+    protected Element getElement() {
+        return Element.NONE;
     }
 
     protected void doKnockback(LivingEntity entity, DamageSource damageSource) {
-        double d0 = (double)(
+        double d0 = (double) (
                 this.firedFromWeapon != null && this.level() instanceof ServerLevel serverlevel
                         ? EnchantmentHelper.modifyKnockback(serverlevel, this.firedFromWeapon, entity, damageSource, 0.0F)
                         : 0.0F
@@ -241,6 +245,7 @@ public abstract class SpellProjectileEntity extends Projectile implements GeoEnt
     @Override
     protected void onHitBlock(BlockHitResult blockHitResult) {
         super.onHitBlock(blockHitResult);
+        this.playSound(this.getHitGroundSoundEvent(), 1.0F, 1.2F / (this.random.nextFloat() * 0.2F + 0.9F));
 
         if (!this.level().isClientSide) {
             this.level().broadcastEntityEvent(this, EntityEvent.DEATH);
@@ -282,7 +287,7 @@ public abstract class SpellProjectileEntity extends Projectile implements GeoEnt
     @Override
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
-        compound.putShort("life", (short)this.life);
+        compound.putShort("life", (short) this.life);
         if (this.lastState != null) {
             compound.put("inBlockState", NbtUtils.writeBlockState(this.lastState));
         }

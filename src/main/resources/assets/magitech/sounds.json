@@ -40,5 +40,59 @@
     "sounds" :  [
       "magitech:sonicboom"
     ]
+  },
+  "mystical" :  {
+    "subtitle" :  "subtitles.magitech.mystical" ,
+    "sounds" :  [
+      "magitech:mystical"
+    ]
+  },
+  "glace_launch" :  {
+    "subtitle" :  "subtitles.magitech.glace_launch" ,
+    "sounds" :  [
+      "magitech:glace_launch"
+    ]
+  },
+  "spark" :  {
+    "subtitle" :  "subtitles.magitech.spark" ,
+    "sounds" :  [
+      "magitech:spark"
+    ]
+  },
+  "blow" :  {
+    "subtitle" :  "subtitles.magitech.blow" ,
+    "sounds" :  [
+      "magitech:blow"
+    ]
+  },
+  "arcaleth" :  {
+    "subtitle" :  "subtitles.magitech.arcaleth" ,
+    "sounds" :  [
+      "magitech:arcaleth"
+    ]
+  },
+  "fireball" :  {
+    "subtitle" :  "subtitles.magitech.fireball" ,
+    "sounds" :  [
+      "magitech:fireball"
+    ]
+  },
+  "tremivox" :  {
+    "subtitle" :  "subtitles.magitech.tremivox" ,
+    "sounds" :  [
+      "magitech:tremivox"
+    ]
+  },
+  "aeltherin" :  {
+    "subtitle" :  "subtitles.magitech.aeltherin" ,
+    "sounds" :  [
+      "magitech:aeltherin"
+    ]
+  },
+  "nullixis" :  {
+    "subtitle" :  "subtitles.magitech.nullixis" ,
+    "sounds" :  [
+      "magitech:nullixis"
+    ]
   }
 }

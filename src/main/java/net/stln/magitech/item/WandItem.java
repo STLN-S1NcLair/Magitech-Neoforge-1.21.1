@@ -34,9 +34,9 @@ import java.util.List;
 
 public class WandItem extends Item implements LeftClickOverrideItem {
 
-    private int sweepDamage = 6;
     Sparkion stormhaze = new Sparkion();
     Arcaleth arcether = new Arcaleth();
+    private int sweepDamage = 6;
 
     public WandItem(Properties settings) {
         super(settings);
@@ -57,24 +57,29 @@ public class WandItem extends Item implements LeftClickOverrideItem {
                     user.releaseUsingItem();
                     return InteractionResultHolder.pass(itemStack);
                 }
-                boolean flag = false;
-                if (spell.needsUseCost(world, user, itemStack)) {
-                    flag = ManaUtil.useManaServerOnly(user, spell.getCost());
-                } else {
-                    flag = true;
-                }
-                if (flag) {
-                    if (CooldownData.getCurrentCooldown(user, spell) == null) {
+                if (CooldownData.getPrevCooldown(user, spell) == null && spell.isActiveUse(world, user, hand, true)) {
+                    boolean flag;
+                    if (spell.needsUseCost(world, user, itemStack)) {
+                        if (ManaUtil.checkMana(user, spell.getRequiredMana())) {
+                            flag = ManaUtil.useManaServerOnly(user, spell.getCost()) || user.isCreative();
+                        } else {
+                            flag = user.isCreative();
+                        }
+                    } else {
+                        flag = true;
+                    }
+                    if (flag) {
                         spell.use(world, user, hand, true);
                     } else {
-                        user.stopUsingItem();
+                        if (!user.level().isClientSide) {
+                            user.releaseUsingItem();
+                        }
                         return InteractionResultHolder.fail(itemStack);
                     }
                 } else {
                     user.releaseUsingItem();
                 }
             } else {
-                Magitech.LOGGER.info("out of range");
                 threadbound.set(ComponentInit.SPELL_COMPONENT, new SpellComponent(spellComponent.spells(), 0));
             }
         }
@@ -92,21 +97,23 @@ public class WandItem extends Item implements LeftClickOverrideItem {
             if (!threadbound.isEmpty()) {
                 SpellComponent spellComponent = threadbound.get(ComponentInit.SPELL_COMPONENT);
                 Spell spell = spellComponent.spells().get(spellComponent.selected());
-                boolean flag = false;
-                if (spell.needsTickCost(level, user, stack)) {
-                    flag = ManaUtil.useManaServerOnly(user, spell.getTickCost());
-                } else {
-                    flag = true;
-                }
-                if (flag) {
-                    if (CooldownData.getCurrentCooldown(user, spell) == null) {
+                if (CooldownData.getCurrentCooldown(user, spell) == null && spell.isActiveUsingTick(level, livingEntity, stack, getUseDuration(stack, livingEntity) - remainingUseDuration)) {
+                    boolean flag;
+                    if (spell.needsTickCost(level, user, stack)) {
+                        flag = ManaUtil.useManaServerOnly(user, spell.getTickCost()) || user.isCreative();
+                    } else {
+                        flag = true;
+                    }
+                    if (flag) {
                         spell.usingTick(level, livingEntity, stack, getUseDuration(stack, livingEntity) - remainingUseDuration);
                     } else {
-                        livingEntity.stopUsingItem();
+                        user.releaseUsingItem();
                     }
                 } else {
                     livingEntity.releaseUsingItem();
                 }
+            } else {
+                livingEntity.releaseUsingItem();
             }
         }
     }

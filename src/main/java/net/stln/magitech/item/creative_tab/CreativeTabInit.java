@@ -23,7 +23,6 @@ public class CreativeTabInit {
             .icon(() -> ItemInit.GLISTENING_LEXICON.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
                 output.accept(ItemInit.GLISTENING_LEXICON.get());
-                output.accept(ItemInit.WAND.get());
                 output.accept(ItemInit.CHROMIUM_INGOT.get());
                 output.accept(ItemInit.REDSTONE_CRYSTAL.get());
                 output.accept(ItemInit.POLISHED_REDSTONE_CRYSTAL.get());
@@ -93,6 +92,11 @@ public class CreativeTabInit {
                 output.accept(PartToolGenerator.generateHammer(MaterialInit.NETHERITE));
                 output.accept(PartToolGenerator.generateHammer(MaterialInit.FRIGIDITE));
                 output.accept(PartToolGenerator.generateHammer(MaterialInit.TRANSLUCIUM));
+
+                output.accept(PartToolGenerator.generateWand(MaterialInit.COPPER));
+                output.accept(PartToolGenerator.generateWand(MaterialInit.IRON));
+                output.accept(PartToolGenerator.generateWand(MaterialInit.GOLD));
+                output.accept(PartToolGenerator.generateWand(MaterialInit.DIAMOND));
             }).build());
 
     public static void registerCreativeTabs(IEventBus eventBus) {

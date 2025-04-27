@@ -20,6 +20,15 @@ public class SoundInit {
     public static final Supplier<SoundEvent> ZAP = registerSoundEvent("zap");
     public static final Supplier<SoundEvent> FLAME = registerSoundEvent("flame");
     public static final Supplier<SoundEvent> SONICBOOM = registerSoundEvent("sonicboom");
+    public static final Supplier<SoundEvent> MYSTICAL = registerSoundEvent("mystical");
+    public static final Supplier<SoundEvent> GLACE_LAUNCH = registerSoundEvent("glace_launch");
+    public static final Supplier<SoundEvent> SPARK = registerSoundEvent("spark");
+    public static final Supplier<SoundEvent> BLOW = registerSoundEvent("blow");
+    public static final Supplier<SoundEvent> ARCALETH = registerSoundEvent("arcaleth");
+    public static final Supplier<SoundEvent> FIREBALL = registerSoundEvent("fireball");
+    public static final Supplier<SoundEvent> TREMIVOX = registerSoundEvent("tremivox");
+    public static final Supplier<SoundEvent> AELTHERIN = registerSoundEvent("aeltherin");
+    public static final Supplier<SoundEvent> NULLIXIS = registerSoundEvent("nullixis");
 
 
     private static Supplier<SoundEvent> registerSoundEvent(String name) {

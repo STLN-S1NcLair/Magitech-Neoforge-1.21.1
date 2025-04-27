@@ -60,8 +60,9 @@ public class BeamParticle extends GlowingParticle {
             this.gCol *= multiplier;
             this.bCol *= multiplier;
         }
-            drawBeam(vertexConsumer, camera, this.getPos(), new Vec3(this.endPos), width, 1, 1, 1, 1);
+        drawBeam(vertexConsumer, camera, this.getPos(), new Vec3(this.endPos), width, 1, 1, 1, 1);
     }
+
     public void drawBeam(VertexConsumer vc, Camera camera, Vec3 start, Vec3 end, float width,
                          int r, int g, int b, int a) {
         Vec3 cameraPos = camera.getPosition();
@@ -177,6 +178,7 @@ public class BeamParticle extends GlowingParticle {
         this.renderVertex(vc, v31.x, v31.y, v31.z, -1.0F, 1.0F, f, f1, f3, i);
         this.renderVertex(vc, v32.x, v32.y, v32.z, -1.0F, -1.0F, f, f1, f4, i);
     }
+
     private void renderVertex(
             VertexConsumer buffer,
             float x,

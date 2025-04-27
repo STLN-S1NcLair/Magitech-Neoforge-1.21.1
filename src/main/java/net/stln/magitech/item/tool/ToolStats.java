@@ -1,6 +1,5 @@
 package net.stln.magitech.item.tool;
 
-import net.stln.magitech.Magitech;
 import net.stln.magitech.item.tool.material.MiningLevel;
 import oshi.annotation.concurrent.Immutable;
 
@@ -64,27 +63,27 @@ public class ToolStats {
                     atk += map.get(ATK_STAT);
                 }
                 if (map.get(SPD_STAT) != null) {
-                spd += map.get(SPD_STAT);
+                    spd += map.get(SPD_STAT);
                 }
                 if (map.get(MIN_STAT) != null) {
-                min += map.get(MIN_STAT);
+                    min += map.get(MIN_STAT);
                 }
                 if (map.get(DEF_STAT) != null) {
-                def += map.get(DEF_STAT);
+                    def += map.get(DEF_STAT);
                 }
                 if (map.get(RNG_STAT) != null) {
-                rng += map.get(RNG_STAT);
+                    rng += map.get(RNG_STAT);
                 }
                 if (map.get(SWP_STAT) != null) {
-                swp += map.get(SWP_STAT);
+                    swp += map.get(SWP_STAT);
                 }
                 if (map.get(DUR_STAT) != null) {
-                dur += map.get(DUR_STAT);
+                    dur += map.get(DUR_STAT);
                 }
 
                 Element currentElm = stats.getElement();
                 if (map.get(ELM_ATK_STAT) != null) {
-                elementMap.put(currentElm, elementMap.getOrDefault(currentElm, 0.0F) + map.get(ELM_ATK_STAT));
+                    elementMap.put(currentElm, elementMap.getOrDefault(currentElm, 0.0F) + map.get(ELM_ATK_STAT));
                 }
                 if (stats.getMiningLevel().getTier() > minLv.getTier()) {
                     minLv = stats.getMiningLevel();
@@ -103,11 +102,11 @@ public class ToolStats {
             }
         }
         elementList.add(Element.NONE);
-            for (Element element1 : elementList) {
-                if (element1 != elm) {
-                    elmAtk += elementMap.getOrDefault(element1, 0.0F) * (element1 == Element.NONE ? 1F : 0.5F);
-                }
+        for (Element element1 : elementList) {
+            if (element1 != elm) {
+                elmAtk += elementMap.getOrDefault(element1, 0.0F) * (element1 == Element.NONE ? 1F : 0.5F);
             }
+        }
 
         return new ToolStats(atk, elmAtk, spd, min, def, rng, swp, dur, elm, minLv);
     }
@@ -125,40 +124,40 @@ public class ToolStats {
         Element elm = Element.NONE;
         MiningLevel minLv = MiningLevel.NONE;
 
-            if (stats != null) {
-                Map<String, Float> map = stats.getStats();
+        if (stats != null) {
+            Map<String, Float> map = stats.getStats();
 
-                if (map.get(ATK_STAT) != null) {
-                    atk = map.get(ATK_STAT) * value;
-                }
-                if (map.get(ELM_ATK_STAT) != null) {
-                    elmAtk = map.get(ELM_ATK_STAT) * value;
-                }
-                if (map.get(SPD_STAT) != null) {
-                    spd = map.get(SPD_STAT) * value;
-                }
-                if (map.get(MIN_STAT) != null) {
-                    min = map.get(MIN_STAT) * value;
-                }
-                if (map.get(DEF_STAT) != null) {
-                    def = map.get(DEF_STAT) * value;
-                }
-                if (map.get(RNG_STAT) != null) {
-                    rng = map.get(RNG_STAT) * value;
-                }
-                if (map.get(SWP_STAT) != null) {
-                    swp = map.get(SWP_STAT) * value;
-                }
-                if (map.get(DUR_STAT) != null) {
-                    dur = map.get(DUR_STAT) * value;
-                }
-                if (stats.getElement() != null) {
-                    elm = stats.getElement();
-                }
-                if (stats.getMiningLevel() != null) {
-                    minLv = stats.getMiningLevel();
-                }
+            if (map.get(ATK_STAT) != null) {
+                atk = map.get(ATK_STAT) * value;
             }
+            if (map.get(ELM_ATK_STAT) != null) {
+                elmAtk = map.get(ELM_ATK_STAT) * value;
+            }
+            if (map.get(SPD_STAT) != null) {
+                spd = map.get(SPD_STAT) * value;
+            }
+            if (map.get(MIN_STAT) != null) {
+                min = map.get(MIN_STAT) * value;
+            }
+            if (map.get(DEF_STAT) != null) {
+                def = map.get(DEF_STAT) * value;
+            }
+            if (map.get(RNG_STAT) != null) {
+                rng = map.get(RNG_STAT) * value;
+            }
+            if (map.get(SWP_STAT) != null) {
+                swp = map.get(SWP_STAT) * value;
+            }
+            if (map.get(DUR_STAT) != null) {
+                dur = map.get(DUR_STAT) * value;
+            }
+            if (stats.getElement() != null) {
+                elm = stats.getElement();
+            }
+            if (stats.getMiningLevel() != null) {
+                minLv = stats.getMiningLevel();
+            }
+        }
         return new ToolStats(atk, elmAtk, spd, min, def, rng, swp, dur, elm, minLv);
     }
 
@@ -175,41 +174,41 @@ public class ToolStats {
         Element elm = Element.NONE;
         MiningLevel minLv = MiningLevel.NONE;
 
-            if (stats != null && value != null) {
-                Map<String, Float> map = stats.getStats();
-                Map<String, Float> map2 = value.getStats();
+        if (stats != null && value != null) {
+            Map<String, Float> map = stats.getStats();
+            Map<String, Float> map2 = value.getStats();
 
-                if (map.get(ATK_STAT) != null && map2.get(ATK_STAT) != null) {
-                    atk = map.get(ATK_STAT) * map2.get(ATK_STAT);
-                }
-                if (map.get(ELM_ATK_STAT) != null && map2.get(ELM_ATK_STAT) != null) {
-                    elmAtk = map.get(ELM_ATK_STAT) * map2.get(ELM_ATK_STAT);
-                }
-                if (map.get(SPD_STAT) != null && map2.get(SPD_STAT) != null) {
-                    spd = map.get(SPD_STAT) * map2.get(SPD_STAT);
-                }
-                if (map.get(MIN_STAT) != null && map2.get(MIN_STAT) != null) {
-                    min = map.get(MIN_STAT) * map2.get(MIN_STAT);
-                }
-                if (map.get(DEF_STAT) != null && map2.get(DEF_STAT) != null) {
-                    def = map.get(DEF_STAT) * map2.get(DEF_STAT);
-                }
-                if (map.get(RNG_STAT) != null && map2.get(RNG_STAT) != null) {
-                    rng = map.get(RNG_STAT) * map2.get(RNG_STAT);
-                }
-                if (map.get(SWP_STAT) != null && map2.get(SWP_STAT) != null) {
-                    swp = map.get(SWP_STAT) * map2.get(SWP_STAT);
-                }
-                if (map.get(DUR_STAT) != null && map2.get(DUR_STAT) != null) {
-                    dur = map.get(DUR_STAT) * map2.get(DUR_STAT);
-                }
-                if (stats.getElement() != null) {
-                    elm = stats.getElement();
-                }
-                if (stats.getMiningLevel() != null) {
-                    minLv = stats.getMiningLevel();
-                }
+            if (map.get(ATK_STAT) != null && map2.get(ATK_STAT) != null) {
+                atk = map.get(ATK_STAT) * map2.get(ATK_STAT);
             }
+            if (map.get(ELM_ATK_STAT) != null && map2.get(ELM_ATK_STAT) != null) {
+                elmAtk = map.get(ELM_ATK_STAT) * map2.get(ELM_ATK_STAT);
+            }
+            if (map.get(SPD_STAT) != null && map2.get(SPD_STAT) != null) {
+                spd = map.get(SPD_STAT) * map2.get(SPD_STAT);
+            }
+            if (map.get(MIN_STAT) != null && map2.get(MIN_STAT) != null) {
+                min = map.get(MIN_STAT) * map2.get(MIN_STAT);
+            }
+            if (map.get(DEF_STAT) != null && map2.get(DEF_STAT) != null) {
+                def = map.get(DEF_STAT) * map2.get(DEF_STAT);
+            }
+            if (map.get(RNG_STAT) != null && map2.get(RNG_STAT) != null) {
+                rng = map.get(RNG_STAT) * map2.get(RNG_STAT);
+            }
+            if (map.get(SWP_STAT) != null && map2.get(SWP_STAT) != null) {
+                swp = map.get(SWP_STAT) * map2.get(SWP_STAT);
+            }
+            if (map.get(DUR_STAT) != null && map2.get(DUR_STAT) != null) {
+                dur = map.get(DUR_STAT) * map2.get(DUR_STAT);
+            }
+            if (stats.getElement() != null) {
+                elm = stats.getElement();
+            }
+            if (stats.getMiningLevel() != null) {
+                minLv = stats.getMiningLevel();
+            }
+        }
         return new ToolStats(atk, elmAtk, spd, min, def, rng, swp, dur, elm, minLv);
     }
 

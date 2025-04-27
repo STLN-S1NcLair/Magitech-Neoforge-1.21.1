@@ -65,7 +65,7 @@ public class VoidGlowParticle extends GlowingParticle {
         this.yo = this.y;
         this.zo = this.z;
         if (age % 4 == 2) {
-            this.move(this.xd* 4, this.yd * 4, this.zd * 4);
+            this.move(this.xd * 4, this.yd * 4, this.zd * 4);
         }
         if (this.age++ >= this.lifetime) {
             this.remove();

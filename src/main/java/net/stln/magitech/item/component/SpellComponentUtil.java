@@ -17,6 +17,7 @@ public class SpellComponentUtil {
         }
         return new SpellComponent(spells, selected);
     }
+
     public static SpellComponent generateFromId(List<String> ids) {
         List<Spell> spells = new ArrayList<>();
         for (String id : ids) {

@@ -8,5 +8,5 @@ import net.stln.magitech.Magitech;
 
 public class ItemTagKeys {
 
-        public static TagKey<Item> THREAD_BOUND = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"));
+    public static TagKey<Item> THREAD_BOUND = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"));
 }

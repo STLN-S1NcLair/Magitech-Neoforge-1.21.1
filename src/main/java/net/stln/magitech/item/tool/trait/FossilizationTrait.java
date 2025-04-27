@@ -37,7 +37,7 @@ public class FossilizationTrait extends Trait {
             Float min = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.MIN_STAT);
             return min * mul;
         }
-            return super.modifyMiningSpeed(player, level, stack, traitLevel, stats, blockState, pos);
+        return super.modifyMiningSpeed(player, level, stack, traitLevel, stats, blockState, pos);
     }
 
     @Override
