@@ -34,7 +34,7 @@ public class Nullixis extends Spell {
     }
 
     @Override
-    public Map<ManaUtil.ManaType, Double> getCost() {
+    public Map<ManaUtil.ManaType, Double> getBaseCost() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
         cost.put(ManaUtil.ManaType.MANA, 25.0);
         cost.put(ManaUtil.ManaType.NOCTIS, 8.0);
@@ -51,9 +51,9 @@ public class Nullixis extends Spell {
         super.use(level, user, hand, isHost);
         level.playSound(user, user.getX(), user.getY(), user.getZ(), SoundInit.NULLIXIS.get(), SoundSource.PLAYERS);
         if (!level.isClientSide && !isHost) {
-            NullixisEntity bullet = new NullixisEntity(level, user, user.getItemInHand(hand), 6);
+            NullixisEntity bullet = new NullixisEntity(level, user, user.getItemInHand(hand), getDamage(user, this.getCost(level, user, user.getItemInHand(hand)), 6, this.getElement()));
             Vec3 velocity = Vec3.directionFromRotation(user.getRotationVector());
-            velocity = velocity.normalize().scale(1.3);
+            velocity = velocity.normalize().scale(getProjectileSpeed(user, 1.3));
             bullet.setDeltaMovement(velocity);
             bullet.setPos(user.getX(), user.getEyeY() - 0.3, user.getZ());
             level.addFreshEntity(bullet);

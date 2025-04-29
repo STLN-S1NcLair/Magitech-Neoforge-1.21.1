@@ -38,6 +38,20 @@ public class ItemInit {
             )),
             new Item.Properties().stacksTo(1));
 
+    public static final DeferredItem<ThreadboundItem> ARCANE_ENGINEERING_COMPENDIUM = ITEMS.registerItem("arcane_engineering_compendium",
+            (properties) -> new ThreadboundItem(properties).attributeModifier(Map.of(
+                    AttributeInit.MAX_MANA, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 300, AttributeModifier.Operation.ADD_VALUE),
+                    AttributeInit.MANA_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 4, AttributeModifier.Operation.ADD_VALUE),
+
+                    AttributeInit.NOCTIS_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.3, AttributeModifier.Operation.ADD_VALUE),
+                    AttributeInit.LUMINIS_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.3, AttributeModifier.Operation.ADD_VALUE),
+                    AttributeInit.FLUXIA_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.3, AttributeModifier.Operation.ADD_VALUE),
+                    AttributeInit.MAX_NOCTIS, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 30, AttributeModifier.Operation.ADD_VALUE),
+                    AttributeInit.MAX_LUMINIS, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 30, AttributeModifier.Operation.ADD_VALUE),
+                    AttributeInit.MAX_FLUXIA, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 30, AttributeModifier.Operation.ADD_VALUE)
+            )),
+            new Item.Properties().stacksTo(1));
+
     public static final DeferredItem<Item> LIGHT_BLADE = ITEMS.registerItem("light_blade",
             LightBladeItem::new,
             new Item.Properties());

@@ -37,5 +37,9 @@ public class ModifyDefaultComponentsEvent {
                 new SpellComponent(List.of(
                         new Ignisca(), new Frigala(), new Voltaris(), new Mirazien(), new Tremivox(), new Arcaleth(), new Aeltherin(), new Nullixis(),
                         new Fluvalen(), new Cryoluxa(), new Sparkion(), new Ocsilbeam(), new Mistrelune()), 0)));
+        event.modify(ItemInit.ARCANE_ENGINEERING_COMPENDIUM, builder -> builder.set(ComponentInit.SPELL_COMPONENT.get(),
+                new SpellComponent(List.of(
+                        new Ignisca(), new Frigala(), new Voltaris(), new Mirazien(), new Tremivox(), new Arcaleth(), new Aeltherin(), new Nullixis(),
+                        new Fluvalen(), new Cryoluxa(), new Sparkion(), new Ocsilbeam(), new Mistrelune()), 0)));
     }
 }

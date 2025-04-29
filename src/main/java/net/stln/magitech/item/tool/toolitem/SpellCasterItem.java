@@ -22,9 +22,11 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.ClipContext;
@@ -33,9 +35,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.damage.EntityElementRegister;
 import net.stln.magitech.entity.AdjustableAttackStrengthEntity;
+import net.stln.magitech.entity.status.AttributeInit;
 import net.stln.magitech.item.LeftClickOverrideItem;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.SpellComponent;
@@ -56,17 +61,21 @@ import net.stln.magitech.particle.particle_option.*;
 import net.stln.magitech.util.EffectUtil;
 import net.stln.magitech.util.EntityUtil;
 import net.stln.magitech.util.MathUtil;
+import net.stln.magitech.util.TextUtil;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
+import javax.swing.plaf.TextUI;
 import java.util.*;
 import java.util.function.Predicate;
 
 public abstract class SpellCasterItem extends PartToolItem {
     ResourceLocation atkId = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "part_tool_attack_damage_modifier");
+    ResourceLocation elmatkId = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "part_tool_elemental_attack_damage_modifier");
     ResourceLocation spdId = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "part_tool_attack_speed_modifier");
+    ResourceLocation minId = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "part_tool_mining_speed_modifier");
     ResourceLocation defId = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "part_tool_defense_modifier");
     ResourceLocation rngId = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "part_tool_attack_range_modifier");
 
@@ -123,6 +132,7 @@ public abstract class SpellCasterItem extends PartToolItem {
         return component;
     }
 
+    @Override
     public void reloadComponent(Player player, Level level, ItemStack stack) {
 
         List<ItemAttributeModifiers.Entry> entries = new ArrayList<>();
@@ -131,10 +141,27 @@ public abstract class SpellCasterItem extends PartToolItem {
         ToolStats finalStats = getSumStats(player, level, stack);
         Map<String, Float> map = finalStats.getStats();
 
-        entries.add(new ItemAttributeModifiers.Entry(Attributes.ATTACK_DAMAGE, new AttributeModifier(atkId, map.get(ToolStats.ATK_STAT), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND));
-        entries.add(new ItemAttributeModifiers.Entry(Attributes.ATTACK_SPEED, new AttributeModifier(spdId, map.get(ToolStats.SPD_STAT) - 4, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND));
+        Map<String, Float> mod = ToolMaterialRegister.getModStats(this.getToolType()).getStats();
+        entries.add(new ItemAttributeModifiers.Entry(AttributeInit.SPELL_POWER, new AttributeModifier(atkId, map.get(ToolStats.ATK_STAT) - mod.get(ToolStats.ATK_STAT), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND));
+        if (finalStats.getElement() != Element.NONE) {
+            DeferredHolder<Attribute, Attribute> elementAttribute = switch (finalStats.getElement()) {
+                case NONE -> null;
+                case EMBER -> AttributeInit.EMBER_SPELL_POWER;
+                case GLACE -> AttributeInit.GLACE_SPELL_POWER;
+                case SURGE -> AttributeInit.SURGE_SPELL_POWER;
+                case PHANTOM -> AttributeInit.PHANTOM_SPELL_POWER;
+                case TREMOR -> AttributeInit.TREMOR_SPELL_POWER;
+                case MAGIC -> AttributeInit.MAGIC_SPELL_POWER;
+                case FLOW -> AttributeInit.FLOW_SPELL_POWER;
+                case HOLLOW -> AttributeInit.HOLLOW_SPELL_POWER;
+            };
+            entries.add(new ItemAttributeModifiers.Entry(elementAttribute, new AttributeModifier(elmatkId, map.get(ToolStats.ELM_ATK_STAT), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND));
+        }
+        entries.add(new ItemAttributeModifiers.Entry(AttributeInit.CASTING_SPEED, new AttributeModifier(spdId, map.get(ToolStats.SPD_STAT) - mod.get(ToolStats.SPD_STAT), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND));
+        entries.add(new ItemAttributeModifiers.Entry(AttributeInit.COOLDOWN_SPEED, new AttributeModifier(minId, map.get(ToolStats.MIN_STAT) - mod.get(ToolStats.MIN_STAT), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND));
         entries.add(new ItemAttributeModifiers.Entry(Attributes.ARMOR, new AttributeModifier(defId, map.get(ToolStats.DEF_STAT), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND));
-        entries.add(new ItemAttributeModifiers.Entry(Attributes.ENTITY_INTERACTION_RANGE, new AttributeModifier(rngId, map.get(ToolStats.RNG_STAT) - 3, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND));
+        entries.add(new ItemAttributeModifiers.Entry(AttributeInit.PROJECTILE_SPEED, new AttributeModifier(rngId, map.get(ToolStats.RNG_STAT) - mod.get(ToolStats.RNG_STAT), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND));
+        entries.add(new ItemAttributeModifiers.Entry(AttributeInit.MANA_EFFICIENCY, new AttributeModifier(rngId, map.get(ToolStats.SWP_STAT) - mod.get(ToolStats.SWP_STAT), AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.MAINHAND));
         ItemAttributeModifiers component = new ItemAttributeModifiers(entries, false);
         stack.set(DataComponents.ATTRIBUTE_MODIFIERS, component);
 
@@ -164,29 +191,30 @@ public abstract class SpellCasterItem extends PartToolItem {
     @Override
     protected void addStatsHoverText(@NotNull ItemStack stack, List<Component> tooltipComponents) {
         ToolStats finalStats = getSumStatsWithoutConditional(stack);
+        Map<String, Float> mod = ToolMaterialRegister.getModStats(this.getToolType()).getStats();
 
         tooltipComponents.add(Component.empty());
         tooltipComponents.add(Component.translatable("attribute.magitech.spell_power").append(": ").withColor(0xa0a0a0)
-                .append(Component.literal(String.valueOf(
-                        MathUtil.round(finalStats.getStats().get(ToolStats.ATK_STAT) + 1.0F, 2)
-                )).withColor(0xFF4040)));
+                .append(Component.literal(
+                        TextUtil.toSignedIntPercent(finalStats.getStats().get(ToolStats.ATK_STAT) - mod.get(ToolStats.ATK_STAT))
+                ).withColor(0xFF4040)));
 
         tooltipComponents.add(Component.translatable("attribute.magitech.elemental_spell_power").append(": ").withColor(0xa0a0a0)
                 .append(Component.translatable("element.magitech." + finalStats.getElement().get())
                         .append(" ")
-                        .append(Component.literal(String.valueOf(
-                                MathUtil.round(finalStats.getStats().get(ToolStats.ELM_ATK_STAT), 2)
-                        ))).withColor(finalStats.getElement().getColor())));
+                        .append(Component.literal(
+                                TextUtil.toSignedIntPercent(finalStats.getStats().get(ToolStats.ELM_ATK_STAT))
+                        )).withColor(finalStats.getElement().getColor())));
 
         tooltipComponents.add(Component.translatable("attribute.magitech.casting_speed").append(": ").withColor(0xa0a0a0)
-                .append(Component.literal(String.valueOf(
-                        MathUtil.round(finalStats.getStats().get(ToolStats.SPD_STAT), 2)
-                )).withColor(0x40FFC0)));
+                .append(Component.literal(
+                        TextUtil.toSignedIntPercent(finalStats.getStats().get(ToolStats.SPD_STAT) - mod.get(ToolStats.SPD_STAT))
+                ).withColor(0x40FFC0)));
 
         tooltipComponents.add(Component.translatable("attribute.magitech.cooldown_speed").append(": ").withColor(0xa0a0a0)
-                .append(Component.literal(String.valueOf(
-                        MathUtil.round(finalStats.getStats().get(ToolStats.MIN_STAT), 2)
-                )).withColor(0x4080C0)));
+                .append(Component.literal(
+                        TextUtil.toSignedIntPercent(finalStats.getStats().get(ToolStats.MIN_STAT) - mod.get(ToolStats.MIN_STAT))
+                ).withColor(0x4080C0)));
 
         tooltipComponents.add(Component.translatable("attribute.magitech.defense").append(": ").withColor(0xa0a0a0)
                 .append(Component.literal(String.valueOf(
@@ -194,14 +222,14 @@ public abstract class SpellCasterItem extends PartToolItem {
                 )).withColor(0xA0C0C0)));
 
         tooltipComponents.add(Component.translatable("attribute.magitech.projectile_speed").append(": ").withColor(0xa0a0a0)
-                .append(Component.literal(String.valueOf(
-                        MathUtil.round(finalStats.getStats().get(ToolStats.RNG_STAT), 2)
-                )).withColor(0x80c0FF)));
+                .append(Component.literal(
+                        TextUtil.toSignedIntPercent(finalStats.getStats().get(ToolStats.RNG_STAT) - mod.get(ToolStats.RNG_STAT))
+                ).withColor(0x80c0FF)));
 
-        tooltipComponents.add(Component.translatable("attribute.magitech.spell_range").append(": ").withColor(0xa0a0a0)
-                .append(Component.literal(String.valueOf(
-                        MathUtil.round(finalStats.getStats().get(ToolStats.SWP_STAT), 2)
-                )).withColor(0xFFFF80)));
+        tooltipComponents.add(Component.translatable("attribute.magitech.mana_efficiency").append(": ").withColor(0xa0a0a0)
+                .append(Component.literal(
+                        TextUtil.toSignedIntPercent(finalStats.getStats().get(ToolStats.SWP_STAT) - mod.get(ToolStats.SWP_STAT))
+                ).withColor(0xFFFF80)));
 
         tooltipComponents.add(Component.translatable("attribute.magitech.durability").append(": ").withColor(0xa0a0a0)
                 .append(Component.literal(
@@ -238,8 +266,8 @@ public abstract class SpellCasterItem extends PartToolItem {
                 if (CooldownData.getPrevCooldown(player, spell) == null && spell.isActiveUse(level, player, usedHand, true)) {
                     boolean flag;
                     if (spell.needsUseCost(level, player, itemStack)) {
-                        if (ManaUtil.checkMana(player, spell.getRequiredMana())) {
-                            flag = ManaUtil.useManaServerOnly(player, spell.getCost()) || player.isCreative();
+                        if (ManaUtil.checkMana(player, spell.getRequiredMana(level, player, itemStack))) {
+                            flag = ManaUtil.useManaServerOnly(player, spell.getCost(level, player, itemStack)) || player.isCreative();
                         } else {
                             flag = player.isCreative();
                         }
@@ -249,9 +277,7 @@ public abstract class SpellCasterItem extends PartToolItem {
                     if (flag) {
                         spell.use(level, player, usedHand, true);
                     } else {
-                        if (!player.level().isClientSide) {
-                            player.releaseUsingItem();
-                        }
+                        player.releaseUsingItem();
                         return InteractionResultHolder.fail(itemStack);
                     }
                 } else {
@@ -292,7 +318,7 @@ public abstract class SpellCasterItem extends PartToolItem {
                 if (CooldownData.getCurrentCooldown(user, spell) == null && spell.isActiveUsingTick(level, livingEntity, stack, getUseDuration(stack, livingEntity) - remainingUseDuration)) {
                     boolean flag;
                     if (spell.needsTickCost(level, user, stack)) {
-                        flag = ManaUtil.useManaServerOnly(user, spell.getTickCost()) || user.isCreative();
+                        flag = ManaUtil.useManaServerOnly(user, spell.getTickCost(level, user, stack)) || user.isCreative();
                     } else {
                         flag = true;
                     }

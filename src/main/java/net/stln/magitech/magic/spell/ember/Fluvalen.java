@@ -49,7 +49,7 @@ public class Fluvalen extends Spell {
     }
 
     @Override
-    public Map<ManaUtil.ManaType, Double> getCost() {
+    public Map<ManaUtil.ManaType, Double> getBaseCost() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
         cost.put(ManaUtil.ManaType.MANA, 20.0);
         cost.put(ManaUtil.ManaType.LUMINIS, 3.0);
@@ -57,7 +57,7 @@ public class Fluvalen extends Spell {
     }
 
     @Override
-    public Map<ManaUtil.ManaType, Double> getTickCost() {
+    public Map<ManaUtil.ManaType, Double> getBaseTickCost() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
         cost.put(ManaUtil.ManaType.MANA, 2.0);
         cost.put(ManaUtil.ManaType.LUMINIS, 1.0);
@@ -107,27 +107,18 @@ public class Fluvalen extends Spell {
                                 5F, 1, 0.3F), offset.x, offset.y, offset.z,
                         forward.x * 0.75 + (livingEntity.getRandom().nextFloat() - 0.5) / 4, forward.y * 0.75 + (livingEntity.getRandom().nextFloat() - 0.5) / 4, forward.z * 0.75 + (livingEntity.getRandom().nextFloat() - 0.5) / 4);
             }
-            ResourceKey<DamageType> damageType = DamageTypeInit.EMBER_DAMAGE;
-            float damage = 4.0F;
-
-            DamageSource elementalDamageSource = stack.has(DataComponents.CUSTOM_NAME) ? livingEntity.damageSources().source(damageType, livingEntity) : livingEntity.damageSources().source(damageType);
-
-            float targetHealth = livingEntity.getHealth();
             if (usingTick % 5 == 0) {
                 level.playSound(player, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), SoundInit.FLAME.get(), SoundSource.PLAYERS, 1.0F, 0.7F + (player.getRandom().nextFloat() * 0.6F));
             }
-            player.awardStat(Stats.DAMAGE_DEALT, Math.round((targetHealth - livingEntity.getHealth()) * 10));
             for (Entity target : attackList) {
                 if (target.isAttackable()) {
                     Vec3 targetBodyPos = target.position().add(0, target.getBbHeight() * 0.7, 0);
                     if (level.clip(new ClipContext(targetBodyPos, offset, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, livingEntity)).getType() == HitResult.Type.BLOCK) {
                         continue;
                     }
-                    if (target instanceof LivingEntity livingTarget) {
-                        livingTarget.setLastHurtByMob(livingEntity);
+                    if (livingEntity instanceof Player user) {
+                        this.applyDamage(3.0F, this.getTickCost(level, user, stack), this.getElement(), stack, user, target);
                     }
-                    damage *= EntityElementRegister.getElementAffinity(target, Element.SURGE).getMultiplier();
-                    target.hurt(elementalDamageSource, damage);
                     target.setRemainingFireTicks(Math.min(200, target.getRemainingFireTicks() + 60));
                 }
             }

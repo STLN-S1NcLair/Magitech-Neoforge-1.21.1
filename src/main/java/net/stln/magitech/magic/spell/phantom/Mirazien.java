@@ -35,7 +35,7 @@ public class Mirazien extends Spell {
     }
 
     @Override
-    public Map<ManaUtil.ManaType, Double> getCost() {
+    public Map<ManaUtil.ManaType, Double> getBaseCost() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
         cost.put(ManaUtil.ManaType.MANA, 35.0);
         cost.put(ManaUtil.ManaType.LUMINIS, 3.0);
@@ -53,9 +53,9 @@ public class Mirazien extends Spell {
         level.playSound(user, user.getX(), user.getY(), user.getZ(), SoundInit.MYSTICAL.get(), SoundSource.PLAYERS);
 
         if (!level.isClientSide && !isHost) {
-            MirazienEntity bullet = new MirazienEntity(level, user, user.getItemInHand(hand), 4);
+            MirazienEntity bullet = new MirazienEntity(level, user, user.getItemInHand(hand), getDamage(user, this.getCost(level, user, user.getItemInHand(hand)), 4, this.getElement()));
             Vec3 velocity = Vec3.directionFromRotation(user.getRotationVector());
-            velocity = velocity.normalize().scale(3);
+            velocity = velocity.normalize().scale(getProjectileSpeed(user, 3));
             bullet.setDeltaMovement(velocity);
             bullet.setPos(user.getX(), user.getEyeY() - 0.3, user.getZ());
             level.addFreshEntity(bullet);

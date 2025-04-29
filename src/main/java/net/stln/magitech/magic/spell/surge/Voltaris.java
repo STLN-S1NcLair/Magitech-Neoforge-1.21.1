@@ -34,7 +34,7 @@ public class Voltaris extends Spell {
     }
 
     @Override
-    public Map<ManaUtil.ManaType, Double> getCost() {
+    public Map<ManaUtil.ManaType, Double> getBaseCost() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
         cost.put(ManaUtil.ManaType.MANA, 20.0);
         cost.put(ManaUtil.ManaType.LUMINIS, 4.0);
@@ -51,9 +51,9 @@ public class Voltaris extends Spell {
         super.use(level, user, hand, isHost);
         level.playSound(user, user.getX(), user.getY(), user.getZ(), SoundInit.SPARK.get(), SoundSource.PLAYERS);
         if (!level.isClientSide && !isHost) {
-            VoltarisEntity bullet = new VoltarisEntity(level, user, user.getItemInHand(hand), 6);
+            VoltarisEntity bullet = new VoltarisEntity(level, user, user.getItemInHand(hand), getDamage(user, this.getCost(level, user, user.getItemInHand(hand)), 6, this.getElement()));
             Vec3 velocity = Vec3.directionFromRotation(user.getRotationVector());
-            velocity = velocity.normalize();
+            velocity = velocity.normalize().scale(getProjectileSpeed(user, 1));
             bullet.setDeltaMovement(velocity);
             bullet.setPos(user.getX(), user.getEyeY() - 0.3, user.getZ());
             level.addFreshEntity(bullet);

@@ -49,7 +49,7 @@ public class Sparkion extends Spell {
     }
 
     @Override
-    public Map<ManaUtil.ManaType, Double> getCost() {
+    public Map<ManaUtil.ManaType, Double> getBaseCost() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
         cost.put(ManaUtil.ManaType.MANA, 25.0);
         cost.put(ManaUtil.ManaType.LUMINIS, 2.0);
@@ -58,10 +58,10 @@ public class Sparkion extends Spell {
     }
 
     @Override
-    public Map<ManaUtil.ManaType, Double> getTickCost() {
+    public Map<ManaUtil.ManaType, Double> getBaseTickCost() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
-        cost.put(ManaUtil.ManaType.MANA, 1.0);
-        cost.put(ManaUtil.ManaType.LUMINIS, 0.5);
+        cost.put(ManaUtil.ManaType.MANA, 1.5);
+        cost.put(ManaUtil.ManaType.LUMINIS, 0.8);
         cost.put(ManaUtil.ManaType.FLUXIA, 0.3);
         return cost;
     }
@@ -131,26 +131,14 @@ public class Sparkion extends Spell {
                             2F, 3, 0), offset.x, offset.y, offset.z,
                     0, 0, 0);
         }
-
-        ResourceKey<DamageType> damageType = DamageTypeInit.SURGE_DAMAGE;
-        float damage = 3.0F;
-
-        DamageSource elementalDamageSource = stack.has(DataComponents.CUSTOM_NAME) ? livingEntity.damageSources().source(damageType, livingEntity) : livingEntity.damageSources().source(damageType);
-
-        float targetHealth = livingEntity.getHealth();
         if (livingEntity instanceof Player player) {
             if (usingTick % 5 == 0) {
                 level.playSound(player, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), SoundInit.ZAP.get(), SoundSource.PLAYERS, 1.0F, 0.7F + (player.getRandom().nextFloat() * 0.6F));
             }
-            player.awardStat(Stats.DAMAGE_DEALT, Math.round((targetHealth - livingEntity.getHealth()) * 10));
         }
         for (Entity target : attackListLast) {
-            if (target.isAttackable()) {
-                if (target instanceof LivingEntity livingTarget) {
-                    livingTarget.setLastHurtByMob(livingEntity);
-                }
-                damage *= EntityElementRegister.getElementAffinity(target, Element.SURGE).getMultiplier();
-                target.hurt(elementalDamageSource, damage);
+            if (livingEntity instanceof Player user) {
+                this.applyDamage(2.0F, this.getTickCost(level, user, stack), this.getElement(), stack, user, target);
             }
         }
     }

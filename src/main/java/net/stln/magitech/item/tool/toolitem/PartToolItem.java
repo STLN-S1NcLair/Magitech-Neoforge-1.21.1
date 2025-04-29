@@ -69,21 +69,25 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
     }
 
     public static ToolStats getDefaultStats(ItemStack stack) {
-        List<ToolMaterial> materials = stack.getComponents().get(ComponentInit.PART_MATERIAL_COMPONENT.get()).materials();
-        ToolType toolType = ((PartToolItem) stack.getItem()).getToolType();
-        List<ToolStats> stats = new ArrayList<>();
-        ToolStats base = ToolMaterialRegister.getBaseStats(toolType);
-        for (int i = 0; i < materials.size(); i++) {
-            ToolPart toolPart = ToolMaterialRegister.getToolPartFromIndex(toolType, i);
-            float value = 0;
-            if (toolPart != null) {
-                value = ((PartToolItem) stack.getItem()).getMultiplier(toolPart);
+
+        if (stack.has(ComponentInit.PART_MATERIAL_COMPONENT)) {
+            List<ToolMaterial> materials = stack.getComponents().get(ComponentInit.PART_MATERIAL_COMPONENT.get()).materials();
+            ToolType toolType = ((PartToolItem) stack.getItem()).getToolType();
+            List<ToolStats> stats = new ArrayList<>();
+            ToolStats base = ToolMaterialRegister.getBaseStats(toolType);
+            for (int i = 0; i < materials.size(); i++) {
+                ToolPart toolPart = ToolMaterialRegister.getToolPartFromIndex(toolType, i);
+                float value = 0;
+                if (toolPart != null) {
+                    value = ((PartToolItem) stack.getItem()).getMultiplier(toolPart);
+                }
+                if (materials.get(i) != null) {
+                    stats.add(ToolStats.mulWithoutElementCode(ToolStats.mulWithoutElementCode(materials.get(i).getStats(), base), value));
+                }
             }
-            if (materials.get(i) != null) {
-                stats.add(ToolStats.mulWithoutElementCode(ToolStats.mulWithoutElementCode(materials.get(i).getStats(), base), value));
-            }
+            return ToolStats.add(stats);
         }
-        return ToolStats.add(stats);
+        return ToolStats.DEFAULT;
     }
 
     public static ToolStats getSumStats(Player player, Level level, ItemStack stack) {
@@ -157,15 +161,18 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
 
     public static List<Trait> getTraits(ItemStack stack) {
 
-        List<ToolMaterial> materials = stack.getComponents().get(ComponentInit.PART_MATERIAL_COMPONENT.get()).materials();
-        List<Trait> traits = new ArrayList<>();
+        if (stack.has(ComponentInit.PART_MATERIAL_COMPONENT)) {
+            List<ToolMaterial> materials = stack.getComponents().get(ComponentInit.PART_MATERIAL_COMPONENT.get()).materials();
+            List<Trait> traits = new ArrayList<>();
 
-        for (int i = 0; i < materials.size(); i++) {
-            if (materials.get(i) != null) {
-                traits.add(materials.get(i).getTrait());
+            for (int i = 0; i < materials.size(); i++) {
+                if (materials.get(i) != null) {
+                    traits.add(materials.get(i).getTrait());
+                }
             }
+            return traits;
         }
-        return traits;
+        return new ArrayList<>();
     }
 
     public static @NotNull Map<Trait, Integer> getTraitLevel(List<Trait> traits) {

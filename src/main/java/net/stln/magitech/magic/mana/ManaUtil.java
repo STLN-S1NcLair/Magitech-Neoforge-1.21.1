@@ -3,7 +3,9 @@ package net.stln.magitech.magic.mana;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
+import net.stln.magitech.Magitech;
 import net.stln.magitech.entity.status.AttributeInit;
+import net.stln.magitech.magic.charge.ChargeData;
 import net.stln.magitech.network.SyncManaPayload;
 
 import java.util.Map;
@@ -35,24 +37,27 @@ public class ManaUtil {
 
     public static boolean checkMana(Player player, Map<ManaType, Double> map) {
         boolean flag = true;
-        for (Map.Entry<ManaType, Double> entry : map.entrySet()) {
-            ManaType type = entry.getKey();
-            Double value = entry.getValue();
-            if (value > ManaData.getPrevMana(player, type)) {
-                flag = false;
-            }
+        if (map.get(ManaType.MANA) > ManaData.getPrevMana(player, ManaType.MANA)) {
+            flag = false;
         }
         return flag;
     }
 
-    public static boolean useMana(Player player, Map<ManaType, Double> map) {
-        boolean flag = true;
+    public static float checkStrandDamageMul(Player player, Map<ManaType, Double> map, float spellDamage) {
         for (Map.Entry<ManaType, Double> entry : map.entrySet()) {
             ManaType type = entry.getKey();
             Double value = entry.getValue();
-            if (value > ManaData.getPrevMana(player, type)) {
-                flag = false;
+            if (value > ManaData.getPrevMana(player, type) && type != ManaType.MANA) {
+                spellDamage /= 2;
             }
+        }
+        return spellDamage;
+    }
+
+    public static boolean useMana(Player player, Map<ManaType, Double> map) {
+        boolean flag = true;
+        if (map.get(ManaType.MANA) > ManaData.getPrevMana(player, ManaType.MANA)) {
+            flag = false;
         }
         if (flag) {
             if (!player.isCreative()) {
@@ -69,12 +74,8 @@ public class ManaUtil {
 
     public static boolean useManaServerOnly(Player player, Map<ManaType, Double> map) {
         boolean flag = true;
-        for (Map.Entry<ManaType, Double> entry : map.entrySet()) {
-            ManaType type = entry.getKey();
-            Double value = entry.getValue();
-            if (value > ManaData.getPrevMana(player, type)) {
-                flag = false;
-            }
+        if (map.get(ManaType.MANA) > ManaData.getPrevMana(player, ManaType.MANA)) {
+            flag = false;
         }
         if (flag) {
             if (!player.level().isClientSide && !player.isCreative()) {
@@ -91,12 +92,8 @@ public class ManaUtil {
 
     public static boolean useManaClientOnly(Player player, Map<ManaType, Double> map) {
         boolean flag = true;
-        for (Map.Entry<ManaType, Double> entry : map.entrySet()) {
-            ManaType type = entry.getKey();
-            Double value = entry.getValue();
-            if (value > ManaData.getPrevMana(player, type)) {
-                flag = false;
-            }
+        if (map.get(ManaType.MANA) > ManaData.getPrevMana(player, ManaType.MANA)) {
+            flag = false;
         }
         if (flag) {
             if (player.level().isClientSide && !player.isCreative()) {

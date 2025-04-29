@@ -28,6 +28,7 @@ import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.damage.DamageTypeInit;
 import net.stln.magitech.damage.EntityElementRegister;
+import net.stln.magitech.entity.status.AttributeInit;
 import net.stln.magitech.item.tool.Element;
 import net.stln.magitech.magic.charge.Charge;
 import net.stln.magitech.magic.charge.ChargeData;
@@ -60,7 +61,7 @@ public class Ocsilbeam extends Spell {
     }
 
     @Override
-    public Map<ManaUtil.ManaType, Double> getCost() {
+    public Map<ManaUtil.ManaType, Double> getBaseRequiredMana() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
         cost.put(ManaUtil.ManaType.MANA, 15.0);
         cost.put(ManaUtil.ManaType.NOCTIS, 4.0);
@@ -74,7 +75,7 @@ public class Ocsilbeam extends Spell {
 
     @Override
     public void use(Level level, Player user, InteractionHand hand, boolean isHost) {
-        ChargeData.setCurrentCharge(user, new Charge(15, this, Element.TREMOR));
+        addCharge(user, 15, this.getElement());
         super.use(level, user, hand, isHost);
     }
 
@@ -82,7 +83,7 @@ public class Ocsilbeam extends Spell {
     public void finishUsing(ItemStack stack, Level level, LivingEntity livingEntity, int timeCharged, boolean isHost) {
         super.finishUsing(stack, level, livingEntity, timeCharged, isHost);
         if (livingEntity instanceof Player user) {
-            if (ChargeData.getCurrentCharge(user) == null && timeCharged > 1) {
+            if (ChargeData.getCurrentCharge(user) == null && timeCharged > 1 && ManaUtil.useManaServerOnly(user, this.getRequiredMana(level, user, stack))) {
                 Vec3 forward = Vec3.directionFromRotation(user.getRotationVector());
                 Vec3 hitPos = EntityUtil.raycast(user, 24);
                 Entity target = EntityUtil.raycastEntity(user, 24);
@@ -98,19 +99,7 @@ public class Ocsilbeam extends Spell {
 
                 if (target instanceof LivingEntity livingTarget && !level.isClientSide) {
 
-                    ResourceKey<DamageType> damageType = DamageTypeInit.TREMOR_DAMAGE;
-                    float damage = 10.0F;
-
-                    DamageSource elementalDamageSource = stack.has(DataComponents.CUSTOM_NAME) ? user.damageSources().source(damageType, user) : user.damageSources().source(damageType);
-                    float targetHealth = livingTarget.getHealth();
-                    if (livingTarget instanceof Player player) {
-                        player.awardStat(Stats.DAMAGE_DEALT, Math.round((targetHealth - livingTarget.getHealth()) * 10));
-                    }
-                    if (target.isAttackable()) {
-                        livingTarget.setLastHurtByMob(livingTarget);
-                        damage *= EntityElementRegister.getElementAffinity(target, Element.GLACE).getMultiplier();
-                        target.hurt(elementalDamageSource, damage);
-                    }
+                    this.applyDamage(10.0F, this.getRequiredMana(level, user, stack), this.getElement(), stack, user, target);
                 }
 
                 if (level.isClientSide) {
@@ -126,11 +115,6 @@ public class Ocsilbeam extends Spell {
     @Override
     public boolean canHoldUsing() {
         return true;
-    }
-
-    @Override
-    public boolean stopAnimOnRelease() {
-        return false;
     }
 
     @Override

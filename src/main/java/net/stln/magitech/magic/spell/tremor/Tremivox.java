@@ -50,7 +50,7 @@ public class Tremivox extends Spell {
     }
 
     @Override
-    public Map<ManaUtil.ManaType, Double> getRequiredMana() {
+    public Map<ManaUtil.ManaType, Double> getBaseRequiredMana() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
         cost.put(ManaUtil.ManaType.MANA, 30.0);
         cost.put(ManaUtil.ManaType.NOCTIS, 3.0);
@@ -59,7 +59,7 @@ public class Tremivox extends Spell {
 
     @Override
     public void use(Level level, Player user, InteractionHand hand, boolean isHost) {
-        ChargeData.setCurrentCharge(user, new Charge(20, this, Element.TREMOR));
+        addCharge(user, 20, this.getElement());
         super.use(level, user, hand, isHost);
     }
 
@@ -82,13 +82,13 @@ public class Tremivox extends Spell {
     public void finishUsing(ItemStack stack, Level level, LivingEntity livingEntity, int timeCharged, boolean isHost) {
         super.finishUsing(stack, level, livingEntity, timeCharged, isHost);
         if (livingEntity instanceof Player user) {
-            if (ChargeData.getCurrentCharge(user) == null && ManaUtil.useManaServerOnly(user, this.getRequiredMana())) {
+            if (ChargeData.getCurrentCharge(user) == null &&  timeCharged > 1 && ManaUtil.useManaServerOnly(user, this.getRequiredMana(level, user, stack))) {
                 level.playSound(user, user.getX(), user.getY(), user.getZ(), SoundInit.TREMIVOX.get(), SoundSource.PLAYERS);
 
                 if (!level.isClientSide && !isHost) {
-                    TremivoxEntity bullet = new TremivoxEntity(level, user, stack, 5.0F);
+                    TremivoxEntity bullet = new TremivoxEntity(level, user, stack, getDamage(user, this.getRequiredMana(level, user, stack), 5, this.getElement()));
                     Vec3 velocity = Vec3.directionFromRotation(user.getRotationVector());
-                    velocity = velocity.normalize().scale(0.75);
+                    velocity = velocity.normalize().scale(getProjectileSpeed(user, 0.75));
                     bullet.setDeltaMovement(velocity);
                     bullet.setPos(user.getX(), user.getEyeY() - 0.3, user.getZ());
                     level.addFreshEntity(bullet);

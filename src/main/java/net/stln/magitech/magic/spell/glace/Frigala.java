@@ -51,7 +51,7 @@ public class Frigala extends Spell {
     }
 
     @Override
-    public Map<ManaUtil.ManaType, Double> getRequiredMana() {
+    public Map<ManaUtil.ManaType, Double> getBaseRequiredMana() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
         cost.put(ManaUtil.ManaType.MANA, 25.0);
         cost.put(ManaUtil.ManaType.NOCTIS, 2.0);
@@ -61,7 +61,7 @@ public class Frigala extends Spell {
 
     @Override
     public void use(Level level, Player user, InteractionHand hand, boolean isHost) {
-        ChargeData.setCurrentCharge(user, new Charge(15, this, Element.GLACE));
+        addCharge(user, 15, this.getElement());
         super.use(level, user, hand, isHost);
     }
 
@@ -84,13 +84,13 @@ public class Frigala extends Spell {
     public void finishUsing(ItemStack stack, Level level, LivingEntity livingEntity, int timeCharged, boolean isHost) {
         super.finishUsing(stack, level, livingEntity, timeCharged, isHost);
         if (livingEntity instanceof Player user) {
-            if (ChargeData.getCurrentCharge(user) == null && ManaUtil.useManaServerOnly(user, this.getRequiredMana())) {
+            if (ChargeData.getCurrentCharge(user) == null && timeCharged > 1 && ManaUtil.useManaServerOnly(user, this.getRequiredMana(level, user, stack))) {
                 level.playSound(user, user.getX(), user.getY(), user.getZ(), SoundInit.GLACE_LAUNCH.get(), SoundSource.PLAYERS);
 
                 if (!level.isClientSide && !isHost) {
-                    FrigalaEntity bullet = new FrigalaEntity(level, user, stack, 8.0F);
+                    FrigalaEntity bullet = new FrigalaEntity(level, user, stack, getDamage(user, this.getRequiredMana(level, user, stack), 8, this.getElement()));
                     Vec3 velocity = Vec3.directionFromRotation(user.getRotationVector());
-                    velocity = velocity.normalize().scale(1.5);
+                    velocity = velocity.normalize().scale(getProjectileSpeed(user, 1.5));
                     bullet.setDeltaMovement(velocity);
                     bullet.setPos(user.getX(), user.getEyeY() - 0.3, user.getZ());
                     level.addFreshEntity(bullet);

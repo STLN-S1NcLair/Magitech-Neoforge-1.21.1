@@ -83,6 +83,9 @@ public class AeltherinEntity extends SpellProjectileEntity {
         } else {
             this.addDeltaMovement(this.getDeltaMovement().scale(0.15));
         }
+        if (this.getDeltaMovement().length() > 100) {
+            this.discard();
+        }
     }
 
     @Override

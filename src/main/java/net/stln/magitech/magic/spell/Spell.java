@@ -8,19 +8,29 @@ import dev.kosmx.playerAnim.api.layered.ModifierLayer;
 import dev.kosmx.playerAnim.core.data.KeyframeAnimation;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import net.stln.magitech.Magitech;
+import net.stln.magitech.damage.EntityElementRegister;
+import net.stln.magitech.entity.status.AttributeInit;
 import net.stln.magitech.item.tool.Element;
 import net.stln.magitech.magic.charge.Charge;
 import net.stln.magitech.magic.charge.ChargeData;
@@ -49,16 +59,40 @@ public abstract class Spell {
         return Element.NONE;
     }
 
-    public Map<ManaUtil.ManaType, Double> getRequiredMana() {
-        return this.getCost();
+    public Map<ManaUtil.ManaType, Double> getBaseRequiredMana() {
+        return this.getBaseCost();
     }
 
-    public Map<ManaUtil.ManaType, Double> getCost() {
+    public Map<ManaUtil.ManaType, Double> getBaseCost() {
         return new HashMap<>();
     }
 
-    public Map<ManaUtil.ManaType, Double> getTickCost() {
+    public Map<ManaUtil.ManaType, Double> getBaseTickCost() {
         return new HashMap<>();
+    }
+
+    public Map<ManaUtil.ManaType, Double> getRequiredMana(Level level, Player user, ItemStack stack) {
+        Map<ManaUtil.ManaType, Double> map = new HashMap<>(this.getBaseRequiredMana());
+        if (map.containsKey(ManaUtil.ManaType.MANA)) {
+            map.put(ManaUtil.ManaType.MANA, map.get(ManaUtil.ManaType.MANA) * user.getAttributeValue(AttributeInit.MANA_EFFICIENCY));
+        }
+        return map;
+    }
+
+    public Map<ManaUtil.ManaType, Double> getCost(Level level, Player user, ItemStack stack) {
+        Map<ManaUtil.ManaType, Double> map = new HashMap<>(this.getBaseCost());
+        if (map.containsKey(ManaUtil.ManaType.MANA)) {
+        map.put(ManaUtil.ManaType.MANA, map.get(ManaUtil.ManaType.MANA) * user.getAttributeValue(AttributeInit.MANA_EFFICIENCY));
+        }
+        return map;
+    }
+
+    public Map<ManaUtil.ManaType, Double> getTickCost(Level level, Player user, ItemStack stack) {
+        Map<ManaUtil.ManaType, Double> map = new HashMap<>(this.getBaseTickCost());
+            if (map.containsKey(ManaUtil.ManaType.MANA)) {
+        map.put(ManaUtil.ManaType.MANA, map.get(ManaUtil.ManaType.MANA) * user.getAttributeValue(AttributeInit.MANA_EFFICIENCY));
+            }
+        return map;
     }
 
     public boolean needsUseCost(Level level, Player user, ItemStack stack) {
@@ -88,6 +122,10 @@ public abstract class Spell {
             user.startUsingItem(hand);
         }
         UsedHandData.setUsedHand(user, (hand == InteractionHand.OFF_HAND) ^ (user.getMainArm() == HumanoidArm.LEFT));
+        ItemStack stack = user.getItemInHand(hand);
+        if (!level.isClientSide) {
+            stack.hurtAndBreak(1, user, LivingEntity.getSlotForHand(hand));
+        }
     }
 
     public boolean isActiveUse(Level level, Player user, InteractionHand hand, boolean isHost) {
@@ -137,10 +175,12 @@ public abstract class Spell {
                 }
             }
         }
-        if (level.isClientSide) {
-            if (isHost) {
+        if (isHost) {
+            if (level.isClientSide) {
                 PacketDistributor.sendToServer(new ReleaseUsingSpellPayload(stack, timeCharged, livingEntity.getUUID().toString()));
             }
+        }
+        if (level.isClientSide) {
             if (canHoldUsing() && livingEntity instanceof Player player) {
                 if (stopAnimOnRelease()) {
                     stopAnim(player);
@@ -152,7 +192,59 @@ public abstract class Spell {
         }
     }
 
+    public void addCharge(Player user, int ticks, Element element) {
+        ChargeData.setCurrentCharge(user, new Charge(Math.round(ticks / user.getAttributeValue(AttributeInit.CASTING_SPEED)), this, element));
+    }
+
     public void addCooldown(Level level, Player user, ItemStack stack) {
-        CooldownData.addCurrentCooldown(user, this, new Cooldown(this.getCooldown(level, user, stack), this.getElement()));
+        CooldownData.addCurrentCooldown(user, this, new Cooldown(this.getCooldown(level, user, stack) / user.getAttributeValue(AttributeInit.COOLDOWN_SPEED), this.getElement()));
+    }
+
+    public float getDamage(Player user, Map<ManaUtil.ManaType, Double> cost, float baseDamage, Element element) {
+        baseDamage = ManaUtil.checkStrandDamageMul(user, cost, baseDamage);
+        double power = user.getAttributeValue(AttributeInit.SPELL_POWER);
+        double elementPower;
+        if (element != Element.NONE) {
+            DeferredHolder<Attribute, Attribute> elementAttribute = switch (element) {
+                case NONE -> null;
+                case EMBER -> AttributeInit.EMBER_SPELL_POWER;
+                case GLACE -> AttributeInit.GLACE_SPELL_POWER;
+                case SURGE -> AttributeInit.SURGE_SPELL_POWER;
+                case PHANTOM -> AttributeInit.PHANTOM_SPELL_POWER;
+                case TREMOR -> AttributeInit.TREMOR_SPELL_POWER;
+                case MAGIC -> AttributeInit.MAGIC_SPELL_POWER;
+                case FLOW -> AttributeInit.FLOW_SPELL_POWER;
+                case HOLLOW -> AttributeInit.HOLLOW_SPELL_POWER;
+            };
+            elementPower = user.getAttributeValue(elementAttribute);
+        } else {
+            elementPower = 1.0F;
+        }
+        return (float) (baseDamage * power * elementPower);
+    }
+
+    public double getProjectileSpeed(Player user, double baseSpeed) {
+        double power = user.getAttributeValue(AttributeInit.PROJECTILE_SPEED);
+        return baseSpeed * power;
+    }
+
+    public void applyDamage(float baseDamage, Map<ManaUtil.ManaType, Double> cost, Element element, ItemStack stack, Player user, Entity target) {
+        float damage = this.getDamage(user, cost, baseDamage, element);
+        ResourceKey<DamageType> damageType = element.getDamageType();
+
+        DamageSource elementalDamageSource = user.damageSources().source(damageType, user);
+        if (target instanceof Player) {
+            elementalDamageSource = stack.has(DataComponents.CUSTOM_NAME) ? user.damageSources().source(damageType, user) : user.damageSources().source(damageType);
+        }
+        if (target.isAttackable()) {
+            if (target instanceof LivingEntity livingTarget) {
+                float targetHealth = livingTarget.getHealth();
+                livingTarget.setLastHurtByMob(livingTarget);
+                user.awardStat(Stats.DAMAGE_DEALT, Math.round((targetHealth - livingTarget.getHealth()) * 10));
+            }
+            damage *= EntityElementRegister.getElementAffinity(target, element).getMultiplier();
+            target.hurt(elementalDamageSource, damage);
+            user.setLastHurtMob(target);
+        }
     }
 }

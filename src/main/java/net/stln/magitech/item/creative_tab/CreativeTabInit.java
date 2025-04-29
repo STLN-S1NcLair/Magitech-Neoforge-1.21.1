@@ -92,11 +92,22 @@ public class CreativeTabInit {
                 output.accept(PartToolGenerator.generateHammer(MaterialInit.NETHERITE));
                 output.accept(PartToolGenerator.generateHammer(MaterialInit.FRIGIDITE));
                 output.accept(PartToolGenerator.generateHammer(MaterialInit.TRANSLUCIUM));
+                output.accept(PartToolGenerator.generatePickaxe(MaterialInit.TRANSLUCIUM));
 
+                output.accept(PartToolGenerator.generateWand(MaterialInit.WOOD));
+                output.accept(PartToolGenerator.generateWand(MaterialInit.STONE));
+                output.accept(PartToolGenerator.generateWand(MaterialInit.DEEPSLATE));
                 output.accept(PartToolGenerator.generateWand(MaterialInit.COPPER));
+                output.accept(PartToolGenerator.generateWand(MaterialInit.BONE));
                 output.accept(PartToolGenerator.generateWand(MaterialInit.IRON));
                 output.accept(PartToolGenerator.generateWand(MaterialInit.GOLD));
+                output.accept(PartToolGenerator.generateWand(MaterialInit.AMETHYST));
+                output.accept(PartToolGenerator.generateWand(MaterialInit.REDSTONE));
                 output.accept(PartToolGenerator.generateWand(MaterialInit.DIAMOND));
+                output.accept(PartToolGenerator.generateWand(MaterialInit.ENDER_METAL));
+                output.accept(PartToolGenerator.generateWand(MaterialInit.NETHERITE));
+                output.accept(PartToolGenerator.generateWand(MaterialInit.FRIGIDITE));
+                output.accept(PartToolGenerator.generateWand(MaterialInit.TRANSLUCIUM));
             }).build());
 
     public static void registerCreativeTabs(IEventBus eventBus) {

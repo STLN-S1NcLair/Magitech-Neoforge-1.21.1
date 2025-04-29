@@ -17,11 +17,11 @@ public class ManaData {
     }
 
     public static void setCurrentMana(Player player, ManaUtil.ManaType type, double value) {
-        ManaData.currentManaMap.put(player, type, value);
+        ManaData.currentManaMap.put(player, type, Math.max(value, 0));
     }
 
     public static void setPrevMana(Player player, ManaUtil.ManaType type, double value) {
-        ManaData.prevManaMap.put(player, type, value);
+        ManaData.prevManaMap.put(player, type, Math.max(value, 0));
     }
 
     public static double getCurrentMana(Player player, ManaUtil.ManaType type) {

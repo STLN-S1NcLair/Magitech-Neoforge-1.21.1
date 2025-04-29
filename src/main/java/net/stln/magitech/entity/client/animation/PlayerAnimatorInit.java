@@ -7,6 +7,7 @@ import dev.kosmx.playerAnim.api.layered.ModifierLayer;
 import dev.kosmx.playerAnim.api.layered.modifier.AbstractFadeModifier;
 import dev.kosmx.playerAnim.api.layered.modifier.AdjustmentModifier;
 import dev.kosmx.playerAnim.api.layered.modifier.MirrorModifier;
+import dev.kosmx.playerAnim.api.layered.modifier.SpeedModifier;
 import dev.kosmx.playerAnim.core.util.Vec3f;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationFactory;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -15,6 +16,7 @@ import net.minecraft.world.InteractionHand;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.stln.magitech.Magitech;
+import net.stln.magitech.entity.status.AttributeInit;
 import net.stln.magitech.magic.mana.UsedHandData;
 
 import java.util.Optional;
@@ -62,6 +64,12 @@ public class PlayerAnimatorInit {
                         }
                         return Optional.empty();
                     }));
+                    testAnimation.addModifierBefore(new SpeedModifier() {
+                        @Override
+                        protected void step(float delta) {
+                            super.step((float) (delta * abstractClientPlayer.getAttributeValue(AttributeInit.CASTING_SPEED)));
+                        }
+                    });
                     return testAnimation;
                 }));
     }

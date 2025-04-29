@@ -46,7 +46,7 @@ public class Cryoluxa extends Spell {
     }
 
     @Override
-    public Map<ManaUtil.ManaType, Double> getCost() {
+    public Map<ManaUtil.ManaType, Double> getBaseCost() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
         cost.put(ManaUtil.ManaType.MANA, 40.0);
         cost.put(ManaUtil.ManaType.NOCTIS, 1.0);
@@ -78,24 +78,10 @@ public class Cryoluxa extends Spell {
 
         if (!level.isClientSide) {
             if (target instanceof LivingEntity livingEntity) {
-
-                float targetHealth = livingEntity.getHealth();
-                if (livingEntity instanceof Player player) {
-                    player.awardStat(Stats.DAMAGE_DEALT, Math.round((targetHealth - livingEntity.getHealth()) * 10));
-                }
-                if (target.isAttackable()) {
-                    if (target instanceof LivingEntity livingTarget) {
-                        livingTarget.setLastHurtByMob(livingEntity);
-                    }
-                }
                 livingEntity.setTicksFrozen(Math.min(livingEntity.getTicksFrozen() + 160, 320));
             }
             if (target != null) {
-                ResourceKey<DamageType> damageType = DamageTypeInit.GLACE_DAMAGE;
-                DamageSource elementalDamageSource = stack.has(DataComponents.CUSTOM_NAME) ? user.damageSources().source(damageType, user) : user.damageSources().source(damageType);
-                float damage = 6.0F;
-                damage *= EntityElementRegister.getElementAffinity(target, Element.GLACE).getMultiplier();
-                target.hurt(elementalDamageSource, damage);
+                this.applyDamage(4.0F, this.getCost(level, user, user.getItemInHand(hand)), this.getElement(), stack, user, target);
             }
         }
         addCooldown(level, user, stack);

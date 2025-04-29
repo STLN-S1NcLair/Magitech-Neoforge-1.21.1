@@ -34,7 +34,7 @@ public class Ignisca extends Spell {
     }
 
     @Override
-    public Map<ManaUtil.ManaType, Double> getCost() {
+    public Map<ManaUtil.ManaType, Double> getBaseCost() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
         cost.put(ManaUtil.ManaType.MANA, 30.0);
         cost.put(ManaUtil.ManaType.FLUXIA, 6.0);
@@ -51,9 +51,9 @@ public class Ignisca extends Spell {
         super.use(level, user, hand, isHost);
         level.playSound(user, user.getX(), user.getY(), user.getZ(), SoundInit.FIREBALL.get(), SoundSource.PLAYERS);
         if (!level.isClientSide && !isHost) {
-            IgniscaEntity bullet = new IgniscaEntity(level, user, user.getItemInHand(hand), 5);
+            IgniscaEntity bullet = new IgniscaEntity(level, user, user.getItemInHand(hand), getDamage(user, this.getCost(level, user, user.getItemInHand(hand)), 5, this.getElement()));
             Vec3 velocity = Vec3.directionFromRotation(user.getRotationVector());
-            velocity = velocity.normalize().scale(1.5);
+            velocity = velocity.normalize().scale(getProjectileSpeed(user, 1.5));
             bullet.setDeltaMovement(velocity);
             bullet.setPos(user.getX(), user.getEyeY() - 0.3, user.getZ());
             level.addFreshEntity(bullet);

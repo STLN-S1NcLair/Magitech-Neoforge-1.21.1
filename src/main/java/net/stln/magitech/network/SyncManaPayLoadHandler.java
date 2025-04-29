@@ -16,11 +16,13 @@ public class SyncManaPayLoadHandler {
 
     public static void handleDataOnMainS2C(final SyncManaPayload payload, final IPayloadContext context) {
         Player player = context.player().level().getPlayerByUUID(UUID.fromString(payload.uuid()));
+        ManaData.setPrevMana(player, ManaUtil.getManaType(payload.manaType()), ManaData.getCurrentMana(player, ManaUtil.getManaType(payload.manaType())));
         ManaData.setCurrentMana(player, ManaUtil.getManaType(payload.manaType()), payload.value());
     }
 
     public static void handleDataOnMainC2S(final SyncManaPayload payload, final IPayloadContext context) {
         Player player = context.player();
+        ManaData.setPrevMana(player, ManaUtil.getManaType(payload.manaType()), ManaData.getCurrentMana(player, ManaUtil.getManaType(payload.manaType())));
         ManaData.setCurrentMana(player, ManaUtil.getManaType(payload.manaType()), payload.value());
         MinecraftServer server = Objects.requireNonNull(ServerLifecycleHooks.getCurrentServer(), "Cannot send clientbound payloads on the client");
         for (ServerPlayer serverPlayer : server.getPlayerList().getPlayers())

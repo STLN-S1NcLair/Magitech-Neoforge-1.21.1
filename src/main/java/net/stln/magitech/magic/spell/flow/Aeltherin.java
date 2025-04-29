@@ -34,7 +34,7 @@ public class Aeltherin extends Spell {
     }
 
     @Override
-    public Map<ManaUtil.ManaType, Double> getCost() {
+    public Map<ManaUtil.ManaType, Double> getBaseCost() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
         cost.put(ManaUtil.ManaType.MANA, 30.0);
         cost.put(ManaUtil.ManaType.LUMINIS, 5.0);
@@ -51,9 +51,9 @@ public class Aeltherin extends Spell {
         super.use(level, user, hand, isHost);
         level.playSound(user, user.getX(), user.getY(), user.getZ(), SoundInit.AELTHERIN.get(), SoundSource.PLAYERS);
         if (!level.isClientSide && !isHost) {
-            AeltherinEntity bullet = new AeltherinEntity(level, user, user.getItemInHand(hand), 7);
+            AeltherinEntity bullet = new AeltherinEntity(level, user, user.getItemInHand(hand), getDamage(user, this.getCost(level, user, user.getItemInHand(hand)), 7, this.getElement()));
             Vec3 velocity = Vec3.directionFromRotation(user.getRotationVector());
-            velocity = velocity.normalize().scale(0.2);
+            velocity = velocity.normalize().scale(getProjectileSpeed(user, 0.2));
             bullet.setDeltaMovement(velocity);
             bullet.setPos(user.getX(), user.getEyeY() - 0.3, user.getZ());
             level.addFreshEntity(bullet);
