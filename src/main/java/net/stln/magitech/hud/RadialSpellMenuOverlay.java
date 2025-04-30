@@ -31,6 +31,7 @@ public class RadialSpellMenuOverlay extends Screen {
     private static ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "textures/gui/mana_gauge.png");
 
     private int select = -1;
+    private int ticks = 0;
 
     public RadialSpellMenuOverlay(Component title) {
         super(title);
@@ -133,6 +134,7 @@ public class RadialSpellMenuOverlay extends Screen {
     @Override
     public void tick() {
         super.tick();
+        ticks++;
     }
 
     @Override

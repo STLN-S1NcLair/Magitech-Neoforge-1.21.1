@@ -37,7 +37,7 @@ public class ManaUtil {
 
     public static boolean checkMana(Player player, Map<ManaType, Double> map) {
         boolean flag = true;
-        if (map.get(ManaType.MANA) > ManaData.getPrevMana(player, ManaType.MANA)) {
+        if (map.getOrDefault(ManaType.MANA, 0.0) > ManaData.getPrevMana(player, ManaType.MANA)) {
             flag = false;
         }
         return flag;
@@ -56,7 +56,7 @@ public class ManaUtil {
 
     public static boolean useMana(Player player, Map<ManaType, Double> map) {
         boolean flag = true;
-        if (map.get(ManaType.MANA) > ManaData.getPrevMana(player, ManaType.MANA)) {
+        if (map.getOrDefault(ManaType.MANA, 0.0) > ManaData.getPrevMana(player, ManaType.MANA)) {
             flag = false;
         }
         if (flag) {
@@ -74,7 +74,7 @@ public class ManaUtil {
 
     public static boolean useManaServerOnly(Player player, Map<ManaType, Double> map) {
         boolean flag = true;
-        if (map.get(ManaType.MANA) > ManaData.getPrevMana(player, ManaType.MANA)) {
+        if (map.getOrDefault(ManaType.MANA, 0.0) > ManaData.getPrevMana(player, ManaType.MANA)) {
             flag = false;
         }
         if (flag) {
@@ -92,7 +92,7 @@ public class ManaUtil {
 
     public static boolean useManaClientOnly(Player player, Map<ManaType, Double> map) {
         boolean flag = true;
-        if (map.get(ManaType.MANA) > ManaData.getPrevMana(player, ManaType.MANA)) {
+        if (map.getOrDefault(ManaType.MANA, 0.0) > ManaData.getPrevMana(player, ManaType.MANA)) {
             flag = false;
         }
         if (flag) {

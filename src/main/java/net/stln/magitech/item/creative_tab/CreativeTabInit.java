@@ -23,6 +23,7 @@ public class CreativeTabInit {
             .icon(() -> ItemInit.GLISTENING_LEXICON.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
                 output.accept(ItemInit.GLISTENING_LEXICON.get());
+                output.accept(ItemInit.ARCANE_ENGINEERING_COMPENDIUM.get());
                 output.accept(ItemInit.CHROMIUM_INGOT.get());
                 output.accept(ItemInit.REDSTONE_CRYSTAL.get());
                 output.accept(ItemInit.POLISHED_REDSTONE_CRYSTAL.get());
