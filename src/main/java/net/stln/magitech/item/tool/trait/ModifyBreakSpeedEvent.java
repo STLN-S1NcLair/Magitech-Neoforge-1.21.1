@@ -28,7 +28,7 @@ public class ModifyBreakSpeedEvent {
         ItemStack stack = player.getItemInHand(InteractionHand.MAIN_HAND);
         if (stack.getItem() instanceof PartToolItem partToolItem) {
 
-            ToolStats stats = PartToolItem.getSumStats(player, level, stack);
+            ToolStats stats = ((PartToolItem)stack.getItem()).getSumStats(player, level, stack);
             if (partToolItem.isCorrectTool(stack, state, partToolItem, stats) && blockPosOptional.isPresent()) {
                 BlockPos pos = blockPosOptional.get();
                 final float[] speed = {stats.getStats().get(ToolStats.MIN_STAT)};

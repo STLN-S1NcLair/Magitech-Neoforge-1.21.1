@@ -18,6 +18,10 @@ public class Map2d<K1, K2, V> {
                 .orElse(null);
     }
 
+    public Map<K2, V> get(K1 k1) {
+        return map.get(k1);
+    }
+
     public V getOrDefault(K1 k1, K2 k2, V v) {
         return Optional.ofNullable(map.get(k1))
                 .map(s -> s.get(k2))

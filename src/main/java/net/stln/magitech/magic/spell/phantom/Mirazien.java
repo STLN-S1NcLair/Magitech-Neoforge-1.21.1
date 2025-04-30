@@ -30,6 +30,11 @@ import java.util.Map;
 
 public class Mirazien extends Spell {
 
+    public Mirazien() {
+        baseDamage = 4.0F;
+        baseSpeed = 3.0F;
+    }
+
     public Element getElement() {
         return Element.PHANTOM;
     }
@@ -53,9 +58,9 @@ public class Mirazien extends Spell {
         level.playSound(user, user.getX(), user.getY(), user.getZ(), SoundInit.MYSTICAL.get(), SoundSource.PLAYERS);
 
         if (!level.isClientSide && !isHost) {
-            MirazienEntity bullet = new MirazienEntity(level, user, user.getItemInHand(hand), getDamage(user, this.getCost(level, user, user.getItemInHand(hand)), 4, this.getElement()));
+            MirazienEntity bullet = new MirazienEntity(level, user, user.getItemInHand(hand), getDamage(user, this.getCost(level, user, user.getItemInHand(hand)), baseDamage, this.getElement()));
             Vec3 velocity = Vec3.directionFromRotation(user.getRotationVector());
-            velocity = velocity.normalize().scale(getProjectileSpeed(user, 3));
+            velocity = velocity.normalize().scale(getProjectileSpeed(user, baseSpeed));
             bullet.setDeltaMovement(velocity);
             bullet.setPos(user.getX(), user.getEyeY() - 0.3, user.getZ());
             level.addFreshEntity(bullet);

@@ -14,20 +14,35 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.dimension.LevelStem;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.damage.DamageTypeInit;
+import net.stln.magitech.item.tool.Element;
 import net.stln.magitech.item.tool.ToolStats;
+import net.stln.magitech.item.tool.toolitem.PartToolItem;
 import net.stln.magitech.particle.particle_option.FrostParticleEffect;
+import net.stln.magitech.particle.particle_option.PowerupParticleEffect;
 import net.stln.magitech.sound.SoundInit;
 import net.stln.magitech.util.EffectUtil;
 import org.joml.Vector3f;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class ShatterpiercerTrait extends Trait {
+
+    @Override
+    public ToolStats modifySpellCasterStatsConditional1(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
+        if (PartToolItem.getDefaultStats(stack).getElement() == Element.GLACE) {
+            ToolStats aDefault = ToolStats.DEFAULT;
+            Map<String, Float> modified = new HashMap<>(aDefault.getStats());
+            float mul = traitLevel * 0.1F;
+            Float elmpwr = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.ELM_PWR_STAT);
+            modified.put(ToolStats.ELM_PWR_STAT, elmpwr * mul);
+            return new ToolStats(modified, stats.getElement(), stats.getMiningLevel());
+        }
+        return super.modifySpellCasterStatsConditional1(player, level, stack, traitLevel, stats);
+    }
 
     @Override
     public Set<BlockPos> addAdditionalBlockBreakFirst(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos, int damageAmount, Direction direction) {
@@ -87,6 +102,20 @@ public class ShatterpiercerTrait extends Trait {
                 float rotSpeed = player.getRandom().nextFloat() / 5 - 0.1F;
 
                 EffectUtil.entityEffect(level, new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, rotSpeed), livingEntity, 60);
+            }
+        }
+    }
+
+    @Override
+    public void tick(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
+        super.tick(player, level, stack, traitLevel, stats);
+        if (PartToolItem.getDefaultStats(stack).getElement() == Element.GLACE) {
+            EffectUtil.entityEffect(level, new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1F, 1, 0), player, 1);
+            if (player.getLastHurtMob() != null) {
+                EffectUtil.entityEffect(level, new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1F, 1, 0), player.getLastHurtMob(), 1);
+                if (player.tickCount - player.getLastHurtMobTimestamp() < 80) {
+                    player.getLastHurtMob().setTicksFrozen(Math.min(player.getLastHurtMob().getTicksFrozen() + 1, 180));
+                }
             }
         }
     }

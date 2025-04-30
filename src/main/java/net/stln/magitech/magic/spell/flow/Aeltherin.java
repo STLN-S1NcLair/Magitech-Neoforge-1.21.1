@@ -29,6 +29,11 @@ import java.util.Map;
 
 public class Aeltherin extends Spell {
 
+    public Aeltherin() {
+        baseDamage = 7.0F;
+        baseSpeed = 0.2;
+    }
+
     public Element getElement() {
         return Element.FLOW;
     }
@@ -51,9 +56,9 @@ public class Aeltherin extends Spell {
         super.use(level, user, hand, isHost);
         level.playSound(user, user.getX(), user.getY(), user.getZ(), SoundInit.AELTHERIN.get(), SoundSource.PLAYERS);
         if (!level.isClientSide && !isHost) {
-            AeltherinEntity bullet = new AeltherinEntity(level, user, user.getItemInHand(hand), getDamage(user, this.getCost(level, user, user.getItemInHand(hand)), 7, this.getElement()));
+            AeltherinEntity bullet = new AeltherinEntity(level, user, user.getItemInHand(hand), getDamage(user, this.getCost(level, user, user.getItemInHand(hand)), baseDamage, this.getElement()));
             Vec3 velocity = Vec3.directionFromRotation(user.getRotationVector());
-            velocity = velocity.normalize().scale(getProjectileSpeed(user, 0.2));
+            velocity = velocity.normalize().scale(getProjectileSpeed(user, baseSpeed));
             bullet.setDeltaMovement(velocity);
             bullet.setPos(user.getX(), user.getEyeY() - 0.3, user.getZ());
             level.addFreshEntity(bullet);

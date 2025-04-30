@@ -41,6 +41,10 @@ import java.util.Map;
 
 public class Cryoluxa extends Spell {
 
+    public Cryoluxa() {
+        baseDamage = 4.0F;
+    }
+
     public Element getElement() {
         return Element.GLACE;
     }
@@ -81,7 +85,7 @@ public class Cryoluxa extends Spell {
                 livingEntity.setTicksFrozen(Math.min(livingEntity.getTicksFrozen() + 160, 320));
             }
             if (target != null) {
-                this.applyDamage(4.0F, this.getCost(level, user, user.getItemInHand(hand)), this.getElement(), stack, user, target);
+                this.applyDamage(baseDamage, this.getCost(level, user, user.getItemInHand(hand)), this.getElement(), stack, user, target);
             }
         }
         addCooldown(level, user, stack);

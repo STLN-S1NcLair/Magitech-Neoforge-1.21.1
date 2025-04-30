@@ -29,6 +29,11 @@ import java.util.Map;
 
 public class Ignisca extends Spell {
 
+    public Ignisca() {
+        baseDamage = 5.0F;
+        baseSpeed = 1.5;
+    }
+
     public Element getElement() {
         return Element.EMBER;
     }
@@ -51,9 +56,9 @@ public class Ignisca extends Spell {
         super.use(level, user, hand, isHost);
         level.playSound(user, user.getX(), user.getY(), user.getZ(), SoundInit.FIREBALL.get(), SoundSource.PLAYERS);
         if (!level.isClientSide && !isHost) {
-            IgniscaEntity bullet = new IgniscaEntity(level, user, user.getItemInHand(hand), getDamage(user, this.getCost(level, user, user.getItemInHand(hand)), 5, this.getElement()));
+            IgniscaEntity bullet = new IgniscaEntity(level, user, user.getItemInHand(hand), getDamage(user, this.getCost(level, user, user.getItemInHand(hand)), baseDamage, this.getElement()));
             Vec3 velocity = Vec3.directionFromRotation(user.getRotationVector());
-            velocity = velocity.normalize().scale(getProjectileSpeed(user, 1.5));
+            velocity = velocity.normalize().scale(getProjectileSpeed(user, baseSpeed));
             bullet.setDeltaMovement(velocity);
             bullet.setPos(user.getX(), user.getEyeY() - 0.3, user.getZ());
             level.addFreshEntity(bullet);

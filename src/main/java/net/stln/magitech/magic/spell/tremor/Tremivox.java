@@ -35,6 +35,11 @@ import java.util.Map;
 
 public class Tremivox extends Spell {
 
+    public Tremivox() {
+        baseDamage = 5.0F;
+        baseSpeed = 0.75F;
+    }
+
     private static void playShootAnimation(Player user) {
         var playerAnimationData = (ModifierLayer<IAnimation>) PlayerAnimationAccess.getPlayerAssociatedData((AbstractClientPlayer) user).get(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "animation"));
         if (playerAnimationData != null) {
@@ -86,9 +91,9 @@ public class Tremivox extends Spell {
                 level.playSound(user, user.getX(), user.getY(), user.getZ(), SoundInit.TREMIVOX.get(), SoundSource.PLAYERS);
 
                 if (!level.isClientSide && !isHost) {
-                    TremivoxEntity bullet = new TremivoxEntity(level, user, stack, getDamage(user, this.getRequiredMana(level, user, stack), 5, this.getElement()));
+                    TremivoxEntity bullet = new TremivoxEntity(level, user, stack, getDamage(user, this.getRequiredMana(level, user, stack), baseDamage, this.getElement()));
                     Vec3 velocity = Vec3.directionFromRotation(user.getRotationVector());
-                    velocity = velocity.normalize().scale(getProjectileSpeed(user, 0.75));
+                    velocity = velocity.normalize().scale(getProjectileSpeed(user, baseSpeed));
                     bullet.setDeltaMovement(velocity);
                     bullet.setPos(user.getX(), user.getEyeY() - 0.3, user.getZ());
                     level.addFreshEntity(bullet);

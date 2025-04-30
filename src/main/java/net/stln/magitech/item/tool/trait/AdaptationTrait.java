@@ -35,6 +35,26 @@ public class AdaptationTrait extends Trait {
     }
 
     @Override
+    public ToolStats modifySpellCasterStats1(ItemStack stack, int traitLevel, ToolStats stats) {
+        super.modifySpellCasterStats1(stack, traitLevel, stats);
+        List<ToolMaterial> materials = stack.getComponents().get(ComponentInit.PART_MATERIAL_COMPONENT.get()).materials();
+        Set<ToolMaterial> materialSet = PartToolItem.getMaterialSet(materials);
+        ToolStats defaultStats = ToolStats.DEFAULT;
+        Map<String, Float> statsMap = stats.getStats();
+        Map<String, Float> modified = new HashMap<>(defaultStats.getStats());
+        float mul = (float) ((materialSet.size() - 1) * 0.08);
+        modified.put(ToolStats.ATK_STAT, statsMap.get(ToolStats.ATK_STAT) * mul);
+        modified.put(ToolStats.ELM_ATK_STAT, statsMap.get(ToolStats.ELM_ATK_STAT) * mul);
+        modified.put(ToolStats.SPD_STAT, (statsMap.get(ToolStats.SPD_STAT)) * mul);
+        modified.put(ToolStats.MIN_STAT, statsMap.get(ToolStats.MIN_STAT) * mul);
+        modified.put(ToolStats.DEF_STAT, statsMap.get(ToolStats.DEF_STAT) * mul);
+        modified.put(ToolStats.RNG_STAT, (statsMap.get(ToolStats.RNG_STAT)) * mul);
+        modified.put(ToolStats.SWP_STAT, statsMap.get(ToolStats.SWP_STAT) * mul);
+        modified.put(ToolStats.DUR_STAT, statsMap.get(ToolStats.DUR_STAT) * mul);
+        return new ToolStats(modified, defaultStats.getElement(), defaultStats.getMiningLevel());
+    }
+
+    @Override
     public int getColor() {
         return 0x805830;
     }

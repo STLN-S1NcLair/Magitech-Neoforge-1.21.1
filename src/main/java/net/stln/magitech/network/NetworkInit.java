@@ -22,11 +22,11 @@ public class NetworkInit {
                 )
         );
         registrar.playBidirectional(
-                UsePayload.TYPE,
-                UsePayload.STREAM_CODEC,
+                TraitActionPayload.TYPE,
+                TraitActionPayload.STREAM_CODEC,
                 new DirectionalPayloadHandler<>(
-                        UsePayLoadHandler::handleDataOnMainS2C,
-                        UsePayLoadHandler::handleDataOnMainC2S
+                        TraitActionPayLoadHandler::handleDataOnMainS2C,
+                        TraitActionPayLoadHandler::handleDataOnMainC2S
                 )
         );
         registrar.playBidirectional(

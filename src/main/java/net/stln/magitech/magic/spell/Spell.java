@@ -10,6 +10,7 @@ import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.stats.Stats;
@@ -36,15 +37,23 @@ import net.stln.magitech.magic.charge.Charge;
 import net.stln.magitech.magic.charge.ChargeData;
 import net.stln.magitech.magic.cooldown.Cooldown;
 import net.stln.magitech.magic.cooldown.CooldownData;
+import net.stln.magitech.magic.mana.ManaData;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.mana.UsedHandData;
 import net.stln.magitech.network.ReleaseUsingSpellPayload;
 import net.stln.magitech.network.UseSpellPayload;
+import net.stln.magitech.util.MathUtil;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public abstract class Spell {
+
+    public float baseDamage = 0;
+    public float tickBaseDamage = 0;
+    public double baseSpeed = 0;
 
     @OnlyIn(Dist.CLIENT)
     private static void stopAnim(Player player) {
@@ -246,5 +255,19 @@ public abstract class Spell {
             target.hurt(elementalDamageSource, damage);
             user.setLastHurtMob(target);
         }
+    }
+
+    public List<Component> getTooltip(Level level, Player user, ItemStack stack) {
+        List<Component> list = new ArrayList<>();
+        if (this.baseDamage != 0) {
+            list.add(Component.translatable("tooltip.magitech.spell.damage").append(": " + MathUtil.round(this.getDamage(user, ManaData.getCurrentManaMap().get(user), this.baseDamage, this.getElement()), 2)));
+        }
+        if (this.tickBaseDamage != 0) {
+            list.add(Component.translatable("tooltip.magitech.spell.tick_damage").append(": " + MathUtil.round(this.getDamage(user, ManaData.getCurrentManaMap().get(user), this.tickBaseDamage, this.getElement()), 2)));
+        }
+        if (this.baseSpeed != 0) {
+            list.add(Component.translatable("tooltip.magitech.spell.projectile_speed").append(": " + MathUtil.round(this.getProjectileSpeed(user, this.baseSpeed), 2)));
+        }
+        return list;
     }
 }

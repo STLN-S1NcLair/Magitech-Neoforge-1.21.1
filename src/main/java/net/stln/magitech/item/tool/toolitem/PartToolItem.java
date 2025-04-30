@@ -14,7 +14,6 @@ import net.minecraft.stats.Stats;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffects;
@@ -31,6 +30,7 @@ import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.stln.magitech.Magitech;
@@ -47,7 +47,6 @@ import net.stln.magitech.item.tool.material.ToolMaterial;
 import net.stln.magitech.item.tool.register.ToolMaterialRegister;
 import net.stln.magitech.item.tool.trait.Trait;
 import net.stln.magitech.network.TraitTickPayload;
-import net.stln.magitech.network.UsePayload;
 import net.stln.magitech.particle.particle_option.*;
 import net.stln.magitech.util.EffectUtil;
 import net.stln.magitech.util.EntityUtil;
@@ -90,11 +89,11 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
         return ToolStats.DEFAULT;
     }
 
-    public static ToolStats getSumStats(Player player, Level level, ItemStack stack) {
+    public ToolStats getSumStats(Player player, Level level, ItemStack stack) {
         return getModifiedStats(player, level, stack);
     }
 
-    public static ToolStats getModifiedStats(Player player, Level level, ItemStack stack) {
+    public ToolStats getModifiedStats(Player player, Level level, ItemStack stack) {
         Map<Trait, Integer> traits = getTraitLevel(getTraits(stack));
         List<ToolStats> statsList = new ArrayList<>();
         statsList.add(getDefaultStats(stack));
@@ -123,11 +122,11 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
         return ToolStats.add(statsList);
     }
 
-    public static ToolStats getSumStatsWithoutConditional(ItemStack stack) {
+    public ToolStats getSumStatsWithoutConditional(ItemStack stack) {
         return getModifiedStatsWithoutConditional(stack);
     }
 
-    public static ToolStats getModifiedStatsWithoutConditional(ItemStack stack) {
+    public ToolStats getModifiedStatsWithoutConditional(ItemStack stack) {
         Map<Trait, Integer> traits = getTraitLevel(getTraits(stack));
         List<ToolStats> statsList = new ArrayList<>();
         statsList.add(getDefaultStats(stack));
@@ -185,10 +184,10 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
         return traitLevel;
     }
 
-    public static boolean isCorrectTool(ItemStack stack, BlockState state, PartToolItem partToolItem, ToolStats stats) {
+    public boolean isCorrectTool(ItemStack stack, BlockState state, PartToolItem partToolItem, ToolStats stats) {
         final Boolean[] flag = {null};
         getTraitLevel(getTraits(stack)).forEach((trait, integer) -> {
-            Boolean isCorrect = trait.isCorrectTool(stack, integer, getModifiedStatsWithoutConditional(stack), state);
+            Boolean isCorrect = trait.isCorrectTool(stack, integer, this.getModifiedStatsWithoutConditional(stack), state);
             if (isCorrect != null) {
                 flag[0] = isCorrect;
                 if (!isCorrect) {
@@ -409,21 +408,24 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
         ));
     }
 
-    @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
+    public void traitAction(Level level, Player player, InteractionHand usedHand) {
         ItemStack stack = player.getItemInHand(usedHand);
-        if (level.isClientSide) {
-            PacketDistributor.sendToServer(new UsePayload(usedHand == InteractionHand.MAIN_HAND, player.getUUID().toString()));
+
+        Vec3 playerEyePos = player.getEyePosition();
+        Vec3 forward = Vec3.directionFromRotation(player.getRotationVector());
+        double mul = 256;
+        Vec3 maxReachPos = playerEyePos.add(forward.multiply(mul, mul, mul));
+
+        EntityHitResult result = EntityUtil.getEntityHitResult(player, playerEyePos, maxReachPos, level);
+        if (result != null) {
+            getTraitLevel(getTraits(stack)).forEach((trait, integer) -> {
+                trait.traitAction(player, level, result.getEntity(), result.getLocation(), stack, integer, getSumStats(player, level, stack), usedHand, true);
+            });
         } else {
-            PacketDistributor.sendToAllPlayers(new UsePayload(usedHand == InteractionHand.MAIN_HAND, player.getUUID().toString()));
+            getTraitLevel(getTraits(stack)).forEach((trait, integer) -> {
+                trait.traitAction(player, level, null, new Vec3(Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE), stack, integer, getSumStats(player, level, stack), usedHand, true);
+            });
         }
-        final InteractionResultHolder[] result = {InteractionResultHolder.pass(stack)};
-        getTraitLevel(getTraits(stack)).forEach((trait, integer) -> {
-            if (trait.use(player, level, stack, integer, getSumStats(player, level, stack), usedHand) != InteractionResult.PASS) {
-                result[0] = InteractionResultHolder.success(stack);
-            }
-        });
-        return result[0];
     }
 
     @Override

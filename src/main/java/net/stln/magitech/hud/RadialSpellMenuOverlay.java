@@ -6,6 +6,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -14,6 +15,7 @@ import net.stln.magitech.event.KeyMappingEvent;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.SpellComponent;
 import net.stln.magitech.item.tool.Element;
+import net.stln.magitech.item.tool.toolitem.SpellCasterItem;
 import net.stln.magitech.magic.cooldown.Cooldown;
 import net.stln.magitech.magic.cooldown.CooldownData;
 import net.stln.magitech.magic.mana.ManaData;
@@ -32,6 +34,8 @@ public class RadialSpellMenuOverlay extends Screen {
 
     private int select = -1;
     private int ticks = 0;
+    float selectAnimTick = 0;
+    float selectTick = 0.0F;
 
     public RadialSpellMenuOverlay(Component title) {
         super(title);
@@ -47,7 +51,6 @@ public class RadialSpellMenuOverlay extends Screen {
         if (!Minecraft.getInstance().options.hideGui) {
             int x = guiGraphics.guiWidth() / 2;
             int y = guiGraphics.guiHeight() / 2;
-            int radius = 96;
 
             double dx = mouseX - x;
             double dy = mouseY - y;
@@ -63,11 +66,15 @@ public class RadialSpellMenuOverlay extends Screen {
                 for (Spell spell : spellComponent.spells()) {
                     ResourceLocation icon = SpellRegister.getId(spell);
                     if (icon != null) {
+                        int animLength = 3;
+                        float animTick = Math.min(ticks + partialTicks, animLength);
+                        double scaledAnimTick = (double) animTick / animLength;
+                        float radius = (int) (96 - Math.pow(1 - scaledAnimTick, 3) * 48);
                         double mouseAngle = naturalMouseAngle;
                         double angle = Math.PI * 2 * index / spellComponent.spells().size();
-                        int sin = (int) (radius * Math.sin(angle));
-                        int cos = (int) -(radius * Math.cos(angle));
-                        float size = 1;
+                        float sin = (float) (radius * Math.sin(angle));
+                        float cos = (float) -(radius * Math.cos(angle));
+                        float size = (float) Math.pow(scaledAnimTick, 2) / 2 + 0.5F;
                         double min = MathUtil.getGeneralAngle(Math.PI * 2 * (index - 0.5) / spellComponent.spells().size());
                         double max = MathUtil.getGeneralAngle(Math.PI * 2 * (index + 0.5) / spellComponent.spells().size());
                         if (index == 0) {
@@ -77,15 +84,27 @@ public class RadialSpellMenuOverlay extends Screen {
                             }
                         }
                         double distance = Math.sqrt(dx * dx + dy * dy);
+                        float squareEase = Math.min(selectTick * selectTick / 4, 4) * 2;
                         if (mouseAngle >= min && mouseAngle <= max && distance > 10) {
-                            size *= 1.5;
-                            select = index;
+                            if (select != index) {
+                                select = index;
+                                selectAnimTick = -partialTicks - ticks;
+                            }
+                            selectTick = selectAnimTick + ticks + partialTicks + 0.01F;
+                            size *= (float) (Math.clamp(selectTick / 5, 0.0, 0.5) + 1.0);
+
                             if (distance > 20) {
                                 ResourceLocation location = SpellRegister.getId(spell);
                                 String text = Component.translatable("spell." + location.getNamespace() + "." + location.getPath()).getString();
                                 int renderx = (x - font.width(text) / 2);
-                                int rendery = (y - 4);
+                                int rendery = (int) (y - 4 + 8 - squareEase);
                                 RenderHelper.renderFramedText(guiGraphics, font, text, renderx, rendery, spell.getElement());
+                                int i = 1;
+                                for (Component component : spell.getTooltip(player.level(), player, player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof SpellCasterItem ? player.getItemInHand(InteractionHand.MAIN_HAND) : player.getItemInHand(InteractionHand.OFF_HAND))) {
+                                    i++;
+                                    int tooltipx = (x - font.width(component.getString()) / 2);
+                                    RenderHelper.renderFramedText(guiGraphics, font, component.getString(), tooltipx, rendery + i * 10, 0xFFFFFF, 0x404040);
+                                }
                             }
                         } else if (distance <= 10) {
                             select = -1;
@@ -120,9 +139,11 @@ public class RadialSpellMenuOverlay extends Screen {
 
                             Font font = Minecraft.getInstance().font;
                             String text = MathUtil.round((cooldown.getCooltime() - cooldown.getProgress()) / 20, 1) + "s";
-                            int renderx = (x + sin - font.width(text) / 2);
+                            int renderx = (int) (x + sin - font.width(text) / 2);
                             int rendery = (int) (y + cos + 8 * size);
+                            if (animTick == animLength) {
                             RenderHelper.renderFramedText(guiGraphics, font, text, renderx, rendery, element);
+                            }
                         }
                     }
                     index++;

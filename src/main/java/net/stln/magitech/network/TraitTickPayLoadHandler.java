@@ -23,7 +23,7 @@ public class TraitTickPayLoadHandler {
         if (item instanceof PartToolItem partToolItem) {
             ItemStack stack = player.getItemInHand(hand);
             PartToolItem.getTraitLevel(PartToolItem.getTraits(stack)).forEach((trait, integer) -> {
-                trait.tick(player, player.level(), stack, integer, PartToolItem.getSumStats(player, player.level(), stack));
+                trait.tick(player, player.level(), stack, integer, ((PartToolItem)stack.getItem()).getSumStats(player, player.level(), stack));
             });
         }
     }
@@ -36,7 +36,7 @@ public class TraitTickPayLoadHandler {
             ItemStack stack = player.getItemInHand(hand);
 
             PartToolItem.getTraitLevel(PartToolItem.getTraits(stack)).forEach((trait, integer) -> {
-                trait.tick(player, player.level(), stack, integer, PartToolItem.getSumStats(player, player.level(), stack));
+                trait.tick(player, player.level(), stack, integer, ((PartToolItem)stack.getItem()).getSumStats(player, player.level(), stack));
             });
         }
         MinecraftServer server = Objects.requireNonNull(ServerLifecycleHooks.getCurrentServer(), "Cannot send clientbound payloads on the client");

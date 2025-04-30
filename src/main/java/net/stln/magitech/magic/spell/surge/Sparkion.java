@@ -44,6 +44,10 @@ import java.util.Set;
 
 public class Sparkion extends Spell {
 
+    public Sparkion() {
+        tickBaseDamage = 2.0F;
+    }
+
     public Element getElement() {
         return Element.SURGE;
     }
@@ -138,7 +142,7 @@ public class Sparkion extends Spell {
         }
         for (Entity target : attackListLast) {
             if (livingEntity instanceof Player user) {
-                this.applyDamage(2.0F, this.getTickCost(level, user, stack), this.getElement(), stack, user, target);
+                this.applyDamage(tickBaseDamage, this.getTickCost(level, user, stack), this.getElement(), stack, user, target);
             }
         }
     }

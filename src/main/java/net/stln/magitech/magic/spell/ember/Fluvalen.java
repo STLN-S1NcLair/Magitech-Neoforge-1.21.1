@@ -44,6 +44,10 @@ import java.util.Set;
 
 public class Fluvalen extends Spell {
 
+    public Fluvalen() {
+        tickBaseDamage = 3.0F;
+    }
+
     public Element getElement() {
         return Element.EMBER;
     }
@@ -117,7 +121,7 @@ public class Fluvalen extends Spell {
                         continue;
                     }
                     if (livingEntity instanceof Player user) {
-                        this.applyDamage(3.0F, this.getTickCost(level, user, stack), this.getElement(), stack, user, target);
+                        this.applyDamage(tickBaseDamage, this.getTickCost(level, user, stack), this.getElement(), stack, user, target);
                     }
                     target.setRemainingFireTicks(Math.min(200, target.getRemainingFireTicks() + 60));
                 }

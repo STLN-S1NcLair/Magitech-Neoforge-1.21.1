@@ -22,6 +22,19 @@ public class CatalysisTrait extends Trait {
     }
 
     @Override
+    public ToolStats modifySpellCasterStats2(ItemStack stack, int traitLevel, ToolStats stats) {
+        super.modifySpellCasterStats2(stack, traitLevel, stats);
+        ToolStats defaultStats = ToolStats.DEFAULT;
+        Map<String, Float> modified = new HashMap<>(defaultStats.getStats());
+        float mul = traitLevel * 0.08F;
+        Float elmAtk = stats.getStats().get(ToolStats.ELM_ATK_STAT);
+        modified.put(ToolStats.PWR_STAT, elmAtk * mul);
+        modified.put(ToolStats.PRJ_STAT, elmAtk * mul);
+        modified.put(ToolStats.MNA_STAT, elmAtk * mul);
+        return new ToolStats(modified, defaultStats.getElement(), defaultStats.getMiningLevel());
+    }
+
+    @Override
     public int getColor() {
         return 0xF0B020;
     }

@@ -1,23 +1,13 @@
 package net.stln.magitech.item.tool.toolitem;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageType;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
@@ -26,29 +16,20 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
-import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.damage.EntityElementRegister;
-import net.stln.magitech.entity.AdjustableAttackStrengthEntity;
 import net.stln.magitech.entity.status.AttributeInit;
-import net.stln.magitech.item.LeftClickOverrideItem;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.SpellComponent;
 import net.stln.magitech.item.tool.Element;
 import net.stln.magitech.item.tool.ToolPart;
 import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.item.tool.ToolType;
-import net.stln.magitech.item.tool.material.MiningLevel;
 import net.stln.magitech.item.tool.material.ToolMaterial;
 import net.stln.magitech.item.tool.register.ToolMaterialRegister;
 import net.stln.magitech.item.tool.trait.Trait;
@@ -56,20 +37,13 @@ import net.stln.magitech.magic.cooldown.CooldownData;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.network.TraitTickPayload;
-import net.stln.magitech.network.UsePayload;
-import net.stln.magitech.particle.particle_option.*;
-import net.stln.magitech.util.EffectUtil;
-import net.stln.magitech.util.EntityUtil;
 import net.stln.magitech.util.MathUtil;
 import net.stln.magitech.util.TextUtil;
 import org.jetbrains.annotations.NotNull;
-import org.joml.Vector3f;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
-import javax.swing.plaf.TextUI;
 import java.util.*;
-import java.util.function.Predicate;
 
 public abstract class SpellCasterItem extends PartToolItem {
     ResourceLocation atkId = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "part_tool_attack_damage_modifier");
@@ -81,6 +55,28 @@ public abstract class SpellCasterItem extends PartToolItem {
 
     public SpellCasterItem(Properties settings) {
         super(settings);
+    }
+
+    public static ToolStats getDefaultStats(ItemStack stack) {
+
+        if (stack.has(ComponentInit.PART_MATERIAL_COMPONENT)) {
+            List<ToolMaterial> materials = stack.getComponents().get(ComponentInit.PART_MATERIAL_COMPONENT.get()).materials();
+            ToolType toolType = ((PartToolItem) stack.getItem()).getToolType();
+            List<ToolStats> stats = new ArrayList<>();
+            ToolStats base = ToolMaterialRegister.getBaseStats(toolType);
+            for (int i = 0; i < materials.size(); i++) {
+                ToolPart toolPart = ToolMaterialRegister.getToolPartFromIndex(toolType, i);
+                float value = 0;
+                if (toolPart != null) {
+                    value = ((PartToolItem) stack.getItem()).getMultiplier(toolPart);
+                }
+                if (materials.get(i) != null) {
+                    stats.add(ToolStats.mulWithoutElementCode(ToolStats.mulWithoutElementCode(materials.get(i).getSpellCasterStats(), base), value));
+                }
+            }
+            return ToolStats.add(stats);
+        }
+        return ToolStats.DEFAULT;
     }
 
     @Override
@@ -98,6 +94,63 @@ public abstract class SpellCasterItem extends PartToolItem {
         if (entity instanceof Player player) {
             reloadComponent(player, world, stack);
         }
+    }
+
+    @Override
+    public ToolStats getModifiedStats(Player player, Level level, ItemStack stack) {
+        Map<Trait, Integer> traits = getTraitLevel(getTraits(stack));
+        List<ToolStats> statsList = new ArrayList<>();
+        statsList.add(getDefaultStats(stack));
+        traits.forEach((trait, value) -> {
+            if (trait != null) {
+                statsList.add(trait.modifySpellCasterStats1(stack, value, getDefaultStats(stack)));
+                statsList.add(trait.modifySpellCasterStatsConditional1(player, level, stack, value, getDefaultStats(stack)));
+            }
+        });
+        ToolStats stats1 = ToolStats.add(statsList);
+
+        traits.forEach((trait, value) -> {
+            if (trait != null) {
+                statsList.add(trait.modifySpellCasterStats2(stack, value, stats1));
+                statsList.add(trait.modifySpellCasterStatsConditional2(player, level, stack, value, stats1));
+            }
+        });
+        ToolStats stats2 = ToolStats.add(statsList);
+
+        traits.forEach((trait, value) -> {
+            if (trait != null) {
+                statsList.add(trait.modifySpellCasterStats3(stack, value, stats2));
+                statsList.add(trait.modifySpellCasterStatsConditional3(player, level, stack, value, stats2));
+            }
+        });
+        return ToolStats.add(statsList);
+    }
+
+    @Override
+    public ToolStats getModifiedStatsWithoutConditional(ItemStack stack) {
+        Map<Trait, Integer> traits = getTraitLevel(getTraits(stack));
+        List<ToolStats> statsList = new ArrayList<>();
+        statsList.add(getDefaultStats(stack));
+        traits.forEach((trait, value) -> {
+            if (trait != null) {
+                statsList.add(trait.modifyStats1(stack, value, getDefaultStats(stack)));
+            }
+        });
+        ToolStats stats1 = ToolStats.add(statsList);
+
+        traits.forEach((trait, value) -> {
+            if (trait != null) {
+                statsList.add(trait.modifyStats2(stack, value, stats1));
+            }
+        });
+        ToolStats stats2 = ToolStats.add(statsList);
+
+        traits.forEach((trait, value) -> {
+            if (trait != null) {
+                statsList.add(trait.modifyStats3(stack, value, stats2));
+            }
+        });
+        return ToolStats.add(statsList);
     }
 
     @Override

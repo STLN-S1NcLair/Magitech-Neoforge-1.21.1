@@ -74,6 +74,9 @@
   "tooltip.item.magitech.polished_translucium": "A geometrically impossible solid.",
   "tooltip.item.magitech.abyssite": "Space can be warped in a four-dimensional manner.",
   "tooltip.item.magitech.polished_abyssite": "The void fills everything—even the inside of objects.",
+  "tooltip.magitech.spell.damage": "Spell Damage",
+  "tooltip.magitech.spell.tick_damage": "Sustained Damage",
+  "tooltip.magitech.spell.projectile_speed": "Projectile Speed",
 
   "material.magitech.wood": "Wood",
   "material.magitech.stone": "Stone",

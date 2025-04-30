@@ -20,6 +20,16 @@ public class ConductanceTrait extends Trait {
     }
 
     @Override
+    public ToolStats modifySpellCasterStats1(ItemStack stack, int traitLevel, ToolStats stats) {
+        super.modifySpellCasterStats1(stack, traitLevel, stats);
+        ToolStats defaultStats = ToolStats.DEFAULT;
+        Map<String, Float> modified = new HashMap<>(defaultStats.getStats());
+        float mul = traitLevel * 0.1F;
+        modified.put(ToolStats.ELM_ATK_STAT, stats.getStats().get(ToolStats.ELM_ATK_STAT) * mul);
+        return new ToolStats(modified, defaultStats.getElement(), defaultStats.getMiningLevel());
+    }
+
+    @Override
     public int getColor() {
         return 0xF08060;
     }

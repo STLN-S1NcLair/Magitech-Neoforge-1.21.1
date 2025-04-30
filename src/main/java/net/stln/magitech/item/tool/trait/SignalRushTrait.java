@@ -37,6 +37,23 @@ public class SignalRushTrait extends Trait {
     }
 
     @Override
+    public ToolStats modifySpellCasterStatsConditional1(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
+        if (player.getFoodData().getSaturationLevel() > 0) {
+            ToolStats aDefault = ToolStats.DEFAULT;
+            Map<String, Float> modified = new HashMap<>(aDefault.getStats());
+            float mul = traitLevel * 0.3F;
+            int signal = Math.max(level.getBestNeighborSignal(player.getOnPos()), level.getSignal(player.getOnPos(), Direction.UP));
+            if (signal > 0) {
+                mul *= signal * 0.08F + 1;
+            }
+            Float spd = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.SPD_STAT);
+            modified.put(ToolStats.SPD_STAT, spd * mul);
+            return new ToolStats(modified, stats.getElement(), stats.getMiningLevel());
+        }
+        return super.modifySpellCasterStatsConditional1(player, level, stack, traitLevel, stats);
+    }
+
+    @Override
     public float modifyMiningSpeed(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos) {
         if (player.getFoodData().getSaturationLevel() > 0) {
             float mul = traitLevel * 0.4F;
@@ -53,6 +70,17 @@ public class SignalRushTrait extends Trait {
     @Override
     public void onAttackEntity(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, Entity target) {
         super.onAttackEntity(player, level, stack, traitLevel, stats, target);
+        int signal = Math.max(level.getBestNeighborSignal(player.getOnPos()), level.getSignal(player.getOnPos(), Direction.UP));
+        if (signal == 0) {
+            player.getFoodData().addExhaustion(1F);
+        } else {
+            player.getFoodData().addExhaustion((float) (1F / Math.sqrt(signal)));
+        }
+    }
+
+    @Override
+    public void onCastSpell(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
+        super.onCastSpell(player, level, stack, traitLevel, stats);
         int signal = Math.max(level.getBestNeighborSignal(player.getOnPos()), level.getSignal(player.getOnPos(), Direction.UP));
         if (signal == 0) {
             player.getFoodData().addExhaustion(1F);

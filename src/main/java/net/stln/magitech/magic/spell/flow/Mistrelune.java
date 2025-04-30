@@ -48,6 +48,10 @@ import java.util.Set;
 
 public class Mistrelune extends Spell {
 
+    public Mistrelune() {
+        tickBaseDamage = 4.0F;
+    }
+
     public Element getElement() {
         return Element.FLOW;
     }
@@ -140,7 +144,7 @@ public class Mistrelune extends Spell {
                         continue;
                     }
                     if (livingEntity instanceof Player user) {
-                        this.applyDamage(4.0F, this.getTickCost(level, user, stack), this.getElement(), stack, user, target);
+                        this.applyDamage(tickBaseDamage, this.getTickCost(level, user, stack), this.getElement(), stack, user, target);
                     }
                     target.addDeltaMovement(player.position().subtract(target.position()).add(0, 1, 0).scale(0.005));
                 }

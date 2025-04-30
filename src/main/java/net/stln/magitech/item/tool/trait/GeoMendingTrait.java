@@ -9,13 +9,27 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.stln.magitech.item.tool.ToolStats;
+import net.stln.magitech.item.tool.toolitem.PartToolItem;
 import net.stln.magitech.particle.particle_option.PowerupParticleEffect;
 import net.stln.magitech.sound.SoundInit;
 import org.joml.Vector3f;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Predicate;
 
 public class GeoMendingTrait extends Trait {
+
+
+    @Override
+    public ToolStats modifySpellCasterStats1(ItemStack stack, int traitLevel, ToolStats stats) {
+            ToolStats aDefault = ToolStats.DEFAULT;
+            Map<String, Float> modified = new HashMap<>(aDefault.getStats());
+            float mul = traitLevel * 0.8F;
+            Float def = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.DEF_STAT);
+            modified.put(ToolStats.DEF_STAT, def * mul);
+            return new ToolStats(modified, stats.getElement(), stats.getMiningLevel());
+    }
 
     @Override
     public Boolean isCorrectTool(ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState) {

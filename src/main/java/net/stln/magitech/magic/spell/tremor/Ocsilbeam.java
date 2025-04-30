@@ -46,6 +46,10 @@ import java.util.Map;
 
 public class Ocsilbeam extends Spell {
 
+    public Ocsilbeam() {
+        baseDamage = 10.0F;
+    }
+
     private static void playShootAnimation(Player user) {
         var playerAnimationData = (ModifierLayer<IAnimation>) PlayerAnimationAccess.getPlayerAssociatedData((AbstractClientPlayer) user).get(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "animation"));
         if (playerAnimationData != null) {
@@ -99,7 +103,7 @@ public class Ocsilbeam extends Spell {
 
                 if (target instanceof LivingEntity livingTarget && !level.isClientSide) {
 
-                    this.applyDamage(10.0F, this.getRequiredMana(level, user, stack), this.getElement(), stack, user, target);
+                    this.applyDamage(baseDamage, this.getRequiredMana(level, user, stack), this.getElement(), stack, user, target);
                 }
 
                 if (level.isClientSide) {

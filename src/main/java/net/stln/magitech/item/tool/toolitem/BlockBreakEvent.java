@@ -47,13 +47,13 @@ public class BlockBreakEvent {
             }
             blockList.forEach(pos1 -> {
                 traitMap.forEach((trait, value) -> {
-                    blockList2.addAll(trait.addAdditionalBlockBreakFirst(player, event.getPlayer().level(), tool, value, PartToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getLevel().getBlockState(pos1), pos1, 1, breakDirection));
+                    blockList2.addAll(trait.addAdditionalBlockBreakFirst(player, event.getPlayer().level(), tool, value, partToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getLevel().getBlockState(pos1), pos1, 1, breakDirection));
                 });
             });
             blockList2.forEach(pos1 -> {
                 traitMap.forEach((trait, value) -> {
                     if (!event.getLevel().getBlockState(pos1).getBlock().equals(Blocks.AIR)) {
-                        finalBlockList.addAll(trait.addAdditionalBlockBreakSecond(player, event.getPlayer().level(), tool, value, PartToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getLevel().getBlockState(pos1), pos1, 1, breakDirection));
+                        finalBlockList.addAll(trait.addAdditionalBlockBreakSecond(player, event.getPlayer().level(), tool, value, partToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getLevel().getBlockState(pos1), pos1, 1, breakDirection));
                     }
                 });
             });
@@ -64,15 +64,15 @@ public class BlockBreakEvent {
             finalBlockList.forEach(pos1 -> {
                 traitMap.forEach((trait, value) -> {
                     if (pos1 != pos) {
-                        BreakBlockPayload payload = new BreakBlockPayload(pos1, pos, player.getUUID().toString(), trait.emitEffect(player, event.getPlayer().level(), tool, value, PartToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getState(), pos1, 1, false));
+                        BreakBlockPayload payload = new BreakBlockPayload(pos1, pos, player.getUUID().toString(), trait.emitEffect(player, event.getPlayer().level(), tool, value, partToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getState(), pos1, 1, false));
                         PacketDistributor.sendToAllPlayers(payload);
-                        trait.onBreakBlock(player, event.getPlayer().level(), tool, value, PartToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getLevel().getBlockState(pos1), pos1, 1, false);
+                        trait.onBreakBlock(player, event.getPlayer().level(), tool, value, partToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getLevel().getBlockState(pos1), pos1, 1, false);
 
                         serverPlayer.gameMode.destroyBlock(pos1);
                     } else {
-                        BreakBlockPayload payload = new BreakBlockPayload(pos1, pos, player.getUUID().toString(), trait.emitEffect(player, event.getPlayer().level(), tool, value, PartToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getState(), pos1, 1, true));
+                        BreakBlockPayload payload = new BreakBlockPayload(pos1, pos, player.getUUID().toString(), trait.emitEffect(player, event.getPlayer().level(), tool, value, partToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getState(), pos1, 1, true));
                         PacketDistributor.sendToAllPlayers(payload);
-                        trait.onBreakBlock(player, event.getPlayer().level(), tool, value, PartToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getState(), pos1, 1, true);
+                        trait.onBreakBlock(player, event.getPlayer().level(), tool, value, partToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getState(), pos1, 1, true);
                     }
                 });
             });
@@ -100,7 +100,7 @@ public class BlockBreakEvent {
         for (int i = -x; i <= x; i++) {
             for (int j = -y; j <= y; j++) {
                 for (int k = -z; k <= z; k++) {
-                    if (PartToolItem.isCorrectTool(stack, player.level().getBlockState(pos.offset(i, j, k)), (PartToolItem) stack.getItem(), PartToolItem.getSumStats(player, player.level(), stack))) {
+                    if (((PartToolItem) stack.getItem()).isCorrectTool(stack, player.level().getBlockState(pos.offset(i, j, k)), (PartToolItem) stack.getItem(), ((PartToolItem) stack.getItem()).getSumStats(player, player.level(), stack))) {
                         blockPosList.add(pos.offset(i, j, k));
                     }
                 }

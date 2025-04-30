@@ -54,6 +54,10 @@ public class RenderHelper {
     }
 
     public static void renderFramedText(GuiGraphics guiGraphics, Font font, String text, int x, int y, Element element) {
+        renderFramedText(guiGraphics, font, text, x, y, element.getColor(), element.getDark());
+    }
+
+    public static void renderFramedText(GuiGraphics guiGraphics, Font font, String text, int x, int y, int color, int frameColor) {
         for (int i = -2; i < 3; i++) {
             for (int j = -2; j < 3; j++) {
                 if (i == 0 && j == 0) {
@@ -61,11 +65,11 @@ public class RenderHelper {
                 }
                 guiGraphics.drawString(font, text,
                         x + (float) i / 2, y + (float) j / 2,
-                        element.getDark(), false);
+                        frameColor, false);
             }
         }
         guiGraphics.drawString(font, text,
                 x, y,
-                element.getColor(), false);
+                color, false);
     }
 }

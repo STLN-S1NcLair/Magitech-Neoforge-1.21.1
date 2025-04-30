@@ -11,8 +11,26 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.stln.magitech.item.tool.ToolStats;
+import net.stln.magitech.item.tool.toolitem.PartToolItem;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class HardmineTrait extends Trait {
+
+    @Override
+    public ToolStats modifySpellCasterStats1(ItemStack stack, int traitLevel, ToolStats stats) {
+        ToolStats aDefault = ToolStats.DEFAULT;
+        Map<String, Float> modified = new HashMap<>(aDefault.getStats());
+        float mul = traitLevel * 0.1F;
+        Float cld = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.CLD_STAT);
+        modified.put(ToolStats.CLD_STAT, -cld * mul);
+        Float chg = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.CHG_STAT);
+        modified.put(ToolStats.CHG_STAT, -chg * mul);
+        Float pwr = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.PWR_STAT);
+        modified.put(ToolStats.PWR_STAT, pwr * mul);
+        return new ToolStats(modified, stats.getElement(), stats.getMiningLevel());
+    }
 
     @Override
     public float modifyMiningSpeed(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos) {

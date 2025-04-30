@@ -19,6 +19,14 @@ public class ToolStats {
     public static String RNG_STAT = "attack_range";
     public static String SWP_STAT = "sweep_range";
     public static String DUR_STAT = "durability";
+
+    public static String PWR_STAT = "attack";
+    public static String ELM_PWR_STAT = "element_attack";
+    public static String CHG_STAT = "attack_speed";
+    public static String CLD_STAT = "mining_speed";
+
+    public static String PRJ_STAT = "attack_range";
+    public static String MNA_STAT = "sweep_range";
     private final Map<String, Float> stats = new HashMap<>();
     private final Element element;
     private final MiningLevel miningLevel;

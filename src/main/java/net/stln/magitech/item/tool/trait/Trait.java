@@ -6,14 +6,16 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.network.PacketDistributor;
 import net.stln.magitech.item.tool.ToolStats;
+import net.stln.magitech.network.TraitActionPayload;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -45,6 +47,33 @@ public abstract class Trait {
     }
 
     public void modifyAttribute(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
+    }
+
+    public ToolStats modifySpellCasterStats1(ItemStack stack, int traitLevel, ToolStats stats) {
+        return ToolStats.DEFAULT;
+    }
+
+    public ToolStats modifySpellCasterStats2(ItemStack stack, int traitLevel, ToolStats stats) {
+        return ToolStats.DEFAULT;
+    }
+
+    public ToolStats modifySpellCasterStats3(ItemStack stack, int traitLevel, ToolStats stats) {
+        return ToolStats.DEFAULT;
+    }
+
+    public ToolStats modifySpellCasterStatsConditional1(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
+        return ToolStats.DEFAULT;
+    }
+
+    public ToolStats modifySpellCasterStatsConditional2(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
+        return ToolStats.DEFAULT;
+    }
+
+    public ToolStats modifySpellCasterStatsConditional3(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
+        return ToolStats.DEFAULT;
+    }
+
+    public void modifySpellCasterAttribute(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
     }
 
     public Boolean isCorrectTool(ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState) {
@@ -86,8 +115,18 @@ public abstract class Trait {
     public void onAttackEntity(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, Entity target) {
     }
 
-    public InteractionResult use(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, InteractionHand hand) {
-        return InteractionResult.PASS;
+    public void onCastSpell(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
+    }
+
+    public void traitAction(Player player, Level level, Entity target, Vec3 lookingPos, ItemStack stack, int traitLevel, ToolStats stats, InteractionHand hand, boolean isHost) {
+        int id = target != null ? target.getId() : -1;
+        if (isHost) {
+            if (level.isClientSide) {
+                PacketDistributor.sendToServer(new TraitActionPayload(hand == InteractionHand.MAIN_HAND, id, lookingPos, player.getUUID().toString()));
+            } else {
+                PacketDistributor.sendToAllPlayers(new TraitActionPayload(hand == InteractionHand.MAIN_HAND, id, lookingPos, player.getUUID().toString()));
+            }
+        }
     }
 
     public void tick(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
