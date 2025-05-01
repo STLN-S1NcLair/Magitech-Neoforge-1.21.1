@@ -75,8 +75,12 @@
   "tooltip.item.magitech.abyssite": "Space can be warped in a four-dimensional manner.",
   "tooltip.item.magitech.polished_abyssite": "The void fills everything—even the inside of objects.",
   "tooltip.magitech.spell.damage": "Spell Damage",
-  "tooltip.magitech.spell.tick_damage": "Sustained Damage",
+  "tooltip.magitech.spell.tick_damage": "Sustain Damage",
   "tooltip.magitech.spell.projectile_speed": "Projectile Speed",
+  "tooltip.magitech.spell.cooldown": "Cooldown",
+  "tooltip.magitech.spell.required_mana": "Required Mana",
+  "tooltip.magitech.spell.use_cost": "Mana Cost",
+  "tooltip.magitech.spell.tick_cost": "Sustain Mana Cost",
 
   "material.magitech.wood": "Wood",
   "material.magitech.stone": "Stone",

@@ -23,10 +23,13 @@ import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.magic.spell.SpellRegister;
 import net.stln.magitech.network.ThreadBoundSelectPayload;
+import net.stln.magitech.util.ColorHelper;
 import net.stln.magitech.util.MathUtil;
 import net.stln.magitech.util.RenderHelper;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
+
+import java.util.List;
 
 public class RadialSpellMenuOverlay extends Screen {
 
@@ -96,14 +99,16 @@ public class RadialSpellMenuOverlay extends Screen {
                             if (distance > 20) {
                                 ResourceLocation location = SpellRegister.getId(spell);
                                 String text = Component.translatable("spell." + location.getNamespace() + "." + location.getPath()).getString();
+                                List<Component> componentList = spell.getTooltip(player.level(), player, player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof SpellCasterItem ? player.getItemInHand(InteractionHand.MAIN_HAND) : player.getItemInHand(InteractionHand.OFF_HAND));
                                 int renderx = (x - font.width(text) / 2);
-                                int rendery = (int) (y - 4 + 8 - squareEase);
+                                int rendery = (int) (y - 4 + 8 - squareEase - componentList.size() * 4);
                                 RenderHelper.renderFramedText(guiGraphics, font, text, renderx, rendery, spell.getElement());
                                 int i = 1;
-                                for (Component component : spell.getTooltip(player.level(), player, player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof SpellCasterItem ? player.getItemInHand(InteractionHand.MAIN_HAND) : player.getItemInHand(InteractionHand.OFF_HAND))) {
+                                for (Component component : componentList) {
                                     i++;
                                     int tooltipx = (x - font.width(component.getString()) / 2);
-                                    RenderHelper.renderFramedText(guiGraphics, font, component.getString(), tooltipx, rendery + i * 10, 0xFFFFFF, 0x404040);
+                                    int color = component.getStyle().getColor() != null ? component.getStyle().getColor().getValue() : 0xFFFFFF;
+                                    RenderHelper.renderFramedText(guiGraphics, font, component.getString(), tooltipx, rendery + i * 10, color, ColorHelper.Argb.mul(color, 0x404040));
                                 }
                             }
                         } else if (distance <= 10) {

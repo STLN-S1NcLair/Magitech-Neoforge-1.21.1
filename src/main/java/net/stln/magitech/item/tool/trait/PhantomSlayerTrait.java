@@ -47,7 +47,7 @@ public class PhantomSlayerTrait extends Trait {
             if (stack.getItem() instanceof SpellCasterItem) {
                 player.addDeltaMovement(forward.scale(-1.2).add(0, 1.0, 0));
                 if (traitLevel > 1 && !level.isClientSide) {
-                    player.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, traitLevel * 10, 0));
+                    player.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, traitLevel * 20, 0));
                     player.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, traitLevel * 5, 0));
                 }
                 if (target instanceof LivingEntity livingEntity) {
@@ -55,6 +55,7 @@ public class PhantomSlayerTrait extends Trait {
                 }
                 level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundInit.PHANTOM_SLAYER_DASH.get(), SoundSource.PLAYERS, 1.0F, 0.7F + (player.getRandom().nextFloat() * 0.6F));
                 EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(1.0F, 1.0F, 0.5F), new Vector3f(1.0F, 1.0F, 0.5F), 1F, 1, 0), player, 60);
+                stack.hurtAndBreak(3, player, hand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
             } else {
                 Vec3 playerPos = new Vec3(player.getX(), player.getY(0.5), player.getZ());
                 Vec3 distance = lookingPos.subtract(playerEyePos).normalize().multiply(2, 2, 2);

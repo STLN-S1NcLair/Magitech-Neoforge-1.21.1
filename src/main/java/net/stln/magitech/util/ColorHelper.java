@@ -41,6 +41,14 @@ public class ColorHelper {
         public static int toAbgr(int argb) {
             return argb & -16711936 | (argb & 0xFF0000) >> 16 | (argb & 0xFF) << 16;
         }
+
+        public static int mul(int color, int mulColor) {
+            int alpha = Math.clamp(getAlpha(color) * getAlpha(mulColor), 0, 255);
+            int red = Math.clamp(getRed(color) * getRed(mulColor), 0, 255);
+            int green = Math.clamp(getGreen(color) * getGreen(mulColor), 0, 255);
+            int blue = Math.clamp(getBlue(color) * getBlue(mulColor), 0, 255);
+            return getAbgr(alpha, blue, green, red);
+        }
     }
 
     /**
@@ -126,6 +134,14 @@ public class ColorHelper {
 
         public static int averageArgb(int a, int b) {
             return getArgb((getAlpha(a) + getAlpha(b)) / 2, (getRed(a) + getRed(b)) / 2, (getGreen(a) + getGreen(b)) / 2, (getBlue(a) + getBlue(b)) / 2);
+        }
+
+        public static int mul(int color, int mulColor) {
+            int alpha = Math.clamp(getAlpha(color) * getAlpha(mulColor) / 255, 0, 255);
+            int red = Math.clamp(getRed(color) * getRed(mulColor) / 255, 0, 255);
+            int green = Math.clamp(getGreen(color) * getGreen(mulColor) / 255, 0, 255);
+            int blue = Math.clamp(getBlue(color) * getBlue(mulColor) / 255, 0, 255);
+            return getArgb(alpha, red, green, blue);
         }
     }
 }

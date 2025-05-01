@@ -1,0 +1,7 @@
+{
+  "replace" :  false,
+  "values" :  [
+    "magitech:mana_ring",
+    "magitech:cooldown_ring"
+  ]
+}

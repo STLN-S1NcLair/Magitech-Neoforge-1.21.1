@@ -53,6 +53,13 @@ public class Fluvalen extends Spell {
     }
 
     @Override
+    public Map<ManaUtil.ManaType, Double> getBaseRequiredMana() {
+        Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
+        cost.put(ManaUtil.ManaType.MANA, 30.0);
+        return cost;
+    }
+
+    @Override
     public Map<ManaUtil.ManaType, Double> getBaseCost() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
         cost.put(ManaUtil.ManaType.MANA, 20.0);

@@ -60,7 +60,6 @@ public class Mistrelune extends Spell {
     public Map<ManaUtil.ManaType, Double> getBaseRequiredMana() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
         cost.put(ManaUtil.ManaType.MANA, 30.0);
-        cost.put(ManaUtil.ManaType.LUMINIS, 4.5);
         return cost;
     }
 

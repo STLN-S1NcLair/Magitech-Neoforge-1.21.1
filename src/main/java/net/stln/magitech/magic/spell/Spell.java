@@ -44,10 +44,7 @@ import net.stln.magitech.network.ReleaseUsingSpellPayload;
 import net.stln.magitech.network.UseSpellPayload;
 import net.stln.magitech.util.MathUtil;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public abstract class Spell {
 
@@ -83,7 +80,7 @@ public abstract class Spell {
     public Map<ManaUtil.ManaType, Double> getRequiredMana(Level level, Player user, ItemStack stack) {
         Map<ManaUtil.ManaType, Double> map = new HashMap<>(this.getBaseRequiredMana());
         if (map.containsKey(ManaUtil.ManaType.MANA)) {
-            map.put(ManaUtil.ManaType.MANA, map.get(ManaUtil.ManaType.MANA) * user.getAttributeValue(AttributeInit.MANA_EFFICIENCY));
+            map.put(ManaUtil.ManaType.MANA, map.get(ManaUtil.ManaType.MANA) / user.getAttributeValue(AttributeInit.MANA_EFFICIENCY));
         }
         return map;
     }
@@ -91,7 +88,7 @@ public abstract class Spell {
     public Map<ManaUtil.ManaType, Double> getCost(Level level, Player user, ItemStack stack) {
         Map<ManaUtil.ManaType, Double> map = new HashMap<>(this.getBaseCost());
         if (map.containsKey(ManaUtil.ManaType.MANA)) {
-        map.put(ManaUtil.ManaType.MANA, map.get(ManaUtil.ManaType.MANA) * user.getAttributeValue(AttributeInit.MANA_EFFICIENCY));
+        map.put(ManaUtil.ManaType.MANA, map.get(ManaUtil.ManaType.MANA) / user.getAttributeValue(AttributeInit.MANA_EFFICIENCY));
         }
         return map;
     }
@@ -99,7 +96,7 @@ public abstract class Spell {
     public Map<ManaUtil.ManaType, Double> getTickCost(Level level, Player user, ItemStack stack) {
         Map<ManaUtil.ManaType, Double> map = new HashMap<>(this.getBaseTickCost());
             if (map.containsKey(ManaUtil.ManaType.MANA)) {
-        map.put(ManaUtil.ManaType.MANA, map.get(ManaUtil.ManaType.MANA) * user.getAttributeValue(AttributeInit.MANA_EFFICIENCY));
+        map.put(ManaUtil.ManaType.MANA, map.get(ManaUtil.ManaType.MANA) / user.getAttributeValue(AttributeInit.MANA_EFFICIENCY));
             }
         return map;
     }
@@ -114,6 +111,9 @@ public abstract class Spell {
 
     public int getCooldown(Level level, Player user, ItemStack stack) {
         return 60;
+    }
+    public int getModifiedCooldown(Level level, Player user, ItemStack stack) {
+        return (int) Math.round(this.getCooldown(level, user, stack) / user.getAttributeValue(AttributeInit.COOLDOWN_SPEED));
     }
 
     public Element getElement(Level level, Player user, ItemStack stack) {
@@ -260,13 +260,24 @@ public abstract class Spell {
     public List<Component> getTooltip(Level level, Player user, ItemStack stack) {
         List<Component> list = new ArrayList<>();
         if (this.baseDamage != 0) {
-            list.add(Component.translatable("tooltip.magitech.spell.damage").append(": " + MathUtil.round(this.getDamage(user, ManaData.getCurrentManaMap().get(user), this.baseDamage, this.getElement()), 2)));
+            list.add(Component.translatable("tooltip.magitech.spell.damage").append(": " + MathUtil.round(this.getDamage(user, new HashMap<>(), this.baseDamage, this.getElement()), 2)));
         }
         if (this.tickBaseDamage != 0) {
-            list.add(Component.translatable("tooltip.magitech.spell.tick_damage").append(": " + MathUtil.round(this.getDamage(user, ManaData.getCurrentManaMap().get(user), this.tickBaseDamage, this.getElement()), 2)));
+            list.add(Component.translatable("tooltip.magitech.spell.tick_damage").append(": " + MathUtil.round(this.getDamage(user, new HashMap<>(), this.tickBaseDamage, this.getElement()), 2)));
         }
         if (this.baseSpeed != 0) {
             list.add(Component.translatable("tooltip.magitech.spell.projectile_speed").append(": " + MathUtil.round(this.getProjectileSpeed(user, this.baseSpeed), 2)));
+        }
+        list.add(Component.translatable("tooltip.magitech.spell.cooldown").append(": " + MathUtil.round((double) this.getModifiedCooldown(level, user, stack) / 20, 2) + "s"));
+        list.add(Component.empty());
+        if (!Objects.equals(this.getBaseRequiredMana().get(ManaUtil.ManaType.MANA), this.getBaseCost().get(ManaUtil.ManaType.MANA))) {
+            list.add(Component.translatable("tooltip.magitech.spell.required_mana").append(": " + MathUtil.round(this.getRequiredMana(level, user, stack).get(ManaUtil.ManaType.MANA), 2)).withColor(0x40FFF0));
+        }
+        if (this.needsUseCost(level, user, stack) && this.getBaseCost().containsKey(ManaUtil.ManaType.MANA)) {
+            list.add(Component.translatable("tooltip.magitech.spell.use_cost").append(": " + MathUtil.round(this.getCost(level, user, stack).get(ManaUtil.ManaType.MANA), 2)).withColor(0x40FFF0));
+        }
+        if (this.needsTickCost(level, user, stack) && this.canHoldUsing() && this.getBaseTickCost().containsKey(ManaUtil.ManaType.MANA)) {
+            list.add(Component.translatable("tooltip.magitech.spell.tick_cost").append(": " + MathUtil.round(this.getTickCost(level, user, stack).get(ManaUtil.ManaType.MANA), 2) + "/tick").withColor(0x40FFF0));
         }
         return list;
     }

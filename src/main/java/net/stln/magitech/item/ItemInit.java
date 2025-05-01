@@ -52,6 +52,19 @@ public class ItemInit {
             )),
             new Item.Properties().stacksTo(1));
 
+    public static final DeferredItem<RingItem> MANA_RING = ITEMS.registerItem("mana_ring",
+            (properties) -> new RingItem(properties).attributeModifier(Map.of(
+                    AttributeInit.MAX_MANA, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 50, AttributeModifier.Operation.ADD_VALUE),
+                    AttributeInit.MANA_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 1, AttributeModifier.Operation.ADD_VALUE)
+            )),
+            new Item.Properties().stacksTo(1));
+
+    public static final DeferredItem<RingItem> COOLDOWN_RING = ITEMS.registerItem("cooldown_ring",
+            (properties) -> new RingItem(properties).attributeModifier(Map.of(
+                    AttributeInit.COOLDOWN_SPEED, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.25, AttributeModifier.Operation.ADD_VALUE)
+            )),
+            new Item.Properties().stacksTo(1));
+
     public static final DeferredItem<Item> LIGHT_BLADE = ITEMS.registerItem("light_blade",
             LightBladeItem::new,
             new Item.Properties());

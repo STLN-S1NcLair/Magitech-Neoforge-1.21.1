@@ -97,6 +97,11 @@ public abstract class SpellCasterItem extends PartToolItem {
     }
 
     @Override
+    public ToolStats getSumStats(Player player, Level level, ItemStack stack) {
+        return getModifiedStats(player, level, stack);
+    }
+
+    @Override
     public ToolStats getModifiedStats(Player player, Level level, ItemStack stack) {
         Map<Trait, Integer> traits = getTraitLevel(getTraits(stack));
         List<ToolStats> statsList = new ArrayList<>();
@@ -127,27 +132,32 @@ public abstract class SpellCasterItem extends PartToolItem {
     }
 
     @Override
+    public ToolStats getSumStatsWithoutConditional(ItemStack stack) {
+        return getModifiedStatsWithoutConditional(stack);
+    }
+
+    @Override
     public ToolStats getModifiedStatsWithoutConditional(ItemStack stack) {
         Map<Trait, Integer> traits = getTraitLevel(getTraits(stack));
         List<ToolStats> statsList = new ArrayList<>();
         statsList.add(getDefaultStats(stack));
         traits.forEach((trait, value) -> {
             if (trait != null) {
-                statsList.add(trait.modifyStats1(stack, value, getDefaultStats(stack)));
+                statsList.add(trait.modifySpellCasterStats1(stack, value, getDefaultStats(stack)));
             }
         });
         ToolStats stats1 = ToolStats.add(statsList);
 
         traits.forEach((trait, value) -> {
             if (trait != null) {
-                statsList.add(trait.modifyStats2(stack, value, stats1));
+                statsList.add(trait.modifySpellCasterStats2(stack, value, stats1));
             }
         });
         ToolStats stats2 = ToolStats.add(statsList);
 
         traits.forEach((trait, value) -> {
             if (trait != null) {
-                statsList.add(trait.modifyStats3(stack, value, stats2));
+                statsList.add(trait.modifySpellCasterStats3(stack, value, stats2));
             }
         });
         return ToolStats.add(statsList);

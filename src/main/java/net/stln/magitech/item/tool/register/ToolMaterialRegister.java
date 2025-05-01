@@ -84,8 +84,8 @@ public class ToolMaterialRegister {
         baseStats.put(ToolType.HEAVY_SWORD, new ToolStats(6F, 4F, 0.8F, 5F, 6F, 3F, 3F, 536, Element.NONE, MiningLevel.NONE));
         baseStats.put(ToolType.PICKAXE, new ToolStats(2F, 1F, 2.4F, 5F, 1F, 2F, 1.5F, 319, Element.NONE, MiningLevel.NONE));
         baseStats.put(ToolType.HAMMER, new ToolStats(8F, 7F, 0.6F, 3F, 4F, 2.5F, 2F, 1013, Element.NONE, MiningLevel.NONE));
-        baseStats.put(ToolType.WAND, new ToolStats(1F, 1F, 1F, 1F, 1F, 1F, 0.1F, 378, Element.NONE, MiningLevel.NONE));
+        baseStats.put(ToolType.WAND, new ToolStats(1F, 1F, 1F, 1F, 1F, 1F, 0.2F, 378, Element.NONE, MiningLevel.NONE));
 
-        modStats.put(ToolType.WAND, new ToolStats(1F, 1F, 1F, 1F, 1F, 1F, 0.1F, 378, Element.NONE, MiningLevel.NONE));
+        modStats.put(ToolType.WAND, new ToolStats(1F, 1F, 1F, 1F, 1F, 1F, 0.2F, 378, Element.NONE, MiningLevel.NONE));
     }
 }
