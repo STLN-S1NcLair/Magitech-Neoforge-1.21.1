@@ -2,6 +2,8 @@ package net.stln.magitech.item;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -20,7 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ThreadboundItem extends Item implements ICurioItem {
+public class ThreadboundItem extends TooltipTextItem implements ICurioItem {
 
     Map<Holder<Attribute>, AttributeModifier> attributeModifiers = new HashMap<>();
 
@@ -49,10 +51,14 @@ public class ThreadboundItem extends Item implements ICurioItem {
             for (Spell spell : stack.get(ComponentInit.SPELL_COMPONENT).spells()) {
                 ResourceLocation location = SpellRegister.getId(spell);
                 if (location != null) {
-                    if (stack.get(ComponentInit.SPELL_COMPONENT).selected() == i) {
-                        tooltipComponents.add(Component.translatable("spell." + location.getNamespace() + "." + location.getPath()).withColor(0x80FFFF));
-                    } else {
-                        tooltipComponents.add(Component.translatable("spell." + location.getNamespace() + "." + location.getPath()).withColor(0x80A0C0));
+                    if (Math.abs(stack.get(ComponentInit.SPELL_COMPONENT).selected() - i) <= 2 || Screen.hasShiftDown()) {
+                        if (stack.get(ComponentInit.SPELL_COMPONENT).selected() == i) {
+                            tooltipComponents.add(Component.literal("> ").append(Component.translatable("spell." + location.getNamespace() + "." + location.getPath())).withColor(0x80FFFF));
+                        } else {
+                            tooltipComponents.add(Component.translatable("spell." + location.getNamespace() + "." + location.getPath()).withColor(0x405060));
+                        }
+                    } else if (Math.abs(stack.get(ComponentInit.SPELL_COMPONENT).selected() - i) == 3) {
+                        tooltipComponents.add(Component.literal("...").withColor(0x405060));
                     }
                 }
                 i++;

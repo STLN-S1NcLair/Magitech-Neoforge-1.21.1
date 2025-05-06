@@ -18,6 +18,7 @@ import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.compat.curios.ValidatorInit;
 import net.stln.magitech.entity.EntityInit;
+import net.stln.magitech.entity.mobeffect.MobEffectInit;
 import net.stln.magitech.entity.status.AttributeInit;
 import net.stln.magitech.event.EventInit;
 import net.stln.magitech.item.ItemInit;
@@ -57,6 +58,7 @@ public class Magitech {
         AttributeInit.registerEntityAttributes(modEventBus);
         ParticleInit.registerParticleClient(modEventBus);
         SoundInit.registerSoundEvents(modEventBus);
+        MobEffectInit.registerMobEffects(modEventBus);
         MaterialInit.registerElements();
         MaterialInit.registerMaterials();
         SpellInit.registerSpells();

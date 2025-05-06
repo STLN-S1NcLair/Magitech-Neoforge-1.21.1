@@ -81,7 +81,7 @@ public class AeltherinEntity extends SpellProjectileEntity {
                 world.addParticle(new BlowParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed), x, y, z, vx, vy, vz);
             }
         } else {
-            this.addDeltaMovement(this.getDeltaMovement().scale(0.15));
+            this.addDeltaMovement(this.getDeltaMovement().scale(0.3));
         }
         if (this.getDeltaMovement().length() > 100) {
             this.discard();

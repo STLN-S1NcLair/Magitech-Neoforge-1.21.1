@@ -25,7 +25,9 @@ public class CreativeTabInit {
                 output.accept(ItemInit.GLISTENING_LEXICON.get());
                 output.accept(ItemInit.ARCANE_ENGINEERING_COMPENDIUM.get());
                 output.accept(ItemInit.MANA_RING.get());
-                output.accept(ItemInit.COOLDOWN_RING.get());
+                output.accept(ItemInit.GALEVENT_RING.get());
+                output.accept(ItemInit.CHARGEBIND_RING.get());
+                output.accept(ItemInit.TORSION_RING.get());
                 output.accept(ItemInit.CHROMIUM_INGOT.get());
                 output.accept(ItemInit.REDSTONE_CRYSTAL.get());
                 output.accept(ItemInit.POLISHED_REDSTONE_CRYSTAL.get());
@@ -36,6 +38,7 @@ public class CreativeTabInit {
                 output.accept(ItemInit.POLISHED_TRANSLUCIUM.get());
                 output.accept(ItemInit.ABYSSITE.get());
                 output.accept(ItemInit.POLISHED_ABYSSITE.get());
+                output.accept(ItemInit.MANA_BERRY.get());
                 output.accept(PartToolGenerator.generateLightSword(MaterialInit.WOOD));
                 output.accept(PartToolGenerator.generateLightSword(MaterialInit.STONE));
                 output.accept(PartToolGenerator.generateLightSword(MaterialInit.DEEPSLATE));

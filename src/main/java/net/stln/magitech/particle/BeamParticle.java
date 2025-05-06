@@ -79,6 +79,9 @@ public class BeamParticle extends GlowingParticle {
 
         // dir × view = 「線に垂直でカメラに対して水平な方向（横方向）」
         Vec3 right = new Vec3(dir.x, dir.y, dir.z).cross(new Vec3(view.x, view.y, view.z)).normalize().scale((float) (width / 2.0));
+        if (right.lengthSqr() < 1e-6) {
+            right = new Vec3(dir.x, dir.y, dir.z).cross(new Vec3(0, 0, 1)).normalize().scale((float) (width / 2.0));
+        }
         Vec3 up = new Vec3(dir.x, dir.y, dir.z).cross(right).normalize().scale((float) (width / 2.0));
 
         // 明るさ最大

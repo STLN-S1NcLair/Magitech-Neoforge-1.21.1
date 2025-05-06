@@ -72,8 +72,8 @@ public class Sparkion extends Spell {
     public Map<ManaUtil.ManaType, Double> getBaseTickCost() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
         cost.put(ManaUtil.ManaType.MANA, 1.5);
-        cost.put(ManaUtil.ManaType.LUMINIS, 0.8);
-        cost.put(ManaUtil.ManaType.FLUXIA, 0.3);
+        cost.put(ManaUtil.ManaType.LUMINIS, 0.5);
+        cost.put(ManaUtil.ManaType.FLUXIA, 0.2);
         return cost;
     }
 

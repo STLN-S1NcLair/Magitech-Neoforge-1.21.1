@@ -21,6 +21,7 @@ public class ParticleInit {
     public static final Supplier<FlameParticleType> FLAME = PARTICLE_TYPES.register("flame", () -> new FlameParticleType(true));
     public static final Supplier<FlameSmokeParticleType> FLAME_SMOKE = PARTICLE_TYPES.register("flame_smoke", () -> new FlameSmokeParticleType(true));
     public static final Supplier<FrostParticleType> FROST = PARTICLE_TYPES.register("frost", () -> new FrostParticleType(true));
+    public static final Supplier<FrostShortParticleType> FROST_SHORT = PARTICLE_TYPES.register("frost_short", () -> new FrostShortParticleType(true));
     public static final Supplier<SparkParticleType> SPARK = PARTICLE_TYPES.register("spark", () -> new SparkParticleType(true));
     public static final Supplier<MembraneParticleType> MEMBRANE = PARTICLE_TYPES.register("membrane", () -> new MembraneParticleType(true));
     public static final Supplier<WaveParticleType> WAVE = PARTICLE_TYPES.register("wave", () -> new WaveParticleType(true));
@@ -43,6 +44,7 @@ public class ParticleInit {
         event.registerSpriteSet(FLAME.get(), FlameParticle.Provider::new);
         event.registerSpriteSet(FLAME_SMOKE.get(), FlameSmokeParticle.Provider::new);
         event.registerSpriteSet(FROST.get(), FrostParticle.Provider::new);
+        event.registerSpriteSet(FROST_SHORT.get(), FrostShortParticle.Provider::new);
         event.registerSpriteSet(SPARK.get(), SparkParticle.Provider::new);
         event.registerSpriteSet(MEMBRANE.get(), MembraneParticle.Provider::new);
         event.registerSpriteSet(WAVE.get(), WaveParticle.Provider::new);

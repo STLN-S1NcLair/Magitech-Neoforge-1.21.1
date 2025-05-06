@@ -98,6 +98,30 @@ public class EntityUtil {
         return playerEyePos.add(forward.multiply(hitDistance, hitDistance, hitDistance));
     }
 
+    public static Vec3 raycast(Player player, double maxReachLength, Vec3 start, Vec3 directionNormalized) {
+        Level world = player.level();
+
+        Vec3 maxReachPos = start.add(directionNormalized.scale(maxReachLength));
+
+        // Raycast (ブロック)
+        BlockHitResult blockHit = world.clip(new ClipContext(
+                start, maxReachPos,
+                ClipContext.Block.COLLIDER,
+                ClipContext.Fluid.NONE,
+                player
+        ));
+
+        // Raycast (エンティティ)
+        EntityHitResult entityHit = getEntityHitResult(player, start, maxReachPos, player.level());
+
+        double blockHitDist = blockHit.getType() == HitResult.Type.MISS ? maxReachLength + 1 : blockHit.getLocation().distanceTo(start);
+        double entityHitDist = entityHit != null ? entityHit.getLocation().distanceTo(start) : maxReachLength + 1;
+
+        // 近い方を採用
+        double hitDistance = Math.min(blockHitDist, entityHitDist);
+        return start.add(directionNormalized.multiply(hitDistance, hitDistance, hitDistance));
+    }
+
     public static Entity raycastEntity(Player player, double maxReachLength) {
         Level world = player.level();
 
@@ -121,6 +145,31 @@ public class EntityUtil {
 
         double blockHitDist = blockHit.getType() == HitResult.Type.MISS ? maxReachLength + 1 : blockHit.getLocation().distanceTo(playerEyePos);
         double entityHitDist = entityHit != null ? entityHit.getLocation().distanceTo(playerEyePos) : maxReachLength + 1;
+
+        if (blockHitDist > entityHitDist) {
+            return entityHit.getEntity();
+        }
+        return null;
+    }
+
+    public static Entity raycastEntity(Player player, double maxReachLength, Vec3 start, Vec3 directionNormalized) {
+        Level world = player.level();
+
+        Vec3 maxReachPos = start.add(directionNormalized.scale(maxReachLength));
+
+        // Raycast (ブロック)
+        BlockHitResult blockHit = world.clip(new ClipContext(
+                start, maxReachPos,
+                ClipContext.Block.COLLIDER,
+                ClipContext.Fluid.NONE,
+                player
+        ));
+
+        // Raycast (エンティティ)
+        EntityHitResult entityHit = getEntityHitResult(player, start, maxReachPos, player.level());
+
+        double blockHitDist = blockHit.getType() == HitResult.Type.MISS ? maxReachLength + 1 : blockHit.getLocation().distanceTo(start);
+        double entityHitDist = entityHit != null ? entityHit.getLocation().distanceTo(start) : maxReachLength + 1;
 
         if (blockHitDist > entityHitDist) {
             return entityHit.getEntity();

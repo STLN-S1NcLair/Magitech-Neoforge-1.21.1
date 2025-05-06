@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RingItem extends Item implements ICurioItem {
+public class RingItem extends TooltipTextItem implements ICurioItem {
 
     Map<Holder<Attribute>, AttributeModifier> attributeModifiers = new HashMap<>();
 

@@ -2,6 +2,8 @@
   "replace" :  false,
   "values" :  [
     "magitech:mana_ring",
-    "magitech:cooldown_ring"
+    "magitech:galevent_ring",
+    "magitech:chargebind_ring",
+    "magitech:torsion_ring"
   ]
 }

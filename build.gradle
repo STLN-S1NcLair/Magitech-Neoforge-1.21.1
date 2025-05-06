@@ -137,6 +137,7 @@ dependencies {
     implementation "curse.maven:playeranimator-658587:${playeranimator_id}"
     implementation "curse.maven:patchouli-306770:${patchouli_id}"
     implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_id}"
+    implementation "curse.maven:auth-me-356643:6177873"
 
     // Example optional mod dependency with JEI
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime

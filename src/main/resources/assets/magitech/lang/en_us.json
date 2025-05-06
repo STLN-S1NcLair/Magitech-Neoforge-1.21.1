@@ -4,6 +4,7 @@
 
   "item.magitech.wand": "Wand",
   "item.magitech.glistening_lexicon": "Glistening Lexicon",
+  "item.magitech.arcane_engineering_compendium": "The Grand Compendium of Arcane Engineering",
   "item.magitech.redstone_crystal": "Redstone Crystal",
   "item.magitech.polished_redstone_crystal": "Polished Redstone Crystal",
   "item.magitech.ender_metal_ingot": "Ender Metal Ingot",
@@ -13,6 +14,11 @@
   "item.magitech.polished_translucium": "Polished Translucium",
   "item.magitech.abyssite": "Abyssite",
   "item.magitech.polished_abyssite": "Polished Abyssite",
+  "item.magitech.mana_ring": "Mana Ring",
+  "item.magitech.galevent_ring": "Galevent Ring",
+  "item.magitech.chargebind_ring": "Chargebind Ring",
+  "item.magitech.torsion_ring": "Torsion Ring",
+  "item.magitech.mana_berry": "Mana Berry",
 
   "itemGroup.magitech.magitech": "Magitech Items",
 
@@ -65,6 +71,8 @@
   "item.magitech.wand.simple": "%1$s Wand",
   "item.magitech.wand.complex": "%1$s %2$s Wand",
 
+  "tooltip.item.magitech.glistening_lexicon": "A basic guide to combat in this world, left behind by someone unknown.",
+  "tooltip.item.magitech.arcane_engineering_compendium": "The ultimate volume for those who truly understand magic.",
   "tooltip.item.magitech.redstone_crystal": "Looks like jewelry. Acts like authority.",
   "tooltip.item.magitech.polished_redstone_crystal": "Not just a command. A command you can't ignore.",
   "tooltip.item.magitech.ender_metal_ingot": "One ingot holds a day's worth of ender energy!",
@@ -74,6 +82,12 @@
   "tooltip.item.magitech.polished_translucium": "A geometrically impossible solid.",
   "tooltip.item.magitech.abyssite": "Space can be warped in a four-dimensional manner.",
   "tooltip.item.magitech.polished_abyssite": "The void fills everything—even the inside of objects.",
+  "tooltip.item.magitech.mana_ring": "An ornamental manavessel for basic mana handling.",
+  "tooltip.item.magitech.galevent_ring": "Apparently, redstone can be coaxed into generating energy.",
+  "tooltip.item.magitech.chargebind_ring": "Has the effect of reducing mana conductivity.",
+  "tooltip.item.magitech.torsion_ring": "Distorts spacetime to accelerate projectiles. The larger version is known as a portal.",
+  "tooltip.item.magitech.mana_berry": "A crystalline berry brimming with mana.",
+
   "tooltip.magitech.spell.damage": "Spell Damage",
   "tooltip.magitech.spell.tick_damage": "Sustain Damage",
   "tooltip.magitech.spell.projectile_speed": "Projectile Speed",
@@ -126,15 +140,20 @@
   "spell.magitech.fluvalen": "Fluvalen",
   "spell.magitech.frigala": "Frigala",
   "spell.magitech.cryoluxa": "Cryoluxa",
+  "spell.magitech.nivalune": "Nivalune",
   "spell.magitech.voltaris": "Voltaris",
   "spell.magitech.sparkion": "Sparkion",
   "spell.magitech.tremivox": "Tremivox",
   "spell.magitech.oscilbeam": "Oscilbeam",
+  "spell.magitech.sonistorm": "Sonistorm",
   "spell.magitech.mirazien": "Mirazien",
+  "spell.magitech.veilmist": "Veilmist",
   "spell.magitech.arcaleth": "Arcaleth",
+  "spell.magitech.glymora": "Glymora",
   "spell.magitech.aeltherin": "Aeltherin",
   "spell.magitech.mistrelune": "Mistrelune",
   "spell.magitech.nullixis": "Nullixis",
+  "spell.magitech.tenebrisol": "Tenebrisol",
 
   "death.attack.magitech_ember": "%1$s was incinerated",
   "death.attack.magitech_ember.player": "%1$s was reduced to ashes by %2$s",
@@ -159,5 +178,7 @@
   "death.attack.magitech_flow.item": "%1$s couldn't withstand the knockback of %2$s's %3$s",
   "death.attack.magitech_hollow": "%1$s crumbled into dust",
   "death.attack.magitech_hollow.player": "%1$s was banished to another dimension by %2$s",
-  "death.attack.magitech_hollow.item": "%1$s could not coexist in the same timeline as %2$s, wielding %3$s"
+  "death.attack.magitech_hollow.item": "%1$s could not coexist in the same timeline as %2$s, wielding %3$s",
+
+  "effect.magitech.mana_addiction": "Mana Addiction"
 }

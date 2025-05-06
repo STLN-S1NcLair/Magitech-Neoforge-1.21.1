@@ -339,6 +339,9 @@ public abstract class SpellCasterItem extends PartToolItem {
                     }
                     if (flag) {
                         spell.use(level, player, usedHand, true);
+                        getTraitLevel(getTraits(itemStack)).forEach((trait, integer) -> {
+                            trait.onCastSpell(player, level, itemStack, integer, getModifiedStats(player, level, itemStack));
+                        });
                     } else {
                         player.releaseUsingItem();
                         return InteractionResultHolder.fail(itemStack);

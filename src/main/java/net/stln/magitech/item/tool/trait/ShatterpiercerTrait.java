@@ -112,9 +112,9 @@ public class ShatterpiercerTrait extends Trait {
         if (PartToolItem.getDefaultStats(stack).getElement() == Element.GLACE) {
             EffectUtil.entityEffect(level, new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1F, 1, 0), player, 1);
             if (player.getLastHurtMob() != null) {
-                EffectUtil.entityEffect(level, new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1F, 1, 0), player.getLastHurtMob(), 1);
                 if (player.tickCount - player.getLastHurtMobTimestamp() < 80) {
-                    player.getLastHurtMob().setTicksFrozen(Math.min(player.getLastHurtMob().getTicksFrozen() + 1, 180));
+                    EffectUtil.entityEffect(level, new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1F, 1, 0), player.getLastHurtMob(), 1);
+                    player.getLastHurtMob().setTicksFrozen(Math.min(player.getLastHurtMob().getTicksFrozen() + 3, 300));
                 }
             }
         }

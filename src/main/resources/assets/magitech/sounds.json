@@ -94,5 +94,71 @@
     "sounds" :  [
       "magitech:nullixis"
     ]
+  },
+  "nivalune" :  {
+    "subtitle" :  "subtitles.magitech.nivalune" ,
+    "sounds" :  [
+      "magitech:nivalune"
+    ]
+  },
+  "fulgenza" :  {
+    "subtitle" :  "subtitles.magitech.fulgenza" ,
+    "sounds" :  [
+      "magitech:fulgenza"
+    ]
+  },
+  "fulgenza_charge" :  {
+    "subtitle" :  "subtitles.magitech.fulgenza_charge" ,
+    "sounds" :  [
+      "magitech:fulgenza_charge"
+    ]
+  },
+  "voidlance" :  {
+    "subtitle" :  "subtitles.magitech.voidlance" ,
+    "sounds" :  [
+      "magitech:voidlance"
+    ]
+  },
+  "mystaven" :  {
+    "subtitle" :  "subtitles.magitech.mystaven" ,
+    "sounds" :  [
+      "magitech:mystaven"
+    ]
+  },
+  "phantastra" :  {
+    "subtitle" :  "subtitles.magitech.phantastra" ,
+    "sounds" :  [
+      "magitech:phantastra"
+    ]
+  },
+  "pyrolux" :  {
+    "subtitle" :  "subtitles.magitech.pyrolux" ,
+    "sounds" :  [
+      "magitech:pyrolux"
+    ]
+  },
+  "fluvinae" :  {
+    "subtitle" :  "subtitles.magitech.fluvinae" ,
+    "sounds" :  [
+      "magitech:fluvinae"
+    ]
+  },
+  "veilmist" :  {
+    "subtitle" :  "subtitles.magitech.veilmist" ,
+    "sounds" :  [
+      "magitech:veilmist"
+    ]
+  },
+  "sonistorm" :  {
+    "subtitle" :  "subtitles.magitech.sonistorm" ,
+    "sounds" :  [
+      "magitech:sonistorm"
+    ]
+  },
+  "glymora" :  {
+    "subtitle" :  "subtitles.magitech.glymora" ,
+    "sounds" :  [
+      "magitech:glymora"
+    ]
   }
 }

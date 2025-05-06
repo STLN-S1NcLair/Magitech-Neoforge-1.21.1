@@ -29,6 +29,17 @@ public class SoundInit {
     public static final Supplier<SoundEvent> TREMIVOX = registerSoundEvent("tremivox");
     public static final Supplier<SoundEvent> AELTHERIN = registerSoundEvent("aeltherin");
     public static final Supplier<SoundEvent> NULLIXIS = registerSoundEvent("nullixis");
+    public static final Supplier<SoundEvent> NIVALUNE = registerSoundEvent("nivalune");
+    public static final Supplier<SoundEvent> FULGENZA = registerSoundEvent("fulgenza");
+    public static final Supplier<SoundEvent> FULGENZA_CHARGE = registerSoundEvent("fulgenza_charge");
+    public static final Supplier<SoundEvent> VOIDLANCE = registerSoundEvent("voidlance");
+    public static final Supplier<SoundEvent> MYSTAVEN = registerSoundEvent("mystaven");
+    public static final Supplier<SoundEvent> PHANTASTRA = registerSoundEvent("phantastra");
+    public static final Supplier<SoundEvent> PYROLUX = registerSoundEvent("pyrolux");
+    public static final Supplier<SoundEvent> FLUVINAE = registerSoundEvent("fluvinae");
+    public static final Supplier<SoundEvent> VEILMIST = registerSoundEvent("veilmist");
+    public static final Supplier<SoundEvent> SONISTORM = registerSoundEvent("sonistorm");
+    public static final Supplier<SoundEvent> GLYMORA = registerSoundEvent("glymora");
 
 
     private static Supplier<SoundEvent> registerSoundEvent(String name) {

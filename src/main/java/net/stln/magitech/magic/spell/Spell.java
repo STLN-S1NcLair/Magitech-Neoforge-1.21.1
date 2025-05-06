@@ -132,7 +132,7 @@ public abstract class Spell {
         }
         UsedHandData.setUsedHand(user, (hand == InteractionHand.OFF_HAND) ^ (user.getMainArm() == HumanoidArm.LEFT));
         ItemStack stack = user.getItemInHand(hand);
-        if (!level.isClientSide) {
+        if (!level.isClientSide && isHost) {
             stack.hurtAndBreak(1, user, LivingEntity.getSlotForHand(hand));
         }
     }
@@ -202,7 +202,7 @@ public abstract class Spell {
     }
 
     public void addCharge(Player user, int ticks, Element element) {
-        ChargeData.setCurrentCharge(user, new Charge(Math.round(ticks / user.getAttributeValue(AttributeInit.CASTING_SPEED)), this, element));
+        ChargeData.setCurrentCharge(user, new Charge(Math.max(Math.round(ticks / user.getAttributeValue(AttributeInit.CASTING_SPEED)), 2), this, element));
     }
 
     public void addCooldown(Level level, Player user, ItemStack stack) {

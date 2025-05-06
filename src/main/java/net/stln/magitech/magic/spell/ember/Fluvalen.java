@@ -71,7 +71,7 @@ public class Fluvalen extends Spell {
     public Map<ManaUtil.ManaType, Double> getBaseTickCost() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
         cost.put(ManaUtil.ManaType.MANA, 2.0);
-        cost.put(ManaUtil.ManaType.LUMINIS, 1.0);
+        cost.put(ManaUtil.ManaType.LUMINIS, 0.5);
         return cost;
     }
 
@@ -115,7 +115,7 @@ public class Fluvalen extends Spell {
             attackList.addAll(EntityUtil.getEntitiesInBox(level, livingEntity, center2, new Vec3(4.0, 4.0, 4.0)));
             for (int i = 0; i < 5; i++) {
                 level.addParticle(new FlameParticleEffect(new Vector3f(1), new Vector3f(1),
-                                5F, 1, 0.3F), offset.x, offset.y, offset.z,
+                                5F, 1, 0.3F), offset.x + (livingEntity.getRandom().nextFloat() - 0.5) / 4, offset.y + (livingEntity.getRandom().nextFloat() - 0.5) / 4, offset.z + (livingEntity.getRandom().nextFloat() - 0.5) / 4,
                         forward.x * 0.75 + (livingEntity.getRandom().nextFloat() - 0.5) / 4, forward.y * 0.75 + (livingEntity.getRandom().nextFloat() - 0.5) / 4, forward.z * 0.75 + (livingEntity.getRandom().nextFloat() - 0.5) / 4);
             }
             if (usingTick % 5 == 0) {

@@ -1,11 +1,8 @@
 package net.stln.magitech.item;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -59,9 +56,21 @@ public class ItemInit {
             )),
             new Item.Properties().stacksTo(1));
 
-    public static final DeferredItem<RingItem> COOLDOWN_RING = ITEMS.registerItem("cooldown_ring",
+    public static final DeferredItem<RingItem> GALEVENT_RING = ITEMS.registerItem("galevent_ring",
             (properties) -> new RingItem(properties).attributeModifier(Map.of(
-                    AttributeInit.COOLDOWN_SPEED, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.25, AttributeModifier.Operation.ADD_VALUE)
+                    AttributeInit.COOLDOWN_SPEED, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.4, AttributeModifier.Operation.ADD_VALUE)
+            )),
+            new Item.Properties().stacksTo(1));
+
+    public static final DeferredItem<RingItem> CHARGEBIND_RING = ITEMS.registerItem("chargebind_ring",
+            (properties) -> new RingItem(properties).attributeModifier(Map.of(
+                    AttributeInit.CASTING_SPEED, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.3, AttributeModifier.Operation.ADD_VALUE)
+            )),
+            new Item.Properties().stacksTo(1));
+
+    public static final DeferredItem<RingItem> TORSION_RING = ITEMS.registerItem("torsion_ring",
+            (properties) -> new RingItem(properties).attributeModifier(Map.of(
+                    AttributeInit.PROJECTILE_SPEED, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.6, AttributeModifier.Operation.ADD_VALUE)
             )),
             new Item.Properties().stacksTo(1));
 
@@ -132,6 +141,10 @@ public class ItemInit {
     public static final DeferredItem<Item> POLISHED_ABYSSITE = ITEMS.registerItem("polished_abyssite",
             TooltipTextItem::new,
             new Item.Properties());
+
+    public static final DeferredItem<Item> MANA_BERRY = ITEMS.registerItem("mana_berry",
+            TooltipTextItem::new,
+            new Item.Properties().food(FoodInit.MANA_BERRY));
 
     public static void registerItems(IEventBus eventBus) {
         Magitech.LOGGER.info("Registering Items for" + Magitech.MOD_ID);
