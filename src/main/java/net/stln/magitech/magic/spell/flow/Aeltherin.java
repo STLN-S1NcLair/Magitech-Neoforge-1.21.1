@@ -48,7 +48,7 @@ public class Aeltherin extends Spell {
 
     @Override
     public int getCooldown(Level level, Player user, ItemStack stack) {
-        return 60;
+        return 10;
     }
 
     @Override

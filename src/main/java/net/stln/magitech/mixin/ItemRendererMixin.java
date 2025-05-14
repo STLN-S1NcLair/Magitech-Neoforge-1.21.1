@@ -14,6 +14,7 @@ import net.stln.magitech.item.tool.ToolPart;
 import net.stln.magitech.item.tool.ToolType;
 import net.stln.magitech.item.tool.material.ToolMaterial;
 import net.stln.magitech.item.tool.model.ModelRegistrar;
+import net.stln.magitech.item.tool.partitem.PartItem;
 import net.stln.magitech.item.tool.register.ToolMaterialRegister;
 import net.stln.magitech.item.tool.toolitem.PartToolItem;
 import org.spongepowered.asm.mixin.Final;
@@ -51,6 +52,11 @@ public class ItemRendererMixin {
                 }
             }
 
+        } else if (itemStack.getComponents().has(ComponentInit.MATERIAL_COMPONENT.get()) && itemStack.getItem() instanceof PartItem partItem) {
+            ToolMaterial partMaterial = itemStack.get(ComponentInit.MATERIAL_COMPONENT.get()).getMaterial();
+
+                minecraft.getItemRenderer().render(new ItemStack(Items.IRON_INGOT),
+                        displayContext, leftHand, poseStack, bufferSource, combinedLight, combinedOverlay, minecraft.getModelManager().getModel(ModelResourceLocation.standalone(ModelRegistrar.getPartItemModelId(partMaterial, partItem.getPart().get()))));
         }
     }
 }

@@ -40,6 +40,7 @@ public class SoundInit {
     public static final Supplier<SoundEvent> VEILMIST = registerSoundEvent("veilmist");
     public static final Supplier<SoundEvent> SONISTORM = registerSoundEvent("sonistorm");
     public static final Supplier<SoundEvent> GLYMORA = registerSoundEvent("glymora");
+    public static final Supplier<SoundEvent> TENEBRISOL = registerSoundEvent("tenebrisol");
 
 
     private static Supplier<SoundEvent> registerSoundEvent(String name) {

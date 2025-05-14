@@ -17,6 +17,7 @@ import net.stln.magitech.magic.spell.flow.Mistrelune;
 import net.stln.magitech.magic.spell.glace.Cryoluxa;
 import net.stln.magitech.magic.spell.glace.Frigala;
 import net.stln.magitech.magic.spell.glace.Nivalune;
+import net.stln.magitech.magic.spell.hollow.Disparundra;
 import net.stln.magitech.magic.spell.hollow.Nullixis;
 import net.stln.magitech.magic.spell.hollow.Tenebrisol;
 import net.stln.magitech.magic.spell.hollow.Voidlance;
@@ -53,7 +54,8 @@ public class ModifyDefaultComponentsEvent {
                         new Tremivox(), new Oscilbeam(), new Sonistorm(),
                         new Arcaleth(), new Mystaven(), new Glymora(),
                         new Aeltherin(), new Fluvinae(), new Mistrelune(),
-                        new Nullixis(), new Voidlance(), new Tenebrisol()), 0)));
+                        new Nullixis(), new Voidlance(), new Tenebrisol(), new Disparundra()
+                ), 0)));
         event.modify(ItemInit.ARCANE_ENGINEERING_COMPENDIUM, builder -> builder.set(ComponentInit.SPELL_COMPONENT.get(),
                 new SpellComponent(List.of(
                         new Ignisca(), new Pyrolux(), new Fluvalen(),
@@ -63,6 +65,7 @@ public class ModifyDefaultComponentsEvent {
                         new Tremivox(), new Oscilbeam(), new Sonistorm(),
                         new Arcaleth(), new Mystaven(), new Glymora(),
                         new Aeltherin(), new Fluvinae(), new Mistrelune(),
-                        new Nullixis(), new Voidlance(), new Tenebrisol()), 0)));
+                        new Nullixis(), new Voidlance(), new Tenebrisol(), new Disparundra()
+                ), 0)));
     }
 }

@@ -1,14 +1,23 @@
 package net.stln.magitech.item.tool.toolitem;
 
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.stln.magitech.item.ItemInit;
 import net.stln.magitech.item.component.ComponentInit;
+import net.stln.magitech.item.component.MaterialComponent;
 import net.stln.magitech.item.component.PartMaterialComponent;
 import net.stln.magitech.item.tool.material.ToolMaterial;
+import net.stln.magitech.item.tool.partitem.PartItem;
 
 import java.util.List;
 
 public class PartToolGenerator {
+
+    public static ItemStack generatePart(PartItem partItem, ToolMaterial material) {
+        ItemStack stack = new ItemStack(partItem);
+        stack.set(ComponentInit.MATERIAL_COMPONENT, new MaterialComponent(material));
+        return stack;
+    }
 
     public static ItemStack generateLightSword(ToolMaterial handle, ToolMaterial blade, ToolMaterial handguard, ToolMaterial toolBinding) {
         ItemStack lightSword = new ItemStack(ItemInit.LIGHT_SWORD.get());
@@ -48,6 +57,16 @@ public class PartToolGenerator {
 
     public static ItemStack generateHammer(ToolMaterial material) {
         return generateHammer(material, material, material, material);
+    }
+
+    public static ItemStack generateScythe(ToolMaterial reinforcedStick, ToolMaterial handle, ToolMaterial blade, ToolMaterial toolBinding) {
+        ItemStack scythe = new ItemStack(ItemInit.SCYTHE.get());
+        scythe.set(ComponentInit.PART_MATERIAL_COMPONENT, new PartMaterialComponent(List.of(reinforcedStick, handle, blade, toolBinding)));
+        return scythe;
+    }
+
+    public static ItemStack generateScythe(ToolMaterial material) {
+        return generateScythe(material, material, material, material);
     }
 
     public static ItemStack generateWand(ToolMaterial catalyst, ToolMaterial lightHandle, ToolMaterial conductor, ToolMaterial toolBinding) {

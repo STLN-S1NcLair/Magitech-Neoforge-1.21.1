@@ -11,6 +11,7 @@ import net.stln.magitech.magic.spell.flow.Mistrelune;
 import net.stln.magitech.magic.spell.glace.Cryoluxa;
 import net.stln.magitech.magic.spell.glace.Frigala;
 import net.stln.magitech.magic.spell.glace.Nivalune;
+import net.stln.magitech.magic.spell.hollow.Disparundra;
 import net.stln.magitech.magic.spell.hollow.Nullixis;
 import net.stln.magitech.magic.spell.hollow.Tenebrisol;
 import net.stln.magitech.magic.spell.hollow.Voidlance;
@@ -61,5 +62,6 @@ public class SpellInit {
         SpellRegister.registerSpell(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "nullixis"), new Nullixis());
         SpellRegister.registerSpell(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "voidlance"), new Voidlance());
         SpellRegister.registerSpell(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "tenebrisol"), new Tenebrisol());
+        SpellRegister.registerSpell(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "disparundra"), new Disparundra());
     }
 }

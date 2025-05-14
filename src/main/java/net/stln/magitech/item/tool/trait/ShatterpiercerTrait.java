@@ -21,6 +21,7 @@ import net.stln.magitech.damage.DamageTypeInit;
 import net.stln.magitech.item.tool.Element;
 import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.item.tool.toolitem.PartToolItem;
+import net.stln.magitech.item.tool.toolitem.SpellCasterItem;
 import net.stln.magitech.particle.particle_option.FrostParticleEffect;
 import net.stln.magitech.particle.particle_option.PowerupParticleEffect;
 import net.stln.magitech.sound.SoundInit;
@@ -109,8 +110,10 @@ public class ShatterpiercerTrait extends Trait {
     @Override
     public void tick(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
         super.tick(player, level, stack, traitLevel, stats);
-        if (PartToolItem.getDefaultStats(stack).getElement() == Element.GLACE) {
-            EffectUtil.entityEffect(level, new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1F, 1, 0), player, 1);
+        if (stack.getItem() instanceof SpellCasterItem) {
+            if (player.getRandom().nextFloat() > 0.7) {
+                EffectUtil.entityEffect(level, new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1F, 1, 0), player, 1);
+            }
             if (player.getLastHurtMob() != null) {
                 if (player.tickCount - player.getLastHurtMobTimestamp() < 80) {
                     EffectUtil.entityEffect(level, new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1F, 1, 0), player.getLastHurtMob(), 1);

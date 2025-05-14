@@ -18,7 +18,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -37,7 +36,6 @@ import net.stln.magitech.magic.charge.Charge;
 import net.stln.magitech.magic.charge.ChargeData;
 import net.stln.magitech.magic.cooldown.Cooldown;
 import net.stln.magitech.magic.cooldown.CooldownData;
-import net.stln.magitech.magic.mana.ManaData;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.mana.UsedHandData;
 import net.stln.magitech.network.ReleaseUsingSpellPayload;
@@ -51,6 +49,7 @@ public abstract class Spell {
     public float baseDamage = 0;
     public float tickBaseDamage = 0;
     public double baseSpeed = 0;
+    public double baseMaxRange = 0;
 
     @OnlyIn(Dist.CLIENT)
     private static void stopAnim(Player player) {
@@ -229,7 +228,7 @@ public abstract class Spell {
         } else {
             elementPower = 1.0F;
         }
-        return (float) (baseDamage * power * elementPower);
+        return (float) (baseDamage * power + baseDamage * (elementPower - 1));
     }
 
     public double getProjectileSpeed(Player user, double baseSpeed) {
@@ -267,6 +266,9 @@ public abstract class Spell {
         }
         if (this.baseSpeed != 0) {
             list.add(Component.translatable("tooltip.magitech.spell.projectile_speed").append(": " + MathUtil.round(this.getProjectileSpeed(user, this.baseSpeed), 2)));
+        }
+        if (this.baseMaxRange != 0) {
+            list.add(Component.translatable("tooltip.magitech.spell.max_range").append(": " + MathUtil.round(this.getDamage(user, new HashMap<>(), (float) this.baseMaxRange, this.getElement()), 2)));
         }
         list.add(Component.translatable("tooltip.magitech.spell.cooldown").append(": " + MathUtil.round((double) this.getModifiedCooldown(level, user, stack) / 20, 2) + "s"));
         list.add(Component.empty());

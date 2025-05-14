@@ -8,6 +8,7 @@ import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.entity.status.AttributeInit;
+import net.stln.magitech.item.tool.partitem.*;
 import net.stln.magitech.item.tool.toolitem.*;
 import net.stln.magitech.item.tool.toolitem.WandItem;
 
@@ -58,19 +59,19 @@ public class ItemInit {
 
     public static final DeferredItem<RingItem> GALEVENT_RING = ITEMS.registerItem("galevent_ring",
             (properties) -> new RingItem(properties).attributeModifier(Map.of(
-                    AttributeInit.COOLDOWN_SPEED, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.4, AttributeModifier.Operation.ADD_VALUE)
+                    AttributeInit.COOLDOWN_SPEED, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.3, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
             )),
             new Item.Properties().stacksTo(1));
 
     public static final DeferredItem<RingItem> CHARGEBIND_RING = ITEMS.registerItem("chargebind_ring",
             (properties) -> new RingItem(properties).attributeModifier(Map.of(
-                    AttributeInit.CASTING_SPEED, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.3, AttributeModifier.Operation.ADD_VALUE)
+                    AttributeInit.CASTING_SPEED, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.25, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
             )),
             new Item.Properties().stacksTo(1));
 
     public static final DeferredItem<RingItem> TORSION_RING = ITEMS.registerItem("torsion_ring",
             (properties) -> new RingItem(properties).attributeModifier(Map.of(
-                    AttributeInit.PROJECTILE_SPEED, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.6, AttributeModifier.Operation.ADD_VALUE)
+                    AttributeInit.PROJECTILE_SPEED, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.6, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
             )),
             new Item.Properties().stacksTo(1));
 
@@ -78,12 +79,48 @@ public class ItemInit {
             LightBladeItem::new,
             new Item.Properties());
 
-    public static final DeferredItem<Item> HANDGUARD = ITEMS.registerItem("handguard",
-            HandguardItem::new,
+    public static final DeferredItem<Item> HEAVY_BLADE = ITEMS.registerItem("heavy_blade",
+            HeavyBladeItem::new,
             new Item.Properties());
 
     public static final DeferredItem<Item> LIGHT_HANDLE = ITEMS.registerItem("light_handle",
             LightHandleItem::new,
+            new Item.Properties());
+
+    public static final DeferredItem<Item> HEAVY_HANDLE = ITEMS.registerItem("heavy_handle",
+            HeavyHandleItem::new,
+            new Item.Properties());
+
+    public static final DeferredItem<Item> TOOL_BINDING = ITEMS.registerItem("tool_binding",
+            ToolBindingItem::new,
+            new Item.Properties());
+
+    public static final DeferredItem<Item> HANDGUARD = ITEMS.registerItem("handguard",
+            HandguardItem::new,
+            new Item.Properties());
+
+    public static final DeferredItem<Item> STRIKE_HEAD = ITEMS.registerItem("strike_head",
+            StrikeHeadItem::new,
+            new Item.Properties());
+
+    public static final DeferredItem<Item> SPIKE_HEAD = ITEMS.registerItem("spike_head",
+            SpikeHeadItem::new,
+            new Item.Properties());
+
+    public static final DeferredItem<Item> REINFORCED_STICK = ITEMS.registerItem("reinforced_stick",
+            ReinforcedStickItem::new,
+            new Item.Properties());
+
+    public static final DeferredItem<Item> PLATE = ITEMS.registerItem("plate",
+            PlateItem::new,
+            new Item.Properties());
+
+    public static final DeferredItem<Item> CATALYST = ITEMS.registerItem("catalyst",
+            CatalystItem::new,
+            new Item.Properties());
+
+    public static final DeferredItem<Item> CONDUCTOR = ITEMS.registerItem("conductor",
+            ConductorItem::new,
             new Item.Properties());
 
     public static final DeferredItem<Item> LIGHT_SWORD = ITEMS.registerItem("light_sword",
@@ -100,6 +137,10 @@ public class ItemInit {
 
     public static final DeferredItem<Item> HAMMER = ITEMS.registerItem("hammer",
             HammerItem::new,
+            new Item.Properties());
+
+    public static final DeferredItem<Item> SCYTHE = ITEMS.registerItem("scythe",
+            ScytheItem::new,
             new Item.Properties());
 
     public static final DeferredItem<Item> REDSTONE_CRYSTAL = ITEMS.registerItem("redstone_crystal",

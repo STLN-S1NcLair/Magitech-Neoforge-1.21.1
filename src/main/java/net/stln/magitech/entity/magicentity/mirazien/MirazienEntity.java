@@ -22,6 +22,7 @@ import net.stln.magitech.damage.DamageTypeInit;
 import net.stln.magitech.damage.EntityElementRegister;
 import net.stln.magitech.entity.EntityInit;
 import net.stln.magitech.entity.SpellProjectileEntity;
+import net.stln.magitech.entity.mobeffect.MobEffectInit;
 import net.stln.magitech.item.tool.Element;
 import net.stln.magitech.particle.particle_option.UnstableSquareParticleEffect;
 import net.stln.magitech.sound.SoundInit;
@@ -103,6 +104,7 @@ public class MirazienEntity extends SpellProjectileEntity {
         applyDamage(entity, elementalDamageSource, finalDamage);
         if (entity instanceof LivingEntity livingEntity) {
             livingEntity.addEffect(new MobEffectInstance(MobEffects.GLOWING, 200, 0));
+            livingEntity.addEffect(new MobEffectInstance(MobEffectInit.SEIZE, 80, 0));
         }
         hitParticle();
 

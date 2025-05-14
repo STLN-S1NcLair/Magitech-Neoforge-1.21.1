@@ -25,8 +25,10 @@ public class MobEffectInit {
 
     public static final DeferredHolder<MobEffect, MobEffect> VOIDROT = STATUS_EFFECTS.register("voidrot", () -> new VoidrotMobEffect(MobEffectCategory.HARMFUL, 0x400080));
 
+    public static final DeferredHolder<MobEffect, MobEffect> PHASELOCK = STATUS_EFFECTS.register("phase_lock", () -> new PhaseLockMobEffect(MobEffectCategory.HARMFUL, 0x200040));
+
     public static void registerMobEffects(IEventBus eventBus) {
-        Magitech.LOGGER.info("Registering Mo Effect for " + Magitech.MOD_ID);
+        Magitech.LOGGER.info("Registering Mob Effect for " + Magitech.MOD_ID);
         STATUS_EFFECTS.register(eventBus);
     }
 }

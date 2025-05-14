@@ -160,5 +160,11 @@
     "sounds" :  [
       "magitech:glymora"
     ]
+  },
+  "tenebrisol" :  {
+    "subtitle" :  "subtitles.magitech.tenebrisol" ,
+    "sounds" :  [
+      "magitech:tenebrisol"
+    ]
   }
 }

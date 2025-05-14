@@ -29,6 +29,7 @@ public class MaterialInit {
     public static ToolMaterial NETHERITE = new ToolMaterial(new LavaforgedTrait(), "netherite");
     public static ToolMaterial FRIGIDITE = new ToolMaterial(new ShatterpiercerTrait(), "frigidite");
     public static ToolMaterial TRANSLUCIUM = new ToolMaterial(new PhantomSlayerTrait(), "translucium");
+    public static ToolMaterial ABYSSITE = new ToolMaterial(new PhaseVacuumCollapseTrait(), "abyssite");
 
     public static void registerMaterials() {
         ToolMaterialRegister.init();
@@ -74,6 +75,9 @@ public class MaterialInit {
 
         TRANSLUCIUM.addStats(new ToolStats(1.5F, 0.7F, 0.9F, 1.7F, 1.2F, 1.1F, 1.2F, 3.5F, Element.PHANTOM, MiningLevel.NETHERITE));
         TRANSLUCIUM.addSpellCasterStats(new ToolStats(1.5F, 0.7F, 0.9F, 1.7F, 1.2F, 1.1F, 1.2F, 3.5F, Element.PHANTOM, MiningLevel.NETHERITE));
+
+        ABYSSITE.addStats(new ToolStats(0.5F, 1.7F, 1F, 1.7F, 0.4F, 1.3F, 0.9F, 3.5F, Element.HOLLOW, MiningLevel.NETHERITE));
+        ABYSSITE.addSpellCasterStats(new ToolStats(0.5F, 1.7F, 1F, 1.7F, 0.4F, 1.3F, 0.9F, 3.5F, Element.HOLLOW, MiningLevel.NETHERITE));
     }
 
     public static void registerMaterialItems() {
@@ -90,6 +94,7 @@ public class MaterialInit {
         ToolMaterialRegister.registerItem(ItemInit.ENDER_METAL_INGOT.get(), ENDER_METAL);
         ToolMaterialRegister.registerItem(ItemInit.POLISHED_FRIGIDITE.get(), FRIGIDITE);
         ToolMaterialRegister.registerItem(ItemInit.POLISHED_TRANSLUCIUM.get(), TRANSLUCIUM);
+        ToolMaterialRegister.registerItem(ItemInit.POLISHED_ABYSSITE.get(), ABYSSITE);
     }
 
     public static void registerElements() {

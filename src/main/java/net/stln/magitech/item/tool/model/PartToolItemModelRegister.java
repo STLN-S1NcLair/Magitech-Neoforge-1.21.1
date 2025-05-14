@@ -25,6 +25,13 @@ public class PartToolItemModelRegister {
         @Override
         public net.minecraft.client.resources.model.@Nullable UnbakedModel resolveModel(Context context) {
             if (context.id().getNamespace().equals(Magitech.MOD_ID)) {
+                if (context.id().getPath().contains("heavy_sword") ||
+                        context.id().getPath().contains("hammer") ||
+                        context.id().getPath().contains("scythe") ||
+                        context.id().getPath().contains("spear") ||
+                        context.id().getPath().contains("staff")) {
+                    return getHeavyToolUnbakedModel(context.id());
+                }
                 return getUnbakedModel(context.id());
             }
             return null;
@@ -45,6 +52,17 @@ public class PartToolItemModelRegister {
 
             resolverEvent.register(ToolPartItemModelResolver);
         });
+    }
+
+    private static @NotNull net.minecraft.client.resources.model.UnbakedModel getHeavyToolUnbakedModel(ResourceLocation identifier) {
+        return BlockModel.fromString(
+                "{\n" +
+                        "    \"parent\": \"magitech:item/heavy_tool\",\n" +
+                        "    \"textures\": {\n" +
+                        "        \"layer0\": \"" + identifier.toString() + "\"\n" +
+                        "    }\n" +
+                        "}"
+        );
     }
 
     private static @NotNull net.minecraft.client.resources.model.UnbakedModel getUnbakedModel(ResourceLocation identifier) {

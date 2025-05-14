@@ -120,8 +120,7 @@ public class AeltherinEntity extends SpellProjectileEntity {
     protected void applyDamage(Entity entity, DamageSource damageSource, float amount) {
         super.applyDamage(entity, damageSource, amount);
         if (entity instanceof LivingEntity livingEntity) {
-            this.doKnockback(livingEntity, damageSource);
-            this.doKnockback(livingEntity, damageSource);
+            livingEntity.knockback(2, -this.getDeltaMovement().x, -this.getDeltaMovement().z);
         }
     }
 

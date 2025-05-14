@@ -131,8 +131,10 @@ public class PhantomSlayerTrait extends Trait {
     @Override
     public void onBreakBlock(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos, int damageAmount, boolean isInitial) {
         super.onBreakBlock(player, level, stack, traitLevel, stats, blockState, pos, damageAmount, isInitial);
-        player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, traitLevel * 10, 0));
-        player.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, traitLevel * 5, 0));
+        if (!level.isClientSide) {
+            player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, traitLevel * 10, 0));
+            player.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, traitLevel * 5, 0));
+        }
         EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(1.0F, 1.0F, 0.5F), new Vector3f(1.0F, 1.0F, 0.5F), 1F, 1, 0), player, 20);
         level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundInit.PHANTOM_BUFF.get(), SoundSource.PLAYERS, 0.5F, 0.7F + (player.getRandom().nextFloat() * 0.6F));
     }

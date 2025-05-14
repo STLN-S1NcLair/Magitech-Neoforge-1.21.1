@@ -62,17 +62,24 @@ public class BlockBreakEvent {
                 BROKEN_BLOCKS.removeAll(finalBlockList);
             }
             finalBlockList.forEach(pos1 -> {
+                final boolean[] flag = {true};
                 traitMap.forEach((trait, value) -> {
                     if (pos1 != pos) {
-                        BreakBlockPayload payload = new BreakBlockPayload(pos1, pos, player.getUUID().toString(), trait.emitEffect(player, event.getPlayer().level(), tool, value, partToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getState(), pos1, 1, false));
+                        BreakBlockPayload payload = new BreakBlockPayload(pos1, pos, player.getUUID().toString(), trait.emitEffect(player, event.getPlayer().level(), tool, value, partToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getState(), pos1, 1, false), flag[0]);
                         PacketDistributor.sendToAllPlayers(payload);
-                        trait.onBreakBlock(player, event.getPlayer().level(), tool, value, partToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getLevel().getBlockState(pos1), pos1, 1, false);
+                        if (flag[0]) {
+                            trait.onBreakBlock(player, event.getPlayer().level(), tool, value, partToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getLevel().getBlockState(pos1), pos1, 1, false);
 
-                        serverPlayer.gameMode.destroyBlock(pos1);
+                            serverPlayer.gameMode.destroyBlock(pos1);
+                            flag[0] = false;
+                        }
                     } else {
-                        BreakBlockPayload payload = new BreakBlockPayload(pos1, pos, player.getUUID().toString(), trait.emitEffect(player, event.getPlayer().level(), tool, value, partToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getState(), pos1, 1, true));
+                        BreakBlockPayload payload = new BreakBlockPayload(pos1, pos, player.getUUID().toString(), trait.emitEffect(player, event.getPlayer().level(), tool, value, partToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getState(), pos1, 1, true), flag[0]);
                         PacketDistributor.sendToAllPlayers(payload);
+                        if (flag[0]) {
                         trait.onBreakBlock(player, event.getPlayer().level(), tool, value, partToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getState(), pos1, 1, true);
+                            flag[0] = false;
+                        }
                     }
                 });
             });

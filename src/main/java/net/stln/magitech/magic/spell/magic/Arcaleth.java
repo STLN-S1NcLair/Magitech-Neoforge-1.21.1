@@ -47,7 +47,7 @@ public class Arcaleth extends Spell {
 
     @Override
     public int getCooldown(Level level, Player user, ItemStack stack) {
-        return 40;
+        return 10;
     }
 
     @Override

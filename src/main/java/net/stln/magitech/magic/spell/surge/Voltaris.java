@@ -48,7 +48,7 @@ public class Voltaris extends Spell {
 
     @Override
     public int getCooldown(Level level, Player user, ItemStack stack) {
-        return 90;
+        return 30;
     }
 
     @Override

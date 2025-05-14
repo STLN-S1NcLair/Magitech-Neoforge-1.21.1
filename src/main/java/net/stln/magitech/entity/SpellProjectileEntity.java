@@ -202,7 +202,7 @@ public abstract class SpellProjectileEntity extends Projectile implements GeoEnt
 
             if (entity instanceof LivingEntity livingentity) {
 
-                this.doKnockback(livingentity, damageSource);
+//                this.doKnockback(livingentity, damageSource);
                 if (this.level() instanceof ServerLevel serverlevel1) {
                     EnchantmentHelper.doPostAttackEffectsWithItemSource(serverlevel1, livingentity, damageSource, this.getWeaponItem());
                 }
@@ -225,21 +225,6 @@ public abstract class SpellProjectileEntity extends Projectile implements GeoEnt
 
     protected Element getElement() {
         return Element.NONE;
-    }
-
-    protected void doKnockback(LivingEntity entity, DamageSource damageSource) {
-        double d0 = (double) (
-                this.firedFromWeapon != null && this.level() instanceof ServerLevel serverlevel
-                        ? EnchantmentHelper.modifyKnockback(serverlevel, this.firedFromWeapon, entity, damageSource, 0.0F)
-                        : 0.0F
-        );
-        if (d0 > 0.0) {
-            double d1 = Math.max(0.0, 1.0 - entity.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE));
-            Vec3 vec3 = this.getDeltaMovement().multiply(1.0, 0.0, 1.0).normalize().scale(d0 * 0.6 * d1);
-            if (vec3.lengthSqr() > 0.0) {
-                entity.push(vec3.x, 0.1, vec3.z);
-            }
-        }
     }
 
     @Override

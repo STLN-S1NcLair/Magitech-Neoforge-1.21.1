@@ -20,7 +20,9 @@ public class BreakBlockPayLoadHandler {
         BlockPos initialPos = payload.initialPos();
         if (item instanceof PartToolItem) {
             PartToolItem.getTraitLevel(PartToolItem.getTraits(stack)).forEach((trait, integer) -> {
-                trait.onBreakBlock(player, player.level(), stack, integer, ((PartToolItem)stack.getItem()).getSumStats(player, player.level(), stack), player.level().getBlockState(pos), pos, 1, pos.equals(initialPos));
+                if (payload.callBreakBlock()) {
+                    trait.onBreakBlock(player, player.level(), stack, integer, ((PartToolItem) stack.getItem()).getSumStats(player, player.level(), stack), player.level().getBlockState(pos), pos, 1, pos.equals(initialPos));
+                }
                 if (payload.effect()) {
                     trait.addEffect(player, player.level(), stack, integer, ((PartToolItem)stack.getItem()).getSumStats(player, player.level(), stack), player.level().getBlockState(pos), pos, 1, pos.equals(initialPos));
                 }

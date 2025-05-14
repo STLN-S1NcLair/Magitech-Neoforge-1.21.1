@@ -31,21 +31,21 @@ public class EntityInit {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, Magitech.MOD_ID);
 
     public static final Supplier<EntityType<IgniscaEntity>> IGNISCA_ENTITY = ENTITY_TYPES.register("ignisca",
-            () -> EntityType.Builder.<IgniscaEntity>of(IgniscaEntity::new, MobCategory.MISC).sized(0.25F, 0.25F).build("ignisca"));
+            () -> EntityType.Builder.<IgniscaEntity>of(IgniscaEntity::new, MobCategory.MISC).sized(0.5F, 0.5F).build("ignisca"));
     public static final Supplier<EntityType<FrigalaEntity>> FRIGALA_ENTITY = ENTITY_TYPES.register("frigala",
-            () -> EntityType.Builder.<FrigalaEntity>of(FrigalaEntity::new, MobCategory.MISC).sized(0.25F, 0.25F).build("frigala"));
+            () -> EntityType.Builder.<FrigalaEntity>of(FrigalaEntity::new, MobCategory.MISC).sized(0.5F, 0.5F).build("frigala"));
     public static final Supplier<EntityType<VoltarisEntity>> VOLTARIS_ENTITY = ENTITY_TYPES.register("voltaris",
             () -> EntityType.Builder.<VoltarisEntity>of(VoltarisEntity::new, MobCategory.MISC).sized(1.0F, 1.0F).build("voltaris"));
     public static final Supplier<EntityType<MirazienEntity>> MIRAZIEN_ENTITY = ENTITY_TYPES.register("mirazien",
-            () -> EntityType.Builder.<MirazienEntity>of(MirazienEntity::new, MobCategory.MISC).sized(0.25F, 0.25F).build("mirazien"));
+            () -> EntityType.Builder.<MirazienEntity>of(MirazienEntity::new, MobCategory.MISC).sized(0.5F, 0.5F).build("mirazien"));
     public static final Supplier<EntityType<TremivoxEntity>> TREMIVOX_ENTITY = ENTITY_TYPES.register("tremivox",
-            () -> EntityType.Builder.<TremivoxEntity>of(TremivoxEntity::new, MobCategory.MISC).sized(0.5F, 0.5F).build("tremivox"));
+            () -> EntityType.Builder.<TremivoxEntity>of(TremivoxEntity::new, MobCategory.MISC).sized(0.75F, 0.75F).build("tremivox"));
     public static final Supplier<EntityType<ArcalethEntity>> ARCALETH_ENTITY = ENTITY_TYPES.register("arcaleth",
-            () -> EntityType.Builder.<ArcalethEntity>of(ArcalethEntity::new, MobCategory.MISC).sized(0.25F, 0.25F).build("arcaleth"));
+            () -> EntityType.Builder.<ArcalethEntity>of(ArcalethEntity::new, MobCategory.MISC).sized(0.5F, 0.5F).build("arcaleth"));
     public static final Supplier<EntityType<AeltherinEntity>> AELTHERIN_ENTITY = ENTITY_TYPES.register("aeltherin",
-            () -> EntityType.Builder.<AeltherinEntity>of(AeltherinEntity::new, MobCategory.MISC).sized(0.25F, 0.25F).build("aeltherin"));
+            () -> EntityType.Builder.<AeltherinEntity>of(AeltherinEntity::new, MobCategory.MISC).sized(0.5F, 0.5F).build("aeltherin"));
     public static final Supplier<EntityType<NullixisEntity>> NULLIXIS_ENTITY = ENTITY_TYPES.register("nullixis",
-            () -> EntityType.Builder.<NullixisEntity>of(NullixisEntity::new, MobCategory.MISC).sized(0.25F, 0.25F).build("nullixis"));
+            () -> EntityType.Builder.<NullixisEntity>of(NullixisEntity::new, MobCategory.MISC).sized(0.5F, 0.5F).build("nullixis"));
 
     public static void registerModEntities(IEventBus eventBus) {
         Magitech.LOGGER.info("Registering Entity for " + Magitech.MOD_ID);

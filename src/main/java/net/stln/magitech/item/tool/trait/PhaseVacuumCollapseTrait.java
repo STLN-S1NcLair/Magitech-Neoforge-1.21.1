@@ -1,0 +1,92 @@
+package net.stln.magitech.item.tool.trait;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
+import net.stln.magitech.Magitech;
+import net.stln.magitech.damage.DamageTypeInit;
+import net.stln.magitech.entity.mobeffect.MobEffectInit;
+import net.stln.magitech.item.tool.Element;
+import net.stln.magitech.item.tool.ToolStats;
+import net.stln.magitech.item.tool.toolitem.PartToolItem;
+import net.stln.magitech.item.tool.toolitem.SpellCasterItem;
+import net.stln.magitech.particle.particle_option.FrostParticleEffect;
+import net.stln.magitech.particle.particle_option.VoidGlowParticleEffect;
+import net.stln.magitech.sound.SoundInit;
+import net.stln.magitech.util.EffectUtil;
+import org.joml.Vector3f;
+
+import java.util.*;
+
+public class PhaseVacuumCollapseTrait extends Trait {
+
+    @Override
+    public void onAttackEntity(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, Entity target) {
+        super.onAttackEntity(player, level, stack, traitLevel, stats, target);
+        if (target instanceof LivingEntity livingEntity && player.getRandom().nextFloat() > 0.5) {
+
+                livingEntity.addEffect(new MobEffectInstance(MobEffectInit.PHASELOCK, 15 * traitLevel, 0));
+
+                EffectUtil.entityEffect(level, new VoidGlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, 0), livingEntity, 60);
+        }
+    }
+
+    @Override
+    public void tick(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
+        super.tick(player, level, stack, traitLevel, stats);
+        if (stack.getItem() instanceof SpellCasterItem) {
+            if (player.getLastHurtMob() != null) {
+                if (player.tickCount - player.getLastHurtMobTimestamp() < 1 && player.getRandom().nextFloat() > 0.5) {
+                    EffectUtil.entityEffect(level, new VoidGlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1F, 1, 0), player.getLastHurtMob(), 1);
+                    player.getLastHurtMob().addEffect(new MobEffectInstance(MobEffectInit.PHASELOCK, 15 * traitLevel, 0));
+                }
+            }
+        }
+    }
+
+    @Override
+    public void modifyAttribute(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, List<ItemAttributeModifiers.Entry> entries) {
+        super.modifyAttribute(player, level, stack, traitLevel, stats, entries);
+        entries.add(new ItemAttributeModifiers.Entry(Attributes.GRAVITY, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "phase_vacuum_collapse"), -0.15 * traitLevel, AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.MAINHAND));
+        entries.add(new ItemAttributeModifiers.Entry(Attributes.SAFE_FALL_DISTANCE, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "phase_vacuum_collapse"), 0.3 * traitLevel, AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.MAINHAND));
+        entries.add(new ItemAttributeModifiers.Entry(Attributes.FALL_DAMAGE_MULTIPLIER, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "phase_vacuum_collapse"), -0.15 * traitLevel, AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.MAINHAND));
+    }
+
+    @Override
+    public void modifySpellCasterAttribute(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, List<ItemAttributeModifiers.Entry> entries) {
+        super.modifySpellCasterAttribute(player, level, stack, traitLevel, stats, entries);
+        entries.add(new ItemAttributeModifiers.Entry(Attributes.GRAVITY, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "phase_vacuum_collapse"), -0.15 * traitLevel, AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.MAINHAND));
+        entries.add(new ItemAttributeModifiers.Entry(Attributes.SAFE_FALL_DISTANCE, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "phase_vacuum_collapse"), 0.3 * traitLevel, AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.MAINHAND));
+        entries.add(new ItemAttributeModifiers.Entry(Attributes.FALL_DAMAGE_MULTIPLIER, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "phase_vacuum_collapse"), -0.15 * traitLevel, AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.MAINHAND));
+    }
+
+    @Override
+    public int getColor() {
+        return 0x8000FF;
+    }
+
+    @Override
+    public Component getName() {
+        return Component.translatable("trait.magitech.phase_vacuum_collapse");
+    }
+
+}

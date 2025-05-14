@@ -27,6 +27,11 @@ public class ModelRegistrar {
                 }
             }
         }
+        for (ToolMaterial material : materials) {
+                for (String part : partTypes) {
+                    registerAdditional.register(ModelResourceLocation.standalone(getPartItemModelId(material, part)));
+                }
+        }
     }
 
     public static ResourceLocation getPartTextureId(ToolMaterial toolMaterial, String toolType, String part) {
@@ -37,8 +42,20 @@ public class ModelRegistrar {
         return ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "item/" + toolMaterial.getId() + "_" + toolType + "_" + part);
     }
 
+    public static ResourceLocation getPartItemTextureId(ToolMaterial toolMaterial, String part) {
+        return ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "item/part/" + toolMaterial.getId() + "_" + part);
+    }
+
+    public static ResourceLocation getPartItemModelId(ToolMaterial toolMaterial, String part) {
+        return ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "item/" + toolMaterial.getId() + "_" + part);
+    }
+
     public static String getPartModelName(ToolMaterial toolMaterial, String toolType, String part) {
         return toolMaterial.getId() + "_" + toolType + "_" + part;
+    }
+
+    public static String getPartItemModelName(ToolMaterial toolMaterial, String part) {
+        return toolMaterial.getId() + "_" + part;
     }
 
 }

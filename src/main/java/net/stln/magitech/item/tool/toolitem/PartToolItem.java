@@ -313,6 +313,7 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
         entries.add(new ItemAttributeModifiers.Entry(Attributes.ATTACK_SPEED, new AttributeModifier(spdId, map.get(ToolStats.SPD_STAT) - 4, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND));
         entries.add(new ItemAttributeModifiers.Entry(Attributes.ARMOR, new AttributeModifier(defId, map.get(ToolStats.DEF_STAT), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND));
         entries.add(new ItemAttributeModifiers.Entry(Attributes.ENTITY_INTERACTION_RANGE, new AttributeModifier(rngId, map.get(ToolStats.RNG_STAT) - 3, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND));
+        modifyTraitAttribute(player, level, stack, finalStats, entries);
         ItemAttributeModifiers component = new ItemAttributeModifiers(entries, false);
         stack.set(DataComponents.ATTRIBUTE_MODIFIERS, component);
 
@@ -326,6 +327,12 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
             stack.set(DataComponents.MAX_DAMAGE, newMaxDamage);
             stack.setDamageValue((int) (((float) oldDamage) * newMaxDamage / oldMaxDamage));
         }
+    }
+
+    protected void modifyTraitAttribute(Player player, Level level, ItemStack stack, ToolStats finalStats, List<ItemAttributeModifiers.Entry> entries) {
+        getTraitLevel(getTraits(stack)).forEach((trait, value) -> {
+            trait.modifyAttribute(player, level, stack, value, finalStats, entries);
+        });
     }
 
     @Override

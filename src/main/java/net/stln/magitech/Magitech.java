@@ -27,6 +27,7 @@ import net.stln.magitech.item.creative_tab.CreativeTabInit;
 import net.stln.magitech.item.tool.material.MaterialInit;
 import net.stln.magitech.magic.spell.SpellInit;
 import net.stln.magitech.particle.ParticleInit;
+import net.stln.magitech.recipe.RecipeInit;
 import net.stln.magitech.sound.SoundInit;
 import org.slf4j.Logger;
 
@@ -59,6 +60,7 @@ public class Magitech {
         ParticleInit.registerParticleClient(modEventBus);
         SoundInit.registerSoundEvents(modEventBus);
         MobEffectInit.registerMobEffects(modEventBus);
+        RecipeInit.registerRecipes(modEventBus);
         MaterialInit.registerElements();
         MaterialInit.registerMaterials();
         SpellInit.registerSpells();

@@ -1,5 +1,10 @@
 package net.stln.magitech.item.tool.toolitem;
 
+import dev.kosmx.playerAnim.api.layered.IAnimation;
+import dev.kosmx.playerAnim.api.layered.KeyframeAnimationPlayer;
+import dev.kosmx.playerAnim.api.layered.ModifierLayer;
+import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
+import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -20,6 +25,8 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.stln.magitech.Magitech;
@@ -225,6 +232,7 @@ public abstract class SpellCasterItem extends PartToolItem {
         entries.add(new ItemAttributeModifiers.Entry(Attributes.ARMOR, new AttributeModifier(defId, map.get(ToolStats.DEF_STAT), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND));
         entries.add(new ItemAttributeModifiers.Entry(AttributeInit.PROJECTILE_SPEED, new AttributeModifier(rngId, map.get(ToolStats.RNG_STAT) - mod.get(ToolStats.RNG_STAT), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND));
         entries.add(new ItemAttributeModifiers.Entry(AttributeInit.MANA_EFFICIENCY, new AttributeModifier(rngId, map.get(ToolStats.SWP_STAT) - mod.get(ToolStats.SWP_STAT), AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.MAINHAND));
+        modifyTraitAttribute(player, level, stack, finalStats, entries);
         ItemAttributeModifiers component = new ItemAttributeModifiers(entries, false);
         stack.set(DataComponents.ATTRIBUTE_MODIFIERS, component);
 
@@ -238,6 +246,12 @@ public abstract class SpellCasterItem extends PartToolItem {
             stack.set(DataComponents.MAX_DAMAGE, newMaxDamage);
             stack.setDamageValue((int) (((float) oldDamage) * newMaxDamage / oldMaxDamage));
         }
+    }
+
+    protected void modifyTraitAttribute(Player player, Level level, ItemStack stack, ToolStats finalStats, List<ItemAttributeModifiers.Entry> entries) {
+        getTraitLevel(getTraits(stack)).forEach((trait, value) -> {
+            trait.modifySpellCasterAttribute(player, level, stack, value, finalStats, entries);
+        });
     }
 
     @Override
@@ -344,7 +358,7 @@ public abstract class SpellCasterItem extends PartToolItem {
                         });
                     } else {
                         player.releaseUsingItem();
-                        return InteractionResultHolder.fail(itemStack);
+                        return InteractionResultHolder.consume(itemStack);
                     }
                 } else {
                     player.releaseUsingItem();
@@ -354,7 +368,7 @@ public abstract class SpellCasterItem extends PartToolItem {
             }
         }
         player.awardStat(Stats.ITEM_USED.get(this));
-        return InteractionResultHolder.pass(itemStack);
+        return InteractionResultHolder.consume(itemStack);
 
 //        ItemStack stack = player.getItemInHand(usedHand);
 //        if (level.isClientSide) {

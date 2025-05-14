@@ -24,6 +24,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.Magitech;
+import net.stln.magitech.entity.mobeffect.MobEffectInit;
 import net.stln.magitech.item.tool.Element;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.Spell;
@@ -129,6 +130,7 @@ public class Veilmist extends Spell {
                     }
                     if (target instanceof LivingEntity livingTarget) {
                         livingTarget.addEffect(new MobEffectInstance(MobEffects.GLOWING, 100, 0));
+                        livingTarget.addEffect(new MobEffectInstance(MobEffectInit.SEIZE, 1, 0));
                     }
                     if (livingEntity instanceof Player user) {
                         this.applyDamage(tickBaseDamage, this.getTickCost(level, user, stack), this.getElement(), stack, user, target);

@@ -49,7 +49,7 @@ public class Mirazien extends Spell {
 
     @Override
     public int getCooldown(Level level, Player user, ItemStack stack) {
-        return 50;
+        return 15;
     }
 
     @Override

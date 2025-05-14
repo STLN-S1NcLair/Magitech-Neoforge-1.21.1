@@ -80,7 +80,7 @@ public class Tremivox extends Spell {
 
     @Override
     public int getCooldown(Level level, Player user, ItemStack stack) {
-        return 100;
+        return 60;
     }
 
     @Override

@@ -48,7 +48,7 @@ public class Ignisca extends Spell {
 
     @Override
     public int getCooldown(Level level, Player user, ItemStack stack) {
-        return 100;
+        return 40;
     }
 
     @Override

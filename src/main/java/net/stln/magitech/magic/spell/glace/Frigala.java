@@ -28,6 +28,7 @@ import net.stln.magitech.magic.charge.Charge;
 import net.stln.magitech.magic.charge.ChargeData;
 import net.stln.magitech.magic.cooldown.CooldownData;
 import net.stln.magitech.magic.mana.ManaUtil;
+import net.stln.magitech.magic.spell.BeamSpell;
 import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.sound.SoundInit;
 
