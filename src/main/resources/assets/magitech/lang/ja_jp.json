@@ -89,6 +89,8 @@
   "item.magitech.catalyst": "%1$sのカタリスト",
   "item.magitech.conductor": "%1$sのコンダクター",
 
+  "item.magitech.thread_page": "%1$sのスレッドページ",
+
   "tooltip.item.magitech.glistening_lexicon": "見知らぬ人物が残した､この世界での基本的な攻撃方法｡",
   "tooltip.item.magitech.arcane_engineering_compendium": "魔法のすべてを理解した人のための最高の一冊｡",
   "tooltip.item.magitech.redstone_crystal": "見た目は装飾品だが､振る舞いは権力そのもの｡",
@@ -182,6 +184,7 @@
   "spell.magitech.nullixis": "ヌリクシス",
   "spell.magitech.voidlance": "ヴォイドランス",
   "spell.magitech.tenebrisol": "テネブリソル",
+  "spell.magitech.disparundra": "ディスパルンドラ",
 
   "death.attack.magitech_ember": "%1$sは焼き尽くされた",
   "death.attack.magitech_ember.player": "%1$sは%2$sによって灰にされた",

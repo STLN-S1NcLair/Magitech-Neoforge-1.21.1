@@ -22,6 +22,7 @@ import net.stln.magitech.entity.mobeffect.MobEffectInit;
 import net.stln.magitech.entity.status.AttributeInit;
 import net.stln.magitech.event.EventInit;
 import net.stln.magitech.item.ItemInit;
+import net.stln.magitech.item.ItemPropertyInit;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.creative_tab.CreativeTabInit;
 import net.stln.magitech.item.tool.material.MaterialInit;
@@ -100,6 +101,7 @@ public class Magitech {
         public static void onClientSetup(FMLClientSetupEvent event) {
             EntityInit.registerModEntitiesRenderer();
             EventInit.registerClientEvent();
+            ItemPropertyInit.registerItemProperties();
         }
 
         @SubscribeEvent

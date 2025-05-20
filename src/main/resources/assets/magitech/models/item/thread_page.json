@@ -1,0 +1,53 @@
+{
+  "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "predicate": {
+        "magitech:element": 1
+      },
+      "model": "magitech:item/ember_thread_page"
+    },
+    {
+      "predicate": {
+        "magitech:element": 2
+      },
+      "model": "magitech:item/glace_thread_page"
+    },
+    {
+      "predicate": {
+        "magitech:element": 3
+      },
+      "model": "magitech:item/surge_thread_page"
+    },
+    {
+      "predicate": {
+        "magitech:element": 4
+      },
+      "model": "magitech:item/phantom_thread_page"
+    },
+    {
+      "predicate": {
+        "magitech:element": 5
+      },
+      "model": "magitech:item/tremor_thread_page"
+    },
+    {
+      "predicate": {
+        "magitech:element": 6
+      },
+      "model": "magitech:item/magic_thread_page"
+    },
+    {
+      "predicate": {
+        "magitech:element": 7
+      },
+      "model": "magitech:item/flow_thread_page"
+    },
+    {
+      "predicate": {
+        "magitech:element": 8
+      },
+      "model": "magitech:item/hollow_thread_page"
+    }
+  ]
+}

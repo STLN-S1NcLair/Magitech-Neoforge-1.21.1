@@ -143,6 +143,10 @@ public class ItemInit {
             ScytheItem::new,
             new Item.Properties());
 
+    public static final DeferredItem<Item> THREAD_PAGE = ITEMS.registerItem("thread_page",
+            ThreadPageItem::new,
+            new Item.Properties());
+
     public static final DeferredItem<Item> REDSTONE_CRYSTAL = ITEMS.registerItem("redstone_crystal",
             TooltipTextItem::new,
             new Item.Properties());

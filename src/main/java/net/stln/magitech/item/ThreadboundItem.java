@@ -53,9 +53,9 @@ public class ThreadboundItem extends TooltipTextItem implements ICurioItem {
                 if (location != null) {
                     if (Math.abs(stack.get(ComponentInit.SPELL_COMPONENT).selected() - i) <= 2 || Screen.hasShiftDown()) {
                         if (stack.get(ComponentInit.SPELL_COMPONENT).selected() == i) {
-                            tooltipComponents.add(Component.literal("> ").append(Component.translatable("spell." + location.getNamespace() + "." + location.getPath())).withColor(0x80FFFF));
+                            tooltipComponents.add(Component.literal("> ").append(Component.translatable("spell." + location.getNamespace() + "." + location.getPath())).withColor(spell.getElement().getColor()));
                         } else {
-                            tooltipComponents.add(Component.translatable("spell." + location.getNamespace() + "." + location.getPath()).withColor(0x405060));
+                            tooltipComponents.add(Component.translatable("spell." + location.getNamespace() + "." + location.getPath()).withColor(spell.getElement().getDark()));
                         }
                     } else if (Math.abs(stack.get(ComponentInit.SPELL_COMPONENT).selected() - i) == 3) {
                         tooltipComponents.add(Component.literal("...").withColor(0x405060));

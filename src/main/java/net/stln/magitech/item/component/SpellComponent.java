@@ -50,7 +50,7 @@ public record SpellComponent(List<Spell> spells, int selected) {
         return ids;
     }
 
-    public List<Spell> getMaterial() {
+    public List<Spell> getSpells() {
         return spells;
     }
 }

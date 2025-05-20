@@ -29,7 +29,7 @@ public class PartToolAssembleRecipe extends CustomRecipe {
     public boolean matches(CraftingInput input, Level level) {
         boolean flag = false;
         for (ToolType type : ToolType.values()) {
-            flag |= !isCorrectTypesForTool(input, type).isEmpty();
+            flag |= !isCorrectTypesForTool(input, type).stream().allMatch(Objects::isNull);
         }
         return flag;
     }
@@ -81,7 +81,6 @@ public class PartToolAssembleRecipe extends CustomRecipe {
                     int index = partList.indexOf(partItem.getPart());
                     if (found) {
                         ToolMaterial material = input.getItem(i).get(ComponentInit.MATERIAL_COMPONENT.get()).getMaterial();
-                        Magitech.LOGGER.info(index + ", " + material.getId() + ", " + partItem);
                         result.set(index, material);
                         partList.set(index, null);
                     }

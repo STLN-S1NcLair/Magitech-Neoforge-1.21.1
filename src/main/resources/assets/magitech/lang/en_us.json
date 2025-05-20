@@ -88,6 +88,8 @@
   "item.magitech.catalyst": "%1$s Catalyst",
   "item.magitech.conductor": "%1$s Conductor",
 
+  "item.magitech.thread_page": "Thread Page of %1$s",
+
   "tooltip.item.magitech.glistening_lexicon": "A basic guide to combat in this world, left behind by someone unknown.",
   "tooltip.item.magitech.arcane_engineering_compendium": "The ultimate volume for those who truly understand magic.",
   "tooltip.item.magitech.redstone_crystal": "Looks like jewelry. Acts like authority.",
@@ -180,6 +182,7 @@
   "spell.magitech.nullixis": "Nullixis",
   "spell.magitech.voidlance": "Voidlance",
   "spell.magitech.tenebrisol": "Tenebrisol",
+  "spell.magitech.disparundra": "Disparundra",
 
   "death.attack.magitech_ember": "%1$s was incinerated",
   "death.attack.magitech_ember.player": "%1$s was reduced to ashes by %2$s",

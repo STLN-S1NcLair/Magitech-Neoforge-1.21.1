@@ -22,6 +22,9 @@ public class ComponentInit {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<SpellComponent>> SPELL_COMPONENT = register("spell_component",
             builder -> builder.persistent(SpellComponent.CODEC).networkSynchronized(SpellComponent.STREAM_CODEC).cacheEncoding());
 
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<ThreadPageComponent>> THREAD_PAGE_COMPONENT = register("thread_page_component",
+            builder -> builder.persistent(ThreadPageComponent.CODEC).networkSynchronized(ThreadPageComponent.STREAM_CODEC).cacheEncoding());
+
     public static void registerComponents(IEventBus eventBus) {
         COMPONENT_TYPES.register(eventBus);
     }

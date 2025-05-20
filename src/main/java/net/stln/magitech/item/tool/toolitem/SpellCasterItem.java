@@ -212,7 +212,8 @@ public abstract class SpellCasterItem extends PartToolItem {
         Map<String, Float> map = finalStats.getStats();
 
         Map<String, Float> mod = ToolMaterialRegister.getModStats(this.getToolType()).getStats();
-        entries.add(new ItemAttributeModifiers.Entry(AttributeInit.SPELL_POWER, new AttributeModifier(atkId, map.get(ToolStats.ATK_STAT) - mod.get(ToolStats.ATK_STAT), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND));
+        EquipmentSlotGroup hand = player.getItemInHand(InteractionHand.OFF_HAND).equals(stack) && !(player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof SpellCasterItem) ? EquipmentSlotGroup.OFFHAND : EquipmentSlotGroup.MAINHAND;
+        entries.add(new ItemAttributeModifiers.Entry(AttributeInit.SPELL_POWER, new AttributeModifier(atkId, map.get(ToolStats.ATK_STAT) - mod.get(ToolStats.ATK_STAT), AttributeModifier.Operation.ADD_VALUE), hand));
         if (finalStats.getElement() != Element.NONE) {
             DeferredHolder<Attribute, Attribute> elementAttribute = switch (finalStats.getElement()) {
                 case NONE -> null;
@@ -225,13 +226,13 @@ public abstract class SpellCasterItem extends PartToolItem {
                 case FLOW -> AttributeInit.FLOW_SPELL_POWER;
                 case HOLLOW -> AttributeInit.HOLLOW_SPELL_POWER;
             };
-            entries.add(new ItemAttributeModifiers.Entry(elementAttribute, new AttributeModifier(elmatkId, map.get(ToolStats.ELM_ATK_STAT), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND));
+            entries.add(new ItemAttributeModifiers.Entry(elementAttribute, new AttributeModifier(elmatkId, map.get(ToolStats.ELM_ATK_STAT), AttributeModifier.Operation.ADD_VALUE), hand));
         }
-        entries.add(new ItemAttributeModifiers.Entry(AttributeInit.CASTING_SPEED, new AttributeModifier(spdId, map.get(ToolStats.SPD_STAT) - mod.get(ToolStats.SPD_STAT), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND));
-        entries.add(new ItemAttributeModifiers.Entry(AttributeInit.COOLDOWN_SPEED, new AttributeModifier(minId, map.get(ToolStats.MIN_STAT) - mod.get(ToolStats.MIN_STAT), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND));
-        entries.add(new ItemAttributeModifiers.Entry(Attributes.ARMOR, new AttributeModifier(defId, map.get(ToolStats.DEF_STAT), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND));
-        entries.add(new ItemAttributeModifiers.Entry(AttributeInit.PROJECTILE_SPEED, new AttributeModifier(rngId, map.get(ToolStats.RNG_STAT) - mod.get(ToolStats.RNG_STAT), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND));
-        entries.add(new ItemAttributeModifiers.Entry(AttributeInit.MANA_EFFICIENCY, new AttributeModifier(rngId, map.get(ToolStats.SWP_STAT) - mod.get(ToolStats.SWP_STAT), AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.MAINHAND));
+        entries.add(new ItemAttributeModifiers.Entry(AttributeInit.CASTING_SPEED, new AttributeModifier(spdId, map.get(ToolStats.SPD_STAT) - mod.get(ToolStats.SPD_STAT), AttributeModifier.Operation.ADD_VALUE), hand));
+        entries.add(new ItemAttributeModifiers.Entry(AttributeInit.COOLDOWN_SPEED, new AttributeModifier(minId, map.get(ToolStats.MIN_STAT) - mod.get(ToolStats.MIN_STAT), AttributeModifier.Operation.ADD_VALUE), hand));
+        entries.add(new ItemAttributeModifiers.Entry(Attributes.ARMOR, new AttributeModifier(defId, map.get(ToolStats.DEF_STAT), AttributeModifier.Operation.ADD_VALUE), hand));
+        entries.add(new ItemAttributeModifiers.Entry(AttributeInit.PROJECTILE_SPEED, new AttributeModifier(rngId, map.get(ToolStats.RNG_STAT) - mod.get(ToolStats.RNG_STAT), AttributeModifier.Operation.ADD_VALUE), hand));
+        entries.add(new ItemAttributeModifiers.Entry(AttributeInit.MANA_EFFICIENCY, new AttributeModifier(rngId, map.get(ToolStats.SWP_STAT) - mod.get(ToolStats.SWP_STAT), AttributeModifier.Operation.ADD_MULTIPLIED_BASE), hand));
         modifyTraitAttribute(player, level, stack, finalStats, entries);
         ItemAttributeModifiers component = new ItemAttributeModifiers(entries, false);
         stack.set(DataComponents.ATTRIBUTE_MODIFIERS, component);
