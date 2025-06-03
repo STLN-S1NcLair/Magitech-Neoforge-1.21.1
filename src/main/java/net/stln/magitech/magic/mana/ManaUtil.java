@@ -32,6 +32,9 @@ public class ManaUtil {
 
     public static void regenTickMana(Player player, ManaType type) {
         double regenAmount = getManaRegen(player, type) / 20;
+        if (type != ManaType.MANA && ManaData.getCurrentMana(player, ManaType.MANA) < getMaxMana(player, ManaType.MANA) / 2) {
+            regenAmount /= 2;
+        }
         setMana(player, type, Math.min(regenAmount + ManaData.getCurrentMana(player, type), getMaxMana(player, type)));
     }
 

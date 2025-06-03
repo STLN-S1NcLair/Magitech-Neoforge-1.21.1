@@ -225,5 +225,14 @@
   "recipe.magitech.part_cutting": "Part Cutting",
 
   "book.magitech.glistening_lexicon.name":  "Glistening Lexicon",
-  "book.magitech.glistening_lexicon.landing_text": "A basic guide to combat in this world, left behind by someone unknown."
+  "book.magitech.glistening_lexicon.landing_text": "A basic guide to combat in this world, left behind by someone unknown.",
+
+  "advancement.magitech.arcane_engineering.root.title": "Arcane Engineering",
+  "advancement.magitech.arcane_engineering.root.description": "In science, mana is just another form of energy.",
+  "advancement.magitech.arcane_engineering.unwanted_gift.title": "A Book You Didn't Ask for",
+  "advancement.magitech.arcane_engineering.unwanted_gift.description": "It found you before you found it. Good luck.",
+  "advancement.magitech.arcane_engineering.engineering_workbench.title": "Built to Build",
+  "advancement.magitech.arcane_engineering.engineering_workbench.description": "Just a few thousand more parts to go! (Probably.)",
+  "advancement.magitech.arcane_engineering.make_wand.title": "Precision? Never Heard of It!",
+  "advancement.magitech.arcane_engineering.make_wand.description": "Who needs to calculate mana flow anyway?"
 }

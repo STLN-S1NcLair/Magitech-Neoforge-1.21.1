@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "id": "magitech:glistening_lexicon"
+    },
+    "title": {
+      "translate": "advancement.magitech.arcane_engineering.unwanted_gift.title"
+    },
+    "description": {
+      "translate": "advancement.magitech.arcane_engineering.unwanted_gift.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "parent": "magitech:arcane_engineering/root",
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "magitech:glistening_lexicon"
+            ],
+            "count": 1
+          }
+        ]
+      }
+    }
+  }
+}

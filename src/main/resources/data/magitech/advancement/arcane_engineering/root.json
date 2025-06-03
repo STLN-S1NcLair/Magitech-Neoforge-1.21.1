@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "id": "magitech:arcane_engineering_compendium"
+    },
+    "title": {
+      "translate": "advancement.magitech.arcane_engineering.root.title"
+    },
+    "description": {
+      "translate":"advancement.magitech.arcane_engineering.root.description"
+    },
+    "background": "minecraft:textures/block/quartz_block_top.png",
+    "frame": "task",
+    "show_toast": false,
+    "announce_to_chat": false
+  },
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "magitech:glistening_lexicon"
+            ],
+            "count": 1
+          }
+        ]
+      }
+    }
+  }
+}
