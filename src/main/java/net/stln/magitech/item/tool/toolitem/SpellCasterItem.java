@@ -185,12 +185,12 @@ public abstract class SpellCasterItem extends PartToolItem {
 
             if (materials.size() == toolType.getSize() && materials.get(0) != null && materials.get(1) != null) {
                 if (materials.get(0).equals(materials.get(1))) {
-                    component.append(Component.translatable("item.magitech." + ((SpellCasterItem) stack.getItem()).getToolType().get() + ".simple",
-                            Component.translatable("material.magitech." + materials.get(0).getId())));
+                    component.append(Component.translatable("item.magitech." + ((PartToolItem) stack.getItem()).getToolType().get() + ".simple",
+                            Component.translatable("material." + materials.get(0).getId().getNamespace() + "." + materials.get(0).getId().getPath())));
                 } else {
-                    component.append(Component.translatable("item.magitech." + ((SpellCasterItem) stack.getItem()).getToolType().get() + ".complex",
-                            Component.translatable("material.magitech." + materials.get(0).getId()),
-                            Component.translatable("material.magitech." + materials.get(1).getId())));
+                    component.append(Component.translatable("item.magitech." + ((PartToolItem) stack.getItem()).getToolType().get() + ".complex",
+                            Component.translatable("material." + materials.get(0).getId().getNamespace() + "." + materials.get(0).getId().getPath()),
+                            Component.translatable("material." + materials.get(1).getId().getNamespace() + "." + materials.get(1).getId().getPath())));
                 }
             } else {
                 component.append(Component.translatable("item.magitech." + ((SpellCasterItem) stack.getItem()).getToolType().get()));

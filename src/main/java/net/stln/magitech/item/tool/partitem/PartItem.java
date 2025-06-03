@@ -3,6 +3,7 @@ package net.stln.magitech.item.tool.partitem;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -31,7 +32,8 @@ public abstract class PartItem extends Item {
     @Override
     public Component getName(ItemStack stack) {
         if (stack.has(ComponentInit.MATERIAL_COMPONENT)) {
-            return Component.translatable("item.magitech." + getPart().get(), Component.translatable("material.magitech." + stack.get(ComponentInit.MATERIAL_COMPONENT).getMaterialId()));
+            ResourceLocation resourceLocation = stack.get(ComponentInit.MATERIAL_COMPONENT).getMaterialId();
+            return Component.translatable("item." + resourceLocation.getNamespace() + "." + getPart().get(), Component.translatable("material.magitech." + resourceLocation.getPath()));
         }
         return super.getName(stack);
     }
@@ -112,7 +114,7 @@ public abstract class PartItem extends Item {
 
             tooltipComponents.add(Component.translatable("attribute.magitech.durability").append(": ").withColor(0xa0a0a0)
                     .append(Component.literal("x" +
-                            finalStats.getStats().get(ToolStats.DUR_STAT).intValue()
+                            MathUtil.round(finalStats.getStats().get(ToolStats.DUR_STAT), 2)
                     ).withColor(0xFFFFFF)));
             ToolStats spellCasterStats = getSpellCasterStats(stack);
             tooltipComponents.add(Component.empty());
@@ -157,7 +159,7 @@ public abstract class PartItem extends Item {
 
             tooltipComponents.add(Component.translatable("attribute.magitech.durability").append(": ").withColor(0xa0a0a0)
                     .append(Component.literal("x" +
-                            spellCasterStats.getStats().get(ToolStats.DUR_STAT).intValue()
+                            MathUtil.round(finalStats.getStats().get(ToolStats.DUR_STAT), 2)
                     ).withColor(0xFFFFFF)));
 
 

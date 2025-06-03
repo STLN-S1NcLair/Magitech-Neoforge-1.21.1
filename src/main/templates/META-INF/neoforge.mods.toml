@@ -77,6 +77,31 @@ config="${mod_id}.mixins.json"
     side="BOTH"
 
 # Here's another dependency
+
+[[dependencies.magitech]]
+modId="patchouli"
+type="required"
+ordering="AFTER"
+side="BOTH"
+
+[[dependencies.magitech]]
+modId="geckolib"
+type="required"
+ordering="AFTER"
+side="BOTH"
+
+[[dependencies.magitech]]
+modId="curios"
+type="required"
+ordering="AFTER"
+side="BOTH"
+
+[[dependencies.magitech]]
+modId="playeranimator"
+type="required"
+ordering="AFTER"
+side="BOTH"
+
 [[dependencies.${mod_id}]]
     modId="minecraft"
     type="required"

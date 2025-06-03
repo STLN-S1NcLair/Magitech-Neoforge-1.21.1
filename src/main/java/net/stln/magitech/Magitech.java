@@ -21,6 +21,7 @@ import net.stln.magitech.entity.EntityInit;
 import net.stln.magitech.entity.mobeffect.MobEffectInit;
 import net.stln.magitech.entity.status.AttributeInit;
 import net.stln.magitech.event.EventInit;
+import net.stln.magitech.hud.OverlayInit;
 import net.stln.magitech.item.ItemInit;
 import net.stln.magitech.item.ItemPropertyInit;
 import net.stln.magitech.item.component.ComponentInit;
@@ -62,6 +63,7 @@ public class Magitech {
         SoundInit.registerSoundEvents(modEventBus);
         MobEffectInit.registerMobEffects(modEventBus);
         RecipeInit.registerRecipes(modEventBus);
+        OverlayInit.registerMenus(modEventBus);
         MaterialInit.registerElements();
         MaterialInit.registerMaterials();
         SpellInit.registerSpells();
@@ -78,7 +80,6 @@ public class Magitech {
 
     private void commonSetup(final FMLCommonSetupEvent event) {
 //        Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
-        MaterialInit.registerMaterialItems();
     }
 
     // Add the example block item to the building blocks tab

@@ -240,11 +240,6 @@ public class BeamParticle extends GlowingParticle {
         return 240;
     }
 
-    @Override
-    public ParticleRenderType getRenderType() {
-        return AbstractCustomizableParticle.PARTICLE_SHEET_ADDITIVE;
-    }
-
     @Environment(EnvType.CLIENT)
     public static class Provider implements ParticleProvider<BeamParticleEffect> {
         private final SpriteSet spriteProvider;

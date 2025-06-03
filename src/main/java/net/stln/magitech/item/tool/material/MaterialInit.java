@@ -1,10 +1,12 @@
 package net.stln.magitech.item.tool.material;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.monster.*;
 import net.minecraft.world.entity.monster.breeze.Breeze;
 import net.minecraft.world.entity.monster.warden.Warden;
 import net.minecraft.world.item.Items;
+import net.stln.magitech.Magitech;
 import net.stln.magitech.damage.ElementAffinityRegister;
 import net.stln.magitech.damage.EntityElementRegister;
 import net.stln.magitech.item.ItemInit;
@@ -15,21 +17,22 @@ import net.stln.magitech.item.tool.trait.*;
 
 public class MaterialInit {
 
-    public static ToolMaterial WOOD = new ToolMaterial(new AdaptationTrait(), "wood");
-    public static ToolMaterial STONE = new ToolMaterial(new GeoMendingTrait(), "stone");
-    public static ToolMaterial DEEPSLATE = new ToolMaterial(new HardmineTrait(), "deepslate");
-    public static ToolMaterial COPPER = new ToolMaterial(new ConductanceTrait(), "copper");
-    public static ToolMaterial BONE = new ToolMaterial(new FossilizationTrait(), "bone");
-    public static ToolMaterial IRON = new ToolMaterial(new DuranceTrait(), "iron");
-    public static ToolMaterial GOLD = new ToolMaterial(new CatalysisTrait(), "gold");
-    public static ToolMaterial AMETHYST = new ToolMaterial(new ShatterforceTrait(), "amethyst");
-    public static ToolMaterial REDSTONE = new ToolMaterial(new SignalRushTrait(), "redstone");
-    public static ToolMaterial DIAMOND = new ToolMaterial(new LightweightTrait(), "diamond");
-    public static ToolMaterial ENDER_METAL = new ToolMaterial(new EnderDrawTrait(), "ender_metal");
-    public static ToolMaterial NETHERITE = new ToolMaterial(new LavaforgedTrait(), "netherite");
-    public static ToolMaterial FRIGIDITE = new ToolMaterial(new ShatterpiercerTrait(), "frigidite");
-    public static ToolMaterial TRANSLUCIUM = new ToolMaterial(new PhantomSlayerTrait(), "translucium");
-    public static ToolMaterial ABYSSITE = new ToolMaterial(new PhaseVacuumCollapseTrait(), "abyssite");
+    public static ToolMaterial WOOD = new ToolMaterial(new AdaptationTrait(), ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "wood"));
+    public static ToolMaterial STONE = new ToolMaterial(new GeoMendingTrait(), ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "stone"));
+    public static ToolMaterial DEEPSLATE = new ToolMaterial(new HardmineTrait(), ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "deepslate"));
+    public static ToolMaterial COPPER = new ToolMaterial(new ConductanceTrait(), ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "copper"));
+    public static ToolMaterial BONE = new ToolMaterial(new FossilizationTrait(), ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "bone"));
+    public static ToolMaterial IRON = new ToolMaterial(new DuranceTrait(), ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "iron"));
+    public static ToolMaterial GOLD = new ToolMaterial(new CatalysisTrait(), ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "gold"));
+    public static ToolMaterial AMETHYST = new ToolMaterial(new ShatterforceTrait(), ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "amethyst"));
+    public static ToolMaterial REDSTONE = new ToolMaterial(new SignalRushTrait(), ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "redstone"));
+    public static ToolMaterial DIAMOND = new ToolMaterial(new LightweightTrait(), ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "diamond"));
+    public static ToolMaterial ENDER_METAL = new ToolMaterial(new EnderDrawTrait(), ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ender_metal"));
+    public static ToolMaterial NETHERITE = new ToolMaterial(new LavaforgedTrait(), ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "netherite"));
+    public static ToolMaterial FRIGIDITE = new ToolMaterial(new ShatterpiercerTrait(), ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "frigidite"));
+    public static ToolMaterial TRANSLUCIUM = new ToolMaterial(new PhantomSlayerTrait(), ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "translucium"));
+    public static ToolMaterial RESONITE = new ToolMaterial(new BlindResonanceTrait(), ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "resonite"));
+    public static ToolMaterial ABYSSITE = new ToolMaterial(new PhaseVacuumCollapseTrait(), ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "abyssite"));
 
     public static void registerMaterials() {
         ToolMaterialRegister.init();
@@ -61,40 +64,26 @@ public class MaterialInit {
         REDSTONE.addStats(new ToolStats(0.5F, 0.8F, 0.65F, 1.1F, 0.3F, 1F, 1F, 1.2F, Element.SURGE, MiningLevel.IRON));
         REDSTONE.addSpellCasterStats(new ToolStats(0.5F, 0.8F, 0.65F, 1.1F, 0.3F, 1F, 1F, 1.2F, Element.SURGE, MiningLevel.IRON));
 
-        DIAMOND.addStats(new ToolStats(1.5F, 0F, 1.1F, 1.6F, 0.8F, 1F, 1.2F, 2.5F, Element.NONE, MiningLevel.DIAMOND));
-        DIAMOND.addSpellCasterStats(new ToolStats(1.5F, 0F, 1.1F, 1.6F, 0.8F, 1F, 1.2F, 2.5F, Element.NONE, MiningLevel.DIAMOND));
+        DIAMOND.addStats(new ToolStats(1.5F, 0F, 1.1F, 1.6F, 0.8F, 1F, 1.2F, 4.0F, Element.NONE, MiningLevel.DIAMOND));
+        DIAMOND.addSpellCasterStats(new ToolStats(1.5F, 0F, 1.1F, 1.6F, 0.8F, 1F, 1.2F, 4.0F, Element.NONE, MiningLevel.DIAMOND));
 
-        ENDER_METAL.addStats(new ToolStats(0.8F, 0.6F, 0.5F, 1F, 0.7F, 1.4F, 0.6F, 1.7F, Element.HOLLOW, MiningLevel.IRON));
-        ENDER_METAL.addSpellCasterStats(new ToolStats(0.8F, 0.6F, 0.5F, 1F, 0.7F, 1.4F, 0.6F, 1.7F, Element.HOLLOW, MiningLevel.IRON));
+        ENDER_METAL.addStats(new ToolStats(0.8F, 0.6F, 0.5F, 1F, 0.7F, 1.4F, 0.6F, 2.7F, Element.HOLLOW, MiningLevel.IRON));
+        ENDER_METAL.addSpellCasterStats(new ToolStats(0.8F, 0.6F, 0.5F, 1F, 0.7F, 1.4F, 0.6F, 2.7F, Element.HOLLOW, MiningLevel.IRON));
 
-        NETHERITE.addStats(new ToolStats(1.25F, 0.5F, 0.9F, 1.8F, 1.1F, 1.1F, 1.1F, 3F, Element.EMBER, MiningLevel.NETHERITE));
-        NETHERITE.addSpellCasterStats(new ToolStats(1.25F, 0.5F, 0.9F, 1.8F, 1.1F, 1.1F, 1.1F, 3F, Element.EMBER, MiningLevel.NETHERITE));
+        NETHERITE.addStats(new ToolStats(1.25F, 0.5F, 0.9F, 1.8F, 1.1F, 1.1F, 1.1F, 5.0F, Element.EMBER, MiningLevel.NETHERITE));
+        NETHERITE.addSpellCasterStats(new ToolStats(1.25F, 0.5F, 0.9F, 1.8F, 1.1F, 1.1F, 1.1F, 5.0F, Element.EMBER, MiningLevel.NETHERITE));
 
-        FRIGIDITE.addStats(new ToolStats(1F, 1F, 1.3F, 1.7F, 0.9F, 0.7F, 0.6F, 3.5F, Element.GLACE, MiningLevel.NETHERITE));
-        FRIGIDITE.addSpellCasterStats(new ToolStats(1F, 1F, 1.3F, 1.7F, 0.9F, 0.7F, 0.6F, 3.5F, Element.GLACE, MiningLevel.NETHERITE));
+        FRIGIDITE.addStats(new ToolStats(1F, 1F, 1.3F, 1.7F, 0.9F, 0.7F, 0.6F, 6.1F, Element.GLACE, MiningLevel.NETHERITE));
+        FRIGIDITE.addSpellCasterStats(new ToolStats(1F, 1F, 1.3F, 1.7F, 0.9F, 0.7F, 0.6F, 6.1F, Element.GLACE, MiningLevel.NETHERITE));
 
-        TRANSLUCIUM.addStats(new ToolStats(1.5F, 0.7F, 0.9F, 1.7F, 1.2F, 1.1F, 1.2F, 3.5F, Element.PHANTOM, MiningLevel.NETHERITE));
-        TRANSLUCIUM.addSpellCasterStats(new ToolStats(1.5F, 0.7F, 0.9F, 1.7F, 1.2F, 1.1F, 1.2F, 3.5F, Element.PHANTOM, MiningLevel.NETHERITE));
+        TRANSLUCIUM.addStats(new ToolStats(1.5F, 0.7F, 0.9F, 1.7F, 1.2F, 1.1F, 1.2F, 6.3F, Element.PHANTOM, MiningLevel.NETHERITE));
+        TRANSLUCIUM.addSpellCasterStats(new ToolStats(1.5F, 0.7F, 0.9F, 1.7F, 1.2F, 1.1F, 1.2F, 6.3F, Element.PHANTOM, MiningLevel.NETHERITE));
 
-        ABYSSITE.addStats(new ToolStats(0.5F, 1.7F, 1F, 1.7F, 0.4F, 1.3F, 0.9F, 3.5F, Element.HOLLOW, MiningLevel.NETHERITE));
-        ABYSSITE.addSpellCasterStats(new ToolStats(0.5F, 1.7F, 1F, 1.7F, 0.4F, 1.3F, 0.9F, 3.5F, Element.HOLLOW, MiningLevel.NETHERITE));
-    }
+        RESONITE.addStats(new ToolStats(1.3F, 0.8F, 0.8F, 1.7F, 2.6F, 1.2F, 1F, 6.7F, Element.TREMOR, MiningLevel.NETHERITE));
+        RESONITE.addSpellCasterStats(new ToolStats(1.3F, 0.8F, 0.8F, 1.7F, 2.6F, 1.2F, 1F, 6.7F, Element.TREMOR, MiningLevel.NETHERITE));
 
-    public static void registerMaterialItems() {
-        ToolMaterialRegister.registerItem(Items.STRIPPED_OAK_LOG, WOOD);
-        ToolMaterialRegister.registerItem(Items.STONE, STONE);
-        ToolMaterialRegister.registerItem(Items.DEEPSLATE, DEEPSLATE);
-        ToolMaterialRegister.registerItem(Items.COPPER_INGOT, COPPER);
-        ToolMaterialRegister.registerItem(Items.BONE, BONE);
-        ToolMaterialRegister.registerItem(Items.IRON_INGOT, IRON);
-        ToolMaterialRegister.registerItem(Items.GOLD_INGOT, GOLD);
-        ToolMaterialRegister.registerItem(Items.AMETHYST_SHARD, AMETHYST);
-        ToolMaterialRegister.registerItem(Items.DIAMOND, DIAMOND);
-        ToolMaterialRegister.registerItem(Items.NETHERITE_INGOT, NETHERITE);
-        ToolMaterialRegister.registerItem(ItemInit.ENDER_METAL_INGOT.get(), ENDER_METAL);
-        ToolMaterialRegister.registerItem(ItemInit.POLISHED_FRIGIDITE.get(), FRIGIDITE);
-        ToolMaterialRegister.registerItem(ItemInit.POLISHED_TRANSLUCIUM.get(), TRANSLUCIUM);
-        ToolMaterialRegister.registerItem(ItemInit.POLISHED_ABYSSITE.get(), ABYSSITE);
+        ABYSSITE.addStats(new ToolStats(0.5F, 1.7F, 1F, 1.7F, 0.4F, 1.3F, 0.9F, 5.8F, Element.HOLLOW, MiningLevel.NETHERITE));
+        ABYSSITE.addSpellCasterStats(new ToolStats(0.5F, 1.7F, 1F, 1.7F, 0.4F, 1.3F, 0.9F, 5.8F, Element.HOLLOW, MiningLevel.NETHERITE));
     }
 
     public static void registerElements() {

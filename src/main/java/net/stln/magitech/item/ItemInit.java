@@ -1,5 +1,6 @@
 package net.stln.magitech.item;
 
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.Item;
@@ -145,7 +146,7 @@ public class ItemInit {
 
     public static final DeferredItem<Item> THREAD_PAGE = ITEMS.registerItem("thread_page",
             ThreadPageItem::new,
-            new Item.Properties());
+            new Item.Properties().component(DataComponents.MAX_STACK_SIZE, 1));
 
     public static final DeferredItem<Item> REDSTONE_CRYSTAL = ITEMS.registerItem("redstone_crystal",
             TooltipTextItem::new,
@@ -176,6 +177,14 @@ public class ItemInit {
             new Item.Properties());
 
     public static final DeferredItem<Item> POLISHED_TRANSLUCIUM = ITEMS.registerItem("polished_translucium",
+            TooltipTextItem::new,
+            new Item.Properties());
+
+    public static final DeferredItem<Item> RESONITE = ITEMS.registerItem("resonite",
+            TooltipTextItem::new,
+            new Item.Properties());
+
+    public static final DeferredItem<Item> POLISHED_RESONITE = ITEMS.registerItem("polished_resonite",
             TooltipTextItem::new,
             new Item.Properties());
 

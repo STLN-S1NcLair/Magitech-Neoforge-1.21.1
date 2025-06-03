@@ -1,0 +1,7 @@
+{
+    "type": "magitech:tool_material",
+    "ingredient": {
+        "item": "minecraft:iron_ingot"
+    },
+    "result": "magitech:iron"
+}

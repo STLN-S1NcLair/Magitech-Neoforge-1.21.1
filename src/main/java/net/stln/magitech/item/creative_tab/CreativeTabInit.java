@@ -8,6 +8,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.stln.magitech.Magitech;
+import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.item.ItemInit;
 import net.stln.magitech.item.tool.material.MaterialInit;
 import net.stln.magitech.item.tool.partitem.PartItem;
@@ -49,6 +50,7 @@ public class CreativeTabInit {
             .title(Component.translatable("itemGroup.magitech.magitech"))
             .icon(() -> ItemInit.GLISTENING_LEXICON.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
+                output.accept(BlockInit.ENGINEERING_WORKBENCH_ITEM.get());
                 output.accept(ItemInit.GLISTENING_LEXICON.get());
                 output.accept(ItemInit.ARCANE_ENGINEERING_COMPENDIUM.get());
                 output.accept(ItemInit.MANA_RING.get());
@@ -63,6 +65,8 @@ public class CreativeTabInit {
                 output.accept(ItemInit.POLISHED_FRIGIDITE.get());
                 output.accept(ItemInit.TRANSLUCIUM.get());
                 output.accept(ItemInit.POLISHED_TRANSLUCIUM.get());
+                output.accept(ItemInit.RESONITE.get());
+                output.accept(ItemInit.POLISHED_RESONITE.get());
                 output.accept(ItemInit.ABYSSITE.get());
                 output.accept(ItemInit.POLISHED_ABYSSITE.get());
                 output.accept(ItemInit.MANA_BERRY.get());
@@ -80,6 +84,7 @@ public class CreativeTabInit {
                 output.accept(PartToolGenerator.generateLightSword(MaterialInit.NETHERITE));
                 output.accept(PartToolGenerator.generateLightSword(MaterialInit.FRIGIDITE));
                 output.accept(PartToolGenerator.generateLightSword(MaterialInit.TRANSLUCIUM));
+                output.accept(PartToolGenerator.generateLightSword(MaterialInit.RESONITE));
                 output.accept(PartToolGenerator.generateLightSword(MaterialInit.ABYSSITE));
 
                 output.accept(PartToolGenerator.generateHeavySword(MaterialInit.WOOD));
@@ -96,6 +101,7 @@ public class CreativeTabInit {
                 output.accept(PartToolGenerator.generateHeavySword(MaterialInit.NETHERITE));
                 output.accept(PartToolGenerator.generateHeavySword(MaterialInit.FRIGIDITE));
                 output.accept(PartToolGenerator.generateHeavySword(MaterialInit.TRANSLUCIUM));
+                output.accept(PartToolGenerator.generateHeavySword(MaterialInit.RESONITE));
                 output.accept(PartToolGenerator.generateHeavySword(MaterialInit.ABYSSITE));
 
                 output.accept(PartToolGenerator.generatePickaxe(MaterialInit.WOOD));
@@ -112,6 +118,7 @@ public class CreativeTabInit {
                 output.accept(PartToolGenerator.generatePickaxe(MaterialInit.NETHERITE));
                 output.accept(PartToolGenerator.generatePickaxe(MaterialInit.FRIGIDITE));
                 output.accept(PartToolGenerator.generatePickaxe(MaterialInit.TRANSLUCIUM));
+                output.accept(PartToolGenerator.generatePickaxe(MaterialInit.RESONITE));
                 output.accept(PartToolGenerator.generatePickaxe(MaterialInit.ABYSSITE));
 
                 output.accept(PartToolGenerator.generateHammer(MaterialInit.WOOD));
@@ -129,6 +136,7 @@ public class CreativeTabInit {
                 output.accept(PartToolGenerator.generateHammer(MaterialInit.FRIGIDITE));
                 output.accept(PartToolGenerator.generateHammer(MaterialInit.TRANSLUCIUM));
                 output.accept(PartToolGenerator.generateHammer(MaterialInit.TRANSLUCIUM));
+                output.accept(PartToolGenerator.generateHammer(MaterialInit.RESONITE));
                 output.accept(PartToolGenerator.generateHammer(MaterialInit.ABYSSITE));
 
                 output.accept(PartToolGenerator.generateScythe(MaterialInit.WOOD));
@@ -146,6 +154,7 @@ public class CreativeTabInit {
                 output.accept(PartToolGenerator.generateScythe(MaterialInit.FRIGIDITE));
                 output.accept(PartToolGenerator.generateScythe(MaterialInit.TRANSLUCIUM));
                 output.accept(PartToolGenerator.generateScythe(MaterialInit.TRANSLUCIUM));
+                output.accept(PartToolGenerator.generateScythe(MaterialInit.RESONITE));
                 output.accept(PartToolGenerator.generateScythe(MaterialInit.ABYSSITE));
 
                 output.accept(PartToolGenerator.generateWand(MaterialInit.WOOD));
@@ -162,6 +171,7 @@ public class CreativeTabInit {
                 output.accept(PartToolGenerator.generateWand(MaterialInit.NETHERITE));
                 output.accept(PartToolGenerator.generateWand(MaterialInit.FRIGIDITE));
                 output.accept(PartToolGenerator.generateWand(MaterialInit.TRANSLUCIUM));
+                output.accept(PartToolGenerator.generateWand(MaterialInit.RESONITE));
                 output.accept(PartToolGenerator.generateWand(MaterialInit.ABYSSITE));
             }).build());
 
@@ -200,6 +210,7 @@ public class CreativeTabInit {
                     output.accept(PartToolGenerator.generatePart((PartItem) item, MaterialInit.NETHERITE));
                     output.accept(PartToolGenerator.generatePart((PartItem) item, MaterialInit.FRIGIDITE));
                     output.accept(PartToolGenerator.generatePart((PartItem) item, MaterialInit.TRANSLUCIUM));
+                    output.accept(PartToolGenerator.generatePart((PartItem) item, MaterialInit.RESONITE));
                     output.accept(PartToolGenerator.generatePart((PartItem) item, MaterialInit.ABYSSITE));
                 }
             }).build());

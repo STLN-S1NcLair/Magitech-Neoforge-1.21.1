@@ -84,11 +84,6 @@ public class UnstableSquareParticle extends GlowingParticle {
         this.setSpriteFromAge(this.spriteProvider);
     }
 
-    @Override
-    public ParticleRenderType getRenderType() {
-        return AbstractCustomizableParticle.PARTICLE_SHEET_ADDITIVE;
-    }
-
     @Environment(EnvType.CLIENT)
     public static class Provider implements ParticleProvider<UnstableSquareParticleEffect> {
         private final SpriteSet spriteProvider;

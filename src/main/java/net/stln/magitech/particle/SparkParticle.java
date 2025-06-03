@@ -85,11 +85,6 @@ public class SparkParticle extends GlowingParticle {
         return 240;
     }
 
-    @Override
-    public ParticleRenderType getRenderType() {
-        return AbstractCustomizableParticle.PARTICLE_SHEET_ADDITIVE;
-    }
-
     @Environment(EnvType.CLIENT)
     public static class Provider implements ParticleProvider<SparkParticleEffect> {
         private final SpriteSet spriteProvider;

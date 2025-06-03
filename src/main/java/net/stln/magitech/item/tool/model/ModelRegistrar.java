@@ -35,27 +35,27 @@ public class ModelRegistrar {
     }
 
     public static ResourceLocation getPartTextureId(ToolMaterial toolMaterial, String toolType, String part) {
-        return ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "item/tool/" + toolType + "/" + toolMaterial.getId() + "_" + part);
+        return ResourceLocation.fromNamespaceAndPath(toolMaterial.getId().getNamespace(), "item/tool/" + toolType + "/" + toolMaterial.getId().getPath() + "_" + part);
     }
 
     public static ResourceLocation getPartModelId(ToolMaterial toolMaterial, String toolType, String part) {
-        return ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "item/" + toolMaterial.getId() + "_" + toolType + "_" + part);
+        return ResourceLocation.fromNamespaceAndPath(toolMaterial.getId().getNamespace(), "item/" + toolMaterial.getId().getPath() + "_" + toolType + "_" + part);
     }
 
     public static ResourceLocation getPartItemTextureId(ToolMaterial toolMaterial, String part) {
-        return ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "item/part/" + toolMaterial.getId() + "_" + part);
+        return ResourceLocation.fromNamespaceAndPath(toolMaterial.getId().getNamespace(), "item/part/" + toolMaterial.getId().getPath() + "_" + part);
     }
 
     public static ResourceLocation getPartItemModelId(ToolMaterial toolMaterial, String part) {
-        return ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "item/" + toolMaterial.getId() + "_" + part);
+        return ResourceLocation.fromNamespaceAndPath(toolMaterial.getId().getNamespace(), "item/" + toolMaterial.getId().getPath() + "_" + part);
     }
 
     public static String getPartModelName(ToolMaterial toolMaterial, String toolType, String part) {
-        return toolMaterial.getId() + "_" + toolType + "_" + part;
+        return toolMaterial.getId().getPath() + "_" + toolType + "_" + part;
     }
 
     public static String getPartItemModelName(ToolMaterial toolMaterial, String part) {
-        return toolMaterial.getId() + "_" + part;
+        return toolMaterial.getId().getPath() + "_" + part;
     }
 
 }

@@ -77,7 +77,7 @@ public class PartToolItemModelRegister {
     }
 
     private static ResourceLocation getPartModelId(ToolMaterial toolMaterial, String toolType, String part) {
-        return ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "item/tool/" + toolType + "/" + toolMaterial.getId() + "_" + part);
+        return ResourceLocation.fromNamespaceAndPath(toolMaterial.getId().getNamespace(), "item/tool/" + toolType + "/" + toolMaterial.getId().getPath() + "_" + part);
     }
 
 }

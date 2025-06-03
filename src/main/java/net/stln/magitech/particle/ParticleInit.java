@@ -25,10 +25,12 @@ public class ParticleInit {
     public static final Supplier<SparkParticleType> SPARK = PARTICLE_TYPES.register("spark", () -> new SparkParticleType(true));
     public static final Supplier<MembraneParticleType> MEMBRANE = PARTICLE_TYPES.register("membrane", () -> new MembraneParticleType(true));
     public static final Supplier<WaveParticleType> WAVE = PARTICLE_TYPES.register("wave", () -> new WaveParticleType(true));
+    public static final Supplier<WaveNoCullParticleType> WAVE_NO_CULL = PARTICLE_TYPES.register("wave_no_cull", () -> new WaveNoCullParticleType(true));
     public static final Supplier<RuneParticleType> RUNE = PARTICLE_TYPES.register("rune", () -> new RuneParticleType(true));
     public static final Supplier<BlowParticleType> BLOW = PARTICLE_TYPES.register("blow", () -> new BlowParticleType(true));
     public static final Supplier<VoidGlowParticleType> VOID_GLOW = PARTICLE_TYPES.register("void_glow", () -> new VoidGlowParticleType(true));
     public static final Supplier<PowerupParticleType> POWERUP = PARTICLE_TYPES.register("powerup", () -> new PowerupParticleType(true));
+    public static final Supplier<PowerupNoCullParticleType> POWERUP_NO_CULL = PARTICLE_TYPES.register("powerup_no_cull", () -> new PowerupNoCullParticleType(true));
     public static final Supplier<ZapParticleType> ZAP = PARTICLE_TYPES.register("zap", () -> new ZapParticleType(true));
     public static final Supplier<BeamParticleType> BEAM = PARTICLE_TYPES.register("beam", () -> new BeamParticleType(true));
 
@@ -48,10 +50,12 @@ public class ParticleInit {
         event.registerSpriteSet(SPARK.get(), SparkParticle.Provider::new);
         event.registerSpriteSet(MEMBRANE.get(), MembraneParticle.Provider::new);
         event.registerSpriteSet(WAVE.get(), WaveParticle.Provider::new);
+        event.registerSpriteSet(WAVE_NO_CULL.get(), WaveNoCullParticle.Provider::new);
         event.registerSpriteSet(RUNE.get(), RuneParticle.Provider::new);
         event.registerSpriteSet(BLOW.get(), BlowParticle.Provider::new);
         event.registerSpriteSet(VOID_GLOW.get(), VoidGlowParticle.Provider::new);
         event.registerSpriteSet(POWERUP.get(), PowerupParticle.Provider::new);
+        event.registerSpriteSet(POWERUP_NO_CULL.get(), PowerupNoCullParticle.Provider::new);
         event.registerSpriteSet(ZAP.get(), ZapParticle.Provider::new);
         event.registerSpriteSet(BEAM.get(), BeamParticle.Provider::new);
     }

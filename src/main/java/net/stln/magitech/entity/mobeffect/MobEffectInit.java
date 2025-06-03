@@ -23,6 +23,8 @@ public class MobEffectInit {
     public static final DeferredHolder<MobEffect, MobEffect> SEIZE = STATUS_EFFECTS.register("seize", () -> new CustomMobEffect(MobEffectCategory.HARMFUL, 0xFFFFC0)
             .addAttributeModifier(Attributes.MOVEMENT_SPEED, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "seize"), -1, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
 
+    public static final DeferredHolder<MobEffect, MobEffect> ECHOLOCATION = STATUS_EFFECTS.register("echolocation", () -> new EcholocationMobEffect(MobEffectCategory.BENEFICIAL, 0x004040));
+
     public static final DeferredHolder<MobEffect, MobEffect> VOIDROT = STATUS_EFFECTS.register("voidrot", () -> new VoidrotMobEffect(MobEffectCategory.HARMFUL, 0x400080));
 
     public static final DeferredHolder<MobEffect, MobEffect> PHASELOCK = STATUS_EFFECTS.register("phase_lock", () -> new PhaseLockMobEffect(MobEffectCategory.HARMFUL, 0x200040));

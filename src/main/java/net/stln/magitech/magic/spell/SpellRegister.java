@@ -6,7 +6,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SpellRegister {
+
     private static Map<ResourceLocation, Spell> register = new HashMap<>();
+
+    public static Map<ResourceLocation, Spell> getRegister() {
+        return register;
+    }
 
     public static void registerSpell(ResourceLocation resourceLocation, Spell spell) {
         register.put(resourceLocation, spell);

@@ -12,6 +12,8 @@
   "item.magitech.polished_frigidite": "Polished Frigidite",
   "item.magitech.translucium": "Translucium",
   "item.magitech.polished_translucium": "Polished Translucium",
+  "item.magitech.resonite": "Resonite",
+  "item.magitech.polished_resonite": "Polished Resonite",
   "item.magitech.abyssite": "Abyssite",
   "item.magitech.polished_abyssite": "Polished Abyssite",
   "item.magitech.mana_ring": "Mana Ring",
@@ -19,6 +21,8 @@
   "item.magitech.chargebind_ring": "Chargebind Ring",
   "item.magitech.torsion_ring": "Torsion Ring",
   "item.magitech.mana_berry": "Mana Berry",
+
+  "block.magitech.engineering_workbench": "Engineering Workbench",
 
   "itemGroup.magitech.magitech": "Magitech Items",
   "itemGroup.magitech.magitech_part": "Magitech Tool Parts",
@@ -106,6 +110,7 @@
   "tooltip.item.magitech.chargebind_ring": "Has the effect of reducing mana conductivity.",
   "tooltip.item.magitech.torsion_ring": "Distorts spacetime to accelerate projectiles. The larger version is known as a portal.",
   "tooltip.item.magitech.mana_berry": "A crystalline berry brimming with mana.",
+  "tooltip.item.magitech.thread_page": "A magical mechanism of precision circuitry crafted from Gramicell laminate. A crystallization of alchemy that miniaturizes even miniaturized magic circles.",
 
   "tooltip.magitech.spell.damage": "Spell Damage",
   "tooltip.magitech.spell.tick_damage": "Sustain Damage",
@@ -130,6 +135,7 @@
   "material.magitech.netherite": "Netherite",
   "material.magitech.frigidite": "Frigidite",
   "material.magitech.translucium": "Translucium",
+  "material.magitech.resonite": "Resonite",
   "material.magitech.abyssite": "Abyssite",
 
   "trait.magitech.ataptation": "Adaptation",
@@ -146,6 +152,7 @@
   "trait.magitech.lavaforged": "Lavaforged",
   "trait.magitech.shatterpiercer": "Shatterpiercer",
   "trait.magitech.phantom_slayer": "Phantom Slayer",
+  "trait.magitech.blind_resonance": "Blind Resonance",
   "trait.magitech.phase_vacuum_collapse": "Phase Vacuum Collapse",
 
   "element.magitech.none": "None",
@@ -211,6 +218,12 @@
 
   "effect.magitech.mana_addiction": "Mana Addiction",
   "effect.magitech.seize": "Seize",
+  "effect.magitech.echolocation": "Echolocation",
   "effect.magitech.voidrot": "Voidrot",
-  "effect.magitech.phase_lock": "Phase Lock"
+  "effect.magitech.phase_lock": "Phase Lock",
+
+  "recipe.magitech.part_cutting": "Part Cutting",
+
+  "book.magitech.glistening_lexicon.name":  "Glistening Lexicon",
+  "book.magitech.glistening_lexicon.landing_text": "A basic guide to combat in this world, left behind by someone unknown."
 }

@@ -1,0 +1,7 @@
+{
+    "type": "magitech:tool_material",
+    "ingredient": {
+        "item": "minecraft:amethyst_shard"
+    },
+    "result": "magitech:amethyst"
+}

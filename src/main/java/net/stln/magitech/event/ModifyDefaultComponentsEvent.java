@@ -1,5 +1,6 @@
 package net.stln.magitech.event;
 
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.stln.magitech.Magitech;
@@ -33,6 +34,7 @@ import net.stln.magitech.magic.spell.surge.Voltaris;
 import net.stln.magitech.magic.spell.tremor.Oscilbeam;
 import net.stln.magitech.magic.spell.tremor.Sonistorm;
 import net.stln.magitech.magic.spell.tremor.Tremivox;
+import vazkii.patchouli.common.item.PatchouliDataComponents;
 
 import java.util.List;
 
@@ -55,7 +57,8 @@ public class ModifyDefaultComponentsEvent {
                         new Arcaleth(), new Mystaven(), new Glymora(),
                         new Aeltherin(), new Fluvinae(), new Mistrelune(),
                         new Nullixis(), new Voidlance(), new Tenebrisol(), new Disparundra()
-                ), 0)));
+                ), 0))
+                .set(PatchouliDataComponents.BOOK, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "glistening_lexicon")).build());
         event.modify(ItemInit.ARCANE_ENGINEERING_COMPENDIUM, builder -> builder.set(ComponentInit.SPELL_COMPONENT.get(),
                 new SpellComponent(List.of(
                         new Ignisca(), new Pyrolux(), new Fluvalen(),
@@ -66,6 +69,6 @@ public class ModifyDefaultComponentsEvent {
                         new Arcaleth(), new Mystaven(), new Glymora(),
                         new Aeltherin(), new Fluvinae(), new Mistrelune(),
                         new Nullixis(), new Voidlance(), new Tenebrisol(), new Disparundra()
-                ), 0)));
+                ), 0)).build());
     }
 }

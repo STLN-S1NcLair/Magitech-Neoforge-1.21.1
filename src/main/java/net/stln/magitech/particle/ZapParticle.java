@@ -178,11 +178,6 @@ public class ZapParticle extends GlowingParticle {
         return 240;
     }
 
-    @Override
-    public ParticleRenderType getRenderType() {
-        return AbstractCustomizableParticle.PARTICLE_SHEET_ADDITIVE;
-    }
-
     @Environment(EnvType.CLIENT)
     public static class Provider implements ParticleProvider<ZapParticleEffect> {
         private final SpriteSet spriteProvider;

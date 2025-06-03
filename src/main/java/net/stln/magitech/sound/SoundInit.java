@@ -41,6 +41,7 @@ public class SoundInit {
     public static final Supplier<SoundEvent> SONISTORM = registerSoundEvent("sonistorm");
     public static final Supplier<SoundEvent> GLYMORA = registerSoundEvent("glymora");
     public static final Supplier<SoundEvent> TENEBRISOL = registerSoundEvent("tenebrisol");
+    public static final Supplier<SoundEvent> ECHOLOCATION = registerSoundEvent("echolocation");
 
 
     private static Supplier<SoundEvent> registerSoundEvent(String name) {

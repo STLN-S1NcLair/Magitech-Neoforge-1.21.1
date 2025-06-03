@@ -20,11 +20,25 @@ public abstract class AbstractCustomizableParticleEffect implements ParticleOpti
     private final int twinkle;
     private final float rotSpeed;
 
+    public AbstractCustomizableParticleEffect(Vector3f color, float scale, int twinkle, float rotSpeed, boolean cull) {
+        this.color = color;
+        this.scale = MathHelper.clamp(scale, 0.01F, 4.0F);
+        this.twinkle = twinkle;
+        this.rotSpeed = rotSpeed;
+    }
+
     public AbstractCustomizableParticleEffect(Vector3f color, float scale, int twinkle, float rotSpeed) {
         this.color = color;
         this.scale = MathHelper.clamp(scale, 0.01F, 4.0F);
         this.twinkle = twinkle;
         this.rotSpeed = rotSpeed;
+    }
+
+    public AbstractCustomizableParticleEffect(float scale, int twinkle, float rotSpeed, boolean cull) {
+        this.scale = MathHelper.clamp(scale, 0.01F, 10.0F);
+        this.twinkle = MathHelper.clamp(twinkle, 1, 100);
+        this.rotSpeed = MathHelper.clamp(rotSpeed, -100, 100);
+        this.color = new Vector3f(0.0F, 0.0F, 0.0F);
     }
 
     public AbstractCustomizableParticleEffect(float scale, int twinkle, float rotSpeed) {

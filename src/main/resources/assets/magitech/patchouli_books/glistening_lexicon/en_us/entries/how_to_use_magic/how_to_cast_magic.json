@@ -1,0 +1,65 @@
+{
+  "name": "book.magitech.glistening_lexicon.entry.how_to_cast_magic.name",
+  "icon": "magitech:thread_page[magitech:thread_page_component={\"spell\":\"magitech:frigala\"}]",
+  "category": "magitech:how_to_use_magic",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "book.magitech.glistening_lexicon.entry.how_to_cast_magic.index"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "book.magitech.glistening_lexicon.entry.how_to_cast_magic.title0",
+      "text": "book.magitech.glistening_lexicon.entry.how_to_cast_magic.text0.0"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "book.magitech.glistening_lexicon.entry.how_to_cast_magic.text0.1"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "book.magitech.glistening_lexicon.entry.how_to_cast_magic.text0.2"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "book.magitech.glistening_lexicon.entry.how_to_cast_magic.title1",
+      "text": "book.magitech.glistening_lexicon.entry.how_to_cast_magic.text1.0"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "title": "book.magitech.glistening_lexicon.entry.how_to_cast_magic.text1.spotlight.title0",
+      "text": "book.magitech.glistening_lexicon.entry.how_to_cast_magic.text1.spotlight.text0",
+      "item": "magitech:glistening_lexicon"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "title": "book.magitech.glistening_lexicon.entry.how_to_cast_magic.text1.spotlight.title1",
+      "text": "book.magitech.glistening_lexicon.entry.how_to_cast_magic.text1.spotlight.text1",
+      "item": "magitech:thread_page[magitech:thread_page_component={\"spell\":\"magitech:frigala\"}]"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "title": "book.magitech.glistening_lexicon.entry.how_to_cast_magic.text1.spotlight.title2",
+      "text": "book.magitech.glistening_lexicon.entry.how_to_cast_magic.text1.spotlight.text2",
+      "item": "magitech:wand[magitech:part_material_component={\"materials\":[\"iron\", \"iron\", \"iron\", \"iron\"]}]"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "book.magitech.glistening_lexicon.entry.how_to_cast_magic.text1.1"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "book.magitech.glistening_lexicon.entry.how_to_cast_magic.title2",
+      "text": "book.magitech.glistening_lexicon.entry.how_to_cast_magic.text2.0"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "book.magitech.glistening_lexicon.entry.how_to_cast_magic.text2.1"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "book.magitech.glistening_lexicon.entry.how_to_cast_magic.title3",
+      "text": "book.magitech.glistening_lexicon.entry.how_to_cast_magic.text3.0"
+    }
+  ]
+}

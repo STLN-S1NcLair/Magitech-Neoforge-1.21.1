@@ -80,11 +80,6 @@ public class RuneParticle extends GlowingParticle {
         this.setSpriteFromAge(this.spriteProvider);
     }
 
-    @Override
-    public ParticleRenderType getRenderType() {
-        return AbstractCustomizableParticle.PARTICLE_SHEET_ADDITIVE;
-    }
-
     @Environment(EnvType.CLIENT)
     public static class Provider implements ParticleProvider<RuneParticleEffect> {
         private final SpriteSet spriteProvider;
