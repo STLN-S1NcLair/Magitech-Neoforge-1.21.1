@@ -238,5 +238,11 @@
   "advancement.magitech.arcane_engineering.engineering_workbench.title": "作るために作られた",
   "advancement.magitech.arcane_engineering.engineering_workbench.description": "あと数千個の部品で完成！(たぶん)",
   "advancement.magitech.arcane_engineering.make_wand.title": "精密さなんて知らない！",
-  "advancement.magitech.arcane_engineering.make_wand.description": "マナ流量の計算なんてするわけないよね。"
+  "advancement.magitech.arcane_engineering.make_wand.description": "マナ流量の計算なんてするわけないよね。",
+
+  "key.categories.magitech.category": "Magitech",
+  "key.magitech.radial_spell_menu": "ラジアルスペルメニューを開く",
+  "key.magitech.spell_shift_left": "スペルを左にシフト",
+  "key.magitech.spell_shift_right": "スペルを右にシフト",
+  "key.magitech.trait_action": "特性アクション"
 }

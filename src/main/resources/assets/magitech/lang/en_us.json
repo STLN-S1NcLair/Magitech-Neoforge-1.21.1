@@ -236,5 +236,11 @@
   "advancement.magitech.arcane_engineering.engineering_workbench.title": "Built to Build",
   "advancement.magitech.arcane_engineering.engineering_workbench.description": "Just a few thousand more parts to go! (Probably.)",
   "advancement.magitech.arcane_engineering.make_wand.title": "Precision? Never Heard of It!",
-  "advancement.magitech.arcane_engineering.make_wand.description": "Who needs to calculate mana flow anyway?"
+  "advancement.magitech.arcane_engineering.make_wand.description": "Who needs to calculate mana flow anyway?",
+
+  "key.categories.magitech.category": "Magitech",
+  "key.magitech.radial_spell_menu": "Open Radial Spell Menu",
+  "key.magitech.spell_shift_left": "Shift Spell Left",
+  "key.magitech.spell_shift_right": "Shift Spell Right",
+  "key.magitech.trait_action": "Trait Action"
 }
