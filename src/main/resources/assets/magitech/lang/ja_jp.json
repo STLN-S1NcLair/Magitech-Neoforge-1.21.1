@@ -23,9 +23,11 @@
   "item.magitech.mana_berry": "マナベリー",
 
   "block.magitech.engineering_workbench": "工学作業台",
+  "block.magitech.redstone_crystal_cluster": "レッドストーンクリスタルの塊",
 
   "itemGroup.magitech.magitech": "Magitech アイテム",
   "itemGroup.magitech.magitech_part": "Magitech ツール部品",
+  "itemGroup.magitech.magitech_spell": "Magitech スペル",
 
   "attribute.magitech.attack_damage": "攻撃力",
   "attribute.magitech.elemental_damage": "属性攻撃力",

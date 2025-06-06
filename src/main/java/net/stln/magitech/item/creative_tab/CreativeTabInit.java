@@ -51,6 +51,7 @@ public class CreativeTabInit {
             .icon(() -> ItemInit.GLISTENING_LEXICON.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
                 output.accept(BlockInit.ENGINEERING_WORKBENCH_ITEM.get());
+                output.accept(BlockInit.REDSTONE_CRYSTAL_CLUSTER_ITEM.get());
                 output.accept(ItemInit.GLISTENING_LEXICON.get());
                 output.accept(ItemInit.ARCANE_ENGINEERING_COMPENDIUM.get());
                 output.accept(ItemInit.MANA_RING.get());

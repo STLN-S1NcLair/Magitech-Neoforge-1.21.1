@@ -29,7 +29,7 @@ public class ManaGaugeOverlay implements LayeredDraw.Layer {
 
     @Override
     public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
-        if (!Minecraft.getInstance().options.hideGui) {
+        if (!Minecraft.getInstance().options.hideGui && !Minecraft.getInstance().player.isSpectator()) {
             int x = guiGraphics.guiWidth() - 64;
             int y = guiGraphics.guiHeight() / 3;
             Player player = Minecraft.getInstance().player;

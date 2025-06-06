@@ -31,6 +31,7 @@ import net.stln.magitech.magic.spell.SpellInit;
 import net.stln.magitech.particle.ParticleInit;
 import net.stln.magitech.recipe.RecipeInit;
 import net.stln.magitech.sound.SoundInit;
+import net.stln.magitech.worldgen.WorldGenInit;
 import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
@@ -63,6 +64,7 @@ public class Magitech {
         SoundInit.registerSoundEvents(modEventBus);
         MobEffectInit.registerMobEffects(modEventBus);
         RecipeInit.registerRecipes(modEventBus);
+        WorldGenInit.registerFeatures(modEventBus);
         OverlayInit.registerMenus(modEventBus);
         MaterialInit.registerElements();
         MaterialInit.registerMaterials();
@@ -80,6 +82,7 @@ public class Magitech {
 
     private void commonSetup(final FMLCommonSetupEvent event) {
 //        Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
+        WorldGenInit.registerBiomeModifiers();
     }
 
     // Add the example block item to the building blocks tab

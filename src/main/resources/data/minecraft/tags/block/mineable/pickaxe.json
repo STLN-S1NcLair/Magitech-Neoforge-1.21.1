@@ -1,0 +1,7 @@
+{
+  "replace" :  false,
+  "values": [
+    "magitech:engineering_workbench",
+    "magitech:redstone_crystal_cluster"
+  ]
+}

@@ -198,23 +198,23 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
         if (flag[0] != null) {
             return flag[0];
         }
-        if (state.getTags().anyMatch(Predicate.isEqual(BlockTags.MINEABLE_WITH_AXE)) && partToolItem.getToolType() != ToolType.AXE) {
-            return false;
+        if (state.getTags().anyMatch(Predicate.isEqual(BlockTags.MINEABLE_WITH_AXE)) && partToolItem.getToolType() == ToolType.AXE) {
+            return hasCorrectTier(stack, state, stats);
         }
-        if (state.getTags().anyMatch(Predicate.isEqual(BlockTags.MINEABLE_WITH_PICKAXE)) && partToolItem.getToolType() != ToolType.PICKAXE && partToolItem.getToolType() != ToolType.HAMMER) {
-            return false;
+        if (state.getTags().anyMatch(Predicate.isEqual(BlockTags.MINEABLE_WITH_PICKAXE)) && (partToolItem.getToolType() == ToolType.PICKAXE || partToolItem.getToolType() == ToolType.HAMMER)) {
+            return hasCorrectTier(stack, state, stats);
         }
-        if (state.getTags().anyMatch(Predicate.isEqual(BlockTags.MINEABLE_WITH_SHOVEL)) && partToolItem.getToolType() != ToolType.SHOVEL) {
-            return false;
+        if (state.getTags().anyMatch(Predicate.isEqual(BlockTags.MINEABLE_WITH_SHOVEL)) && partToolItem.getToolType() == ToolType.SHOVEL) {
+            return hasCorrectTier(stack, state, stats);
         }
-        if (state.getTags().anyMatch(Predicate.isEqual(BlockTags.MINEABLE_WITH_HOE)) && partToolItem.getToolType() != ToolType.SCYTHE) {
-            return false;
+        if (state.getTags().anyMatch(Predicate.isEqual(BlockTags.MINEABLE_WITH_HOE)) && partToolItem.getToolType() == ToolType.SCYTHE) {
+            return hasCorrectTier(stack, state, stats);
         }
-        if (state.getTags().anyMatch(Predicate.isEqual(BlockTags.SWORD_EFFICIENT)) && partToolItem.getToolType() != ToolType.DAGGER
-                && partToolItem.getToolType() != ToolType.LIGHT_SWORD && partToolItem.getToolType() != ToolType.HEAVY_SWORD && partToolItem.getToolType() != ToolType.SCYTHE) {
-            return false;
+        if (state.getTags().anyMatch(Predicate.isEqual(BlockTags.SWORD_EFFICIENT)) && (partToolItem.getToolType() == ToolType.DAGGER
+                || partToolItem.getToolType() == ToolType.LIGHT_SWORD || partToolItem.getToolType() == ToolType.HEAVY_SWORD || partToolItem.getToolType() == ToolType.SCYTHE)) {
+            return hasCorrectTier(stack, state, stats);
         }
-        return hasCorrectTier(stack, state, stats);
+        return false;
     }
 
     private static boolean hasCorrectTier(ItemStack stack, BlockState state, ToolStats stats) {

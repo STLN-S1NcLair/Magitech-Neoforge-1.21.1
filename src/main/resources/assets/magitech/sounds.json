@@ -1,176 +1,352 @@
 {
   "phantom_buff" :  {
-    "subtitle" :  "subtitles.magitech.phantom_buff" ,
     "sounds" :  [
       "magitech:phantom_buff"
     ]
   },
   "geomending_break" :  {
-    "subtitle" :  "subtitles.magitech.geomending_break" ,
     "sounds" :  [
       "magitech:geomending_break"
     ]
   },
   "phantom_slayer_dash" :  {
-    "subtitle" :  "subtitles.magitech.phantom_slayer_dash" ,
     "sounds" :  [
       "magitech:phantom_slayer_dash"
     ]
   },
   "frost_break" :  {
-    "subtitle" :  "subtitles.magitech.frost_break" ,
     "sounds" :  [
       "magitech:frost_break"
     ]
   },
   "zap" :  {
-    "subtitle" :  "subtitles.magitech.zap" ,
     "sounds" :  [
       "magitech:zap"
     ]
   },
   "flame" :  {
-    "subtitle" :  "subtitles.magitech.flame" ,
     "sounds" :  [
       "magitech:flame"
     ]
   },
   "sonicboom" :  {
-    "subtitle" :  "subtitles.magitech.sonicboom" ,
     "sounds" :  [
       "magitech:sonicboom"
     ]
   },
   "mystical" :  {
-    "subtitle" :  "subtitles.magitech.mystical" ,
     "sounds" :  [
       "magitech:mystical"
     ]
   },
   "glace_launch" :  {
-    "subtitle" :  "subtitles.magitech.glace_launch" ,
     "sounds" :  [
       "magitech:glace_launch"
     ]
   },
   "spark" :  {
-    "subtitle" :  "subtitles.magitech.spark" ,
     "sounds" :  [
       "magitech:spark"
     ]
   },
   "blow" :  {
-    "subtitle" :  "subtitles.magitech.blow" ,
     "sounds" :  [
       "magitech:blow"
     ]
   },
   "arcaleth" :  {
-    "subtitle" :  "subtitles.magitech.arcaleth" ,
     "sounds" :  [
       "magitech:arcaleth"
     ]
   },
   "fireball" :  {
-    "subtitle" :  "subtitles.magitech.fireball" ,
     "sounds" :  [
       "magitech:fireball"
     ]
   },
   "tremivox" :  {
-    "subtitle" :  "subtitles.magitech.tremivox" ,
     "sounds" :  [
       "magitech:tremivox"
     ]
   },
   "aeltherin" :  {
-    "subtitle" :  "subtitles.magitech.aeltherin" ,
     "sounds" :  [
       "magitech:aeltherin"
     ]
   },
   "nullixis" :  {
-    "subtitle" :  "subtitles.magitech.nullixis" ,
     "sounds" :  [
       "magitech:nullixis"
     ]
   },
   "nivalune" :  {
-    "subtitle" :  "subtitles.magitech.nivalune" ,
     "sounds" :  [
       "magitech:nivalune"
     ]
   },
   "fulgenza" :  {
-    "subtitle" :  "subtitles.magitech.fulgenza" ,
     "sounds" :  [
       "magitech:fulgenza"
     ]
   },
   "fulgenza_charge" :  {
-    "subtitle" :  "subtitles.magitech.fulgenza_charge" ,
     "sounds" :  [
       "magitech:fulgenza_charge"
     ]
   },
   "voidlance" :  {
-    "subtitle" :  "subtitles.magitech.voidlance" ,
     "sounds" :  [
       "magitech:voidlance"
     ]
   },
   "mystaven" :  {
-    "subtitle" :  "subtitles.magitech.mystaven" ,
     "sounds" :  [
       "magitech:mystaven"
     ]
   },
   "phantastra" :  {
-    "subtitle" :  "subtitles.magitech.phantastra" ,
     "sounds" :  [
       "magitech:phantastra"
     ]
   },
   "pyrolux" :  {
-    "subtitle" :  "subtitles.magitech.pyrolux" ,
     "sounds" :  [
       "magitech:pyrolux"
     ]
   },
   "fluvinae" :  {
-    "subtitle" :  "subtitles.magitech.fluvinae" ,
     "sounds" :  [
       "magitech:fluvinae"
     ]
   },
   "veilmist" :  {
-    "subtitle" :  "subtitles.magitech.veilmist" ,
     "sounds" :  [
       "magitech:veilmist"
     ]
   },
   "sonistorm" :  {
-    "subtitle" :  "subtitles.magitech.sonistorm" ,
     "sounds" :  [
       "magitech:sonistorm"
     ]
   },
   "glymora" :  {
-    "subtitle" :  "subtitles.magitech.glymora" ,
     "sounds" :  [
       "magitech:glymora"
     ]
   },
   "tenebrisol" :  {
-    "subtitle" :  "subtitles.magitech.tenebrisol" ,
     "sounds" :  [
       "magitech:tenebrisol"
     ]
   },
   "echolocation" :  {
-    "subtitle" :  "subtitles.magitech.echolocation" ,
     "sounds" :  [
       "magitech:echolocation"
+    ]
+  },
+  "crystal_break" :  {
+    "subtitle" :  "subtitles.block.generic.break",
+    "sounds" :  [
+      {
+      "name": "magitech:crystal_break_1",
+      "pitch": 0.8
+      },
+      {
+      "name": "magitech:crystal_break_2",
+      "pitch": 0.8
+      },
+      {
+      "name": "magitech:crystal_break_3",
+      "pitch": 0.8
+      },
+      {
+      "name": "magitech:crystal_break_1",
+      "pitch": 1
+      },
+      {
+      "name": "magitech:crystal_break_2",
+      "pitch": 1
+      },
+      {
+      "name": "magitech:crystal_break_3",
+      "pitch": 1
+      },
+      {
+      "name": "magitech:crystal_break_1",
+      "pitch": 1.2
+      },
+      {
+      "name": "magitech:crystal_break_2",
+      "pitch": 1.2
+      },
+      {
+      "name": "magitech:crystal_break_3",
+      "pitch": 1.2
+      }
+    ]
+  },
+  "crystal_place" :  {
+    "subtitle" :  "subtitles.block.generic.place",
+    "sounds" :  [
+      {
+      "name": "magitech:crystal_place_1",
+      "pitch": 0.8
+      },
+      {
+      "name": "magitech:crystal_place_2",
+      "pitch": 0.8
+      },
+      {
+      "name": "magitech:crystal_place_3",
+      "pitch": 0.8
+      },
+      {
+      "name": "magitech:crystal_place_1",
+      "pitch": 1
+      },
+      {
+      "name": "magitech:crystal_place_2",
+      "pitch": 1
+      },
+      {
+      "name": "magitech:crystal_place_3",
+      "pitch": 1
+      },
+      {
+      "name": "magitech:crystal_place_1",
+      "pitch": 1.2
+      },
+      {
+      "name": "magitech:crystal_place_2",
+      "pitch": 1.2
+      },
+      {
+      "name": "magitech:crystal_place_3",
+      "pitch": 1.2
+      }
+    ]
+  },
+  "crystal_hit" :  {
+    "subtitle" :  "subtitles.block.generic.hit",
+    "sounds" :  [
+      {
+      "name": "magitech:crystal_step_1",
+      "pitch": 0.8
+      },
+      {
+      "name": "magitech:crystal_step_2",
+      "pitch": 0.8
+      },
+      {
+      "name": "magitech:crystal_step_3",
+      "pitch": 0.8
+      },
+      {
+      "name": "magitech:crystal_step_1",
+      "pitch": 1
+      },
+      {
+      "name": "magitech:crystal_step_2",
+      "pitch": 1
+      },
+      {
+      "name": "magitech:crystal_step_3",
+      "pitch": 1
+      },
+      {
+      "name": "magitech:crystal_step_1",
+      "pitch": 1.2
+      },
+      {
+      "name": "magitech:crystal_step_2",
+      "pitch": 1.2
+      },
+      {
+      "name": "magitech:crystal_step_3",
+      "pitch": 1.2
+      }
+    ]
+  },
+  "crystal_step" :  {
+    "subtitle" :  "subtitles.block.generic.footsteps",
+    "sounds" :  [
+      {
+      "name": "magitech:crystal_step_1",
+      "pitch": 0.8
+      },
+      {
+      "name": "magitech:crystal_step_2",
+      "pitch": 0.8
+      },
+      {
+      "name": "magitech:crystal_step_3",
+      "pitch": 0.8
+      },
+      {
+      "name": "magitech:crystal_step_1",
+      "pitch": 1
+      },
+      {
+      "name": "magitech:crystal_step_2",
+      "pitch": 1
+      },
+      {
+      "name": "magitech:crystal_step_3",
+      "pitch": 1
+      },
+      {
+      "name": "magitech:crystal_step_1",
+      "pitch": 1.2
+      },
+      {
+      "name": "magitech:crystal_step_2",
+      "pitch": 1.2
+      },
+      {
+      "name": "magitech:crystal_step_3",
+      "pitch": 1.2
+      }
+    ]
+  },
+  "crystal_fall" :  {
+    "subtitle" :  "subtitles.block.generic.hit",
+    "sounds" :  [
+      {
+        "name": "magitech:crystal_step_1",
+        "pitch": 0.8
+      },
+      {
+        "name": "magitech:crystal_step_2",
+        "pitch": 0.8
+      },
+      {
+        "name": "magitech:crystal_step_3",
+        "pitch": 0.8
+      },
+      {
+        "name": "magitech:crystal_step_1",
+        "pitch": 1
+      },
+      {
+        "name": "magitech:crystal_step_2",
+        "pitch": 1
+      },
+      {
+        "name": "magitech:crystal_step_3",
+        "pitch": 1
+      },
+      {
+        "name": "magitech:crystal_step_1",
+        "pitch": 1.2
+      },
+      {
+        "name": "magitech:crystal_step_2",
+        "pitch": 1.2
+      },
+      {
+        "name": "magitech:crystal_step_3",
+        "pitch": 1.2
+      }
     ]
   }
 }
