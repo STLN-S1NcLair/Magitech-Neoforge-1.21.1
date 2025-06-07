@@ -13,6 +13,8 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.item.component.ComponentInit;
@@ -79,12 +81,23 @@ public class PartCuttingRecipe implements Recipe<SingleRecipeInput>  {
 
     public ItemStack assemble(SingleRecipeInput input, HolderLookup.Provider registries) {
         ItemStack itemStack = this.result.copy();
-        Level level = ServerLifecycleHooks.getCurrentServer().getLevel(Level.OVERWORLD);
+        MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
+        Level level;
+        if (server != null) {
+            level = server.getLevel(Level.OVERWORLD);
+        } else {
+            level = getClientLevel();
+        }
         ToolMaterial material = level != null ? ToolMaterialRegister.getMaterial(level.getRecipeManager().getRecipesFor(RecipeInit.TOOL_MATERIAL_TYPE.get(), input, level).getFirst().value().getResultId()) : null;
         if (material != null) {
             itemStack.set(ComponentInit.MATERIAL_COMPONENT, new MaterialComponent(material));
         }
         return itemStack;
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private Level getClientLevel() {
+        return Minecraft.getInstance().level;
     }
 
     public interface Factory<T extends PartCuttingRecipe> {
