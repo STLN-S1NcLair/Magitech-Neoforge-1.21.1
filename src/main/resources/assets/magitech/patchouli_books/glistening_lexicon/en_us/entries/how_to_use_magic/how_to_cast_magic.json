@@ -41,7 +41,7 @@
       "type": "patchouli:spotlight",
       "title": "杖（または魔導器）",
       "text": "$(#000000)中にいろんな部品が詰まっていて、魔法を発動させる器械。$(br)小型なものから据え置きの魔導砲まで形は様々。",
-      "item": "magitech:wand[magitech:part_material_component={\"materials\":[\"iron\", \"iron\", \"iron\", \"iron\"]}]"
+      "item": "magitech:wand[magitech:part_material_component={\"materials\":[\"magitech:iron\", \"magitech:iron\", \"magitech:iron\", \"magitech:iron\"]}]"
     },
     {
       "type": "patchouli:text",
