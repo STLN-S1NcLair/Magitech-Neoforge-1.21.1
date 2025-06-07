@@ -31,7 +31,7 @@ import java.util.Map;
 public class Voidlance extends BeamSpell {
 
     public Voidlance() {
-        baseDamage = 4.0F;
+        baseDamage = 7.0F;
         baseMaxRange = 63;
         beamradius = 0.1;
     }

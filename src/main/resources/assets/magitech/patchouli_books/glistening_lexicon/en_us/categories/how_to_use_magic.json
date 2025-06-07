@@ -1,5 +1,5 @@
 {
   "name": "魔法の使い方",
   "description": "言うまでもないが、このカテゴリではどうやって魔法を使うのか書く。$(br)忘れたときはいつでも読み返してくれ。",
-  "icon": "magitech:thread_page[magitech:thread_page_component={\"spell\":\"magitech:frigala\"}]"
+  "icon": "magitech:wand[magitech:part_material_component={\"materials\":[\"magitech:iron\", \"magitech:iron\", \"magitech:iron\", \"magitech:iron\"]}]"
 }

@@ -23,6 +23,7 @@ public class ModifyBreakSpeedEvent {
     public static void modifyBreakSpeed(PlayerEvent.BreakSpeed event) {
         Player player = event.getEntity();
         Level level = player.level();
+        float defaultSpeed = event.getOriginalSpeed();
         Optional<BlockPos> blockPosOptional = event.getPosition();
         BlockState state = event.getState();
         ItemStack stack = player.getItemInHand(InteractionHand.MAIN_HAND);
@@ -38,7 +39,7 @@ public class ModifyBreakSpeedEvent {
                 if (partToolItem.getToolType() == ToolType.HAMMER) {
                     speed[0] *= 0.25F;
                 }
-                event.setNewSpeed(speed[0]);
+                event.setNewSpeed(speed[0] * defaultSpeed);
             }
         }
     }

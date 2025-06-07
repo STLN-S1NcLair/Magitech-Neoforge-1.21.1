@@ -6,12 +6,14 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.LayeredDraw;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.SpellComponent;
 import net.stln.magitech.item.tool.Element;
+import net.stln.magitech.item.tool.toolitem.SpellCasterItem;
 import net.stln.magitech.magic.cooldown.Cooldown;
 import net.stln.magitech.magic.cooldown.CooldownData;
 import net.stln.magitech.magic.mana.ManaData;
@@ -60,7 +62,6 @@ public class ManaGaugeOverlay implements LayeredDraw.Layer {
             guiGraphics.blit(TEXTURE, x + 53 - noctisGaugeWidth, y + 1, 104, 0, 8, 5);
             guiGraphics.blit(TEXTURE, x + 53 - luminisGaugeWidth, y + 15, 104, 8, 8, 5);
             guiGraphics.blit(TEXTURE, x + 53 - fluxiaGaugeWidth, y + 29, 104, 16, 8, 5);
-            guiGraphics.blit(TEXTURE, x - 1, y + 59 - manaGaugeHeight, 0, 144, 6, 10);
 
 //        if (manaRatio >= 1) {
 //            guiGraphics.blit(TEXTURE, guiGraphics.guiWidth() - 58, guiGraphics.guiHeight() - 54, 8, 88, 12, 11);
@@ -78,6 +79,13 @@ public class ManaGaugeOverlay implements LayeredDraw.Layer {
                         String path = icon.getPath();
                         icon = ResourceLocation.fromNamespaceAndPath(namespace, "textures/spell/" + path + ".png");
                         guiGraphics.blit(icon, x + 25, y + 52, 0, 0, 32, 32, 32, 32);
+
+                        ItemStack stack = !(player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof SpellCasterItem) && player.getItemInHand(InteractionHand.OFF_HAND).getItem() instanceof SpellCasterItem ? player.getItemInHand(InteractionHand.OFF_HAND) : player.getItemInHand(InteractionHand.MAIN_HAND);
+                        double requiredManaRatio = spell.getRequiredMana(player.level(), player, stack).get(ManaUtil.ManaType.MANA) / ManaUtil.getMaxMana(player, ManaUtil.ManaType.MANA);
+                        if (requiredManaRatio <= 1) {
+                            int requiredManaGaugeHeight = (int) (requiredManaRatio * 48);
+                            guiGraphics.blit(TEXTURE, x, y + 60 - requiredManaGaugeHeight, 0, 160, 16, 8);
+                        }
 
                         Cooldown cooldown = CooldownData.getCurrentCooldown(player, spell);
                         if (cooldown != null) {
@@ -112,6 +120,9 @@ public class ManaGaugeOverlay implements LayeredDraw.Layer {
                     threadbound.set(ComponentInit.SPELL_COMPONENT, new SpellComponent(spellComponent.spells(), 0));
                 }
             }
+
+            guiGraphics.blit(TEXTURE, x - 1, y + 59 - manaGaugeHeight, 0, 144, 6, 10);
+
         }
     }
 }

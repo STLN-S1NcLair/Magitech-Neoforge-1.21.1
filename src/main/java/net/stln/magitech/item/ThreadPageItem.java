@@ -13,6 +13,8 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.magic.spell.SpellRegister;
@@ -34,11 +36,12 @@ public class ThreadPageItem extends TooltipTextItem {
     public Component getName(ItemStack stack) {
         if (stack.has(ComponentInit.THREAD_PAGE_COMPONENT)) {
             Spell spell = stack.get(ComponentInit.THREAD_PAGE_COMPONENT).spell();
-            return Component.translatable("item.magitech.thread_page", Component.translatable("spell.magitech." + SpellRegister.getId(stack.get(ComponentInit.THREAD_PAGE_COMPONENT).getSpell()).getPath()));
+            return Component.translatable("item.magitech.thread_page", Component.translatable("spell.magitech." + SpellRegister.getId(spell).getPath()));
         }
         return super.getName(stack);
     }
 
+    @OnlyIn(Dist.CLIENT)
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
         if (stack.has(ComponentInit.THREAD_PAGE_COMPONENT)) {

@@ -22,7 +22,7 @@ import java.util.Map;
 public class Fluvinae extends BeamSpell {
 
     public Fluvinae() {
-        baseDamage = 5.0F;
+        baseDamage = 7.0F;
         baseMaxRange = 255;
         beamradius = 0.3;
     }

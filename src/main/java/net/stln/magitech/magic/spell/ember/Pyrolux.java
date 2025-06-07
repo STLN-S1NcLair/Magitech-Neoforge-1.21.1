@@ -22,7 +22,7 @@ import java.util.Map;
 public class Pyrolux extends BeamSpell {
 
     public Pyrolux() {
-        baseDamage = 5.0F;
+        baseDamage = 7.0F;
         baseMaxRange = 63;
         beamradius = 0.5;
     }

@@ -67,7 +67,7 @@ public class Frigala extends Spell {
 
     @Override
     public void use(Level level, Player user, InteractionHand hand, boolean isHost) {
-        addCharge(user, 15, this.getElement());
+        addCharge(user, 25, this.getElement());
         super.use(level, user, hand, isHost);
     }
 

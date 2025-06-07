@@ -9,9 +9,11 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.MaterialComponent;
@@ -77,7 +79,7 @@ public class PartCuttingRecipe implements Recipe<SingleRecipeInput>  {
 
     public ItemStack assemble(SingleRecipeInput input, HolderLookup.Provider registries) {
         ItemStack itemStack = this.result.copy();
-        ClientLevel level = Minecraft.getInstance().level;
+        Level level = ServerLifecycleHooks.getCurrentServer().getLevel(Level.OVERWORLD);
         ToolMaterial material = level != null ? ToolMaterialRegister.getMaterial(level.getRecipeManager().getRecipesFor(RecipeInit.TOOL_MATERIAL_TYPE.get(), input, level).getFirst().value().getResultId()) : null;
         if (material != null) {
             itemStack.set(ComponentInit.MATERIAL_COMPONENT, new MaterialComponent(material));

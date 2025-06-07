@@ -22,7 +22,7 @@ import java.util.Map;
 public class Cryoluxa extends BeamSpell {
 
     public Cryoluxa() {
-        baseDamage = 4.0F;
+        baseDamage = 8.0F;
         baseMaxRange = 63;
         beamradius = 0.3;
     }

@@ -25,7 +25,7 @@ import java.util.Map;
 public class Phantastra extends BeamSpell {
 
     public Phantastra() {
-        baseDamage = 2.0F;
+        baseDamage = 5.0F;
         baseMaxRange = 127;
         beamradius = 0.7;
     }
