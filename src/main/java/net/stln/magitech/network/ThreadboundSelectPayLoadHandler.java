@@ -1,6 +1,5 @@
 package net.stln.magitech.network;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -10,7 +9,6 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
-import net.stln.magitech.item.LeftClickOverrideItem;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.SpellComponent;
 import top.theillusivec4.curios.api.CuriosApi;

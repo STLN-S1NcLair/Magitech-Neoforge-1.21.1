@@ -1,7 +1,7 @@
 {
-    "type": "magitech:part_cutting",
-    "input_count": 1,
-    "result": {
-        "id": "magitech:light_handle"
-    }
+  "type": "magitech:part_cutting",
+  "input_count": 1,
+  "result": {
+    "id": "magitech:light_handle"
+  }
 }

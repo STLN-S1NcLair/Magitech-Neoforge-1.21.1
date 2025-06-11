@@ -28,9 +28,9 @@ public class ModelRegistrar {
             }
         }
         for (ToolMaterial material : materials) {
-                for (String part : partTypes) {
-                    registerAdditional.register(ModelResourceLocation.standalone(getPartItemModelId(material, part)));
-                }
+            for (String part : partTypes) {
+                registerAdditional.register(ModelResourceLocation.standalone(getPartItemModelId(material, part)));
+            }
         }
     }
 

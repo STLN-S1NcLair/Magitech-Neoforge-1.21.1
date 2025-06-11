@@ -1,4 +1,8 @@
 {
-  "entities": ["player"],
-  "slots": ["threadbound"]
+  "entities": [
+    "player"
+  ],
+  "slots": [
+    "threadbound"
+  ]
 }

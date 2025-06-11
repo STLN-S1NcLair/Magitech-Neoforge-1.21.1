@@ -23,12 +23,12 @@ public class GeoMendingTrait extends Trait {
 
     @Override
     public ToolStats modifySpellCasterStats1(ItemStack stack, int traitLevel, ToolStats stats) {
-            ToolStats aDefault = ToolStats.DEFAULT;
-            Map<String, Float> modified = new HashMap<>(aDefault.getStats());
-            float mul = traitLevel * 0.8F;
-            Float def = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.DEF_STAT);
-            modified.put(ToolStats.DEF_STAT, def * mul);
-            return new ToolStats(modified, stats.getElement(), stats.getMiningLevel());
+        ToolStats aDefault = ToolStats.DEFAULT;
+        Map<String, Float> modified = new HashMap<>(aDefault.getStats());
+        float mul = traitLevel * 0.8F;
+        Float def = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.DEF_STAT);
+        modified.put(ToolStats.DEF_STAT, def * mul);
+        return new ToolStats(modified, stats.getElement(), stats.getMiningLevel());
     }
 
     @Override

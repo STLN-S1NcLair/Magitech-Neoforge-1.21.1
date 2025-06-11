@@ -7,8 +7,6 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec3;
-import net.stln.magitech.entity.magicentity.voltaris.VoltarisEntity;
-import net.stln.magitech.entity.magicentity.voltaris.VoltarisModel;
 import net.stln.magitech.util.RenderHelper;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;

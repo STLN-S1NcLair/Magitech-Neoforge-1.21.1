@@ -3,9 +3,7 @@ package net.stln.magitech.sound;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.level.block.SoundType;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.common.util.DeferredSoundType;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.stln.magitech.Magitech;
 
@@ -44,6 +42,7 @@ public class SoundInit {
     public static final Supplier<SoundEvent> GLYMORA = registerSoundEvent("glymora");
     public static final Supplier<SoundEvent> TENEBRISOL = registerSoundEvent("tenebrisol");
     public static final Supplier<SoundEvent> ECHOLOCATION = registerSoundEvent("echolocation");
+    public static final Supplier<SoundEvent> ENERCRUX = registerSoundEvent("enercrux");
 
     public static final Supplier<SoundEvent> CRYSTAL_BREAK = registerSoundEvent("crystal_break");
     public static final Supplier<SoundEvent> CRYSTAL_PLACE = registerSoundEvent("crystal_place");

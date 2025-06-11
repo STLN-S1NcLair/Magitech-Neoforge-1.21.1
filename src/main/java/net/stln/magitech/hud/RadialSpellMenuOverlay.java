@@ -18,8 +18,6 @@ import net.stln.magitech.item.tool.Element;
 import net.stln.magitech.item.tool.toolitem.SpellCasterItem;
 import net.stln.magitech.magic.cooldown.Cooldown;
 import net.stln.magitech.magic.cooldown.CooldownData;
-import net.stln.magitech.magic.mana.ManaData;
-import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.magic.spell.SpellRegister;
 import net.stln.magitech.network.ThreadBoundSelectPayload;
@@ -34,11 +32,10 @@ import java.util.List;
 public class RadialSpellMenuOverlay extends Screen {
 
     private static ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "textures/gui/mana_gauge.png");
-
-    private int select = -1;
-    private int ticks = 0;
     float selectAnimTick = 0;
     float selectTick = 0.0F;
+    private int select = -1;
+    private int ticks = 0;
 
     public RadialSpellMenuOverlay(Component title) {
         super(title);
@@ -147,7 +144,7 @@ public class RadialSpellMenuOverlay extends Screen {
                             int renderx = (int) (x + sin - font.width(text) / 2);
                             int rendery = (int) (y + cos + 8 * size);
                             if (animTick == animLength) {
-                            RenderHelper.renderFramedText(guiGraphics, font, text, renderx, rendery, element);
+                                RenderHelper.renderFramedText(guiGraphics, font, text, renderx, rendery, element);
                             }
                         }
                     }

@@ -8,9 +8,12 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.SingleItemRecipe;
+import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
+import net.stln.magitech.block.BlockInit;
 
 public class ToolMaterialRecipe extends SingleItemRecipe {
 
@@ -31,7 +34,7 @@ public class ToolMaterialRecipe extends SingleItemRecipe {
 
     @Override
     public ItemStack getToastSymbol() {
-        return new ItemStack(Blocks.STONECUTTER);
+        return new ItemStack(BlockInit.ENGINEERING_WORKBENCH);
     }
 
     public interface Factory<T extends SingleItemRecipe> {
@@ -43,7 +46,7 @@ public class ToolMaterialRecipe extends SingleItemRecipe {
         private final MapCodec<T> codec;
         private final StreamCodec<RegistryFriendlyByteBuf, T> streamCodec;
 
-        protected Serializer(ToolMaterialRecipe.Factory<T> factory) {
+        protected Serializer(Factory<T> factory) {
             this.factory = factory;
             this.codec = RecordCodecBuilder.mapCodec(
                     p_340781_ -> p_340781_.group(

@@ -1,7 +1,6 @@
 package net.stln.magitech.item;
 
 import net.minecraft.client.renderer.item.ItemProperties;
-import net.minecraft.client.tutorial.Tutorial;
 import net.minecraft.resources.ResourceLocation;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.item.component.ComponentInit;

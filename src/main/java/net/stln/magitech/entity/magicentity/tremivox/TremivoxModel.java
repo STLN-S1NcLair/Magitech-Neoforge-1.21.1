@@ -2,7 +2,6 @@ package net.stln.magitech.entity.magicentity.tremivox;
 
 import net.minecraft.resources.ResourceLocation;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.entity.magicentity.ignisca.IgniscaEntity;
 import software.bernie.geckolib.model.GeoModel;
 
 public class TremivoxModel extends GeoModel<TremivoxEntity> {

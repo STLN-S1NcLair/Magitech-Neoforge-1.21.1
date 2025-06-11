@@ -1,8 +1,6 @@
 {
   "curios.identifier.threadbound": "Threadbound",
   "curios.modifiers.threadbound": "When in Threadbound Slot:",
-
-  "item.magitech.wand": "Wand",
   "item.magitech.glistening_lexicon": "Glistening Lexicon",
   "item.magitech.arcane_engineering_compendium": "The Grand Compendium of Arcane Engineering",
   "item.magitech.redstone_crystal": "Redstone Crystal",
@@ -21,14 +19,14 @@
   "item.magitech.chargebind_ring": "Chargebind Ring",
   "item.magitech.torsion_ring": "Torsion Ring",
   "item.magitech.mana_berry": "Mana Berry",
-
   "block.magitech.engineering_workbench": "Engineering Workbench",
+  "block.magitech.fluorite_ore": "Fluorite Ore",
+  "block.magitech.deepslate_fluorite_ore": "Deepslate Fluorite Ore",
+  "block.magitech.fluorite_crystal_cluster": "Fluorite Crystal Cluster",
   "block.magitech.redstone_crystal_cluster": "Redstone Crystal Cluster",
-
   "itemGroup.magitech.magitech": "Magitech Items",
   "itemGroup.magitech.magitech_part": "Magitech Tool Parts",
   "itemGroup.magitech.magitech_spell": "Magitech Spells",
-
   "attribute.magitech.attack_damage": "Attack Damage",
   "attribute.magitech.elemental_damage": "Elemental Damage",
   "attribute.magitech.attack_speed": "Attack Speed",
@@ -43,7 +41,6 @@
   "attribute.magitech.cooldown_speed": "Cooldown Speed",
   "attribute.magitech.projectile_speed": "Projectile Speed",
   "attribute.magitech.mana_efficiency": "Mana Efficiency",
-
   "attribute.magitech.ember_spell_power": "Ember Spell Power",
   "attribute.magitech.glace_spell_power": "Glace Spell Power",
   "attribute.magitech.surge_spell_power": "Surge Spell Power",
@@ -52,7 +49,6 @@
   "attribute.magitech.magic_spell_power": "Magic Spell Power",
   "attribute.magitech.flow_spell_power": "Flow Spell Power",
   "attribute.magitech.hollow_spell_power": "Hollow Spell Power",
-
   "attribute.magitech.max_mana": "Max Mana",
   "attribute.magitech.mana_regen": "Mana Regen",
   "attribute.magitech.max_noctis": "Max Noctis",
@@ -61,7 +57,6 @@
   "attribute.magitech.luminis_regen": "Luminis Regen",
   "attribute.magitech.max_fluxia": "Max Fluxia",
   "attribute.magitech.fluxia_regen": "Fluxia Regen",
-
   "item.magitech.light_sword": "Light Sword",
   "item.magitech.light_sword.simple": "%1$s Light Sword",
   "item.magitech.light_sword.complex": "%1$s %2$s Light Sword",
@@ -80,7 +75,6 @@
   "item.magitech.wand": "Wand",
   "item.magitech.wand.simple": "%1$s Wand",
   "item.magitech.wand.complex": "%1$s %2$s Wand",
-
   "item.magitech.light_blade": "%1$s Light Blade",
   "item.magitech.heavy_blade": "%1$s Heavy Blade",
   "item.magitech.light_handle": "%1$s Light Handle",
@@ -93,11 +87,12 @@
   "item.magitech.plate": "%1$s Plate",
   "item.magitech.catalyst": "%1$s Catalyst",
   "item.magitech.conductor": "%1$s Conductor",
-
   "item.magitech.thread_page": "Thread Page of %1$s",
-
   "tooltip.item.magitech.glistening_lexicon": "A basic guide to combat in this world, left behind by someone unknown.",
   "tooltip.item.magitech.arcane_engineering_compendium": "The ultimate volume for those who truly understand magic.",
+  "tooltip.item.magitech.fluorite": "The most renowned master of mana.",
+  "tooltip.item.magitech.mana_charged_fluorite": "A gleaming cyan spark, right in your hand.",
+  "tooltip.hint.item.magitech.mana_charged_fluorite": "Use to extract charged mana.",
   "tooltip.item.magitech.redstone_crystal": "Looks like jewelry. Acts like authority.",
   "tooltip.item.magitech.polished_redstone_crystal": "Not just a command. A command you can't ignore.",
   "tooltip.item.magitech.ender_metal_ingot": "One ingot holds a day's worth of ender energy!",
@@ -113,7 +108,11 @@
   "tooltip.item.magitech.torsion_ring": "Distorts spacetime to accelerate projectiles. The larger version is known as a portal.",
   "tooltip.item.magitech.mana_berry": "A crystalline berry brimming with mana.",
   "tooltip.item.magitech.thread_page": "A magical mechanism of precision circuitry crafted from Gramicell laminate. A crystallization of alchemy that miniaturizes even miniaturized magic circles.",
-
+  "tooltip.block.magitech.fluorite_ore": "All magic begins here.",
+  "tooltip.block.magitech.deepslate_fluorite_ore": "Power depends on mana density and mana potential.",
+  "tooltip.block.magitech.engineering_workbench": "Build the future—one misaligned part at a time.",
+  "tooltip.block.magitech.fluorite_crystal_cluster": "Mana glows like fireflies, welcoming a heated embrace.",
+  "tooltip.block.magitech.redstone_crystal_cluster": "Just because it's powder doesn't mean it can't be crystal.",
   "tooltip.magitech.spell.damage": "Spell Damage",
   "tooltip.magitech.spell.tick_damage": "Sustain Damage",
   "tooltip.magitech.spell.projectile_speed": "Projectile Speed",
@@ -122,7 +121,6 @@
   "tooltip.magitech.spell.required_mana": "Required Mana",
   "tooltip.magitech.spell.use_cost": "Mana Cost",
   "tooltip.magitech.spell.tick_cost": "Sustain Mana Cost",
-
   "material.magitech.wood": "Wood",
   "material.magitech.stone": "Stone",
   "material.magitech.deepslate": "Deepslate",
@@ -139,7 +137,6 @@
   "material.magitech.translucium": "Translucium",
   "material.magitech.resonite": "Resonite",
   "material.magitech.abyssite": "Abyssite",
-
   "trait.magitech.ataptation": "Adaptation",
   "trait.magitech.geomending": "Geomending",
   "trait.magitech.hardmine": "Hardmine",
@@ -156,7 +153,6 @@
   "trait.magitech.phantom_slayer": "Phantom Slayer",
   "trait.magitech.blind_resonance": "Blind Resonance",
   "trait.magitech.phase_vacuum_collapse": "Phase Vacuum Collapse",
-
   "element.magitech.none": "None",
   "element.magitech.ember": "Ember",
   "element.magitech.glace": "Glace",
@@ -166,7 +162,6 @@
   "element.magitech.magic": "Magic",
   "element.magitech.flow": "Flow",
   "element.magitech.hollow": "Hollow",
-
   "spell.magitech.ignisca": "Ignisca",
   "spell.magitech.pyrolux": "Pyrolux",
   "spell.magitech.fluvalen": "Fluvalen",
@@ -192,7 +187,7 @@
   "spell.magitech.voidlance": "Voidlance",
   "spell.magitech.tenebrisol": "Tenebrisol",
   "spell.magitech.disparundra": "Disparundra",
-
+  "spell.magitech.enercrux": "Enercrux",
   "death.attack.magitech_ember": "%1$s was incinerated",
   "death.attack.magitech_ember.player": "%1$s was reduced to ashes by %2$s",
   "death.attack.magitech_ember.item": "%1$s was cooked by the heat of %2$s's %3$s",
@@ -217,18 +212,17 @@
   "death.attack.magitech_hollow": "%1$s crumbled into dust",
   "death.attack.magitech_hollow.player": "%1$s was banished to another dimension by %2$s",
   "death.attack.magitech_hollow.item": "%1$s could not coexist in the same timeline as %2$s, wielding %3$s",
-
+  "death.attack.magitech_mana": "%1$s was consumed by brilliance.",
+  "death.attack.magitech_mana.player": "%1$s was overwhelmed by %2$s's mana potential.",
+  "death.attack.magitech_mana.item": "%1$s couldn't resist the energy unleashed by %2$s's %3$s.",
   "effect.magitech.mana_addiction": "Mana Addiction",
   "effect.magitech.seize": "Seize",
   "effect.magitech.echolocation": "Echolocation",
   "effect.magitech.voidrot": "Voidrot",
   "effect.magitech.phase_lock": "Phase Lock",
-
   "recipe.magitech.part_cutting": "Part Cutting",
-
-  "book.magitech.glistening_lexicon.name":  "Glistening Lexicon",
+  "book.magitech.glistening_lexicon.name": "Glistening Lexicon",
   "book.magitech.glistening_lexicon.landing_text": "A basic guide to combat in this world, left behind by someone unknown.",
-
   "advancement.magitech.arcane_engineering.root.title": "Arcane Engineering",
   "advancement.magitech.arcane_engineering.root.description": "In science, mana is just another form of energy.",
   "advancement.magitech.arcane_engineering.unwanted_gift.title": "A Book You Didn't Ask for",
@@ -237,10 +231,12 @@
   "advancement.magitech.arcane_engineering.engineering_workbench.description": "Just a few thousand more parts to go! (Probably.)",
   "advancement.magitech.arcane_engineering.make_wand.title": "Precision? Never Heard of It!",
   "advancement.magitech.arcane_engineering.make_wand.description": "Who needs to calculate mana flow anyway?",
-
+  "tooltip.magitech.shift": "[Shift] fot More Info",
   "key.categories.magitech.category": "Magitech",
   "key.magitech.radial_spell_menu": "Open Radial Spell Menu",
   "key.magitech.spell_shift_left": "Shift Spell Left",
   "key.magitech.spell_shift_right": "Shift Spell Right",
-  "key.magitech.trait_action": "Trait Action"
+  "key.magitech.trait_action": "Trait Action",
+  "key.magitech.open_spellbound_page_screen": "Open Thread Page Screen of Spellbound",
+  "key.magitech.open_spellbound_as_guidebook": "Open Spellbound as Guidebook"
 }

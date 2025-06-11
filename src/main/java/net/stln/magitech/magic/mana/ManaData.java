@@ -11,9 +11,9 @@ public class ManaData {
         return currentManaMap;
     }
 
-    public static void cleanUp() {
-        currentManaMap = new Map2d<>();
-        prevManaMap = new Map2d<>();
+    public static void cleanUp(Player player) {
+        currentManaMap.remove(player);
+        prevManaMap.remove(player);
     }
 
     public static void setCurrentMana(Player player, ManaUtil.ManaType type, double value) {

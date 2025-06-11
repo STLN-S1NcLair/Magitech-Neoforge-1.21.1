@@ -1,7 +1,7 @@
 {
-    "type": "magitech:tool_material",
-    "ingredient": {
-        "item": "minecraft:netherite_ingot"
-    },
-    "result": "magitech:netherite"
+  "type": "magitech:tool_material",
+  "ingredient": {
+    "item": "minecraft:netherite_ingot"
+  },
+  "result": "magitech:netherite"
 }

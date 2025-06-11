@@ -1,5 +1,5 @@
 {
   "name": "魔法の使い方",
-  "description": "言うまでもないが、このカテゴリではどうやって魔法を使うのか書く。$(br)忘れたときはいつでも読み返してくれ。",
+  "description": "言うまでもないが、このカテゴリではどうやって魔法を使うのか書く。$(br)忘れたときはいつでも読み返してくれ。$(br2)この本に「エネルクラックス」と適当なスレッドページを挟んでおいたから、使ってくれ。",
   "icon": "magitech:wand[magitech:part_material_component={\"materials\":[\"magitech:iron\", \"magitech:iron\", \"magitech:iron\", \"magitech:iron\"]}]"
 }

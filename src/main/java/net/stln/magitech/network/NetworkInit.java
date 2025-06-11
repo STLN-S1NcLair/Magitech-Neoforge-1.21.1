@@ -77,5 +77,10 @@ public class NetworkInit {
                         ThreadboundSelectPayLoadHandler::handleDataOnMainC2S
                 )
         );
+        registrar.playToServer(
+                OpenSpellboundPageScreenPayload.TYPE,
+                OpenSpellboundPageScreenPayload.STREAM_CODEC,
+                OpenSpellboundPageScreenPayLoadHandler::handleDataOnMainC2S
+        );
     }
 }

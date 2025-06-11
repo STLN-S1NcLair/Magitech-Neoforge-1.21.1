@@ -1,10 +1,10 @@
 {
   "curios.identifier.threadbound": "スレッドバウンド",
   "curios.modifiers.threadbound": "スレッドバウンドスロットに装備したとき:",
-
-  "item.magitech.wand": "杖",
   "item.magitech.glistening_lexicon": "きらめく辞典",
   "item.magitech.arcane_engineering_compendium": "魔法工学大全 第3版",
+  "item.magitech.fluorite": "蛍石",
+  "item.magitech.mana_charged_fluorite": "マナが充填された蛍石",
   "item.magitech.redstone_crystal": "レッドストーンクリスタル",
   "item.magitech.polished_redstone_crystal": "磨かれたレッドストーンクリスタル",
   "item.magitech.ender_metal_ingot": "エンダーメタルインゴット",
@@ -21,14 +21,14 @@
   "item.magitech.chargebind_ring": "マナ収束のリング",
   "item.magitech.torsion_ring": "歪みのリング",
   "item.magitech.mana_berry": "マナベリー",
-
   "block.magitech.engineering_workbench": "工学作業台",
+  "block.magitech.fluorite_ore": "蛍石鉱石",
+  "block.magitech.deepslate_fluorite_ore": "深層蛍石鉱石",
+  "block.magitech.fluorite_crystal_cluster": "蛍石のクリスタルの塊",
   "block.magitech.redstone_crystal_cluster": "レッドストーンクリスタルの塊",
-
   "itemGroup.magitech.magitech": "Magitech アイテム",
   "itemGroup.magitech.magitech_part": "Magitech ツール部品",
   "itemGroup.magitech.magitech_spell": "Magitech スペル",
-
   "attribute.magitech.attack_damage": "攻撃力",
   "attribute.magitech.elemental_damage": "属性攻撃力",
   "attribute.magitech.attack_speed": "攻撃速度",
@@ -37,14 +37,12 @@
   "attribute.magitech.attack_range": "攻撃可能距離",
   "attribute.magitech.sweep_range": "攻撃範囲",
   "attribute.magitech.durability": "耐久力",
-
   "attribute.magitech.spell_power": "魔法威力",
   "attribute.magitech.elemental_spell_power": "属性魔法威力",
   "attribute.magitech.casting_speed": "チャージ速度",
   "attribute.magitech.cooldown_speed": "クールダウン速度",
   "attribute.magitech.projectile_speed": "魔弾速度",
   "attribute.magitech.mana_efficiency": "マナ効率",
-
   "attribute.magitech.ember_spell_power": "灼熱魔法威力",
   "attribute.magitech.glace_spell_power": "氷結魔法威力",
   "attribute.magitech.surge_spell_power": "閃電魔法威力",
@@ -53,7 +51,6 @@
   "attribute.magitech.magic_spell_power": "魔術魔法威力",
   "attribute.magitech.flow_spell_power": "流脈魔法威力",
   "attribute.magitech.hollow_spell_power": "虚滅魔法威力",
-
   "attribute.magitech.max_mana": "マナ容量",
   "attribute.magitech.mana_regen": "マナ再生",
   "attribute.magitech.max_noctis": "ノクティス容量",
@@ -62,7 +59,6 @@
   "attribute.magitech.luminis_regen": "ルミニス再生",
   "attribute.magitech.max_fluxia": "フラクシア容量",
   "attribute.magitech.fluxia_regen": "フラクシア再生",
-
   "item.magitech.light_sword": "片手剣",
   "item.magitech.light_sword.simple": "%1$sの片手剣",
   "item.magitech.light_sword.complex": "%1$sと%2$sの片手剣",
@@ -81,7 +77,6 @@
   "item.magitech.wand": "杖",
   "item.magitech.wand.simple": "%1$sの杖",
   "item.magitech.wand.complex": "%1$sと%2$sの杖",
-
   "item.magitech.light_blade": "%1$sの軽量刃",
   "item.magitech.heavy_blade": "%1$sの重量刃",
   "item.magitech.light_handle": "%1$sの軽量持ち手",
@@ -94,11 +89,12 @@
   "item.magitech.plate": "%1$sのプレート",
   "item.magitech.catalyst": "%1$sのカタリスト",
   "item.magitech.conductor": "%1$sのコンダクター",
-
   "item.magitech.thread_page": "%1$sのスレッドページ",
-
   "tooltip.item.magitech.glistening_lexicon": "見知らぬ人物が残した､この世界での基本的な攻撃方法｡",
   "tooltip.item.magitech.arcane_engineering_compendium": "魔法のすべてを理解した人のための最高の一冊｡",
+  "tooltip.item.magitech.fluorite": "最も有名なマナの支配者｡",
+  "tooltip.item.magitech.mana_charged_fluorite": "輝く青緑の閃光はあなたの手の中に｡",
+  "tooltip.hint.item.magitech.mana_charged_fluorite": "使用してマナを取り出す",
   "tooltip.item.magitech.redstone_crystal": "見た目は装飾品だが､振る舞いは権力そのもの｡",
   "tooltip.item.magitech.polished_redstone_crystal": "これはただの命令じゃない｡抗えぬ命令だ｡",
   "tooltip.item.magitech.ender_metal_ingot": "これ1個で1日分のエンダーエネルギー!",
@@ -114,7 +110,12 @@
   "tooltip.item.magitech.torsion_ring": "時空間を歪ませて飛翔体を加速させる｡この大型版がポータルと言われる｡",
   "tooltip.item.magitech.mana_berry": "マナで満たされた結晶状のベリー｡",
   "tooltip.item.magitech.thread_page": "グラミセル合紙からなる精密回路の魔術機構｡魔法陣の小型化の更に小型化された錬金術の結晶｡",
-
+  "tooltip.magitech.shift": "[Shift] でさらに表示",
+  "tooltip.block.magitech.engineering_workbench": "未来を作ろう! - ズレた部品を1つづつ並べて。",
+  "tooltip.block.magitech.fluorite_ore": "すべての魔法はここから始まる。",
+  "tooltip.block.magitech.deepslate_fluorite_ore": "マナ濃度とマナポテンシャルで威力が決まる。",
+  "tooltip.block.magitech.fluorite_crystal_cluster": "マナの輝きはホタルのように、加熱された抱擁を受け入れる。",
+  "tooltip.block.magitech.redstone_crystal_cluster": "粉で使うからって、誰が結晶にできないと言った?",
   "tooltip.magitech.spell.damage": "魔法ダメージ",
   "tooltip.magitech.spell.tick_damage": "継続ダメージ",
   "tooltip.magitech.spell.projectile_speed": "魔弾速度",
@@ -123,7 +124,6 @@
   "tooltip.magitech.spell.required_mana": "必要マナ",
   "tooltip.magitech.spell.use_cost": "消費マナ",
   "tooltip.magitech.spell.tick_cost": "継続消費マナ",
-
   "material.magitech.wood": "木",
   "material.magitech.stone": "石",
   "material.magitech.deepslate": "深層岩",
@@ -140,7 +140,6 @@
   "material.magitech.translucium": "トランスルシウム",
   "material.magitech.resonite": "レゾナイト",
   "material.magitech.abyssite": "アビサイト",
-
   "trait.magitech.ataptation": "親和性",
   "trait.magitech.geomending": "ジオメンディング",
   "trait.magitech.hardmine": "硬質",
@@ -157,7 +156,6 @@
   "trait.magitech.phantom_slayer": "不可視の暗殺者",
   "trait.magitech.blind_resonance": "盲目の反響",
   "trait.magitech.phase_vacuum_collapse": "位相真空崩壊",
-
   "element.magitech.none": "無属性",
   "element.magitech.ember": "灼熱",
   "element.magitech.glace": "氷結",
@@ -167,8 +165,6 @@
   "element.magitech.magic": "魔術",
   "element.magitech.flow": "流脈",
   "element.magitech.hollow": "虚滅",
-
-
   "spell.magitech.ignisca": "イグニスカ",
   "spell.magitech.pyrolux": "パイロラックス",
   "spell.magitech.fluvalen": "フルヴァレン",
@@ -194,7 +190,7 @@
   "spell.magitech.voidlance": "ヴォイドランス",
   "spell.magitech.tenebrisol": "テネブリソル",
   "spell.magitech.disparundra": "ディスパルンドラ",
-
+  "spell.magitech.enercrux": "エネルクラックス",
   "death.attack.magitech_ember": "%1$sは焼き尽くされた",
   "death.attack.magitech_ember.player": "%1$sは%2$sによって灰にされた",
   "death.attack.magitech_ember.item": "%1$sは%2$sの%3$sが放った熱気で調理された",
@@ -219,18 +215,17 @@
   "death.attack.magitech_hollow": "%1$sは崩壊した",
   "death.attack.magitech_hollow.player": "%1$sは%2$sによって別次元へ送られた",
   "death.attack.magitech_hollow.item": "%1$sは%3$sを使う%2$sとは共存できない世界線だった",
-
+  "death.attack.magitech_mana": "%1$sは輝きに包まれた",
+  "death.attack.magitech_mana.player": "%1$sは%2$sのマナポテンシャルに押し流された",
+  "death.attack.magitech_mana.item": "%1$sは%2$sの%3$sが放つエネルギーに吹き飛ばされずにはいられなかった",
   "effect.magitech.mana_addiction": "マナ中毒",
   "effect.magitech.seize": "光縛",
   "effect.magitech.echolocation": "エコーロケーション",
   "effect.magitech.voidrot": "虚蝕",
   "effect.magitech.phase_lock": "空間固定",
-
   "recipe.magitech.part_cutting": "パーツ切り出し",
-
   "book.magitech.glistening_lexicon.name": "きらめく辞典",
   "book.magitech.glistening_lexicon.landing_text": "見知らぬ人物が残した､この世界での基本的な攻撃方法｡",
-
   "advancement.magitech.arcane_engineering.root.title": "魔法工学",
   "advancement.magitech.arcane_engineering.root.description": "科学におけるマナとは、単なるエネルギーのこと。",
   "advancement.magitech.arcane_engineering.unwanted_gift.title": "頼んでもいないメモ書き",
@@ -239,10 +234,11 @@
   "advancement.magitech.arcane_engineering.engineering_workbench.description": "あと数千個の部品で完成！(たぶん)",
   "advancement.magitech.arcane_engineering.make_wand.title": "精密さなんて知らない！",
   "advancement.magitech.arcane_engineering.make_wand.description": "マナ流量の計算なんてするわけないよね。",
-
   "key.categories.magitech.category": "Magitech",
   "key.magitech.radial_spell_menu": "ラジアルスペルメニューを開く",
   "key.magitech.spell_shift_left": "スペルを左にシフト",
   "key.magitech.spell_shift_right": "スペルを右にシフト",
-  "key.magitech.trait_action": "特性アクション"
+  "key.magitech.trait_action": "特性アクション",
+  "key.magitech.open_spellbound_page_screen": "スペルバウンドのスレッドページ画面を開く",
+  "key.magitech.open_spellbound_as_guidebook": "スペルバウンドをガイドブックとして開く"
 }

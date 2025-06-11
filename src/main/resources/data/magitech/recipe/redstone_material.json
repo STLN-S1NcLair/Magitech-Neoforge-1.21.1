@@ -1,7 +1,7 @@
 {
-    "type": "magitech:tool_material",
-    "ingredient": {
-        "item": "magitech:redstone_crystal"
-    },
-    "result": "magitech:redstone"
+  "type": "magitech:tool_material",
+  "ingredient": {
+    "item": "magitech:redstone_crystal"
+  },
+  "result": "magitech:redstone"
 }

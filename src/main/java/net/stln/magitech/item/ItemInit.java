@@ -11,7 +11,6 @@ import net.stln.magitech.Magitech;
 import net.stln.magitech.entity.status.AttributeInit;
 import net.stln.magitech.item.tool.partitem.*;
 import net.stln.magitech.item.tool.toolitem.*;
-import net.stln.magitech.item.tool.toolitem.WandItem;
 
 import java.util.Map;
 
@@ -126,27 +125,35 @@ public class ItemInit {
 
     public static final DeferredItem<Item> LIGHT_SWORD = ITEMS.registerItem("light_sword",
             LightSwordItem::new,
-            new Item.Properties());
+            new Item.Properties().setNoRepair());
 
     public static final DeferredItem<Item> HEAVY_SWORD = ITEMS.registerItem("heavy_sword",
             HeavySwordItem::new,
-            new Item.Properties());
+            new Item.Properties().setNoRepair());
 
     public static final DeferredItem<Item> PICKAXE = ITEMS.registerItem("pickaxe",
             PickaxeItem::new,
-            new Item.Properties());
+            new Item.Properties().setNoRepair());
 
     public static final DeferredItem<Item> HAMMER = ITEMS.registerItem("hammer",
             HammerItem::new,
-            new Item.Properties());
+            new Item.Properties().setNoRepair());
 
     public static final DeferredItem<Item> SCYTHE = ITEMS.registerItem("scythe",
             ScytheItem::new,
-            new Item.Properties());
+            new Item.Properties().setNoRepair());
 
     public static final DeferredItem<Item> THREAD_PAGE = ITEMS.registerItem("thread_page",
             ThreadPageItem::new,
             new Item.Properties().component(DataComponents.MAX_STACK_SIZE, 1));
+
+    public static final DeferredItem<Item> FLUORITE = ITEMS.registerItem("fluorite",
+            TooltipTextItem::new,
+            new Item.Properties());
+
+    public static final DeferredItem<Item> MANA_CHARGED_FLUORITE = ITEMS.registerItem("mana_charged_fluorite",
+            ManaChargedFluoriteItem::new,
+            new Item.Properties());
 
     public static final DeferredItem<Item> REDSTONE_CRYSTAL = ITEMS.registerItem("redstone_crystal",
             TooltipTextItem::new,

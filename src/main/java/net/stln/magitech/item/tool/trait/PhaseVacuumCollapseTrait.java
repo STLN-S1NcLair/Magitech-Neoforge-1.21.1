@@ -1,14 +1,7 @@
 package net.stln.magitech.item.tool.trait;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlotGroup;
@@ -19,23 +12,15 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.damage.DamageTypeInit;
 import net.stln.magitech.entity.mobeffect.MobEffectInit;
-import net.stln.magitech.item.tool.Element;
 import net.stln.magitech.item.tool.ToolStats;
-import net.stln.magitech.item.tool.toolitem.PartToolItem;
 import net.stln.magitech.item.tool.toolitem.SpellCasterItem;
-import net.stln.magitech.particle.particle_option.FrostParticleEffect;
 import net.stln.magitech.particle.particle_option.VoidGlowParticleEffect;
-import net.stln.magitech.sound.SoundInit;
 import net.stln.magitech.util.EffectUtil;
 import org.joml.Vector3f;
 
-import java.util.*;
+import java.util.List;
 
 public class PhaseVacuumCollapseTrait extends Trait {
 
@@ -44,9 +29,9 @@ public class PhaseVacuumCollapseTrait extends Trait {
         super.onAttackEntity(player, level, stack, traitLevel, stats, target);
         if (target instanceof LivingEntity livingEntity && player.getRandom().nextFloat() > 0.5) {
 
-                livingEntity.addEffect(new MobEffectInstance(MobEffectInit.PHASELOCK, 10 * traitLevel, 0));
+            livingEntity.addEffect(new MobEffectInstance(MobEffectInit.PHASELOCK, 10 * traitLevel, 0));
 
-                EffectUtil.entityEffect(level, new VoidGlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, 0), livingEntity, 60);
+            EffectUtil.entityEffect(level, new VoidGlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, 0), livingEntity, 60);
         }
     }
 

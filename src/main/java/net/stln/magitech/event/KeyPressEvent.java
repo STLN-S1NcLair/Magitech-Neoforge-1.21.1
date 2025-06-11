@@ -1,7 +1,6 @@
 package net.stln.magitech.event;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -11,13 +10,18 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.hud.RadialSpellMenuOverlay;
+import net.stln.magitech.item.ThreadboundItem;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.SpellComponent;
 import net.stln.magitech.item.tool.toolitem.PartToolItem;
+import net.stln.magitech.network.OpenSpellboundPageScreenPayload;
 import net.stln.magitech.network.ThreadBoundSelectPayload;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
+import vazkii.patchouli.api.PatchouliAPI;
+import vazkii.patchouli.common.book.Book;
+import vazkii.patchouli.common.book.BookRegistry;
+import vazkii.patchouli.common.item.PatchouliDataComponents;
 
 @EventBusSubscriber(modid = Magitech.MOD_ID, value = Dist.CLIENT)
 public class KeyPressEvent {
@@ -55,6 +59,27 @@ public class KeyPressEvent {
                 int select = selected < 1 || selected >= component.spells().size() ? component.spells().size() - 1 : selected - 1;
                 PacketDistributor.sendToServer(new ThreadBoundSelectPayload(select, Minecraft.getInstance().player.getUUID().toString()));
                 threadbound.set(ComponentInit.SPELL_COMPONENT, new SpellComponent(component.spells(), select));
+            }
+        }
+        while (KeyMappingEvent.OPEN_SPELLBOUND_PAGE_SCREEN.get().consumeClick()) {
+            Player player = Minecraft.getInstance().player;
+            PacketDistributor.sendToServer(new OpenSpellboundPageScreenPayload(player.getUUID().toString()));
+        }
+        while (KeyMappingEvent.OPEN_SPELLBOUND_AS_GUIDEBOOK.get().consumeClick()) {
+            Player player = Minecraft.getInstance().player;
+
+            if (player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof ThreadboundItem) {
+                Book book = BookRegistry.INSTANCE.books.get(player.getItemInHand(InteractionHand.MAIN_HAND).get(PatchouliDataComponents.BOOK));
+                if (book != null) {
+                    PatchouliAPI.get().openBookGUI(book.id);
+                }
+            } else {
+                ICuriosItemHandler curiosInventory = CuriosApi.getCuriosInventory(player).get();
+                ItemStack threadbound = curiosInventory.getCurios().get("threadbound").getStacks().getStackInSlot(0);
+                Book book = BookRegistry.INSTANCE.books.get(threadbound.get(PatchouliDataComponents.BOOK));
+                if (book != null) {
+                    PatchouliAPI.get().openBookGUI(book.id);
+                }
             }
         }
     }

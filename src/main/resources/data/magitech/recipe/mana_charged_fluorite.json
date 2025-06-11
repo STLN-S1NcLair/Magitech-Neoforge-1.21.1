@@ -1,0 +1,10 @@
+{
+  "type": "magitech:spell_conversion",
+  "ingredient": {
+    "item": "magitech:fluorite"
+  },
+  "spell": "magitech:enercrux",
+  "result": {
+    "id": "magitech:mana_charged_fluorite"
+  }
+}

@@ -3,9 +3,7 @@ package net.stln.magitech.magic.mana;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
-import net.stln.magitech.Magitech;
 import net.stln.magitech.entity.status.AttributeInit;
-import net.stln.magitech.magic.charge.ChargeData;
 import net.stln.magitech.network.SyncManaPayload;
 
 import java.util.Map;
@@ -111,7 +109,7 @@ public class ManaUtil {
         return false;
     }
 
-    private static void setMana(Player player, ManaType type, double value) {
+    public static void setMana(Player player, ManaType type, double value) {
         ManaData.setPrevMana(player, type, ManaData.getCurrentMana(player, type));
         ManaData.setCurrentMana(player, type, value);
         if (player.level().isClientSide) {

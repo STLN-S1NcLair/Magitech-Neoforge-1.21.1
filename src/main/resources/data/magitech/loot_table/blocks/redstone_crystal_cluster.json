@@ -60,5 +60,5 @@
       "rolls": 1.0
     }
   ],
-  "random_sequence": "magitech:redstone_crystal"
+  "random_sequence": "magitech:block/redstone_crystal_cluster"
 }

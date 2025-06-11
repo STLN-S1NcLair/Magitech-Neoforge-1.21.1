@@ -10,9 +10,11 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.item.ItemInit;
+import net.stln.magitech.item.ThreadboundGenerator;
 import net.stln.magitech.item.tool.material.MaterialInit;
 import net.stln.magitech.item.tool.partitem.PartItem;
 import net.stln.magitech.item.tool.toolitem.PartToolGenerator;
+import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.magic.spell.ember.Fluvalen;
 import net.stln.magitech.magic.spell.ember.Ignisca;
 import net.stln.magitech.magic.spell.ember.Pyrolux;
@@ -29,6 +31,7 @@ import net.stln.magitech.magic.spell.hollow.Voidlance;
 import net.stln.magitech.magic.spell.magic.Arcaleth;
 import net.stln.magitech.magic.spell.magic.Glymora;
 import net.stln.magitech.magic.spell.magic.Mystaven;
+import net.stln.magitech.magic.spell.mana.Enercrux;
 import net.stln.magitech.magic.spell.phantom.Mirazien;
 import net.stln.magitech.magic.spell.phantom.Phantastra;
 import net.stln.magitech.magic.spell.phantom.Veilmist;
@@ -45,19 +48,35 @@ public class CreativeTabInit {
 
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Magitech.MOD_ID);
 
+    static List<Spell> allSpells = List.of(
+            new Ignisca(), new Pyrolux(), new Fluvalen(),
+            new Frigala(), new Cryoluxa(), new Nivalune(),
+            new Voltaris(), new Fulgenza(), new Sparkion(),
+            new Mirazien(), new Phantastra(), new Veilmist(),
+            new Tremivox(), new Oscilbeam(), new Sonistorm(),
+            new Arcaleth(), new Mystaven(), new Glymora(),
+            new Aeltherin(), new Fluvinae(), new Mistrelune(),
+            new Nullixis(), new Voidlance(), new Tenebrisol(), new Disparundra(),
+            new Enercrux()
+    );
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MAGITECH_TAB = CREATIVE_MODE_TABS.register("magitech_tab", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.magitech.magitech"))
             .icon(() -> ItemInit.GLISTENING_LEXICON.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
                 output.accept(BlockInit.ENGINEERING_WORKBENCH_ITEM.get());
+                output.accept(BlockInit.FLUORITE_ORE_ITEM.get());
+                output.accept(BlockInit.DEEPSLATE_FLUORITE_ORE_ITEM.get());
+                output.accept(BlockInit.FLUORITE_CRYSTAL_CLUSTER_ITEM.get());
                 output.accept(BlockInit.REDSTONE_CRYSTAL_CLUSTER_ITEM.get());
-                output.accept(ItemInit.GLISTENING_LEXICON.get());
-                output.accept(ItemInit.ARCANE_ENGINEERING_COMPENDIUM.get());
+                output.accept(ThreadboundGenerator.generateThreadbound(ItemInit.GLISTENING_LEXICON.get(), allSpells));
+                output.accept(ThreadboundGenerator.generateThreadbound(ItemInit.ARCANE_ENGINEERING_COMPENDIUM.get(), allSpells));
                 output.accept(ItemInit.MANA_RING.get());
                 output.accept(ItemInit.GALEVENT_RING.get());
                 output.accept(ItemInit.CHARGEBIND_RING.get());
                 output.accept(ItemInit.TORSION_RING.get());
+                output.accept(ItemInit.FLUORITE.get());
+                output.accept(ItemInit.MANA_CHARGED_FLUORITE.get());
                 output.accept(ItemInit.CHROMIUM_INGOT.get());
                 output.accept(ItemInit.REDSTONE_CRYSTAL.get());
                 output.accept(ItemInit.POLISHED_REDSTONE_CRYSTAL.get());
@@ -195,7 +214,7 @@ public class CreativeTabInit {
                         ItemInit.PLATE.get(),
                         ItemInit.CATALYST.get(),
                         ItemInit.CONDUCTOR.get()
-                        );
+                );
                 for (Item item : partList) {
                     output.accept(PartToolGenerator.generatePart((PartItem) item, MaterialInit.WOOD));
                     output.accept(PartToolGenerator.generatePart((PartItem) item, MaterialInit.STONE));
@@ -219,41 +238,43 @@ public class CreativeTabInit {
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MAGITECH_SPELL_TAB = CREATIVE_MODE_TABS.register("magitech_spell_tab", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.magitech.magitech_spell"))
-            .icon(() -> PartToolGenerator.generateThreadPage(new Ignisca()))
+            .icon(() -> ThreadboundGenerator.generateThreadPage(new Enercrux()))
             .withTabsBefore(MAGITECH_TAB.getKey())
             .displayItems((parameters, output) -> {
-                output.accept(PartToolGenerator.generateThreadPage(new Ignisca()));
-                output.accept(PartToolGenerator.generateThreadPage(new Pyrolux()));
-                output.accept(PartToolGenerator.generateThreadPage(new Fluvalen()));
+                output.accept(ThreadboundGenerator.generateThreadPage(new Ignisca()));
+                output.accept(ThreadboundGenerator.generateThreadPage(new Pyrolux()));
+                output.accept(ThreadboundGenerator.generateThreadPage(new Fluvalen()));
 
-                output.accept(PartToolGenerator.generateThreadPage(new Frigala()));
-                output.accept(PartToolGenerator.generateThreadPage(new Cryoluxa()));
-                output.accept(PartToolGenerator.generateThreadPage(new Nivalune()));
+                output.accept(ThreadboundGenerator.generateThreadPage(new Frigala()));
+                output.accept(ThreadboundGenerator.generateThreadPage(new Cryoluxa()));
+                output.accept(ThreadboundGenerator.generateThreadPage(new Nivalune()));
 
-                output.accept(PartToolGenerator.generateThreadPage(new Voltaris()));
-                output.accept(PartToolGenerator.generateThreadPage(new Fulgenza()));
-                output.accept(PartToolGenerator.generateThreadPage(new Sparkion()));
+                output.accept(ThreadboundGenerator.generateThreadPage(new Voltaris()));
+                output.accept(ThreadboundGenerator.generateThreadPage(new Fulgenza()));
+                output.accept(ThreadboundGenerator.generateThreadPage(new Sparkion()));
 
-                output.accept(PartToolGenerator.generateThreadPage(new Tremivox()));
-                output.accept(PartToolGenerator.generateThreadPage(new Oscilbeam()));
-                output.accept(PartToolGenerator.generateThreadPage(new Sonistorm()));
+                output.accept(ThreadboundGenerator.generateThreadPage(new Tremivox()));
+                output.accept(ThreadboundGenerator.generateThreadPage(new Oscilbeam()));
+                output.accept(ThreadboundGenerator.generateThreadPage(new Sonistorm()));
 
-                output.accept(PartToolGenerator.generateThreadPage(new Mirazien()));
-                output.accept(PartToolGenerator.generateThreadPage(new Phantastra()));
-                output.accept(PartToolGenerator.generateThreadPage(new Veilmist()));
+                output.accept(ThreadboundGenerator.generateThreadPage(new Mirazien()));
+                output.accept(ThreadboundGenerator.generateThreadPage(new Phantastra()));
+                output.accept(ThreadboundGenerator.generateThreadPage(new Veilmist()));
 
-                output.accept(PartToolGenerator.generateThreadPage(new Arcaleth()));
-                output.accept(PartToolGenerator.generateThreadPage(new Mystaven()));
-                output.accept(PartToolGenerator.generateThreadPage(new Glymora()));
+                output.accept(ThreadboundGenerator.generateThreadPage(new Arcaleth()));
+                output.accept(ThreadboundGenerator.generateThreadPage(new Mystaven()));
+                output.accept(ThreadboundGenerator.generateThreadPage(new Glymora()));
 
-                output.accept(PartToolGenerator.generateThreadPage(new Aeltherin()));
-                output.accept(PartToolGenerator.generateThreadPage(new Fluvinae()));
-                output.accept(PartToolGenerator.generateThreadPage(new Mistrelune()));
+                output.accept(ThreadboundGenerator.generateThreadPage(new Aeltherin()));
+                output.accept(ThreadboundGenerator.generateThreadPage(new Fluvinae()));
+                output.accept(ThreadboundGenerator.generateThreadPage(new Mistrelune()));
 
-                output.accept(PartToolGenerator.generateThreadPage(new Nullixis()));
-                output.accept(PartToolGenerator.generateThreadPage(new Voidlance()));
-                output.accept(PartToolGenerator.generateThreadPage(new Tenebrisol()));
-                output.accept(PartToolGenerator.generateThreadPage(new Disparundra()));
+                output.accept(ThreadboundGenerator.generateThreadPage(new Nullixis()));
+                output.accept(ThreadboundGenerator.generateThreadPage(new Voidlance()));
+                output.accept(ThreadboundGenerator.generateThreadPage(new Tenebrisol()));
+                output.accept(ThreadboundGenerator.generateThreadPage(new Disparundra()));
+
+                output.accept(ThreadboundGenerator.generateThreadPage(new Enercrux()));
 
             }).build());
 

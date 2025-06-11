@@ -14,6 +14,7 @@ import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -24,6 +25,7 @@ import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.util.EntityUtil;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class BeamSpell extends Spell {
 
@@ -57,6 +59,12 @@ public class BeamSpell extends Spell {
                         this.applyDamage(baseDamage, this.getRequiredMana(level, user, stack), this.getElement(), stack, user, target);
                         if (target instanceof LivingEntity livingTarget) {
                             applyEffectToLivingTarget(level, user, livingTarget);
+                        }
+                    }
+                    List<Entity> entities = EntityUtil.getEntitiesInBox(level, user, hitPos, new Vec3(0.3, 0.3, 0.3));
+                    for (Entity entity : entities) {
+                        if (entity instanceof ItemEntity) {
+                            applyEffectToItem(level, user, entity);
                         }
                     }
                 }

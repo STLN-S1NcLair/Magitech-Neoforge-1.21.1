@@ -1,6 +1,6 @@
 {
-  "replace" :  false,
-  "values" :  [
+  "replace": false,
+  "values": [
     "magitech:glistening_lexicon",
     "magitech:arcane_engineering_compendium"
   ]

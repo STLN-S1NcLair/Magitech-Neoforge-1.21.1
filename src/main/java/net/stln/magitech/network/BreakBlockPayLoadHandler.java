@@ -24,7 +24,7 @@ public class BreakBlockPayLoadHandler {
                     trait.onBreakBlock(player, player.level(), stack, integer, ((PartToolItem) stack.getItem()).getSumStats(player, player.level(), stack), player.level().getBlockState(pos), pos, 1, pos.equals(initialPos));
                 }
                 if (payload.effect()) {
-                    trait.addEffect(player, player.level(), stack, integer, ((PartToolItem)stack.getItem()).getSumStats(player, player.level(), stack), player.level().getBlockState(pos), pos, 1, pos.equals(initialPos));
+                    trait.addEffect(player, player.level(), stack, integer, ((PartToolItem) stack.getItem()).getSumStats(player, player.level(), stack), player.level().getBlockState(pos), pos, 1, pos.equals(initialPos));
                 }
             });
         }

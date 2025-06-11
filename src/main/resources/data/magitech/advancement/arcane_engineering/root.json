@@ -7,7 +7,7 @@
       "translate": "advancement.magitech.arcane_engineering.root.title"
     },
     "description": {
-      "translate":"advancement.magitech.arcane_engineering.root.description"
+      "translate": "advancement.magitech.arcane_engineering.root.description"
     },
     "background": "minecraft:textures/block/quartz_block_top.png",
     "frame": "task",

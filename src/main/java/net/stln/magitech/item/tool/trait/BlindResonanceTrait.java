@@ -1,7 +1,5 @@
 package net.stln.magitech.item.tool.trait;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -21,10 +19,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.common.Tags;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.damage.DamageTypeInit;
 import net.stln.magitech.entity.mobeffect.MobEffectInit;
@@ -33,18 +28,19 @@ import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.item.tool.material.ToolMaterial;
 import net.stln.magitech.item.tool.toolitem.PartToolItem;
 import net.stln.magitech.item.tool.toolitem.SpellCasterItem;
-import net.stln.magitech.particle.particle_option.*;
+import net.stln.magitech.particle.particle_option.PowerupNoCullParticleEffect;
+import net.stln.magitech.particle.particle_option.PowerupParticleEffect;
+import net.stln.magitech.particle.particle_option.WaveNoCullParticleEffect;
+import net.stln.magitech.particle.particle_option.WaveParticleEffect;
 import net.stln.magitech.sound.SoundInit;
 import net.stln.magitech.util.EffectUtil;
 import net.stln.magitech.util.EntityUtil;
-import net.stln.magitech.util.TickScheduler;
 import org.joml.Vector3f;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Predicate;
 
 public class BlindResonanceTrait extends Trait {
 
@@ -121,10 +117,10 @@ public class BlindResonanceTrait extends Trait {
     @Override
     public void traitAction(Player player, Level level, Entity target, Vec3 lookingPos, ItemStack stack, int traitLevel, ToolStats stats, InteractionHand hand, boolean isHost) {
         super.traitAction(player, level, target, lookingPos, stack, traitLevel, stats, hand, isHost);
-            if (!level.isClientSide() && !isHost) {
-                stack.hurtAndBreak(5, player, hand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
-                player.addEffect(new MobEffectInstance(MobEffectInit.ECHOLOCATION, 60));
-            }
+        if (!level.isClientSide() && !isHost) {
+            stack.hurtAndBreak(5, player, hand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
+            player.addEffect(new MobEffectInstance(MobEffectInit.ECHOLOCATION, 60));
+        }
         level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundInit.ECHOLOCATION.get(), SoundSource.PLAYERS, 1.0F, 0.7F + (player.getRandom().nextFloat() * 0.6F));
     }
 

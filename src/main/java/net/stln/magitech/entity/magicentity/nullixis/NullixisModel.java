@@ -2,7 +2,6 @@ package net.stln.magitech.entity.magicentity.nullixis;
 
 import net.minecraft.resources.ResourceLocation;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.entity.magicentity.nullixis.NullixisEntity;
 import software.bernie.geckolib.model.GeoModel;
 
 public class NullixisModel extends GeoModel<NullixisEntity> {

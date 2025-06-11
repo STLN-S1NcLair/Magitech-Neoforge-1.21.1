@@ -1,31 +1,24 @@
 package net.stln.magitech.hud;
 
-import java.util.List;
-import java.util.Optional;
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Lists;
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.StackedContents;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
-import net.stln.magitech.Magitech;
 import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.recipe.PartCuttingRecipe;
 import net.stln.magitech.recipe.RecipeInit;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public class PartCuttingMenu extends AbstractContainerMenu {
     public static final int INPUT_SLOT = 0;
@@ -34,28 +27,32 @@ public class PartCuttingMenu extends AbstractContainerMenu {
     private static final int INV_SLOT_END = 29;
     private static final int USE_ROW_SLOT_START = 29;
     private static final int USE_ROW_SLOT_END = 38;
+    final Slot inputSlot;
+    /**
+     * The inventory slot that stores the output of the crafting recipe.
+     */
+    final Slot resultSlot;
+    /**
+     * The inventory that stores the output of the crafting recipe.
+     */
+    final ResultContainer resultContainer = new ResultContainer();
     private final ContainerLevelAccess access;
     /**
      * The index of the selected recipe in the GUI.
      */
     private final DataSlot selectedRecipeIndex = DataSlot.standalone();
     private final Level level;
+    /**
+     * Stores the game time of the last time the player took items from the the crafting result slot. This is used to prevent the sound from being played multiple times on the same tick.
+     */
+    long lastSoundTime;
+    Runnable slotUpdateListener = () -> {
+    };
     private List<RecipeHolder<PartCuttingRecipe>> recipes = Lists.newArrayList();
     /**
      * The {@linkplain net.minecraft.world.item.ItemStack} set in the input slot by the player.
      */
     private ItemStack input = ItemStack.EMPTY;
-    /**
-     * Stores the game time of the last time the player took items from the the crafting result slot. This is used to prevent the sound from being played multiple times on the same tick.
-     */
-    long lastSoundTime;
-    final Slot inputSlot;
-    /**
-     * The inventory slot that stores the output of the crafting recipe.
-     */
-    final Slot resultSlot;
-    Runnable slotUpdateListener = () -> {
-    };
     public final Container container = new SimpleContainer(1) {
         @Override
         public void setChanged() {
@@ -64,10 +61,6 @@ public class PartCuttingMenu extends AbstractContainerMenu {
             PartCuttingMenu.this.slotUpdateListener.run();
         }
     };
-    /**
-     * The inventory that stores the output of the crafting recipe.
-     */
-    final ResultContainer resultContainer = new ResultContainer();
 
     public PartCuttingMenu(int containerId, Inventory playerInventory) {
         this(containerId, playerInventory, ContainerLevelAccess.NULL);
@@ -121,6 +114,10 @@ public class PartCuttingMenu extends AbstractContainerMenu {
         this.addDataSlot(this.selectedRecipeIndex);
     }
 
+    private static SingleRecipeInput createRecipeInput(Container container) {
+        return new SingleRecipeInput(container.getItem(0));
+    }
+
     private @NotNull ItemStack removeCount() {
         return this.inputSlot.remove(recipes.get(selectedRecipeIndex.get()).value().getCount());
     }
@@ -172,14 +169,8 @@ public class PartCuttingMenu extends AbstractContainerMenu {
     @Override
     public void slotsChanged(Container inventory) {
         ItemStack itemstack = this.inputSlot.getItem();
-        if (!itemstack.is(this.input.getItem())) {
-            this.input = itemstack.copy();
-            this.setupRecipeList(inventory, itemstack);
-        }
-    }
-
-    private static SingleRecipeInput createRecipeInput(Container container) {
-        return new SingleRecipeInput(container.getItem(0));
+        this.input = itemstack.copy();
+        this.setupRecipeList(inventory, itemstack);
     }
 
     private void setupRecipeList(Container container, ItemStack stack) {

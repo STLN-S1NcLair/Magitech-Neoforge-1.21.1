@@ -10,9 +10,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.magic.spell.SpellRegister;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public record ThreadPageComponent(Spell spell) {
 
     public static final Codec<ThreadPageComponent> CODEC = RecordCodecBuilder.create(spellComponentInstance ->
@@ -28,9 +25,9 @@ public record ThreadPageComponent(Spell spell) {
 
 
     public ResourceLocation getSpellId() {
-            if (spell != null) {
-                return SpellRegister.getId(spell);
-            }
+        if (spell != null) {
+            return SpellRegister.getId(spell);
+        }
         return null;
     }
 

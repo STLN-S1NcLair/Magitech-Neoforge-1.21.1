@@ -2,7 +2,6 @@ package net.stln.magitech.entity.magicentity.ignisca;
 
 import net.minecraft.resources.ResourceLocation;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.entity.magicentity.frigala.FrigalaEntity;
 import software.bernie.geckolib.model.GeoModel;
 
 public class IgniscaModel extends GeoModel<IgniscaEntity> {

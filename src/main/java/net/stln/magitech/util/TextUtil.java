@@ -1,7 +1,5 @@
 package net.stln.magitech.util;
 
-import net.stln.magitech.item.tool.ToolStats;
-
 public class TextUtil {
 
     public static String toSignedPercent(double value) {

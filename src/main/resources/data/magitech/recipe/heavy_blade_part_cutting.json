@@ -1,7 +1,7 @@
 {
-    "type": "magitech:part_cutting",
-    "input_count": 3,
-    "result": {
-        "id": "magitech:heavy_blade"
-    }
+  "type": "magitech:part_cutting",
+  "input_count": 3,
+  "result": {
+    "id": "magitech:heavy_blade"
+  }
 }3

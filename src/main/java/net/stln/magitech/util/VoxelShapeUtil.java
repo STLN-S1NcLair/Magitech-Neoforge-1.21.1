@@ -115,5 +115,6 @@ public class VoxelShapeUtil {
         return new RotationAngles((360 - rot.x) % 360, (360 - rot.y) % 360);
     }
 
-    private record RotationAngles(int x, int y) {}
+    private record RotationAngles(int x, int y) {
+    }
 }

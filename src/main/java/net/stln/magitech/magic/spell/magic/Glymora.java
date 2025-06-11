@@ -13,8 +13,6 @@ import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -28,7 +26,6 @@ import net.stln.magitech.item.tool.Element;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.particle.particle_option.RuneParticleEffect;
-import net.stln.magitech.particle.particle_option.VoidGlowParticleEffect;
 import net.stln.magitech.sound.SoundInit;
 import net.stln.magitech.util.EntityUtil;
 import org.joml.Vector3f;
@@ -110,9 +107,9 @@ public class Glymora extends Spell {
             attackList.addAll(EntityUtil.getEntitiesInBox(level, livingEntity, center, new Vec3(3.0, 3.0, 3.0)));
             attackList.addAll(EntityUtil.getEntitiesInBox(level, livingEntity, center2, new Vec3(4.0, 4.0, 4.0)));
             for (int i = 0; i < 5; i++) {
-                    level.addParticle(new RuneParticleEffect(new Vector3f(1), new Vector3f(1),
-                                    5F, 1, (float) ((livingEntity.getRandom().nextFloat() - 0.5) / 6)), offset.x + (livingEntity.getRandom().nextFloat() - 0.5) / 4, offset.y + (livingEntity.getRandom().nextFloat() - 0.5) / 4, offset.z + (livingEntity.getRandom().nextFloat() - 0.5) / 4,
-                            forward.x * 0.5 + (livingEntity.getRandom().nextFloat() - 0.5) / 2, forward.y * 0.5 + (livingEntity.getRandom().nextFloat() - 0.5) / 2, forward.z * 0.5 + (livingEntity.getRandom().nextFloat() - 0.5) / 2);
+                level.addParticle(new RuneParticleEffect(new Vector3f(1), new Vector3f(1),
+                                5F, 1, (float) ((livingEntity.getRandom().nextFloat() - 0.5) / 6)), offset.x + (livingEntity.getRandom().nextFloat() - 0.5) / 4, offset.y + (livingEntity.getRandom().nextFloat() - 0.5) / 4, offset.z + (livingEntity.getRandom().nextFloat() - 0.5) / 4,
+                        forward.x * 0.5 + (livingEntity.getRandom().nextFloat() - 0.5) / 2, forward.y * 0.5 + (livingEntity.getRandom().nextFloat() - 0.5) / 2, forward.z * 0.5 + (livingEntity.getRandom().nextFloat() - 0.5) / 2);
             }
             if (usingTick % 5 == 0) {
                 level.playSound(player, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), SoundInit.GLYMORA.get(), SoundSource.PLAYERS, 1.0F, 0.7F + (player.getRandom().nextFloat() * 0.6F));

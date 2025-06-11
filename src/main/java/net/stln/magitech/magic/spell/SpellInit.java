@@ -18,6 +18,7 @@ import net.stln.magitech.magic.spell.hollow.Voidlance;
 import net.stln.magitech.magic.spell.magic.Arcaleth;
 import net.stln.magitech.magic.spell.magic.Glymora;
 import net.stln.magitech.magic.spell.magic.Mystaven;
+import net.stln.magitech.magic.spell.mana.Enercrux;
 import net.stln.magitech.magic.spell.phantom.Mirazien;
 import net.stln.magitech.magic.spell.phantom.Phantastra;
 import net.stln.magitech.magic.spell.phantom.Veilmist;
@@ -63,5 +64,7 @@ public class SpellInit {
         SpellRegister.registerSpell(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "voidlance"), new Voidlance());
         SpellRegister.registerSpell(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "tenebrisol"), new Tenebrisol());
         SpellRegister.registerSpell(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "disparundra"), new Disparundra());
+
+        SpellRegister.registerSpell(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "enercrux"), new Enercrux());
     }
 }

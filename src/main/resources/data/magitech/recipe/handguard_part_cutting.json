@@ -1,7 +1,7 @@
 {
-    "type": "magitech:part_cutting",
-    "input_count": 1,
-    "result": {
-        "id": "magitech:handguard"
-    }
+  "type": "magitech:part_cutting",
+  "input_count": 1,
+  "result": {
+    "id": "magitech:handguard"
+  }
 }

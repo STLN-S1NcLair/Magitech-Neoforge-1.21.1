@@ -1,7 +1,7 @@
 {
-    "type": "magitech:tool_material",
-    "ingredient": {
-        "tag": "c:stripped_logs"
-    },
-    "result": "magitech:wood"
+  "type": "magitech:tool_material",
+  "ingredient": {
+    "tag": "c:stripped_logs"
+  },
+  "result": "magitech:wood"
 }

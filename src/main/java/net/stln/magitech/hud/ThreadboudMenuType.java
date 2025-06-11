@@ -1,6 +1,5 @@
 package net.stln.magitech.hud;
 
-import net.minecraft.world.Container;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -8,8 +7,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.SlotItemHandler;
 import net.stln.magitech.item.ItemInit;
 import net.stln.magitech.item.ThreadPageItem;
 import net.stln.magitech.item.ThreadboundItem;
@@ -17,6 +14,8 @@ import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.SpellComponent;
 import net.stln.magitech.item.component.ThreadPageComponent;
 import net.stln.magitech.magic.spell.Spell;
+import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +34,10 @@ public class ThreadboudMenuType extends AbstractContainerMenu {
     public ThreadboudMenuType(int containerId, Inventory playerInv, Player player, ItemStack threadbound) {
         super(OverlayInit.THREADBOUND_MENU.get(), containerId);
         this.player = player;
+
+        if (!(threadbound.getItem() instanceof ThreadboundItem) && CuriosApi.getCuriosInventory(player).isPresent()) {
+            threadbound = CuriosApi.getCuriosInventory(player).get().getCurios().get("threadbound").getStacks().getStackInSlot(0);
+        }
         this.threadbound = threadbound;
 
         for (int i = 0; i < 15; i++) {
@@ -90,8 +93,10 @@ public class ThreadboudMenuType extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
-        return player.getInventory().contains(threadbound);
+        ICuriosItemHandler curiosInventory = CuriosApi.getCuriosInventory(player).get();
+        return player.getInventory().contains(threadbound) || !curiosInventory.getCurios().get("threadbound").getStacks().getStackInSlot(0).isEmpty();
     }
+
     private void addInventory(Inventory playerInventory) {
         for (int i = 0; i < 3; ++i) {
             for (int l = 0; l < 9; ++l) {

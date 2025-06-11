@@ -3,11 +3,11 @@
   "landing_text": "book.magitech.glistening_lexicon.landing_text",
   "version": 1,
   "model": "magitech:glistening_lexicon",
-  "dont_generate_book":true,
-  "custom_book_item":"magitech:glistening_lexicon",
+  "dont_generate_book": true,
+  "custom_book_item": "magitech:glistening_lexicon",
   "book_texture": "magitech:textures/gui/book_glistening_lexicon.png",
   "version": "1",
   "i18n": true,
-  "show_progress":false,
+  "show_progress": false,
   "use_resource_pack": true
 }

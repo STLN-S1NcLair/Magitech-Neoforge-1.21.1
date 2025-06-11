@@ -1,7 +1,7 @@
 {
-    "type": "magitech:tool_material",
-    "ingredient": {
-        "item": "minecraft:deepslate"
-    },
-    "result": "magitech:deepslate"
+  "type": "magitech:tool_material",
+  "ingredient": {
+    "item": "minecraft:deepslate"
+  },
+  "result": "magitech:deepslate"
 }

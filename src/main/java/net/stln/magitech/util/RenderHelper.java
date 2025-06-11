@@ -1,18 +1,13 @@
 package net.stln.magitech.util;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import net.stln.magitech.item.tool.Element;
-import org.joml.Matrix4f;
 
 public class RenderHelper {
     public static RenderType additiveNoCull(ResourceLocation texture) {
@@ -54,7 +49,7 @@ public class RenderHelper {
     }
 
     public static void renderFramedText(GuiGraphics guiGraphics, Font font, String text, int x, int y, Element element) {
-        renderFramedText(guiGraphics, font, text, x, y, element.getColor(), element.getDark());
+        renderFramedText(guiGraphics, font, text, x, y, element.getSpellColor(), element.getSpellDark());
     }
 
     public static void renderFramedText(GuiGraphics guiGraphics, Font font, String text, int x, int y, int color, int frameColor) {

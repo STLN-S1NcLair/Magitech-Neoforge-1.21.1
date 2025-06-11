@@ -43,6 +43,16 @@ public class Disparundra extends Spell {
         this.baseMaxRange = 20;
     }
 
+    protected static void playShootAnimation(Player user) {
+        var playerAnimationData = (ModifierLayer<IAnimation>) PlayerAnimationAccess.getPlayerAssociatedData((AbstractClientPlayer) user).get(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "animation"));
+        if (playerAnimationData != null) {
+
+            user.yBodyRot = user.yHeadRot;
+            playerAnimationData.setAnimation(new KeyframeAnimationPlayer((KeyframeAnimation) PlayerAnimationRegistry.getAnimation(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "wand_blink")))
+                    .setFirstPersonMode(FirstPersonMode.THIRD_PERSON_MODEL).setFirstPersonConfiguration(new FirstPersonConfiguration(true, true, true, true)));
+        }
+    }
+
     public Element getElement() {
         return Element.HOLLOW;
     }
@@ -58,16 +68,6 @@ public class Disparundra extends Spell {
     @Override
     public int getCooldown(Level level, Player user, ItemStack stack) {
         return 40;
-    }
-
-    protected static void playShootAnimation(Player user) {
-        var playerAnimationData = (ModifierLayer<IAnimation>) PlayerAnimationAccess.getPlayerAssociatedData((AbstractClientPlayer) user).get(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "animation"));
-        if (playerAnimationData != null) {
-
-            user.yBodyRot = user.yHeadRot;
-            playerAnimationData.setAnimation(new KeyframeAnimationPlayer((KeyframeAnimation) PlayerAnimationRegistry.getAnimation(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "wand_blink")))
-                    .setFirstPersonMode(FirstPersonMode.THIRD_PERSON_MODEL).setFirstPersonConfiguration(new FirstPersonConfiguration(true, true, true, true)));
-        }
     }
 
     @Override

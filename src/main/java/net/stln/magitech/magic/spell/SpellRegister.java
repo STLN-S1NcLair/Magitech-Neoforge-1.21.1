@@ -38,7 +38,7 @@ public class SpellRegister {
 
     public static String getStringId(Spell spell) {
         if (spell != null) {
-        return getId(spell).toString();
+            return getId(spell).toString();
         }
         return "";
     }

@@ -3,6 +3,12 @@
   "overrides": [
     {
       "predicate": {
+        "magitech:element": 0
+      },
+      "model": "magitech:item/mana_thread_page"
+    },
+    {
+      "predicate": {
         "magitech:element": 1
       },
       "model": "magitech:item/ember_thread_page"

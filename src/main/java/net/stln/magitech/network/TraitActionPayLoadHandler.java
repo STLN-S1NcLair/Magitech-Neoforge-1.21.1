@@ -30,7 +30,7 @@ public class TraitActionPayLoadHandler {
                 if (lookingPos.x == Double.MAX_VALUE && lookingPos.y == Double.MAX_VALUE && lookingPos.z == Double.MAX_VALUE) {
                     lookingPos = null;
                 }
-                trait.traitAction(player, player.level(), entity, lookingPos, stack, integer, ((PartToolItem)stack.getItem()).getSumStats(player, player.level(), stack), hand, false);
+                trait.traitAction(player, player.level(), entity, lookingPos, stack, integer, ((PartToolItem) stack.getItem()).getSumStats(player, player.level(), stack), hand, false);
             });
         }
     }
@@ -48,7 +48,7 @@ public class TraitActionPayLoadHandler {
                 if (lookingPos.x == Double.MAX_VALUE && lookingPos.y == Double.MAX_VALUE && lookingPos.z == Double.MAX_VALUE) {
                     lookingPos = null;
                 }
-                trait.traitAction(player, player.level(), entity, lookingPos, stack, integer, ((PartToolItem)stack.getItem()).getSumStats(player, player.level(), stack), hand, false);
+                trait.traitAction(player, player.level(), entity, lookingPos, stack, integer, ((PartToolItem) stack.getItem()).getSumStats(player, player.level(), stack), hand, false);
             });
         }
         MinecraftServer server = Objects.requireNonNull(ServerLifecycleHooks.getCurrentServer(), "Cannot send clientbound payloads on the client");

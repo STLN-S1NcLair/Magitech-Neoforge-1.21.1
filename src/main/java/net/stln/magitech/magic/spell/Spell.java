@@ -87,16 +87,16 @@ public abstract class Spell {
     public Map<ManaUtil.ManaType, Double> getCost(Level level, Player user, ItemStack stack) {
         Map<ManaUtil.ManaType, Double> map = new HashMap<>(this.getBaseCost());
         if (map.containsKey(ManaUtil.ManaType.MANA)) {
-        map.put(ManaUtil.ManaType.MANA, map.get(ManaUtil.ManaType.MANA) / user.getAttributeValue(AttributeInit.MANA_EFFICIENCY));
+            map.put(ManaUtil.ManaType.MANA, map.get(ManaUtil.ManaType.MANA) / user.getAttributeValue(AttributeInit.MANA_EFFICIENCY));
         }
         return map;
     }
 
     public Map<ManaUtil.ManaType, Double> getTickCost(Level level, Player user, ItemStack stack) {
         Map<ManaUtil.ManaType, Double> map = new HashMap<>(this.getBaseTickCost());
-            if (map.containsKey(ManaUtil.ManaType.MANA)) {
-        map.put(ManaUtil.ManaType.MANA, map.get(ManaUtil.ManaType.MANA) / user.getAttributeValue(AttributeInit.MANA_EFFICIENCY));
-            }
+        if (map.containsKey(ManaUtil.ManaType.MANA)) {
+            map.put(ManaUtil.ManaType.MANA, map.get(ManaUtil.ManaType.MANA) / user.getAttributeValue(AttributeInit.MANA_EFFICIENCY));
+        }
         return map;
     }
 
@@ -111,6 +111,7 @@ public abstract class Spell {
     public int getCooldown(Level level, Player user, ItemStack stack) {
         return 60;
     }
+
     public int getModifiedCooldown(Level level, Player user, ItemStack stack) {
         return (int) Math.round(this.getCooldown(level, user, stack) / user.getAttributeValue(AttributeInit.COOLDOWN_SPEED));
     }
@@ -214,7 +215,6 @@ public abstract class Spell {
         double elementPower;
         if (element != Element.NONE) {
             DeferredHolder<Attribute, Attribute> elementAttribute = switch (element) {
-                case NONE -> null;
                 case EMBER -> AttributeInit.EMBER_SPELL_POWER;
                 case GLACE -> AttributeInit.GLACE_SPELL_POWER;
                 case SURGE -> AttributeInit.SURGE_SPELL_POWER;
@@ -223,12 +223,13 @@ public abstract class Spell {
                 case MAGIC -> AttributeInit.MAGIC_SPELL_POWER;
                 case FLOW -> AttributeInit.FLOW_SPELL_POWER;
                 case HOLLOW -> AttributeInit.HOLLOW_SPELL_POWER;
+                default -> throw new IllegalStateException("Unexpected value: " + element);
             };
             elementPower = user.getAttributeValue(elementAttribute);
         } else {
             elementPower = 1.0F;
         }
-        return (float) (baseDamage * power + baseDamage * (elementPower - 1));
+        return (float) (baseDamage * power * elementPower);
     }
 
     public double getProjectileSpeed(Player user, double baseSpeed) {
@@ -282,5 +283,9 @@ public abstract class Spell {
             list.add(Component.translatable("tooltip.magitech.spell.tick_cost").append(": " + MathUtil.round(this.getTickCost(level, user, stack).get(ManaUtil.ManaType.MANA), 2) + "/tick").withColor(0x40FFF0));
         }
         return list;
+    }
+
+    protected void applyEffectToItem(Level level, Player user, Entity target) {
+
     }
 }

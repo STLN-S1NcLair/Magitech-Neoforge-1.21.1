@@ -89,6 +89,69 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
         return ToolStats.DEFAULT;
     }
 
+    public static @NotNull Set<ToolMaterial> getMaterialSet(List<ToolMaterial> materials) {
+        Set<ToolMaterial> materialSet = new HashSet<>(Set.of());
+        materialSet.addAll(materials);
+        return materialSet;
+    }
+
+    public static List<Trait> getTraits(ItemStack stack) {
+
+        if (stack.has(ComponentInit.PART_MATERIAL_COMPONENT)) {
+            List<ToolMaterial> materials = stack.getComponents().get(ComponentInit.PART_MATERIAL_COMPONENT.get()).materials();
+            List<Trait> traits = new ArrayList<>();
+
+            for (int i = 0; i < materials.size(); i++) {
+                if (materials.get(i) != null) {
+                    traits.add(materials.get(i).getTrait());
+                }
+            }
+            return traits;
+        }
+        return new ArrayList<>();
+    }
+
+    public static @NotNull Map<Trait, Integer> getTraitLevel(List<Trait> traits) {
+        Map<Trait, Integer> traitLevel = new HashMap<>();
+        for (Trait trait : traits) {
+            if (trait != null) {
+                traitLevel.put(trait, traitLevel.getOrDefault(trait, 0) + 1);
+            }
+        }
+        return traitLevel;
+    }
+
+    private static boolean hasCorrectTier(ItemStack stack, BlockState state, ToolStats stats) {
+        if (state.getTags().anyMatch(Predicate.isEqual(BlockTags.INCORRECT_FOR_NETHERITE_TOOL)) && stats.getMiningLevel().getTier() <= MiningLevel.NETHERITE.getTier()) {
+            return false;
+        }
+        if (state.getTags().anyMatch(Predicate.isEqual(BlockTags.INCORRECT_FOR_DIAMOND_TOOL)) && stats.getMiningLevel().getTier() <= MiningLevel.DIAMOND.getTier()) {
+            return false;
+        }
+        if (state.getTags().anyMatch(Predicate.isEqual(BlockTags.INCORRECT_FOR_IRON_TOOL)) && stats.getMiningLevel().getTier() <= MiningLevel.IRON.getTier()) {
+            return false;
+        }
+        if (state.getTags().anyMatch(Predicate.isEqual(BlockTags.INCORRECT_FOR_STONE_TOOL)) && stats.getMiningLevel().getTier() <= MiningLevel.STONE.getTier()) {
+            return false;
+        }
+        if (state.getTags().anyMatch(Predicate.isEqual(BlockTags.INCORRECT_FOR_GOLD_TOOL)) && stats.getMiningLevel().getTier() <= MiningLevel.NONE.getTier()) {
+            return false;
+        }
+        if (state.getTags().anyMatch(Predicate.isEqual(BlockTags.INCORRECT_FOR_WOODEN_TOOL)) && stats.getMiningLevel().getTier() <= MiningLevel.NONE.getTier()) {
+            return false;
+        }
+        return true;
+    }
+
+    public static Direction getBreakDirection(double range, BlockPos initalBlockPos, Player player) {
+        List<BlockPos> positions = new ArrayList<>();
+
+        BlockHitResult traceResult = player.level().clip(new ClipContext(player.getEyePosition(1f),
+                (player.getEyePosition(1f).add(player.getViewVector(1f).scale(6f))),
+                ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, player));
+        return traceResult.getDirection();
+    }
+
     public ToolStats getSumStats(Player player, Level level, ItemStack stack) {
         return getModifiedStats(player, level, stack);
     }
@@ -152,38 +215,6 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
         return ToolStats.add(statsList);
     }
 
-    public static @NotNull Set<ToolMaterial> getMaterialSet(List<ToolMaterial> materials) {
-        Set<ToolMaterial> materialSet = new HashSet<>(Set.of());
-        materialSet.addAll(materials);
-        return materialSet;
-    }
-
-    public static List<Trait> getTraits(ItemStack stack) {
-
-        if (stack.has(ComponentInit.PART_MATERIAL_COMPONENT)) {
-            List<ToolMaterial> materials = stack.getComponents().get(ComponentInit.PART_MATERIAL_COMPONENT.get()).materials();
-            List<Trait> traits = new ArrayList<>();
-
-            for (int i = 0; i < materials.size(); i++) {
-                if (materials.get(i) != null) {
-                    traits.add(materials.get(i).getTrait());
-                }
-            }
-            return traits;
-        }
-        return new ArrayList<>();
-    }
-
-    public static @NotNull Map<Trait, Integer> getTraitLevel(List<Trait> traits) {
-        Map<Trait, Integer> traitLevel = new HashMap<>();
-        for (Trait trait : traits) {
-            if (trait != null) {
-                traitLevel.put(trait, traitLevel.getOrDefault(trait, 0) + 1);
-            }
-        }
-        return traitLevel;
-    }
-
     public boolean isCorrectTool(ItemStack stack, BlockState state, PartToolItem partToolItem, ToolStats stats) {
         final Boolean[] flag = {null};
         getTraitLevel(getTraits(stack)).forEach((trait, integer) -> {
@@ -215,37 +246,6 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
             return hasCorrectTier(stack, state, stats);
         }
         return false;
-    }
-
-    private static boolean hasCorrectTier(ItemStack stack, BlockState state, ToolStats stats) {
-        if (state.getTags().anyMatch(Predicate.isEqual(BlockTags.INCORRECT_FOR_NETHERITE_TOOL)) && stats.getMiningLevel().getTier() <= MiningLevel.NETHERITE.getTier()) {
-            return false;
-        }
-        if (state.getTags().anyMatch(Predicate.isEqual(BlockTags.INCORRECT_FOR_DIAMOND_TOOL)) && stats.getMiningLevel().getTier() <= MiningLevel.DIAMOND.getTier()) {
-            return false;
-        }
-        if (state.getTags().anyMatch(Predicate.isEqual(BlockTags.INCORRECT_FOR_IRON_TOOL)) && stats.getMiningLevel().getTier() <= MiningLevel.IRON.getTier()) {
-            return false;
-        }
-        if (state.getTags().anyMatch(Predicate.isEqual(BlockTags.INCORRECT_FOR_STONE_TOOL)) && stats.getMiningLevel().getTier() <= MiningLevel.STONE.getTier()) {
-            return false;
-        }
-        if (state.getTags().anyMatch(Predicate.isEqual(BlockTags.INCORRECT_FOR_GOLD_TOOL)) && stats.getMiningLevel().getTier() <= MiningLevel.NONE.getTier()) {
-            return false;
-        }
-        if (state.getTags().anyMatch(Predicate.isEqual(BlockTags.INCORRECT_FOR_WOODEN_TOOL)) && stats.getMiningLevel().getTier() <= MiningLevel.NONE.getTier()) {
-            return false;
-        }
-        return true;
-    }
-
-    public static Direction getBreakDirection(double range, BlockPos initalBlockPos, Player player) {
-        List<BlockPos> positions = new ArrayList<>();
-
-        BlockHitResult traceResult = player.level().clip(new ClipContext(player.getEyePosition(1f),
-                (player.getEyePosition(1f).add(player.getViewVector(1f).scale(6f))),
-                ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, player));
-        return traceResult.getDirection();
     }
 
     public abstract ToolType getToolType();

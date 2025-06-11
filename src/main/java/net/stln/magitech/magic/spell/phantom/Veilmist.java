@@ -28,7 +28,6 @@ import net.stln.magitech.entity.mobeffect.MobEffectInit;
 import net.stln.magitech.item.tool.Element;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.Spell;
-import net.stln.magitech.particle.particle_option.FrostParticleEffect;
 import net.stln.magitech.particle.particle_option.MembraneParticleEffect;
 import net.stln.magitech.particle.particle_option.UnstableSquareParticleEffect;
 import net.stln.magitech.sound.SoundInit;
@@ -112,12 +111,12 @@ public class Veilmist extends Spell {
             attackList.addAll(EntityUtil.getEntitiesInBox(level, livingEntity, center, new Vec3(3.0, 3.0, 3.0)));
             attackList.addAll(EntityUtil.getEntitiesInBox(level, livingEntity, center2, new Vec3(4.0, 4.0, 4.0)));
             for (int i = 0; i < 2; i++) {
-                    level.addParticle(new MembraneParticleEffect(new Vector3f(1), new Vector3f(1),
-                                    5F, 1, (float) ((livingEntity.getRandom().nextFloat() - 0.5) / 8)), offset.x + (livingEntity.getRandom().nextFloat() - 0.5) / 4, offset.y + (livingEntity.getRandom().nextFloat() - 0.5) / 4, offset.z + (livingEntity.getRandom().nextFloat() - 0.5) / 4,
-                            forward.x * 0.5 + (livingEntity.getRandom().nextFloat() - 0.5) / 2, forward.y * 0.5 + (livingEntity.getRandom().nextFloat() - 0.5) / 2, forward.z * 0.5 + (livingEntity.getRandom().nextFloat() - 0.5) / 2);
-                    level.addParticle(new UnstableSquareParticleEffect(new Vector3f(1, 1, 0.7F), new Vector3f(1, 1, 0.5F),
-                                    2F, 1, (float) ((livingEntity.getRandom().nextFloat() - 0.5) / 8)), offset.x + (livingEntity.getRandom().nextFloat() - 0.5) / 4, offset.y + (livingEntity.getRandom().nextFloat() - 0.5) / 4, offset.z + (livingEntity.getRandom().nextFloat() - 0.5) / 4,
-                            forward.x * 0.25 + (livingEntity.getRandom().nextFloat() - 0.5) / 6, forward.y * 0.25 + (livingEntity.getRandom().nextFloat() - 0.5) / 6, forward.z * 0.25 + (livingEntity.getRandom().nextFloat() - 0.5) / 6);
+                level.addParticle(new MembraneParticleEffect(new Vector3f(1), new Vector3f(1),
+                                5F, 1, (float) ((livingEntity.getRandom().nextFloat() - 0.5) / 8)), offset.x + (livingEntity.getRandom().nextFloat() - 0.5) / 4, offset.y + (livingEntity.getRandom().nextFloat() - 0.5) / 4, offset.z + (livingEntity.getRandom().nextFloat() - 0.5) / 4,
+                        forward.x * 0.5 + (livingEntity.getRandom().nextFloat() - 0.5) / 2, forward.y * 0.5 + (livingEntity.getRandom().nextFloat() - 0.5) / 2, forward.z * 0.5 + (livingEntity.getRandom().nextFloat() - 0.5) / 2);
+                level.addParticle(new UnstableSquareParticleEffect(new Vector3f(1, 1, 0.7F), new Vector3f(1, 1, 0.5F),
+                                2F, 1, (float) ((livingEntity.getRandom().nextFloat() - 0.5) / 8)), offset.x + (livingEntity.getRandom().nextFloat() - 0.5) / 4, offset.y + (livingEntity.getRandom().nextFloat() - 0.5) / 4, offset.z + (livingEntity.getRandom().nextFloat() - 0.5) / 4,
+                        forward.x * 0.25 + (livingEntity.getRandom().nextFloat() - 0.5) / 6, forward.y * 0.25 + (livingEntity.getRandom().nextFloat() - 0.5) / 6, forward.z * 0.25 + (livingEntity.getRandom().nextFloat() - 0.5) / 6);
             }
             if (usingTick % 5 == 0) {
                 level.playSound(player, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), SoundInit.VEILMIST.get(), SoundSource.PLAYERS, 1.0F, 0.7F + (player.getRandom().nextFloat() * 0.6F));

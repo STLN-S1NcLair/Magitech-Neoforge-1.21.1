@@ -1,7 +1,7 @@
 {
-    "type": "magitech:part_cutting",
-    "input_count": 2,
-    "result": {
-        "id": "magitech:light_blade"
-    }
+  "type": "magitech:part_cutting",
+  "input_count": 2,
+  "result": {
+    "id": "magitech:light_blade"
+  }
 }

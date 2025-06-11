@@ -1,5 +1,8 @@
 {
   "values": [
-    "magitech:redstone_crystal_cluster"
+    "magitech:redstone_crystal_cluster",
+    "magitech:fluorite_ore",
+    "magitech:deepslate_fluorite_ore",
+    "magitech:fluorite_crystal_cluster"
   ]
 }

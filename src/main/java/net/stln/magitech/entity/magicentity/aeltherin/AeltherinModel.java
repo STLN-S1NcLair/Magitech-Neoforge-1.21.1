@@ -2,7 +2,6 @@ package net.stln.magitech.entity.magicentity.aeltherin;
 
 import net.minecraft.resources.ResourceLocation;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.entity.magicentity.voltaris.VoltarisEntity;
 import software.bernie.geckolib.model.GeoModel;
 
 public class AeltherinModel extends GeoModel<AeltherinEntity> {

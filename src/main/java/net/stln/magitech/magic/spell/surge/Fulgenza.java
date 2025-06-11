@@ -79,7 +79,7 @@ public class Fulgenza extends BeamSpell {
 
                 if (target != null) {
                     if (!level.isClientSide) {
-                    this.applyDamage(baseDamage, this.getRequiredMana(level, user, stack), this.getElement(), stack, user, target);
+                        this.applyDamage(baseDamage, this.getRequiredMana(level, user, stack), this.getElement(), stack, user, target);
                     }
 
                     Set<Entity> attackList = new HashSet<>();

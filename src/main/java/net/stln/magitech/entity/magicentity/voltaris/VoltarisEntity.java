@@ -15,7 +15,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
-import net.stln.magitech.damage.DamageTypeInit;
 import net.stln.magitech.damage.EntityElementRegister;
 import net.stln.magitech.entity.EntityInit;
 import net.stln.magitech.entity.SpellProjectileEntity;

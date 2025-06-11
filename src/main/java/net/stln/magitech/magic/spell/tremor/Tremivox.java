@@ -20,10 +20,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.entity.magicentity.frigala.FrigalaEntity;
 import net.stln.magitech.entity.magicentity.tremivox.TremivoxEntity;
 import net.stln.magitech.item.tool.Element;
-import net.stln.magitech.magic.charge.Charge;
 import net.stln.magitech.magic.charge.ChargeData;
 import net.stln.magitech.magic.cooldown.CooldownData;
 import net.stln.magitech.magic.mana.ManaUtil;
@@ -87,7 +85,7 @@ public class Tremivox extends Spell {
     public void finishUsing(ItemStack stack, Level level, LivingEntity livingEntity, int timeCharged, boolean isHost) {
         super.finishUsing(stack, level, livingEntity, timeCharged, isHost);
         if (livingEntity instanceof Player user) {
-            if (ChargeData.getCurrentCharge(user) == null &&  timeCharged > 1 && ManaUtil.useManaServerOnly(user, this.getRequiredMana(level, user, stack))) {
+            if (ChargeData.getCurrentCharge(user) == null && timeCharged > 1 && ManaUtil.useManaServerOnly(user, this.getRequiredMana(level, user, stack))) {
                 level.playSound(user, user.getX(), user.getY(), user.getZ(), SoundInit.TREMIVOX.get(), SoundSource.PLAYERS);
 
                 if (!level.isClientSide && !isHost) {

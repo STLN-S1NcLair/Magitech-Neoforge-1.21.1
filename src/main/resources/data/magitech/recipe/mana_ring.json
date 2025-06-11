@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "magitech:mana_charged_fluorite"
+    },
+    "S": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "pattern": [
+    "#SS",
+    "S S",
+    "SS "
+  ],
+  "result": {
+    "count": 1,
+    "id": "magitech:mana_ring"
+  }
+}

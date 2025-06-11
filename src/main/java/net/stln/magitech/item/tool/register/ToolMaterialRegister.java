@@ -1,9 +1,6 @@
 package net.stln.magitech.item.tool.register;
 
-import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.Item;
 import net.stln.magitech.item.tool.Element;
 import net.stln.magitech.item.tool.ToolPart;
 import net.stln.magitech.item.tool.ToolStats;

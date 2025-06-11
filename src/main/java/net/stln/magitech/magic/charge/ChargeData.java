@@ -24,9 +24,9 @@ public class ChargeData {
         return chargeMapServer;
     }
 
-    public static void cleanUp() {
-        chargeMapClient = new HashMap<>();
-        chargeMapServer = new HashMap<>();
+    public static void cleanUp(Player player) {
+        chargeMapClient.remove(player);
+        chargeMapServer.remove(player);
     }
 
     public static void setCurrentCharge(Player player, Charge charge) {

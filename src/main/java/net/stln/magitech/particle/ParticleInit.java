@@ -32,6 +32,7 @@ public class ParticleInit {
     public static final Supplier<PowerupParticleType> POWERUP = PARTICLE_TYPES.register("powerup", () -> new PowerupParticleType(true));
     public static final Supplier<PowerupNoCullParticleType> POWERUP_NO_CULL = PARTICLE_TYPES.register("powerup_no_cull", () -> new PowerupNoCullParticleType(true));
     public static final Supplier<ZapParticleType> ZAP = PARTICLE_TYPES.register("zap", () -> new ZapParticleType(true));
+    public static final Supplier<ManaZapParticleType> MANA_ZAP = PARTICLE_TYPES.register("mana_zap", () -> new ManaZapParticleType(true));
     public static final Supplier<BeamParticleType> BEAM = PARTICLE_TYPES.register("beam", () -> new BeamParticleType(true));
 
     @Environment(EnvType.CLIENT)
@@ -57,6 +58,7 @@ public class ParticleInit {
         event.registerSpriteSet(POWERUP.get(), PowerupParticle.Provider::new);
         event.registerSpriteSet(POWERUP_NO_CULL.get(), PowerupNoCullParticle.Provider::new);
         event.registerSpriteSet(ZAP.get(), ZapParticle.Provider::new);
+        event.registerSpriteSet(MANA_ZAP.get(), ManaZapParticle.Provider::new);
         event.registerSpriteSet(BEAM.get(), BeamParticle.Provider::new);
     }
 }

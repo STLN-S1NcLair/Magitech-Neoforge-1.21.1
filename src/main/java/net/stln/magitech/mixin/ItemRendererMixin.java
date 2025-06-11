@@ -55,8 +55,8 @@ public class ItemRendererMixin {
         } else if (itemStack.getComponents().has(ComponentInit.MATERIAL_COMPONENT.get()) && itemStack.getItem() instanceof PartItem partItem) {
             ToolMaterial partMaterial = itemStack.get(ComponentInit.MATERIAL_COMPONENT.get()).getMaterial();
 
-                minecraft.getItemRenderer().render(new ItemStack(Items.IRON_INGOT),
-                        displayContext, leftHand, poseStack, bufferSource, combinedLight, combinedOverlay, minecraft.getModelManager().getModel(ModelResourceLocation.standalone(ModelRegistrar.getPartItemModelId(partMaterial, partItem.getPart().get()))));
+            minecraft.getItemRenderer().render(new ItemStack(Items.IRON_INGOT),
+                    displayContext, leftHand, poseStack, bufferSource, combinedLight, combinedOverlay, minecraft.getModelManager().getModel(ModelResourceLocation.standalone(ModelRegistrar.getPartItemModelId(partMaterial, partItem.getPart().get()))));
         }
     }
 }

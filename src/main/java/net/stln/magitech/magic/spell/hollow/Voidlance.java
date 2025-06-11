@@ -9,7 +9,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.stln.magitech.Magitech;
 import net.stln.magitech.entity.mobeffect.MobEffectInit;
 import net.stln.magitech.item.tool.Element;
 import net.stln.magitech.magic.charge.ChargeData;
@@ -72,12 +71,11 @@ public class Voidlance extends BeamSpell {
                 playBeamSound(level, user);
                 final List<Vec3>[] vec3s = new List[]{new ArrayList<>()};
                 TickScheduler.schedule(2, () -> vec3s[0] = addBeam(stack, level, user, hitPos, 1), level.isClientSide);
-                    TickScheduler.schedule(4, () -> {
-                for (Vec3 hit : vec3s[0]) {
-                    addBeam(stack, level, user, hit, 2);
-                }
+                TickScheduler.schedule(4, () -> {
+                    for (Vec3 hit : vec3s[0]) {
+                        addBeam(stack, level, user, hit, 2);
+                    }
                 }, level.isClientSide);
-
 
 
                 if (!level.isClientSide) {
@@ -108,27 +106,26 @@ public class Voidlance extends BeamSpell {
                     if (Math.abs(i) + Math.abs(j) + Math.abs(k) != 1) {
                         continue;
                     }
-                        Vec3 dir = new Vec3(i, j, k).normalize();
-                        Vec3 hit = EntityUtil.raycastBeam(user, (double) 24 / Math.pow(order, 2), hitPos.add(dir.scale(0.5)), dir, beamradius);
-                        Entity target = EntityUtil.raycastBeamEntity(user, (double) 24 / Math.pow(order, 2), hitPos.add(dir.scale(0.5)), dir, beamradius);
-                    Magitech.LOGGER.info(dir.toString());
-                        Vec3 start = hitPos.add(dir.scale(0.5));
-                        EffectUtil.lineEffect(level, new VoidGlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0), start, hit, 2, false);
-                        level.addParticle(new BeamParticleEffect(new Vector3f(0.3F, 0.0F, 1.0F), new Vector3f(0.5F, 0.0F, 1.0F), hit.toVector3f(), 0.7F, 1, 1), start.x, start.y, start.z, 0, 0, 0);
-                        for (int l = 0; l < 20; l++) {
-                            level.addParticle(new VoidGlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0),
-                                    hit.x, hit.y, hit.z, (user.getRandom().nextFloat() - 0.5) / 3, (user.getRandom().nextFloat() - 0.5) / 3, (user.getRandom().nextFloat() - 0.5) / 3);
-                        }
+                    Vec3 dir = new Vec3(i, j, k).normalize();
+                    Vec3 hit = EntityUtil.raycastBeam(user, (double) 24 / Math.pow(order, 2), hitPos.add(dir.scale(0.5)), dir, beamradius);
+                    Entity target = EntityUtil.raycastBeamEntity(user, (double) 24 / Math.pow(order, 2), hitPos.add(dir.scale(0.5)), dir, beamradius);
+                    Vec3 start = hitPos.add(dir.scale(0.5));
+                    EffectUtil.lineEffect(level, new VoidGlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0), start, hit, 2, false);
+                    level.addParticle(new BeamParticleEffect(new Vector3f(0.3F, 0.0F, 1.0F), new Vector3f(0.5F, 0.0F, 1.0F), hit.toVector3f(), 0.7F, 1, 1), start.x, start.y, start.z, 0, 0, 0);
+                    for (int l = 0; l < 20; l++) {
+                        level.addParticle(new VoidGlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0),
+                                hit.x, hit.y, hit.z, (user.getRandom().nextFloat() - 0.5) / 3, (user.getRandom().nextFloat() - 0.5) / 3, (user.getRandom().nextFloat() - 0.5) / 3);
+                    }
 
-                        if (!level.isClientSide) {
-                            if (target instanceof LivingEntity livingTarget) {
-                                livingTarget.addEffect(new MobEffectInstance(MobEffectInit.VOIDROT, 80, 0), livingTarget);
-                            }
-                            if (target != null) {
-                                this.applyDamage(baseDamage, this.getRequiredMana(level, user, stack), this.getElement(), stack, user, target);
-                            }
+                    if (!level.isClientSide) {
+                        if (target instanceof LivingEntity livingTarget) {
+                            livingTarget.addEffect(new MobEffectInstance(MobEffectInit.VOIDROT, 80, 0), livingTarget);
                         }
-                        vec3s.add(hit);
+                        if (target != null) {
+                            this.applyDamage(baseDamage, this.getRequiredMana(level, user, stack), this.getElement(), stack, user, target);
+                        }
+                    }
+                    vec3s.add(hit);
                 }
             }
         }

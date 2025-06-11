@@ -2,28 +2,20 @@ package net.stln.magitech.hud;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
-import net.minecraft.client.gui.screens.recipebook.RecipeUpdateListener;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.ClickType;
-import net.minecraft.world.inventory.CraftingMenu;
-import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.SingleRecipeInput;
-import net.stln.magitech.Magitech;
-import net.stln.magitech.hud.PartCuttingMenu;
 import net.minecraft.world.item.crafting.RecipeHolder;
-import net.stln.magitech.recipe.PartCuttingRecipe;
+import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import net.stln.magitech.Magitech;
+import net.stln.magitech.recipe.PartCuttingRecipe;
 
 import java.util.List;
 
@@ -79,7 +71,7 @@ public class PartCuttingScreen extends AbstractContainerScreen<PartCuttingMenu> 
         int i = this.leftPos;
         int j = this.topPos;
         guiGraphics.blit(BG_LOCATION, i, j, 0, 0, this.imageWidth, this.imageHeight);
-        int k = (int)(41.0F * this.scrollOffs);
+        int k = (int) (41.0F * this.scrollOffs);
         int offset = this.isScrollBarActive() ? 0 : 8;
         guiGraphics.blit(BG_LOCATION, i + 121, j + 31 + k, offset, 240, 8, 8);
         int l = this.leftPos + 46;
@@ -147,11 +139,11 @@ public class PartCuttingScreen extends AbstractContainerScreen<PartCuttingMenu> 
     /**
      * Called when a mouse button is clicked within the GUI element.
      * <p>
-     * @return {@code true} if the event is consumed, {@code false} otherwise.
      *
      * @param mouseX the X coordinate of the mouse.
      * @param mouseY the Y coordinate of the mouse.
      * @param button the button that was clicked.
+     * @return {@code true} if the event is consumed, {@code false} otherwise.
      */
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
@@ -163,8 +155,8 @@ public class PartCuttingScreen extends AbstractContainerScreen<PartCuttingMenu> 
 
             for (int l = this.startIndex; l < k; l++) {
                 int i1 = l - this.startIndex;
-                double d0 = mouseX - (double)(i + i1 % 4 * 18);
-                double d1 = mouseY - (double)(j + i1 / 4 * 18);
+                double d0 = mouseX - (double) (i + i1 % 4 * 18);
+                double d1 = mouseY - (double) (j + i1 / 4 * 18);
                 if (d0 >= 0.0 && d1 >= 0.0 && d0 < 18.0 && d1 < 18.0 && this.menu.clickMenuButton(this.minecraft.player, l)) {
                     Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_STONECUTTER_SELECT_RECIPE, 1.0F));
                     this.minecraft.gameMode.handleInventoryButtonClick(this.menu.containerId, l);
@@ -174,7 +166,7 @@ public class PartCuttingScreen extends AbstractContainerScreen<PartCuttingMenu> 
 
             i = this.leftPos + 119;
             j = this.topPos + 9;
-            if (mouseX >= (double)i && mouseX < (double)(i + 12) && mouseY >= (double)j && mouseY < (double)(j + 54)) {
+            if (mouseX >= (double) i && mouseX < (double) (i + 12) && mouseY >= (double) j && mouseY < (double) (j + 54)) {
                 this.scrolling = true;
             }
         }
@@ -185,22 +177,22 @@ public class PartCuttingScreen extends AbstractContainerScreen<PartCuttingMenu> 
     /**
      * Called when the mouse is dragged within the GUI element.
      * <p>
-     * @return {@code true} if the event is consumed, {@code false} otherwise.
      *
      * @param mouseX the X coordinate of the mouse.
      * @param mouseY the Y coordinate of the mouse.
      * @param button the button that is being dragged.
      * @param dragX  the X distance of the drag.
      * @param dragY  the Y distance of the drag.
+     * @return {@code true} if the event is consumed, {@code false} otherwise.
      */
     @Override
     public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
         if (this.scrolling && this.isScrollBarActive()) {
             int i = this.topPos + 14;
             int j = i + 54;
-            this.scrollOffs = ((float)mouseY - (float)i - 7.5F) / ((float)(j - i) - 15.0F);
+            this.scrollOffs = ((float) mouseY - (float) i - 7.5F) / ((float) (j - i) - 15.0F);
             this.scrollOffs = Mth.clamp(this.scrollOffs, 0.0F, 1.0F);
-            this.startIndex = (int)((double)(this.scrollOffs * (float)this.getOffscreenRows()) + 0.5) * 4;
+            this.startIndex = (int) ((double) (this.scrollOffs * (float) this.getOffscreenRows()) + 0.5) * 4;
             return true;
         } else {
             return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
@@ -211,9 +203,9 @@ public class PartCuttingScreen extends AbstractContainerScreen<PartCuttingMenu> 
     public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
         if (this.isScrollBarActive()) {
             int i = this.getOffscreenRows();
-            float f = (float)scrollY / (float)i;
+            float f = (float) scrollY / (float) i;
             this.scrollOffs = Mth.clamp(this.scrollOffs - f, 0.0F, 1.0F);
-            this.startIndex = (int)((double)(this.scrollOffs * (float)i) + 0.5) * 4;
+            this.startIndex = (int) ((double) (this.scrollOffs * (float) i) + 0.5) * 4;
         }
 
         return true;

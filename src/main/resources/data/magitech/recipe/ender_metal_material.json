@@ -1,7 +1,7 @@
 {
-    "type": "magitech:tool_material",
-    "ingredient": {
-        "item": "magitech:ender_metal_ingot"
-    },
-    "result": "magitech:ender_metal"
+  "type": "magitech:tool_material",
+  "ingredient": {
+    "item": "magitech:ender_metal_ingot"
+  },
+  "result": "magitech:ender_metal"
 }

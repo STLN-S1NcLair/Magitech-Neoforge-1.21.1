@@ -8,7 +8,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.Magitech;
 
-public record TraitActionPayload(boolean isMainHand, int targetId, Vec3 targetPos, String uuid) implements CustomPacketPayload {
+public record TraitActionPayload(boolean isMainHand, int targetId, Vec3 targetPos,
+                                 String uuid) implements CustomPacketPayload {
     public static final StreamCodec<ByteBuf, Vec3> STREAM_VEC3 =
             StreamCodec.of(
                     (buf, vec) -> {

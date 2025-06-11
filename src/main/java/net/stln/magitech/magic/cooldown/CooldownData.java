@@ -32,11 +32,11 @@ public class CooldownData {
         return prevCooldownMapServer;
     }
 
-    public static void cleanUp() {
-        cooldownMapClient = new Map2d<>();
-        cooldownMapServer = new Map2d<>();
-        prevCooldownMapClient = new Map2d<>();
-        prevCooldownMapServer = new Map2d<>();
+    public static void cleanUp(Player player) {
+        cooldownMapClient.remove(player);
+        cooldownMapServer.remove(player);
+        prevCooldownMapClient.remove(player);
+        prevCooldownMapServer.remove(player);
     }
 
     public static void addCurrentCooldown(Player player, Spell spell, Cooldown cooldown) {

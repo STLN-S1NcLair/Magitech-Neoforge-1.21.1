@@ -7,7 +7,6 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.SpriteSet;
 import net.stln.magitech.particle.particle_option.VoidGlowParticleEffect;
 import org.jetbrains.annotations.Nullable;

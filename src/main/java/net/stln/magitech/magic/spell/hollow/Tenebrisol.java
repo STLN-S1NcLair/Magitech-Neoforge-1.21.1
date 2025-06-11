@@ -27,8 +27,6 @@ import net.stln.magitech.Magitech;
 import net.stln.magitech.item.tool.Element;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.Spell;
-import net.stln.magitech.particle.particle_option.MembraneParticleEffect;
-import net.stln.magitech.particle.particle_option.UnstableSquareParticleEffect;
 import net.stln.magitech.particle.particle_option.VoidGlowParticleEffect;
 import net.stln.magitech.sound.SoundInit;
 import net.stln.magitech.util.EntityUtil;
@@ -111,9 +109,9 @@ public class Tenebrisol extends Spell {
             attackList.addAll(EntityUtil.getEntitiesInBox(level, livingEntity, center, new Vec3(3.0, 3.0, 3.0)));
             attackList.addAll(EntityUtil.getEntitiesInBox(level, livingEntity, center2, new Vec3(4.0, 4.0, 4.0)));
             for (int i = 0; i < 5; i++) {
-                    level.addParticle(new VoidGlowParticleEffect(new Vector3f(1), new Vector3f(1),
-                                    5F, 1, 0), offset.x + (livingEntity.getRandom().nextFloat() - 0.5) / 4, offset.y + (livingEntity.getRandom().nextFloat() - 0.5) / 4, offset.z + (livingEntity.getRandom().nextFloat() - 0.5) / 4,
-                            forward.x * 0.5 + (livingEntity.getRandom().nextFloat() - 0.5) / 2, forward.y * 0.5 + (livingEntity.getRandom().nextFloat() - 0.5) / 2, forward.z * 0.5 + (livingEntity.getRandom().nextFloat() - 0.5) / 2);
+                level.addParticle(new VoidGlowParticleEffect(new Vector3f(1), new Vector3f(1),
+                                5F, 1, 0), offset.x + (livingEntity.getRandom().nextFloat() - 0.5) / 4, offset.y + (livingEntity.getRandom().nextFloat() - 0.5) / 4, offset.z + (livingEntity.getRandom().nextFloat() - 0.5) / 4,
+                        forward.x * 0.5 + (livingEntity.getRandom().nextFloat() - 0.5) / 2, forward.y * 0.5 + (livingEntity.getRandom().nextFloat() - 0.5) / 2, forward.z * 0.5 + (livingEntity.getRandom().nextFloat() - 0.5) / 2);
             }
             if (usingTick % 5 == 0) {
                 level.playSound(player, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), SoundInit.TENEBRISOL.get(), SoundSource.PLAYERS, 1.0F, 0.7F + (player.getRandom().nextFloat() * 0.6F));

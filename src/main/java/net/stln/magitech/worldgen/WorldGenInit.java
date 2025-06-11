@@ -3,20 +3,26 @@ package net.stln.magitech.worldgen;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.minecraft.core.HolderGetter;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BiomeTags;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 import net.minecraft.world.level.levelgen.placement.CountPlacement;
 import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
 import net.minecraft.world.level.levelgen.placement.InSquarePlacement;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
+import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.world.BiomeModifier;
 import net.neoforged.neoforge.common.world.BiomeModifiers;
@@ -45,35 +51,106 @@ public class WorldGenInit {
 
 
 
+    public static final Supplier<Feature<NoneFeatureConfiguration>> FLUORITE_CRYSTAL_SURFACE_FEATURE =
+            FEATURES.register("fluorite_crystal_surface_feature", () -> new OreSurfaceFeature(BlockInit.FLUORITE_CRYSTAL_CLUSTER.get().defaultBlockState(), List.of(BlockInit.FLUORITE_ORE.get(), BlockInit.DEEPSLATE_FLUORITE_ORE.get()), 0.25));
+
+    public static final ResourceKey<ConfiguredFeature<?, ?>> FLUORITE_CRYSTAL_SURFACE_CONFIGURED_KEY =
+            ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "fluorite_crystal_surface_feature"));
+
+    public static final ResourceKey<PlacedFeature> FLUORITE_CRYSTAL_SURFACE_PLACED_KEY =
+            ResourceKey.create(Registries.PLACED_FEATURE, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "fluorite_crystal_surface_feature"));
+
+    public static final ResourceKey<BiomeModifier> FLUORITE_CRYSTAL_SURFACE_BIOME_MODIFIER_KEY =
+            ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "fluorite_crystal_surface_feature"));
+
+
+
+    public static final Supplier<Feature<OreConfiguration>> FLUORITE_ORE_FEATURE =
+            FEATURES.register("fluorite_ore_feature", () -> Feature.ORE);
+
+    public static final ResourceKey<ConfiguredFeature<?, ?>> FLUORITE_ORE_CONFIGURED_KEY =
+            ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "fluorite_ore_feature"));
+
+    public static final ResourceKey<PlacedFeature> FLUORITE_ORE_PLACED_KEY =
+            ResourceKey.create(Registries.PLACED_FEATURE, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "fluorite_ore_feature"));
+
+    public static final ResourceKey<BiomeModifier> FLUORITE_ORE_BIOME_MODIFIER_KEY =
+            ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "fluorite_ore_feature"));
+
+
     public static void Configured(BootstrapContext<ConfiguredFeature<?, ?>> context) {
+        RuleTest ruletestStone = new TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES);
+        RuleTest ruletestDeepslate = new TagMatchTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES);
+
         context.register(REDSTONE_CRYSTAL_SURFACE_CONFIGURED_KEY,
                 new ConfiguredFeature<>(REDSTONE_CRYSTAL_SURFACE_FEATURE.get(), NoneFeatureConfiguration.INSTANCE)
         );
+
+        context.register(FLUORITE_CRYSTAL_SURFACE_CONFIGURED_KEY,
+                new ConfiguredFeature<>(FLUORITE_CRYSTAL_SURFACE_FEATURE.get(), NoneFeatureConfiguration.INSTANCE)
+        );
+
+        List<OreConfiguration.TargetBlockState> fluoriteList = List.of(
+                OreConfiguration.target(ruletestStone, BlockInit.FLUORITE_ORE.get().defaultBlockState()),
+                OreConfiguration.target(ruletestDeepslate, BlockInit.DEEPSLATE_FLUORITE_ORE.get().defaultBlockState())
+        );
+        context.register(FLUORITE_ORE_CONFIGURED_KEY, new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(fluoriteList, 8)));
     }
 
     public static void bootstrapPlaced(BootstrapContext<PlacedFeature> context) {
         HolderGetter<ConfiguredFeature<?, ?>> configured = context.lookup(Registries.CONFIGURED_FEATURE);
+
         context.register(REDSTONE_CRYSTAL_SURFACE_PLACED_KEY, new PlacedFeature(
                 configured.getOrThrow(REDSTONE_CRYSTAL_SURFACE_CONFIGURED_KEY),
                 List.of(CountPlacement.of(1), InSquarePlacement.spread(), HeightRangePlacement.uniform(VerticalAnchor.bottom(), VerticalAnchor.top()))
         ));
-    }
-
-    public static void bootstrapBiomeModifier(BootstrapContext<PlacedFeature> context) {
-        HolderGetter<ConfiguredFeature<?, ?>> configured = context.lookup(Registries.CONFIGURED_FEATURE);
-        context.register(REDSTONE_CRYSTAL_SURFACE_PLACED_KEY, new PlacedFeature(
-                configured.getOrThrow(REDSTONE_CRYSTAL_SURFACE_CONFIGURED_KEY),
+        context.register(FLUORITE_CRYSTAL_SURFACE_PLACED_KEY, new PlacedFeature(
+                configured.getOrThrow(FLUORITE_CRYSTAL_SURFACE_CONFIGURED_KEY),
                 List.of(CountPlacement.of(1), InSquarePlacement.spread(), HeightRangePlacement.uniform(VerticalAnchor.bottom(), VerticalAnchor.top()))
         ));
-    }
-
-    public static void registerBiomeModifiers() {
-        BiomeModifications.addFeature(
-                BiomeSelectors.foundInOverworld(),
-                GenerationStep.Decoration.UNDERGROUND_DECORATION,
-                WorldGenInit.REDSTONE_CRYSTAL_SURFACE_PLACED_KEY
+        context.register(FLUORITE_ORE_PLACED_KEY, new PlacedFeature(
+                configured.getOrThrow(FLUORITE_ORE_CONFIGURED_KEY),
+                List.of(CountPlacement.of(12), InSquarePlacement.spread(), HeightRangePlacement.triangle(VerticalAnchor.aboveBottom(0), VerticalAnchor.aboveBottom(128))))
         );
     }
+
+    public static void bootstrapBiomeModifier(BootstrapContext<BiomeModifier> context) {
+        var biomes = context.lookup(Registries.BIOME);
+        var placedFeatures = context.lookup(Registries.PLACED_FEATURE);
+
+        context.register(REDSTONE_CRYSTAL_SURFACE_BIOME_MODIFIER_KEY, new BiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
+                HolderSet.direct(placedFeatures.getOrThrow(REDSTONE_CRYSTAL_SURFACE_PLACED_KEY)),
+                GenerationStep.Decoration.UNDERGROUND_DECORATION));
+
+        context.register(FLUORITE_CRYSTAL_SURFACE_BIOME_MODIFIER_KEY, new BiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
+                HolderSet.direct(placedFeatures.getOrThrow(FLUORITE_CRYSTAL_SURFACE_PLACED_KEY)),
+                GenerationStep.Decoration.UNDERGROUND_DECORATION));
+
+        context.register(FLUORITE_ORE_BIOME_MODIFIER_KEY, new BiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
+                HolderSet.direct(placedFeatures.getOrThrow(FLUORITE_ORE_PLACED_KEY)),
+                GenerationStep.Decoration.UNDERGROUND_ORES));
+    }
+
+//    public static void registerBiomeModifiers() {
+//        BiomeModifications.addFeature(
+//                BiomeSelectors.foundInOverworld(),
+//                GenerationStep.Decoration.UNDERGROUND_DECORATION,
+//                WorldGenInit.REDSTONE_CRYSTAL_SURFACE_PLACED_KEY
+//        );
+//        BiomeModifications.addFeature(
+//                BiomeSelectors.foundInOverworld(),
+//                GenerationStep.Decoration.UNDERGROUND_DECORATION,
+//                WorldGenInit.FLUORITE_CRYSTAL_SURFACE_PLACED_KEY
+//        );
+//        BiomeModifications.addFeature(
+//                BiomeSelectors.foundInOverworld(),
+//                GenerationStep.Decoration.UNDERGROUND_ORES,
+//                WorldGenInit.FLUORITE_ORE_PLACED_KEY
+//        );
+//    }
 
     public static void registerFeatures(IEventBus eventBus) {
         Magitech.LOGGER.info("Registering Features for" + Magitech.MOD_ID);

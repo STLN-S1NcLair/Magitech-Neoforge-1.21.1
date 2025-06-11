@@ -2,7 +2,6 @@ package net.stln.magitech.item.tool.trait;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
-import net.stln.magitech.Magitech;
 import net.stln.magitech.item.tool.ToolStats;
 
 import java.util.HashMap;

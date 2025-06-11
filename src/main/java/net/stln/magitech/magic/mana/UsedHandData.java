@@ -1,6 +1,5 @@
 package net.stln.magitech.magic.mana;
 
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.HashMap;

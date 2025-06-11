@@ -1,7 +1,7 @@
 {
-    "type": "magitech:tool_material",
-    "ingredient": {
-        "item": "magitech:translucium"
-    },
-    "result": "magitech:translucium"
+  "type": "magitech:tool_material",
+  "ingredient": {
+    "item": "magitech:translucium"
+  },
+  "result": "magitech:translucium"
 }

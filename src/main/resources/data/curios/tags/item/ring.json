@@ -1,6 +1,6 @@
 {
-  "replace" :  false,
-  "values" :  [
+  "replace": false,
+  "values": [
     "magitech:mana_ring",
     "magitech:galevent_ring",
     "magitech:chargebind_ring",

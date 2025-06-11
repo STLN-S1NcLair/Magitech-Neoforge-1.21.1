@@ -12,11 +12,13 @@ public class ElementAffinityRegister {
     public static boolean INEFFICIENT = false;
 
     public static ElementAffinity getElementAffinity(Element element, Element targetElement) {
-        if (dict.get(element, EFFICIENT).contains(targetElement)) {
-            return ElementAffinity.EFFICIENT;
-        }
-        if (dict.get(element, INEFFICIENT).contains(targetElement)) {
-            return ElementAffinity.INEFFICIENT;
+        if (dict.containsKey1(element)) {
+            if (dict.get(element, EFFICIENT).contains(targetElement)) {
+                return ElementAffinity.EFFICIENT;
+            }
+            if (dict.get(element, INEFFICIENT).contains(targetElement)) {
+                return ElementAffinity.INEFFICIENT;
+            }
         }
         return ElementAffinity.NORMAL;
     }

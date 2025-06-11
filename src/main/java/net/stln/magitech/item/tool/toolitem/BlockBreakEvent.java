@@ -77,7 +77,7 @@ public class BlockBreakEvent {
                         BreakBlockPayload payload = new BreakBlockPayload(pos1, pos, player.getUUID().toString(), trait.emitEffect(player, event.getPlayer().level(), tool, value, partToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getState(), pos1, 1, true), flag[0]);
                         PacketDistributor.sendToAllPlayers(payload);
                         if (flag[0]) {
-                        trait.onBreakBlock(player, event.getPlayer().level(), tool, value, partToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getState(), pos1, 1, true);
+                            trait.onBreakBlock(player, event.getPlayer().level(), tool, value, partToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getState(), pos1, 1, true);
                             flag[0] = false;
                         }
                     }

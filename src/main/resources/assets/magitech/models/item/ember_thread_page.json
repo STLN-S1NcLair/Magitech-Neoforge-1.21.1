@@ -1,6 +1,6 @@
 {
-    "parent": "item/generated",
-    "textures": {
-        "layer0": "magitech:item/ember_thread_page"
-    }
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "magitech:item/ember_thread_page"
+  }
 }

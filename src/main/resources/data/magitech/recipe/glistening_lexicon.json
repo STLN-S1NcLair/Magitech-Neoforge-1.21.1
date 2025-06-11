@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:book"
+    },
+    {
+      "item": "magitech:fluorite"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "magitech:glistening_lexicon"
+  }
+}

@@ -6,7 +6,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
-import net.stln.magitech.Magitech;
 import net.stln.magitech.item.ItemInit;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.PartMaterialComponent;

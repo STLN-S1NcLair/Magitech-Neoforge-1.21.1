@@ -21,7 +21,6 @@ import net.stln.magitech.damage.EntityElementRegister;
 import net.stln.magitech.entity.EntityInit;
 import net.stln.magitech.entity.SpellProjectileEntity;
 import net.stln.magitech.item.tool.Element;
-import net.stln.magitech.particle.particle_option.FrostParticleEffect;
 import net.stln.magitech.particle.particle_option.WaveParticleEffect;
 import net.stln.magitech.sound.SoundInit;
 import org.jetbrains.annotations.Nullable;
@@ -89,9 +88,9 @@ public class TremivoxEntity extends SpellProjectileEntity implements GeoEntity {
             } else {
                 target = world.getNearestEntity(LivingEntity.class, TargetingConditions.forCombat(), null, this.getX(), this.getY(), this.getZ(), new AABB(center.subtract(10, 10, 10), center.add(10, 10, 10)));
             }
-                if (target != null) {
-                    this.setDeltaMovement(target.position().add(0, target.getBbHeight() * 0.5, 0).subtract(this.position()).normalize().scale(0.05).add(deltaMovement).normalize().scale(deltaMovement.length()));
-                }
+            if (target != null) {
+                this.setDeltaMovement(target.position().add(0, target.getBbHeight() * 0.5, 0).subtract(this.position()).normalize().scale(0.05).add(deltaMovement).normalize().scale(deltaMovement.length()));
+            }
         }
     }
 

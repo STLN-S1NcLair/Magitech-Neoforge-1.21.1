@@ -82,7 +82,7 @@ public class Magitech {
 
     private void commonSetup(final FMLCommonSetupEvent event) {
 //        Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
-        WorldGenInit.registerBiomeModifiers();
+//        WorldGenInit.registerBiomeModifiers();
     }
 
     // Add the example block item to the building blocks tab

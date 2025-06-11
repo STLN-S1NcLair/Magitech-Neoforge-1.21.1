@@ -4,14 +4,16 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -22,12 +24,12 @@ import net.stln.magitech.item.component.MaterialComponent;
 import net.stln.magitech.item.tool.material.ToolMaterial;
 import net.stln.magitech.item.tool.register.ToolMaterialRegister;
 
-public class PartCuttingRecipe implements Recipe<SingleRecipeInput>  {
+public class PartCuttingRecipe implements Recipe<SingleRecipeInput> {
     protected final int count;
     protected final ItemStack result;
+    protected final String group;
     private final RecipeType<?> type;
     private final RecipeSerializer<?> serializer;
-    protected final String group;
 
     public PartCuttingRecipe(String group, int count, ItemStack result) {
         this.type = RecipeInit.PART_CUTTING_TYPE.get();

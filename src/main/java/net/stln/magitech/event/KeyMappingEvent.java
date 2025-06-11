@@ -41,12 +41,29 @@ public class KeyMappingEvent {
             GLFW.GLFW_KEY_X,
             "key.categories.magitech.category"
     ));
+    public static final Lazy<KeyMapping> OPEN_SPELLBOUND_PAGE_SCREEN = Lazy.of(() -> new KeyMapping(
+            "key.magitech.open_spellbound_page_screen",
+            KeyConflictContext.IN_GAME,
+            InputConstants.Type.KEYSYM,
+            GLFW.GLFW_KEY_N,
+            "key.categories.magitech.category"
+    ));
+    public static final Lazy<KeyMapping> OPEN_SPELLBOUND_AS_GUIDEBOOK = Lazy.of(() -> new KeyMapping(
+            "key.magitech.open_spellbound_as_guidebook",
+            KeyConflictContext.IN_GAME,
+            InputConstants.Type.KEYSYM,
+            GLFW.GLFW_KEY_COMMA,
+            "key.categories.magitech.category"
+    ));
+
     @SubscribeEvent
     public static void registerBindings(RegisterKeyMappingsEvent event) {
         event.register(RADIAL_SPELL_MENU.get());
         event.register(TRAIT_ACTION.get());
         event.register(SPELL_SHIFT_RIGHT.get());
         event.register(SPELL_SHIFT_LEFT.get());
+        event.register(OPEN_SPELLBOUND_PAGE_SCREEN.get());
+        event.register(OPEN_SPELLBOUND_AS_GUIDEBOOK.get());
     }
 
 }
