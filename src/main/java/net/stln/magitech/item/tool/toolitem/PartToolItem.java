@@ -32,6 +32,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.common.ItemAbilities;
+import net.neoforged.neoforge.common.ItemAbility;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.damage.EntityElementRegister;
@@ -81,7 +83,11 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
                     value = ((PartToolItem) stack.getItem()).getMultiplier(toolPart);
                 }
                 if (materials.get(i) != null) {
-                    stats.add(ToolStats.mulWithoutElementCode(ToolStats.mulWithoutElementCode(materials.get(i).getStats(), base), value));
+                    if (!(stack.getItem() instanceof SpellCasterItem)) {
+                        stats.add(ToolStats.mulWithoutElementCode(ToolStats.mulWithoutElementCode(materials.get(i).getStats(), base), value));
+                    } else {
+                        stats.add(ToolStats.mulWithoutElementCode(ToolStats.mulWithoutElementCode(materials.get(i).getSpellCasterStats(), base), value));
+                    }
                 }
             }
             return ToolStats.add(stats);
@@ -246,6 +252,28 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
             return hasCorrectTier(stack, state, stats);
         }
         return false;
+    }
+
+    @Override
+    public boolean canPerformAction(ItemStack stack, ItemAbility itemAbility) {
+        PartToolItem partToolItem = (PartToolItem) stack.getItem();
+        if (ItemAbilities.DEFAULT_AXE_ACTIONS.contains(itemAbility) && partToolItem.getToolType() == ToolType.AXE) {
+            return true;
+    }
+        if (ItemAbilities.DEFAULT_PICKAXE_ACTIONS.contains(itemAbility) && (partToolItem.getToolType() == ToolType.PICKAXE || partToolItem.getToolType() == ToolType.HAMMER)) {
+            return true;
+    }
+        if (ItemAbilities.DEFAULT_SHOVEL_ACTIONS.contains(itemAbility) && partToolItem.getToolType() == ToolType.SHOVEL) {
+            return true;
+    }
+        if (ItemAbilities.DEFAULT_HOE_ACTIONS.contains(itemAbility) && partToolItem.getToolType() == ToolType.SCYTHE) {
+            return true;
+    }
+        if (ItemAbilities.DEFAULT_SWORD_ACTIONS.contains(itemAbility) && (partToolItem.getToolType() == ToolType.DAGGER
+                || partToolItem.getToolType() == ToolType.LIGHT_SWORD || partToolItem.getToolType() == ToolType.HEAVY_SWORD || partToolItem.getToolType() == ToolType.SCYTHE)) {
+        return true;
+    }
+        return super.canPerformAction(stack, itemAbility);
     }
 
     public abstract ToolType getToolType();

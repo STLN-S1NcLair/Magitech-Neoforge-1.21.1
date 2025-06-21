@@ -60,28 +60,6 @@ public abstract class SpellCasterItem extends PartToolItem {
         super(settings);
     }
 
-    public static ToolStats getDefaultStats(ItemStack stack) {
-
-        if (stack.has(ComponentInit.PART_MATERIAL_COMPONENT)) {
-            List<ToolMaterial> materials = stack.getComponents().get(ComponentInit.PART_MATERIAL_COMPONENT.get()).materials();
-            ToolType toolType = ((PartToolItem) stack.getItem()).getToolType();
-            List<ToolStats> stats = new ArrayList<>();
-            ToolStats base = ToolMaterialRegister.getBaseStats(toolType);
-            for (int i = 0; i < materials.size(); i++) {
-                ToolPart toolPart = ToolMaterialRegister.getToolPartFromIndex(toolType, i);
-                float value = 0;
-                if (toolPart != null) {
-                    value = ((PartToolItem) stack.getItem()).getMultiplier(toolPart);
-                }
-                if (materials.get(i) != null) {
-                    stats.add(ToolStats.mulWithoutElementCode(ToolStats.mulWithoutElementCode(materials.get(i).getSpellCasterStats(), base), value));
-                }
-            }
-            return ToolStats.add(stats);
-        }
-        return ToolStats.DEFAULT;
-    }
-
     @Override
     public void inventoryTick(ItemStack stack, Level world, Entity entity, int slot, boolean selected) {
         super.inventoryTick(stack, world, entity, slot, selected);

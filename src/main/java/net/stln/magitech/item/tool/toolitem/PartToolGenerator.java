@@ -18,6 +18,16 @@ public class PartToolGenerator {
         return stack;
     }
 
+    public static ItemStack generateDagger(ToolMaterial handle, ToolMaterial blade, ToolMaterial handguard) {
+        ItemStack dagger = new ItemStack(ItemInit.DAGGER.get());
+        dagger.set(ComponentInit.PART_MATERIAL_COMPONENT, new PartMaterialComponent(List.of(handle, blade, handguard)));
+        return dagger;
+    }
+
+    public static ItemStack generateDagger(ToolMaterial material) {
+        return generateDagger(material, material, material);
+    }
+
     public static ItemStack generateLightSword(ToolMaterial handle, ToolMaterial blade, ToolMaterial handguard, ToolMaterial toolBinding) {
         ItemStack lightSword = new ItemStack(ItemInit.LIGHT_SWORD.get());
         lightSword.set(ComponentInit.PART_MATERIAL_COMPONENT, new PartMaterialComponent(List.of(handle, blade, handguard, toolBinding)));
@@ -56,6 +66,26 @@ public class PartToolGenerator {
 
     public static ItemStack generateHammer(ToolMaterial material) {
         return generateHammer(material, material, material, material);
+    }
+
+    public static ItemStack generateAxe(ToolMaterial handle, ToolMaterial blade, ToolMaterial strikeHead, ToolMaterial toolBinding) {
+        ItemStack heavySword = new ItemStack(ItemInit.AXE.get());
+        heavySword.set(ComponentInit.PART_MATERIAL_COMPONENT, new PartMaterialComponent(List.of(handle, blade, strikeHead, toolBinding)));
+        return heavySword;
+    }
+
+    public static ItemStack generateAxe(ToolMaterial material) {
+        return generateAxe(material, material, material, material);
+    }
+
+    public static ItemStack generateShovel(ToolMaterial handle, ToolMaterial blade, ToolMaterial plate, ToolMaterial toolBinding) {
+        ItemStack heavySword = new ItemStack(ItemInit.SHOVEL.get());
+        heavySword.set(ComponentInit.PART_MATERIAL_COMPONENT, new PartMaterialComponent(List.of(handle, blade, plate, toolBinding)));
+        return heavySword;
+    }
+
+    public static ItemStack generateShovel(ToolMaterial material) {
+        return generateShovel(material, material, material, material);
     }
 
     public static ItemStack generateScythe(ToolMaterial reinforcedStick, ToolMaterial handle, ToolMaterial blade, ToolMaterial toolBinding) {

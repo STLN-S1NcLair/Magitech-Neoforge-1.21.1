@@ -229,7 +229,7 @@ public abstract class Spell {
         } else {
             elementPower = 1.0F;
         }
-        return (float) (baseDamage * power * elementPower);
+        return (float) (baseDamage * power + baseDamage * (elementPower - 1));
     }
 
     public double getProjectileSpeed(Player user, double baseSpeed) {

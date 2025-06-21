@@ -48,13 +48,13 @@ public class PartToolAssembleRecipe extends CustomRecipe {
 
     private Item getItemFromType(ToolType type) {
         return switch (type) {
-            case DAGGER -> Items.AIR;
+            case DAGGER -> ItemInit.DAGGER.get();
             case LIGHT_SWORD -> ItemInit.LIGHT_SWORD.get();
             case HEAVY_SWORD -> ItemInit.HEAVY_SWORD.get();
             case PICKAXE -> ItemInit.PICKAXE.get();
             case HAMMER -> ItemInit.HAMMER.get();
-            case AXE -> Items.AIR;
-            case SHOVEL -> Items.AIR;
+            case AXE -> ItemInit.AXE.get();
+            case SHOVEL -> ItemInit.SHOVEL.get();
             case SCYTHE -> ItemInit.SCYTHE.get();
             case SPEAR -> Items.AIR;
             case WAND -> ItemInit.WAND.get();

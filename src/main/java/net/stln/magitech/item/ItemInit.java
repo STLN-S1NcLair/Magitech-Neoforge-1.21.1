@@ -123,6 +123,10 @@ public class ItemInit {
             ConductorItem::new,
             new Item.Properties());
 
+    public static final DeferredItem<Item> DAGGER = ITEMS.registerItem("dagger",
+            DaggerItem::new,
+            new Item.Properties().setNoRepair());
+
     public static final DeferredItem<Item> LIGHT_SWORD = ITEMS.registerItem("light_sword",
             LightSwordItem::new,
             new Item.Properties().setNoRepair());
@@ -137,6 +141,14 @@ public class ItemInit {
 
     public static final DeferredItem<Item> HAMMER = ITEMS.registerItem("hammer",
             HammerItem::new,
+            new Item.Properties().setNoRepair());
+
+    public static final DeferredItem<Item> AXE = ITEMS.registerItem("axe",
+            AxeItem::new,
+            new Item.Properties().setNoRepair());
+
+    public static final DeferredItem<Item> SHOVEL = ITEMS.registerItem("shovel",
+            ShovelItem::new,
             new Item.Properties().setNoRepair());
 
     public static final DeferredItem<Item> SCYTHE = ITEMS.registerItem("scythe",

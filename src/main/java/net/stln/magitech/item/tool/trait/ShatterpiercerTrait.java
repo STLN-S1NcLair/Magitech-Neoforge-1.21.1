@@ -31,7 +31,7 @@ import java.util.*;
 public class ShatterpiercerTrait extends Trait {
 
     @Override
-    public ToolStats modifySpellCasterStatsConditional1(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
+    public ToolStats modifySpellCasterStats1(ItemStack stack, int traitLevel, ToolStats stats) {
         if (PartToolItem.getDefaultStats(stack).getElement() == Element.GLACE) {
             ToolStats aDefault = ToolStats.DEFAULT;
             Map<String, Float> modified = new HashMap<>(aDefault.getStats());
@@ -40,7 +40,7 @@ public class ShatterpiercerTrait extends Trait {
             modified.put(ToolStats.ELM_PWR_STAT, elmpwr * mul);
             return new ToolStats(modified, stats.getElement(), stats.getMiningLevel());
         }
-        return super.modifySpellCasterStatsConditional1(player, level, stack, traitLevel, stats);
+        return super.modifySpellCasterStats1(stack, traitLevel, stats);
     }
 
     @Override

@@ -39,6 +39,7 @@ public class ModifyBreakSpeedEvent {
                 if (partToolItem.getToolType() == ToolType.HAMMER) {
                     speed[0] *= 0.25F;
                 }
+                Magitech.LOGGER.info(String.valueOf(speed[0] * defaultSpeed));
                 event.setNewSpeed(speed[0] * defaultSpeed);
             }
         }
