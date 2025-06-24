@@ -23,7 +23,7 @@
     "show_toast": true,
     "announce_to_chat": true
   },
-  "parent": "magitech:arcane_engineering/engineering_workbench",
+  "parent": "magitech:arcane_engineering/assembly_workbench",
   "criteria": {
     "requirement": {
       "trigger": "minecraft:inventory_changed",

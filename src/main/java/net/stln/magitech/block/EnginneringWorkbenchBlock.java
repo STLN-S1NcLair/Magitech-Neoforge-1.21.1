@@ -12,7 +12,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import net.stln.magitech.hud.PartCuttingMenu;
+import net.stln.magitech.gui.PartCuttingMenu;
 
 public class EnginneringWorkbenchBlock extends Block {
     public static final MapCodec<EnginneringWorkbenchBlock> CODEC = simpleCodec(EnginneringWorkbenchBlock::new);

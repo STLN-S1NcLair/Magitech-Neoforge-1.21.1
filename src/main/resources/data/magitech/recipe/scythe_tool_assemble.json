@@ -1,0 +1,21 @@
+{
+  "type": "magitech:tool_assembly",
+  "ingredients": [
+    {
+      "item": "magitech:tool_binding"
+    },
+    {
+      "item": "magitech:heavy_blade"
+    },
+    {
+      "item": "magitech:heavy_handle"
+    },
+    {
+      "item": "magitech:reinforced_stick"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "magitech:scythe"
+  }
+}

@@ -69,7 +69,7 @@ public class BlindResonanceTrait extends Trait {
             Map<String, Float> statsMap = stats.getStats();
             Map<String, Float> modified = new HashMap<>(defaultStats.getStats());
             modified.put(ToolStats.MNA_STAT, statsMap.get(ToolStats.MNA_STAT) * traitLevel * 0.1F);
-            return new ToolStats(modified, defaultStats.getElement(), defaultStats.getMiningLevel());
+            return new ToolStats(modified, defaultStats.getElement(), defaultStats.getMiningLevel(), defaultStats.getTier());
         }
         return super.modifySpellCasterStatsConditional1(player, level, stack, traitLevel, stats);
     }

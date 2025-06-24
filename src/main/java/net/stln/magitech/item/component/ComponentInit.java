@@ -1,7 +1,10 @@
 package net.stln.magitech.item.component;
 
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.util.ExtraCodecs;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -24,6 +27,9 @@ public class ComponentInit {
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<ThreadPageComponent>> THREAD_PAGE_COMPONENT = register("thread_page_component",
             builder -> builder.persistent(ThreadPageComponent.CODEC).networkSynchronized(ThreadPageComponent.STREAM_CODEC).cacheEncoding());
+
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> TIER_COMPONENT = register("tier_component",
+            builder -> builder.persistent(ExtraCodecs.NON_NEGATIVE_INT).networkSynchronized(ByteBufCodecs.VAR_INT));
 
     public static void registerComponents(IEventBus eventBus) {
         COMPONENT_TYPES.register(eventBus);

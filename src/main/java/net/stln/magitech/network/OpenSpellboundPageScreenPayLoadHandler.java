@@ -6,7 +6,7 @@ import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
-import net.stln.magitech.hud.ThreadboudMenuType;
+import net.stln.magitech.gui.ThreadboudMenuType;
 import net.stln.magitech.item.ThreadboundItem;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;

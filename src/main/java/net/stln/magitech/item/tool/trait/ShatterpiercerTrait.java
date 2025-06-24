@@ -38,7 +38,7 @@ public class ShatterpiercerTrait extends Trait {
             float mul = traitLevel * 0.1F;
             Float elmpwr = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.ELM_PWR_STAT);
             modified.put(ToolStats.ELM_PWR_STAT, elmpwr * mul);
-            return new ToolStats(modified, stats.getElement(), stats.getMiningLevel());
+            return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
         }
         return super.modifySpellCasterStats1(stack, traitLevel, stats);
     }

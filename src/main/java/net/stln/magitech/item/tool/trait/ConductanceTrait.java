@@ -16,7 +16,7 @@ public class ConductanceTrait extends Trait {
         Map<String, Float> modified = new HashMap<>(defaultStats.getStats());
         float mul = traitLevel * 0.1F;
         modified.put(ToolStats.ELM_ATK_STAT, stats.getStats().get(ToolStats.ELM_ATK_STAT) * mul);
-        return new ToolStats(modified, defaultStats.getElement(), defaultStats.getMiningLevel());
+        return new ToolStats(modified, defaultStats.getElement(), defaultStats.getMiningLevel(), defaultStats.getTier());
     }
 
     @Override
@@ -26,7 +26,7 @@ public class ConductanceTrait extends Trait {
         Map<String, Float> modified = new HashMap<>(defaultStats.getStats());
         float mul = traitLevel * 0.1F;
         modified.put(ToolStats.ELM_ATK_STAT, stats.getStats().get(ToolStats.ELM_ATK_STAT) * mul);
-        return new ToolStats(modified, defaultStats.getElement(), defaultStats.getMiningLevel());
+        return new ToolStats(modified, defaultStats.getElement(), defaultStats.getMiningLevel(), defaultStats.getTier());
     }
 
     @Override

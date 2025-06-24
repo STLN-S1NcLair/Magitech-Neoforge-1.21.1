@@ -18,7 +18,7 @@ public class DuranceTrait extends Trait {
         Map<String, Float> modified = new HashMap<>(defaultStats.getStats());
         float mul = traitLevel * 0.2F;
         modified.put(ToolStats.DUR_STAT, stats.getStats().get(ToolStats.DUR_STAT) * mul);
-        return new ToolStats(modified, defaultStats.getElement(), defaultStats.getMiningLevel());
+        return new ToolStats(modified, defaultStats.getElement(), defaultStats.getMiningLevel(), defaultStats.getTier());
     }
 
     @Override
@@ -28,7 +28,7 @@ public class DuranceTrait extends Trait {
         Map<String, Float> modified = new HashMap<>(defaultStats.getStats());
         float mul = traitLevel * 0.2F;
         modified.put(ToolStats.DUR_STAT, stats.getStats().get(ToolStats.DUR_STAT) * mul);
-        return new ToolStats(modified, defaultStats.getElement(), defaultStats.getMiningLevel());
+        return new ToolStats(modified, defaultStats.getElement(), defaultStats.getMiningLevel(), defaultStats.getTier());
     }
 
     @Override

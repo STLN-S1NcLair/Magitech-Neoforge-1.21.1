@@ -31,7 +31,7 @@ public class AdaptationTrait extends Trait {
         modified.put(ToolStats.RNG_STAT, (statsMap.get(ToolStats.RNG_STAT)) * mul);
         modified.put(ToolStats.SWP_STAT, statsMap.get(ToolStats.SWP_STAT) * mul);
         modified.put(ToolStats.DUR_STAT, statsMap.get(ToolStats.DUR_STAT) * mul);
-        return new ToolStats(modified, defaultStats.getElement(), defaultStats.getMiningLevel());
+        return new ToolStats(modified, defaultStats.getElement(), defaultStats.getMiningLevel(), defaultStats.getTier());
     }
 
     @Override
@@ -51,7 +51,7 @@ public class AdaptationTrait extends Trait {
         modified.put(ToolStats.RNG_STAT, (statsMap.get(ToolStats.RNG_STAT)) * mul);
         modified.put(ToolStats.SWP_STAT, statsMap.get(ToolStats.SWP_STAT) * mul);
         modified.put(ToolStats.DUR_STAT, statsMap.get(ToolStats.DUR_STAT) * mul);
-        return new ToolStats(modified, defaultStats.getElement(), defaultStats.getMiningLevel());
+        return new ToolStats(modified, defaultStats.getElement(), defaultStats.getMiningLevel(), defaultStats.getTier());
     }
 
     @Override

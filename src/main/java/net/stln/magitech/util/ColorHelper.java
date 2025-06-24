@@ -1,5 +1,7 @@
 package net.stln.magitech.util;
 
+import java.awt.*;
+
 public class ColorHelper {
     public static int channelFromFloat(float value) {
         return MathHelper.floor(value * 255.0F);
@@ -143,6 +145,94 @@ public class ColorHelper {
             int blue = Math.clamp(getBlue(color) * getBlue(mulColor) / 255, 0, 255);
             return getArgb(alpha, red, green, blue);
         }
+    }
+
+    public static int getTierColor(int tier) {
+        if (tier <= 4) {
+            double t = (double) (tier - 0) / Math.max(1, 4 - 0);
+            double l = interpolate(40, 55, t);
+            Color c = hslToRgb(0, 0, l);
+            return rgbToInt(c);
+        }
+
+        // Tier 5〜
+        int tiersPerSegment = 5;
+        int baseH = 70;
+        int relativeTier = tier - 5;
+        int segmentIndex = relativeTier / tiersPerSegment;
+        int segmentOffset = relativeTier % tiersPerSegment;
+
+        // 巻き戻し回数を数える
+        int rollCount = 0;
+        int prevH = baseH % 360;
+        for (int i = 1; i <= segmentIndex; i++) {
+            int currentH = (baseH + i * 110) % 360;
+            if (currentH < prevH) {
+                rollCount++;
+            }
+            prevH = currentH;
+        }
+
+        // 現在のセグメント色相範囲
+        int h1 = (baseH + segmentIndex * 110) % 360;
+        int h2 = (h1 + 45) % 360;
+
+        // 明度補正（上限90/95に制限）
+        double l1 = Math.min(40 + rollCount * 10, 90);
+        double l2 = Math.min(65 + rollCount * 10, 95);
+
+        // 色補間
+        double t = (double) segmentOffset / (tiersPerSegment - 1);
+        double h = interpolateHue(h1, h2, t);
+        double s = interpolate(30, 75, t);
+        double l = interpolate(l1, l2, t);
+
+        Color c = hslToRgb(h, s, l);
+        return rgbToInt(c);
+    }
+
+    // 線形補間
+    private static double interpolate(double start, double end, double t) {
+        return start + (end - start) * t;
+    }
+
+    private static double interpolateHue(double h1, double h2, double t) {
+        double delta = ((h2 - h1 + 540) % 360) - 180;  // 最短経路を計算
+        return (h1 + delta * t + 360) % 360;
+    }
+
+    // HSL → RGB
+    private static Color hslToRgb(double h, double s, double l) {
+        s /= 100;
+        l /= 100;
+
+        double c = (1 - Math.abs(2 * l - 1)) * s;
+        double x = c * (1 - Math.abs((h / 60) % 2 - 1));
+        double m = l - c / 2;
+
+        double r = 0, g = 0, b = 0;
+
+        if (0 <= h && h < 60)      { r = c; g = x; b = 0; }
+        else if (h < 120)          { r = x; g = c; b = 0; }
+        else if (h < 180)          { r = 0; g = c; b = x; }
+        else if (h < 240)          { r = 0; g = x; b = c; }
+        else if (h < 300)          { r = x; g = 0; b = c; }
+        else                       { r = c; g = 0; b = x; }
+
+        int R = (int) Math.round((r + m) * 255);
+        int G = (int) Math.round((g + m) * 255);
+        int B = (int) Math.round((b + m) * 255);
+
+        return new Color(clamp(R), clamp(G), clamp(B));
+    }
+
+    // RGB → int
+    private static int rgbToInt(Color c) {
+        return (c.getRed() << 16) | (c.getGreen() << 8) | c.getBlue();
+    }
+
+    private static int clamp(int val) {
+        return Math.max(0, Math.min(255, val));
     }
 }
 

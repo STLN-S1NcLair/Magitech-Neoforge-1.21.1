@@ -18,7 +18,7 @@ public class CatalysisTrait extends Trait {
         Float elmAtk = stats.getStats().get(ToolStats.ELM_ATK_STAT);
         modified.put(ToolStats.ATK_STAT, elmAtk * mul);
         modified.put(ToolStats.MIN_STAT, elmAtk * mul);
-        return new ToolStats(modified, defaultStats.getElement(), defaultStats.getMiningLevel());
+        return new ToolStats(modified, defaultStats.getElement(), defaultStats.getMiningLevel(), defaultStats.getTier());
     }
 
     @Override
@@ -31,7 +31,7 @@ public class CatalysisTrait extends Trait {
         modified.put(ToolStats.PWR_STAT, elmAtk * mul);
         modified.put(ToolStats.PRJ_STAT, elmAtk * mul);
         modified.put(ToolStats.MNA_STAT, elmAtk * mul / 2);
-        return new ToolStats(modified, defaultStats.getElement(), defaultStats.getMiningLevel());
+        return new ToolStats(modified, defaultStats.getElement(), defaultStats.getMiningLevel(), defaultStats.getTier());
     }
 
     @Override

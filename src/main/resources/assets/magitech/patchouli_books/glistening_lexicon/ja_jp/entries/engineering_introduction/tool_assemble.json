@@ -10,17 +10,18 @@
     {
       "type": "patchouli:text",
       "title": "部品を切り出す",
-      "text": "$(#000000)道具を作るには、まず部品が必要で、部品を作るには専用の作業台が要る。$(br2)「工学作業台」っていうんだが、それを使って素材から部品を切り出す。$(br2)よくわからないならまずはこれを作ってくれ。"
+      "text": "$(#000000)道具を作るには、まず部品が必要で、部品を作るには専用の作業台が要る。$(br2)「工学作業台」っていうんだが、それを使って素材から部品を切り出す。$(br2)それと工学組み立て台を使って組み立てる。$(br2)よくわからないならまずはこれを作ってくれ。"
     },
     {
       "type": "patchouli:crafting",
-      "title": "工学作業台の作り方",
-      "recipe": "magitech:engineering_workbench"
+      "title": "工学作業台、工学組み立て台の作り方",
+      "recipe": "magitech:engineering_workbench",
+      "recipe2": "magitech:assembly_workbench"
     },
     {
       "type": "patchouli:text",
       "title": "組み立てる",
-      "text": "$(#000000)パーツができたら、あとは作業台で組み立てるだけだ。"
+      "text": "$(#000000)パーツができたら、あとは工学組み立て台で組み立てるだけだ。"
     },
     {
       "type": "patchouli:text",

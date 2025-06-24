@@ -16,7 +16,7 @@ public class LightweightTrait extends Trait {
         float mul = traitLevel * 0.06F;
         modified.put(ToolStats.SPD_STAT, (stats.getStats().get(ToolStats.SPD_STAT)) * mul);
         modified.put(ToolStats.MIN_STAT, stats.getStats().get(ToolStats.MIN_STAT) * mul / 2.0F);
-        return new ToolStats(modified, defaultStats.getElement(), defaultStats.getMiningLevel());
+        return new ToolStats(modified, defaultStats.getElement(), defaultStats.getMiningLevel(), defaultStats.getTier());
     }
 
     @Override
@@ -26,7 +26,7 @@ public class LightweightTrait extends Trait {
         float mul = traitLevel * 0.06F;
         modified.put(ToolStats.SPD_STAT, (stats.getStats().get(ToolStats.SPD_STAT)) * mul);
         modified.put(ToolStats.MIN_STAT, stats.getStats().get(ToolStats.MIN_STAT) * mul / 2.0F);
-        return new ToolStats(modified, defaultStats.getElement(), defaultStats.getMiningLevel());
+        return new ToolStats(modified, defaultStats.getElement(), defaultStats.getMiningLevel(), defaultStats.getTier());
     }
 
     @Override

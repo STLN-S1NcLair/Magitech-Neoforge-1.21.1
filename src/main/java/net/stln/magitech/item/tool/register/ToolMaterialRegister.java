@@ -89,16 +89,16 @@ public class ToolMaterialRegister {
         componentPartId.put(ToolType.WAND, 2, ToolPart.CONDUCTOR);
         componentPartId.put(ToolType.WAND, 3, ToolPart.TOOL_BINDING);
 
-        baseStats.put(ToolType.DAGGER, new ToolStats(2F, 4F, 3.0F, 5F, 2F, 1.5F, 1F, 288, Element.NONE, MiningLevel.NONE));
-        baseStats.put(ToolType.LIGHT_SWORD, new ToolStats(4F, 4F, 1.6F, 5F, 2F, 3F, 3F, 361, Element.NONE, MiningLevel.NONE));
-        baseStats.put(ToolType.HEAVY_SWORD, new ToolStats(6F, 4F, 0.8F, 5F, 6F, 3F, 3F, 536, Element.NONE, MiningLevel.NONE));
-        baseStats.put(ToolType.PICKAXE, new ToolStats(2F, 1F, 2.4F, 5F, 1F, 2F, 1.5F, 319, Element.NONE, MiningLevel.NONE));
-        baseStats.put(ToolType.HAMMER, new ToolStats(8F, 7F, 0.6F, 3F, 4F, 2.5F, 2F, 1013, Element.NONE, MiningLevel.NONE));
-        baseStats.put(ToolType.AXE, new ToolStats(5F, 3F, 1.0F, 5F, 5F, 3.5F, 3F, 325, Element.NONE, MiningLevel.NONE));
-        baseStats.put(ToolType.SHOVEL, new ToolStats(3F, 3F, 2.0F, 5F, 6F, 3F, 4F, 401, Element.NONE, MiningLevel.NONE));
-        baseStats.put(ToolType.SCYTHE, new ToolStats(3F, 6F, 0.7F, 5F, 2F, 4.5F, 6F, 594, Element.NONE, MiningLevel.NONE));
-        baseStats.put(ToolType.WAND, new ToolStats(1F, 1F, 1F, 1F, 1F, 1F, 0.2F, 378, Element.NONE, MiningLevel.NONE));
+        baseStats.put(ToolType.DAGGER, new ToolStats(2F, 4F, 3.0F, 5F, 2F, 1.5F, 1F, 288, Element.NONE, MiningLevel.NONE, 0));
+        baseStats.put(ToolType.LIGHT_SWORD, new ToolStats(4F, 4F, 1.6F, 5F, 2F, 3F, 3F, 361, Element.NONE, MiningLevel.NONE, 0));
+        baseStats.put(ToolType.HEAVY_SWORD, new ToolStats(6F, 4F, 0.8F, 5F, 6F, 3F, 3F, 536, Element.NONE, MiningLevel.NONE, 0));
+        baseStats.put(ToolType.PICKAXE, new ToolStats(2F, 1F, 2.4F, 5F, 1F, 2F, 1.5F, 319, Element.NONE, MiningLevel.NONE, 0));
+        baseStats.put(ToolType.HAMMER, new ToolStats(8F, 7F, 0.6F, 3F, 4F, 2.5F, 2F, 1013, Element.NONE, MiningLevel.NONE, 0));
+        baseStats.put(ToolType.AXE, new ToolStats(5F, 3F, 1.0F, 5F, 5F, 3.5F, 3F, 325, Element.NONE, MiningLevel.NONE, 0));
+        baseStats.put(ToolType.SHOVEL, new ToolStats(3F, 3F, 2.0F, 5F, 6F, 3F, 4F, 401, Element.NONE, MiningLevel.NONE, 0));
+        baseStats.put(ToolType.SCYTHE, new ToolStats(3F, 6F, 0.7F, 5F, 2F, 4.5F, 6F, 594, Element.NONE, MiningLevel.NONE, 0));
+        baseStats.put(ToolType.WAND, new ToolStats(1F, 1F, 1F, 1F, 1F, 1F, 0.2F, 378, Element.NONE, MiningLevel.NONE, 0));
 
-        modStats.put(ToolType.WAND, new ToolStats(1F, 1F, 1F, 1F, 1F, 1F, 0.2F, 378, Element.NONE, MiningLevel.NONE));
+        modStats.put(ToolType.WAND, new ToolStats(1F, 1F, 1F, 1F, 1F, 1F, 0.2F, 378, Element.NONE, MiningLevel.NONE, 0));
     }
 }

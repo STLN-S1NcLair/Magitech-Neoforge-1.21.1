@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "id": "magitech:assembly_workbench"
+    },
+    "title": {
+      "translate": "advancement.magitech.arcane_engineering.assembly_workbench.title"
+    },
+    "description": {
+      "translate": "advancement.magitech.arcane_engineering.assembly_workbench.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "parent": "magitech:arcane_engineering/engineering_workbench",
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "magitech:assembly_workbench"
+            ],
+            "count": 1
+          }
+        ]
+      }
+    }
+  }
+}

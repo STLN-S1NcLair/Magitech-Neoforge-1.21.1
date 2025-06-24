@@ -1,0 +1,21 @@
+{
+  "type": "magitech:tool_assembly",
+  "ingredients": [
+    {
+      "item": "magitech:tool_binding"
+    },
+    {
+      "item": "magitech:strike_head"
+    },
+    {
+      "item": "magitech:light_blade"
+    },
+    {
+      "item": "magitech:heavy_handle"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "magitech:axe"
+  }
+}

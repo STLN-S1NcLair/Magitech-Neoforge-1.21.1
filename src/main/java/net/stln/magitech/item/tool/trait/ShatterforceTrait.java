@@ -24,7 +24,7 @@ public class ShatterforceTrait extends Trait {
         float mul = traitLevel * 0.25F * stack.getDamageValue() / stack.getMaxDamage();
         Float swp = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.SWP_STAT);
         modified.put(ToolStats.SWP_STAT, swp * mul);
-        return new ToolStats(modified, stats.getElement(), stats.getMiningLevel());
+        return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
     }
 
     @Override
@@ -34,7 +34,7 @@ public class ShatterforceTrait extends Trait {
         float mul = traitLevel * 0.25F * stack.getDamageValue() / stack.getMaxDamage();
         Float swp = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.SWP_STAT);
         modified.put(ToolStats.SWP_STAT, swp * mul);
-        return new ToolStats(modified, stats.getElement(), stats.getMiningLevel());
+        return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
     }
 
     @Override

@@ -125,35 +125,35 @@ public class ItemInit {
 
     public static final DeferredItem<Item> DAGGER = ITEMS.registerItem("dagger",
             DaggerItem::new,
-            new Item.Properties().setNoRepair());
+            new Item.Properties().setNoRepair().stacksTo(1));
 
     public static final DeferredItem<Item> LIGHT_SWORD = ITEMS.registerItem("light_sword",
             LightSwordItem::new,
-            new Item.Properties().setNoRepair());
+            new Item.Properties().setNoRepair().stacksTo(1));
 
     public static final DeferredItem<Item> HEAVY_SWORD = ITEMS.registerItem("heavy_sword",
             HeavySwordItem::new,
-            new Item.Properties().setNoRepair());
+            new Item.Properties().setNoRepair().stacksTo(1));
 
     public static final DeferredItem<Item> PICKAXE = ITEMS.registerItem("pickaxe",
             PickaxeItem::new,
-            new Item.Properties().setNoRepair());
+            new Item.Properties().setNoRepair().stacksTo(1));
 
     public static final DeferredItem<Item> HAMMER = ITEMS.registerItem("hammer",
             HammerItem::new,
-            new Item.Properties().setNoRepair());
+            new Item.Properties().setNoRepair().stacksTo(1));
 
     public static final DeferredItem<Item> AXE = ITEMS.registerItem("axe",
             AxeItem::new,
-            new Item.Properties().setNoRepair());
+            new Item.Properties().setNoRepair().stacksTo(1));
 
     public static final DeferredItem<Item> SHOVEL = ITEMS.registerItem("shovel",
             ShovelItem::new,
-            new Item.Properties().setNoRepair());
+            new Item.Properties().setNoRepair().stacksTo(1));
 
     public static final DeferredItem<Item> SCYTHE = ITEMS.registerItem("scythe",
             ScytheItem::new,
-            new Item.Properties().setNoRepair());
+            new Item.Properties().setNoRepair().stacksTo(1));
 
     public static final DeferredItem<Item> THREAD_PAGE = ITEMS.registerItem("thread_page",
             ThreadPageItem::new,

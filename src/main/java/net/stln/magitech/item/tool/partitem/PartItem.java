@@ -13,6 +13,7 @@ import net.stln.magitech.item.tool.ToolPart;
 import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.item.tool.material.ToolMaterial;
 import net.stln.magitech.item.tool.trait.Trait;
+import net.stln.magitech.util.ColorHelper;
 import net.stln.magitech.util.MathUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -66,12 +67,24 @@ public abstract class PartItem extends Item {
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
     }
 
+    protected void setTier(ItemStack stack, ToolStats finalStats) {
+        if (!stack.has(ComponentInit.TIER_COMPONENT)) {
+            stack.set(ComponentInit.TIER_COMPONENT, finalStats.getTier());
+        }
+    }
+
     protected void addStatsHoverText(@NotNull ItemStack stack, List<Component> tooltipComponents) {
         if (stack.has(ComponentInit.MATERIAL_COMPONENT)) {
-            if (Screen.hasShiftDown()) {
-                ToolStats finalStats = getDefaultStats(stack);
+            ToolStats finalStats = getDefaultStats(stack);
+            setTier(stack, finalStats);
 
-                tooltipComponents.add(Component.empty());
+            tooltipComponents.add(Component.empty());
+            tooltipComponents.add(Component.translatable("attribute.magitech.tier").append(" ")
+                    .append(String.valueOf(stack.get(ComponentInit.TIER_COMPONENT))
+                    ).withColor(ColorHelper.getTierColor(stack.get(ComponentInit.TIER_COMPONENT) * 5)));
+
+            if (Screen.hasShiftDown()) {
+
                 tooltipComponents.add(Component.translatable("attribute.magitech.attack_damage").append(": ").withColor(0xa0a0a0)
                         .append(Component.literal("x" + String.valueOf(
                                 MathUtil.round(finalStats.getStats().get(ToolStats.ATK_STAT), 2)

@@ -1,0 +1,21 @@
+{
+  "type": "magitech:tool_assembly",
+  "ingredients": [
+    {
+      "item": "magitech:tool_binding"
+    },
+    {
+      "item": "magitech:handguard"
+    },
+    {
+      "item": "magitech:heavy_blade"
+    },
+    {
+      "item": "magitech:light_handle"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "magitech:heavy_sword"
+  }
+}

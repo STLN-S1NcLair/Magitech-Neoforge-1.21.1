@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class ToolStats {
     @Immutable
-    public static final ToolStats DEFAULT = new ToolStats(0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, Element.NONE, MiningLevel.NONE);
+    public static final ToolStats DEFAULT = new ToolStats(0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, Element.NONE, MiningLevel.NONE, 0);
 
     public static String ATK_STAT = "attack";
     public static String ELM_ATK_STAT = "element_attack";
@@ -30,9 +30,11 @@ public class ToolStats {
     private final Map<String, Float> stats = new HashMap<>();
     private final Element element;
     private final MiningLevel miningLevel;
+    private final int tier;
 
-    public ToolStats(float atk, float elmAtk, float spd, float min, float def, float rng, float swp, float dur, Element elm, MiningLevel miningLevel) {
+    public ToolStats(float atk, float elmAtk, float spd, float min, float def, float rng, float swp, float dur, Element elm, MiningLevel miningLevel, int tier) {
         this.miningLevel = miningLevel;
+        this.tier = tier;
         this.stats.put(ATK_STAT, atk);
         this.stats.put(ELM_ATK_STAT, elmAtk);
         this.stats.put(SPD_STAT, spd);
@@ -44,8 +46,9 @@ public class ToolStats {
         element = elm;
     }
 
-    public ToolStats(Map<String, Float> map, Element elm, MiningLevel miningLevel) {
+    public ToolStats(Map<String, Float> map, Element elm, MiningLevel miningLevel, int tier) {
         this.miningLevel = miningLevel;
+        this.tier = tier;
         stats.putAll(map);
         element = elm;
     }
@@ -62,6 +65,7 @@ public class ToolStats {
         Map<Element, Float> elementMap = new HashMap<>();
         Element elm = Element.NONE;
         MiningLevel minLv = MiningLevel.NONE;
+        int tier = 0;
 
         for (ToolStats stats : statsList) {
             if (stats != null) {
@@ -96,6 +100,7 @@ public class ToolStats {
                 if (stats.getMiningLevel().getTier() > minLv.getTier()) {
                     minLv = stats.getMiningLevel();
                 }
+                tier += stats.getTier();
             }
 
         }
@@ -121,7 +126,7 @@ public class ToolStats {
             }
         }
 
-        return new ToolStats(atk, elmAtk, spd, min, def, rng, swp, dur, elm, minLv);
+        return new ToolStats(atk, elmAtk, spd, min, def, rng, swp, dur, elm, minLv, tier);
     }
 
     public static ToolStats mulWithoutElementCode(ToolStats stats, float value) {
@@ -136,6 +141,7 @@ public class ToolStats {
         Map<Element, Float> elementMap = new HashMap<>();
         Element elm = Element.NONE;
         MiningLevel minLv = MiningLevel.NONE;
+        int tier = 0;
 
         if (stats != null) {
             Map<String, Float> map = stats.getStats();
@@ -170,8 +176,11 @@ public class ToolStats {
             if (stats.getMiningLevel() != null) {
                 minLv = stats.getMiningLevel();
             }
+            if (stats.getTier() > tier) {
+                tier = stats.getTier();
+            }
         }
-        return new ToolStats(atk, elmAtk, spd, min, def, rng, swp, dur, elm, minLv);
+        return new ToolStats(atk, elmAtk, spd, min, def, rng, swp, dur, elm, minLv, tier);
     }
 
     public static ToolStats mulWithoutElementCode(ToolStats stats, ToolStats value) {
@@ -186,6 +195,7 @@ public class ToolStats {
         Map<Element, Float> elementMap = new HashMap<>();
         Element elm = Element.NONE;
         MiningLevel minLv = MiningLevel.NONE;
+        int tier = 0;
 
         if (stats != null && value != null) {
             Map<String, Float> map = stats.getStats();
@@ -221,8 +231,11 @@ public class ToolStats {
             if (stats.getMiningLevel() != null) {
                 minLv = stats.getMiningLevel();
             }
+            if (stats.getTier() > tier) {
+                tier = stats.getTier();
+            }
         }
-        return new ToolStats(atk, elmAtk, spd, min, def, rng, swp, dur, elm, minLv);
+        return new ToolStats(atk, elmAtk, spd, min, def, rng, swp, dur, elm, minLv, tier);
     }
 
     public Map<String, Float> getStats() {
@@ -235,5 +248,9 @@ public class ToolStats {
 
     public MiningLevel getMiningLevel() {
         return miningLevel;
+    }
+
+    public int getTier() {
+        return tier;
     }
 }

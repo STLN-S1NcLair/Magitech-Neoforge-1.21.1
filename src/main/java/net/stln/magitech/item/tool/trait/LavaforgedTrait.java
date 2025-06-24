@@ -26,7 +26,7 @@ public class LavaforgedTrait extends Trait {
             float mul = traitLevel * 0.08F;
             Float atk = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.ATK_STAT);
             modified.put(ToolStats.ATK_STAT, atk * mul);
-            return new ToolStats(modified, stats.getElement(), stats.getMiningLevel());
+            return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
         }
         return super.modifyStatsConditional1(player, level, stack, traitLevel, stats);
     }
@@ -41,7 +41,7 @@ public class LavaforgedTrait extends Trait {
             modified.put(ToolStats.ATK_STAT, atk * mul);
             Float chg = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.CHG_STAT);
             modified.put(ToolStats.CHG_STAT, chg * mul);
-            return new ToolStats(modified, stats.getElement(), stats.getMiningLevel());
+            return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
         }
         return super.modifySpellCasterStatsConditional1(player, level, stack, traitLevel, stats);
     }

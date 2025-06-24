@@ -1,0 +1,21 @@
+{
+  "type": "magitech:tool_assembly",
+  "ingredients": [
+    {
+      "item": "magitech:tool_binding"
+    },
+    {
+      "item": "magitech:conductor"
+    },
+    {
+      "item": "magitech:catalyst"
+    },
+    {
+      "item": "magitech:light_handle"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "magitech:wand"
+  }
+}

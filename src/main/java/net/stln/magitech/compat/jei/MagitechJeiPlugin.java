@@ -13,8 +13,10 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.block.BlockInit;
-import net.stln.magitech.hud.PartCuttingScreen;
+import net.stln.magitech.gui.PartCuttingScreen;
+import net.stln.magitech.gui.ToolAssemblyScreen;
 import net.stln.magitech.recipe.PartCuttingRecipe;
+import net.stln.magitech.recipe.ToolAssemblyRecipe;
 import net.stln.magitech.recipe.RecipeInit;
 
 import java.util.List;
@@ -30,6 +32,8 @@ public class MagitechJeiPlugin implements IModPlugin {
     public void registerCategories(IRecipeCategoryRegistration registration) {
         registration.addRecipeCategories(new PartCuttingRecipeCategory(
                 registration.getJeiHelpers().getGuiHelper()));
+        registration.addRecipeCategories(new ToolAssemblyRecipeCategory(
+                registration.getJeiHelpers().getGuiHelper()));
     }
 
     @Override
@@ -38,17 +42,25 @@ public class MagitechJeiPlugin implements IModPlugin {
 
         List<PartCuttingRecipe> partCuttingRecipes = recipeManager.getAllRecipesFor(RecipeInit.PART_CUTTING_TYPE.get()).stream().map(RecipeHolder::value).toList();
         registration.addRecipes(PartCuttingRecipeCategory.PART_CUTTING_RECIPE_TYPE, partCuttingRecipes);
+        List<ToolAssemblyRecipe> toolAssemblyRecipes = recipeManager.getAllRecipesFor(RecipeInit.TOOL_ASSEMBLY_TYPE.get()).stream().map(RecipeHolder::value).toList();
+        registration.addRecipes(ToolAssemblyRecipeCategory.TOOL_ASSEMBLY_RECIPE_TYPE, toolAssemblyRecipes);
     }
 
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration registration) {
         registration.addRecipeClickArea(PartCuttingScreen.class, 0, 0, 176, 16,
                 PartCuttingRecipeCategory.PART_CUTTING_RECIPE_TYPE);
+        registration.addRecipeClickArea(ToolAssemblyScreen.class, 0, 0, 176, 16,
+                ToolAssemblyRecipeCategory.TOOL_ASSEMBLY_RECIPE_TYPE);
+        registration.addRecipeClickArea(ToolAssemblyScreen.class, 73, 39, 56, 36,
+                ToolAssemblyRecipeCategory.TOOL_ASSEMBLY_RECIPE_TYPE);
     }
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
         registration.addRecipeCatalyst(new ItemStack(BlockInit.ENGINEERING_WORKBENCH.get().asItem()),
                 PartCuttingRecipeCategory.PART_CUTTING_RECIPE_TYPE);
+        registration.addRecipeCatalyst(new ItemStack(BlockInit.ASSEMBLY_WORKBENCH.get().asItem()),
+                ToolAssemblyRecipeCategory.TOOL_ASSEMBLY_RECIPE_TYPE);
     }
 }

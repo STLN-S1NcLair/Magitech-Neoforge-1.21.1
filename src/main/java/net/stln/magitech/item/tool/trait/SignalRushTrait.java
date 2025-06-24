@@ -31,7 +31,7 @@ public class SignalRushTrait extends Trait {
             }
             Float spd = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.SPD_STAT);
             modified.put(ToolStats.SPD_STAT, spd * mul);
-            return new ToolStats(modified, stats.getElement(), stats.getMiningLevel());
+            return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
         }
         return super.modifyStatsConditional1(player, level, stack, traitLevel, stats);
     }
@@ -48,7 +48,7 @@ public class SignalRushTrait extends Trait {
             }
             Float spd = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.SPD_STAT);
             modified.put(ToolStats.SPD_STAT, spd * mul);
-            return new ToolStats(modified, stats.getElement(), stats.getMiningLevel());
+            return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
         }
         return super.modifySpellCasterStatsConditional1(player, level, stack, traitLevel, stats);
     }

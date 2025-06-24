@@ -50,6 +50,7 @@ import net.stln.magitech.item.tool.register.ToolMaterialRegister;
 import net.stln.magitech.item.tool.trait.Trait;
 import net.stln.magitech.network.TraitTickPayload;
 import net.stln.magitech.particle.particle_option.*;
+import net.stln.magitech.util.ColorHelper;
 import net.stln.magitech.util.EffectUtil;
 import net.stln.magitech.util.EntityUtil;
 import net.stln.magitech.util.MathUtil;
@@ -59,14 +60,14 @@ import org.joml.Vector3f;
 import java.util.*;
 import java.util.function.Predicate;
 
-public abstract class PartToolItem extends TieredItem implements LeftClickOverrideItem {
+public abstract class PartToolItem extends Item implements LeftClickOverrideItem {
     ResourceLocation atkId = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "part_tool_attack_damage_modifier");
     ResourceLocation spdId = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "part_tool_attack_speed_modifier");
     ResourceLocation defId = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "part_tool_defense_modifier");
     ResourceLocation rngId = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "part_tool_attack_range_modifier");
 
     public PartToolItem(Properties settings) {
-        super(Tiers.WOOD, settings);
+        super(settings);
     }
 
     public static ToolStats getDefaultStats(ItemStack stack) {
@@ -344,6 +345,7 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
         modifyTraitAttribute(player, level, stack, finalStats, entries);
         ItemAttributeModifiers component = new ItemAttributeModifiers(entries, false);
         stack.set(DataComponents.ATTRIBUTE_MODIFIERS, component);
+        setTier(stack, finalStats);
 
         if (stack.getMaxDamage() != map.get(ToolStats.DUR_STAT)) {
             int newMaxDamage = Math.round(map.get(ToolStats.DUR_STAT));
@@ -354,6 +356,12 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
             }
             stack.set(DataComponents.MAX_DAMAGE, newMaxDamage);
             stack.setDamageValue((int) (((float) oldDamage) * newMaxDamage / oldMaxDamage));
+        }
+    }
+
+    protected void setTier(ItemStack stack, ToolStats finalStats) {
+        if (!stack.has(ComponentInit.TIER_COMPONENT)) {
+            stack.set(ComponentInit.TIER_COMPONENT, finalStats.getTier() * 5 / this.getToolType().getSize());
         }
     }
 
@@ -382,8 +390,13 @@ public abstract class PartToolItem extends TieredItem implements LeftClickOverri
 
     protected void addStatsHoverText(@NotNull ItemStack stack, List<Component> tooltipComponents) {
         ToolStats finalStats = getSumStatsWithoutConditional(stack);
+        setTier(stack, finalStats);
 
         tooltipComponents.add(Component.empty());
+        tooltipComponents.add(Component.translatable("attribute.magitech.tier").append(" ")
+                .append(String.valueOf(stack.get(ComponentInit.TIER_COMPONENT))
+                ).withColor(ColorHelper.getTierColor(stack.get(ComponentInit.TIER_COMPONENT))));
+
         tooltipComponents.add(Component.translatable("attribute.magitech.attack_damage").append(": ").withColor(0xa0a0a0)
                 .append(Component.literal(String.valueOf(
                         MathUtil.round(finalStats.getStats().get(ToolStats.ATK_STAT) + 1.0F, 2)

@@ -31,7 +31,7 @@ public class OverchargedTrait extends Trait {
             float mul = traitLevel * 0.15F;
             Float elmAtk = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.ELM_ATK_STAT);
             modified.put(ToolStats.ELM_ATK_STAT, elmAtk * mul);
-            return new ToolStats(modified, stats.getElement(), stats.getMiningLevel());
+            return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
         }
         return super.modifyStatsConditional1(player, level, stack, traitLevel, stats);
     }
@@ -48,7 +48,7 @@ public class OverchargedTrait extends Trait {
             Float chg = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.CHG_STAT);
             modified.put(ToolStats.PWR_STAT, pwr * mul);
             modified.put(ToolStats.CHG_STAT, chg * mul);
-            return new ToolStats(modified, stats.getElement(), stats.getMiningLevel());
+            return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
         }
         return super.modifySpellCasterStatsConditional1(player, level, stack, traitLevel, stats);
     }

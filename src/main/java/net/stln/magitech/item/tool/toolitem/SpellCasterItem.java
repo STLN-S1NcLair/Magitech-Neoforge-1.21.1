@@ -38,6 +38,7 @@ import net.stln.magitech.magic.cooldown.CooldownData;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.network.TraitTickPayload;
+import net.stln.magitech.util.ColorHelper;
 import net.stln.magitech.util.MathUtil;
 import net.stln.magitech.util.TextUtil;
 import org.jetbrains.annotations.NotNull;
@@ -210,6 +211,7 @@ public abstract class SpellCasterItem extends PartToolItem {
         modifyTraitAttribute(player, level, stack, finalStats, entries);
         ItemAttributeModifiers component = new ItemAttributeModifiers(entries, false);
         stack.set(DataComponents.ATTRIBUTE_MODIFIERS, component);
+        setTier(stack, finalStats);
 
         if (stack.getMaxDamage() != map.get(ToolStats.DUR_STAT)) {
             int newMaxDamage = Math.round(map.get(ToolStats.DUR_STAT));
@@ -243,9 +245,14 @@ public abstract class SpellCasterItem extends PartToolItem {
     @Override
     protected void addStatsHoverText(@NotNull ItemStack stack, List<Component> tooltipComponents) {
         ToolStats finalStats = getSumStatsWithoutConditional(stack);
+        setTier(stack, finalStats);
         Map<String, Float> mod = ToolMaterialRegister.getModStats(this.getToolType()).getStats();
 
         tooltipComponents.add(Component.empty());
+        tooltipComponents.add(Component.translatable("attribute.magitech.tier").append(" ")
+                .append(String.valueOf(stack.get(ComponentInit.TIER_COMPONENT))
+                ).withColor(ColorHelper.getTierColor(stack.get(ComponentInit.TIER_COMPONENT))));
+
         tooltipComponents.add(Component.translatable("attribute.magitech.spell_power").append(": ").withColor(0xa0a0a0)
                 .append(Component.literal(
                         TextUtil.toSignedIntPercent(finalStats.getStats().get(ToolStats.ATK_STAT) - mod.get(ToolStats.ATK_STAT))

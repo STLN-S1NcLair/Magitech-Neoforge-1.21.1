@@ -40,6 +40,13 @@ public class BlockInit {
 
     public static final DeferredItem<BlockItem> ENGINEERING_WORKBENCH_ITEM = ItemInit.ITEMS.register("engineering_workbench", key -> new TooltipTextBlockItem(ENGINEERING_WORKBENCH.get(), new Item.Properties()));
 
+    public static final DeferredBlock<AssemblyWorkbenchBlock> ASSEMBLY_WORKBENCH = BLOCKS.registerBlock("assembly_workbench",
+            AssemblyWorkbenchBlock::new,
+            BlockBehaviour.Properties.of().mapColor(MapColor.STONE)
+                    .strength(2F, 5.0F));
+
+    public static final DeferredItem<BlockItem> ASSEMBLY_WORKBENCH_ITEM = ItemInit.ITEMS.register("assembly_workbench", key -> new TooltipTextBlockItem(ASSEMBLY_WORKBENCH.get(), new Item.Properties()));
+
     public static final DeferredBlock<DropExperienceBlock> FLUORITE_ORE = BLOCKS.registerBlock("fluorite_ore",
             (properties) -> new DropExperienceBlock(UniformInt.of(1, 4),
                     BlockBehaviour.Properties.of().mapColor(MapColor.STONE)

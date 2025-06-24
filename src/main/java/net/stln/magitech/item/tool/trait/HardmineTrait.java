@@ -29,7 +29,7 @@ public class HardmineTrait extends Trait {
         modified.put(ToolStats.CHG_STAT, -chg * mul);
         Float pwr = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.PWR_STAT);
         modified.put(ToolStats.PWR_STAT, pwr * mul);
-        return new ToolStats(modified, stats.getElement(), stats.getMiningLevel());
+        return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
     }
 
     @Override
