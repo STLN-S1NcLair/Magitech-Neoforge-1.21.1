@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "magitech:dagger",
+    "magitech:light_sword",
+    "magitech:heavy_sword",
+    "magitech:pickaxe",
+    "magitech:hammer",
+    "magitech:axe",
+    "magitech:shovel",
+    "magitech:scythe",
+    "magitech:wand"
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "display": {
+    "icon": {
+      "id": "magitech:pickaxe",
+      "components": {
+        "magitech:part_material_component": {
+          "materials": [
+            "magitech:iron",
+            "magitech:iron",
+            "magitech:iron",
+            "magitech:iron"
+          ]
+        }
+      }
+    },
+    "title": {
+      "translate": "advancement.magitech.arcane_engineering.make_part_tool.title"
+    },
+    "description": {
+      "translate": "advancement.magitech.arcane_engineering.make_part_tool.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "parent": "magitech:arcane_engineering/assembly_workbench",
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "#magitech:part_tool"
+          }
+        ]
+      }
+    }
+  }
+}

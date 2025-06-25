@@ -1,0 +1,34 @@
+{
+  "display": {
+    "icon": {
+      "id": "magitech:light_blade",
+      "components": {
+        "magitech:material_component": {
+          "material": "magitech:iron"
+        }
+      }
+    },
+    "title": {
+      "translate": "advancement.magitech.arcane_engineering.make_part.title"
+    },
+    "description": {
+      "translate": "advancement.magitech.arcane_engineering.make_part.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "parent": "magitech:arcane_engineering/engineering_workbench",
+      "criteria": {
+        "requirement": {
+          "trigger": "minecraft:inventory_changed",
+          "conditions": {
+            "items": [
+              {
+                "items": "#magitech:part"
+              }
+            ]
+          }
+        }
+      }
+    }

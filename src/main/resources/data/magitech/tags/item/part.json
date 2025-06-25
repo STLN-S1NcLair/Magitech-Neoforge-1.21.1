@@ -1,0 +1,17 @@
+{
+  "replace": false,
+  "values": [
+    "magitech:light_blade",
+    "magitech:heavy_blade",
+    "magitech:light_handle",
+    "magitech:heavy_handle",
+    "magitech:tool_binding",
+    "magitech:handguard",
+    "magitech:strike_head",
+    "magitech:spike_head",
+    "magitech:reinforced_stick",
+    "magitech:plate",
+    "magitech:catalyst",
+    "magitech:conductor"
+  ]
+}

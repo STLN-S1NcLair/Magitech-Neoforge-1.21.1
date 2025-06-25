@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "magitech:engineering_workbench"
+    "magitech:engineering_workbench",
+    "magitech:assembly_workbench"
   ]
 }

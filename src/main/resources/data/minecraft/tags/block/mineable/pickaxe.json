@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "magitech:engineering_workbench",
+    "magitech:assembly_workbench",
     "magitech:fluorite_ore",
     "magitech:deepslate_fluorite_ore",
     "magitech:fluorite_crystal_cluster",
