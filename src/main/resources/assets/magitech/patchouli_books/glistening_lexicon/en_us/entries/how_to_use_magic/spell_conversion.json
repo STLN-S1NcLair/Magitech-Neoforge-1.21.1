@@ -20,7 +20,7 @@
     {
       "type": "patchouli:image",
       "title": "エネルクラックス",
-      "images": ["magitech:textures/spell/enercrux.png"]
+      "images": ["magitech:textures/patchouli/enercrux.png"]
     },
     {
       "type": "patchouli:spotlight",

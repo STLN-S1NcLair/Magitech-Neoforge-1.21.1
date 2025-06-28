@@ -24,6 +24,7 @@ public class MaterialInit {
     public static ToolMaterial GOLD = new ToolMaterial(new CatalysisTrait(), ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "gold"));
     public static ToolMaterial AMETHYST = new ToolMaterial(new ShatterforceTrait(), ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "amethyst"));
     public static ToolMaterial REDSTONE = new ToolMaterial(new SignalRushTrait(), ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "redstone"));
+    public static ToolMaterial DRIPSTONE = new ToolMaterial(new PrecipitationTrait(), ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "dripstone"));
     public static ToolMaterial FLUORITE = new ToolMaterial(new OverchargedTrait(), ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "fluorite"));
     public static ToolMaterial DIAMOND = new ToolMaterial(new LightweightTrait(), ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "diamond"));
     public static ToolMaterial ENDER_METAL = new ToolMaterial(new EnderDrawTrait(), ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ender_metal"));
@@ -62,6 +63,9 @@ public class MaterialInit {
 
         REDSTONE.addStats(new ToolStats(0.5F, 0.8F, 0.65F, 1.1F, 0.3F, 1F, 1F, 1.2F, Element.SURGE, MiningLevel.IRON, 1));
         REDSTONE.addSpellCasterStats(new ToolStats(0.5F, 0.8F, 0.65F, 1.1F, 0.3F, 1F, 1F, 1.2F, Element.SURGE, MiningLevel.IRON, 1));
+
+        DRIPSTONE.addStats(new ToolStats(0.5F, 0.6F, 0.7F, 0.75F, 0.8F, 1F, 0.75F, 0.4F, Element.FLOW, MiningLevel.STONE, 1));
+        DRIPSTONE.addSpellCasterStats(new ToolStats(0.5F, 0.6F, 0.7F, 0.75F, 0.8F, 1F, 0.75F, 0.4F, Element.FLOW, MiningLevel.STONE, 1));
 
         FLUORITE.addStats(new ToolStats(0F, 1.4F, 1.1F, 0.9F, 0.1F, 0.7F, 1.2F, 0.5F, Element.PHANTOM, MiningLevel.STONE, 1));
         FLUORITE.addSpellCasterStats(new ToolStats(0.3F, 1.2F, 1.1F, 0.9F, 0.1F, 0.7F, 2.0F, 0.5F, Element.PHANTOM, MiningLevel.STONE, 1));

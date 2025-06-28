@@ -101,6 +101,7 @@ public class CreativeTabInit {
                 output.accept(PartToolGenerator.generateDagger(MaterialInit.GOLD));
                 output.accept(PartToolGenerator.generateDagger(MaterialInit.AMETHYST));
                 output.accept(PartToolGenerator.generateDagger(MaterialInit.REDSTONE));
+                output.accept(PartToolGenerator.generateDagger(MaterialInit.DRIPSTONE));
                 output.accept(PartToolGenerator.generateDagger(MaterialInit.FLUORITE));
                 output.accept(PartToolGenerator.generateDagger(MaterialInit.DIAMOND));
                 output.accept(PartToolGenerator.generateDagger(MaterialInit.ENDER_METAL));
@@ -119,6 +120,7 @@ public class CreativeTabInit {
                 output.accept(PartToolGenerator.generateLightSword(MaterialInit.GOLD));
                 output.accept(PartToolGenerator.generateLightSword(MaterialInit.AMETHYST));
                 output.accept(PartToolGenerator.generateLightSword(MaterialInit.REDSTONE));
+                output.accept(PartToolGenerator.generateLightSword(MaterialInit.DRIPSTONE));
                 output.accept(PartToolGenerator.generateLightSword(MaterialInit.FLUORITE));
                 output.accept(PartToolGenerator.generateLightSword(MaterialInit.DIAMOND));
                 output.accept(PartToolGenerator.generateLightSword(MaterialInit.ENDER_METAL));
@@ -137,6 +139,7 @@ public class CreativeTabInit {
                 output.accept(PartToolGenerator.generateHeavySword(MaterialInit.GOLD));
                 output.accept(PartToolGenerator.generateHeavySword(MaterialInit.AMETHYST));
                 output.accept(PartToolGenerator.generateHeavySword(MaterialInit.REDSTONE));
+                output.accept(PartToolGenerator.generateHeavySword(MaterialInit.DRIPSTONE));
                 output.accept(PartToolGenerator.generateHeavySword(MaterialInit.FLUORITE));
                 output.accept(PartToolGenerator.generateHeavySword(MaterialInit.DIAMOND));
                 output.accept(PartToolGenerator.generateHeavySword(MaterialInit.ENDER_METAL));
@@ -155,6 +158,7 @@ public class CreativeTabInit {
                 output.accept(PartToolGenerator.generatePickaxe(MaterialInit.GOLD));
                 output.accept(PartToolGenerator.generatePickaxe(MaterialInit.AMETHYST));
                 output.accept(PartToolGenerator.generatePickaxe(MaterialInit.REDSTONE));
+                output.accept(PartToolGenerator.generatePickaxe(MaterialInit.DRIPSTONE));
                 output.accept(PartToolGenerator.generatePickaxe(MaterialInit.FLUORITE));
                 output.accept(PartToolGenerator.generatePickaxe(MaterialInit.DIAMOND));
                 output.accept(PartToolGenerator.generatePickaxe(MaterialInit.ENDER_METAL));
@@ -173,6 +177,7 @@ public class CreativeTabInit {
                 output.accept(PartToolGenerator.generateHammer(MaterialInit.GOLD));
                 output.accept(PartToolGenerator.generateHammer(MaterialInit.AMETHYST));
                 output.accept(PartToolGenerator.generateHammer(MaterialInit.REDSTONE));
+                output.accept(PartToolGenerator.generateHammer(MaterialInit.DRIPSTONE));
                 output.accept(PartToolGenerator.generateHammer(MaterialInit.FLUORITE));
                 output.accept(PartToolGenerator.generateHammer(MaterialInit.DIAMOND));
                 output.accept(PartToolGenerator.generateHammer(MaterialInit.ENDER_METAL));
@@ -192,6 +197,7 @@ public class CreativeTabInit {
                 output.accept(PartToolGenerator.generateAxe(MaterialInit.GOLD));
                 output.accept(PartToolGenerator.generateAxe(MaterialInit.AMETHYST));
                 output.accept(PartToolGenerator.generateAxe(MaterialInit.REDSTONE));
+                output.accept(PartToolGenerator.generateAxe(MaterialInit.DRIPSTONE));
                 output.accept(PartToolGenerator.generateAxe(MaterialInit.FLUORITE));
                 output.accept(PartToolGenerator.generateAxe(MaterialInit.DIAMOND));
                 output.accept(PartToolGenerator.generateAxe(MaterialInit.ENDER_METAL));
@@ -211,6 +217,7 @@ public class CreativeTabInit {
                 output.accept(PartToolGenerator.generateShovel(MaterialInit.GOLD));
                 output.accept(PartToolGenerator.generateShovel(MaterialInit.AMETHYST));
                 output.accept(PartToolGenerator.generateShovel(MaterialInit.REDSTONE));
+                output.accept(PartToolGenerator.generateShovel(MaterialInit.DRIPSTONE));
                 output.accept(PartToolGenerator.generateShovel(MaterialInit.FLUORITE));
                 output.accept(PartToolGenerator.generateShovel(MaterialInit.DIAMOND));
                 output.accept(PartToolGenerator.generateShovel(MaterialInit.ENDER_METAL));
@@ -230,6 +237,7 @@ public class CreativeTabInit {
                 output.accept(PartToolGenerator.generateScythe(MaterialInit.GOLD));
                 output.accept(PartToolGenerator.generateScythe(MaterialInit.AMETHYST));
                 output.accept(PartToolGenerator.generateScythe(MaterialInit.REDSTONE));
+                output.accept(PartToolGenerator.generateScythe(MaterialInit.DRIPSTONE));
                 output.accept(PartToolGenerator.generateScythe(MaterialInit.FLUORITE));
                 output.accept(PartToolGenerator.generateScythe(MaterialInit.DIAMOND));
                 output.accept(PartToolGenerator.generateScythe(MaterialInit.ENDER_METAL));
@@ -249,6 +257,7 @@ public class CreativeTabInit {
                 output.accept(PartToolGenerator.generateWand(MaterialInit.GOLD));
                 output.accept(PartToolGenerator.generateWand(MaterialInit.AMETHYST));
                 output.accept(PartToolGenerator.generateWand(MaterialInit.REDSTONE));
+                output.accept(PartToolGenerator.generateWand(MaterialInit.DRIPSTONE));
                 output.accept(PartToolGenerator.generateWand(MaterialInit.FLUORITE));
                 output.accept(PartToolGenerator.generateWand(MaterialInit.DIAMOND));
                 output.accept(PartToolGenerator.generateWand(MaterialInit.ENDER_METAL));
@@ -289,6 +298,7 @@ public class CreativeTabInit {
                     output.accept(PartToolGenerator.generatePart((PartItem) item, MaterialInit.GOLD));
                     output.accept(PartToolGenerator.generatePart((PartItem) item, MaterialInit.AMETHYST));
                     output.accept(PartToolGenerator.generatePart((PartItem) item, MaterialInit.REDSTONE));
+                    output.accept(PartToolGenerator.generatePart((PartItem) item, MaterialInit.DRIPSTONE));
                     output.accept(PartToolGenerator.generatePart((PartItem) item, MaterialInit.FLUORITE));
                     output.accept(PartToolGenerator.generatePart((PartItem) item, MaterialInit.DIAMOND));
                     output.accept(PartToolGenerator.generatePart((PartItem) item, MaterialInit.ENDER_METAL));

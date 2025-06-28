@@ -1,0 +1,27 @@
+{
+  "name": "tool_assembly_recipe",
+  "processor": "net.stln.magitech.compat.patchouli.ToolAssemblyRecipeProcessor",
+  "components": [
+    {
+    "type": "patchouli:header",
+    "text": "block.magitech.assembly_workbench",
+    "x": -1,
+    "y": -1
+  },
+    {
+      "type": "patchouli:item",
+      "x": 10, "y": 10,
+      "item": "#input1"
+    },
+    {
+      "type": "patchouli:item",
+      "x": 30, "y": 10,
+      "item": "#input2"
+    },
+    {
+      "type": "patchouli:item",
+      "x": 10, "y": 30,
+      "item": "#result"
+    }
+  ]
+}

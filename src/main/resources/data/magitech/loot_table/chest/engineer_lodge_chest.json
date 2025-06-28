@@ -1,0 +1,113 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": 20,
+      "entries": [
+        {
+          "type": "item",
+          "name": "magitech:thread_page",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "magitech:random_thread_page",
+              "spells": []
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "magitech:mana_berry",
+          "weight": 4,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": { "min": 4, "max": 6 }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "minecraft:paper",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": { "min": 6, "max": 8 }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "minecraft:dark_oak_planks",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": { "min": 16, "max": 20 }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "minecraft:deepslate",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": { "min": 16, "max": 20 }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "minecraft:honeycomb",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": { "min": 4, "max": 6 }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "minecraft:iron_ingot",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": { "min": 2, "max": 3 }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "minecraft:copper_ingot",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": { "min": 4, "max": 6 }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "magitech:ender_metal_ingot",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": { "min": 3, "max": 5 }
+            }
+          ]
+        },
+        {
+          "type": "empty",
+          "weight": 9
+        }
+      ]
+    }
+  ]
+}

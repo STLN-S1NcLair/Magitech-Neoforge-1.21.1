@@ -14,7 +14,6 @@
     },
     {
       "type": "patchouli:crafting",
-      "title": "工学作業台、工学組み立て台の作り方",
       "recipe": "magitech:engineering_workbench",
       "recipe2": "magitech:assembly_workbench"
     },
@@ -24,17 +23,58 @@
       "text": "$(#000000)パーツができたら、あとは工学組み立て台で組み立てるだけだ。"
     },
     {
-      "type": "patchouli:text",
-      "title": "道具の種類",
-      "text": "$(#000000)ダガー: 軽量刃、軽量持ち手、鍔$(br2)片手剣: 軽量刃、軽量持ち手、鍔、留め具$(br2)大剣: 重量刃、軽量持ち手、鍔、留め具$(br2)ツルハシ: スパイクヘッド、重量持ち手、留め具"
+      "type": "magitech:tool_assembly_recipe",
+      "title": "item.magitech.dagger",
+      "recipe": "magitech:dagger_tool_assemble",
+      "text": "$(#000000)リーチが短い代わりに振り回せる。ストレス発散に最適だ。"
     },
     {
-      "type": "patchouli:text",
-      "text": "$(#000000)ハンマー: ストライクヘッド、プレート、重量持ち手、留め具$(br2)斧: 軽量刃、ストライクヘッド、重量持ち手、留め具$(br2)シャベル: 軽量刃、プレート、重量持ち手、留め具$(br2)大鎌: 重量刃、強化棒、重量持ち手、留め具"
+      "type": "magitech:tool_assembly_recipe",
+      "title": "item.magitech.light_sword",
+      "recipe": "magitech:light_sword_tool_assemble",
+      "text": "$(#000000)一番オススメの使いやすい武器。最初はこれを作るといい。"
     },
     {
-      "type": "patchouli:text",
-      "text": "$(#000000)槍: スパイクヘッド、強化棒、重量持ち手、留め具$(br2)杖: カタリスト、コンダクター、軽量持ち手、留め具$(br2)大杖: カタリスト、コンダクター、強化棒、重量持ち手、留め具$(br2)投杖: カタリスト、コンダクター、軽量持ち手、軽量刃"
+      "type": "magitech:tool_assembly_recipe",
+      "title": "item.magitech.heavy_sword",
+      "recipe": "magitech:heavy_sword_tool_assemble",
+      "text": "$(#000000)重い一撃と汎用性を兼ね備えてる。"
+    },
+    {
+      "type": "magitech:tool_assembly_recipe",
+      "title": "item.magitech.pickaxe",
+      "recipe": "magitech:pickaxe_tool_assemble",
+      "text": "$(#000000)一番よく使われる鉱夫の相棒。"
+    },
+    {
+      "type": "magitech:tool_assembly_recipe",
+      "title": "item.magitech.hammer",
+      "recipe": "magitech:hammer_tool_assemble",
+      "text": "$(#000000)超重くてその分破壊力は抜群。"
+    },
+    {
+      "type": "magitech:tool_assembly_recipe",
+      "title": "item.magitech.axe",
+      "recipe": "magitech:axe_tool_assemble",
+      "text": "$(#000000)汎用的な木こりの道具。"
+    },
+    {
+      "type": "magitech:tool_assembly_recipe",
+      "title": "item.magitech.shovel",
+      "recipe": "magitech:shovel_tool_assemble",
+      "text": "$(#000000)頼もしいプレートがついてくるぞ。"
+    },
+    {
+      "type": "magitech:tool_assembly_recipe",
+      "title": "item.magitech.scythe",
+      "recipe": "magitech:scythe_tool_assemble",
+      "text": "$(#000000)範囲攻撃はこいつに任せれば問題ないはず。"
+    },
+    {
+      "type": "magitech:tool_assembly_recipe",
+      "title": "item.magitech.wand",
+      "recipe": "magitech:wand_tool_assemble",
+      "text": "$(#000000)簡単で使いやすい初歩的な杖。これは絶対作ってくれ。大体の本でこの杖を使うことになるぞ。"
     },
     {
       "type": "patchouli:text",

@@ -32,6 +32,7 @@ public class ComponentInit {
             builder -> builder.persistent(ExtraCodecs.NON_NEGATIVE_INT).networkSynchronized(ByteBufCodecs.VAR_INT));
 
     public static void registerComponents(IEventBus eventBus) {
+        Magitech.LOGGER.info("Registering Data Components for" + Magitech.MOD_ID);
         COMPONENT_TYPES.register(eventBus);
     }
 

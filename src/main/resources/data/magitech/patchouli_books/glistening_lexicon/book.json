@@ -6,6 +6,7 @@
   "dont_generate_book": true,
   "custom_book_item": "magitech:glistening_lexicon",
   "book_texture": "magitech:textures/gui/book_glistening_lexicon.png",
+  "crafting_texture": "magitech:textures/gui/crafting.png",
   "version": "1",
   "i18n": true,
   "show_progress": false,

@@ -61,7 +61,7 @@ public class BeamSpell extends Spell {
                             applyEffectToLivingTarget(level, user, livingTarget);
                         }
                     }
-                    List<Entity> entities = EntityUtil.getEntitiesInBox(level, user, hitPos, new Vec3(0.3, 0.3, 0.3));
+                    List<Entity> entities = EntityUtil.getEntitiesInBox(level, user, hitPos, new Vec3(1, 1, 1));
                     for (Entity entity : entities) {
                         if (entity instanceof ItemEntity) {
                             applyEffectToItem(level, user, entity);

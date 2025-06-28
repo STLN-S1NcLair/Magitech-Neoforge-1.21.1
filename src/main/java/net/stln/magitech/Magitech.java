@@ -27,6 +27,7 @@ import net.stln.magitech.item.ItemPropertyInit;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.creative_tab.CreativeTabInit;
 import net.stln.magitech.item.tool.material.MaterialInit;
+import net.stln.magitech.loot.LootFunctionInit;
 import net.stln.magitech.magic.spell.SpellInit;
 import net.stln.magitech.particle.ParticleInit;
 import net.stln.magitech.recipe.RecipeInit;
@@ -65,6 +66,7 @@ public class Magitech {
         MobEffectInit.registerMobEffects(modEventBus);
         RecipeInit.registerRecipes(modEventBus);
         WorldGenInit.registerFeatures(modEventBus);
+        LootFunctionInit.registerFunctions(modEventBus);
         OverlayInit.registerMenus(modEventBus);
         MaterialInit.registerElements();
         MaterialInit.registerMaterials();

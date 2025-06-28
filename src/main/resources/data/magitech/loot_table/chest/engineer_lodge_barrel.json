@@ -1,0 +1,77 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": 15,
+      "entries": [
+        { "type": "empty", "weight": 5 },
+        {
+          "type": "item",
+          "name": "magitech:fluorite",
+          "weight": 3,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": { "min": 2, "max": 5 }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "magitech:redstone_crystal",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": { "min": 1, "max": 2 }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "magitech:mana_charged_fluorite",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": { "min": 1, "max": 2 }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "minecraft:amethyst_shard",
+          "weight": 3,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": { "min": 2, "max": 5 }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "minecraft:calcite",
+          "weight": 4,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": { "min": 6, "max": 12 }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "minecraft:snowball",
+          "weight": 3,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": { "min": 4, "max": 6 }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
