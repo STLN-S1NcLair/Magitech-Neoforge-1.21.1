@@ -1,10 +1,11 @@
 package net.stln.magitech.block;
 
+import net.minecraft.core.Direction;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.DropExperienceBlock;
-import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.grower.TreeGrower;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
@@ -18,6 +19,7 @@ import net.stln.magitech.Magitech;
 import net.stln.magitech.item.ItemInit;
 import net.stln.magitech.item.TooltipTextBlockItem;
 import net.stln.magitech.sound.SoundInit;
+import net.stln.magitech.worldgen.tree.TreeGrowerInit;
 
 public class BlockInit {
 
@@ -92,6 +94,58 @@ public class BlockInit {
                     .pushReaction(PushReaction.DESTROY));
 
     public static final DeferredItem<BlockItem> REDSTONE_CRYSTAL_CLUSTER_ITEM = ItemInit.ITEMS.register("redstone_crystal_cluster", key -> new TooltipTextBlockItem(REDSTONE_CRYSTAL_CLUSTER.get(), new Item.Properties()));
+
+    public static final DeferredBlock<RotatedPillarBlock> CELIFERN_LOG = BLOCKS.register("celifern_log", key -> new RotatedPillarBlock(
+            BlockBehaviour.Properties.of()
+                .mapColor(p_152624_ -> p_152624_.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? MapColor.COLOR_GREEN : MapColor.TERRACOTTA_GREEN)
+            .instrument(NoteBlockInstrument.BASS)
+                .strength(2.0F)
+                .sound(SoundType.WOOD)
+                .ignitedByLava()
+        ));
+
+    public static final DeferredItem<BlockItem> CELIFERN_LOG_ITEM = ItemInit.ITEMS.register("celifern_log", key -> new TooltipTextBlockItem(CELIFERN_LOG.get(), new Item.Properties()));
+
+    public static final DeferredBlock<Block> CELIFERN_PLANKS = BLOCKS.register("celifern_planks", key -> new Block(
+            BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.WOOD)
+                    .instrument(NoteBlockInstrument.BASS)
+                    .strength(2.0F, 3.0F)
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()
+    ));
+
+    public static final DeferredItem<BlockItem> CELIFERN_PLANKS_ITEM = ItemInit.ITEMS.register("celifern_planks", key -> new TooltipTextBlockItem(CELIFERN_PLANKS.get(), new Item.Properties()));
+
+    public static final DeferredBlock<Block> CELIFERN_LEAVES = BLOCKS.register("celifern_leaves", key -> new LeavesBlock(
+            BlockBehaviour.Properties.of()
+                .mapColor(MapColor.PLANT)
+                .strength(0.2F)
+                .randomTicks()
+                .sound(SoundType.AZALEA_LEAVES)
+                .noOcclusion()
+                .isValidSpawn(Blocks::ocelotOrParrot)
+                .isSuffocating((state, blockGetter, blockPos) -> false)
+                .isViewBlocking((state, blockGetter, blockPos) -> false)
+                .ignitedByLava()
+                .pushReaction(PushReaction.DESTROY)
+                .isRedstoneConductor((state, blockGetter, blockPos) -> false)
+    ));
+
+    public static final DeferredItem<BlockItem> CELIFERN_LEAVES_ITEM = ItemInit.ITEMS.register("celifern_leaves", key -> new TooltipTextBlockItem(CELIFERN_LEAVES.get(), new Item.Properties()));
+
+    public static final DeferredBlock<Block> CELIFERN_SAPLING = BLOCKS.register("celifern_sapling", key -> new SaplingBlock(
+                    TreeGrowerInit.CELIFERN,
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.PLANT)
+                            .noCollission()
+                            .randomTicks()
+                            .instabreak()
+                            .sound(SoundType.GRASS)
+                            .pushReaction(PushReaction.DESTROY)
+    ));
+
+    public static final DeferredItem<BlockItem> CELIFERN_SAPLING_ITEM = ItemInit.ITEMS.register("celifern_sapling", key -> new TooltipTextBlockItem(CELIFERN_SAPLING.get(), new Item.Properties()));
 
     public static void registerBlocks(IEventBus eventBus) {
         Magitech.LOGGER.info("Registering Blocks for" + Magitech.MOD_ID);

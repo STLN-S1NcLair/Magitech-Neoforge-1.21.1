@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "magitech:block/celifern_sapling"
+  },
+  "render_type": "cutout"
+}

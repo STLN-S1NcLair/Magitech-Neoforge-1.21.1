@@ -27,6 +27,10 @@
   "block.magitech.deepslate_fluorite_ore": "Deepslate Fluorite Ore",
   "block.magitech.fluorite_crystal_cluster": "Fluorite Crystal Cluster",
   "block.magitech.redstone_crystal_cluster": "Redstone Crystal Cluster",
+  "block.magitech.celifern_log": "Celifern Log",
+  "block.magitech.celifern_planks": "Celifern Planks",
+  "block.magitech.celifern_leaves": "Celifern Leaves",
+  "block.magitech.celifern_sapling": "Celifern Sapling",
   "itemGroup.magitech.magitech": "Magitech Items",
   "itemGroup.magitech.magitech_part": "Magitech Tool Parts",
   "itemGroup.magitech.magitech_spell": "Magitech Spells",
@@ -262,6 +266,6 @@
   "key.magitech.spell_shift_left": "Shift Spell Left",
   "key.magitech.spell_shift_right": "Shift Spell Right",
   "key.magitech.trait_action": "Trait Action",
-  "key.magitech.open_spellbound_page_screen": "Open Thread Page Screen of Spellbound",
-  "key.magitech.open_spellbound_as_guidebook": "Open Spellbound as Guidebook"
+  "key.magitech.open_spellbound_page_screen": "Open Thread Page Screen of Threadbound",
+  "key.magitech.open_spellbound_as_guidebook": "Open Threadbound as Guidebook"
 }

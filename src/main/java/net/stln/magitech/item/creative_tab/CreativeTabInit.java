@@ -70,6 +70,10 @@ public class CreativeTabInit {
                 output.accept(BlockInit.DEEPSLATE_FLUORITE_ORE_ITEM.get());
                 output.accept(BlockInit.FLUORITE_CRYSTAL_CLUSTER_ITEM.get());
                 output.accept(BlockInit.REDSTONE_CRYSTAL_CLUSTER_ITEM.get());
+                output.accept(BlockInit.CELIFERN_LOG_ITEM.get());
+                output.accept(BlockInit.CELIFERN_PLANKS_ITEM.get());
+                output.accept(BlockInit.CELIFERN_LEAVES_ITEM.get());
+                output.accept(BlockInit.CELIFERN_SAPLING_ITEM.get());
                 output.accept(ThreadboundGenerator.generateThreadbound(ItemInit.GLISTENING_LEXICON.get(), allSpells));
                 output.accept(ThreadboundGenerator.generateThreadbound(ItemInit.ARCANE_ENGINEERING_COMPENDIUM.get(), allSpells));
                 output.accept(ItemInit.MANA_RING.get());

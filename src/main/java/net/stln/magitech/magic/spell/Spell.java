@@ -248,7 +248,7 @@ public abstract class Spell {
         if (target.isAttackable()) {
             if (target instanceof LivingEntity livingTarget) {
                 float targetHealth = livingTarget.getHealth();
-                livingTarget.setLastHurtByMob(livingTarget);
+                livingTarget.setLastHurtByMob(user);
                 user.awardStat(Stats.DAMAGE_DEALT, Math.round((targetHealth - livingTarget.getHealth()) * 10));
             }
             damage *= EntityElementRegister.getElementAffinity(target, element).getMultiplier();

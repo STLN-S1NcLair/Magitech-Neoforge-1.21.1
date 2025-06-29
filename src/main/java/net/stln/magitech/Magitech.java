@@ -33,6 +33,7 @@ import net.stln.magitech.particle.ParticleInit;
 import net.stln.magitech.recipe.RecipeInit;
 import net.stln.magitech.sound.SoundInit;
 import net.stln.magitech.worldgen.WorldGenInit;
+import net.stln.magitech.worldgen.tree.TreeGrowerInit;
 import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
@@ -67,6 +68,7 @@ public class Magitech {
         RecipeInit.registerRecipes(modEventBus);
         WorldGenInit.registerFeatures(modEventBus);
         LootFunctionInit.registerFunctions(modEventBus);
+        TreeGrowerInit.registerTrunkPlacerTypes(modEventBus);
         OverlayInit.registerMenus(modEventBus);
         MaterialInit.registerElements();
         MaterialInit.registerMaterials();

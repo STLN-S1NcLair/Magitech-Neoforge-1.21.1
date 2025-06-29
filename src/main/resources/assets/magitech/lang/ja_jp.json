@@ -27,6 +27,10 @@
   "block.magitech.deepslate_fluorite_ore": "深層蛍石鉱石",
   "block.magitech.fluorite_crystal_cluster": "蛍石のクリスタルの塊",
   "block.magitech.redstone_crystal_cluster": "レッドストーンクリスタルの塊",
+  "block.magitech.celifern_log": "セリファーンの原木",
+  "block.magitech.celifern_planks": "セリファーンの板材",
+  "block.magitech.celifern_leaves": "セリファーンの葉",
+  "block.magitech.celifern_sapling": "セリファーンの苗木",
   "itemGroup.magitech.magitech": "Magitech アイテム",
   "itemGroup.magitech.magitech_part": "Magitech ツール部品",
   "itemGroup.magitech.magitech_spell": "Magitech スペル",
@@ -262,6 +266,6 @@
   "key.magitech.spell_shift_left": "スペルを左にシフト",
   "key.magitech.spell_shift_right": "スペルを右にシフト",
   "key.magitech.trait_action": "特性アクション",
-  "key.magitech.open_spellbound_page_screen": "スペルバウンドのスレッドページ画面を開く",
-  "key.magitech.open_spellbound_as_guidebook": "スペルバウンドをガイドブックとして開く"
+  "key.magitech.open_spellbound_page_screen": "スレッドバウンドのスレッドページ画面を開く",
+  "key.magitech.open_spellbound_as_guidebook": "スレッドバウンドをガイドブックとして開く"
 }

@@ -1,7 +1,5 @@
 package net.stln.magitech.worldgen;
 
-import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
-import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
@@ -10,8 +8,9 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.Item;
+import net.minecraft.util.valueproviders.ConstantInt;
+import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
@@ -19,11 +18,17 @@ import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
+import net.minecraft.world.level.levelgen.feature.featuresize.TwoLayersFeatureSize;
+import net.minecraft.world.level.levelgen.feature.foliageplacers.BlobFoliagePlacer;
+import net.minecraft.world.level.levelgen.feature.foliageplacers.RandomSpreadFoliagePlacer;
+import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
+import net.minecraft.world.level.levelgen.feature.trunkplacers.ForkingTrunkPlacer;
+import net.minecraft.world.level.levelgen.feature.trunkplacers.UpwardsBranchingTrunkPlacer;
 import net.minecraft.world.level.levelgen.placement.CountPlacement;
 import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
 import net.minecraft.world.level.levelgen.placement.InSquarePlacement;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
 import net.neoforged.bus.api.IEventBus;
@@ -33,6 +38,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.block.BlockInit;
+import net.stln.magitech.worldgen.tree.RandomBranchingTrunkPlacer;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -51,6 +57,7 @@ public class WorldGenInit {
 
     public static final ResourceKey<BiomeModifier> REDSTONE_CRYSTAL_SURFACE_BIOME_MODIFIER_KEY =
             ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "redstone_crystal_surface_feature"));
+
 
 
 
@@ -81,6 +88,11 @@ public class WorldGenInit {
             ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "fluorite_ore_feature"));
 
 
+
+    public static final ResourceKey<ConfiguredFeature<?, ?>> CELIFERN_CONFIGURED_KEY =
+            ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "celifern"));
+
+
     public static void Configured(BootstrapContext<ConfiguredFeature<?, ?>> context) {
         RuleTest ruletestStone = new TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES);
         RuleTest ruletestDeepslate = new TagMatchTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES);
@@ -98,6 +110,17 @@ public class WorldGenInit {
                 OreConfiguration.target(ruletestDeepslate, BlockInit.DEEPSLATE_FLUORITE_ORE.get().defaultBlockState())
         );
         context.register(FLUORITE_ORE_CONFIGURED_KEY, new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(fluoriteList, 8)));
+
+        HolderGetter<Block> holdergetter = context.lookup(Registries.BLOCK);
+
+        context.register(CELIFERN_CONFIGURED_KEY, new ConfiguredFeature<>(Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(
+                BlockStateProvider.simple(BlockInit.CELIFERN_LOG.get()),
+                new RandomBranchingTrunkPlacer(8, 1, 3),
+
+                BlockStateProvider.simple(BlockInit.CELIFERN_LEAVES.get()),
+                new RandomSpreadFoliagePlacer(ConstantInt.of(3), ConstantInt.of(0), ConstantInt.of(2), 70),
+
+                new TwoLayersFeatureSize(1, 0, 2)).build()));
     }
 
     public static void bootstrapPlaced(BootstrapContext<PlacedFeature> context) {
