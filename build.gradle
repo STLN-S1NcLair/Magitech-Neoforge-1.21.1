@@ -45,6 +45,8 @@ repositories {
         name = "ModMaven"
         url = "https://modmaven.dev"
     }
+    maven { url = 'https://maven.minecraftforge.net/' }
+    maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
 }
 
 base {
@@ -151,7 +153,9 @@ dependencies {
     implementation "curse.maven:patchouli-306770:${patchouli_id}"
     implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_id}"
     implementation "curse.maven:auth-me-356643:6177873"
-
+    implementation "curse.maven:xaeros-world-map-317780:6538359"
+    implementation "curse.maven:xaeros-minimap-263420:6515043"
+    implementation "com.github.glitchfiend:TerraBlender-neoforge:1.21.1-4.1.0.8"
     // Example optional mod dependency with JEI
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
     // compileOnly "mezz.jei:jei-${mc_version}-common-api:${jei_version}"

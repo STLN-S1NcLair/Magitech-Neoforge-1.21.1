@@ -47,7 +47,7 @@ public class MaterialInit {
         DEEPSLATE.addSpellCasterStats(new ToolStats(0.7F, 0.35F, 0.7F, 0.9F, 2F, 1F, 0.8F, 0.6F, Element.TREMOR, MiningLevel.STONE, 0 ));
 
         COPPER.addStats(new ToolStats(0.8F, 0.3F, 0.8F, 1F, 0.8F, 0.8F, 0.9F, 0.8F, Element.SURGE, MiningLevel.STONE, 0));
-        COPPER.addSpellCasterStats(new ToolStats(0.8F, 0.3F, 0.8F, 1F, 0.8F, 0.8F, 0.9F, 0.8F, Element.SURGE, MiningLevel.STONE, 0));
+        COPPER.addSpellCasterStats(new ToolStats(0.9F, 0.3F, 0.8F, 1F, 0.8F, 0.8F, 0.9F, 0.8F, Element.SURGE, MiningLevel.STONE, 0));
 
         BONE.addStats(new ToolStats(1.1F, 0F, 1.05F, 0.6F, 1.2F, 0.7F, 0.8F, 0.7F, Element.NONE, MiningLevel.STONE, 0));
         BONE.addSpellCasterStats(new ToolStats(1.1F, 0F, 1.05F, 0.6F, 1.2F, 0.7F, 0.8F, 0.7F, Element.NONE, MiningLevel.STONE, 0));
@@ -59,13 +59,13 @@ public class MaterialInit {
         GOLD.addSpellCasterStats(new ToolStats(0.1F, 1.2F, 0.75F, 2.4F, 0.6F, 0.9F, 0.7F, 0.2F, Element.MAGIC, MiningLevel.STONE, 1));
 
         AMETHYST.addStats(new ToolStats(0.9F, 0.25F, 0.9F, 1F, 0.75F, 1.1F, 1.1F, 0.8F, Element.MAGIC, MiningLevel.STONE, 1));
-        AMETHYST.addSpellCasterStats(new ToolStats(0.9F, 0.25F, 0.9F, 1F, 0.75F, 1.1F, 1.1F, 0.8F, Element.MAGIC, MiningLevel.STONE, 1));
+        AMETHYST.addSpellCasterStats(new ToolStats(0.9F, 0.35F, 0.9F, 1F, 0.75F, 1.1F, 1.1F, 0.8F, Element.MAGIC, MiningLevel.STONE, 1));
 
         REDSTONE.addStats(new ToolStats(0.5F, 0.8F, 0.65F, 1.1F, 0.3F, 1F, 1F, 1.2F, Element.SURGE, MiningLevel.IRON, 1));
-        REDSTONE.addSpellCasterStats(new ToolStats(0.5F, 0.8F, 0.65F, 1.1F, 0.3F, 1F, 1F, 1.2F, Element.SURGE, MiningLevel.IRON, 1));
+        REDSTONE.addSpellCasterStats(new ToolStats(0.5F, 0.9F, 0.65F, 1.1F, 0.3F, 1F, 1F, 1.2F, Element.SURGE, MiningLevel.IRON, 1));
 
         DRIPSTONE.addStats(new ToolStats(0.5F, 0.6F, 0.7F, 0.75F, 0.8F, 1F, 0.75F, 0.4F, Element.FLOW, MiningLevel.STONE, 1));
-        DRIPSTONE.addSpellCasterStats(new ToolStats(0.5F, 0.6F, 0.7F, 0.75F, 0.8F, 1F, 0.75F, 0.4F, Element.FLOW, MiningLevel.STONE, 1));
+        DRIPSTONE.addSpellCasterStats(new ToolStats(0.8F, 0.6F, 0.7F, 0.75F, 0.8F, 1F, 0.75F, 0.4F, Element.FLOW, MiningLevel.STONE, 1));
 
         FLUORITE.addStats(new ToolStats(0F, 1.4F, 1.1F, 0.9F, 0.1F, 0.7F, 1.2F, 0.5F, Element.PHANTOM, MiningLevel.STONE, 1));
         FLUORITE.addSpellCasterStats(new ToolStats(0.3F, 1.2F, 1.1F, 0.9F, 0.1F, 0.7F, 2.0F, 0.5F, Element.PHANTOM, MiningLevel.STONE, 1));
@@ -74,7 +74,7 @@ public class MaterialInit {
         DIAMOND.addSpellCasterStats(new ToolStats(1.5F, 0F, 1.1F, 1.6F, 0.8F, 1F, 1.2F, 4.0F, Element.NONE, MiningLevel.DIAMOND, 2));
 
         ENDER_METAL.addStats(new ToolStats(0.8F, 0.6F, 0.5F, 1F, 0.7F, 1.4F, 0.6F, 2.7F, Element.HOLLOW, MiningLevel.IRON, 2));
-        ENDER_METAL.addSpellCasterStats(new ToolStats(0.8F, 0.6F, 0.5F, 1F, 0.7F, 1.4F, 0.6F, 2.7F, Element.HOLLOW, MiningLevel.IRON, 2));
+        ENDER_METAL.addSpellCasterStats(new ToolStats(0.9F, 0.6F, 0.5F, 1F, 0.7F, 1.4F, 0.6F, 2.7F, Element.HOLLOW, MiningLevel.IRON, 2));
 
         NETHERITE.addStats(new ToolStats(1.25F, 0.5F, 0.9F, 1.8F, 1.1F, 1.1F, 1.1F, 5.0F, Element.EMBER, MiningLevel.NETHERITE, 3));
         NETHERITE.addSpellCasterStats(new ToolStats(1.25F, 0.5F, 0.9F, 1.8F, 1.1F, 1.1F, 1.1F, 5.0F, Element.EMBER, MiningLevel.NETHERITE, 3));

@@ -1,5 +1,7 @@
 package net.stln.magitech.util;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -12,6 +14,29 @@ import java.util.List;
 import java.util.Optional;
 
 public class EntityUtil {
+
+    public static Vec3 findSurface(Level level, Vec3 origin) {
+        int x = Mth.floor(origin.x);
+        int z = Mth.floor(origin.z);
+        int y = Mth.floor(origin.y);
+
+        BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos(x, y, z);
+
+        // 真下に向かって最初の非空気ブロックを探す
+        while (y > level.getMinBuildHeight() && level.getBlockState(mutablePos).isAir()) {
+            y--;
+            mutablePos.set(x, y, z);
+        }
+
+        // 地面の上に出る：空気になるまで上昇
+        while (y < level.getMaxBuildHeight() && !level.getBlockState(mutablePos.above()).isAir()) {
+            y++;
+            mutablePos.set(x, y, z);
+        }
+
+        // ちょうどその上の空中位置をVec3で返す（中心に寄せる）
+        return new Vec3(x + 0.5, y + 1, z + 0.5);
+    }
 
     public static List<Entity> getEntitiesInBox(Level world, Entity owner, Vec3 center, Vec3 size) {
         AABB box = new AABB(

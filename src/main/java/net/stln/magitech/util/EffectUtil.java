@@ -1,6 +1,7 @@
 package net.stln.magitech.util;
 
 import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.Player;
@@ -36,7 +37,7 @@ public class EffectUtil {
         }
     }
 
-    public static void sweepEffect(Player player, Level world, ParticleOptions particleEffect, Vec3 center, double startDeg, double endDeg, int density, double radius, double slopeDeg, boolean alwaysVisible) {
+    public static void sweepEffect(Player player, Level world, ParticleOptions particleEffect, double randomizer, Vec3 center, double startDeg, double endDeg, int density, double radius, double slopeDeg, boolean alwaysVisible) {
         if (!world.isClientSide) {
             return; // クライアント側のみ処理
         }
@@ -75,9 +76,9 @@ public class EffectUtil {
             double y1 = center.y - offset1.y * radius;
             double z1 = center.z - offset1.z * radius;
 
-            double xOffset = (x1 - x) / 10;
-            double yOffset = (y1 - y) / 10;
-            double zOffset = (z1 - z) / 10;
+            double xOffset = (x1 - x) / 10 + Mth.nextDouble(player.getRandom(), -1, 1) * randomizer;
+            double yOffset = (y1 - y) / 10 + Mth.nextDouble(player.getRandom(), -1, 1) * randomizer;
+            double zOffset = (z1 - z) / 10 + Mth.nextDouble(player.getRandom(), -1, 1) * randomizer;
 
             int delay = (int) Math.floor(t * 3);
             if (delay < 0) {

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "magitech:block/mana_berry_bush_stage1"
+  },
+  "render_type": "cutout"
+}

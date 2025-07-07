@@ -18,6 +18,7 @@ public class ParticleInit {
 
     public static final Supplier<SquareFieldParticleType> SQUARE_FIELD = PARTICLE_TYPES.register("square_field", () -> new SquareFieldParticleType(true));
     public static final Supplier<UnstableSquareParticleType> UNSTABLE_SQUARE = PARTICLE_TYPES.register("unstable_square", () -> new UnstableSquareParticleType(true));
+    public static final Supplier<SquareParticleType> SQUARE = PARTICLE_TYPES.register("square", () -> new SquareParticleType(true));
     public static final Supplier<FlameParticleType> FLAME = PARTICLE_TYPES.register("flame", () -> new FlameParticleType(true));
     public static final Supplier<FlameSmokeParticleType> FLAME_SMOKE = PARTICLE_TYPES.register("flame_smoke", () -> new FlameSmokeParticleType(true));
     public static final Supplier<FrostParticleType> FROST = PARTICLE_TYPES.register("frost", () -> new FrostParticleType(true));
@@ -44,6 +45,7 @@ public class ParticleInit {
     public static void registerParticleFactories(RegisterParticleProvidersEvent event) {
         event.registerSpriteSet(SQUARE_FIELD.get(), SquareFieldParticle.Provider::new);
         event.registerSpriteSet(UNSTABLE_SQUARE.get(), UnstableSquareParticle.Provider::new);
+        event.registerSpriteSet(SQUARE.get(), SquareParticle.Provider::new);
         event.registerSpriteSet(FLAME.get(), FlameParticle.Provider::new);
         event.registerSpriteSet(FLAME_SMOKE.get(), FlameSmokeParticle.Provider::new);
         event.registerSpriteSet(FROST.get(), FrostParticle.Provider::new);

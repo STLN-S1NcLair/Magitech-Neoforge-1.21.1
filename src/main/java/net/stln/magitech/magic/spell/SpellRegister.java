@@ -13,8 +13,9 @@ public class SpellRegister {
         return register;
     }
 
-    public static void registerSpell(ResourceLocation resourceLocation, Spell spell) {
+    public static Spell registerSpell(ResourceLocation resourceLocation, Spell spell) {
         register.put(resourceLocation, spell);
+        return spell;
     }
 
     public static Spell getSpell(ResourceLocation resourceLocation) {

@@ -8,7 +8,9 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.stln.magitech.Magitech;
+import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.entity.status.AttributeInit;
+import net.stln.magitech.item.component.TooltipTextPlaceableItem;
 import net.stln.magitech.item.tool.partitem.*;
 import net.stln.magitech.item.tool.toolitem.*;
 
@@ -215,9 +217,9 @@ public class ItemInit {
             TooltipTextItem::new,
             new Item.Properties());
 
-    public static final DeferredItem<Item> MANA_BERRY = ITEMS.registerItem("mana_berry",
-            TooltipTextItem::new,
-            new Item.Properties().food(FoodInit.MANA_BERRY));
+    public static final DeferredItem<Item> MANA_BERRIES = ITEMS.registerItem("mana_berries",
+            (key) -> new TooltipTextPlaceableItem(BlockInit.MANA_BERRY_BUSH.get(),
+            new Item.Properties().food(FoodInit.MANA_BERRIES)));
 
     public static void registerItems(IEventBus eventBus) {
         Magitech.LOGGER.info("Registering Items for" + Magitech.MOD_ID);

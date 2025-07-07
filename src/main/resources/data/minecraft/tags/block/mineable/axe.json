@@ -2,6 +2,23 @@
   "replace": false,
   "values": [
     "magitech:engineering_workbench",
-    "magitech:assembly_workbench"
+    "magitech:assembly_workbench",
+    "magitech:celifern_log",
+    "magitech:celifern_wood",
+    "magitech:stripped_celifern_log",
+    "magitech:stripped_celifern_wood",
+    "magitech:celifern_planks",
+    "magitech:celifern_slab",
+    "magitech:celifern_stairs",
+    "magitech:celifern_door",
+    "magitech:celifern_trapdoor",
+    "magitech:celifern_fence",
+    "magitech:celifern_fence_gate",
+    "magitech:celifern_pressure_plate",
+    "magitech:celifern_button",
+    "magitech:celifern_sign",
+    "magitech:celifern_hanging_sign",
+    "magitech:celifern_wall_sign",
+    "magitech:celifern_wall_hanging_sign"
   ]
 }

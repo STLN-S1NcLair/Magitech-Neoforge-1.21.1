@@ -1,70 +1,70 @@
 {
-  "name": "魔法を使うまでの道筋メモ",
+  "name": "Notes on the Path to Magic Use",
   "icon": "magitech:thread_page[magitech:thread_page_component={\"spell\":\"magitech:frigala\"}]",
   "category": "magitech:how_to_use_magic",
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(li)マナとストランド$(br2)$(li)魔法に必要なもの$(br2)$(li)魔法のしくみ$(br2)$(li)失敗メモ$(br2)$(li)実際の使い方"
+      "text": "$(li)Mana and Strands$(br2)$(li)Requirements for Using Magic$(br2)$(li)Mechanism Behind Magic Use$(br2)$(li)Common Mistakes$(br2)$(li)Actual Usage"
     },
     {
       "type": "patchouli:text",
-      "title": "マナとストランドについて",
-      "text": "$(#808080)マナは、空気の中にちょっとだけ溶けてる「術の燃料」みたいなもん。$(br2)人間の身体や道具の中にも少しある。$(br)よく動く場所や、妙に静かな土地では濃かったり薄かったりする。$(br)だいたい錬金装置で集めるか、訓練した人が身体から出す。$(br2)$(#000000)マナは画面の右端に表示されてる青色の容器で残量が見れる｡"
+      "title": "Mana and Strands",
+      "text": "$(#808080)Mana is like the 'fuel for spells' that dissolves slightly into the air. It’s also present in small amounts in the human body and tools. It can be denser in highly active or oddly quiet locations. Usually gathered with alchemy equipment or drawn from trained individuals. $(br2)$(#000000)Mana appears in a blue container on the right side of the screen."
     },
     {
       "type": "patchouli:text",
-      "text": "$(#808080)ストランドは、マナとは別の「導線」みたいなもの。$(br2)エネルギーじゃなくて、術を流す“筋道”の役。$(br2)3種類あって､それぞれノクティス、ルミニス、フラクシアっていう。$(br2)ストランドがちゃんと整ってないと魔法が暴走したり、爆ぜたりする。"
+      "text": "$(#808080)Strands are like conduits separate from mana. They don’t carry energy, but serve as channels for spell flow. There are three types: Noctis, Luminis, and Phraxia. If not aligned properly, magic may misfire or explode."
     },
     {
       "type": "patchouli:text",
-      "text": "$(#808080)大きな魔導炉とかでは太いのが束になってるし、携帯用の装備には細くて繊細なものが使われる。$(br2)魔法を放った後にもストランドが飛んでマナの道筋になる｡$(br2)$(#000000)ストランドは画面の右端に表示されてる紫､金､白色の容器で残量が見れる｡$(br)これがないと魔法の威力が落ちる｡"
+      "text": "$(#808080)Large magical reactors use thick strand bundles, while portable gear uses thin and delicate ones. Strands also appear after casting and guide mana paths. $(br2)$(#000000)Strands show up in purple, gold, and white containers on the right of the screen. Without them, spell strength weakens."
     },
     {
       "type": "patchouli:text",
-      "title": "魔法を使うには何がいる？",
-      "text": "$(#000000)使うだけなら道具があれば誰でもできる。ちゃんと組み合わせないとただの紙と棒なので、最低限こういうものが要る："
+      "title": "What’s Needed to Use Magic",
+      "text": "$(#000000)Anyone can use magic with the proper tools. But without proper combinations, it’s just paper and sticks. At minimum, you'll need these:"
     },
     {
       "type": "patchouli:spotlight",
-      "title": "スレッドバウンド",
-      "text": "$(#000000)いわば「魔導書」。$(br)スレッドページを挟んで、身につけて使う。",
+      "title": "Threadbound",
+      "text": "$(#000000)A kind of magical book. Insert thread pages into it and wear it to use magic.",
       "item": "magitech:glistening_lexicon"
     },
     {
       "type": "patchouli:spotlight",
-      "title": "スレッド",
-      "text": "$(#000000)魔法の設計図。$(br)紙だったり布だったりするが、中には回路（エイドス導管）が仕込まれてて、術の流れを決める。",
+      "title": "Thread Page",
+      "text": "$(#000000)A blueprint for magic. It may look like paper or cloth, but contains Aidos circuits to shape the spell’s flow.",
       "item": "magitech:thread_page[magitech:thread_page_component={\"spell\":\"magitech:frigala\"}]"
     },
     {
       "type": "patchouli:spotlight",
-      "title": "杖（または魔導器）",
-      "text": "$(#000000)中にいろんな部品が詰まっていて、魔法を発動させる器械。$(br)小型なものから据え置きの魔導砲まで形は様々。",
+      "title": "Wand (or Magical Device)",
+      "text": "$(#000000)A device packed with components to activate spells. Comes in many forms, from small to stationary cannons.",
       "item": "magitech:wand[magitech:part_material_component={\"materials\":[\"magitech:iron\", \"magitech:iron\", \"magitech:iron\", \"magitech:iron\"]}]"
     },
     {
       "type": "patchouli:text",
-      "text": "$(#000000)$(li)マナ$(br)術の“燃料”。$(br)これがなきゃ何も始まらない。供給装置から補うか、自分の体内から絞り出す。$(br2)$(li)ストランド$(br)術の“道筋”。$(br)強い魔法ほど正確なストランドが要る。だいたいは供給装置から供給する。$(br)最悪なくても使える。"
+      "text": "$(#000000)$(li)Mana$(br)Fuel for spells. Without it, nothing works. Obtain from devices or your body.$(br2)$(li)Strands$(br)Pathways for magic. Stronger spells need accurate strands. Usually provided by devices. You can cast without them, but spells weaken."
     },
     {
       "type": "patchouli:text",
-      "title": "魔法が出るまでのしくみ",
-      "text": "$(#808080)1. マナ供給装置からマナが出る。$(br2)2. アルケインリフラクターでマナが「錬金相」っていう扱いやすいエネルギーに変わる。$(br2)3. 錬金相はスレッドへ流れ、設計通りの「魔法の型」に加工される。$(br2)4. 加工されたエネルギーは一度アルカニスターに溜められる。"
+      "title": "How Magic is Produced",
+      "text": "$(#808080)1. Mana is supplied from a mana source.$(br2)2. The Arcane Refractor converts it into an energy form called Alchemical Phase.$(br2)3. This energy flows into the thread and is shaped into a spell.$(br2)4. The processed energy is stored in the Arcanister."
     },
     {
       "type": "patchouli:text",
-      "text": "$(#808080)5. 一方で、ストランド供給装置がストランドを杖内に通す。$(br2)6. 最後にコンダクターがエネルギーとストランドの流れを揃えて、カタリストがそれを一気に放つ。$(br2)そうすると、空中に火の矢が出たり、敵が凍ったり、光が飛んだりするわけ。"
+      "text": "$(#808080)5. Meanwhile, a strand supplier feeds strands into the wand.$(br2)6. Finally, the Conductor synchronizes the flow, and the Catalyst fires the spell. That’s how you get fire arrows, frozen enemies, and blasts of light."
     },
     {
       "type": "patchouli:text",
-      "title": "よくある失敗メモ",
-      "text": "$(#808080)スレッドの接続ミス → $(br)魔法が「出ない」か「途中で止まる」$(br2)杖の設計ミス → $(br)魔法の距離が「短くなる」か「ストランドだけが出る」$(br2)ストランドの断線 → $(br)杖が「焦げる」か「発火する」$(br2)マナ供給が多すぎ → $(br)リフラクターが「歪む」か「うるさい音を立てて止まる」$(br2)魔法初心者 → $(br)「自分に当たる」"
+      "title": "Common Mistakes",
+      "text": "$(#808080)Thread misconnection → No spell or incomplete spell.$(br2)Wand design flaw → Short range or only strands are released.$(br2)Strand disconnection → Wand burns or ignites.$(br2)Too much mana → Refractor warps or stops with loud noise.$(br2)Magic newbie → You hit yourself."
     },
     {
       "type": "patchouli:text",
-      "title": "実際の使い方",
-      "text": "$(#000000)1. スレッドバウンドのスレッドページ画面を開く(デフォルト: [N])$(br2)2. スレッドページを本に入れる$(br2)3. Curiosインベントリに装備する$(br2)4. 杖を手に持って､右クリック$(br2)これで魔法の使い方はマスターできるはずだ。"
+      "title": "How to Use It Practically",
+      "text": "$(#000000)1. Open Thread Page screen of your Threadbound (Default: [N])$(br2)2. Insert the thread page into the book$(br2)3. Equip it in Curios inventory$(br2)4. Hold the wand and right-click.$(br2)That’s all you need to master using magic."
     }
   ]
 }

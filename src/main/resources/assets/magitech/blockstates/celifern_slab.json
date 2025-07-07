@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "magitech:block/celifern_slab"
+    },
+    "type=double": {
+      "model": "magitech:block/celifern_planks"
+    },
+    "type=top": {
+      "model": "magitech:block/celifern_slab_top"
+    }
+  }
+}

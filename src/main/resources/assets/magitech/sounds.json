@@ -149,6 +149,16 @@
       "magitech:enercrux"
     ]
   },
+  "syllaeze": {
+    "sounds": [
+      "magitech:syllaeze"
+    ]
+  },
+  "arclume": {
+    "sounds": [
+      "magitech:arclume"
+    ]
+  },
   "crystal_break": {
     "subtitle": "subtitles.block.generic.break",
     "sounds": [

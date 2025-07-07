@@ -15,6 +15,7 @@ import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import net.stln.magitech.biome.BiomeInit;
 import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.compat.curios.ValidatorInit;
 import net.stln.magitech.entity.EntityInit;
@@ -87,6 +88,8 @@ public class Magitech {
     private void commonSetup(final FMLCommonSetupEvent event) {
 //        Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
 //        WorldGenInit.registerBiomeModifiers();
+        BlockInit.registerStrippableBlocks();
+        BiomeInit.registerBiomeRegions(event);
     }
 
     // Add the example block item to the building blocks tab

@@ -1,42 +1,42 @@
 {
-  "name": "スペルを使った変換のやり方",
+  "name": "How to Use Spells for Conversion",
   "icon": "magitech:thread_page[magitech:thread_page_component={\"spell\":\"magitech:enercrux\"}]",
   "category": "magitech:how_to_use_magic",
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(li)スペルの変換$(br2)$(li)蛍石のチャージ"
+      "text": "$(li)Spell Conversion$(br2)$(li)Charging Fluorite"
     },
     {
       "type": "patchouli:text",
-      "title": "スペルの変換",
-      "text": "$(#000000)スペルを使ってアイテムを変換するやり方を教える｡$(br2)変換したい物に向かって正しい魔法を撃つ、ただそれだけなんだけどな。"
+      "title": "Spell Conversion",
+      "text": "$(#000000)Here's how to convert items using spells.$(br2)Just fire the correct magic at the item you want to convert—it's that simple."
     },
     {
       "type": "patchouli:text",
-      "title": "蛍石をチャージする",
-      "text": "$(#000000)蛍石にマナを充填するやり方を教えよう。$(br2)さっきの説明の通り、蛍石を適当な地面において「エネルクラックス」を当ててみろ。$(br2)素敵な光る蛍石が完成するだろ。"
+      "title": "Charging Fluorite",
+      "text": "$(#000000)Here’s how to charge fluorite with mana.$(br2)As explained earlier, place fluorite on a suitable surface and hit it with ‘Enercrux.’$(br2)You’ll get a beautifully glowing fluorite."
     },
     {
       "type": "patchouli:image",
-      "title": "エネルクラックス",
+      "title": "Enercrux",
       "images": ["magitech:textures/patchouli/enercrux.png"]
     },
     {
       "type": "patchouli:spotlight",
-      "title": "蛍石",
-      "text": "$(#000000)地下に結晶がたくさんあるから、足りなかったら洞窟を探してくれ。",
+      "title": "Fluorite",
+      "text": "$(#000000)You can find plenty of these crystals underground. If you run out, go explore some caves.",
       "item": "magitech:fluorite"
     },
     {
       "type": "patchouli:spotlight",
-      "title": "マナが充填された蛍石",
-      "text": "$(#000000)見てくれ！きれいだよな。",
+      "title": "Mana-Charged Fluorite",
+      "text": "$(#000000)Look at it! Isn't it beautiful?",
       "item": "magitech:mana_charged_fluorite"
     },
     {
       "type": "patchouli:text",
-      "text": "$(#000000)まぁそんな感じで魔法によっては物体にいろいろできるものもあるから、試してみるといい。"
+      "text": "$(#000000)Well, that's how some spells can affect objects. Try experimenting with them."
     }
   ]
 }

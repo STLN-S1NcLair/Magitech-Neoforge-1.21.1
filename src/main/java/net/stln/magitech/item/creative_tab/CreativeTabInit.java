@@ -15,6 +15,7 @@ import net.stln.magitech.item.tool.material.MaterialInit;
 import net.stln.magitech.item.tool.partitem.PartItem;
 import net.stln.magitech.item.tool.toolitem.PartToolGenerator;
 import net.stln.magitech.magic.spell.Spell;
+import net.stln.magitech.magic.spell.SpellInit;
 import net.stln.magitech.magic.spell.ember.Fluvalen;
 import net.stln.magitech.magic.spell.ember.Ignisca;
 import net.stln.magitech.magic.spell.ember.Pyrolux;
@@ -49,15 +50,15 @@ public class CreativeTabInit {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Magitech.MOD_ID);
 
     static List<Spell> allSpells = List.of(
-            new Ignisca(), new Pyrolux(), new Fluvalen(),
-            new Frigala(), new Cryoluxa(), new Nivalune(),
-            new Voltaris(), new Fulgenza(), new Sparkion(),
-            new Mirazien(), new Phantastra(), new Veilmist(),
-            new Tremivox(), new Oscilbeam(), new Sonistorm(),
-            new Arcaleth(), new Mystaven(), new Glymora(),
-            new Aeltherin(), new Fluvinae(), new Mistrelune(),
-            new Nullixis(), new Voidlance(), new Tenebrisol(), new Disparundra(),
-            new Enercrux()
+            SpellInit.IGNISCA, SpellInit.PYROLUX, SpellInit.FLUVALEN,
+            SpellInit.FRIGALA, SpellInit.CRYOLUXA, SpellInit.NIVALUNE,
+            SpellInit.VOLTARIS, SpellInit.FULGENZA, SpellInit.SPARKION, SpellInit.ARCLUME,
+            SpellInit.TREMIVOX, SpellInit.OSCILBEAM, SpellInit.SONISTORM,
+            SpellInit.MIRAZIEN, SpellInit.PHANTASTRA, SpellInit.VEILMIST,
+            SpellInit.ARCALETH, SpellInit.MYSTAVEN, SpellInit.GLYMORA,
+            SpellInit.AELTHERIN, SpellInit.FLUVINAE, SpellInit.MISTRELUNE, SpellInit.SYLLAEZE,
+            SpellInit.NULLIXIS, SpellInit.VOIDLANCE, SpellInit.TENEBRISOL, SpellInit.DISPARUNDRA,
+            SpellInit.ENERCRUX
     );
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MAGITECH_TAB = CREATIVE_MODE_TABS.register("magitech_tab", () -> CreativeModeTab.builder()
@@ -71,9 +72,23 @@ public class CreativeTabInit {
                 output.accept(BlockInit.FLUORITE_CRYSTAL_CLUSTER_ITEM.get());
                 output.accept(BlockInit.REDSTONE_CRYSTAL_CLUSTER_ITEM.get());
                 output.accept(BlockInit.CELIFERN_LOG_ITEM.get());
+                output.accept(BlockInit.CELIFERN_WOOD_ITEM.get());
+                output.accept(BlockInit.STRIPPED_CELIFERN_LOG_ITEM.get());
+                output.accept(BlockInit.STRIPPED_CELIFERN_WOOD_ITEM.get());
                 output.accept(BlockInit.CELIFERN_PLANKS_ITEM.get());
+                output.accept(BlockInit.CELIFERN_STAIRS_ITEM.get());
+                output.accept(BlockInit.CELIFERN_SLAB_ITEM.get());
+                output.accept(BlockInit.CELIFERN_FENCE_ITEM.get());
+                output.accept(BlockInit.CELIFERN_FENCE_GATE_ITEM.get());
+                output.accept(BlockInit.CELIFERN_DOOR_ITEM.get());
+                output.accept(BlockInit.CELIFERN_TRAPDOOR_ITEM.get());
+                output.accept(BlockInit.CELIFERN_PRESSURE_PLATE_ITEM.get());
+                output.accept(BlockInit.CELIFERN_BUTTON_ITEM.get());
                 output.accept(BlockInit.CELIFERN_LEAVES_ITEM.get());
                 output.accept(BlockInit.CELIFERN_SAPLING_ITEM.get());
+                output.accept(BlockInit.CELIFERN_SIGN_ITEM.get());
+                output.accept(BlockInit.CELIFERN_HANGING_SIGN_ITEM.get());
+                output.accept(BlockInit.MISTALIA_PETALS_ITEM.get());
                 output.accept(ThreadboundGenerator.generateThreadbound(ItemInit.GLISTENING_LEXICON.get(), allSpells));
                 output.accept(ThreadboundGenerator.generateThreadbound(ItemInit.ARCANE_ENGINEERING_COMPENDIUM.get(), allSpells));
                 output.accept(ItemInit.MANA_RING.get());
@@ -94,7 +109,7 @@ public class CreativeTabInit {
                 output.accept(ItemInit.POLISHED_RESONITE.get());
                 output.accept(ItemInit.ABYSSITE.get());
                 output.accept(ItemInit.POLISHED_ABYSSITE.get());
-                output.accept(ItemInit.MANA_BERRY.get());
+                output.accept(ItemInit.MANA_BERRIES.get());
 
                 output.accept(PartToolGenerator.generateDagger(MaterialInit.WOOD));
                 output.accept(PartToolGenerator.generateDagger(MaterialInit.STONE));
@@ -320,38 +335,40 @@ public class CreativeTabInit {
             .icon(() -> ThreadboundGenerator.generateThreadPage(new Enercrux()))
             .withTabsBefore(MAGITECH_TAB.getKey())
             .displayItems((parameters, output) -> {
-                output.accept(ThreadboundGenerator.generateThreadPage(new Ignisca()));
-                output.accept(ThreadboundGenerator.generateThreadPage(new Pyrolux()));
-                output.accept(ThreadboundGenerator.generateThreadPage(new Fluvalen()));
+                output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.IGNISCA));
+                output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.PYROLUX));
+                output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.FLUVALEN));
 
-                output.accept(ThreadboundGenerator.generateThreadPage(new Frigala()));
-                output.accept(ThreadboundGenerator.generateThreadPage(new Cryoluxa()));
-                output.accept(ThreadboundGenerator.generateThreadPage(new Nivalune()));
+                output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.FRIGALA));
+                output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.CRYOLUXA));
+                output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.NIVALUNE));
 
-                output.accept(ThreadboundGenerator.generateThreadPage(new Voltaris()));
-                output.accept(ThreadboundGenerator.generateThreadPage(new Fulgenza()));
-                output.accept(ThreadboundGenerator.generateThreadPage(new Sparkion()));
+                output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.VOLTARIS));
+                output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.FULGENZA));
+                output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.SPARKION));
+                output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.ARCLUME));
 
-                output.accept(ThreadboundGenerator.generateThreadPage(new Tremivox()));
-                output.accept(ThreadboundGenerator.generateThreadPage(new Oscilbeam()));
-                output.accept(ThreadboundGenerator.generateThreadPage(new Sonistorm()));
+                output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.TREMIVOX));
+                output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.OSCILBEAM));
+                output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.SONISTORM));
 
-                output.accept(ThreadboundGenerator.generateThreadPage(new Mirazien()));
-                output.accept(ThreadboundGenerator.generateThreadPage(new Phantastra()));
-                output.accept(ThreadboundGenerator.generateThreadPage(new Veilmist()));
+                output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.MIRAZIEN));
+                output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.PHANTASTRA));
+                output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.VEILMIST));
 
-                output.accept(ThreadboundGenerator.generateThreadPage(new Arcaleth()));
-                output.accept(ThreadboundGenerator.generateThreadPage(new Mystaven()));
-                output.accept(ThreadboundGenerator.generateThreadPage(new Glymora()));
+                output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.ARCALETH));
+                output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.MYSTAVEN));
+                output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.GLYMORA));
 
-                output.accept(ThreadboundGenerator.generateThreadPage(new Aeltherin()));
-                output.accept(ThreadboundGenerator.generateThreadPage(new Fluvinae()));
-                output.accept(ThreadboundGenerator.generateThreadPage(new Mistrelune()));
+                output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.AELTHERIN));
+                output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.FLUVINAE));
+                output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.MISTRELUNE));
+                output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.SYLLAEZE));
 
-                output.accept(ThreadboundGenerator.generateThreadPage(new Nullixis()));
-                output.accept(ThreadboundGenerator.generateThreadPage(new Voidlance()));
-                output.accept(ThreadboundGenerator.generateThreadPage(new Tenebrisol()));
-                output.accept(ThreadboundGenerator.generateThreadPage(new Disparundra()));
+                output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.NULLIXIS));
+                output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.VOIDLANCE));
+                output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.TENEBRISOL));
+                output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.DISPARUNDRA));
 
                 output.accept(ThreadboundGenerator.generateThreadPage(new Enercrux()));
 

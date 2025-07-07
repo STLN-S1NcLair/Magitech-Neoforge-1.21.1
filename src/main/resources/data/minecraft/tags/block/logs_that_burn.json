@@ -1,5 +1,8 @@
 {
   "values": [
-    "magitech:celifern_log"
+    "magitech:celifern_log",
+    "magitech:celifern_wood",
+    "magitech:stripped_celifern_log",
+    "magitech:stripped_celifern_wood"
   ]
 }

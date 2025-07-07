@@ -1,7 +1,7 @@
 {
   "type": "magitech:spell_conversion",
   "ingredient": {
-    "item": "magitech:fluorite"
+    "tag": "c:gems/fluorite"
   },
   "spell": "magitech:enercrux",
   "result": {
