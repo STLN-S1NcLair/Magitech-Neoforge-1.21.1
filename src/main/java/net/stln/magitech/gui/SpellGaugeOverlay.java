@@ -22,8 +22,8 @@ public class SpellGaugeOverlay implements LayeredDraw.Layer {
 
     @Override
     public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
-        if (!Minecraft.getInstance().options.hideGui) {
-            Player player = Minecraft.getInstance().player;
+        Player player = Minecraft.getInstance().player;
+        if (!Minecraft.getInstance().options.hideGui && CuriosApi.getCuriosInventory(player).isPresent()) {
             ICuriosItemHandler curiosInventory = CuriosApi.getCuriosInventory(player).get();
             Charge charge = ChargeData.getCurrentCharge(player);
             if (charge != null) {
