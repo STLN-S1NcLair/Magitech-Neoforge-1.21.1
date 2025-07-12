@@ -117,9 +117,8 @@ public class Syllaeze extends Spell {
             if (usingTick % 5 == 0) {
                 level.playSound(player, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), SoundInit.SYLLAEZE.get(), SoundSource.PLAYERS, 1.0F, 0.7F + (player.getRandom().nextFloat() * 0.6F));
             }
-
-            livingEntity.fallDistance = 0;
-            livingEntity.addDeltaMovement(Vec3.directionFromRotation(livingEntity.getRotationVector()).scale(this.getDamage(player, new HashMap<>(), this.baseEffectStrength, this.getElement()) / 10));
+                livingEntity.fallDistance = 0;
+                livingEntity.addDeltaMovement(Vec3.directionFromRotation(livingEntity.getRotationVector()).scale(this.getDamage(player, new HashMap<>(), this.baseEffectStrength, this.getElement()) / 10));
         }
     }
 

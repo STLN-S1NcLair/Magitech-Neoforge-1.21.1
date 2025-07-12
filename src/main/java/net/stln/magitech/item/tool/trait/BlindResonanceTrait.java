@@ -81,6 +81,7 @@ public class BlindResonanceTrait extends Trait {
             ResourceKey<DamageType> damageType = DamageTypeInit.TREMOR_DAMAGE;
             DamageSource damageSource = player.damageSources().source(damageType, player);
 
+            target.invulnerableTime = 0;
             livingEntity.hurt(damageSource, livingEntity.getArmorValue() * 0.25F * traitLevel);
 
             EffectUtil.entityEffect(level, new WaveParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, 0), livingEntity, 60);

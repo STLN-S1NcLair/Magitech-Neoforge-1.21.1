@@ -22,7 +22,7 @@ public class AdaptationTrait extends Trait {
         ToolStats defaultStats = ToolStats.DEFAULT;
         Map<String, Float> statsMap = stats.getStats();
         Map<String, Float> modified = new HashMap<>(defaultStats.getStats());
-        float mul = (float) ((materialSet.size() - 1) * 0.08);
+        float mul = (float) ((materialSet.size() - 1) * 0.15);
         modified.put(ToolStats.ATK_STAT, statsMap.get(ToolStats.ATK_STAT) * mul);
         modified.put(ToolStats.ELM_ATK_STAT, statsMap.get(ToolStats.ELM_ATK_STAT) * mul);
         modified.put(ToolStats.SPD_STAT, (statsMap.get(ToolStats.SPD_STAT)) * mul);

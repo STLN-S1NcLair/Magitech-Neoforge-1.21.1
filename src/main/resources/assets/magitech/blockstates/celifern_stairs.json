@@ -1,15 +1,15 @@
 {
   "variants": {
     "facing=east,half=bottom,shape=inner_left": {
-      "model": "magitech:block/celiferncelifernceliferncelifern_stairs_inner",
+      "model": "magitech:block/celifern_stairs_inner",
       "uvlock": true,
       "y": 270
     },
     "facing=east,half=bottom,shape=inner_right": {
-      "model": "magitech:block/celiferncelifernceliferncelifern_stairs_inner"
+      "model": "magitech:block/celifern_stairs_inner"
     },
     "facing=east,half=bottom,shape=outer_left": {
-      "model": "magitech:block/celiferncelifernceliferncelifern_stairs_outer",
+      "model": "magitech:block/celifern_stairs_outer",
       "uvlock": true,
       "y": 270
     },

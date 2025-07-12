@@ -23,6 +23,7 @@ public class MaterialInit {
     public static ToolMaterial IRON = new ToolMaterial(new DuranceTrait(), ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "iron"));
     public static ToolMaterial GOLD = new ToolMaterial(new CatalysisTrait(), ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "gold"));
     public static ToolMaterial AMETHYST = new ToolMaterial(new ShatterforceTrait(), ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "amethyst"));
+    public static ToolMaterial CITRINE = new ToolMaterial(new HeatTreatmentTrait(), ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "citrine"));
     public static ToolMaterial REDSTONE = new ToolMaterial(new SignalRushTrait(), ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "redstone"));
     public static ToolMaterial DRIPSTONE = new ToolMaterial(new PrecipitationTrait(), ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "dripstone"));
     public static ToolMaterial FLUORITE = new ToolMaterial(new OverchargedTrait(), ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "fluorite"));
@@ -38,7 +39,7 @@ public class MaterialInit {
         ToolMaterialRegister.init();
 
         WOOD.addStats(new ToolStats(0.4F, 0.4F, 1.1F, 0.4F, 0.5F, 0.9F, 0.7F, 0.3F, Element.FLOW, MiningLevel.NONE, 0));
-        WOOD.addSpellCasterStats(new ToolStats(0.4F, 0.4F, 1.1F, 0.4F, 0.5F, 0.9F, 0.7F, 0.3F, Element.FLOW, MiningLevel.NONE, 0));
+        WOOD.addSpellCasterStats(new ToolStats(0.4F, 0.4F, 1.1F, 1.2F, 0.5F, 0.9F, 0.7F, 0.3F, Element.FLOW, MiningLevel.NONE, 0));
 
         STONE.addStats(new ToolStats(1F, 0F, 0.85F, 0.8F, 1.5F, 1F, 0.8F, 0.5F, Element.NONE, MiningLevel.STONE, 0));
         STONE.addSpellCasterStats(new ToolStats(1F, 0F, 0.85F, 0.8F, 1.5F, 1F, 0.8F, 0.5F, Element.NONE, MiningLevel.STONE, 0));
@@ -50,7 +51,7 @@ public class MaterialInit {
         COPPER.addSpellCasterStats(new ToolStats(0.9F, 0.3F, 0.8F, 1F, 0.8F, 0.8F, 0.9F, 0.8F, Element.SURGE, MiningLevel.STONE, 0));
 
         BONE.addStats(new ToolStats(1.1F, 0F, 1.05F, 0.6F, 1.2F, 0.7F, 0.8F, 0.7F, Element.NONE, MiningLevel.STONE, 0));
-        BONE.addSpellCasterStats(new ToolStats(1.1F, 0F, 1.05F, 0.6F, 1.2F, 0.7F, 0.8F, 0.7F, Element.NONE, MiningLevel.STONE, 0));
+        BONE.addSpellCasterStats(new ToolStats(1.1F, 0F, 1.05F, 1.9F, 1.2F, 0.7F, 0.8F, 0.7F, Element.NONE, MiningLevel.STONE, 0));
 
         IRON.addStats(new ToolStats(1.2F, 0F, 1F, 1.2F, 1F, 1F, 1F, 1F, Element.NONE, MiningLevel.IRON, 1));
         IRON.addSpellCasterStats(new ToolStats(1.2F, 0F, 1F, 1.2F, 1F, 1F, 1F, 1F, Element.NONE, MiningLevel.IRON, 1));
@@ -60,6 +61,9 @@ public class MaterialInit {
 
         AMETHYST.addStats(new ToolStats(0.9F, 0.25F, 0.9F, 1F, 0.75F, 1.1F, 1.1F, 0.8F, Element.MAGIC, MiningLevel.STONE, 1));
         AMETHYST.addSpellCasterStats(new ToolStats(0.9F, 0.35F, 0.9F, 1F, 0.75F, 1.1F, 1.1F, 0.8F, Element.MAGIC, MiningLevel.STONE, 1));
+
+        CITRINE.addStats(new ToolStats(0.9F, 0.25F, 0.9F, 1F, 0.75F, 1.1F, 1.1F, 0.8F, Element.EMBER, MiningLevel.STONE, 1));
+        CITRINE.addSpellCasterStats(new ToolStats(0.9F, 0.35F, 0.9F, 1F, 0.75F, 1.1F, 1.1F, 0.8F, Element.EMBER, MiningLevel.STONE, 1));
 
         REDSTONE.addStats(new ToolStats(0.5F, 0.8F, 0.65F, 1.1F, 0.3F, 1F, 1F, 1.2F, Element.SURGE, MiningLevel.IRON, 1));
         REDSTONE.addSpellCasterStats(new ToolStats(0.5F, 0.9F, 0.65F, 1.1F, 0.3F, 1F, 1F, 1.2F, Element.SURGE, MiningLevel.IRON, 1));
@@ -71,25 +75,25 @@ public class MaterialInit {
         FLUORITE.addSpellCasterStats(new ToolStats(0.3F, 1.2F, 1.1F, 0.9F, 0.1F, 0.7F, 2.0F, 0.5F, Element.PHANTOM, MiningLevel.STONE, 1));
 
         DIAMOND.addStats(new ToolStats(1.5F, 0F, 1.1F, 1.6F, 0.8F, 1F, 1.2F, 4.0F, Element.NONE, MiningLevel.DIAMOND, 2));
-        DIAMOND.addSpellCasterStats(new ToolStats(1.5F, 0F, 1.1F, 1.6F, 0.8F, 1F, 1.2F, 4.0F, Element.NONE, MiningLevel.DIAMOND, 2));
+        DIAMOND.addSpellCasterStats(new ToolStats(1.5F, 0F, 1.1F, 1.2F, 0.8F, 1F, 1.2F, 4.0F, Element.NONE, MiningLevel.DIAMOND, 2));
 
         ENDER_METAL.addStats(new ToolStats(0.8F, 0.6F, 0.5F, 1F, 0.7F, 1.4F, 0.6F, 2.7F, Element.HOLLOW, MiningLevel.IRON, 2));
-        ENDER_METAL.addSpellCasterStats(new ToolStats(0.9F, 0.6F, 0.5F, 1F, 0.7F, 1.4F, 0.6F, 2.7F, Element.HOLLOW, MiningLevel.IRON, 2));
+        ENDER_METAL.addSpellCasterStats(new ToolStats(0.9F, 0.8F, 0.5F, 1F, 0.7F, 1.4F, 0.6F, 2.7F, Element.HOLLOW, MiningLevel.IRON, 2));
 
         NETHERITE.addStats(new ToolStats(1.25F, 0.5F, 0.9F, 1.8F, 1.1F, 1.1F, 1.1F, 5.0F, Element.EMBER, MiningLevel.NETHERITE, 3));
-        NETHERITE.addSpellCasterStats(new ToolStats(1.25F, 0.5F, 0.9F, 1.8F, 1.1F, 1.1F, 1.1F, 5.0F, Element.EMBER, MiningLevel.NETHERITE, 3));
+        NETHERITE.addSpellCasterStats(new ToolStats(1.25F, 0.5F, 0.9F, 0.8F, 1.1F, 1.1F, 1.1F, 5.0F, Element.EMBER, MiningLevel.NETHERITE, 3));
 
         FRIGIDITE.addStats(new ToolStats(1F, 1F, 1.3F, 1.7F, 0.9F, 0.7F, 0.6F, 6.1F, Element.GLACE, MiningLevel.NETHERITE, 4));
         FRIGIDITE.addSpellCasterStats(new ToolStats(1F, 1F, 1.3F, 1.7F, 0.9F, 0.7F, 0.6F, 6.1F, Element.GLACE, MiningLevel.NETHERITE, 4));
 
         TRANSLUCIUM.addStats(new ToolStats(1.5F, 0.7F, 0.9F, 1.7F, 1.2F, 1.1F, 1.2F, 6.3F, Element.PHANTOM, MiningLevel.NETHERITE, 4));
-        TRANSLUCIUM.addSpellCasterStats(new ToolStats(1.5F, 0.7F, 0.9F, 1.7F, 1.2F, 1.1F, 1.2F, 6.3F, Element.PHANTOM, MiningLevel.NETHERITE, 4));
+        TRANSLUCIUM.addSpellCasterStats(new ToolStats(1.5F, 0.7F, 0.9F, 1.5F, 1.2F, 1.1F, 1.2F, 6.3F, Element.PHANTOM, MiningLevel.NETHERITE, 4));
 
         RESONITE.addStats(new ToolStats(1.3F, 0.8F, 0.8F, 1.7F, 2.6F, 1.2F, 1F, 6.7F, Element.TREMOR, MiningLevel.NETHERITE, 4));
-        RESONITE.addSpellCasterStats(new ToolStats(1.3F, 0.8F, 0.8F, 1.7F, 2.6F, 1.2F, 1F, 6.7F, Element.TREMOR, MiningLevel.NETHERITE, 4));
+        RESONITE.addSpellCasterStats(new ToolStats(1.3F, 0.8F, 0.8F, 1.0F, 2.6F, 1.2F, 1F, 6.7F, Element.TREMOR, MiningLevel.NETHERITE, 4));
 
         ABYSSITE.addStats(new ToolStats(0.5F, 1.7F, 1F, 1.7F, 0.4F, 1.3F, 0.9F, 5.8F, Element.HOLLOW, MiningLevel.NETHERITE, 4));
-        ABYSSITE.addSpellCasterStats(new ToolStats(0.5F, 1.7F, 1F, 1.7F, 0.4F, 1.3F, 0.9F, 5.8F, Element.HOLLOW, MiningLevel.NETHERITE, 4));
+        ABYSSITE.addSpellCasterStats(new ToolStats(0.5F, 1.7F, 1F, 1.1F, 0.4F, 1.3F, 0.9F, 5.8F, Element.HOLLOW, MiningLevel.NETHERITE, 4));
     }
 
     public static void registerElements() {
@@ -114,10 +118,10 @@ public class MaterialInit {
         ElementAffinityRegister.registerAffinity(Element.EMBER, ElementAffinityRegister.EFFICIENT, Element.GLACE);
         ElementAffinityRegister.registerAffinity(Element.GLACE, ElementAffinityRegister.EFFICIENT, Element.MAGIC);
         ElementAffinityRegister.registerAffinity(Element.MAGIC, ElementAffinityRegister.EFFICIENT, Element.SURGE);
-        ElementAffinityRegister.registerAffinity(Element.SURGE, ElementAffinityRegister.EFFICIENT, Element.TREMOR);
-        ElementAffinityRegister.registerAffinity(Element.TREMOR, ElementAffinityRegister.EFFICIENT, Element.HOLLOW);
-        ElementAffinityRegister.registerAffinity(Element.HOLLOW, ElementAffinityRegister.EFFICIENT, Element.PHANTOM);
-        ElementAffinityRegister.registerAffinity(Element.PHANTOM, ElementAffinityRegister.EFFICIENT, Element.FLOW);
+        ElementAffinityRegister.registerAffinity(Element.SURGE, ElementAffinityRegister.EFFICIENT, Element.PHANTOM);
+        ElementAffinityRegister.registerAffinity(Element.PHANTOM, ElementAffinityRegister.EFFICIENT, Element.HOLLOW);
+        ElementAffinityRegister.registerAffinity(Element.HOLLOW, ElementAffinityRegister.EFFICIENT, Element.TREMOR);
+        ElementAffinityRegister.registerAffinity(Element.TREMOR, ElementAffinityRegister.EFFICIENT, Element.FLOW);
         ElementAffinityRegister.registerAffinity(Element.FLOW, ElementAffinityRegister.EFFICIENT, Element.EMBER);
 
         EntityElementRegister.registerEntityElement(Blaze.class, Element.EMBER);

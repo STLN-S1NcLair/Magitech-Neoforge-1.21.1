@@ -23,9 +23,11 @@ public class LavaforgedTrait extends Trait {
         if (player.position().y < 0 || player.level().dimension().equals(LevelStem.NETHER)) {
             ToolStats aDefault = ToolStats.DEFAULT;
             Map<String, Float> modified = new HashMap<>(aDefault.getStats());
-            float mul = traitLevel * 0.08F;
+            float mul = traitLevel * 0.25F;
             Float atk = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.ATK_STAT);
             modified.put(ToolStats.ATK_STAT, atk * mul);
+            Float min = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.MIN_STAT);
+            modified.put(ToolStats.MIN_STAT, min * mul);
             return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
         }
         return super.modifyStatsConditional1(player, level, stack, traitLevel, stats);
@@ -36,7 +38,7 @@ public class LavaforgedTrait extends Trait {
         if (player.position().y < 0 || player.level().dimension().equals(LevelStem.NETHER)) {
             ToolStats aDefault = ToolStats.DEFAULT;
             Map<String, Float> modified = new HashMap<>(aDefault.getStats());
-            float mul = traitLevel * 0.08F;
+            float mul = traitLevel * 0.25F;
             Float atk = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.ATK_STAT);
             modified.put(ToolStats.ATK_STAT, atk * mul);
             Float chg = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.CHG_STAT);

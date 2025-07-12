@@ -87,28 +87,4 @@ public class Enercrux extends BeamSpell {
                         new Vector3f((float) (hitPos.x), (float) (hitPos.y), (float) (hitPos.z)), 1.0F, user.getRandom().nextInt(2, 5), 0),
                 start.x, start.y, start.z, 0, 0, 0);
     }
-
-    @Override
-    protected void applyEffectToItem(Level level, Player user, Entity target) {
-        super.applyEffectToItem(level, user, target);
-        if (target instanceof ItemEntity item) {
-            Optional<RecipeHolder<SpellConversionRecipe>> recipeHolder = level.getRecipeManager().getRecipeFor(RecipeInit.SPELL_CONVERSION_TYPE.get(), new SingleRecipeInput(item.getItem()), level);
-            if (recipeHolder.isPresent()) {
-                SpellConversionRecipe recipe = recipeHolder.get().value();
-                if (recipe.getSpell().equals(SpellRegister.getId(this))) {
-                    ItemStack stack = recipe.assemble(new SingleRecipeInput(item.getItem()), null);
-                    int count = item.getItem().getCount() * stack.getCount();
-                    while (count > 0) {
-                        int spawnCount = Math.min(stack.getMaxStackSize(), count);
-                        ItemStack result = stack.copy();
-                        result.setCount(spawnCount);
-                        ItemEntity newItem = new ItemEntity(level, item.getX(), item.getY(), item.getZ(), result, Mth.nextFloat(item.getRandom(), -0.3F, 0.3F), 0.3, Mth.nextFloat(item.getRandom(), -0.3F, 0.3F));
-                        level.addFreshEntity(newItem);
-                        count -= spawnCount;
-                    }
-                    item.discard();
-                }
-            }
-        }
-    }
 }

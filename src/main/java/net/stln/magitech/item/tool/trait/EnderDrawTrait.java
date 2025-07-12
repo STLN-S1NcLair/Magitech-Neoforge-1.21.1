@@ -23,7 +23,7 @@ public class EnderDrawTrait extends Trait {
     @Override
     public void tick(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
         if (player.isCrouching()) {
-            float range = traitLevel * 2;
+            float range = traitLevel * 4;
             Vec3 rangeVec = new Vec3(range, range, range);
             List<Entity> list = level.getEntities(player, new AABB(player.getPosition(0F).subtract(rangeVec), player.getPosition(0F).add(rangeVec)), entity -> entity instanceof ItemEntity);
             if (!list.isEmpty()) {

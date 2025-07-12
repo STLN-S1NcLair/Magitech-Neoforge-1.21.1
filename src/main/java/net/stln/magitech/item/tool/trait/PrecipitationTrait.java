@@ -39,7 +39,7 @@ public class PrecipitationTrait extends Trait {
         if (player.isInWater()) {
             ToolStats aDefault = ToolStats.DEFAULT;
             Map<String, Float> modified = new HashMap<>(aDefault.getStats());
-            float mul = traitLevel * 0.1F;
+            float mul = traitLevel * 0.15F;
             Float atk = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.ATK_STAT);
             modified.put(ToolStats.ATK_STAT, atk * mul);
             return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
@@ -52,7 +52,7 @@ public class PrecipitationTrait extends Trait {
         if (player.isInWater()) {
             ToolStats aDefault = ToolStats.DEFAULT;
             Map<String, Float> modified = new HashMap<>(aDefault.getStats());
-            float mul = traitLevel * 0.1F;
+            float mul = traitLevel * 0.15F;
             Float atk = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.ATK_STAT);
             modified.put(ToolStats.ATK_STAT, atk * mul);
             return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());

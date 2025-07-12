@@ -169,6 +169,10 @@ public class ItemInit {
             ManaChargedFluoriteItem::new,
             new Item.Properties());
 
+    public static final DeferredItem<Item> CITRINE = ITEMS.registerItem("citrine",
+            TooltipTextItem::new,
+            new Item.Properties());
+
     public static final DeferredItem<Item> REDSTONE_CRYSTAL = ITEMS.registerItem("redstone_crystal",
             TooltipTextItem::new,
             new Item.Properties());

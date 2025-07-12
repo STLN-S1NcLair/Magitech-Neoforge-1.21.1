@@ -79,14 +79,16 @@ public class Arclume extends Spell {
         }
 
         level.playSound(user, hitPos.x, hitPos.y, hitPos.z, SoundInit.ARCLUME.get(), SoundSource.PLAYERS, 1.0F, 1.0F + (user.getRandom().nextFloat() * 0.6F));
-        Vec3 oldPos = user.position();
+        Vec3 oldPos = new Vec3(user.position().toVector3f());
         for (int i = 0; i < hitPos.subtract(oldPos).length() / 2; i++) {
             int finalI = i;
             TickScheduler.schedule(i * 2, () -> {
                 addLightning(stack, user, level, oldPos.lerp(hitPos, finalI / hitPos.subtract(oldPos).length() * 2));
             }, level.isClientSide);
         }
-        user.setPos(hitPos);
+        if (isHost) {
+            user.setPos(hitPos);
+        }
         addCooldown(level, user, stack);
     }
 

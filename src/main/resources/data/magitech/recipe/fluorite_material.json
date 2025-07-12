@@ -1,7 +1,7 @@
 {
   "type": "magitech:tool_material",
   "ingredient": {
-    "tag": "c:gem/fluorite"
+    "tag": "c:gems/fluorite"
   },
   "result": "magitech:fluorite"
 }

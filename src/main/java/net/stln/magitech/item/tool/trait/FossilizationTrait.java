@@ -22,7 +22,7 @@ public class FossilizationTrait extends Trait {
         if (player.getHealth() < player.getMaxHealth() / 2 && player.getFoodData().getFoodLevel() < 10 && player.getDeltaMovement().length() < 0.1) {
             ToolStats aDefault = ToolStats.DEFAULT;
             Map<String, Float> modified = new HashMap<>(aDefault.getStats());
-            float mul = traitLevel * 0.3F;
+            float mul = traitLevel * 0.4F;
             Float atk = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.ATK_STAT);
             modified.put(ToolStats.ATK_STAT, atk * mul);
             return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
@@ -35,7 +35,7 @@ public class FossilizationTrait extends Trait {
         if (player.getHealth() < player.getMaxHealth() / 2 && player.getFoodData().getFoodLevel() < 10 && player.getDeltaMovement().length() < 0.1) {
             ToolStats aDefault = ToolStats.DEFAULT;
             Map<String, Float> modified = new HashMap<>(aDefault.getStats());
-            float mul = traitLevel * 0.3F;
+            float mul = traitLevel * 0.4F;
             Float atk = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.ATK_STAT);
             modified.put(ToolStats.ATK_STAT, atk * mul);
             Float chg = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.CHG_STAT);
