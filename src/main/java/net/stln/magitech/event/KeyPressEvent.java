@@ -2,6 +2,7 @@ package net.stln.magitech.event;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
@@ -10,10 +11,13 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.stln.magitech.Magitech;
+import net.stln.magitech.item.ItemInit;
 import net.stln.magitech.item.ThreadboundItem;
+import net.stln.magitech.item.armor.AetherLifterItem;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.SpellComponent;
 import net.stln.magitech.item.tool.toolitem.PartToolItem;
+import net.stln.magitech.network.DoubleJumpPayload;
 import net.stln.magitech.network.OpenSpellboundPageScreenPayload;
 import net.stln.magitech.network.ThreadBoundSelectPayload;
 import top.theillusivec4.curios.api.CuriosApi;
@@ -25,6 +29,8 @@ import vazkii.patchouli.common.item.PatchouliDataComponents;
 
 @EventBusSubscriber(modid = Magitech.MOD_ID, value = Dist.CLIENT)
 public class KeyPressEvent {
+    public static int jumpCount = 0;
+    public static int onGroundMarker = 0;
 
     @SubscribeEvent
     public static void onClientTick(ClientTickEvent.Post event) {
@@ -34,6 +40,19 @@ public class KeyPressEvent {
                 InteractionHand hand = player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof PartToolItem ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
                 ((PartToolItem) player.getItemInHand(hand).getItem()).traitAction(player.level(), player, hand);
             }
+        }
+        while (KeyMappingEvent.DOUBLE_JUMP.get().consumeClick()) {
+            Player player = Minecraft.getInstance().player;
+            if (player.getItemBySlot(EquipmentSlot.FEET).getItem() == ItemInit.AETHER_LIFTER.get() && onGroundMarker > 2) {
+                PacketDistributor.sendToServer(new DoubleJumpPayload(jumpCount, player.getStringUUID()));
+                AetherLifterItem.doubleJump(player, jumpCount, player.getItemBySlot(EquipmentSlot.FEET));
+                jumpCount++;
+            }
+        }
+        onGroundMarker++;
+        if (Minecraft.getInstance().player != null && Minecraft.getInstance().player.onGround()) {
+            jumpCount = 0;
+            onGroundMarker = 0;
         }
         while (KeyMappingEvent.SPELL_SHIFT_RIGHT.get().consumeClick()) {
             Player player = Minecraft.getInstance().player;

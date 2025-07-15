@@ -159,6 +159,11 @@
       "magitech:arclume"
     ]
   },
+  "aether_lifter_jump": {
+    "sounds": [
+      "magitech:aether_lifter_jump"
+    ]
+  },
   "crystal_break": {
     "subtitle": "subtitles.block.generic.break",
     "sounds": [

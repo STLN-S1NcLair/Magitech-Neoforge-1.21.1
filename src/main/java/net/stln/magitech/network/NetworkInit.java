@@ -30,6 +30,14 @@ public class NetworkInit {
                 )
         );
         registrar.playBidirectional(
+                DoubleJumpPayload.TYPE,
+                DoubleJumpPayload.STREAM_CODEC,
+                new DirectionalPayloadHandler<>(
+                        DoubleJumpPayLoadHandler::handleDataOnMainS2C,
+                        DoubleJumpPayLoadHandler::handleDataOnMainC2S
+                )
+        );
+        registrar.playBidirectional(
                 TraitTickPayload.TYPE,
                 TraitTickPayload.STREAM_CODEC,
                 new DirectionalPayloadHandler<>(

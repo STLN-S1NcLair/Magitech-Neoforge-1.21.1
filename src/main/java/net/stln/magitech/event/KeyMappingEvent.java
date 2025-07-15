@@ -27,6 +27,13 @@ public class KeyMappingEvent {
             GLFW.GLFW_KEY_V,
             "key.categories.magitech.category"
     ));
+    public static final Lazy<KeyMapping> DOUBLE_JUMP = Lazy.of(() -> new KeyMapping(
+            "key.magitech.double_jump",
+            KeyConflictContext.IN_GAME,
+            InputConstants.Type.KEYSYM,
+            GLFW.GLFW_KEY_SPACE,
+            "key.categories.magitech.category"
+    ));
     public static final Lazy<KeyMapping> SPELL_SHIFT_RIGHT = Lazy.of(() -> new KeyMapping(
             "key.magitech.spell_shift_right",
             KeyConflictContext.IN_GAME,
@@ -60,6 +67,7 @@ public class KeyMappingEvent {
     public static void registerBindings(RegisterKeyMappingsEvent event) {
         event.register(RADIAL_SPELL_MENU.get());
         event.register(TRAIT_ACTION.get());
+        event.register(DOUBLE_JUMP.get());
         event.register(SPELL_SHIFT_RIGHT.get());
         event.register(SPELL_SHIFT_LEFT.get());
         event.register(OPEN_SPELLBOUND_PAGE_SCREEN.get());

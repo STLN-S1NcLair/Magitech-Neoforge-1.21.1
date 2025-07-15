@@ -2,14 +2,20 @@ package net.stln.magitech.item;
 
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.entity.status.AttributeInit;
+import net.stln.magitech.item.armor.AetherLifterItem;
 import net.stln.magitech.item.component.TooltipTextPlaceableItem;
 import net.stln.magitech.item.tool.partitem.*;
 import net.stln.magitech.item.tool.toolitem.*;
@@ -156,6 +162,12 @@ public class ItemInit {
     public static final DeferredItem<Item> SCYTHE = ITEMS.registerItem("scythe",
             ScytheItem::new,
             new Item.Properties().setNoRepair().stacksTo(1));
+
+    public static final DeferredItem<Item> AETHER_LIFTER = ITEMS.registerItem("aether_lifter",
+            (properties) -> new AetherLifterItem(ArmorMaterials.IRON, ArmorItem.Type.BOOTS,
+                    new Item.Properties().durability(ArmorItem.Type.BOOTS.getDurability(5)).attributes(ItemAttributeModifiers.builder().add(
+                            Attributes.SAFE_FALL_DISTANCE, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "aether_lifter"), 5, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.FEET).build()
+                    )));
 
     public static final DeferredItem<Item> THREAD_PAGE = ITEMS.registerItem("thread_page",
             ThreadPageItem::new,

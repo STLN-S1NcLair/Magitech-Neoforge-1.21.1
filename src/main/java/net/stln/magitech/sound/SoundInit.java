@@ -46,6 +46,8 @@ public class SoundInit {
     public static final Supplier<SoundEvent> SYLLAEZE = registerSoundEvent("syllaeze");
     public static final Supplier<SoundEvent> ARCLUME = registerSoundEvent("arclume");
 
+    public static final Supplier<SoundEvent> AETHER_LIFTER_JUMP = registerSoundEvent("aether_lifter_jump");
+
     public static final Supplier<SoundEvent> CRYSTAL_BREAK = registerSoundEvent("crystal_break");
     public static final Supplier<SoundEvent> CRYSTAL_PLACE = registerSoundEvent("crystal_place");
     public static final Supplier<SoundEvent> CRYSTAL_HIT = registerSoundEvent("crystal_hit");
