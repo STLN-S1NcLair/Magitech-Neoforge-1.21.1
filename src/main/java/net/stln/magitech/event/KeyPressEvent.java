@@ -14,10 +14,12 @@ import net.stln.magitech.Magitech;
 import net.stln.magitech.item.ItemInit;
 import net.stln.magitech.item.ThreadboundItem;
 import net.stln.magitech.item.armor.AetherLifterItem;
+import net.stln.magitech.item.armor.FlamglideStriderItem;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.SpellComponent;
 import net.stln.magitech.item.tool.toolitem.PartToolItem;
 import net.stln.magitech.network.DoubleJumpPayload;
+import net.stln.magitech.network.LongJumpPayload;
 import net.stln.magitech.network.OpenSpellboundPageScreenPayload;
 import net.stln.magitech.network.ThreadBoundSelectPayload;
 import top.theillusivec4.curios.api.CuriosApi;
@@ -46,6 +48,14 @@ public class KeyPressEvent {
             if (player.getItemBySlot(EquipmentSlot.FEET).getItem() == ItemInit.AETHER_LIFTER.get() && onGroundMarker > 2) {
                 PacketDistributor.sendToServer(new DoubleJumpPayload(jumpCount, player.getStringUUID()));
                 AetherLifterItem.doubleJump(player, jumpCount, player.getItemBySlot(EquipmentSlot.FEET));
+                jumpCount++;
+            }
+        }
+        while (KeyMappingEvent.LONG_JUMP.get().consumeClick()) {
+            Player player = Minecraft.getInstance().player;
+            if (player.getItemBySlot(EquipmentSlot.FEET).getItem() == ItemInit.FLAMGLIDE_STRIDER.get() && onGroundMarker < 2 && player.isSprinting()) {
+                PacketDistributor.sendToServer(new LongJumpPayload(jumpCount, player.getStringUUID()));
+                FlamglideStriderItem.longJump(player, jumpCount, player.getItemBySlot(EquipmentSlot.FEET));
                 jumpCount++;
             }
         }

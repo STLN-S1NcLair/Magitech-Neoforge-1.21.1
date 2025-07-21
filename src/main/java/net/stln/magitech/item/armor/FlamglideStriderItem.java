@@ -27,9 +27,8 @@ import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.particle.particle_option.SquareFieldParticleEffect;
 import net.stln.magitech.particle.particle_option.SquareParticleEffect;
+import net.stln.magitech.particle.particle_option.UnstableSquareParticleEffect;
 import net.stln.magitech.sound.SoundInit;
-import net.stln.magitech.util.BlockUtil;
-import net.stln.magitech.util.EffectUtil;
 import net.stln.magitech.util.EntityUtil;
 import net.stln.magitech.util.TickScheduler;
 import org.joml.Vector3f;
@@ -39,17 +38,16 @@ import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.constant.DefaultAnimations;
 import software.bernie.geckolib.renderer.GeoArmorRenderer;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import javax.annotation.Nullable;
 import java.util.function.Consumer;
 
-public class AetherLifterItem extends TooltipArmorItem implements GeoItem {
+public class FlamglideStriderItem extends TooltipArmorItem implements GeoItem {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
-    public AetherLifterItem(Holder<ArmorMaterial> material, Type type, Properties properties) {
+    public FlamglideStriderItem(Holder<ArmorMaterial> material, Type type, Properties properties) {
         super(material, type, properties);
     }
 
@@ -74,20 +72,27 @@ public class AetherLifterItem extends TooltipArmorItem implements GeoItem {
             @Override
             public <T extends LivingEntity> HumanoidModel<?> getGeoArmorRenderer(@Nullable T livingEntity, ItemStack itemStack, @Nullable EquipmentSlot equipmentSlot, @Nullable HumanoidModel<T> original) {
                 if(this.renderer == null) // Important that we do this. If we just instantiate  it directly in the field it can cause incompatibilities with some mods.
-                    this.renderer = new AetherLifterRenderer();
+                    this.renderer = new FlamglideStriderRenderer();
 
                 return this.renderer;
             }
         });
     }
 
-    public static void doubleJump(Player player, int jumpCount, ItemStack stack) {
-        if (jumpCount == 0) {
+    public static void longJump(Player player, int jumpCount, ItemStack stack) {
+        if (jumpCount == 0 && !player.getCooldowns().isOnCooldown(stack.getItem())) {
             Level level = player.level();
             Vec3 movement = player.getDeltaMovement();
-            player.setDeltaMovement(new Vec3(movement.x, 0.8, movement.z));
-            player.fallDistance = -5;
-            level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundInit.AETHER_LIFTER_JUMP.get(), SoundSource.PLAYERS, 1, Mth.nextFloat(player.getRandom(), 0.8F, 1.2F));
+            Vec3 rotation = Vec3.directionFromRotation(player.getRotationVector());
+            player.addDeltaMovement(new Vec3(rotation.x / 4, rotation.y / 5 + 0.1, rotation.z / 4));
+            player.getCooldowns().addCooldown(stack.getItem(), 20);
+            level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundInit.FLAMGLIDE_STRIDER_JUMP.get(), SoundSource.PLAYERS, 1, Mth.nextFloat(player.getRandom(), 0.8F, 1.2F));
+            for (int i = 0; i < 12; i++) {
+                    TickScheduler.schedule(i + 1, () -> {
+                        Vec3 movement1 = player.getDeltaMovement();
+                        player.addDeltaMovement(new Vec3(rotation.x / 25, Math.max(0, movement1.y / 25), rotation.z / 25));
+                    }, level.isClientSide);
+            }
 
             if (level.isClientSide) {
 
@@ -99,48 +104,49 @@ public class AetherLifterItem extends TooltipArmorItem implements GeoItem {
                             .setFirstPersonMode(FirstPersonMode.THIRD_PERSON_MODEL).setFirstPersonConfiguration(new FirstPersonConfiguration(false, false, true, true)));
                 }
 
-                Vector3f phantomCol = new Vector3f(1.0F, 1.0F, 0.5F);
-                Vector3f hollowCol = new Vector3f(0.3F, 0.0F, 1.0F);
+                Vector3f emberCol = new Vector3f(1.0F, 0.2F, 0.0F);
+                Vector3f flowCol = new Vector3f(0.1F, 1.0F, 0.0F);
                 Vec3 position = player.position();
-                Vec3 surface = EntityUtil.findSurface(level, position);
                 for (int i = 0; i < 10; i++) {
                     double x = player.getX() + Mth.nextDouble(player.getRandom(), -player.getBbWidth(), player.getBbWidth());
                     double y = player.getY() + Mth.nextDouble(player.getRandom(), -0.25, 0.25);
                     double z = player.getZ() + Mth.nextDouble(player.getRandom(), -player.getBbWidth(), player.getBbWidth());
                     if (player.getRandom().nextBoolean()) {
-                        level.addParticle(new SquareParticleEffect(hollowCol, phantomCol, 1.0F, player.getRandom().nextInt(3, 6), 0), x, y, z, 0, 0.05, 0);
+                        level.addParticle(new SquareParticleEffect(flowCol, emberCol, 1.0F, player.getRandom().nextInt(3, 6), 0), x, y, z, 0, 0.05, 0);
                     } else {
-                        level.addParticle(new SquareParticleEffect(phantomCol, hollowCol, 1.0F, player.getRandom().nextInt(3, 6), 0), x, y, z, 0, 0.05, 0);
+                        level.addParticle(new SquareParticleEffect(emberCol, flowCol, 1.0F, player.getRandom().nextInt(3, 6), 0), x, y, z, 0, 0.05, 0);
                     }
                 }
-                for (int i = 0; i < position.distanceTo(surface) * 5; i++) {
-                    Vec3 lerped = surface.lerp(position, i / position.distanceTo(surface) / 5);
-                    double x = lerped.x + Mth.nextDouble(player.getRandom(), -player.getBbWidth(), player.getBbWidth()) / 2;
-                    double y = lerped.y + Mth.nextDouble(player.getRandom(), -0.25, 0.25);
-                    double z = lerped.z + Mth.nextDouble(player.getRandom(), -player.getBbWidth(), player.getBbWidth()) / 2;
+                for (int i = 0; i < 30; i++) {
+                    double x = position.x + Mth.nextDouble(player.getRandom(), -player.getBbWidth(), player.getBbWidth()) / 2;
+                    double y = position.y + Mth.nextDouble(player.getRandom(), -0.25, 0.25);
+                    double z = position.z + Mth.nextDouble(player.getRandom(), -player.getBbWidth(), player.getBbWidth()) / 2;
+                    double xd = Mth.nextDouble(player.getRandom(), -0.25, 0.25);
+                    double yd = Mth.nextDouble(player.getRandom(), -0.25, 0.25);
+                    double zd = Mth.nextDouble(player.getRandom(), -0.25, 0.25);
                     if (player.getRandom().nextBoolean()) {
-                        level.addParticle(new SquareParticleEffect(hollowCol, phantomCol, 1.0F, player.getRandom().nextInt(3, 6), 0), x, y, z, 0, 0.05, 0);
+                        level.addParticle(new UnstableSquareParticleEffect(flowCol, emberCol, 2.0F, player.getRandom().nextInt(3, 6), 0), x, y, z, xd, yd, zd);
                     } else {
-                        level.addParticle(new SquareParticleEffect(phantomCol, hollowCol, 1.0F, player.getRandom().nextInt(3, 6), 0), x, y, z, 0, 0.05, 0);
+                        level.addParticle(new UnstableSquareParticleEffect(emberCol, flowCol, 2.0F, player.getRandom().nextInt(3, 6), 0), x, y, z, xd, yd, zd);
                     }
                 }
                 if (player.getRandom().nextBoolean()) {
-                    level.addParticle(new SquareFieldParticleEffect(hollowCol, phantomCol, 1.0F, 1, 0),
+                    level.addParticle(new SquareFieldParticleEffect(flowCol, emberCol, 1.0F, 1, 0),
                             player.getX() + Mth.nextDouble(player.getRandom(), -0.1, 0.1), player.getY() + Mth.nextDouble(player.getRandom(), -0.1, 0.1), player.getZ() + Mth.nextDouble(player.getRandom(), -0.1, 0.1), 0, 0, 0);
                 } else {
-                    level.addParticle(new SquareFieldParticleEffect(phantomCol, hollowCol, 1.0F, 1, 0),
+                    level.addParticle(new SquareFieldParticleEffect(emberCol, flowCol, 1.0F, 1, 0),
                             player.getX() + Mth.nextDouble(player.getRandom(), -0.1, 0.1), player.getY() + Mth.nextDouble(player.getRandom(), -0.1, 0.1), player.getZ() + Mth.nextDouble(player.getRandom(), -0.1, 0.1), 0, 0, 0);
                 }
-                for (int i = 0; i < 10; i++) {
+                for (int i = 0; i < 12; i++) {
                     for (int j = 0; j < 3; j++) {
                         TickScheduler.schedule(i + 1, () -> {
                             double x = player.getX() + Mth.nextDouble(player.getRandom(), -0.1, 0.1);
                             double y = player.getY() + Mth.nextDouble(player.getRandom(), -0.1, 0.1);
                             double z = player.getZ() + Mth.nextDouble(player.getRandom(), -0.1, 0.1);
                             if (player.getRandom().nextBoolean()) {
-                                level.addParticle(new SquareParticleEffect(hollowCol, phantomCol, 1.0F, player.getRandom().nextInt(3, 6), 0), x, y, z, 0, 0.05, 0);
+                                level.addParticle(new SquareParticleEffect(flowCol, emberCol, 1.0F, player.getRandom().nextInt(3, 6), 0), x, y, z, 0, 0.05, 0);
                             } else {
-                                level.addParticle(new SquareParticleEffect(phantomCol, hollowCol, 1.0F, player.getRandom().nextInt(3, 6), 0), x, y, z, 0, 0.05, 0);
+                                level.addParticle(new SquareParticleEffect(emberCol, flowCol, 1.0F, player.getRandom().nextInt(3, 6), 0), x, y, z, 0, 0.05, 0);
                             }
                         }, level.isClientSide);
                     }

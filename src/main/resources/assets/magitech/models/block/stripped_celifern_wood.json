@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/cube_column",
-  "textures": {
-    "end": "magitech:block/stripped_celifern_log",
-    "side": "magitech:block/stripped_celifern_log"
-  }
-}

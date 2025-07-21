@@ -52,7 +52,7 @@ public class AbstractCustomizableParticle extends TextureSheetParticle {
     protected float scale;
     protected float rotSpeed;
     protected int twinkle;
-    protected boolean cull;
+    protected boolean cull = true;
     protected float defaultAlpha;
 
     protected AbstractCustomizableParticle(ClientLevel clientWorld, double d, double e, double f, double g, double h, double i) {

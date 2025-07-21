@@ -16,6 +16,7 @@ import net.stln.magitech.Magitech;
 import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.entity.status.AttributeInit;
 import net.stln.magitech.item.armor.AetherLifterItem;
+import net.stln.magitech.item.armor.FlamglideStriderItem;
 import net.stln.magitech.item.component.TooltipTextPlaceableItem;
 import net.stln.magitech.item.tool.partitem.*;
 import net.stln.magitech.item.tool.toolitem.*;
@@ -25,10 +26,6 @@ import java.util.Map;
 public class ItemInit {
 
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Magitech.MOD_ID);
-
-    public static final DeferredItem<Item> WAND = ITEMS.registerItem("wand",
-            WandItem::new,
-            new Item.Properties());
 
     public static final DeferredItem<ThreadboundItem> GLISTENING_LEXICON = ITEMS.registerItem("glistening_lexicon",
             (properties) -> new ThreadboundItem(properties).attributeModifier(Map.of(
@@ -163,10 +160,20 @@ public class ItemInit {
             ScytheItem::new,
             new Item.Properties().setNoRepair().stacksTo(1));
 
+    public static final DeferredItem<Item> WAND = ITEMS.registerItem("wand",
+            WandItem::new,
+            new Item.Properties().setNoRepair().stacksTo(1));
+
     public static final DeferredItem<Item> AETHER_LIFTER = ITEMS.registerItem("aether_lifter",
             (properties) -> new AetherLifterItem(ArmorMaterials.IRON, ArmorItem.Type.BOOTS,
-                    new Item.Properties().durability(ArmorItem.Type.BOOTS.getDurability(5)).attributes(ItemAttributeModifiers.builder().add(
+                    new Item.Properties().durability(314).attributes(ItemAttributeModifiers.builder().add(
                             Attributes.SAFE_FALL_DISTANCE, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "aether_lifter"), 5, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.FEET).build()
+                    )));
+
+    public static final DeferredItem<Item> FLAMGLIDE_STRIDER = ITEMS.registerItem("flamglide_strider",
+            (properties) -> new FlamglideStriderItem(ArmorMaterials.IRON, ArmorItem.Type.BOOTS,
+                    new Item.Properties().durability(314).attributes(ItemAttributeModifiers.builder().add(
+                            Attributes.SAFE_FALL_DISTANCE, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "flamglide_strider"), 3, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.FEET).build()
                     )));
 
     public static final DeferredItem<Item> THREAD_PAGE = ITEMS.registerItem("thread_page",

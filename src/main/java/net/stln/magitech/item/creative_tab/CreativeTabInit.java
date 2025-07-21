@@ -71,6 +71,15 @@ public class CreativeTabInit {
                 output.accept(BlockInit.DEEPSLATE_FLUORITE_ORE_ITEM.get());
                 output.accept(BlockInit.FLUORITE_CRYSTAL_CLUSTER_ITEM.get());
                 output.accept(BlockInit.REDSTONE_CRYSTAL_CLUSTER_ITEM.get());
+                output.accept(BlockInit.MISTALIA_PETALS_ITEM.get());
+                output.accept(BlockInit.ALCHECRYSITE_ITEM.get());
+                output.accept(BlockInit.POLISHED_ALCHECRYSITE_ITEM.get());
+                output.accept(BlockInit.ALCHECRYSITE_BRICKS_ITEM.get());
+                output.accept(BlockInit.FLUORITE_BLOCK_ITEM.get());
+                output.accept(BlockInit.FLUORITE_BRICKS_ITEM.get());
+                output.accept(BlockInit.FLUORITE_BRICK_STAIRS_ITEM.get());
+                output.accept(BlockInit.FLUORITE_BRICK_SLAB_ITEM.get());
+                output.accept(BlockInit.FLUORITE_BRICK_WALL_ITEM.get());
                 output.accept(BlockInit.CELIFERN_LOG_ITEM.get());
                 output.accept(BlockInit.CELIFERN_WOOD_ITEM.get());
                 output.accept(BlockInit.STRIPPED_CELIFERN_LOG_ITEM.get());
@@ -88,9 +97,10 @@ public class CreativeTabInit {
                 output.accept(BlockInit.CELIFERN_SAPLING_ITEM.get());
                 output.accept(BlockInit.CELIFERN_SIGN_ITEM.get());
                 output.accept(BlockInit.CELIFERN_HANGING_SIGN_ITEM.get());
-                output.accept(BlockInit.MISTALIA_PETALS_ITEM.get());
                 output.accept(ThreadboundGenerator.generateThreadbound(ItemInit.GLISTENING_LEXICON.get(), allSpells));
                 output.accept(ThreadboundGenerator.generateThreadbound(ItemInit.ARCANE_ENGINEERING_COMPENDIUM.get(), allSpells));
+                output.accept(ItemInit.AETHER_LIFTER.get());
+                output.accept(ItemInit.FLAMGLIDE_STRIDER.get());
                 output.accept(ItemInit.MANA_RING.get());
                 output.accept(ItemInit.GALEVENT_RING.get());
                 output.accept(ItemInit.CHARGEBIND_RING.get());

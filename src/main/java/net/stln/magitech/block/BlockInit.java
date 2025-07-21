@@ -2,11 +2,8 @@ package net.stln.magitech.block;
 
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
 import net.minecraft.core.Direction;
-import net.minecraft.data.BlockFamilies;
-import net.minecraft.data.BlockFamily;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.HangingSignItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -29,7 +26,7 @@ import net.stln.magitech.worldgen.tree.TreeGrowerInit;
 
 public class BlockInit {
 
-    public static final SoundType CRYSTAL = new DeferredSoundType(
+    public static final SoundType CRYSTAL_SOUND = new DeferredSoundType(
             1.0F,
             1.0F,
             SoundInit.CRYSTAL_BREAK,
@@ -37,6 +34,16 @@ public class BlockInit {
             SoundInit.CRYSTAL_PLACE,
             SoundInit.CRYSTAL_HIT,
             SoundInit.CRYSTAL_FALL
+    );
+
+    public static final SoundType ALCHECRYSITE_SOUND = new DeferredSoundType(
+            0.5F,
+            1.0F,
+            SoundInit.ALCHECRYSITE_BREAK,
+            SoundInit.ALCHECRYSITE_STEP,
+            SoundInit.ALCHECRYSITE_PLACE,
+            SoundInit.ALCHECRYSITE_HIT,
+            SoundInit.ALCHECRYSITE_FALL
     );
 
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(Magitech.MOD_ID);
@@ -79,7 +86,7 @@ public class BlockInit {
             (properties) -> new FluoriteCrystalClusterBlock(UniformInt.of(0, 2), properties),
             BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_CYAN)
                     .lightLevel(p_187431_ -> 8)
-                    .sound(CRYSTAL)
+                    .sound(CRYSTAL_SOUND)
                     .forceSolidOn()
                     .noOcclusion()
                     .strength(0.5F, 2.0F)
@@ -93,7 +100,7 @@ public class BlockInit {
             BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_RED)
                     .lightLevel(p_187431_ -> 5)
-                    .sound(CRYSTAL)
+                    .sound(CRYSTAL_SOUND)
                     .forceSolidOn()
                     .noOcclusion()
                     .strength(0.5F, 2.0F)
@@ -101,6 +108,64 @@ public class BlockInit {
                     .pushReaction(PushReaction.DESTROY));
 
     public static final DeferredItem<BlockItem> REDSTONE_CRYSTAL_CLUSTER_ITEM = ItemInit.ITEMS.register("redstone_crystal_cluster", key -> new TooltipTextBlockItem(REDSTONE_CRYSTAL_CLUSTER.get(), new Item.Properties()));
+
+    public static final DeferredBlock<Block> ALCHECRYSITE = BLOCKS.registerBlock("alchecrysite",
+            (properties) -> new Block(
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(ALCHECRYSITE_SOUND)
+            ));
+
+    public static final DeferredItem<BlockItem> ALCHECRYSITE_ITEM = ItemInit.ITEMS.register("alchecrysite", key -> new TooltipTextBlockItem(ALCHECRYSITE.get(), new Item.Properties()));
+
+    public static final DeferredBlock<Block> POLISHED_ALCHECRYSITE = BLOCKS.registerBlock("polished_alchecrysite",
+            (properties) -> new Block(
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.POLISHED_DEEPSLATE).sound(ALCHECRYSITE_SOUND)
+            ));
+
+    public static final DeferredItem<BlockItem> POLISHED_ALCHECRYSITE_ITEM = ItemInit.ITEMS.register("polished_alchecrysite", key -> new TooltipTextBlockItem(POLISHED_ALCHECRYSITE.get(), new Item.Properties()));
+
+    public static final DeferredBlock<Block> ALCHECRYSITE_BRICKS = BLOCKS.registerBlock("alchecrysite_bricks",
+            (properties) -> new Block(
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_BRICKS).sound(ALCHECRYSITE_SOUND)
+            ));
+
+    public static final DeferredItem<BlockItem> ALCHECRYSITE_BRICKS_ITEM = ItemInit.ITEMS.register("alchecrysite_bricks", key -> new TooltipTextBlockItem(ALCHECRYSITE_BRICKS.get(), new Item.Properties()));
+
+    public static final DeferredBlock<Block> FLUORITE_BLOCK = BLOCKS.registerBlock("fluorite_block",
+            (properties) -> new Block(
+                    BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_CYAN)
+                            .sound(CRYSTAL_SOUND)
+                            .requiresCorrectToolForDrops()
+                            .strength(1.5F, 2.0F)
+            ));
+
+    public static final DeferredItem<BlockItem> FLUORITE_BLOCK_ITEM = ItemInit.ITEMS.register("fluorite_block", key -> new TooltipTextBlockItem(FLUORITE_BLOCK.get(), new Item.Properties()));
+
+    public static final DeferredBlock<Block> FLUORITE_BRICKS = BLOCKS.registerBlock("fluorite_bricks",
+            (properties) -> new Block(
+                    BlockBehaviour.Properties.ofFullCopy(BlockInit.FLUORITE_BLOCK.get())
+            ));
+
+    public static final BlockSetType FLUORITE_BRICK_SET_TYPE = BlockSetType.register(new BlockSetType("magitech:fluorite_brick"));
+
+    public static final DeferredItem<BlockItem> FLUORITE_BRICKS_ITEM = ItemInit.ITEMS.register("fluorite_bricks", key -> new TooltipTextBlockItem(FLUORITE_BRICKS.get(), new Item.Properties()));
+
+    public static final DeferredBlock<Block> FLUORITE_BRICK_SLAB = BLOCKS.register("fluorite_brick_slab", key -> new SlabBlock(
+            BlockBehaviour.Properties.ofFullCopy(Blocks.STONE_BRICK_STAIRS).sound(CRYSTAL_SOUND)
+    ));
+
+    public static final DeferredItem<BlockItem> FLUORITE_BRICK_SLAB_ITEM = ItemInit.ITEMS.register("fluorite_brick_slab", key -> new TooltipTextBlockItem(FLUORITE_BRICK_SLAB.get(), new Item.Properties()));
+
+    public static final DeferredBlock<Block> FLUORITE_BRICK_STAIRS = BLOCKS.register("fluorite_brick_stairs", key -> new StairBlock(
+            FLUORITE_BRICKS.get().defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.STONE_BRICK_STAIRS).sound(CRYSTAL_SOUND)
+    ));
+
+    public static final DeferredItem<BlockItem> FLUORITE_BRICK_STAIRS_ITEM = ItemInit.ITEMS.register("fluorite_brick_stairs", key -> new TooltipTextBlockItem(FLUORITE_BRICK_STAIRS.get(), new Item.Properties()));
+
+    public static final DeferredBlock<Block> FLUORITE_BRICK_WALL = BLOCKS.register("fluorite_brick_wall", key -> new WallBlock(
+            BlockBehaviour.Properties.ofFullCopy(Blocks.STONE_BRICK_WALL).sound(CRYSTAL_SOUND)
+    ));
+
+    public static final DeferredItem<BlockItem> FLUORITE_BRICK_WALL_ITEM = ItemInit.ITEMS.register("fluorite_brick_wall", key -> new TooltipTextBlockItem(FLUORITE_BRICK_WALL.get(), new Item.Properties()));
 
     public static final BlockSetType CELIFERN_SET_TYPE = BlockSetType.register(new BlockSetType("magitech:celifern"));
     public static final WoodType CELIFERN_WOOD_TYPE = WoodType.register(new WoodType("magitech:celifern", CELIFERN_SET_TYPE));

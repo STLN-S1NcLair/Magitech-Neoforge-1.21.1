@@ -8,6 +8,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
+import net.minecraft.util.Mth;
 import net.stln.magitech.particle.particle_option.UnstableSquareParticleEffect;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
@@ -17,6 +18,7 @@ public class UnstableSquareParticle extends GlowingParticle {
     private final SpriteSet spriteProvider;
     private final Vector3f startColor;
     private final Vector3f endColor;
+    private final float initialScale;
 
     public UnstableSquareParticle(ClientLevel clientWorld, double x, double y, double z, double vx, double vy, double vz,
                                   UnstableSquareParticleEffect parameters, SpriteSet spriteProvider) {
@@ -27,6 +29,7 @@ public class UnstableSquareParticle extends GlowingParticle {
         this.lifetime = 15;
         this.alpha = 1.0F;
         this.scale = 1F * parameters.getScale();
+        this.initialScale = this.scale;
         this.gravity = -0.0F;
         this.spriteProvider = spriteProvider;
         this.setSpriteFromAge(spriteProvider);
@@ -59,6 +62,9 @@ public class UnstableSquareParticle extends GlowingParticle {
         this.rCol = vector3f.x();
         this.gCol = vector3f.y();
         this.bCol = vector3f.z();
+        if (f > 0.5F) {
+            this.scale = Mth.lerp((f - 0.5F), this.initialScale, this.scale / 4);
+        }
     }
 
     @Override

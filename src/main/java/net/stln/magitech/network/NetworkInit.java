@@ -38,6 +38,14 @@ public class NetworkInit {
                 )
         );
         registrar.playBidirectional(
+                LongJumpPayload.TYPE,
+                LongJumpPayload.STREAM_CODEC,
+                new DirectionalPayloadHandler<>(
+                        LongJumpPayLoadHandler::handleDataOnMainS2C,
+                        LongJumpPayLoadHandler::handleDataOnMainC2S
+                )
+        );
+        registrar.playBidirectional(
                 TraitTickPayload.TYPE,
                 TraitTickPayload.STREAM_CODEC,
                 new DirectionalPayloadHandler<>(

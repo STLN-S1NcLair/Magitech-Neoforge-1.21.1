@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "magitech:item/celifern_hanging_sign"
-  }
-}

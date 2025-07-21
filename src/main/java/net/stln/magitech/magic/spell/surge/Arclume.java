@@ -106,7 +106,7 @@ public class Arclume extends Spell {
         }
 
         if (level.isClientSide) {
-            level.addParticle(new ZapParticleEffect(new Vector3f(1), new Vector3f(1), surface.toVector3f(), 2F, 3, 0), lightningTop.x, lightningTop.y, lightningTop.z,
+            level.addParticle(new ZapParticleEffect(new Vector3f(1), new Vector3f(1), lightningTop.toVector3f(), 2F, 3, 0), surface.x, surface.y, surface.z,
                     0, 0, 0);
             Vector3f fromColor = new Vector3f(1.0F, 1.0F, 1.0F);
             Vector3f toColor = new Vector3f(0.5F, 0.5F, 1.0F);

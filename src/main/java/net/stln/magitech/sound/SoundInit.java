@@ -47,12 +47,19 @@ public class SoundInit {
     public static final Supplier<SoundEvent> ARCLUME = registerSoundEvent("arclume");
 
     public static final Supplier<SoundEvent> AETHER_LIFTER_JUMP = registerSoundEvent("aether_lifter_jump");
+    public static final Supplier<SoundEvent> FLAMGLIDE_STRIDER_JUMP = registerSoundEvent("flamglide_strider_jump");
 
     public static final Supplier<SoundEvent> CRYSTAL_BREAK = registerSoundEvent("crystal_break");
     public static final Supplier<SoundEvent> CRYSTAL_PLACE = registerSoundEvent("crystal_place");
     public static final Supplier<SoundEvent> CRYSTAL_HIT = registerSoundEvent("crystal_hit");
     public static final Supplier<SoundEvent> CRYSTAL_STEP = registerSoundEvent("crystal_step");
     public static final Supplier<SoundEvent> CRYSTAL_FALL = registerSoundEvent("crystal_fall");
+
+    public static final Supplier<SoundEvent> ALCHECRYSITE_BREAK = registerSoundEvent("alchecrysite_break");
+    public static final Supplier<SoundEvent> ALCHECRYSITE_PLACE = registerSoundEvent("alchecrysite_place");
+    public static final Supplier<SoundEvent> ALCHECRYSITE_HIT = registerSoundEvent("alchecrysite_hit");
+    public static final Supplier<SoundEvent> ALCHECRYSITE_STEP = registerSoundEvent("alchecrysite_step");
+    public static final Supplier<SoundEvent> ALCHECRYSITE_FALL = registerSoundEvent("alchecrysite_fall");
 
 
     private static Supplier<SoundEvent> registerSoundEvent(String name) {

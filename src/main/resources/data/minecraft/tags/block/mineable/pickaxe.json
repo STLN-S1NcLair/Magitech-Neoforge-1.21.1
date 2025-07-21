@@ -6,6 +6,12 @@
     "magitech:fluorite_ore",
     "magitech:deepslate_fluorite_ore",
     "magitech:fluorite_crystal_cluster",
-    "magitech:redstone_crystal_cluster"
+    "magitech:redstone_crystal_cluster",
+    "magitech:polished_alchecrysite",
+    "magitech:fluorite_block",
+    "magitech:fluorite_bricks",
+    "magitech:fluorite_brick_stairs",
+    "magitech:fluorite_brick_slab",
+    "magitech:fluorite_brick_wall"
   ]
 }

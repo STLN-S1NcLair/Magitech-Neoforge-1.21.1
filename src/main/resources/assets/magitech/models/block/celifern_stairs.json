@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/stairs",
-  "textures": {
-    "bottom": "magitech:block/celifern_planks",
-    "side": "magitech:block/celifern_planks",
-    "top": "magitech:block/celifern_planks"
-  }
-}

@@ -164,6 +164,11 @@
       "magitech:aether_lifter_jump"
     ]
   },
+  "flamglide_strider_jump": {
+    "sounds": [
+      "magitech:flamglide_strider_jump"
+    ]
+  },
   "crystal_break": {
     "subtitle": "subtitles.block.generic.break",
     "sounds": [
@@ -366,6 +371,143 @@
       {
         "name": "magitech:crystal_step_3",
         "pitch": 1.2
+      }
+    ]
+  },
+  "alchecrysite_break": {
+    "subtitle": "subtitles.block.generic.break",
+    "sounds": [
+      {
+        "name": "magitech:alchecrysite_break_1",
+        "pitch": 1
+      },
+      {
+        "name": "magitech:alchecrysite_break_2",
+        "pitch": 1
+      },
+      {
+        "name": "magitech:alchecrysite_break_3",
+        "pitch": 1
+      },
+      {
+        "name": "magitech:alchecrysite_break_4",
+        "pitch": 1
+      }
+    ]
+  },
+  "alchecrysite_place": {
+    "subtitle": "subtitles.block.generic.place",
+    "sounds": [
+      {
+        "name": "magitech:alchecrysite_place_1",
+        "pitch": 1
+      },
+      {
+        "name": "magitech:alchecrysite_place_2",
+        "pitch": 1
+      },
+      {
+        "name": "magitech:alchecrysite_place_3",
+        "pitch": 1
+      },
+      {
+        "name": "magitech:alchecrysite_place_4",
+        "pitch": 1
+      },
+      {
+        "name": "magitech:alchecrysite_place_5",
+        "pitch": 1
+      },
+      {
+        "name": "magitech:alchecrysite_place_6",
+        "pitch": 1
+      }
+    ]
+  },
+  "alchecrysite_step": {
+    "subtitle": "subtitles.block.generic.footsteps",
+    "sounds": [
+      {
+        "name": "magitech:alchecrysite_step_1",
+        "pitch": 1
+      },
+      {
+        "name": "magitech:alchecrysite_step_2",
+        "pitch": 1
+      },
+      {
+        "name": "magitech:alchecrysite_step_3",
+        "pitch": 1
+      },
+      {
+        "name": "magitech:alchecrysite_step_4",
+        "pitch": 1
+      },
+      {
+        "name": "magitech:alchecrysite_step_5",
+        "pitch": 1
+      },
+      {
+        "name": "magitech:alchecrysite_step_6",
+        "pitch": 1
+      }
+    ]
+  },
+  "alchecrysite_hit": {
+    "subtitle": "subtitles.block.generic.hit",
+    "sounds": [
+      {
+        "name": "magitech:alchecrysite_step_1",
+        "pitch": 1
+      },
+      {
+        "name": "magitech:alchecrysite_step_2",
+        "pitch": 1
+      },
+      {
+        "name": "magitech:alchecrysite_step_3",
+        "pitch": 1
+      },
+      {
+        "name": "magitech:alchecrysite_step_4",
+        "pitch": 1
+      },
+      {
+        "name": "magitech:alchecrysite_step_5",
+        "pitch": 1
+      },
+      {
+        "name": "magitech:alchecrysite_step_6",
+        "pitch": 1
+      }
+    ]
+  },
+  "alchecrysite_fall": {
+    "subtitle": "subtitles.block.generic.hit",
+    "sounds": [
+      {
+        "name": "magitech:alchecrysite_step_1",
+        "pitch": 1
+      },
+      {
+        "name": "magitech:alchecrysite_step_2",
+        "pitch": 1
+      },
+      {
+        "name": "magitech:alchecrysite_step_3",
+        "pitch": 1
+      },
+      {
+        "name": "magitech:alchecrysite_step_4",
+        "pitch": 1
+      },
+      {
+        "name": "magitech:alchecrysite_step_5",
+        "pitch": 1
+      },
+      {
+        "name": "magitech:alchecrysite_step_6",
+        "pitch": 1
       }
     ]
   }
