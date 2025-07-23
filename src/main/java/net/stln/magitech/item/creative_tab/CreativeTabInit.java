@@ -67,14 +67,26 @@ public class CreativeTabInit {
             .displayItems((parameters, output) -> {
                 output.accept(BlockInit.ENGINEERING_WORKBENCH_ITEM.get());
                 output.accept(BlockInit.ASSEMBLY_WORKBENCH_ITEM.get());
+                output.accept(BlockInit.ALCHEMETRIC_PYLON_ITEM.get());
+                output.accept(BlockInit.MANA_NODE_ITEM.get());
                 output.accept(BlockInit.FLUORITE_ORE_ITEM.get());
                 output.accept(BlockInit.DEEPSLATE_FLUORITE_ORE_ITEM.get());
                 output.accept(BlockInit.FLUORITE_CRYSTAL_CLUSTER_ITEM.get());
                 output.accept(BlockInit.REDSTONE_CRYSTAL_CLUSTER_ITEM.get());
                 output.accept(BlockInit.MISTALIA_PETALS_ITEM.get());
                 output.accept(BlockInit.ALCHECRYSITE_ITEM.get());
+                output.accept(BlockInit.ALCHECRYSITE_STAIRS_ITEM.get());
+                output.accept(BlockInit.ALCHECRYSITE_SLAB_ITEM.get());
+                output.accept(BlockInit.ALCHECRYSITE_WALL_ITEM.get());
                 output.accept(BlockInit.POLISHED_ALCHECRYSITE_ITEM.get());
+                output.accept(BlockInit.POLISHED_ALCHECRYSITE_STAIRS_ITEM.get());
+                output.accept(BlockInit.POLISHED_ALCHECRYSITE_SLAB_ITEM.get());
+                output.accept(BlockInit.POLISHED_ALCHECRYSITE_WALL_ITEM.get());
                 output.accept(BlockInit.ALCHECRYSITE_BRICKS_ITEM.get());
+                output.accept(BlockInit.ALCHECRYSITE_BRICK_STAIRS_ITEM.get());
+                output.accept(BlockInit.ALCHECRYSITE_BRICK_SLAB_ITEM.get());
+                output.accept(BlockInit.ALCHECRYSITE_BRICK_WALL_ITEM.get());
+                output.accept(BlockInit.ALCHECRYSITE_TILES_ITEM.get());
                 output.accept(BlockInit.FLUORITE_BLOCK_ITEM.get());
                 output.accept(BlockInit.FLUORITE_BRICKS_ITEM.get());
                 output.accept(BlockInit.FLUORITE_BRICK_STAIRS_ITEM.get());

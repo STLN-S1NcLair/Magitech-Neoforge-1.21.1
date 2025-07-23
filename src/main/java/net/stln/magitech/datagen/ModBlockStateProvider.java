@@ -20,11 +20,23 @@ public class ModBlockStateProvider extends BlockStateProvider {
     protected void registerStatesAndModels() {
         sideBottomTopBlockWithItem(BlockInit.ENGINEERING_WORKBENCH.get());
         sideBottomTopBlockWithItem(BlockInit.ASSEMBLY_WORKBENCH.get());
+        handModeledBlockWithItem(BlockInit.ALCHEMETRIC_PYLON.get());
+        directionalHandModeledBlockWithItem(BlockInit.MANA_NODE.get());
         blockWithItem(BlockInit.FLUORITE_ORE.get());
         blockWithItem(BlockInit.DEEPSLATE_FLUORITE_ORE.get());
         blockWithItem(BlockInit.ALCHECRYSITE.get());
+        stairsBlockWithItem(BlockInit.ALCHECRYSITE_STAIRS.get(), BlockInit.ALCHECRYSITE.get());
+        slabBlockWithItem(BlockInit.ALCHECRYSITE_SLAB.get(), BlockInit.ALCHECRYSITE.get());
+        wallBlockWithItem(BlockInit.ALCHECRYSITE_WALL.get(), BlockInit.ALCHECRYSITE.get());
         blockWithItem(BlockInit.POLISHED_ALCHECRYSITE.get());
+        stairsBlockWithItem(BlockInit.POLISHED_ALCHECRYSITE_STAIRS.get(), BlockInit.POLISHED_ALCHECRYSITE.get());
+        slabBlockWithItem(BlockInit.POLISHED_ALCHECRYSITE_SLAB.get(), BlockInit.POLISHED_ALCHECRYSITE.get());
+        wallBlockWithItem(BlockInit.POLISHED_ALCHECRYSITE_WALL.get(), BlockInit.POLISHED_ALCHECRYSITE.get());
         blockWithItem(BlockInit.ALCHECRYSITE_BRICKS.get());
+        stairsBlockWithItem(BlockInit.ALCHECRYSITE_BRICK_STAIRS.get(), BlockInit.ALCHECRYSITE_BRICKS.get());
+        slabBlockWithItem(BlockInit.ALCHECRYSITE_BRICK_SLAB.get(), BlockInit.ALCHECRYSITE_BRICKS.get());
+        wallBlockWithItem(BlockInit.ALCHECRYSITE_BRICK_WALL.get(), BlockInit.ALCHECRYSITE_BRICKS.get());
+        blockWithItem(BlockInit.ALCHECRYSITE_TILES.get());
         blockWithItem(BlockInit.FLUORITE_BLOCK.get());
         blockWithItem(BlockInit.FLUORITE_BRICKS.get());
         stairsBlockWithItem(BlockInit.FLUORITE_BRICK_STAIRS.get(), BlockInit.FLUORITE_BRICKS.get());
@@ -57,12 +69,17 @@ public class ModBlockStateProvider extends BlockStateProvider {
         simpleBlockItem(block, new ModelFile.UncheckedModelFile(blockTexture(block)));
     }
 
+    private void handModeledBlockWithItem(Block block) {
+        simpleBlock(block, new ModelFile.ExistingModelFile(blockTexture(block), this.models().existingFileHelper));
+        simpleBlockItem(block, new ModelFile.UncheckedModelFile(blockTexture(block)));
+    }
+
     private void sideBottomTopBlockWithItem(Block block) {
         simpleBlockWithItem(block, models().cubeBottomTop(getName(block), blockTexture(block).withSuffix("_side"), blockTexture(block).withSuffix("_bottom"), blockTexture(block).withSuffix("_top")));
         blockItem(block);
     }
 
-    private void directionalBlockWithItem(Block block) {
+    private void directionalHandModeledBlockWithItem(Block block) {
         directionalBlock(block, new ModelFile.ExistingModelFile(blockTexture(block), this.models().existingFileHelper));
         blockItem(block);
     }

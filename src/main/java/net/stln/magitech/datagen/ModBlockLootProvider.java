@@ -32,6 +32,8 @@ public class ModBlockLootProvider extends BlockLootSubProvider {
     protected void generate() {
         dropSelf(BlockInit.ENGINEERING_WORKBENCH.get());
         dropSelf(BlockInit.ASSEMBLY_WORKBENCH.get());
+        dropSelf(BlockInit.ALCHEMETRIC_PYLON.get());
+        dropSelf(BlockInit.MANA_NODE.get());
         add(BlockInit.FLUORITE_ORE.get(),
                 block -> createOreDrop(BlockInit.FLUORITE_ORE.get(), ItemInit.FLUORITE.get()));
         add(BlockInit.DEEPSLATE_FLUORITE_ORE.get(),
@@ -41,8 +43,21 @@ public class ModBlockLootProvider extends BlockLootSubProvider {
         add(BlockInit.REDSTONE_CRYSTAL_CLUSTER.get(),
                 block -> createMultipleOreDrops(BlockInit.REDSTONE_CRYSTAL_CLUSTER.get(), ItemInit.REDSTONE_CRYSTAL.get(), 1, 2));
         dropSelf(BlockInit.ALCHECRYSITE.get());
+        dropSelf(BlockInit.ALCHECRYSITE_STAIRS.get());
+        add(BlockInit.ALCHECRYSITE_SLAB.get(),
+                block -> createSlabItemTable(BlockInit.ALCHECRYSITE_SLAB.get()));
+        dropSelf(BlockInit.ALCHECRYSITE_WALL.get());
         dropSelf(BlockInit.POLISHED_ALCHECRYSITE.get());
+        dropSelf(BlockInit.POLISHED_ALCHECRYSITE_STAIRS.get());
+        add(BlockInit.POLISHED_ALCHECRYSITE_SLAB.get(),
+                block -> createSlabItemTable(BlockInit.POLISHED_ALCHECRYSITE_SLAB.get()));
+        dropSelf(BlockInit.POLISHED_ALCHECRYSITE_WALL.get());
         dropSelf(BlockInit.ALCHECRYSITE_BRICKS.get());
+        dropSelf(BlockInit.ALCHECRYSITE_BRICK_STAIRS.get());
+        add(BlockInit.ALCHECRYSITE_BRICK_SLAB.get(),
+                block -> createSlabItemTable(BlockInit.ALCHECRYSITE_BRICK_SLAB.get()));
+        dropSelf(BlockInit.ALCHECRYSITE_BRICK_WALL.get());
+        dropSelf(BlockInit.ALCHECRYSITE_TILES.get());
         dropSelf(BlockInit.FLUORITE_BLOCK.get());
         dropSelf(BlockInit.FLUORITE_BRICKS.get());
         dropSelf(BlockInit.FLUORITE_BRICK_STAIRS.get());
@@ -55,7 +70,8 @@ public class ModBlockLootProvider extends BlockLootSubProvider {
         dropSelf(BlockInit.STRIPPED_CELIFERN_WOOD.get());
         dropSelf(BlockInit.CELIFERN_PLANKS.get());
         dropSelf(BlockInit.CELIFERN_STAIRS.get());
-        dropSelf(BlockInit.CELIFERN_SLAB.get());
+        add(BlockInit.CELIFERN_SLAB.get(),
+                block -> createSlabItemTable(BlockInit.CELIFERN_SLAB.get()));
         dropSelf(BlockInit.CELIFERN_FENCE.get());
         dropSelf(BlockInit.CELIFERN_FENCE_GATE.get());
         add(BlockInit.CELIFERN_DOOR.get(),

@@ -2,10 +2,12 @@ package net.stln.magitech.block;
 
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
@@ -18,11 +20,14 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.stln.magitech.Magitech;
+import net.stln.magitech.block.block_entity.AlchemetricPylonBlockEntity;
 import net.stln.magitech.item.ItemInit;
 import net.stln.magitech.item.TooltipTextBlockItem;
 import net.stln.magitech.item.TooltipTextSignItem;
 import net.stln.magitech.sound.SoundInit;
 import net.stln.magitech.worldgen.tree.TreeGrowerInit;
+
+import java.util.function.Supplier;
 
 public class BlockInit {
 
@@ -48,6 +53,8 @@ public class BlockInit {
 
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(Magitech.MOD_ID);
 
+    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENITIES = DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, Magitech.MOD_ID);
+
     public static final DeferredBlock<EnginneringWorkbenchBlock> ENGINEERING_WORKBENCH = BLOCKS.registerBlock("engineering_workbench",
             EnginneringWorkbenchBlock::new,
             BlockBehaviour.Properties.of().mapColor(MapColor.STONE)
@@ -61,6 +68,22 @@ public class BlockInit {
                     .strength(2F, 5.0F));
 
     public static final DeferredItem<BlockItem> ASSEMBLY_WORKBENCH_ITEM = ItemInit.ITEMS.register("assembly_workbench", key -> new TooltipTextBlockItem(ASSEMBLY_WORKBENCH.get(), new Item.Properties()));
+
+    public static final DeferredBlock<AlchemetricPylonBlock> ALCHEMETRIC_PYLON = BLOCKS.registerBlock("alchemetric_pylon",
+            AlchemetricPylonBlock::new,
+            BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(ALCHECRYSITE_SOUND));
+
+    public static final Supplier<BlockEntityType<AlchemetricPylonBlockEntity>> ALCHEMETRIC_PYLON_ENTITY =
+            BLOCK_ENITIES.register("alchemetric_pylon", () -> BlockEntityType.Builder.of(
+                    AlchemetricPylonBlockEntity::new, BlockInit.ALCHEMETRIC_PYLON.get()).build(null));
+
+    public static final DeferredItem<BlockItem> ALCHEMETRIC_PYLON_ITEM = ItemInit.ITEMS.register("alchemetric_pylon", key -> new TooltipTextBlockItem(ALCHEMETRIC_PYLON.get(), new Item.Properties()));
+
+    public static final DeferredBlock<ManaNodeBlock> MANA_NODE = BLOCKS.registerBlock("mana_node",
+            ManaNodeBlock::new,
+            BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(CRYSTAL_SOUND).lightLevel((blockState) -> 10));
+
+    public static final DeferredItem<BlockItem> MANA_NODE_ITEM = ItemInit.ITEMS.register("mana_node", key -> new TooltipTextBlockItem(MANA_NODE.get(), new Item.Properties()));
 
     public static final DeferredBlock<DropExperienceBlock> FLUORITE_ORE = BLOCKS.registerBlock("fluorite_ore",
             (properties) -> new DropExperienceBlock(UniformInt.of(1, 4),
@@ -116,6 +139,27 @@ public class BlockInit {
 
     public static final DeferredItem<BlockItem> ALCHECRYSITE_ITEM = ItemInit.ITEMS.register("alchecrysite", key -> new TooltipTextBlockItem(ALCHECRYSITE.get(), new Item.Properties()));
 
+    public static final DeferredBlock<Block> ALCHECRYSITE_STAIRS = BLOCKS.registerBlock("alchecrysite_stairs",
+            (properties) -> new StairBlock(
+                    ALCHECRYSITE.get().defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_BRICK_STAIRS).sound(ALCHECRYSITE_SOUND)
+            ));
+
+    public static final DeferredItem<BlockItem> ALCHECRYSITE_STAIRS_ITEM = ItemInit.ITEMS.register("alchecrysite_stairs", key -> new TooltipTextBlockItem(ALCHECRYSITE_STAIRS.get(), new Item.Properties()));
+
+    public static final DeferredBlock<Block> ALCHECRYSITE_SLAB = BLOCKS.registerBlock("alchecrysite_slab",
+            (properties) -> new SlabBlock(
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_BRICK_SLAB).sound(ALCHECRYSITE_SOUND)
+            ));
+
+    public static final DeferredItem<BlockItem> ALCHECRYSITE_SLAB_ITEM = ItemInit.ITEMS.register("alchecrysite_slab", key -> new TooltipTextBlockItem(ALCHECRYSITE_SLAB.get(), new Item.Properties()));
+
+    public static final DeferredBlock<Block> ALCHECRYSITE_WALL = BLOCKS.registerBlock("alchecrysite_wall",
+            (properties) -> new WallBlock(
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_BRICK_WALL).sound(ALCHECRYSITE_SOUND)
+            ));
+
+    public static final DeferredItem<BlockItem> ALCHECRYSITE_WALL_ITEM = ItemInit.ITEMS.register("alchecrysite_wall", key -> new TooltipTextBlockItem(ALCHECRYSITE_WALL.get(), new Item.Properties()));
+
     public static final DeferredBlock<Block> POLISHED_ALCHECRYSITE = BLOCKS.registerBlock("polished_alchecrysite",
             (properties) -> new Block(
                     BlockBehaviour.Properties.ofFullCopy(Blocks.POLISHED_DEEPSLATE).sound(ALCHECRYSITE_SOUND)
@@ -123,12 +167,61 @@ public class BlockInit {
 
     public static final DeferredItem<BlockItem> POLISHED_ALCHECRYSITE_ITEM = ItemInit.ITEMS.register("polished_alchecrysite", key -> new TooltipTextBlockItem(POLISHED_ALCHECRYSITE.get(), new Item.Properties()));
 
+    public static final DeferredBlock<Block> POLISHED_ALCHECRYSITE_STAIRS = BLOCKS.registerBlock("polished_alchecrysite_stairs",
+            (properties) -> new StairBlock(
+                    POLISHED_ALCHECRYSITE.get().defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_BRICK_STAIRS).sound(ALCHECRYSITE_SOUND)
+            ));
+
+    public static final DeferredItem<BlockItem> POLISHED_ALCHECRYSITE_STAIRS_ITEM = ItemInit.ITEMS.register("polished_alchecrysite_stairs", key -> new TooltipTextBlockItem(POLISHED_ALCHECRYSITE_STAIRS.get(), new Item.Properties()));
+
+    public static final DeferredBlock<Block> POLISHED_ALCHECRYSITE_SLAB = BLOCKS.registerBlock("polished_alchecrysite_slab",
+            (properties) -> new SlabBlock(
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_BRICK_SLAB).sound(ALCHECRYSITE_SOUND)
+            ));
+
+    public static final DeferredItem<BlockItem> POLISHED_ALCHECRYSITE_SLAB_ITEM = ItemInit.ITEMS.register("polished_alchecrysite_slab", key -> new TooltipTextBlockItem(POLISHED_ALCHECRYSITE_SLAB.get(), new Item.Properties()));
+
+    public static final DeferredBlock<Block> POLISHED_ALCHECRYSITE_WALL = BLOCKS.registerBlock("polished_alchecrysite_wall",
+            (properties) -> new WallBlock(
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_BRICK_WALL).sound(ALCHECRYSITE_SOUND)
+            ));
+
+    public static final DeferredItem<BlockItem> POLISHED_ALCHECRYSITE_WALL_ITEM = ItemInit.ITEMS.register("polished_alchecrysite_wall", key -> new TooltipTextBlockItem(POLISHED_ALCHECRYSITE_WALL.get(), new Item.Properties()));
+
     public static final DeferredBlock<Block> ALCHECRYSITE_BRICKS = BLOCKS.registerBlock("alchecrysite_bricks",
             (properties) -> new Block(
                     BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_BRICKS).sound(ALCHECRYSITE_SOUND)
             ));
 
     public static final DeferredItem<BlockItem> ALCHECRYSITE_BRICKS_ITEM = ItemInit.ITEMS.register("alchecrysite_bricks", key -> new TooltipTextBlockItem(ALCHECRYSITE_BRICKS.get(), new Item.Properties()));
+
+    public static final DeferredBlock<Block> ALCHECRYSITE_BRICK_STAIRS = BLOCKS.registerBlock("alchecrysite_brick_stairs",
+            (properties) -> new StairBlock(
+                    ALCHECRYSITE_BRICKS.get().defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_BRICK_STAIRS).sound(ALCHECRYSITE_SOUND)
+            ));
+
+    public static final DeferredItem<BlockItem> ALCHECRYSITE_BRICK_STAIRS_ITEM = ItemInit.ITEMS.register("alchecrysite_brick_stairs", key -> new TooltipTextBlockItem(ALCHECRYSITE_BRICK_STAIRS.get(), new Item.Properties()));
+
+    public static final DeferredBlock<Block> ALCHECRYSITE_BRICK_SLAB = BLOCKS.registerBlock("alchecrysite_brick_slab",
+            (properties) -> new SlabBlock(
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_BRICK_SLAB).sound(ALCHECRYSITE_SOUND)
+            ));
+
+    public static final DeferredItem<BlockItem> ALCHECRYSITE_BRICK_SLAB_ITEM = ItemInit.ITEMS.register("alchecrysite_brick_slab", key -> new TooltipTextBlockItem(ALCHECRYSITE_BRICK_SLAB.get(), new Item.Properties()));
+
+    public static final DeferredBlock<Block> ALCHECRYSITE_BRICK_WALL = BLOCKS.registerBlock("alchecrysite_brick_wall",
+            (properties) -> new WallBlock(
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_BRICK_WALL).sound(ALCHECRYSITE_SOUND)
+            ));
+
+    public static final DeferredItem<BlockItem> ALCHECRYSITE_BRICK_WALL_ITEM = ItemInit.ITEMS.register("alchecrysite_brick_wall", key -> new TooltipTextBlockItem(ALCHECRYSITE_BRICK_WALL.get(), new Item.Properties()));
+
+    public static final DeferredBlock<Block> ALCHECRYSITE_TILES = BLOCKS.registerBlock("alchecrysite_tiles",
+            (properties) -> new Block(
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_TILES).sound(ALCHECRYSITE_SOUND)
+            ));
+
+    public static final DeferredItem<BlockItem> ALCHECRYSITE_TILES_ITEM = ItemInit.ITEMS.register("alchecrysite_tiles", key -> new TooltipTextBlockItem(ALCHECRYSITE_TILES.get(), new Item.Properties()));
 
     public static final DeferredBlock<Block> FLUORITE_BLOCK = BLOCKS.registerBlock("fluorite_block",
             (properties) -> new Block(
@@ -149,17 +242,17 @@ public class BlockInit {
 
     public static final DeferredItem<BlockItem> FLUORITE_BRICKS_ITEM = ItemInit.ITEMS.register("fluorite_bricks", key -> new TooltipTextBlockItem(FLUORITE_BRICKS.get(), new Item.Properties()));
 
-    public static final DeferredBlock<Block> FLUORITE_BRICK_SLAB = BLOCKS.register("fluorite_brick_slab", key -> new SlabBlock(
-            BlockBehaviour.Properties.ofFullCopy(Blocks.STONE_BRICK_STAIRS).sound(CRYSTAL_SOUND)
-    ));
-
-    public static final DeferredItem<BlockItem> FLUORITE_BRICK_SLAB_ITEM = ItemInit.ITEMS.register("fluorite_brick_slab", key -> new TooltipTextBlockItem(FLUORITE_BRICK_SLAB.get(), new Item.Properties()));
-
     public static final DeferredBlock<Block> FLUORITE_BRICK_STAIRS = BLOCKS.register("fluorite_brick_stairs", key -> new StairBlock(
             FLUORITE_BRICKS.get().defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.STONE_BRICK_STAIRS).sound(CRYSTAL_SOUND)
     ));
 
     public static final DeferredItem<BlockItem> FLUORITE_BRICK_STAIRS_ITEM = ItemInit.ITEMS.register("fluorite_brick_stairs", key -> new TooltipTextBlockItem(FLUORITE_BRICK_STAIRS.get(), new Item.Properties()));
+
+    public static final DeferredBlock<Block> FLUORITE_BRICK_SLAB = BLOCKS.register("fluorite_brick_slab", key -> new SlabBlock(
+            BlockBehaviour.Properties.ofFullCopy(Blocks.STONE_BRICK_STAIRS).sound(CRYSTAL_SOUND)
+    ));
+
+    public static final DeferredItem<BlockItem> FLUORITE_BRICK_SLAB_ITEM = ItemInit.ITEMS.register("fluorite_brick_slab", key -> new TooltipTextBlockItem(FLUORITE_BRICK_SLAB.get(), new Item.Properties()));
 
     public static final DeferredBlock<Block> FLUORITE_BRICK_WALL = BLOCKS.register("fluorite_brick_wall", key -> new WallBlock(
             BlockBehaviour.Properties.ofFullCopy(Blocks.STONE_BRICK_WALL).sound(CRYSTAL_SOUND)
@@ -305,6 +398,7 @@ public class BlockInit {
     public static void registerBlocks(IEventBus eventBus) {
         Magitech.LOGGER.info("Registering Blocks for" + Magitech.MOD_ID);
         BLOCKS.register(eventBus);
+        BLOCK_ENITIES.register(eventBus);
     }
 
     public static void registerStrippableBlocks() {

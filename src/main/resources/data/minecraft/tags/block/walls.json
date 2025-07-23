@@ -1,5 +1,8 @@
 {
   "values": [
+    "magitech:alchecrysite_wall",
+    "magitech:polished_alchecrysite_wall",
+    "magitech:alchecrysite_brick_wall",
     "magitech:fluorite_brick_wall"
   ]
 }
