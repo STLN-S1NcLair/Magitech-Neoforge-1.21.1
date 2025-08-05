@@ -14,7 +14,7 @@ import net.stln.magitech.Magitech;
 import net.stln.magitech.event.KeyMappingEvent;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.SpellComponent;
-import net.stln.magitech.item.tool.Element;
+import net.stln.magitech.util.Element;
 import net.stln.magitech.item.tool.toolitem.SpellCasterItem;
 import net.stln.magitech.magic.cooldown.Cooldown;
 import net.stln.magitech.magic.cooldown.CooldownData;
@@ -105,7 +105,7 @@ public class RadialSpellMenuOverlay extends Screen {
                                     i++;
                                     int tooltipx = (x - font.width(component.getString()) / 2);
                                     int color = component.getStyle().getColor() != null ? component.getStyle().getColor().getValue() : 0xFFFFFF;
-                                    RenderHelper.renderFramedText(guiGraphics, font, component.getString(), tooltipx, rendery + i * 10, color, ColorHelper.Argb.mul(color, 0x404040));
+                                    RenderHelper.renderFramedText(guiGraphics, font, component.getString(), tooltipx, rendery + i * 10, color, color == spell.getElement().getSpellColor() ? spell.getElement().getSpellDark() : ColorHelper.Argb.mul(color, 0x404040));
                                 }
                             }
                         } else if (distance <= 10) {

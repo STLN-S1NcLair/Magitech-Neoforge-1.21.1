@@ -1,33 +1,29 @@
 package net.stln.magitech.magic.spell.mana;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
-import net.stln.magitech.item.tool.Element;
+import net.stln.magitech.block.block_entity.ManaContainerBlockEntity;
+import net.stln.magitech.util.Element;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.BeamSpell;
-import net.stln.magitech.magic.spell.SpellRegister;
 import net.stln.magitech.particle.particle_option.BeamParticleEffect;
 import net.stln.magitech.particle.particle_option.ManaZapParticleEffect;
 import net.stln.magitech.particle.particle_option.UnstableSquareParticleEffect;
-import net.stln.magitech.recipe.RecipeInit;
-import net.stln.magitech.recipe.SpellConversionRecipe;
 import net.stln.magitech.sound.SoundInit;
 import net.stln.magitech.util.EffectUtil;
+import net.stln.magitech.util.SpellShape;
 import org.joml.Vector3f;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 public class Enercrux extends BeamSpell {
 
@@ -39,6 +35,10 @@ public class Enercrux extends BeamSpell {
 
     public Element getElement() {
         return Element.NONE;
+    }
+
+    public SpellShape getSpellShape() {
+        return SpellShape.INFUSE;
     }
 
     @Override
@@ -67,6 +67,15 @@ public class Enercrux extends BeamSpell {
     @Override
     protected void applyEffectToLivingTarget(Level level, Player user, LivingEntity target) {
         super.applyEffectToLivingTarget(level, user, target);
+    }
+
+    @Override
+    protected void applyEffectToBlock(Level level, Player user, ItemStack stack, BlockPos target) {
+        super.applyEffectToBlock(level, user, stack, target);
+        BlockEntity blockEntity = level.getBlockEntity(target);
+        if (blockEntity instanceof ManaContainerBlockEntity manaContainerBlockEntity) {
+            manaContainerBlockEntity.addMana((int) Math.min(this.getRequiredMana(level, user, stack).get(ManaUtil.ManaType.MANA), this.getBaseRequiredMana().get(ManaUtil.ManaType.MANA) * 0.75));
+        }
     }
 
     @Override

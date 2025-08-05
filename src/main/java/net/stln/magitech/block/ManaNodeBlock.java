@@ -101,12 +101,12 @@ public class ManaNodeBlock extends Block implements SimpleWaterloggedBlock {
         double x = center.x + Mth.nextDouble(random, -0.4, 0.4);
         double y = center.y + Mth.nextDouble(random, -0.4, 0.4);
         double z = center.z + Mth.nextDouble(random, -0.4, 0.4);
-        level.addParticle(new SquareParticleEffect(new Vector3f(0.5F, 1.0F, 0.5F), new Vector3f(0F, 1.0F, 1.0F), 1.0F, 3, 0), x, y, z, 0, 0, 0);
+        level.addParticle(new SquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 1.0F, 3, 0), x, y, z, 0, 0, 0);
         for (int i = 0; i < 2; i++) {
             double x2 = center.x + Mth.nextDouble(random, -0.3, 0.3);
             double y2 = center.y + Mth.nextDouble(random, -0.3, 0.3);
             double z2 = center.z + Mth.nextDouble(random, -0.3, 0.3);
-            level.addParticle(new SquareParticleEffect(new Vector3f(0.5F, 1.0F, 0.5F), new Vector3f(0F, 1.0F, 1.0F), 0.5F, 1, Mth.nextFloat(random, -0.1F, 0.1F)), x2, y2, z2, 0, 0.03, 0);
+            level.addParticle(new SquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 0.5F, 1, Mth.nextFloat(random, -0.1F, 0.1F)), x2, y2, z2, 0, 0.03, 0);
         }
     }
 

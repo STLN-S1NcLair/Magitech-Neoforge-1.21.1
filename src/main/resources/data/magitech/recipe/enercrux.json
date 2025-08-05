@@ -15,7 +15,7 @@
       "item": "minecraft:glass"
     },
     {
-      "item": "magitech:fluorite"
+      "tag": "c:gems/fluorite"
     }
   ],
   "result": {

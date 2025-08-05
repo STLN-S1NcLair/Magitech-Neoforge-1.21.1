@@ -7,7 +7,6 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
-import net.stln.magitech.item.tool.Element;
 
 public class RenderHelper {
     public static RenderType additiveNoCull(ResourceLocation texture) {

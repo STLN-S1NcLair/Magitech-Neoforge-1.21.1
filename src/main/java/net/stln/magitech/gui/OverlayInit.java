@@ -28,6 +28,7 @@ public class OverlayInit {
     public static void onRegisterOverlays(RegisterGuiLayersEvent event) {
         event.registerAboveAll(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "mana_gauge"), new ManaGaugeOverlay());
         event.registerAboveAll(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "spell_gauge"), new SpellGaugeOverlay());
+        event.registerAboveAll(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "mana_container_info"), new ManaContainerInfoOverlay());
     }
 
     @SubscribeEvent

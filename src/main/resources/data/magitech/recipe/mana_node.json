@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "item": "minecraft:iron_nugget"
+    },
+    "A": {
+      "item": "magitech:polished_alchecrysite"
+    },
+    "F": {
+      "tag": "c:gems/fluorite"
+    }
+  },
+  "pattern": [
+    " I ",
+    "IFI",
+    " A "
+  ],
+  "result": {
+    "count": 1,
+    "id": "magitech:mana_node"
+  }
+}

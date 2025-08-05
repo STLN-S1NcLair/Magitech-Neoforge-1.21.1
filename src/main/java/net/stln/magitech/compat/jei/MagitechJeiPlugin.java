@@ -15,9 +15,8 @@ import net.stln.magitech.Magitech;
 import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.gui.PartCuttingScreen;
 import net.stln.magitech.gui.ToolAssemblyScreen;
-import net.stln.magitech.recipe.PartCuttingRecipe;
-import net.stln.magitech.recipe.ToolAssemblyRecipe;
-import net.stln.magitech.recipe.RecipeInit;
+import net.stln.magitech.item.ItemInit;
+import net.stln.magitech.recipe.*;
 
 import java.util.List;
 
@@ -34,6 +33,12 @@ public class MagitechJeiPlugin implements IModPlugin {
                 registration.getJeiHelpers().getGuiHelper()));
         registration.addRecipeCategories(new ToolAssemblyRecipeCategory(
                 registration.getJeiHelpers().getGuiHelper()));
+        registration.addRecipeCategories(new SpellConversionRecipeCategory(
+                registration.getJeiHelpers().getGuiHelper()));
+        registration.addRecipeCategories(new ZardiusCrucibleRecipeCategory(
+                registration.getJeiHelpers().getGuiHelper()));
+        registration.addRecipeCategories(new AthanorPillarInfusionRecipeCategory(
+                registration.getJeiHelpers().getGuiHelper()));
     }
 
     @Override
@@ -44,6 +49,12 @@ public class MagitechJeiPlugin implements IModPlugin {
         registration.addRecipes(PartCuttingRecipeCategory.PART_CUTTING_RECIPE_TYPE, partCuttingRecipes);
         List<ToolAssemblyRecipe> toolAssemblyRecipes = recipeManager.getAllRecipesFor(RecipeInit.TOOL_ASSEMBLY_TYPE.get()).stream().map(RecipeHolder::value).toList();
         registration.addRecipes(ToolAssemblyRecipeCategory.TOOL_ASSEMBLY_RECIPE_TYPE, toolAssemblyRecipes);
+        List<SpellConversionRecipe> spellConversionRecipes = recipeManager.getAllRecipesFor(RecipeInit.SPELL_CONVERSION_TYPE.get()).stream().map(RecipeHolder::value).toList();
+        registration.addRecipes(SpellConversionRecipeCategory.SPELL_CONVERSION_RECIPE_TYPE, spellConversionRecipes);
+        List<ZardiusCrucibleRecipe> zardiusCrucibleRecipes = recipeManager.getAllRecipesFor(RecipeInit.ZARDIUS_CRUCIBLE_TYPE.get()).stream().map(RecipeHolder::value).toList();
+        registration.addRecipes(ZardiusCrucibleRecipeCategory.ZARDIUS_CRUCIBLE_RECIPE_TYPE, zardiusCrucibleRecipes);
+        List<AthanorPillarInfusionRecipe> athanorPillarInfusionRecipes = recipeManager.getAllRecipesFor(RecipeInit.ATHANOR_PILLAR_INFUSION_TYPE.get()).stream().map(RecipeHolder::value).toList();
+        registration.addRecipes(AthanorPillarInfusionRecipeCategory.ATHANOR_PILLAR_INFUSION_RECIPE_TYPE, athanorPillarInfusionRecipes);
     }
 
     @Override
@@ -62,5 +73,11 @@ public class MagitechJeiPlugin implements IModPlugin {
                 PartCuttingRecipeCategory.PART_CUTTING_RECIPE_TYPE);
         registration.addRecipeCatalyst(new ItemStack(BlockInit.ASSEMBLY_WORKBENCH.get().asItem()),
                 ToolAssemblyRecipeCategory.TOOL_ASSEMBLY_RECIPE_TYPE);
+        registration.addRecipeCatalyst(new ItemStack(ItemInit.WAND.get()),
+                SpellConversionRecipeCategory.SPELL_CONVERSION_RECIPE_TYPE);
+        registration.addRecipeCatalyst(new ItemStack(BlockInit.ZARDIUS_CRUCIBLE_ITEM.get()),
+                ZardiusCrucibleRecipeCategory.ZARDIUS_CRUCIBLE_RECIPE_TYPE);
+        registration.addRecipeCatalyst(new ItemStack(BlockInit.ATHANOR_PILLAR_ITEM.get()),
+                AthanorPillarInfusionRecipeCategory.ATHANOR_PILLAR_INFUSION_RECIPE_TYPE);
     }
 }

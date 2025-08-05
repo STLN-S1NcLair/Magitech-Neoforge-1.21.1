@@ -6,7 +6,7 @@
       "item": "minecraft:book"
     },
     {
-      "item": "magitech:fluorite"
+      "tag": "c:gems/fluorite"
     }
   ],
   "result": {

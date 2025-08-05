@@ -65,10 +65,44 @@ public class CreativeTabInit {
             .title(Component.translatable("itemGroup.magitech.magitech"))
             .icon(() -> ItemInit.GLISTENING_LEXICON.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
+                output.accept(ThreadboundGenerator.generateThreadbound(ItemInit.GLISTENING_LEXICON.get(), allSpells));
+                output.accept(ThreadboundGenerator.generateThreadbound(ItemInit.ARCANE_ENGINEERING_COMPENDIUM.get(), allSpells));
+                output.accept(ItemInit.AETHER_LIFTER.get());
+                output.accept(ItemInit.FLAMGLIDE_STRIDER.get());
+                output.accept(ItemInit.MANA_RING.get());
+                output.accept(ItemInit.GALEVENT_RING.get());
+                output.accept(ItemInit.CHARGEBIND_RING.get());
+                output.accept(ItemInit.TORSION_RING.get());
+                output.accept(ItemInit.FLUORITE.get());
+                output.accept(ItemInit.MANA_CHARGED_FLUORITE.get());
+                output.accept(ItemInit.CITRINE.get());
+                output.accept(ItemInit.CHROMIUM_INGOT.get());
+                output.accept(ItemInit.REDSTONE_CRYSTAL.get());
+                output.accept(ItemInit.POLISHED_REDSTONE_CRYSTAL.get());
+                output.accept(ItemInit.ENDER_METAL_INGOT.get());
+                output.accept(ItemInit.FRIGIDITE.get());
+                output.accept(ItemInit.POLISHED_FRIGIDITE.get());
+                output.accept(ItemInit.TRANSLUCIUM.get());
+                output.accept(ItemInit.POLISHED_TRANSLUCIUM.get());
+                output.accept(ItemInit.RESONITE.get());
+                output.accept(ItemInit.POLISHED_RESONITE.get());
+                output.accept(ItemInit.ABYSSITE.get());
+                output.accept(ItemInit.POLISHED_ABYSSITE.get());
+                output.accept(ItemInit.MANA_BERRIES.get());
+            }).build());
+
+    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MAGITECH_BLOCK_TAB = CREATIVE_MODE_TABS.register("magitech_block_tab", () -> CreativeModeTab.builder()
+            .title(Component.translatable("itemGroup.magitech.magitech_block"))
+            .icon(() -> BlockInit.ALCHECRYSITE_ITEM.get().getDefaultInstance())
+            .withTabsBefore(MAGITECH_TAB.getKey())
+            .displayItems((parameters, output) -> {
                 output.accept(BlockInit.ENGINEERING_WORKBENCH_ITEM.get());
                 output.accept(BlockInit.ASSEMBLY_WORKBENCH_ITEM.get());
                 output.accept(BlockInit.ALCHEMETRIC_PYLON_ITEM.get());
+                output.accept(BlockInit.ATHANOR_PILLAR_ITEM.get());
+                output.accept(BlockInit.ZARDIUS_CRUCIBLE_ITEM.get());
                 output.accept(BlockInit.MANA_NODE_ITEM.get());
+                output.accept(BlockInit.MANA_VESSEL_ITEM.get());
                 output.accept(BlockInit.FLUORITE_ORE_ITEM.get());
                 output.accept(BlockInit.DEEPSLATE_FLUORITE_ORE_ITEM.get());
                 output.accept(BlockInit.FLUORITE_CRYSTAL_CLUSTER_ITEM.get());
@@ -109,31 +143,13 @@ public class CreativeTabInit {
                 output.accept(BlockInit.CELIFERN_SAPLING_ITEM.get());
                 output.accept(BlockInit.CELIFERN_SIGN_ITEM.get());
                 output.accept(BlockInit.CELIFERN_HANGING_SIGN_ITEM.get());
-                output.accept(ThreadboundGenerator.generateThreadbound(ItemInit.GLISTENING_LEXICON.get(), allSpells));
-                output.accept(ThreadboundGenerator.generateThreadbound(ItemInit.ARCANE_ENGINEERING_COMPENDIUM.get(), allSpells));
-                output.accept(ItemInit.AETHER_LIFTER.get());
-                output.accept(ItemInit.FLAMGLIDE_STRIDER.get());
-                output.accept(ItemInit.MANA_RING.get());
-                output.accept(ItemInit.GALEVENT_RING.get());
-                output.accept(ItemInit.CHARGEBIND_RING.get());
-                output.accept(ItemInit.TORSION_RING.get());
-                output.accept(ItemInit.FLUORITE.get());
-                output.accept(ItemInit.MANA_CHARGED_FLUORITE.get());
-                output.accept(ItemInit.CITRINE.get());
-                output.accept(ItemInit.CHROMIUM_INGOT.get());
-                output.accept(ItemInit.REDSTONE_CRYSTAL.get());
-                output.accept(ItemInit.POLISHED_REDSTONE_CRYSTAL.get());
-                output.accept(ItemInit.ENDER_METAL_INGOT.get());
-                output.accept(ItemInit.FRIGIDITE.get());
-                output.accept(ItemInit.POLISHED_FRIGIDITE.get());
-                output.accept(ItemInit.TRANSLUCIUM.get());
-                output.accept(ItemInit.POLISHED_TRANSLUCIUM.get());
-                output.accept(ItemInit.RESONITE.get());
-                output.accept(ItemInit.POLISHED_RESONITE.get());
-                output.accept(ItemInit.ABYSSITE.get());
-                output.accept(ItemInit.POLISHED_ABYSSITE.get());
-                output.accept(ItemInit.MANA_BERRIES.get());
+            }).build());
 
+    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MAGITECH_TOOL_TAB = CREATIVE_MODE_TABS.register("magitech_tool_tab", () -> CreativeModeTab.builder()
+            .title(Component.translatable("itemGroup.magitech.magitech_tool"))
+            .icon(() -> PartToolGenerator.generateLightSword(MaterialInit.FLUORITE))
+            .withTabsBefore(MAGITECH_BLOCK_TAB.getKey())
+            .displayItems((parameters, output) -> {
                 output.accept(PartToolGenerator.generateDagger(MaterialInit.WOOD));
                 output.accept(PartToolGenerator.generateDagger(MaterialInit.STONE));
                 output.accept(PartToolGenerator.generateDagger(MaterialInit.DEEPSLATE));
@@ -322,8 +338,8 @@ public class CreativeTabInit {
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MAGITECH_PART_TAB = CREATIVE_MODE_TABS.register("magitech_part_tab", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.magitech.magitech_part"))
-            .icon(() -> PartToolGenerator.generateLightSword(MaterialInit.TRANSLUCIUM))
-            .withTabsBefore(MAGITECH_TAB.getKey())
+            .icon(() -> PartToolGenerator.generatePart((PartItem) ItemInit.LIGHT_BLADE.get(), MaterialInit.FLUORITE))
+            .withTabsBefore(MAGITECH_TOOL_TAB.getKey())
             .displayItems((parameters, output) -> {
                 List<Item> partList = List.of(
                         ItemInit.LIGHT_BLADE.get(),
@@ -366,7 +382,7 @@ public class CreativeTabInit {
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MAGITECH_SPELL_TAB = CREATIVE_MODE_TABS.register("magitech_spell_tab", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.magitech.magitech_spell"))
             .icon(() -> ThreadboundGenerator.generateThreadPage(new Enercrux()))
-            .withTabsBefore(MAGITECH_TAB.getKey())
+            .withTabsBefore(MAGITECH_PART_TAB.getKey())
             .displayItems((parameters, output) -> {
                 output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.IGNISCA));
                 output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.PYROLUX));

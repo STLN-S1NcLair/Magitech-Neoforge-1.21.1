@@ -9,7 +9,6 @@ import dev.kosmx.playerAnim.core.data.KeyframeAnimation;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
 import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -35,7 +34,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.damage.EntityElementRegister;
 import net.stln.magitech.entity.status.AttributeInit;
-import net.stln.magitech.item.tool.Element;
+import net.stln.magitech.util.Element;
 import net.stln.magitech.magic.charge.Charge;
 import net.stln.magitech.magic.charge.ChargeData;
 import net.stln.magitech.magic.cooldown.Cooldown;
@@ -47,6 +46,7 @@ import net.stln.magitech.network.UseSpellPayload;
 import net.stln.magitech.recipe.RecipeInit;
 import net.stln.magitech.recipe.SpellConversionRecipe;
 import net.stln.magitech.util.MathUtil;
+import net.stln.magitech.util.SpellShape;
 
 import java.util.*;
 
@@ -69,6 +69,10 @@ public abstract class Spell {
 
     public Element getElement() {
         return Element.NONE;
+    }
+
+    public SpellShape getSpellShape() {
+        return SpellShape.SHOT;
     }
 
     public Map<ManaUtil.ManaType, Double> getBaseRequiredMana() {
@@ -249,23 +253,21 @@ public abstract class Spell {
         ResourceKey<DamageType> damageType = element.getDamageType();
 
         DamageSource elementalDamageSource = user.damageSources().source(damageType, user);
-        if (target instanceof Player) {
-            elementalDamageSource = stack.has(DataComponents.CUSTOM_NAME) ? user.damageSources().source(damageType, user) : user.damageSources().source(damageType);
-        }
         if (target.isAttackable()) {
+            damage *= EntityElementRegister.getElementAffinity(target, element).getMultiplier();
+            target.hurt(elementalDamageSource, damage);
             if (target instanceof LivingEntity livingTarget) {
                 float targetHealth = livingTarget.getHealth();
                 livingTarget.setLastHurtByMob(user);
                 user.awardStat(Stats.DAMAGE_DEALT, Math.round((targetHealth - livingTarget.getHealth()) * 10));
             }
-            damage *= EntityElementRegister.getElementAffinity(target, element).getMultiplier();
-            target.hurt(elementalDamageSource, damage);
             user.setLastHurtMob(target);
         }
     }
 
     public List<Component> getTooltip(Level level, Player user, ItemStack stack) {
         List<Component> list = new ArrayList<>();
+        list.add(getElement().getSpellElementName().withColor(getElement().getSpellColor()).append(Component.literal(" ").append(Component.translatable("spell_shape.magitech." + getSpellShape().get()).withColor(getSpellShape().getDark()))));
         if (this.baseDamage != 0) {
             list.add(Component.translatable("tooltip.magitech.spell.damage").append(": " + MathUtil.round(this.getDamage(user, new HashMap<>(), this.baseDamage, this.getElement()), 2)));
         }

@@ -1,6 +1,6 @@
 package net.stln.magitech.magic.charge;
 
-import net.stln.magitech.item.tool.Element;
+import net.stln.magitech.util.Element;
 import net.stln.magitech.magic.spell.Spell;
 
 public class Charge {

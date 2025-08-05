@@ -4,7 +4,7 @@ import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.item.component.ComponentInit;
-import net.stln.magitech.item.tool.Element;
+import net.stln.magitech.util.Element;
 
 public class ItemPropertyInit {
     public static void registerItemProperties() {

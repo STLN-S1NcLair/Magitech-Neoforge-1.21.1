@@ -153,6 +153,38 @@ public class EntityUtil {
         return playerEyePos.add(forward.multiply(hitDistance, hitDistance, hitDistance));
     }
 
+    public static BlockHitResult raycastBeamBlockHit(Player player, double maxReachLength, double radius) {
+        Level world = player.level();
+
+        // プレイヤーの目線の位置（頭の高さ）
+        Vec3 playerEyePos = player.getEyePosition();
+        // 視線の方向を取得
+        Vec3 forward = Vec3.directionFromRotation(player.getRotationVector());
+        Vec3 maxReachPos = playerEyePos.add(forward.scale(maxReachLength));
+
+        // Raycast (ブロック)
+        BlockHitResult blockHit = world.clip(new ClipContext(
+                playerEyePos, maxReachPos,
+                ClipContext.Block.COLLIDER,
+                ClipContext.Fluid.NONE,
+                player
+        ));
+
+        // Raycast (エンティティ)
+        EntityHitResult entityHit = getEntityHitResult(player, playerEyePos, maxReachPos, player.level());
+        entityHit = getCylinderHit(player, maxReachLength, playerEyePos, radius, entityHit, world, maxReachPos);
+
+        double blockHitDist = blockHit.getType() == HitResult.Type.MISS ? maxReachLength + 1 : blockHit.getLocation().distanceTo(playerEyePos);
+        double entityHitDist = entityHit != null ? entityHit.getLocation().distanceTo(playerEyePos) : maxReachLength + 1;
+
+        if (blockHitDist < entityHitDist) {
+            return blockHit;
+        } else {
+            // エンティティにヒットした場合は、空のBlockHitResultを返す
+            return null;
+        }
+    }
+
     public static Vec3 raycast(Player player, double maxReachLength, Vec3 start, Vec3 directionNormalized) {
         Level world = player.level();
 

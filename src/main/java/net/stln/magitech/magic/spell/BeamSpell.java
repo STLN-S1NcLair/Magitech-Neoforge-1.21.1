@@ -11,13 +11,16 @@ import dev.kosmx.playerAnim.core.util.Ease;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
 import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.magic.charge.ChargeData;
@@ -48,6 +51,7 @@ public class BeamSpell extends Spell {
             if (ChargeData.getCurrentCharge(user) == null && timeCharged > 1 && ManaUtil.useManaServerOnly(user, this.getRequiredMana(level, user, stack))) {
                 Vec3 forward = Vec3.directionFromRotation(user.getRotationVector());
                 Vec3 hitPos = EntityUtil.raycastBeam(user, this.getDamage(user, new HashMap<>(), (float) this.baseMaxRange, this.getElement()), beamradius);
+                BlockHitResult blockHitResult = EntityUtil.raycastBeamBlockHit(user, this.getDamage(user, new HashMap<>(), (float) this.baseMaxRange, this.getElement()), beamradius);
                 Entity target = EntityUtil.raycastBeamEntity(user, this.getDamage(user, new HashMap<>(), (float) this.baseMaxRange, this.getElement()), beamradius);
                 Vec3 start = user.position().add(0, user.getBbHeight() * 0.7, 0).add(forward.scale(0.5));
                 addVisualEffect(level, user, start, hitPos);
@@ -68,6 +72,10 @@ public class BeamSpell extends Spell {
                         }
                     }
                 }
+                if (blockHitResult != null && blockHitResult.getType() == BlockHitResult.Type.BLOCK) {
+                    BlockPos targetBlock = blockHitResult.getBlockPos();
+                    applyEffectToBlock(level, user, stack, targetBlock);
+                }
                 addCooldown(level, user, stack);
 
                 if (level.isClientSide) {
@@ -85,6 +93,10 @@ public class BeamSpell extends Spell {
     }
 
     protected void applyEffectToLivingTarget(Level level, Player user, LivingEntity target) {
+
+    }
+
+    protected void applyEffectToBlock(Level level, Player user, ItemStack stack, BlockPos target) {
 
     }
 

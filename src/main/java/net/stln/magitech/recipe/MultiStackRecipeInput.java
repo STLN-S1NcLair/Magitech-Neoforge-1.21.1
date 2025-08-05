@@ -1,6 +1,5 @@
 package net.stln.magitech.recipe;
 
-import net.minecraft.client.gui.screens.recipebook.RecipeCollection;
 import net.minecraft.world.entity.player.StackedContents;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeInput;

@@ -1,6 +1,6 @@
 package net.stln.magitech.damage;
 
-import net.stln.magitech.item.tool.Element;
+import net.stln.magitech.util.Element;
 import net.stln.magitech.util.Map2d;
 
 import java.util.ArrayList;

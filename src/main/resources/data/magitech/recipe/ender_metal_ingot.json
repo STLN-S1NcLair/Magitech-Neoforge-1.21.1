@@ -1,0 +1,25 @@
+{
+  "type": "magitech:zardius_crucible",
+  "ingredients": [
+    {
+      "item": "minecraft:ender_pearl"
+    },
+    {
+      "item": "magitech:iron_ingot"
+    },
+    {
+      "item": "minecraft:gold_ingot"
+    },
+    {
+      "item": "minecraft:copper_ingot"
+    }
+  ],
+  "input_fluid": {
+    "id": "minecraft:water",
+    "amount": 500
+  },
+  "result": {
+    "id": "magitech:ender_metal_ingot",
+    "count": 2
+  }
+}

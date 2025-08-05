@@ -12,7 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.SpellComponent;
-import net.stln.magitech.item.tool.Element;
+import net.stln.magitech.util.Element;
 import net.stln.magitech.item.tool.toolitem.SpellCasterItem;
 import net.stln.magitech.magic.cooldown.Cooldown;
 import net.stln.magitech.magic.cooldown.CooldownData;
@@ -31,7 +31,7 @@ public class ManaGaugeOverlay implements LayeredDraw.Layer {
 
     @Override
     public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
-        if (!Minecraft.getInstance().options.hideGui && !Minecraft.getInstance().player.isSpectator()) {
+        if (!Minecraft.getInstance().options.hideGui && !Minecraft.getInstance().player.isSpectator() && !Minecraft.getInstance().gui.getDebugOverlay().showDebugScreen()) {
             int x = guiGraphics.guiWidth() - 64;
             int y = guiGraphics.guiHeight() / 3;
             Player player = Minecraft.getInstance().player;

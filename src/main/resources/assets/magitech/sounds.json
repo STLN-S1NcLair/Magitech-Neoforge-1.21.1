@@ -169,6 +169,16 @@
       "magitech:flamglide_strider_jump"
     ]
   },
+  "athanor_pillar_infusion": {
+    "sounds": [
+      "magitech:athanor_pillar_infusion"
+    ]
+  },
+  "athanor_pillar_zap": {
+    "sounds": [
+      "magitech:athanor_pillar_zap"
+    ]
+  },
   "crystal_break": {
     "subtitle": "subtitles.block.generic.break",
     "sounds": [

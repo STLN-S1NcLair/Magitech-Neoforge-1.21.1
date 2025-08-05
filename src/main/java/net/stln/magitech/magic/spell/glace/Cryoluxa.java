@@ -7,13 +7,14 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.stln.magitech.item.tool.Element;
+import net.stln.magitech.util.Element;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.BeamSpell;
 import net.stln.magitech.particle.particle_option.BeamParticleEffect;
 import net.stln.magitech.particle.particle_option.FrostParticleEffect;
 import net.stln.magitech.sound.SoundInit;
 import net.stln.magitech.util.EffectUtil;
+import net.stln.magitech.util.SpellShape;
 import org.joml.Vector3f;
 
 import java.util.HashMap;
@@ -29,6 +30,10 @@ public class Cryoluxa extends BeamSpell {
 
     public Element getElement() {
         return Element.GLACE;
+    }
+
+    public SpellShape getSpellShape() {
+        return SpellShape.BEAM;
     }
 
     @Override

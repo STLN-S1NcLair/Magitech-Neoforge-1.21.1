@@ -1,0 +1,55 @@
+{
+  "type": "magitech:athanor_pillar_infusion",
+  "base": {
+    "id": "magitech:fluorite"
+  },
+  "ingredients": [
+    [
+      {
+        "item": "minecraft:iron_ingot"
+      },
+      {
+        "item": "minecraft:iron_ingot"
+      },
+      {
+        "item": "minecraft:iron_ingot"
+      },
+      {
+        "item": "minecraft:iron_ingot"
+      }
+    ],
+    [
+      {
+        "item": "minecraft:gold_ingot"
+      },
+      {
+        "item": "minecraft:gold_ingot"
+      },
+      {
+        "item": "minecraft:gold_ingot"
+      },
+      {
+        "item": "minecraft:gold_ingot"
+      }
+    ],
+    [
+      {
+        "item": "magitech:redstone_crystal"
+      },
+      {
+        "item": "magitech:redstone_crystal"
+      },
+      {
+        "item": "magitech:redstone_crystal"
+      },
+      {
+        "item": "magitech:redstone_crystal"
+      }
+    ]
+  ],
+  "mana": 500,
+  "result": {
+    "count": 1,
+    "id": "magitech:mana_vessel"
+  }
+}

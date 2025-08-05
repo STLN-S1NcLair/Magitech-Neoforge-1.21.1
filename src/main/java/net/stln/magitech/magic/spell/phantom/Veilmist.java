@@ -25,13 +25,14 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.entity.mobeffect.MobEffectInit;
-import net.stln.magitech.item.tool.Element;
+import net.stln.magitech.util.Element;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.particle.particle_option.MembraneParticleEffect;
 import net.stln.magitech.particle.particle_option.UnstableSquareParticleEffect;
 import net.stln.magitech.sound.SoundInit;
 import net.stln.magitech.util.EntityUtil;
+import net.stln.magitech.util.SpellShape;
 import org.joml.Vector3f;
 
 import java.util.HashMap;
@@ -47,6 +48,10 @@ public class Veilmist extends Spell {
 
     public Element getElement() {
         return Element.PHANTOM;
+    }
+
+    public SpellShape getSpellShape() {
+        return SpellShape.SPRAY;
     }
 
     @Override

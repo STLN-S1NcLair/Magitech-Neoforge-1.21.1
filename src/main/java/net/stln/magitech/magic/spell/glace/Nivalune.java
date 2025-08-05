@@ -22,12 +22,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.item.tool.Element;
+import net.stln.magitech.util.Element;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.particle.particle_option.FrostShortParticleEffect;
 import net.stln.magitech.sound.SoundInit;
 import net.stln.magitech.util.EntityUtil;
+import net.stln.magitech.util.SpellShape;
 import org.joml.Vector3f;
 
 import java.util.HashMap;
@@ -38,11 +39,15 @@ import java.util.Set;
 public class Nivalune extends Spell {
 
     public Nivalune() {
-        tickBaseDamage = 2.0F;
+        tickBaseDamage = 4.0F;
     }
 
     public Element getElement() {
         return Element.GLACE;
+    }
+
+    public SpellShape getSpellShape() {
+        return SpellShape.SPRAY;
     }
 
     @Override

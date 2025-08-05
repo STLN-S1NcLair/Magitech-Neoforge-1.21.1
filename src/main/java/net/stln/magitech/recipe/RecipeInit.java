@@ -35,14 +35,35 @@ public class RecipeInit {
             return "tool_material";
         }
     });
+
+    public static final Supplier<ToolMaterialRecipe.Serializer<ToolMaterialRecipe>> TOOL_MATERIAL_SERIALIZER = SERIALIZERS.register("tool_material", () -> new ToolMaterialRecipe.Serializer<>(ToolMaterialRecipe::new));
+
     public static final DeferredHolder<RecipeType<?>, RecipeType<SpellConversionRecipe>> SPELL_CONVERSION_TYPE = TYPES.register("spell_conversion", () -> new RecipeType<SpellConversionRecipe>() {
         @Override
         public String toString() {
             return "spell_conversion";
         }
-    });    public static final Supplier<ToolMaterialRecipe.Serializer<ToolMaterialRecipe>> TOOL_MATERIAL_SERIALIZER = SERIALIZERS.register("tool_material", () -> new ToolMaterialRecipe.Serializer<>(ToolMaterialRecipe::new));
+    });
 
     public static final Supplier<SpellConversionRecipe.Serializer<SpellConversionRecipe>> SPELL_CONVERSION_SERIALIZER = SERIALIZERS.register("spell_conversion", () -> new SpellConversionRecipe.Serializer<>(SpellConversionRecipe::new));
+
+    public static final DeferredHolder<RecipeType<?>, RecipeType<ZardiusCrucibleRecipe>> ZARDIUS_CRUCIBLE_TYPE = TYPES.register("zardius_crucible", () -> new RecipeType<ZardiusCrucibleRecipe>() {
+        @Override
+        public String toString() {
+            return "zardius_crucible";
+        }
+    });
+
+    public static final Supplier<ZardiusCrucibleRecipe.Serializer<ZardiusCrucibleRecipe>> ZARDIUS_CRUCIBLE_SERIALIZER = SERIALIZERS.register("zardius_crucible", () -> new ZardiusCrucibleRecipe.Serializer<>(ZardiusCrucibleRecipe::new));
+
+    public static final DeferredHolder<RecipeType<?>, RecipeType<AthanorPillarInfusionRecipe>> ATHANOR_PILLAR_INFUSION_TYPE = TYPES.register("athanor_pillar_infusion", () -> new RecipeType<AthanorPillarInfusionRecipe>() {
+        @Override
+        public String toString() {
+            return "athanor_pillar_infusion";
+        }
+    });
+
+    public static final Supplier<AthanorPillarInfusionRecipe.Serializer<AthanorPillarInfusionRecipe>> ATHANOR_PILLAR_INFUSION_SERIALIZER = SERIALIZERS.register("athanor_pillar_infusion", () -> new AthanorPillarInfusionRecipe.Serializer<>(AthanorPillarInfusionRecipe::new));
 
     public static void registerRecipes(IEventBus eventBus) {
         Magitech.LOGGER.info("Registering Recipes for " + Magitech.MOD_ID);

@@ -2,35 +2,19 @@ package net.stln.magitech.item.tool.trait;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageType;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
-import net.stln.magitech.damage.DamageTypeInit;
-import net.stln.magitech.item.tool.Element;
 import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.item.tool.toolitem.PartToolItem;
-import net.stln.magitech.item.tool.toolitem.SpellCasterItem;
-import net.stln.magitech.particle.particle_option.FrostParticleEffect;
 import net.stln.magitech.particle.particle_option.PowerupParticleEffect;
-import net.stln.magitech.sound.SoundInit;
 import net.stln.magitech.util.BlockUtil;
 import net.stln.magitech.util.EffectUtil;
 import org.joml.Vector3f;
 
 import java.util.*;
-import java.util.function.Predicate;
 
 public class PrecipitationTrait extends Trait {
 

@@ -49,6 +49,9 @@ public class SoundInit {
     public static final Supplier<SoundEvent> AETHER_LIFTER_JUMP = registerSoundEvent("aether_lifter_jump");
     public static final Supplier<SoundEvent> FLAMGLIDE_STRIDER_JUMP = registerSoundEvent("flamglide_strider_jump");
 
+    public static final Supplier<SoundEvent> ATHANOR_PILLAR_INFUSION = registerSoundEvent("athanor_pillar_infusion");
+    public static final Supplier<SoundEvent> ATHANOR_PILLAR_ZAP = registerSoundEvent("athanor_pillar_zap");
+
     public static final Supplier<SoundEvent> CRYSTAL_BREAK = registerSoundEvent("crystal_break");
     public static final Supplier<SoundEvent> CRYSTAL_PLACE = registerSoundEvent("crystal_place");
     public static final Supplier<SoundEvent> CRYSTAL_HIT = registerSoundEvent("crystal_hit");

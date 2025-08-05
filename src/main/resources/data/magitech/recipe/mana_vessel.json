@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "N": {
+      "item": "minecraft:gold_nugget"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "A": {
+      "item": "magitech:polished_alchecrysite"
+    },
+    "F": {
+      "item": "magitech:fluorite_block"
+    }
+  },
+  "pattern": [
+    "NAN",
+    "IFI",
+    "NAN"
+  ],
+  "result": {
+    "count": 1,
+    "id": "magitech:mana_vessel"
+  }
+}

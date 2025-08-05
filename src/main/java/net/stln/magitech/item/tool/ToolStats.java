@@ -1,6 +1,7 @@
 package net.stln.magitech.item.tool;
 
 import net.stln.magitech.item.tool.material.MiningLevel;
+import net.stln.magitech.util.Element;
 import oshi.annotation.concurrent.Immutable;
 
 import java.util.HashMap;

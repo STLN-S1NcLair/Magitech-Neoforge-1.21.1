@@ -84,9 +84,11 @@ public class PartCuttingRecipeCategory implements IRecipeCategory<PartCuttingRec
         List<ItemStack> inputs = new ArrayList<>();
         List<ItemStack> results = new ArrayList<>();
         for (ToolMaterialRecipe materialRecipe : materialRecipes) {
-            ItemStack itemStack = materialRecipe.getIngredients().get(0).getItems()[0].copy();
-            itemStack.setCount(recipe.getCount());
-            inputs.add(itemStack);
+            for (int i = 0; i < materialRecipe.getIngredients().get(0).getItems().length; i++) {
+                ItemStack itemStack = materialRecipe.getIngredients().get(0).getItems()[0].copy();
+                itemStack.setCount(recipe.getCount());
+                inputs.add(itemStack);
+            }
             ItemStack resultStack = recipe.getResultItem(null).copy();
             resultStack.set(ComponentInit.MATERIAL_COMPONENT, new MaterialComponent(ToolMaterialRegister.getMaterial(materialRecipe.getResultId())));
             results.add(resultStack);

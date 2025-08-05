@@ -21,7 +21,10 @@ public class ModBlockStateProvider extends BlockStateProvider {
         sideBottomTopBlockWithItem(BlockInit.ENGINEERING_WORKBENCH.get());
         sideBottomTopBlockWithItem(BlockInit.ASSEMBLY_WORKBENCH.get());
         handModeledBlockWithItem(BlockInit.ALCHEMETRIC_PYLON.get());
+        handModeledBlockWithItem(BlockInit.ATHANOR_PILLAR.get());
+        handModeledBlockWithItem(BlockInit.ZARDIUS_CRUCIBLE.get());
         directionalHandModeledBlockWithItem(BlockInit.MANA_NODE.get());
+        handModeledBlockWithInventoryModelItem(BlockInit.MANA_VESSEL.get());
         blockWithItem(BlockInit.FLUORITE_ORE.get());
         blockWithItem(BlockInit.DEEPSLATE_FLUORITE_ORE.get());
         blockWithItem(BlockInit.ALCHECRYSITE.get());
@@ -72,6 +75,11 @@ public class ModBlockStateProvider extends BlockStateProvider {
     private void handModeledBlockWithItem(Block block) {
         simpleBlock(block, new ModelFile.ExistingModelFile(blockTexture(block), this.models().existingFileHelper));
         simpleBlockItem(block, new ModelFile.UncheckedModelFile(blockTexture(block)));
+    }
+
+    private void handModeledBlockWithInventoryModelItem(Block block) {
+        simpleBlock(block, new ModelFile.ExistingModelFile(blockTexture(block), this.models().existingFileHelper));
+        simpleBlockItem(block, new ModelFile.UncheckedModelFile(blockTexture(block).withSuffix("_inventory")));
     }
 
     private void sideBottomTopBlockWithItem(Block block) {

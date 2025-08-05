@@ -8,7 +8,7 @@ import net.minecraft.world.entity.monster.warden.Warden;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.damage.ElementAffinityRegister;
 import net.stln.magitech.damage.EntityElementRegister;
-import net.stln.magitech.item.tool.Element;
+import net.stln.magitech.util.Element;
 import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.item.tool.register.ToolMaterialRegister;
 import net.stln.magitech.item.tool.trait.*;

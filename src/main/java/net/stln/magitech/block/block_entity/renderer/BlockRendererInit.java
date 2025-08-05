@@ -13,6 +13,9 @@ public class BlockRendererInit {
     @SubscribeEvent
     public static void registerBlockEntityRenderer(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(BlockInit.ALCHEMETRIC_PYLON_ENTITY.get(), AlchemetricPylonBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(BlockInit.ATHANOR_PILLAR_ENTITY.get(), AthanorPillarBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(BlockInit.ZARDIUS_CRUCIBLE_ENTITY.get(), ZardiusCrucibleBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(BlockInit.MANA_VESSEL_ENTITY.get(), ManaVesselBlockEntityRenderer::new);
     }
 
 }

@@ -40,7 +40,7 @@ import net.stln.magitech.damage.EntityElementRegister;
 import net.stln.magitech.entity.AdjustableAttackStrengthEntity;
 import net.stln.magitech.item.LeftClickOverrideItem;
 import net.stln.magitech.item.component.ComponentInit;
-import net.stln.magitech.item.tool.Element;
+import net.stln.magitech.util.Element;
 import net.stln.magitech.item.tool.ToolPart;
 import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.item.tool.ToolType;
@@ -154,7 +154,7 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
         List<BlockPos> positions = new ArrayList<>();
 
         BlockHitResult traceResult = player.level().clip(new ClipContext(player.getEyePosition(1f),
-                (player.getEyePosition(1f).add(player.getViewVector(1f).scale(6f))),
+                (player.getEyePosition(1f).add(player.getViewVector(1f).scale(player.getAttribute(Attributes.BLOCK_INTERACTION_RANGE).getValue()))),
                 ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, player));
         return traceResult.getDirection();
     }

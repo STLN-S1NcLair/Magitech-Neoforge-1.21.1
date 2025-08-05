@@ -1,6 +1,8 @@
-package net.stln.magitech.item.tool;
+package net.stln.magitech.util;
 
 
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageType;
 import net.stln.magitech.damage.DamageTypeInit;
@@ -34,6 +36,14 @@ public enum Element {
 
     public String get() {
         return this.id;
+    }
+
+    public MutableComponent getSpellElementName() {
+        if (this == Element.NONE) {
+            return Component.translatable("element.magitech.mana");
+        } else {
+            return Component.translatable("element.magitech." + this.id);
+        }
     }
 
     public int getColor() {
