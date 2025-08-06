@@ -188,6 +188,42 @@ public class ItemInit {
             ManaChargedFluoriteItem::new,
             new Item.Properties());
 
+    public static final DeferredItem<Item> ELBAITE = ITEMS.registerItem("elbaite",
+            TooltipTextItem::new,
+            new Item.Properties());
+
+    public static final DeferredItem<Item> EMBER_CRYSTAL = ITEMS.registerItem("ember_crystal",
+            TooltipTextItem::new,
+            new Item.Properties());
+
+    public static final DeferredItem<Item> GLACE_CRYSTAL = ITEMS.registerItem("glace_crystal",
+            TooltipTextItem::new,
+            new Item.Properties());
+
+    public static final DeferredItem<Item> SURGE_CRYSTAL = ITEMS.registerItem("surge_crystal",
+            TooltipTextItem::new,
+            new Item.Properties());
+
+    public static final DeferredItem<Item> PHANTOM_CRYSTAL = ITEMS.registerItem("phantom_crystal",
+            TooltipTextItem::new,
+            new Item.Properties());
+
+    public static final DeferredItem<Item> TREMOR_CRYSTAL = ITEMS.registerItem("tremor_crystal",
+            TooltipTextItem::new,
+            new Item.Properties());
+
+    public static final DeferredItem<Item> MAGIC_CRYSTAL = ITEMS.registerItem("magic_crystal",
+            TooltipTextItem::new,
+            new Item.Properties());
+
+    public static final DeferredItem<Item> FLOW_CRYSTAL = ITEMS.registerItem("flow_crystal",
+            TooltipTextItem::new,
+            new Item.Properties());
+
+    public static final DeferredItem<Item> HOLLOW_CRYSTAL = ITEMS.registerItem("hollow_crystal",
+            TooltipTextItem::new,
+            new Item.Properties());
+
     public static final DeferredItem<Item> CITRINE = ITEMS.registerItem("citrine",
             TooltipTextItem::new,
             new Item.Properties());
