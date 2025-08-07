@@ -51,8 +51,18 @@ public class ModItemModelProvider extends ItemModelProvider {
         handheldItem(ItemInit.WAND.get());
         basicItem(ItemInit.AETHER_LIFTER.get());
         basicItem(ItemInit.FLAMGLIDE_STRIDER.get());
+        basicItem(ItemInit.ALCHAEFABRIC.get());
         basicItem(ItemInit.FLUORITE.get());
         basicItem(ItemInit.MANA_CHARGED_FLUORITE.get());
+        basicItem(ItemInit.TOURMALINE.get());
+        basicItem(ItemInit.EMBER_CRYSTAL.get());
+        basicItem(ItemInit.GLACE_CRYSTAL.get());
+        basicItem(ItemInit.SURGE_CRYSTAL.get());
+        basicItem(ItemInit.PHANTOM_CRYSTAL.get());
+        basicItem(ItemInit.TREMOR_CRYSTAL.get());
+        basicItem(ItemInit.MAGIC_CRYSTAL.get());
+        basicItem(ItemInit.FLOW_CRYSTAL.get());
+        basicItem(ItemInit.HOLLOW_CRYSTAL.get());
         basicItem(ItemInit.CITRINE.get());
         basicItem(ItemInit.REDSTONE_CRYSTAL.get());
         basicItem(ItemInit.POLISHED_REDSTONE_CRYSTAL.get());

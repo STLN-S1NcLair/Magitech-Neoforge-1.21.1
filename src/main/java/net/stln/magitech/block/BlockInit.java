@@ -142,6 +142,26 @@ public class BlockInit {
 
     public static final DeferredItem<BlockItem> DEEPSLATE_FLUORITE_ORE_ITEM = ItemInit.ITEMS.register("deepslate_fluorite_ore", key -> new TooltipTextBlockItem(DEEPSLATE_FLUORITE_ORE.get(), new Item.Properties()));
 
+    public static final DeferredBlock<DropExperienceBlock> TOURMALINE_ORE = BLOCKS.registerBlock("tourmaline_ore",
+            (properties) -> new DropExperienceBlock(UniformInt.of(1, 4),
+                    BlockBehaviour.Properties.of().mapColor(MapColor.STONE)
+                            .instrument(NoteBlockInstrument.BASEDRUM)
+                            .requiresCorrectToolForDrops()
+                            .strength(3.0F, 3.0F)
+            ));
+
+    public static final DeferredItem<BlockItem> TOURMALINE_ORE_ITEM = ItemInit.ITEMS.register("tourmaline_ore", key -> new TooltipTextBlockItem(TOURMALINE_ORE.get(), new Item.Properties()));
+
+    public static final DeferredBlock<DropExperienceBlock> DEEPSLATE_TOURMALINE_ORE = BLOCKS.registerBlock("deepslate_tourmaline_ore",
+            (properties) -> new DropExperienceBlock(UniformInt.of(1, 4),
+                    BlockBehaviour.Properties.ofFullCopy(TOURMALINE_ORE.get())
+                            .mapColor(MapColor.DEEPSLATE)
+                            .strength(4.5F, 3.0F)
+                            .sound(SoundType.DEEPSLATE)
+            ));
+
+    public static final DeferredItem<BlockItem> DEEPSLATE_TOURMALINE_ORE_ITEM = ItemInit.ITEMS.register("deepslate_tourmaline_ore", key -> new TooltipTextBlockItem(DEEPSLATE_TOURMALINE_ORE.get(), new Item.Properties()));
+
     public static final DeferredBlock<FluoriteCrystalClusterBlock> FLUORITE_CRYSTAL_CLUSTER = BLOCKS.registerBlock("fluorite_crystal_cluster",
             (properties) -> new FluoriteCrystalClusterBlock(UniformInt.of(0, 2), properties),
             BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_CYAN)

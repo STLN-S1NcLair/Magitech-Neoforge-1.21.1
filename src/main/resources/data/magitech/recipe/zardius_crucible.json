@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "group": "wooden_door",
+  "key": {
+    "#": {
+      "item": "magitech:tourmaline"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "pattern": [
+    "I I",
+    "I#I",
+    "III"
+  ],
+  "result": {
+    "count": 1,
+    "id": "magitech:zardius_crucible"
+  }
+}

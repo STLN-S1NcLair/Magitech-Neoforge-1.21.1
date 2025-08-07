@@ -1,0 +1,25 @@
+{
+  "type": "magitech:zardius_crucible",
+  "ingredients": [
+    {
+    "item": "magitech:mana_charged_fluorite"
+    },
+    {
+      "item": "magitech:tourmaline"
+    },
+    {
+    "item": "minecraft:ender_pearl"
+    },
+    {
+    "item": "minecraft:ender_pearl"
+    }
+  ],
+  "input_fluid": {
+    "id": "minecraft:water",
+    "amount": 250
+  },
+  "result": {
+    "id": "magitech:hollow_crystal",
+    "count": 1
+  }
+}

@@ -97,6 +97,20 @@ public class WorldGenInit {
 
 
 
+    public static final Supplier<Feature<OreConfiguration>> TOURMALINE_ORE_FEATURE =
+            FEATURES.register("tourmaline_ore", () -> Feature.ORE);
+
+    public static final ResourceKey<ConfiguredFeature<?, ?>> TOURMALINE_ORE_CONFIGURED_KEY =
+            ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "tourmaline_ore"));
+
+    public static final ResourceKey<PlacedFeature> TOURMALINE_ORE_PLACED_KEY =
+            ResourceKey.create(Registries.PLACED_FEATURE, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "tourmaline_ore"));
+
+    public static final ResourceKey<BiomeModifier> TOURMALINE_ORE_BIOME_MODIFIER_KEY =
+            ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "tourmaline_ore"));
+
+
+
     public static final ResourceKey<ConfiguredFeature<?, ?>> CELIFERN_CONFIGURED_KEY =
             ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "celifern"));
 
@@ -146,6 +160,11 @@ public class WorldGenInit {
                 OreConfiguration.target(ruletestDeepslate, BlockInit.DEEPSLATE_FLUORITE_ORE.get().defaultBlockState())
         );
         context.register(FLUORITE_ORE_CONFIGURED_KEY, new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(fluoriteList, 8)));
+        List<OreConfiguration.TargetBlockState> tourmalineList = List.of(
+                OreConfiguration.target(ruletestStone, BlockInit.TOURMALINE_ORE.get().defaultBlockState()),
+                OreConfiguration.target(ruletestDeepslate, BlockInit.DEEPSLATE_TOURMALINE_ORE.get().defaultBlockState())
+        );
+        context.register(TOURMALINE_ORE_CONFIGURED_KEY, new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(tourmalineList, 8)));
 
         HolderGetter<Block> holdergetter = context.lookup(Registries.BLOCK);
 
@@ -195,6 +214,10 @@ public class WorldGenInit {
                 configured.getOrThrow(FLUORITE_ORE_CONFIGURED_KEY),
                 List.of(CountPlacement.of(12), InSquarePlacement.spread(), HeightRangePlacement.triangle(VerticalAnchor.aboveBottom(0), VerticalAnchor.aboveBottom(128))))
         );
+        context.register(TOURMALINE_ORE_PLACED_KEY, new PlacedFeature(
+                configured.getOrThrow(TOURMALINE_ORE_CONFIGURED_KEY),
+                List.of(CountPlacement.of(8), InSquarePlacement.spread(), HeightRangePlacement.triangle(VerticalAnchor.aboveBottom(0), VerticalAnchor.aboveBottom(128))))
+        );
         context.register(CELIFERN_PLACED_KEY, new PlacedFeature(configured.getOrThrow(CELIFERN_CONFIGURED_KEY),
                VegetationPlacements.treePlacement(PlacementUtils.countExtra(3, 0.5f, 7),
                         BlockInit.CELIFERN_SAPLING.get())));
@@ -223,6 +246,11 @@ public class WorldGenInit {
         context.register(FLUORITE_ORE_BIOME_MODIFIER_KEY, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
                 HolderSet.direct(placedFeatures.getOrThrow(FLUORITE_ORE_PLACED_KEY)),
+                GenerationStep.Decoration.UNDERGROUND_ORES));
+
+        context.register(TOURMALINE_ORE_BIOME_MODIFIER_KEY, new BiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
+                HolderSet.direct(placedFeatures.getOrThrow(TOURMALINE_ORE_PLACED_KEY)),
                 GenerationStep.Decoration.UNDERGROUND_ORES));
 
         context.register(CELIFERN_BIOME_MODIFIER_KEY, new BiomeModifiers.AddFeaturesBiomeModifier(

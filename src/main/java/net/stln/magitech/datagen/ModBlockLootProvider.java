@@ -41,6 +41,10 @@ public class ModBlockLootProvider extends BlockLootSubProvider {
                 block -> createOreDrop(BlockInit.FLUORITE_ORE.get(), ItemInit.FLUORITE.get()));
         add(BlockInit.DEEPSLATE_FLUORITE_ORE.get(),
                 block -> createOreDrop(BlockInit.DEEPSLATE_FLUORITE_ORE.get(), ItemInit.FLUORITE.get()));
+        add(BlockInit.TOURMALINE_ORE.get(),
+                block -> createOreDrop(BlockInit.TOURMALINE_ORE.get(), ItemInit.TOURMALINE.get()));
+        add(BlockInit.DEEPSLATE_TOURMALINE_ORE.get(),
+                block -> createOreDrop(BlockInit.DEEPSLATE_TOURMALINE_ORE.get(), ItemInit.TOURMALINE.get()));
         add(BlockInit.FLUORITE_CRYSTAL_CLUSTER.get(),
                 block -> createMultipleOreDrops(BlockInit.FLUORITE_CRYSTAL_CLUSTER.get(), ItemInit.FLUORITE.get(), 1, 2));
         add(BlockInit.REDSTONE_CRYSTAL_CLUSTER.get(),

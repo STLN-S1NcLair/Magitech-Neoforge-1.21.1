@@ -27,6 +27,8 @@ public class ModBlockStateProvider extends BlockStateProvider {
         handModeledBlockWithInventoryModelItem(BlockInit.MANA_VESSEL.get());
         blockWithItem(BlockInit.FLUORITE_ORE.get());
         blockWithItem(BlockInit.DEEPSLATE_FLUORITE_ORE.get());
+        blockWithItem(BlockInit.TOURMALINE_ORE.get());
+        blockWithItem(BlockInit.DEEPSLATE_TOURMALINE_ORE.get());
         blockWithItem(BlockInit.ALCHECRYSITE.get());
         stairsBlockWithItem(BlockInit.ALCHECRYSITE_STAIRS.get(), BlockInit.ALCHECRYSITE.get());
         slabBlockWithItem(BlockInit.ALCHECRYSITE_SLAB.get(), BlockInit.ALCHECRYSITE.get());

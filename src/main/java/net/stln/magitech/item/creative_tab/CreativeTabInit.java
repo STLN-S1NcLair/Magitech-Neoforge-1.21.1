@@ -73,8 +73,18 @@ public class CreativeTabInit {
                 output.accept(ItemInit.GALEVENT_RING.get());
                 output.accept(ItemInit.CHARGEBIND_RING.get());
                 output.accept(ItemInit.TORSION_RING.get());
+                output.accept(ItemInit.ALCHAEFABRIC.get());
                 output.accept(ItemInit.FLUORITE.get());
                 output.accept(ItemInit.MANA_CHARGED_FLUORITE.get());
+                output.accept(ItemInit.TOURMALINE.get());
+                output.accept(ItemInit.EMBER_CRYSTAL.get());
+                output.accept(ItemInit.GLACE_CRYSTAL.get());
+                output.accept(ItemInit.SURGE_CRYSTAL.get());
+                output.accept(ItemInit.PHANTOM_CRYSTAL.get());
+                output.accept(ItemInit.TREMOR_CRYSTAL.get());
+                output.accept(ItemInit.MAGIC_CRYSTAL.get());
+                output.accept(ItemInit.FLOW_CRYSTAL.get());
+                output.accept(ItemInit.HOLLOW_CRYSTAL.get());
                 output.accept(ItemInit.CITRINE.get());
                 output.accept(ItemInit.CHROMIUM_INGOT.get());
                 output.accept(ItemInit.REDSTONE_CRYSTAL.get());
@@ -105,6 +115,8 @@ public class CreativeTabInit {
                 output.accept(BlockInit.MANA_VESSEL_ITEM.get());
                 output.accept(BlockInit.FLUORITE_ORE_ITEM.get());
                 output.accept(BlockInit.DEEPSLATE_FLUORITE_ORE_ITEM.get());
+                output.accept(BlockInit.TOURMALINE_ORE_ITEM.get());
+                output.accept(BlockInit.DEEPSLATE_TOURMALINE_ORE_ITEM.get());
                 output.accept(BlockInit.FLUORITE_CRYSTAL_CLUSTER_ITEM.get());
                 output.accept(BlockInit.REDSTONE_CRYSTAL_CLUSTER_ITEM.get());
                 output.accept(BlockInit.MISTALIA_PETALS_ITEM.get());

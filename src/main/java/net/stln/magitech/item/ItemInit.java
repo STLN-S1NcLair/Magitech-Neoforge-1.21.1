@@ -180,6 +180,10 @@ public class ItemInit {
             ThreadPageItem::new,
             new Item.Properties().component(DataComponents.MAX_STACK_SIZE, 1));
 
+    public static final DeferredItem<Item> ALCHAEFABRIC = ITEMS.registerItem("alchaefabric",
+            TooltipTextItem::new,
+            new Item.Properties());
+
     public static final DeferredItem<Item> FLUORITE = ITEMS.registerItem("fluorite",
             TooltipTextItem::new,
             new Item.Properties());
@@ -188,7 +192,7 @@ public class ItemInit {
             ManaChargedFluoriteItem::new,
             new Item.Properties());
 
-    public static final DeferredItem<Item> ELBAITE = ITEMS.registerItem("elbaite",
+    public static final DeferredItem<Item> TOURMALINE = ITEMS.registerItem("tourmaline",
             TooltipTextItem::new,
             new Item.Properties());
 

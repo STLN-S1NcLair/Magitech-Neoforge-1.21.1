@@ -1,0 +1,25 @@
+{
+  "type": "magitech:zardius_crucible",
+  "ingredients": [
+    {
+    "item": "magitech:mana_charged_fluorite"
+    },
+    {
+      "item": "magitech:tourmaline"
+    },
+    {
+    "item": "minecraft:calcite"
+    },
+    {
+    "item": "minecraft:calcite"
+    }
+  ],
+  "input_fluid": {
+    "id": "minecraft:water",
+    "amount": 250
+  },
+  "result": {
+    "id": "magitech:glace_crystal",
+    "count": 1
+  }
+}
