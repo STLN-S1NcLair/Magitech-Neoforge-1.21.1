@@ -2,6 +2,8 @@
   "replace": false,
   "values": [
     "magitech:fluorite_ore",
-    "magitech:deepslate_fluorite_ore"
+    "magitech:deepslate_fluorite_ore",
+    "magitech:tourmaline_ore",
+    "magitech:deepslate_tourmaline_ore"
   ]
 }
