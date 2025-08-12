@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "T": {
-      "item": "magitech:tourmaline"
+      "tag": "c:gems/tourmaline"
     },
     "A": {
       "item": "magitech:polished_alchecrysite_slab"

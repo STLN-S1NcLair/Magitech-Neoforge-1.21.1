@@ -97,7 +97,7 @@ public class ZardiusCrucibleBlockEntity extends BlockEntity {
             stacks.add(this.inventory.getStackInSlot(i));
         }
         Optional<RecipeHolder<ZardiusCrucibleRecipe>> recipe = level.getRecipeManager().getRecipeFor(RecipeInit.ZARDIUS_CRUCIBLE_TYPE.get(), new MultiStackRecipeInput(stacks), level);
-        if (recipe.isPresent()) {
+        if (recipe.isPresent() && ((ZardiusCrucibleBlock)pState.getBlock()).isOnFire(pState, pLevel, pPos) && this.inventory.getStackInSlot(0).getCount() < 2) {
             ZardiusCrucibleRecipe zardiusCrucibleRecipe = recipe.get().value();
             if ((zardiusCrucibleRecipe.getInputFluid().isEmpty() && this.fluidTank.isEmpty())
                     || ((zardiusCrucibleRecipe.getOutputFluid().isEmpty() && this.fluidTank.getFluidAmount() >= zardiusCrucibleRecipe.getInputFluid().getAmount()
@@ -204,6 +204,7 @@ public class ZardiusCrucibleBlockEntity extends BlockEntity {
                 ItemStack stack = itemEntity.getItem();
                 if (this.addItemStack(stack, 1)) {
                     itemEntity.setItem(stack);
+                    setChanged();
                 }
             }
         }
@@ -237,6 +238,7 @@ public class ZardiusCrucibleBlockEntity extends BlockEntity {
                             itementity.setTarget(player.getUUID());
                         }
                     }
+                    setChanged();
                     break;
                 }
             }
@@ -254,9 +256,11 @@ public class ZardiusCrucibleBlockEntity extends BlockEntity {
                     FluidStack stack = this.fluidTank.drain(1000, IFluidHandler.FluidAction.EXECUTE);
                     iFluidHandlerItem.fill(new FluidStack(stack.getFluid(), stack.getAmount()), IFluidHandler.FluidAction.EXECUTE);
                     player.setItemInHand(InteractionHand.MAIN_HAND, iFluidHandlerItem.getContainer());
+                    setChanged();
                 } else {
                     playFluidDrainSound(this.fluidTank, iFluidHandlerItem);
                     this.fluidTank.drain(1000, IFluidHandler.FluidAction.EXECUTE);
+                    setChanged();
                 }
             } else {
                 if (!player.getAbilities().instabuild) {
@@ -265,9 +269,11 @@ public class ZardiusCrucibleBlockEntity extends BlockEntity {
                     FluidStack stack = iFluidHandlerItem.drain(drainAmount, IFluidHandler.FluidAction.EXECUTE);
                     this.fluidTank.fill(new FluidStack(stack.getFluid(), stack.getAmount()), IFluidHandler.FluidAction.EXECUTE);
                     player.setItemInHand(InteractionHand.MAIN_HAND, iFluidHandlerItem.getContainer());
+                    setChanged();
                 } else {
                     playFluidFillSound(this.fluidTank, iFluidHandlerItem);
                     this.fluidTank.fill(new FluidStack(iFluidHandlerItem.getFluidInTank(0).getFluidHolder(), 1000), IFluidHandler.FluidAction.EXECUTE);
+                    setChanged();
                 }
             }
         } else {
@@ -340,6 +346,7 @@ public class ZardiusCrucibleBlockEntity extends BlockEntity {
     public void clearContents() {
         for (int i = 0; i < inventory.getSlots(); i++) {
             inventory.setStackInSlot(i, ItemStack.EMPTY);
+            setChanged();
         }
     }
 

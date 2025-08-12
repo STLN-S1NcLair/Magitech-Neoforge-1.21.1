@@ -32,9 +32,9 @@ public class ModBlockLootProvider extends BlockLootSubProvider {
     protected void generate() {
         dropSelf(BlockInit.ENGINEERING_WORKBENCH.get());
         dropSelf(BlockInit.ASSEMBLY_WORKBENCH.get());
+        dropSelf(BlockInit.ZARDIUS_CRUCIBLE.get());
         dropSelf(BlockInit.ALCHEMETRIC_PYLON.get());
         dropSelf(BlockInit.ATHANOR_PILLAR.get());
-        dropSelf(BlockInit.ZARDIUS_CRUCIBLE.get());
         dropSelf(BlockInit.MANA_NODE.get());
         dropSelf(BlockInit.MANA_VESSEL.get());
         add(BlockInit.FLUORITE_ORE.get(),

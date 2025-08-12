@@ -4,7 +4,7 @@
   "group": "wooden_door",
   "key": {
     "#": {
-      "item": "magitech:tourmaline"
+      "tag": "c:gems/tourmaline"
     },
     "I": {
       "item": "minecraft:iron_ingot"

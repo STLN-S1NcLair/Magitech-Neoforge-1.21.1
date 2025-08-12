@@ -26,10 +26,10 @@
         "item": "minecraft:iron_ingot"
       },
       {
-        "item": "magitech:tourmaline"
+        "tag": "c:gems/tourmaline"
       },
       {
-        "item": "magitech:tourmaline"
+        "tag": "c:gems/tourmaline"
       }
     ],
     [

@@ -20,7 +20,7 @@
       "item": "magitech:alchecrysite"
     },
     {
-      "item": "magitech:tourmaline"
+      "tag": "c:gems/tourmaline"
     }
   ],
   "input_fluid": {

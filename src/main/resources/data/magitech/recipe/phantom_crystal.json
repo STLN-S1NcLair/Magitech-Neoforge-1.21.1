@@ -5,7 +5,7 @@
     "item": "magitech:mana_charged_fluorite"
     },
     {
-      "item": "magitech:tourmaline"
+      "tag": "c:gems/tourmaline"
     },
     {
     "item": "minecraft:phantom_membrane"
