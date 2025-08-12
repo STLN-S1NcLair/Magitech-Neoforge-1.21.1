@@ -155,6 +155,8 @@ dependencies {
     implementation "curse.maven:auth-me-356643:6177873"
     implementation "curse.maven:xaeros-world-map-317780:6538359"
     implementation "curse.maven:xaeros-minimap-263420:6515043"
+    implementation "curse.maven:advancements-reloaded-1113876:5835520"
+    implementation "curse.maven:cloth-config-348521:5729127"
     implementation "com.github.glitchfiend:TerraBlender-neoforge:1.21.1-4.1.0.8"
     // Example optional mod dependency with JEI
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime

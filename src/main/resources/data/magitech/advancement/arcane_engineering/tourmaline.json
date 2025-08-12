@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "id": "magitech:tourmaline"
+    },
+    "title": {
+      "translate": "advancement.magitech.arcane_engineering.tourmaline.title"
+    },
+    "description": {
+      "translate": "advancement.magitech.arcane_engineering.tourmaline.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "parent": "magitech:arcane_engineering/fluorite",
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "magitech:tourmaline"
+            ],
+            "count": 1
+          }
+        ]
+      }
+    }
+  }
+}

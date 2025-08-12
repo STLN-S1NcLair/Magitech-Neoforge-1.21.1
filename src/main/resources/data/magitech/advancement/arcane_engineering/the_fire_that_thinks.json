@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "id": "magitech:the_fire_that_thinks"
+    },
+    "title": {
+      "translate": "advancement.magitech.arcane_engineering.the_fire_that_thinks.title"
+    },
+    "description": {
+      "translate": "advancement.magitech.arcane_engineering.the_fire_that_thinks.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "parent": "magitech:arcane_engineering/alchecrysite",
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "magitech:the_fire_that_thinks"
+            ],
+            "count": 1
+          }
+        ]
+      }
+    }
+  }
+}

@@ -9,6 +9,7 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.Containers;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.ItemStackHandler;
@@ -34,6 +35,14 @@ public class AlchemetricPylonBlockEntity extends BlockEntity {
 
     public AlchemetricPylonBlockEntity(BlockPos pos, BlockState blockState) {
         super(BlockInit.ALCHEMETRIC_PYLON_ENTITY.get(), pos, blockState);
+    }
+
+    public void clientTick(Level level, BlockPos pos, BlockState state, AlchemetricPylonBlockEntity alchemetricPylonBlockEntity) {
+        tickCounter++;
+    }
+
+    public void serverTick(Level level, BlockPos pos, BlockState state, AlchemetricPylonBlockEntity alchemetricPylonBlockEntity) {
+
     }
 
     public void clearContents() {

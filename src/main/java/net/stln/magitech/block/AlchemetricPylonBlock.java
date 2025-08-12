@@ -16,12 +16,15 @@ import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.stln.magitech.block.block_entity.AlchemetricPylonBlockEntity;
+import net.stln.magitech.block.block_entity.AthanorPillarBlockEntity;
 
 import javax.annotation.Nullable;
 
@@ -60,6 +63,12 @@ public class AlchemetricPylonBlock extends BaseEntityBlock {
     @Override
     public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
         return new AlchemetricPylonBlockEntity(blockPos, blockState);
+    }
+
+    @Nullable
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
+        return createTicker(level, blockEntityType, BlockInit.ALCHEMETRIC_PYLON_ENTITY.get());
     }
 
     @Override
@@ -101,5 +110,18 @@ public class AlchemetricPylonBlock extends BaseEntityBlock {
         }
 
         return ItemInteractionResult.SUCCESS;
+    }
+
+    @Nullable
+    protected <T extends BlockEntity> BlockEntityTicker<T> createTicker(
+            Level level, BlockEntityType<T> serverType, BlockEntityType<? extends AlchemetricPylonBlockEntity> clientType
+    ) {
+        return createTickerHelper(serverType, clientType, (pLevel1, pPos, pState1, pBlockEntity) -> {
+            if (pLevel1.isClientSide) {
+                pBlockEntity.clientTick(pLevel1, pPos, pState1, pBlockEntity);
+            } else {
+                pBlockEntity.serverTick(pLevel1, pPos, pState1, pBlockEntity);
+            }
+        });
     }
 }

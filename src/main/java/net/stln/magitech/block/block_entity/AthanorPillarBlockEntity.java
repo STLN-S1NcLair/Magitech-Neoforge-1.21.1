@@ -66,12 +66,13 @@ public class AthanorPillarBlockEntity extends BlockEntity {
     };
     int craftingProgress = 0;
     int craftingTotalTime = 200;
+    public int tickCounter = 0;
 
     public AthanorPillarBlockEntity(BlockPos pos, BlockState blockState) {
         super(BlockInit.ATHANOR_PILLAR_ENTITY.get(), pos, blockState);
     }
 
-    public static void serverTick(Level level, BlockPos pos, BlockState state, AthanorPillarBlockEntity blockEntity) {
+    public void serverTick(Level level, BlockPos pos, BlockState state, AthanorPillarBlockEntity blockEntity) {
         BlockState blockState = level.getBlockState(pos);
         if ((blockState.getBlock() instanceof AthanorPillarBlock athanorPillarBlock) && hasCorrectStructure(level, pos)) {
             List<List<ItemStack>> stacks = new ArrayList<>();
@@ -136,7 +137,8 @@ public class AthanorPillarBlockEntity extends BlockEntity {
         }
     }
 
-    public static void clientTick(Level level, BlockPos pos, BlockState state, AthanorPillarBlockEntity blockEntity) {
+    public void clientTick(Level level, BlockPos pos, BlockState state, AthanorPillarBlockEntity blockEntity) {
+        tickCounter++;
         RandomSource random = level.random;
         if (hasCorrectStructure(level, pos)) {
             Vec3 center = pos.getCenter();

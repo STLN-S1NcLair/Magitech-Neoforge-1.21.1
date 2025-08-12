@@ -68,6 +68,7 @@ public class ZardiusCrucibleBlockEntity extends BlockEntity {
     public int craftingTime = 0;
     public int maxCraftingTime = 200;
     public FluidStack oldFluidStack = FluidStack.EMPTY;
+    public int tickCounter = 0;
     private double fluidAnimBefore = 0;
     private double fluidAnimAfter = 0;
     private float startMarker = 0f;
@@ -162,6 +163,11 @@ public class ZardiusCrucibleBlockEntity extends BlockEntity {
     }
 
     public void clientTick(Level pLevel, BlockPos pPos, BlockState pState) {
+        tickCounter++;
+        if (tickCounter > 2000 && startMarker > 1000 && startMarker < tickCounter - 200) {
+            tickCounter -= 1000;
+            startMarker -= 1000;
+        }
         if (pState.getValue(ZardiusCrucibleBlock.LIT)) {
             float height = (float) lastRenderValue / fluidTank.getCapacity() * 0.75f + 0.2f;
             for (int i = 0; i < 10; i++) {
@@ -238,7 +244,6 @@ public class ZardiusCrucibleBlockEntity extends BlockEntity {
                             itementity.setTarget(player.getUUID());
                         }
                     }
-                    setChanged();
                     break;
                 }
             }
@@ -256,11 +261,9 @@ public class ZardiusCrucibleBlockEntity extends BlockEntity {
                     FluidStack stack = this.fluidTank.drain(1000, IFluidHandler.FluidAction.EXECUTE);
                     iFluidHandlerItem.fill(new FluidStack(stack.getFluid(), stack.getAmount()), IFluidHandler.FluidAction.EXECUTE);
                     player.setItemInHand(InteractionHand.MAIN_HAND, iFluidHandlerItem.getContainer());
-                    setChanged();
                 } else {
                     playFluidDrainSound(this.fluidTank, iFluidHandlerItem);
                     this.fluidTank.drain(1000, IFluidHandler.FluidAction.EXECUTE);
-                    setChanged();
                 }
             } else {
                 if (!player.getAbilities().instabuild) {
@@ -269,16 +272,16 @@ public class ZardiusCrucibleBlockEntity extends BlockEntity {
                     FluidStack stack = iFluidHandlerItem.drain(drainAmount, IFluidHandler.FluidAction.EXECUTE);
                     this.fluidTank.fill(new FluidStack(stack.getFluid(), stack.getAmount()), IFluidHandler.FluidAction.EXECUTE);
                     player.setItemInHand(InteractionHand.MAIN_HAND, iFluidHandlerItem.getContainer());
-                    setChanged();
                 } else {
                     playFluidFillSound(this.fluidTank, iFluidHandlerItem);
                     this.fluidTank.fill(new FluidStack(iFluidHandlerItem.getFluidInTank(0).getFluidHolder(), 1000), IFluidHandler.FluidAction.EXECUTE);
-                    setChanged();
                 }
             }
         } else {
             addItemStack(pItemStack, 1);
         }
+        setChanged();
+        level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
     }
 
     private void playFluidFillSound(FluidTank fluidTank, IFluidHandlerItem iFluidHandlerItem) {
@@ -360,7 +363,7 @@ public class ZardiusCrucibleBlockEntity extends BlockEntity {
     }
 
     public double getFluidAnim(ZardiusCrucibleBlockEntity blockEntity, float partialTicks) {
-        float time = blockEntity.getLevel().getGameTime() + partialTicks;
+        float time = tickCounter + partialTicks;
         int currentAmount = blockEntity.fluidTank.getFluidAmount();
 
         // 変化を検出したら補間開始

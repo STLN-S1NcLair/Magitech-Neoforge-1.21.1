@@ -32,7 +32,7 @@ public class AthanorPillarBlockEntityRenderer implements BlockEntityRenderer<Ath
         pPoseStack.scale(0.5f, 0.5f, 0.5f);
 
         if (pBlockEntity.getLevel() != null) {
-            pPoseStack.mulPose(Axis.YP.rotationDegrees((pBlockEntity.getLevel().getGameTime() + pPartialTick) / 2 % 360));
+            pPoseStack.mulPose(Axis.YP.rotationDegrees((pBlockEntity.tickCounter + pPartialTick) / 2 % 360));
         }
 
         itemRenderer.renderStatic(stack, ItemDisplayContext.FIXED, getLightLevel(pBlockEntity.getLevel(),

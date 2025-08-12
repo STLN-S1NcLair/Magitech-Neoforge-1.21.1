@@ -9,7 +9,7 @@
     "description": {
       "translate": "advancement.magitech.arcane_engineering.root.description"
     },
-    "background": "minecraft:textures/block/quartz_block_top.png",
+    "background": "magitech:textures/block/alchecrysite.png",
     "frame": "task",
     "show_toast": false,
     "announce_to_chat": false

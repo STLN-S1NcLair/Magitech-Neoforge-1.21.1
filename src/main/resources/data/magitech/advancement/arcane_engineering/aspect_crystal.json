@@ -1,0 +1,79 @@
+{
+  "display": {
+    "icon": {
+      "id": "magitech:magic_crystal"
+    },
+    "title": {
+      "translate": "advancement.magitech.arcane_engineering.aspect_crystal.title"
+    },
+    "description": {
+      "translate": "advancement.magitech.arcane_engineering.aspect_crystal.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "parent": "magitech:arcane_engineering/zardius_crucible",
+  "criteria": {
+    "ember_crystal": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [{"items": ["magitech:ember_crystal"], "count": 1}]
+      }
+    },
+    "glace_crystal": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [{"items": ["magitech:glace_crystal"], "count": 1}]
+      }
+    },
+    "surge_crystal": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [{"items": ["magitech:surge_crystal"], "count": 1}]
+      }
+    },
+    "phantom_crystal": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [{"items": ["magitech:phantom_crystal"], "count": 1}]
+      }
+    },
+    "tremor_crystal": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [{"items": ["magitech:tremor_crystal"], "count": 1}]
+      }
+    },
+    "magic_crystal": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [{"items": ["magitech:magic_crystal"], "count": 1}]
+      }
+    },
+    "flow_crystal": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [{"items": ["magitech:flow_crystal"], "count": 1}]
+      }
+    },
+    "hollow_crystal": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [{"items": ["magitech:hollow_crystal"], "count": 1}]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "ember_crystal",
+      "glace_crystal",
+      "surge_crystal",
+      "phantom_crystal",
+      "tremor_crystal",
+      "magic_crystal",
+      "flow_crystal",
+      "hollow_crystal"
+    ]
+  ]
+}

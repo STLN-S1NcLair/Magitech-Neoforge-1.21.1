@@ -40,7 +40,7 @@ public class ZardiusCrucibleBlockEntityRenderer implements BlockEntityRenderer<Z
         FluidTank fluidTank = pBlockEntity.fluidTank;
         int leng = itemStack.size();
 
-        float renderCount = (pBlockEntity.getLevel().getGameTime() + pPartialTick) % 500;
+        float renderCount = (pBlockEntity.tickCounter + pPartialTick) % 500;
         Boolean isLit = pBlockEntity.getBlockState().getValue(ZardiusCrucibleBlock.LIT);
         if (isLit) {
             renderCount *= 5;

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "id": "magitech:alchecrysite"
+    },
+    "title": {
+      "translate": "advancement.magitech.arcane_engineering.alchecrysite.title"
+    },
+    "description": {
+      "translate": "advancement.magitech.arcane_engineering.alchecrysite.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "parent": "magitech:arcane_engineering/aspect_crystal",
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "magitech:alchecrysite"
+            ],
+            "count": 1
+          }
+        ]
+      }
+    }
+  }
+}

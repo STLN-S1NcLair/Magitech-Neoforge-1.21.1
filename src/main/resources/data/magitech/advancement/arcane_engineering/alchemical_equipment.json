@@ -1,0 +1,48 @@
+{
+  "display": {
+    "icon": {
+      "id": "magitech:aether_lifter"
+    },
+    "title": {
+      "translate": "advancement.magitech.arcane_engineering.alchemical_equipment.title"
+    },
+    "description": {
+      "translate": "advancement.magitech.arcane_engineering.alchemical_equipment.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "parent": "magitech:arcane_engineering/athanor_pillar",
+  "criteria": {
+    "aether_lifter": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "magitech:aether_lifter"
+            ],
+            "count": 1
+          }
+        ]
+      }
+    },
+    "flamglide_strider": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "magitech:flamglide_strider"
+            ],
+            "count": 1
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    ["aether_lifter", "flamglide_strider"]
+  ]
+}

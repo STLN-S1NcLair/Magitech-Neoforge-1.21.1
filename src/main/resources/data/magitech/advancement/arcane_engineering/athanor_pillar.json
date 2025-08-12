@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "id": "magitech:athanor_pillar"
+    },
+    "title": {
+      "translate": "advancement.magitech.arcane_engineering.athanor_pillar.title"
+    },
+    "description": {
+      "translate": "advancement.magitech.arcane_engineering.athanor_pillar.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "parent": "magitech:arcane_engineering/the_fire_that_thinks",
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "magitech:athanor_pillar"
+            ],
+            "count": 1
+          }
+        ]
+      }
+    }
+  }
+}

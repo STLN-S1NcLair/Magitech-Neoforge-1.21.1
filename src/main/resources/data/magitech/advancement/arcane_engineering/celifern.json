@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "id": "magitech:celifern_log"
+    },
+    "title": {
+      "translate": "advancement.magitech.arcane_engineering.celifern.title"
+    },
+    "description": {
+      "translate": "advancement.magitech.arcane_engineering.celifern.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "parent": "magitech:arcane_engineering/unwanted_gift",
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "magitech:celifern_log"
+            ],
+            "count": 1
+          }
+        ]
+      }
+    }
+  }
+}

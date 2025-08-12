@@ -173,9 +173,15 @@ public class AthanorPillarBlock extends BaseEntityBlock {
     }
 
     @Nullable
-    protected static <T extends BlockEntity> BlockEntityTicker<T> createTicker(
+    protected <T extends BlockEntity> BlockEntityTicker<T> createTicker(
             Level level, BlockEntityType<T> serverType, BlockEntityType<? extends AthanorPillarBlockEntity> clientType
     ) {
-        return level.isClientSide ? createTickerHelper(serverType, clientType, AthanorPillarBlockEntity::clientTick) : createTickerHelper(serverType, clientType, AthanorPillarBlockEntity::serverTick);
+        return createTickerHelper(serverType, clientType, (pLevel1, pPos, pState1, pBlockEntity) -> {
+            if (pLevel1.isClientSide) {
+                pBlockEntity.clientTick(pLevel1, pPos, pState1, pBlockEntity);
+            } else {
+                pBlockEntity.serverTick(pLevel1, pPos, pState1, pBlockEntity);
+            }
+        });
     }
 }

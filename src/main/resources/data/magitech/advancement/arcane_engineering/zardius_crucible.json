@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "id": "magitech:zardius_crucible"
+    },
+    "title": {
+      "translate": "advancement.magitech.arcane_engineering.zardius_crucible.title"
+    },
+    "description": {
+      "translate": "advancement.magitech.arcane_engineering.zardius_crucible.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "parent": "magitech:arcane_engineering/tourmaline",
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "magitech:zardius_crucible"
+            ],
+            "count": 1
+          }
+        ]
+      }
+    }
+  }
+}
