@@ -1,0 +1,17 @@
+{
+  "name": "Mana Deexciter Core",
+  "icon": "magitech:mana_deexciter_core",
+  "category": "magitech:alchemical_material",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Alchemical mechanisms are used in complex devices and equipment. An alchemical mechanism refers to parts or cores with specific functions."
+    },
+    {
+      "type": "patchouli:crafting",
+      "title": "Mana Deexciter Core",
+      "text": "A device used in pillars of the athanor and similar apparatuses.$(br)It has the property of extracting Mana from substances and restores excited materials back to their normal state.",
+      "recipe": "magitech:mana_deexciter_core"
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "name": "What Are Alchemical Aspects",
+  "icon": "magitech:ember_crystal",
+  "category": "magitech:alchemical_aspect",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Alchemical Aspects are transformed forms of Mana energy, existing in eight types. Each symbolizes a certain range of concepts and properties and is extracted from materials bearing those properties.$(br2)Compared to Mana, they have a higher rate of conversion into other energies when conducted through other substances, and when handled in the form of Mana, they can be extracted as distinct energies."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Aspect Properties",
+      "text": "There are eight types: Ember, Glace, Surge, Phantom, Tremor, Magic, Flow, and Hollow.$(br2)Their properties are as follows."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "title": "Ember Aspect",
+      "text": "Symbolizes flame and heat. Converts into thermal energy.",
+      "item": "magitech:ember_crystal"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "title": "Glace Aspect",
+      "text": "Symbolizes crystals and cold air. Converts into temperature differentials.",
+      "item": "magitech:glace_crystal"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "title": "Surge Aspect",
+      "text": "Symbolizes high energy and electric current. Converts into electrical energy.",
+      "item": "magitech:surge_crystal"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "title": "Phantom Aspect",
+      "text": "Symbolizes light and translucency. Converts into light energy.",
+      "item": "magitech:phantom_crystal"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "title": "Tremor Aspect",
+      "text": "Symbolizes vibration and sound waves. Converts into chaotic motion.",
+      "item": "magitech:tremor_crystal"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "title": "Magic Aspect",
+      "text": "Symbolizes alchemy and summoning. Converts into magical creatures and chemical energy.",
+      "item": "magitech:magic_crystal"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "title": "Flow Aspect",
+      "text": "Symbolizes life and fluids. Converts into regular motion.",
+      "item": "magitech:flow_crystal"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "title": "Hollow Aspect",
+      "text": "Symbolizes space and void. Converts into abnormal object displacement, object disappearance phenomena, and spatial distortion.",
+      "item": "magitech:hollow_crystal"
+    }
+  ]
+}

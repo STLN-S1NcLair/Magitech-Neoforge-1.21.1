@@ -12,4 +12,11 @@ public class FoodInit {
             .effect(() -> new MobEffectInstance(MobEffectInit.MANA_ADDICTION, 100, 0), 1.0F)
             .alwaysEdible()
             .build();
+
+    public static final FoodProperties MANA_PIE = new FoodProperties.Builder()
+            .nutrition(7)
+            .saturationModifier(0.8F)
+            .effect(() -> new MobEffectInstance(MobEffectInit.MANA_ADDICTION, 500, 1), 1.0F)
+            .alwaysEdible()
+            .build();
 }

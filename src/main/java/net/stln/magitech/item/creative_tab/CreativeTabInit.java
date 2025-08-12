@@ -66,6 +66,7 @@ public class CreativeTabInit {
             .icon(() -> ItemInit.GLISTENING_LEXICON.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
                 output.accept(ThreadboundGenerator.generateThreadbound(ItemInit.GLISTENING_LEXICON.get(), allSpells));
+                output.accept(ThreadboundGenerator.generateThreadbound(ItemInit.THE_FIRE_THAT_THINKS.get(), allSpells));
                 output.accept(ThreadboundGenerator.generateThreadbound(ItemInit.ARCANE_ENGINEERING_COMPENDIUM.get(), allSpells));
                 output.accept(ItemInit.AETHER_LIFTER.get());
                 output.accept(ItemInit.FLAMGLIDE_STRIDER.get());
@@ -74,6 +75,7 @@ public class CreativeTabInit {
                 output.accept(ItemInit.CHARGEBIND_RING.get());
                 output.accept(ItemInit.TORSION_RING.get());
                 output.accept(ItemInit.ALCHAEFABRIC.get());
+                output.accept(ItemInit.AEGIS_WEAVE.get());
                 output.accept(ItemInit.FLUORITE.get());
                 output.accept(ItemInit.MANA_CHARGED_FLUORITE.get());
                 output.accept(ItemInit.TOURMALINE.get());
@@ -98,7 +100,11 @@ public class CreativeTabInit {
                 output.accept(ItemInit.POLISHED_RESONITE.get());
                 output.accept(ItemInit.ABYSSITE.get());
                 output.accept(ItemInit.POLISHED_ABYSSITE.get());
+                output.accept(ItemInit.MANA_DEEXCITER_CORE.get());
+                output.accept(ItemInit.ASPECT_COLLECTOR.get());
+                output.accept(ItemInit.BOOTS_FRAME.get());
                 output.accept(ItemInit.MANA_BERRIES.get());
+                output.accept(ItemInit.MANA_PIE.get());
             }).build());
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MAGITECH_BLOCK_TAB = CREATIVE_MODE_TABS.register("magitech_block_tab", () -> CreativeModeTab.builder()
@@ -108,9 +114,9 @@ public class CreativeTabInit {
             .displayItems((parameters, output) -> {
                 output.accept(BlockInit.ENGINEERING_WORKBENCH_ITEM.get());
                 output.accept(BlockInit.ASSEMBLY_WORKBENCH_ITEM.get());
+                output.accept(BlockInit.ZARDIUS_CRUCIBLE_ITEM.get());
                 output.accept(BlockInit.ALCHEMETRIC_PYLON_ITEM.get());
                 output.accept(BlockInit.ATHANOR_PILLAR_ITEM.get());
-                output.accept(BlockInit.ZARDIUS_CRUCIBLE_ITEM.get());
                 output.accept(BlockInit.MANA_NODE_ITEM.get());
                 output.accept(BlockInit.MANA_VESSEL_ITEM.get());
                 output.accept(BlockInit.FLUORITE_ORE_ITEM.get());

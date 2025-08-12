@@ -26,13 +26,15 @@
       "type": "patchouli:spotlight",
       "title": "Fluorite",
       "text": "$(#000000)You can find plenty of these crystals underground. If you run out, go explore some caves.",
-      "item": "magitech:fluorite"
+      "item": "magitech:fluorite",
+      "link_recipe" : "true"
     },
     {
       "type": "patchouli:spotlight",
       "title": "Mana-Charged Fluorite",
       "text": "$(#000000)Look at it! Isn't it beautiful?",
-      "item": "magitech:mana_charged_fluorite"
+      "item": "magitech:mana_charged_fluorite",
+      "link_recipe" : "true"
     },
     {
       "type": "patchouli:text",

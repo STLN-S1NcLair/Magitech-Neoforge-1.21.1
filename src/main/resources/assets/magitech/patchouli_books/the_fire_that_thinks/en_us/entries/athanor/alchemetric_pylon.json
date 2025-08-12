@@ -1,0 +1,18 @@
+{
+  "name": "Alchemetric Pylon",
+  "icon": "magitech:alchemetric_pylon",
+  "category": "magitech:athanor",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "A device generally used in large-scale alchemical mechanisms."
+    },
+    {
+      "type": "patchouli:crafting",
+      "title": "Alchemetric Pylon",
+      "text": "A pedestal used in alchemy in general.$(br2)Can hold one item."
+    ,
+      "recipe": "magitech:alchemetric_pylon"
+    }
+  ]
+}

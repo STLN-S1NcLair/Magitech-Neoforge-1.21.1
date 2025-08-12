@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "item": "magitech:celifern_log"
+    },
+    "A": {
+      "item": "magitech:polished_alchecrysite"
+    },
+    "B": {
+      "item": "magitech:alchecrysite_bricks"
+    }
+  },
+  "pattern": [
+    "AIA",
+    " I ",
+    "IBI"
+  ],
+  "result": {
+    "count": 1,
+    "id": "magitech:alchemetric_pylon"
+  }
+}

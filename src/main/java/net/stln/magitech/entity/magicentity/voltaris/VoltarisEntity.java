@@ -96,16 +96,7 @@ public class VoltarisEntity extends SpellProjectileEntity {
         Entity owner = this.getOwner();
 
         ResourceKey<DamageType> damageType = this.getElement().getDamageType();
-        DamageSource elementalDamageSource;
-        if (owner != null) {
-            if (this.getWeaponItem() != null) {
-                elementalDamageSource = this.getWeaponItem().has(DataComponents.CUSTOM_NAME) ? owner.damageSources().source(damageType, owner) : owner.damageSources().source(damageType);
-            } else {
-                elementalDamageSource = owner.damageSources().source(damageType);
-            }
-        } else {
-            elementalDamageSource = this.damageSources().source(damageType);
-        }
+        DamageSource elementalDamageSource = getElementalDamageSource(owner, damageType);
 
 
         float finalDamage = this.damage * EntityElementRegister.getElementAffinity(entity, this.getElement()).getMultiplier();

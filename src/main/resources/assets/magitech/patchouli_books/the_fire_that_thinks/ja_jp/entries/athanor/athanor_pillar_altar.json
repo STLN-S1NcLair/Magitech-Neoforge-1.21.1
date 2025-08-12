@@ -1,0 +1,139 @@
+{
+  "name": "錬金炉の支柱の祭壇",
+  "icon": "magitech:athanor_pillar",
+  "category": "magitech:athanor",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "基本的な大型錬金機構。マナスパークを利用して注入する物質を励起させ、錬金炉の支柱で素体に固着させる。"
+    },
+    {
+      "type": "patchouli:crafting",
+      "title": "錬金炉の支柱",
+      "text": "マ素体に対して精密に物質を付着させるための錬金機構の核。$(br2)高濃度のマナに耐えうる耐久性を持つ。",
+      "recipe": "magitech:athanor_pillar"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "機構の概要",
+      "text": "マナノードから発せられるマナスパークを注入物質に当て励起させ、錬金炉の支柱まで粒子として運搬する。$(br2)錬金炉の支柱に組み込まれたマナ脱励起固着コアにより、運搬された注入物質粒子が脱励起され支柱上の素体の目的の場所に固着する。$(br2)これにより、錬金相や錬金物質を正確に目的の場所に注入することが可能となる。"
+    },
+    {
+      "type": "patchouli:multiblock",
+      "name": "錬金炉の支柱の祭壇",
+      "text": "機構の構成",
+      "multiblock": {
+        "name": "athanor_pillar_multiblock",
+        "pattern": [
+          [
+            "    B    ",
+            "    A    ",
+            "    A    ",
+            "    A    ",
+            "BAAAVAAAB",
+            "    A    ",
+            "    A    ",
+            "    A    ",
+            "    B    "
+          ],
+          [
+            "    L    ",
+            "         ",
+            "         ",
+            "         ",
+            "L   D   L",
+            "         ",
+            "         ",
+            "         ",
+            "    L    "
+          ],
+          [
+            "M   L   M",
+            "         ",
+            "         ",
+            "         ",
+            "L       L",
+            "         ",
+            "         ",
+            "         ",
+            "M   L   M"
+          ],
+          [
+            "P   L   P",
+            "    M    ",
+            "         ",
+            "         ",
+            "LM     ML",
+            "         ",
+            "         ",
+            "    M    ",
+            "P   L   P"
+          ],
+          [
+            "L   P   L",
+            " U  T  U ",
+            "         ",
+            "         ",
+            "PT     TP",
+            "         ",
+            "         ",
+            " U  T  U ",
+            "L   P   L"
+          ],
+          [
+            "L   L   L",
+            " V     V ",
+            "  M   M  ",
+            "         ",
+            "L   I   L",
+            "         ",
+            "  M   M  ",
+            " V     V ",
+            "L   L   L"
+          ],
+          [
+            "PPEEPEEPP",
+            "PFPOOOPFP",
+            "SPPBBBPPN",
+            "SOBCCCBON",
+            "POBC0CBOP",
+            "SOBCCCBON",
+            "SPPBBBPPN",
+            "PFPOOOPFP",
+            "PPWWPWWPP"
+          ]
+        ],
+        "mapping": {
+          "0": "magitech:alchecrysite",
+          "C": "magitech:alchecrysite",
+          "W": "magitech:alchecrysite_stairs[facing=west]",
+          "N": "magitech:alchecrysite_stairs[facing=north]",
+          "S": "magitech:alchecrysite_stairs[facing=south]",
+          "E": "magitech:alchecrysite_stairs[facing=east]",
+          "P": "magitech:polished_alchecrysite",
+          "T": "magitech:polished_alchecrysite_slab[type=top]",
+          "B": "magitech:alchecrysite_bricks",
+          "L": "magitech:alchecrysite_brick_wall",
+          "A": "magitech:alchecrysite_brick_slab[type=top]",
+          "F": "magitech:fluorite_block",
+          "O": "magitech:fluorite_bricks",
+          "M": "magitech:alchemetric_pylon",
+          "V": "magitech:mana_vessel",
+          "U": "magitech:mana_node[facing=up]",
+          "D": "magitech:mana_node[facing=down]",
+          "I": "magitech:athanor_pillar"
+        }
+      }
+    },
+    {
+      "type": "patchouli:text",
+      "title": "使用の手順",
+      "text": "5個のマナヴェセルにマナを充填し、適切な材料を錬測柱に配置すると、マナスパークが発生する。$(br2)この状態で一定時間待機すると結果が得られる。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "機構の用途",
+      "text": "精密な加工が必要な小型機構や装具類に多く用いられる。$(br2)加工に必要な手順が複雑な上、生産効率も悪いため工業的な大量生産に用いられることは稀である。"
+    }
+  ]
+}

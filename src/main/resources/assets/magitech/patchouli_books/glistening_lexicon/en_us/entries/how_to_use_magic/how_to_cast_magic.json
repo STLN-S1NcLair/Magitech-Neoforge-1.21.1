@@ -29,19 +29,22 @@
       "type": "patchouli:spotlight",
       "title": "Threadbound",
       "text": "$(#000000)A kind of magical book. Insert thread pages into it and wear it to use magic.",
-      "item": "magitech:glistening_lexicon"
+      "item": "magitech:glistening_lexicon",
+      "link_recipe" : "true"
     },
     {
       "type": "patchouli:spotlight",
       "title": "Thread Page",
       "text": "$(#000000)A blueprint for magic. It may look like paper or cloth, but contains Aidos circuits to shape the spell’s flow.",
-      "item": "magitech:thread_page[magitech:thread_page_component={\"spell\":\"magitech:frigala\"}]"
+      "item": "magitech:thread_page[magitech:thread_page_component={\"spell\":\"magitech:frigala\"}]",
+      "link_recipe" : "true"
     },
     {
       "type": "patchouli:spotlight",
       "title": "Wand (or Magical Device)",
       "text": "$(#000000)A device packed with components to activate spells. Comes in many forms, from small to stationary cannons.",
-      "item": "magitech:wand[magitech:part_material_component={\"materials\":[\"magitech:iron\", \"magitech:iron\", \"magitech:iron\", \"magitech:iron\"]}]"
+      "item": "magitech:wand[magitech:part_material_component={\"materials\":[\"magitech:iron\", \"magitech:iron\", \"magitech:iron\", \"magitech:iron\"]}]",
+      "link_recipe" : "true"
     },
     {
       "type": "patchouli:text",

@@ -1,0 +1,21 @@
+{
+  "name": "Flamglide Strider",
+  "icon": "magitech:flamglide_strider",
+  "category": "magitech:alchemical_equipment",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "An apparatus that efficiently mixes the Ember and Flow Aspects to enable high-speed movement through short bursts of acceleration."
+    },
+    {
+      "type": "magitech:athanor_pillar_infusion_recipe",
+      "title": "Flamglide Strider",
+      "recipe": "magitech:flamglide_strider"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Operating Mechanism",
+      "text": "Emits Flow Aspect from the wearer’s heels to gain forward acceleration.$(br2)Then, the Ember Aspect reacts with the Flow Aspect, releasing heat and providing further forward acceleration.$(br2)Unlike the Aether Lifter, it can control the emission direction up to a certain angle and maintains emission continuously for about one second, sustaining acceleration."
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "F": {
+      "tag": "c:gems/fluorite"
+    },
+    "A": {
+      "item": "magitech:alchecrysite"
+    },
+    "G": {
+      "item": "minecraft:gold_ingot"
+    },
+    "R": {
+      "item": "magitech:redstone_crystal"
+    }
+  },
+  "pattern": [
+    "AGR",
+    "GFG",
+    "AGF"
+  ],
+  "result": {
+    "count": 1,
+    "id": "magitech:mana_deexciter_core"
+  }
+}

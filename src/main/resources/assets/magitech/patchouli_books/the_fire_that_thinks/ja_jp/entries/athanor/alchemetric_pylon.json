@@ -1,0 +1,17 @@
+{
+  "name": "錬測柱",
+  "icon": "magitech:alchemetric_pylon",
+  "category": "magitech:athanor",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "一般的に大型の錬金機構で使用される装置。"
+    },
+    {
+      "type": "patchouli:crafting",
+      "title": "錬測柱",
+      "text": "錬金術全般に使用する台座。$(br2)アイテムを1つ置くことができる。",
+      "recipe": "magitech:alchemetric_pylon"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "name": "Tourmaline",
+  "icon": "magitech:tourmaline",
+  "category": "magitech:alchemical_material",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "By utilizing Magic and Alchemy, substances infused with energy can be created. These are often applied industrially."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "title": "Tourmaline",
+      "text": "A transparent mineral. Similar to quartz, but its crystals are found in jagged shapes. It is an inexpensive and ideal mineral for encapsulating Alchemical Aspects.",
+      "item": "magitech:tourmaline",
+      "link_recipe": "true"
+    }
+  ]
+}

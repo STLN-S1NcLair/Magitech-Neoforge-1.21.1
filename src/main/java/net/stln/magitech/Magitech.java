@@ -36,6 +36,7 @@ import net.stln.magitech.sound.SoundInit;
 import net.stln.magitech.worldgen.WorldGenInit;
 import net.stln.magitech.worldgen.tree.TreeGrowerInit;
 import org.slf4j.Logger;
+import vazkii.patchouli.api.PatchouliAPI;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(Magitech.MOD_ID)

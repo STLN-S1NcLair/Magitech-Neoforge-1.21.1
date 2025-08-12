@@ -41,6 +41,23 @@ public class ItemInit {
             )),
             new Item.Properties().stacksTo(1));
 
+    public static final DeferredItem<ThreadboundItem> THE_FIRE_THAT_THINKS = ITEMS.registerItem("the_fire_that_thinks",
+            (properties) -> new ThreadboundItem(properties).attributeModifier(Map.of(
+                    AttributeInit.MAX_MANA, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 100, AttributeModifier.Operation.ADD_VALUE),
+                    AttributeInit.MANA_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 1, AttributeModifier.Operation.ADD_VALUE),
+
+                    AttributeInit.NOCTIS_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.2, AttributeModifier.Operation.ADD_VALUE),
+                    AttributeInit.LUMINIS_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.2, AttributeModifier.Operation.ADD_VALUE),
+                    AttributeInit.FLUXIA_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.2, AttributeModifier.Operation.ADD_VALUE),
+                    AttributeInit.MAX_NOCTIS, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 15, AttributeModifier.Operation.ADD_VALUE),
+                    AttributeInit.MAX_LUMINIS, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 15, AttributeModifier.Operation.ADD_VALUE),
+                    AttributeInit.MAX_FLUXIA, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 15, AttributeModifier.Operation.ADD_VALUE),
+
+                    AttributeInit.SPELL_POWER, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.2, AttributeModifier.Operation.ADD_VALUE),
+                    AttributeInit.MANA_EFFICIENCY, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), -0.1, AttributeModifier.Operation.ADD_VALUE)
+            )),
+            new Item.Properties().stacksTo(1));
+
     public static final DeferredItem<ThreadboundItem> ARCANE_ENGINEERING_COMPENDIUM = ITEMS.registerItem("arcane_engineering_compendium",
             (properties) -> new ThreadboundItem(properties).attributeModifier(Map.of(
                     AttributeInit.MAX_MANA, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 300, AttributeModifier.Operation.ADD_VALUE),
@@ -184,6 +201,10 @@ public class ItemInit {
             TooltipTextItem::new,
             new Item.Properties());
 
+    public static final DeferredItem<Item> AEGIS_WEAVE = ITEMS.registerItem("aegis_weave",
+            TooltipTextItem::new,
+            new Item.Properties());
+
     public static final DeferredItem<Item> FLUORITE = ITEMS.registerItem("fluorite",
             TooltipTextItem::new,
             new Item.Properties());
@@ -280,9 +301,25 @@ public class ItemInit {
             TooltipTextItem::new,
             new Item.Properties());
 
+    public static final DeferredItem<Item> MANA_DEEXCITER_CORE = ITEMS.registerItem("mana_deexciter_core",
+            TooltipTextItem::new,
+            new Item.Properties());
+
+    public static final DeferredItem<Item> ASPECT_COLLECTOR = ITEMS.registerItem("aspect_collector",
+            TooltipTextItem::new,
+            new Item.Properties());
+
+    public static final DeferredItem<Item> BOOTS_FRAME = ITEMS.registerItem("boots_frame",
+            TooltipTextItem::new,
+            new Item.Properties());
+
     public static final DeferredItem<Item> MANA_BERRIES = ITEMS.registerItem("mana_berries",
             (key) -> new TooltipTextPlaceableItem(BlockInit.MANA_BERRY_BUSH.get(),
             new Item.Properties().food(FoodInit.MANA_BERRIES)));
+
+    public static final DeferredItem<Item> MANA_PIE = ITEMS.registerItem("mana_pie",
+            TooltipTextItem::new,
+            new Item.Properties().food(FoodInit.MANA_PIE));
 
     public static void registerItems(IEventBus eventBus) {
         Magitech.LOGGER.info("Registering Items for" + Magitech.MOD_ID);

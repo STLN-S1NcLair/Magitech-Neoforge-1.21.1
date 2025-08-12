@@ -1,0 +1,18 @@
+{
+  "name": "Aegis Weave",
+  "icon": "magitech:aegis_weave",
+  "category": "magitech:alchemical_material",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "By utilizing Magic and Alchemy, substances infused with energy can be created. These are often applied industrially."
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "title": "Aegis Weave",
+      "text": "A high-strength fabric reinforced with obsidian, Glace Aspect, Phantom Aspect, metals, and more. Equipment made from Aegis Weave protects the interior from external energy and impact."
+    ,
+      "recipe": "magitech:aegis_weave"
+    }
+  ]
+}

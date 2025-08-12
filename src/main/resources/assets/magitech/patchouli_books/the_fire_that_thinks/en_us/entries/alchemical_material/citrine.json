@@ -1,0 +1,17 @@
+{
+  "name": "Citrine",
+  "icon": "magitech:citrine",
+  "category": "magitech:alchemical_material",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "By utilizing Magic and Alchemy, substances infused with energy can be created. These are often applied industrially."
+    },
+    {
+      "type": "patchouli:smelting",
+      "title": "Citrine",
+      "text": "A common mineral obtained by heating Amethyst. Heating replaces the internal Magic Aspect with Ember Aspect, increasing its affinity with Ember Aspect.",
+      "recipe": "magitech:citrine"
+    }
+  ]
+}

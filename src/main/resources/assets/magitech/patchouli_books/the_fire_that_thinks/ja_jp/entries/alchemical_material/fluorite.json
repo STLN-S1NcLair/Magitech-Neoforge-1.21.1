@@ -1,0 +1,25 @@
+{
+  "name": "蛍石",
+  "icon": "magitech:fluorite",
+  "category": "magitech:alchemical_material",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "魔法や錬金術を駆使して、エネルギーが注入された物質を作成することができる。これはしばしば工業的に応用される。"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "title": "蛍石",
+      "text": "マナエネルギーを高濃度で溜め込む性質がある。$(br)マナを注入/放出する端子部ではマナ伝導率が高く、接続部に使用される特殊素材以外の接触部ではマナ伝導率がとても低くなる。$(br2)マナヴェセルなどのマナ保管容器として使用される。",
+      "item": "magitech:fluorite",
+      "link_recipe" : "true"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "title": "マナが充填された蛍石",
+      "text": "マナエネルギーを充填した蛍石。$(br)マナの一時的な供給として活用できる。",
+      "item": "magitech:mana_charged_fluorite",
+      "link_recipe" : "true"
+    }
+  ]
+}

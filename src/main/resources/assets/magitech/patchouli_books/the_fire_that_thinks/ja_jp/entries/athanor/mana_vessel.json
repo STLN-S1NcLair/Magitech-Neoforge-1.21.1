@@ -1,0 +1,17 @@
+{
+  "name": "マナヴェセル",
+  "icon": "magitech:mana_vessel",
+  "category": "magitech:athanor",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "一般的に大型の錬金機構で使用される装置。"
+    },
+    {
+      "type": "patchouli:crafting",
+      "title": "マナヴェセル",
+      "text": "マナを長期的に貯蓄する装置。$(br2)マナを充填した蛍石もしくはマナを充填できる魔法(例: エネルクラックス)でマナを充填できる。",
+      "recipe": "magitech:mana_vessel"
+    }
+  ]
+}

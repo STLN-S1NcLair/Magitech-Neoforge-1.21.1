@@ -1,0 +1,29 @@
+{
+  "name": "Creating a Reference Book for Alchemy",
+  "icon": "magitech:the_fire_that_thinks",
+  "category": "magitech:alchemy_notes",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "If you want to advance further in Alchemy, you will need a specialized book.$(br)It seems you can create one using basic Alchemy, so here is how."
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "title": "Crystallized Magical Aspect",
+      "text": "Material and energy for Alchecrysite.",
+      "recipe": "magitech:magic_crystal"
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "title": "Alchecrysite",
+      "text": "A material required for specialized books.$(br)It is essential for Alchemy.",
+      "recipe": "magitech:alchecrysite"
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "title": "\"The Fire That Thinks\"",
+      "text": "A full-fledged Alchemy book.$(br2)It comes with the same Threadbound functionality!",
+      "recipe": "magitech:the_fire_that_thinks"
+    }
+  ]
+}

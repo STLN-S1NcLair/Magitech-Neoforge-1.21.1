@@ -1,0 +1,74 @@
+{
+  "name": "Alchemical Aspect Handling",
+  "icon": "magitech:tourmaline",
+  "category": "magitech:alchemical_aspect",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "A form of energy essential for Alchemy."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Aspect Extraction",
+      "text": "Alchemical Aspects can be extracted from objects that embody their respective concepts.$(br2)When a small amount is needed, they can be extracted using Zardius Alchemy with water."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Aspect Storage",
+      "text": "Because Alchemical Aspects are unstable and dangerous, they cannot be stored in their raw state, so they are sealed inside crystals for storage.$(br2)Tourmaline and Quartz are known to be suitable crystals for sealing.$(br2)Also, once sealed, the Alchemical Aspects permeate the crystal's properties and change their nature, so they cannot be reused."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Small-Scale Aspect Production",
+      "text": "Using Zardius Alchemy, you can extract Alchemical Aspect Crystals from the following materials."
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "title": "Ember Crystal",
+      "recipe": "magitech:ember_crystal",
+      "text": "A heated crystal. Can be extracted from fuel."
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "title": "Glace Crystal",
+      "recipe": "magitech:glace_crystal",
+      "text": "A crystal that grows from its surroundings. Extracted from crystals."
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "title": "Surge Crystal",
+      "recipe": "magitech:surge_crystal",
+      "text": "A flickering crystal. Extracted from metals."
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "title": "Phantom Crystal",
+      "recipe": "magitech:phantom_crystal",
+      "text": "A passing-through crystal. Extracted from semi-tangible substances."
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "title": "Tremor Crystal",
+      "recipe": "magitech:tremor_crystal",
+      "text": "A trembling crystal. Extracted from rocks."
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "title": "Magic Crystal",
+      "recipe": "magitech:magic_crystal",
+      "text": "A crystal that emits power. Extracted from Mana-infused materials."
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "title": "Flow Crystal",
+      "recipe": "magitech:flow_crystal",
+      "text": "A crystal wrapped in wind. Extracted from living beings."
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "title": "Hollow Crystal",
+      "recipe": "magitech:hollow_crystal",
+      "text": "A crystal that distorts time and space. Extracted from the Void."
+    }
+  ]
+}

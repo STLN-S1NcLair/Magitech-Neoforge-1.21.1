@@ -5,11 +5,10 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.item.ItemInit;
-import net.stln.magitech.item.component.ComponentInit;
-import net.stln.magitech.item.component.MaterialComponent;
-import net.stln.magitech.item.component.PartMaterialComponent;
-import net.stln.magitech.item.component.SpellComponent;
+import net.stln.magitech.item.component.*;
 import net.stln.magitech.item.tool.material.MaterialInit;
+import net.stln.magitech.magic.spell.SpellInit;
+import net.stln.magitech.magic.spell.SpellRegister;
 import vazkii.patchouli.common.item.PatchouliDataComponents;
 
 import java.util.List;
@@ -45,7 +44,12 @@ public class ModifyDefaultComponentsEvent {
         event.modify(ItemInit.GLISTENING_LEXICON, builder -> builder.set(ComponentInit.SPELL_COMPONENT.get(),
                         new SpellComponent(List.of(), 0))
                 .set(PatchouliDataComponents.BOOK, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "glistening_lexicon")).build());
+        event.modify(ItemInit.THE_FIRE_THAT_THINKS, builder -> builder.set(ComponentInit.SPELL_COMPONENT.get(),
+                        new SpellComponent(List.of(), 0))
+                .set(PatchouliDataComponents.BOOK, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "the_fire_that_thinks")).build());
         event.modify(ItemInit.ARCANE_ENGINEERING_COMPENDIUM, builder -> builder.set(ComponentInit.SPELL_COMPONENT.get(),
                 new SpellComponent(List.of(), 0)).build());
+        event.modify(ItemInit.THREAD_PAGE, builder -> builder.set(ComponentInit.THREAD_PAGE_COMPONENT.get(),
+                new ThreadPageComponent(SpellInit.ENERCRUX)).build());
     }
 }

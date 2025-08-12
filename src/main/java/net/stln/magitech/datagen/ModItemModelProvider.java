@@ -23,6 +23,7 @@ public class ModItemModelProvider extends ItemModelProvider {
     @Override
     protected void registerModels() {
         basicItem(ItemInit.GLISTENING_LEXICON.get());
+        basicItem(ItemInit.THE_FIRE_THAT_THINKS.get());
         basicItem(ItemInit.ARCANE_ENGINEERING_COMPENDIUM.get());
         basicItem(ItemInit.MANA_RING.get());
         basicItem(ItemInit.GALEVENT_RING.get());
@@ -52,6 +53,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ItemInit.AETHER_LIFTER.get());
         basicItem(ItemInit.FLAMGLIDE_STRIDER.get());
         basicItem(ItemInit.ALCHAEFABRIC.get());
+        basicItem(ItemInit.AEGIS_WEAVE.get());
         basicItem(ItemInit.FLUORITE.get());
         basicItem(ItemInit.MANA_CHARGED_FLUORITE.get());
         basicItem(ItemInit.TOURMALINE.get());
@@ -76,7 +78,11 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ItemInit.POLISHED_RESONITE.get());
         basicItem(ItemInit.ABYSSITE.get());
         basicItem(ItemInit.POLISHED_ABYSSITE.get());
+        basicItem(ItemInit.MANA_DEEXCITER_CORE.get());
+        basicItem(ItemInit.ASPECT_COLLECTOR.get());
+        basicItem(ItemInit.BOOTS_FRAME.get());
         basicItem(ItemInit.MANA_BERRIES.get());
+        basicItem(ItemInit.MANA_PIE.get());
 
         basicItem(BlockInit.CELIFERN_DOOR_ITEM.get());
         getBuilder(BlockInit.CELIFERN_SAPLING_ITEM.get().toString())

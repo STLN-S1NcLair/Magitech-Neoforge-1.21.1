@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "F": {
+      "item": "magitech:fluorite"
+    },
+    "N": {
+      "item": "minecraft:iron_nugget"
+    },
+    "A": {
+      "item": "magitech:aspect_collector"
+    }
+  },
+  "pattern": [
+    "A A",
+    "INI",
+    "F F"
+  ],
+  "result": {
+    "count": 1,
+    "id": "magitech:boots_frame"
+  }
+}

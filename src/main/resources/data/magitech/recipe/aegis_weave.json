@@ -1,0 +1,37 @@
+{
+  "type": "magitech:zardius_crucible",
+  "ingredients": [
+    {
+      "item": "magitech:alchaefabric"
+    },
+    {
+    "item": "minecraft:obsidian"
+    },
+    {
+      "item": "magitech:glace_crystal"
+    },
+    {
+      "item": "magitech:phantom_crystal"
+    },
+    {
+    "item": "minecraft:chain"
+    },
+    {
+      "item": "minecraft:gold_ingot"
+    },
+    {
+      "item": "minecraft:gold_ingot"
+    },
+    {
+      "item": "minecraft:diamond"
+    }
+  ],
+  "input_fluid": {
+    "id": "minecraft:lava",
+    "amount": 2000
+  },
+  "result": {
+    "id": "magitech:aegis_weave",
+    "count": 3
+  }
+}

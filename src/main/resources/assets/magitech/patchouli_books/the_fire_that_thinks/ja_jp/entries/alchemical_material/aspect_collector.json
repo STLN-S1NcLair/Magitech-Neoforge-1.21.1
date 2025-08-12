@@ -1,0 +1,17 @@
+{
+  "name": "錬金相コレクター",
+  "icon": "magitech:aspect_collector",
+  "category": "magitech:alchemical_material",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "錬金機構は、複雑な装置や装具に使用される。錬金機構とは、一定の役割を持つ部品やコアを指す。"
+    },
+    {
+      "type": "patchouli:crafting",
+      "title": "錬金相コレクター",
+      "text": "周囲に存在する錬金相を収集する。$(br)収集した錬金相は主に装具などで動力源として利用される。$(br2)アルケインリフラクターとマナコレクターを用いて更に効率を強化、複数の錬金相に対応した装置は、魔法兵器の術者がしばしば杖の動力源として所持している。",
+      "recipe": "magitech:aspect_collector"
+    }
+  ]
+}

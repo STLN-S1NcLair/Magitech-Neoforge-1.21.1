@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "G": {
+      "item": "magitech:mana_deexciter_core"
+    },
+    "P": {
+      "item": "magitech:celifern_planks"
+    },
+    "A": {
+      "item": "magitech:alchecrysite"
+    },
+    "V": {
+      "item": "minecraft:iron_block"
+    },
+    "F": {
+      "tag": "c:gems/fluorite"
+    }
+  },
+  "pattern": [
+    "IGI",
+    "PVP",
+    "AFA"
+  ],
+  "result": {
+    "count": 1,
+    "id": "magitech:athanor_pillar"
+  }
+}

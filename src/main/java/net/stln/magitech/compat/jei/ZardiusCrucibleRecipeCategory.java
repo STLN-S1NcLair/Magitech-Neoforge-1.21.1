@@ -5,6 +5,7 @@ import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
+import mezz.jei.api.neoforge.NeoForgeTypes;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
@@ -77,29 +78,31 @@ public class ZardiusCrucibleRecipeCategory implements IRecipeCategory<ZardiusCru
                 int col = i % 2;
                 x = 19 + col * 18; // 横方向中央に調整
                 y = 4 + row * 18;
-            } else if (size == 6) {
+            } else if (size < 7) {
                 // 2列3行（左→右→下に）
-                int row = i % 3;
-                int col = i / 3;
-                x = 19 + col * 18;
+                int row = i / 3;
+                int col = i % 3;
+                int totalWidth = 3 * 18;
+                x = 19 + col * 18 + (36 - totalWidth) / 2;
                 y = 4 + row * 18;
             } else {
                 // 2列で縦並び（なるべく均等）
-                int row = i / 2;
-                int col = i % 2;
-                x = 19 + col * 18;
+                int row = i / 4;
+                int col = i % 4;
+                int totalWidth = 4 * 18;
+                x = 19 + col * 18 + (36 - totalWidth) / 2;
                 y = 4 + row * 18;
             }
 
             guiGraphics.blit(TEXTURE, x, y, 0, 0, 18, 18);
         }
-        guiGraphics.blit(TEXTURE, 72, 13, 18, 0, 18, 18);
-        guiGraphics.blit(TEXTURE, 94, 17, 0, 18, 21, 10);
+        guiGraphics.blit(TEXTURE, 73, 13, 18, 0, 18, 18);
+        guiGraphics.blit(TEXTURE, 95, 17, 0, 18, 21, 10);
         if (!recipe.getResultItem(Minecraft.getInstance().level.registryAccess()).isEmpty()) {
-            guiGraphics.blit(TEXTURE, 119, 13, 36, 0, 18, 18);
+            guiGraphics.blit(TEXTURE, 120, 13, 36, 0, 18, 18);
         }
         if (!recipe.getOutputFluid().isEmpty()) {
-            guiGraphics.blit(TEXTURE, 137, 13, 54, 0, 18, 18);
+            guiGraphics.blit(TEXTURE, 138, 13, 54, 0, 18, 18);
         }
     }
 
@@ -138,32 +141,46 @@ public class ZardiusCrucibleRecipeCategory implements IRecipeCategory<ZardiusCru
                 int col = i % 2;
                 x = 19 + col * 18; // 横方向中央に調整
                 y = 4 + row * 18;
-            } else if (ingredients.size() == 6) {
-                // 2x3 グリッド（左→右→下に）
-                int col = i / 3;
-                int row = i % 3;
-                x = 19 + col * 18;
+            } else if (ingredients.size() < 7) {
+                // 2列3行（左→右→下に）
+                int row = i / 3;
+                int col = i % 3;
+                int totalWidth = 3 * 18;
+                x = 19 + col * 18 + (36 - totalWidth) / 2;
                 y = 4 + row * 18;
             } else {
-                // 2列グリッド（なるべく均等に）
-                int row = i / 2;
-                int col = i % 2;
-                x = 19 + col * 18;
+                // 2列で縦並び（なるべく均等）
+                int row = i / 4;
+                int col = i % 4;
+                int totalWidth = 4 * 18;
+                x = 19 + col * 18 + (36 - totalWidth) / 2;
                 y = 4 + row * 18;
             }
 
             builder.addSlot(RecipeIngredientRole.INPUT, x + 1, y + 1)
                     .addIngredients(ingredients.get(i));
         }
-        builder.addSlot(RecipeIngredientRole.INPUT, 73, 14)
-                .addFluidStack(recipe.getInputFluid().getFluid(), recipe.getInputFluid().getAmount());
+        builder.addSlot(RecipeIngredientRole.INPUT, 74, 14)
+                .addIngredient(NeoForgeTypes.FLUID_STACK, recipe.getInputFluid()).addRichTooltipCallback((recipeSlotView, tooltip) -> {
+                    recipeSlotView.getDisplayedIngredient(NeoForgeTypes.FLUID_STACK).ifPresent(fluid -> {
+                        int amount = fluid.getAmount();
+                        // mB単位で表示
+                        tooltip.add(Component.literal(amount + " mB").withColor(0x808080));
+                    });
+                });
         if (!recipe.getResultItem(Minecraft.getInstance().level.registryAccess()).isEmpty()) {
-            builder.addSlot(RecipeIngredientRole.OUTPUT, 120, 14)
+            builder.addSlot(RecipeIngredientRole.OUTPUT, 121, 14)
                     .addItemStack(recipe.getResultItem(Minecraft.getInstance().level.registryAccess()));
         }
         if (!recipe.getOutputFluid().isEmpty()) {
-            builder.addSlot(RecipeIngredientRole.INPUT, 138, 14)
-                    .addFluidStack(recipe.getOutputFluid().getFluid(), recipe.getOutputFluid().getAmount());
+            builder.addSlot(RecipeIngredientRole.INPUT, 139, 14)
+                    .addIngredient(NeoForgeTypes.FLUID_STACK, recipe.getOutputFluid()).addRichTooltipCallback((recipeSlotView, tooltip) -> {
+                        recipeSlotView.getDisplayedIngredient(NeoForgeTypes.FLUID_STACK).ifPresent(fluid -> {
+                            int amount = fluid.getAmount();
+                            // mB単位で表示
+                            tooltip.add(Component.literal(amount + " mB").withColor(0x808080));
+                        });
+                    });
         }
     }
 }

@@ -1,0 +1,21 @@
+{
+  "name": "Aether Lifter",
+  "icon": "magitech:aether_lifter",
+  "category": "magitech:alchemical_equipment",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "An apparatus that enables aerial jumps by efficiently controlling the Phantom and Hollow Aspects."
+    },
+    {
+      "type": "magitech:athanor_pillar_infusion_recipe",
+      "title": "Aether Lifter",
+      "recipe": "magitech:aether_lifter"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Operating Mechanism",
+      "text": "Emits Hollow Aspect from the wearer’s soles to reduce gravity and gain upward acceleration.$(br2)Simultaneously emits Phantom Aspect to neutralize the Hollow Aspect and convert it into particles of light.$(br2)This suppresses spatial distortion to a temporary state and provides a burst of upward acceleration."
+    }
+  ]
+}

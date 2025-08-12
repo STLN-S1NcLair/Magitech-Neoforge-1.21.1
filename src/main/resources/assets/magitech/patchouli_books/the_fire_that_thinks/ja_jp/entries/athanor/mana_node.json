@@ -1,0 +1,17 @@
+{
+  "name": "マナノード",
+  "icon": "magitech:mana_node",
+  "category": "magitech:athanor",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "一般的に大型の錬金機構で使用される装置。"
+    },
+    {
+      "type": "patchouli:crafting",
+      "title": "マナノード",
+      "text": "マナスパークの起点となる端子。$(br2)裏面からマナを受け取り放出する。",
+      "recipe": "magitech:mana_node"
+    }
+  ]
+}

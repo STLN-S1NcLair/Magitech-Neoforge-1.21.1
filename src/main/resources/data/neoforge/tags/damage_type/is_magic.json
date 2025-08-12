@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "magitech:ember",
+    "magitech:glace",
+    "magitech:surge",
+    "magitech:phantom",
+    "magitech:tremor",
+    "magitech:magic",
+    "magitech:flow",
+    "magitech:hollow",
+    "magitech:mana"
+  ]
+}

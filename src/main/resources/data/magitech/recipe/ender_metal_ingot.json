@@ -5,13 +5,19 @@
       "item": "minecraft:ender_pearl"
     },
     {
-      "item": "magitech:iron_ingot"
+      "item": "minecraft:iron_ingot"
+    },
+    {
+      "item": "minecraft:iron_ingot"
     },
     {
       "item": "minecraft:gold_ingot"
     },
     {
       "item": "minecraft:copper_ingot"
+    },
+    {
+      "item": "magitech:hollow_crystal"
     }
   ],
   "input_fluid": {
@@ -20,6 +26,6 @@
   },
   "result": {
     "id": "magitech:ender_metal_ingot",
-    "count": 2
+    "count": 5
   }
 }

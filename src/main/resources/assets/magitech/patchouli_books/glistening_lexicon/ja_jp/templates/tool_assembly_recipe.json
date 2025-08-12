@@ -41,7 +41,8 @@
     {
       "type": "patchouli:item",
       "x": 89, "y": 36,
-      "item": "#result"
+      "item": "#result",
+      "link_recipe" : "true"
     },
     {
       "type": "patchouli:item",

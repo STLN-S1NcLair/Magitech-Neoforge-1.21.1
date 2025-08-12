@@ -1,0 +1,44 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "T": {
+      "item": "magitech:tourmaline"
+    },
+    "A": {
+      "item": "magitech:polished_alchecrysite_slab"
+    },
+    "D": {
+      "type": "neoforge:components",
+      "items": "magitech:catalyst",
+      "components": {
+        "magitech:material_component": {
+          "material": "magitech:diamond"
+        }
+      },
+      "strict": true
+    },
+    "G": {
+      "type": "neoforge:components",
+      "items": "magitech:plate",
+      "components": {
+        "magitech:material_component": {
+          "material": "magitech:gold"
+        }
+      },
+      "strict": true
+    },
+    "C": {
+      "item": "minecraft:copper_ingot"
+    }
+  },
+  "pattern": [
+    "D  ",
+    "CT ",
+    "AAG"
+  ],
+  "result": {
+    "count": 1,
+    "id": "magitech:aspect_collector"
+  }
+}

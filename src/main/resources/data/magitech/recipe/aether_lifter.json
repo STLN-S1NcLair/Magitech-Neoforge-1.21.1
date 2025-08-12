@@ -1,0 +1,55 @@
+{
+  "type": "magitech:athanor_pillar_infusion",
+  "base": {
+    "id": "magitech:boots_frame"
+  },
+  "ingredients": [
+    [
+      {
+        "item": "magitech:aegis_weave"
+      },
+      {
+        "item": "magitech:aegis_weave"
+      },
+      {
+        "item": "magitech:aegis_weave"
+      },
+      {
+        "item": "magitech:aegis_weave"
+      }
+    ],
+    [
+      {
+        "item": "minecraft:iron_ingot"
+      },
+      {
+        "item": "minecraft:iron_ingot"
+      },
+      {
+        "item": "magitech:tourmaline"
+      },
+      {
+        "item": "magitech:tourmaline"
+      }
+    ],
+    [
+      {
+        "item": "magitech:hollow_crystal"
+      },
+      {
+        "item": "magitech:hollow_crystal"
+      },
+      {
+        "item": "magitech:phantom_crystal"
+      },
+      {
+        "item": "magitech:phantom_crystal"
+      }
+    ]
+  ],
+  "mana": 500,
+  "result": {
+    "count": 1,
+    "id": "magitech:aether_lifter"
+  }
+}

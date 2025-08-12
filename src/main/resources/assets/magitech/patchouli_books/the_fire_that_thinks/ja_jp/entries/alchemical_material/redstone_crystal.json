@@ -1,0 +1,18 @@
+{
+  "name": "レッドストーンクリスタル",
+  "icon": "magitech:redstone_crystal",
+  "category": "magitech:alchemical_material",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "魔法や錬金術を駆使して、エネルギーが注入された物質を作成することができる。これはしばしば工業的に応用される。"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "title": "レッドストーンクリスタル",
+      "text": "レッドストーンが結晶化した物質。レッドストーン信号を高速で少ない減衰で伝えることができ、制御回路などに用いられる。",
+      "item": "magitech:redstone_crystal",
+      "link_recipe" : "true"
+    }
+  ]
+}

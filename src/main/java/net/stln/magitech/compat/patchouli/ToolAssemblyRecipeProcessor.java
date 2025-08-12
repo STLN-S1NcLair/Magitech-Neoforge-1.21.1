@@ -40,7 +40,9 @@ public class ToolAssemblyRecipeProcessor implements IComponentProcessor {
         if (vars.has("title")) {
             title = vars.get("title", level.registryAccess()).asString();
         }
-        text = vars.get("text", level.registryAccess()).asString();
+        if (vars.has("text")) {
+            text = vars.get("text", level.registryAccess()).asString();
+        }
          recipe = Minecraft.getInstance().level.getRecipeManager()
             .byKey(ResourceLocation.tryParse(recipeId)).orElseThrow(IllegalArgumentException::new).value();
 

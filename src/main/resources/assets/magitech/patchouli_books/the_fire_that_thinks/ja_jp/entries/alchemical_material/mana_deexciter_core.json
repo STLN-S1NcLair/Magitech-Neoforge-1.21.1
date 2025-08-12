@@ -1,0 +1,17 @@
+{
+  "name": "マナ脱励起固着コア",
+  "icon": "magitech:mana_deexciter_core",
+  "category": "magitech:alchemical_material",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "錬金機構は、複雑な装置や装具に使用される。錬金機構とは、一定の役割を持つ部品やコアを指す。"
+    },
+    {
+      "type": "patchouli:crafting",
+      "title": "マナ脱励起固着コア",
+      "text": "錬金炉の支柱などに使用する装置。$(br)物質からマナを奪い取る性質があり、マナに励起された物質を通常状態に戻す作用を持つ。",
+      "recipe": "magitech:mana_deexciter_core"
+    }
+  ]
+}

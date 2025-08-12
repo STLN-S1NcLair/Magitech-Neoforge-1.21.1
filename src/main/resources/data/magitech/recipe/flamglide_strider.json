@@ -1,0 +1,55 @@
+{
+  "type": "magitech:athanor_pillar_infusion",
+  "base": {
+    "id": "magitech:boots_frame"
+  },
+  "ingredients": [
+    [
+      {
+        "item": "magitech:aegis_weave"
+      },
+      {
+        "item": "magitech:aegis_weave"
+      },
+      {
+        "item": "magitech:aegis_weave"
+      },
+      {
+        "item": "magitech:aegis_weave"
+      }
+    ],
+    [
+      {
+        "item": "minecraft:iron_ingot"
+      },
+      {
+        "item": "minecraft:iron_ingot"
+      },
+      {
+        "item": "minecraft:gold_ingot"
+      },
+      {
+        "item": "minecraft:gold_ingot"
+      }
+    ],
+    [
+      {
+        "item": "magitech:ember_crystal"
+      },
+      {
+        "item": "magitech:ember_crystal"
+      },
+      {
+        "item": "magitech:flow_crystal"
+      },
+      {
+        "item": "magitech:flow_crystal"
+      }
+    ]
+  ],
+  "mana": 500,
+  "result": {
+    "count": 1,
+    "id": "magitech:flamglide_strider"
+  }
+}

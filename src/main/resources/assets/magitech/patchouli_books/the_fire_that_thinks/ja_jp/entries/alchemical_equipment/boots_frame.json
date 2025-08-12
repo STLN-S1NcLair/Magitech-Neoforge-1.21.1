@@ -1,0 +1,16 @@
+{
+  "name": "ブーツの枠組み",
+  "icon": "magitech:boots_frame",
+  "category": "magitech:alchemical_equipment",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "錬金炉での注入を行うための錬金相コレクター付きブーツの素体。"
+    },
+    {
+      "type": "patchouli:crafting",
+      "title": "ブーツの枠組み",
+      "recipe": "magitech:boots_frame"
+    }
+  ]
+}

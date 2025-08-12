@@ -1,0 +1,18 @@
+{
+  "name": "Archaefabric",
+  "icon": "magitech:alchaefabric",
+  "category": "magitech:alchemical_material",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "By utilizing Magic and Alchemy, substances infused with energy can be created. These are often applied industrially."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "title": "Archaefabric",
+      "text": "An animal tissue fully materialized by injecting Mana into the skin of a Phantom.$(br2)Due to its resistance to denaturation even when exposed to high concentrations of Mana or Alchemical Aspects, it is often used for producing Thread Pages or as a substitute for fabric.",
+      "item": "magitech:alchaefabric",
+      "link_recipe": "true"
+    }
+  ]
+}

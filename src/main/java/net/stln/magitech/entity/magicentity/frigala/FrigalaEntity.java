@@ -21,6 +21,7 @@ import net.stln.magitech.entity.SpellProjectileEntity;
 import net.stln.magitech.util.Element;
 import net.stln.magitech.particle.particle_option.FrostParticleEffect;
 import net.stln.magitech.sound.SoundInit;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -84,16 +85,7 @@ public class FrigalaEntity extends SpellProjectileEntity implements GeoEntity {
         Entity owner = this.getOwner();
 
         ResourceKey<DamageType> damageType = this.getElement().getDamageType();
-        DamageSource elementalDamageSource;
-        if (owner != null) {
-            if (this.getWeaponItem() != null) {
-                elementalDamageSource = this.getWeaponItem().has(DataComponents.CUSTOM_NAME) ? owner.damageSources().source(damageType, owner) : owner.damageSources().source(damageType);
-            } else {
-                elementalDamageSource = owner.damageSources().source(damageType);
-            }
-        } else {
-            elementalDamageSource = this.damageSources().source(damageType);
-        }
+        DamageSource elementalDamageSource = getElementalDamageSource(owner, damageType);
 
         float finalDamage = this.damage * EntityElementRegister.getElementAffinity(entity, this.getElement()).getMultiplier();
         applyDamage(entity, elementalDamageSource, finalDamage);

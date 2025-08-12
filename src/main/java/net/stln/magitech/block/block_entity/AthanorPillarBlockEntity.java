@@ -9,18 +9,20 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.items.ItemStackHandler;
@@ -38,14 +40,16 @@ import net.stln.magitech.util.EffectUtil;
 import net.stln.magitech.util.StructureHelper;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
+import vazkii.patchouli.api.IMultiblock;
+import vazkii.patchouli.api.PatchouliAPI;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Predicate;
 
 public class AthanorPillarBlockEntity extends BlockEntity {
+
     public final ItemStackHandler inventory = new ItemStackHandler(1) {
         @Override
         protected int getStackLimit(int slot, ItemStack stack) {
@@ -55,7 +59,7 @@ public class AthanorPillarBlockEntity extends BlockEntity {
         @Override
         protected void onContentsChanged(int slot) {
             setChanged();
-            if(!level.isClientSide()) {
+            if (!level.isClientSide()) {
                 level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
             }
         }
@@ -65,46 +69,6 @@ public class AthanorPillarBlockEntity extends BlockEntity {
 
     public AthanorPillarBlockEntity(BlockPos pos, BlockState blockState) {
         super(BlockInit.ATHANOR_PILLAR_ENTITY.get(), pos, blockState);
-    }
-
-    public void clearContents() {
-        inventory.setStackInSlot(0, ItemStack.EMPTY);
-    }
-
-    public void drops() {
-        SimpleContainer inv = new SimpleContainer(inventory.getSlots());
-        for(int i = 0; i < inventory.getSlots(); i++) {
-            inv.setItem(i, inventory.getStackInSlot(i));
-        }
-
-        Containers.dropContents(this.level, this.worldPosition, inv);
-    }
-
-    @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
-        tag.put("inventory", this.inventory.serializeNBT(registries));
-        tag.putInt("progress", this.craftingProgress);
-        tag.putInt("totalProgress", this.craftingTotalTime);
-    }
-
-    @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
-        this.inventory.deserializeNBT(registries, tag.getCompound("inventory"));
-        this.craftingProgress = tag.getInt("progress");
-        this.craftingTotalTime = tag.getInt("totalProgress");
-    }
-
-    @Nullable
-    @Override
-    public Packet<ClientGamePacketListener> getUpdatePacket() {
-        return ClientboundBlockEntityDataPacket.create(this);
-    }
-
-    @Override
-    public CompoundTag getUpdateTag(HolderLookup.Provider pRegistries) {
-        return saveWithoutMetadata(pRegistries);
     }
 
     public static void serverTick(Level level, BlockPos pos, BlockState state, AthanorPillarBlockEntity blockEntity) {
@@ -231,20 +195,20 @@ public class AthanorPillarBlockEntity extends BlockEntity {
                 SquareParticleEffect effect = new SquareParticleEffect(new Vector3f(1.0F, 0.2F, 0.2F), new Vector3f(1.0F, 0.2F, 0.2F), 1.0F, 1, 0);
                 EffectUtil.lineEffect(level, effect, new Vec3(x, y, z), pos.getCenter(), 5, true);
 
-                EffectUtil.lineEffect(level, effect, v1,v2, 7, true);
-                EffectUtil.lineEffect(level, effect, v2,v3, 7, true);
-                EffectUtil.lineEffect(level, effect, v3,v4, 7, true);
-                EffectUtil.lineEffect(level, effect, v4,v1, 7, true);
+                EffectUtil.lineEffect(level, effect, v1, v2, 7, true);
+                EffectUtil.lineEffect(level, effect, v2, v3, 7, true);
+                EffectUtil.lineEffect(level, effect, v3, v4, 7, true);
+                EffectUtil.lineEffect(level, effect, v4, v1, 7, true);
 
-                EffectUtil.lineEffect(level, effect, v5,v6, 7, true);
-                EffectUtil.lineEffect(level, effect, v6,v7, 7, true);
-                EffectUtil.lineEffect(level, effect, v7,v8, 7, true);
-                EffectUtil.lineEffect(level, effect, v8,v5, 7, true);
+                EffectUtil.lineEffect(level, effect, v5, v6, 7, true);
+                EffectUtil.lineEffect(level, effect, v6, v7, 7, true);
+                EffectUtil.lineEffect(level, effect, v7, v8, 7, true);
+                EffectUtil.lineEffect(level, effect, v8, v5, 7, true);
 
-                EffectUtil.lineEffect(level, effect, v1,v5, 7, true);
-                EffectUtil.lineEffect(level, effect, v2,v6, 7, true);
-                EffectUtil.lineEffect(level, effect, v3,v7, 7, true);
-                EffectUtil.lineEffect(level, effect, v4,v8, 7, true);
+                EffectUtil.lineEffect(level, effect, v1, v5, 7, true);
+                EffectUtil.lineEffect(level, effect, v2, v6, 7, true);
+                EffectUtil.lineEffect(level, effect, v3, v7, 7, true);
+                EffectUtil.lineEffect(level, effect, v4, v8, 7, true);
             }
         }
 
@@ -343,81 +307,81 @@ public class AthanorPillarBlockEntity extends BlockEntity {
         boolean topFlag2 = hasItemInInventory(level, posTop2);
         boolean topFlag3 = hasItemInInventory(level, posTop3);
         boolean topFlag4 = hasItemInInventory(level, posTop4);
-                if (bottomFlag1) {
-                    randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, bottom1, 1.0F, 1, 0), vessel1.x, vessel1.y, vessel1.z, 0, 0, 0), 0.3F);
-                    randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, bottom1, 1.0F, 1, 0), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
-                    itemParticle(level, random, posBottom1);
-                } else {
-                    randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, vessel1, 1.0F, 1, 0), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
-                }
-                if (bottomFlag2) {
-                    randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, bottom2, 1.0F, 1, 0), vessel2.x, vessel2.y, vessel2.z, 0, 0, 0), 0.3F);
-                    randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, bottom2, 1.0F, 1, 0), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
-                    itemParticle(level, random, posBottom2);
-                } else {
-                    randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, vessel2, 1.0F, 1, 0), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
-                }
-                if (bottomFlag3) {
-                    randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, bottom3, 1.0F, 1, 0), vessel3.x, vessel3.y, vessel3.z, 0, 0, 0), 0.3F);
-                    randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, bottom3, 1.0F, 1, 0), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
-                    itemParticle(level, random, posBottom3);
-                } else {
-                    randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, vessel3, 1.0F, 1, 0), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
-                }
-                if (bottomFlag4) {
-                    randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, bottom4, 1.0F, 1, 0), vessel4.x, vessel4.y, vessel4.z, 0, 0, 0), 0.3F);
-                    randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, bottom4, 1.0F, 1, 0), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
-                    itemParticle(level, random, posBottom4);
-                } else {
-                    randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, vessel4, 1.0F, 1, 0), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
-                }
-                if (midFlag1) {
-                    randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, mid1, 1.0F, 1, 0), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
-                    randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, mid1, 1.0F, 1, 0), vessel5.x, vessel5.y, vessel5.z, 0, 0, 0), 0.3F);
-                    itemParticle(level, random, posMid1);
-                }
-                if (midFlag2) {
-                    randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, mid2, 1.0F, 1, 0), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
-                    randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, mid2, 1.0F, 1, 0), vessel5.x, vessel5.y, vessel5.z, 0, 0, 0), 0.3F);
-                    itemParticle(level, random, posMid2);
-                }
-                if (midFlag3) {
-                    randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, mid3, 1.0F, 1, 0), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
-                    randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, mid3, 1.0F, 1, 0), vessel5.x, vessel5.y, vessel5.z, 0, 0, 0), 0.3F);
-                    itemParticle(level, random, posMid3);
-                }
-                if (midFlag4) {
-                    randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, mid4, 1.0F, 1, 0), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
-                    randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, mid4, 1.0F, 1, 0), vessel5.x, vessel5.y, vessel5.z, 0, 0, 0), 0.3F);
-                    itemParticle(level, random, posMid4);
-                }
-                if (topFlag1) {
-                    randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, top1, 1.0F, 1, 0), vessel1.x, vessel1.y, vessel1.z, 0, 0, 0), 0.3F);
-                    randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, top1, 1.0F, 1, 0), vessel5.x, vessel5.y, vessel5.z, 0, 0, 0), 0.3F);
-                    itemParticle(level, random, posTop1);
-                }
-                if (topFlag2) {
-                    randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, top2, 1.0F, 1, 0), vessel2.x, vessel2.y, vessel2.z, 0, 0, 0), 0.3F);
-                    randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, top2, 1.0F, 1, 0), vessel5.x, vessel5.y, vessel5.z, 0, 0, 0), 0.3F);
-                    itemParticle(level, random, posTop2);
-                }
-                if (topFlag3) {
-                    randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, top3, 1.0F, 1, 0), vessel3.x, vessel3.y, vessel3.z, 0, 0, 0), 0.3F);
-                    randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, top3, 1.0F, 1, 0), vessel5.x, vessel5.y, vessel5.z, 0, 0, 0), 0.3F);
-                    itemParticle(level, random, posTop3);
-                }
-                if (topFlag4) {
-                    randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, top4, 1.0F, 1, 0), vessel4.x, vessel4.y, vessel4.z, 0, 0, 0), 0.3F);
-                    randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, top4, 1.0F, 1, 0), vessel5.x, vessel5.y, vessel5.z, 0, 0, 0), 0.3F);
-                    itemParticle(level, random, posTop4);
-                }
-                randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, vessel5, 1.0F, 1, 0), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
-                itemParticle(level, random, pillar);
-                nodeParticle(level, random, vessel1);
-                nodeParticle(level, random, vessel2);
-                nodeParticle(level, random, vessel3);
-                nodeParticle(level, random, vessel4);
-                nodeParticle(level, random, vessel5);
+        if (bottomFlag1) {
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, bottom1, 1.0F, 1, 0), vessel1.x, vessel1.y, vessel1.z, 0, 0, 0), 0.3F);
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, bottom1, 1.0F, 1, 0), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
+            itemParticle(level, random, posBottom1);
+        } else {
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, vessel1, 1.0F, 1, 0), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
+        }
+        if (bottomFlag2) {
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, bottom2, 1.0F, 1, 0), vessel2.x, vessel2.y, vessel2.z, 0, 0, 0), 0.3F);
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, bottom2, 1.0F, 1, 0), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
+            itemParticle(level, random, posBottom2);
+        } else {
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, vessel2, 1.0F, 1, 0), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
+        }
+        if (bottomFlag3) {
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, bottom3, 1.0F, 1, 0), vessel3.x, vessel3.y, vessel3.z, 0, 0, 0), 0.3F);
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, bottom3, 1.0F, 1, 0), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
+            itemParticle(level, random, posBottom3);
+        } else {
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, vessel3, 1.0F, 1, 0), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
+        }
+        if (bottomFlag4) {
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, bottom4, 1.0F, 1, 0), vessel4.x, vessel4.y, vessel4.z, 0, 0, 0), 0.3F);
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, bottom4, 1.0F, 1, 0), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
+            itemParticle(level, random, posBottom4);
+        } else {
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, vessel4, 1.0F, 1, 0), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
+        }
+        if (midFlag1) {
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, mid1, 1.0F, 1, 0), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, mid1, 1.0F, 1, 0), vessel5.x, vessel5.y, vessel5.z, 0, 0, 0), 0.3F);
+            itemParticle(level, random, posMid1);
+        }
+        if (midFlag2) {
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, mid2, 1.0F, 1, 0), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, mid2, 1.0F, 1, 0), vessel5.x, vessel5.y, vessel5.z, 0, 0, 0), 0.3F);
+            itemParticle(level, random, posMid2);
+        }
+        if (midFlag3) {
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, mid3, 1.0F, 1, 0), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, mid3, 1.0F, 1, 0), vessel5.x, vessel5.y, vessel5.z, 0, 0, 0), 0.3F);
+            itemParticle(level, random, posMid3);
+        }
+        if (midFlag4) {
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, mid4, 1.0F, 1, 0), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, mid4, 1.0F, 1, 0), vessel5.x, vessel5.y, vessel5.z, 0, 0, 0), 0.3F);
+            itemParticle(level, random, posMid4);
+        }
+        if (topFlag1) {
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, top1, 1.0F, 1, 0), vessel1.x, vessel1.y, vessel1.z, 0, 0, 0), 0.3F);
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, top1, 1.0F, 1, 0), vessel5.x, vessel5.y, vessel5.z, 0, 0, 0), 0.3F);
+            itemParticle(level, random, posTop1);
+        }
+        if (topFlag2) {
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, top2, 1.0F, 1, 0), vessel2.x, vessel2.y, vessel2.z, 0, 0, 0), 0.3F);
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, top2, 1.0F, 1, 0), vessel5.x, vessel5.y, vessel5.z, 0, 0, 0), 0.3F);
+            itemParticle(level, random, posTop2);
+        }
+        if (topFlag3) {
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, top3, 1.0F, 1, 0), vessel3.x, vessel3.y, vessel3.z, 0, 0, 0), 0.3F);
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, top3, 1.0F, 1, 0), vessel5.x, vessel5.y, vessel5.z, 0, 0, 0), 0.3F);
+            itemParticle(level, random, posTop3);
+        }
+        if (topFlag4) {
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, top4, 1.0F, 1, 0), vessel4.x, vessel4.y, vessel4.z, 0, 0, 0), 0.3F);
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, top4, 1.0F, 1, 0), vessel5.x, vessel5.y, vessel5.z, 0, 0, 0), 0.3F);
+            itemParticle(level, random, posTop4);
+        }
+        randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, vessel5, 1.0F, 1, 0), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
+        itemParticle(level, random, pillar);
+        nodeParticle(level, random, vessel1);
+        nodeParticle(level, random, vessel2);
+        nodeParticle(level, random, vessel3);
+        nodeParticle(level, random, vessel4);
+        nodeParticle(level, random, vessel5);
     }
 
     private static boolean hasItemInInventory(Level level, BlockPos pos) {
@@ -479,225 +443,365 @@ public class AthanorPillarBlockEntity extends BlockEntity {
         blockEntity.craftingProgress = 0;
     }
 
-
-
-    private static class StructureHolder {
-
-        private static final Map<BlockPos, BlockState> STRUCTURE = Map.<BlockPos, BlockState>ofEntries(
-                Map.entry(new BlockPos(0, 0, 0), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
-                Map.entry(new BlockPos(1, 0, 0), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
-                Map.entry(new BlockPos(2, 0, 0), BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.SOUTH)),
-                Map.entry(new BlockPos(3, 0, 0), BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.SOUTH)),
-                Map.entry(new BlockPos(4, 0, 0), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
-                Map.entry(new BlockPos(5, 0, 0), BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.SOUTH)),
-                Map.entry(new BlockPos(6, 0, 0), BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.SOUTH)),
-                Map.entry(new BlockPos(7, 0, 0), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
-                Map.entry(new BlockPos(8, 0, 0), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
-
-                Map.entry(new BlockPos(0, 0, 1), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
-                Map.entry(new BlockPos(1, 0, 1), BlockInit.FLUORITE_BLOCK.get().defaultBlockState()),
-                Map.entry(new BlockPos(2, 0, 1), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
-                Map.entry(new BlockPos(3, 0, 1), BlockInit.FLUORITE_BRICKS.get().defaultBlockState()),
-                Map.entry(new BlockPos(4, 0, 1), BlockInit.FLUORITE_BRICKS.get().defaultBlockState()),
-                Map.entry(new BlockPos(5, 0, 1), BlockInit.FLUORITE_BRICKS.get().defaultBlockState()),
-                Map.entry(new BlockPos(6, 0, 1), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
-                Map.entry(new BlockPos(7, 0, 1), BlockInit.FLUORITE_BLOCK.get().defaultBlockState()),
-                Map.entry(new BlockPos(8, 0, 1), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
-
-                Map.entry(new BlockPos(0, 0, 2), BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.EAST)),
-                Map.entry(new BlockPos(1, 0, 2), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
-                Map.entry(new BlockPos(2, 0, 2), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
-                Map.entry(new BlockPos(3, 0, 2), BlockInit.ALCHECRYSITE_BRICKS.get().defaultBlockState()),
-                Map.entry(new BlockPos(4, 0, 2), BlockInit.ALCHECRYSITE_BRICKS.get().defaultBlockState()),
-                Map.entry(new BlockPos(5, 0, 2), BlockInit.ALCHECRYSITE_BRICKS.get().defaultBlockState()),
-                Map.entry(new BlockPos(6, 0, 2), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
-                Map.entry(new BlockPos(7, 0, 2), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
-                Map.entry(new BlockPos(8, 0, 2), BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.WEST)),
-
-                Map.entry(new BlockPos(0, 0, 3), BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.EAST)),
-                Map.entry(new BlockPos(1, 0, 3), BlockInit.FLUORITE_BRICKS.get().defaultBlockState()),
-                Map.entry(new BlockPos(2, 0, 3), BlockInit.ALCHECRYSITE_BRICKS.get().defaultBlockState()),
-                Map.entry(new BlockPos(3, 0, 3), BlockInit.ALCHECRYSITE.get().defaultBlockState()),
-                Map.entry(new BlockPos(4, 0, 3), BlockInit.ALCHECRYSITE.get().defaultBlockState()),
-                Map.entry(new BlockPos(5, 0, 3), BlockInit.ALCHECRYSITE.get().defaultBlockState()),
-                Map.entry(new BlockPos(6, 0, 3), BlockInit.ALCHECRYSITE_BRICKS.get().defaultBlockState()),
-                Map.entry(new BlockPos(7, 0, 3), BlockInit.FLUORITE_BRICKS.get().defaultBlockState()),
-                Map.entry(new BlockPos(8, 0, 3), BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.WEST)),
-
-                Map.entry(new BlockPos(0, 0, 4), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
-                Map.entry(new BlockPos(1, 0, 4), BlockInit.FLUORITE_BRICKS.get().defaultBlockState()),
-                Map.entry(new BlockPos(2, 0, 4), BlockInit.ALCHECRYSITE_BRICKS.get().defaultBlockState()),
-                Map.entry(new BlockPos(3, 0, 4), BlockInit.ALCHECRYSITE.get().defaultBlockState()),
-                Map.entry(new BlockPos(4, 0, 4), BlockInit.ALCHECRYSITE.get().defaultBlockState()),
-                Map.entry(new BlockPos(5, 0, 4), BlockInit.ALCHECRYSITE.get().defaultBlockState()),
-                Map.entry(new BlockPos(6, 0, 4), BlockInit.ALCHECRYSITE_BRICKS.get().defaultBlockState()),
-                Map.entry(new BlockPos(7, 0, 4), BlockInit.FLUORITE_BRICKS.get().defaultBlockState()),
-                Map.entry(new BlockPos(8, 0, 4), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
-
-                Map.entry(new BlockPos(0, 0, 5), BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.EAST)),
-                Map.entry(new BlockPos(1, 0, 5), BlockInit.FLUORITE_BRICKS.get().defaultBlockState()),
-                Map.entry(new BlockPos(2, 0, 5), BlockInit.ALCHECRYSITE_BRICKS.get().defaultBlockState()),
-                Map.entry(new BlockPos(3, 0, 5), BlockInit.ALCHECRYSITE.get().defaultBlockState()),
-                Map.entry(new BlockPos(4, 0, 5), BlockInit.ALCHECRYSITE.get().defaultBlockState()),
-                Map.entry(new BlockPos(5, 0, 5), BlockInit.ALCHECRYSITE.get().defaultBlockState()),
-                Map.entry(new BlockPos(6, 0, 5), BlockInit.ALCHECRYSITE_BRICKS.get().defaultBlockState()),
-                Map.entry(new BlockPos(7, 0, 5), BlockInit.FLUORITE_BRICKS.get().defaultBlockState()),
-                Map.entry(new BlockPos(8, 0, 5), BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.WEST)),
-
-                Map.entry(new BlockPos(0, 0, 6), BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.EAST)),
-                Map.entry(new BlockPos(1, 0, 6), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
-                Map.entry(new BlockPos(2, 0, 6), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
-                Map.entry(new BlockPos(3, 0, 6), BlockInit.ALCHECRYSITE_BRICKS.get().defaultBlockState()),
-                Map.entry(new BlockPos(4, 0, 6), BlockInit.ALCHECRYSITE_BRICKS.get().defaultBlockState()),
-                Map.entry(new BlockPos(5, 0, 6), BlockInit.ALCHECRYSITE_BRICKS.get().defaultBlockState()),
-                Map.entry(new BlockPos(6, 0, 6), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
-                Map.entry(new BlockPos(7, 0, 6), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
-                Map.entry(new BlockPos(8, 0, 6), BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.WEST)),
-
-                Map.entry(new BlockPos(0, 0, 7), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
-                Map.entry(new BlockPos(1, 0, 7), BlockInit.FLUORITE_BLOCK.get().defaultBlockState()),
-                Map.entry(new BlockPos(2, 0, 7), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
-                Map.entry(new BlockPos(3, 0, 7), BlockInit.FLUORITE_BRICKS.get().defaultBlockState()),
-                Map.entry(new BlockPos(4, 0, 7), BlockInit.FLUORITE_BRICKS.get().defaultBlockState()),
-                Map.entry(new BlockPos(5, 0, 7), BlockInit.FLUORITE_BRICKS.get().defaultBlockState()),
-                Map.entry(new BlockPos(6, 0, 7), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
-                Map.entry(new BlockPos(7, 0, 7), BlockInit.FLUORITE_BLOCK.get().defaultBlockState()),
-                Map.entry(new BlockPos(8, 0, 7), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
-
-                Map.entry(new BlockPos(0, 0, 8), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
-                Map.entry(new BlockPos(1, 0, 8), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
-                Map.entry(new BlockPos(2, 0, 8), BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.NORTH)),
-                Map.entry(new BlockPos(3, 0, 8), BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.NORTH)),
-                Map.entry(new BlockPos(4, 0, 8), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
-                Map.entry(new BlockPos(5, 0, 8), BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.NORTH)),
-                Map.entry(new BlockPos(6, 0, 8), BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.NORTH)),
-                Map.entry(new BlockPos(7, 0, 8), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
-                Map.entry(new BlockPos(8, 0, 8), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
-
-
-                Map.entry(new BlockPos(0, 1, 0), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
-                Map.entry(new BlockPos(4, 1, 0), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
-                Map.entry(new BlockPos(8, 1, 0), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
-
-                Map.entry(new BlockPos(1, 1, 1), BlockInit.MANA_VESSEL.get().defaultBlockState()),
-                Map.entry(new BlockPos(7, 1, 1), BlockInit.MANA_VESSEL.get().defaultBlockState()),
-
-                Map.entry(new BlockPos(2, 1, 2), BlockInit.ALCHEMETRIC_PYLON.get().defaultBlockState()),
-                Map.entry(new BlockPos(6, 1, 2), BlockInit.ALCHEMETRIC_PYLON.get().defaultBlockState()),
-
-                Map.entry(new BlockPos(0, 1, 4), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
-                Map.entry(new BlockPos(4, 1, 4), BlockInit.ATHANOR_PILLAR.get().defaultBlockState()),
-                Map.entry(new BlockPos(8, 1, 4), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
-
-                Map.entry(new BlockPos(2, 1, 6), BlockInit.ALCHEMETRIC_PYLON.get().defaultBlockState()),
-                Map.entry(new BlockPos(6, 1, 6), BlockInit.ALCHEMETRIC_PYLON.get().defaultBlockState()),
-
-                Map.entry(new BlockPos(1, 1, 7), BlockInit.MANA_VESSEL.get().defaultBlockState()),
-                Map.entry(new BlockPos(7, 1, 7), BlockInit.MANA_VESSEL.get().defaultBlockState()),
-
-                Map.entry(new BlockPos(0, 1, 8), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
-                Map.entry(new BlockPos(4, 1, 8), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
-                Map.entry(new BlockPos(8, 1, 8), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
-
-
-                Map.entry(new BlockPos(0, 2, 0), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
-                Map.entry(new BlockPos(4, 2, 0), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
-                Map.entry(new BlockPos(8, 2, 0), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
-
-                Map.entry(new BlockPos(1, 2, 1), BlockInit.MANA_NODE.get().defaultBlockState().setValue(ManaNodeBlock.FACING, Direction.UP)),
-                Map.entry(new BlockPos(4, 2, 1), BlockInit.POLISHED_ALCHECRYSITE_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)),
-                Map.entry(new BlockPos(7, 2, 1), BlockInit.MANA_NODE.get().defaultBlockState().setValue(ManaNodeBlock.FACING, Direction.UP)),
-
-                Map.entry(new BlockPos(0, 2, 4), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
-                Map.entry(new BlockPos(1, 2, 4), BlockInit.POLISHED_ALCHECRYSITE_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)),
-                Map.entry(new BlockPos(7, 2, 4), BlockInit.POLISHED_ALCHECRYSITE_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)),
-                Map.entry(new BlockPos(8, 2, 4), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
-
-                Map.entry(new BlockPos(1, 2, 7), BlockInit.MANA_NODE.get().defaultBlockState().setValue(ManaNodeBlock.FACING, Direction.UP)),
-                Map.entry(new BlockPos(4, 2, 7), BlockInit.POLISHED_ALCHECRYSITE_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)),
-                Map.entry(new BlockPos(7, 2, 7), BlockInit.MANA_NODE.get().defaultBlockState().setValue(ManaNodeBlock.FACING, Direction.UP)),
-
-                Map.entry(new BlockPos(0, 2, 8), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
-                Map.entry(new BlockPos(4, 2, 8), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
-                Map.entry(new BlockPos(8, 2, 8), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
-
-
-                Map.entry(new BlockPos(0, 3, 0), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
-                Map.entry(new BlockPos(4, 3, 0), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
-                Map.entry(new BlockPos(8, 3, 0), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
-
-                Map.entry(new BlockPos(4, 3, 1), BlockInit.ALCHEMETRIC_PYLON.get().defaultBlockState()),
-
-                Map.entry(new BlockPos(0, 3, 4), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
-                Map.entry(new BlockPos(1, 3, 4), BlockInit.ALCHEMETRIC_PYLON.get().defaultBlockState()),
-                Map.entry(new BlockPos(7, 3, 4), BlockInit.ALCHEMETRIC_PYLON.get().defaultBlockState()),
-                Map.entry(new BlockPos(8, 3, 4), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
-
-                Map.entry(new BlockPos(4, 3, 7), BlockInit.ALCHEMETRIC_PYLON.get().defaultBlockState()),
-
-                Map.entry(new BlockPos(0, 3, 8), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
-                Map.entry(new BlockPos(4, 3, 8), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
-                Map.entry(new BlockPos(8, 3, 8), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
-
-
-                Map.entry(new BlockPos(0, 4, 0), BlockInit.ALCHEMETRIC_PYLON.get().defaultBlockState()),
-                Map.entry(new BlockPos(4, 4, 0), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
-                Map.entry(new BlockPos(8, 4, 0), BlockInit.ALCHEMETRIC_PYLON.get().defaultBlockState()),
-
-                Map.entry(new BlockPos(0, 4, 4), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
-                Map.entry(new BlockPos(8, 4, 4), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
-
-                Map.entry(new BlockPos(0, 4, 8), BlockInit.ALCHEMETRIC_PYLON.get().defaultBlockState()),
-                Map.entry(new BlockPos(4, 4, 8), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
-                Map.entry(new BlockPos(8, 4, 8), BlockInit.ALCHEMETRIC_PYLON.get().defaultBlockState()),
-
-
-                Map.entry(new BlockPos(4, 5, 0), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
-
-                Map.entry(new BlockPos(0, 5, 4), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
-                Map.entry(new BlockPos(4, 5, 4), BlockInit.MANA_NODE.get().defaultBlockState().setValue(ManaNodeBlock.FACING, Direction.DOWN)),
-                Map.entry(new BlockPos(8, 5, 4), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
-
-                Map.entry(new BlockPos(4, 5, 8), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
-
-
-                Map.entry(new BlockPos(4, 6, 0), BlockInit.ALCHECRYSITE_BRICKS.get().defaultBlockState()),
-
-                Map.entry(new BlockPos(4, 6, 1), BlockInit.ALCHECRYSITE_BRICK_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)),
-
-                Map.entry(new BlockPos(4, 6, 2), BlockInit.ALCHECRYSITE_BRICK_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)),
-
-                Map.entry(new BlockPos(4, 6, 3), BlockInit.ALCHECRYSITE_BRICK_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)),
-
-                Map.entry(new BlockPos(0, 6, 4), BlockInit.ALCHECRYSITE_BRICKS.get().defaultBlockState()),
-                Map.entry(new BlockPos(1, 6, 4), BlockInit.ALCHECRYSITE_BRICK_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)),
-                Map.entry(new BlockPos(2, 6, 4), BlockInit.ALCHECRYSITE_BRICK_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)),
-                Map.entry(new BlockPos(3, 6, 4), BlockInit.ALCHECRYSITE_BRICK_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)),
-                Map.entry(new BlockPos(4, 6, 4), BlockInit.MANA_VESSEL.get().defaultBlockState()),
-                Map.entry(new BlockPos(5, 6, 4), BlockInit.ALCHECRYSITE_BRICK_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)),
-                Map.entry(new BlockPos(6, 6, 4), BlockInit.ALCHECRYSITE_BRICK_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)),
-                Map.entry(new BlockPos(7, 6, 4), BlockInit.ALCHECRYSITE_BRICK_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)),
-                Map.entry(new BlockPos(8, 6, 4), BlockInit.ALCHECRYSITE_BRICKS.get().defaultBlockState()),
-
-                Map.entry(new BlockPos(4, 6, 5), BlockInit.ALCHECRYSITE_BRICK_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)),
-
-                Map.entry(new BlockPos(4, 6, 6), BlockInit.ALCHECRYSITE_BRICK_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)),
-
-                Map.entry(new BlockPos(4, 6, 7), BlockInit.ALCHECRYSITE_BRICK_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)),
-
-                Map.entry(new BlockPos(4, 6, 8), BlockInit.ALCHECRYSITE_BRICKS.get().defaultBlockState())
-        );
+    public void clearContents() {
+        inventory.setStackInSlot(0, ItemStack.EMPTY);
     }
 
-    private static Map<BlockPos, BlockState> getStructure() {
-        return StructureHolder.STRUCTURE;
+    public void drops() {
+        SimpleContainer inv = new SimpleContainer(inventory.getSlots());
+        for (int i = 0; i < inventory.getSlots(); i++) {
+            inv.setItem(i, inventory.getStackInSlot(i));
+        }
+
+        Containers.dropContents(this.level, this.worldPosition, inv);
     }
+
+    @Override
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
+        tag.put("inventory", this.inventory.serializeNBT(registries));
+        tag.putInt("progress", this.craftingProgress);
+        tag.putInt("totalProgress", this.craftingTotalTime);
+    }
+
+    @Override
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        this.inventory.deserializeNBT(registries, tag.getCompound("inventory"));
+        this.craftingProgress = tag.getInt("progress");
+        this.craftingTotalTime = tag.getInt("totalProgress");
+    }
+
+    @Nullable
+    @Override
+    public Packet<ClientGamePacketListener> getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    @Override
+    public CompoundTag getUpdateTag(HolderLookup.Provider pRegistries) {
+        return saveWithoutMetadata(pRegistries);
+    }
+
+//        private static class StructureHolder {
+//
+//        private static final Map<BlockPos, BlockState> STRUCTURE = Map.<BlockPos, BlockState>ofEntries(
+//                Map.entry(new BlockPos(0, 0, 0), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
+//                Map.entry(new BlockPos(1, 0, 0), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
+//                Map.entry(new BlockPos(2, 0, 0), BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.SOUTH)),
+//                Map.entry(new BlockPos(3, 0, 0), BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.SOUTH)),
+//                Map.entry(new BlockPos(4, 0, 0), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
+//                Map.entry(new BlockPos(5, 0, 0), BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.SOUTH)),
+//                Map.entry(new BlockPos(6, 0, 0), BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.SOUTH)),
+//                Map.entry(new BlockPos(7, 0, 0), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
+//                Map.entry(new BlockPos(8, 0, 0), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
+//
+//                Map.entry(new BlockPos(0, 0, 1), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
+//                Map.entry(new BlockPos(1, 0, 1), BlockInit.FLUORITE_BLOCK.get().defaultBlockState()),
+//                Map.entry(new BlockPos(2, 0, 1), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
+//                Map.entry(new BlockPos(3, 0, 1), BlockInit.FLUORITE_BRICKS.get().defaultBlockState()),
+//                Map.entry(new BlockPos(4, 0, 1), BlockInit.FLUORITE_BRICKS.get().defaultBlockState()),
+//                Map.entry(new BlockPos(5, 0, 1), BlockInit.FLUORITE_BRICKS.get().defaultBlockState()),
+//                Map.entry(new BlockPos(6, 0, 1), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
+//                Map.entry(new BlockPos(7, 0, 1), BlockInit.FLUORITE_BLOCK.get().defaultBlockState()),
+//                Map.entry(new BlockPos(8, 0, 1), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
+//
+//                Map.entry(new BlockPos(0, 0, 2), BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.EAST)),
+//                Map.entry(new BlockPos(1, 0, 2), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
+//                Map.entry(new BlockPos(2, 0, 2), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
+//                Map.entry(new BlockPos(3, 0, 2), BlockInit.ALCHECRYSITE_BRICKS.get().defaultBlockState()),
+//                Map.entry(new BlockPos(4, 0, 2), BlockInit.ALCHECRYSITE_BRICKS.get().defaultBlockState()),
+//                Map.entry(new BlockPos(5, 0, 2), BlockInit.ALCHECRYSITE_BRICKS.get().defaultBlockState()),
+//                Map.entry(new BlockPos(6, 0, 2), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
+//                Map.entry(new BlockPos(7, 0, 2), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
+//                Map.entry(new BlockPos(8, 0, 2), BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.WEST)),
+//
+//                Map.entry(new BlockPos(0, 0, 3), BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.EAST)),
+//                Map.entry(new BlockPos(1, 0, 3), BlockInit.FLUORITE_BRICKS.get().defaultBlockState()),
+//                Map.entry(new BlockPos(2, 0, 3), BlockInit.ALCHECRYSITE_BRICKS.get().defaultBlockState()),
+//                Map.entry(new BlockPos(3, 0, 3), BlockInit.ALCHECRYSITE.get().defaultBlockState()),
+//                Map.entry(new BlockPos(4, 0, 3), BlockInit.ALCHECRYSITE.get().defaultBlockState()),
+//                Map.entry(new BlockPos(5, 0, 3), BlockInit.ALCHECRYSITE.get().defaultBlockState()),
+//                Map.entry(new BlockPos(6, 0, 3), BlockInit.ALCHECRYSITE_BRICKS.get().defaultBlockState()),
+//                Map.entry(new BlockPos(7, 0, 3), BlockInit.FLUORITE_BRICKS.get().defaultBlockState()),
+//                Map.entry(new BlockPos(8, 0, 3), BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.WEST)),
+//
+//                Map.entry(new BlockPos(0, 0, 4), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
+//                Map.entry(new BlockPos(1, 0, 4), BlockInit.FLUORITE_BRICKS.get().defaultBlockState()),
+//                Map.entry(new BlockPos(2, 0, 4), BlockInit.ALCHECRYSITE_BRICKS.get().defaultBlockState()),
+//                Map.entry(new BlockPos(3, 0, 4), BlockInit.ALCHECRYSITE.get().defaultBlockState()),
+//                Map.entry(new BlockPos(4, 0, 4), BlockInit.ALCHECRYSITE.get().defaultBlockState()),
+//                Map.entry(new BlockPos(5, 0, 4), BlockInit.ALCHECRYSITE.get().defaultBlockState()),
+//                Map.entry(new BlockPos(6, 0, 4), BlockInit.ALCHECRYSITE_BRICKS.get().defaultBlockState()),
+//                Map.entry(new BlockPos(7, 0, 4), BlockInit.FLUORITE_BRICKS.get().defaultBlockState()),
+//                Map.entry(new BlockPos(8, 0, 4), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
+//
+//                Map.entry(new BlockPos(0, 0, 5), BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.EAST)),
+//                Map.entry(new BlockPos(1, 0, 5), BlockInit.FLUORITE_BRICKS.get().defaultBlockState()),
+//                Map.entry(new BlockPos(2, 0, 5), BlockInit.ALCHECRYSITE_BRICKS.get().defaultBlockState()),
+//                Map.entry(new BlockPos(3, 0, 5), BlockInit.ALCHECRYSITE.get().defaultBlockState()),
+//                Map.entry(new BlockPos(4, 0, 5), BlockInit.ALCHECRYSITE.get().defaultBlockState()),
+//                Map.entry(new BlockPos(5, 0, 5), BlockInit.ALCHECRYSITE.get().defaultBlockState()),
+//                Map.entry(new BlockPos(6, 0, 5), BlockInit.ALCHECRYSITE_BRICKS.get().defaultBlockState()),
+//                Map.entry(new BlockPos(7, 0, 5), BlockInit.FLUORITE_BRICKS.get().defaultBlockState()),
+//                Map.entry(new BlockPos(8, 0, 5), BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.WEST)),
+//
+//                Map.entry(new BlockPos(0, 0, 6), BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.EAST)),
+//                Map.entry(new BlockPos(1, 0, 6), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
+//                Map.entry(new BlockPos(2, 0, 6), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
+//                Map.entry(new BlockPos(3, 0, 6), BlockInit.ALCHECRYSITE_BRICKS.get().defaultBlockState()),
+//                Map.entry(new BlockPos(4, 0, 6), BlockInit.ALCHECRYSITE_BRICKS.get().defaultBlockState()),
+//                Map.entry(new BlockPos(5, 0, 6), BlockInit.ALCHECRYSITE_BRICKS.get().defaultBlockState()),
+//                Map.entry(new BlockPos(6, 0, 6), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
+//                Map.entry(new BlockPos(7, 0, 6), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
+//                Map.entry(new BlockPos(8, 0, 6), BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.WEST)),
+//
+//                Map.entry(new BlockPos(0, 0, 7), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
+//                Map.entry(new BlockPos(1, 0, 7), BlockInit.FLUORITE_BLOCK.get().defaultBlockState()),
+//                Map.entry(new BlockPos(2, 0, 7), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
+//                Map.entry(new BlockPos(3, 0, 7), BlockInit.FLUORITE_BRICKS.get().defaultBlockState()),
+//                Map.entry(new BlockPos(4, 0, 7), BlockInit.FLUORITE_BRICKS.get().defaultBlockState()),
+//                Map.entry(new BlockPos(5, 0, 7), BlockInit.FLUORITE_BRICKS.get().defaultBlockState()),
+//                Map.entry(new BlockPos(6, 0, 7), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
+//                Map.entry(new BlockPos(7, 0, 7), BlockInit.FLUORITE_BLOCK.get().defaultBlockState()),
+//                Map.entry(new BlockPos(8, 0, 7), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
+//
+//                Map.entry(new BlockPos(0, 0, 8), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
+//                Map.entry(new BlockPos(1, 0, 8), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
+//                Map.entry(new BlockPos(2, 0, 8), BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.NORTH)),
+//                Map.entry(new BlockPos(3, 0, 8), BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.NORTH)),
+//                Map.entry(new BlockPos(4, 0, 8), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
+//                Map.entry(new BlockPos(5, 0, 8), BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.NORTH)),
+//                Map.entry(new BlockPos(6, 0, 8), BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.NORTH)),
+//                Map.entry(new BlockPos(7, 0, 8), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
+//                Map.entry(new BlockPos(8, 0, 8), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
+//
+//
+//                Map.entry(new BlockPos(0, 1, 0), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
+//                Map.entry(new BlockPos(4, 1, 0), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
+//                Map.entry(new BlockPos(8, 1, 0), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
+//
+//                Map.entry(new BlockPos(1, 1, 1), BlockInit.MANA_VESSEL.get().defaultBlockState()),
+//                Map.entry(new BlockPos(7, 1, 1), BlockInit.MANA_VESSEL.get().defaultBlockState()),
+//
+//                Map.entry(new BlockPos(2, 1, 2), BlockInit.ALCHEMETRIC_PYLON.get().defaultBlockState()),
+//                Map.entry(new BlockPos(6, 1, 2), BlockInit.ALCHEMETRIC_PYLON.get().defaultBlockState()),
+//
+//                Map.entry(new BlockPos(0, 1, 4), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
+//                Map.entry(new BlockPos(4, 1, 4), BlockInit.ATHANOR_PILLAR.get().defaultBlockState()),
+//                Map.entry(new BlockPos(8, 1, 4), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
+//
+//                Map.entry(new BlockPos(2, 1, 6), BlockInit.ALCHEMETRIC_PYLON.get().defaultBlockState()),
+//                Map.entry(new BlockPos(6, 1, 6), BlockInit.ALCHEMETRIC_PYLON.get().defaultBlockState()),
+//
+//                Map.entry(new BlockPos(1, 1, 7), BlockInit.MANA_VESSEL.get().defaultBlockState()),
+//                Map.entry(new BlockPos(7, 1, 7), BlockInit.MANA_VESSEL.get().defaultBlockState()),
+//
+//                Map.entry(new BlockPos(0, 1, 8), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
+//                Map.entry(new BlockPos(4, 1, 8), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
+//                Map.entry(new BlockPos(8, 1, 8), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
+//
+//
+//                Map.entry(new BlockPos(0, 2, 0), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
+//                Map.entry(new BlockPos(4, 2, 0), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
+//                Map.entry(new BlockPos(8, 2, 0), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
+//
+//                Map.entry(new BlockPos(1, 2, 1), BlockInit.MANA_NODE.get().defaultBlockState().setValue(ManaNodeBlock.FACING, Direction.UP)),
+//                Map.entry(new BlockPos(4, 2, 1), BlockInit.POLISHED_ALCHECRYSITE_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)),
+//                Map.entry(new BlockPos(7, 2, 1), BlockInit.MANA_NODE.get().defaultBlockState().setValue(ManaNodeBlock.FACING, Direction.UP)),
+//
+//                Map.entry(new BlockPos(0, 2, 4), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
+//                Map.entry(new BlockPos(1, 2, 4), BlockInit.POLISHED_ALCHECRYSITE_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)),
+//                Map.entry(new BlockPos(7, 2, 4), BlockInit.POLISHED_ALCHECRYSITE_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)),
+//                Map.entry(new BlockPos(8, 2, 4), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
+//
+//                Map.entry(new BlockPos(1, 2, 7), BlockInit.MANA_NODE.get().defaultBlockState().setValue(ManaNodeBlock.FACING, Direction.UP)),
+//                Map.entry(new BlockPos(4, 2, 7), BlockInit.POLISHED_ALCHECRYSITE_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)),
+//                Map.entry(new BlockPos(7, 2, 7), BlockInit.MANA_NODE.get().defaultBlockState().setValue(ManaNodeBlock.FACING, Direction.UP)),
+//
+//                Map.entry(new BlockPos(0, 2, 8), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
+//                Map.entry(new BlockPos(4, 2, 8), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
+//                Map.entry(new BlockPos(8, 2, 8), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
+//
+//
+//                Map.entry(new BlockPos(0, 3, 0), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
+//                Map.entry(new BlockPos(4, 3, 0), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
+//                Map.entry(new BlockPos(8, 3, 0), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
+//
+//                Map.entry(new BlockPos(4, 3, 1), BlockInit.ALCHEMETRIC_PYLON.get().defaultBlockState()),
+//
+//                Map.entry(new BlockPos(0, 3, 4), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
+//                Map.entry(new BlockPos(1, 3, 4), BlockInit.ALCHEMETRIC_PYLON.get().defaultBlockState()),
+//                Map.entry(new BlockPos(7, 3, 4), BlockInit.ALCHEMETRIC_PYLON.get().defaultBlockState()),
+//                Map.entry(new BlockPos(8, 3, 4), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
+//
+//                Map.entry(new BlockPos(4, 3, 7), BlockInit.ALCHEMETRIC_PYLON.get().defaultBlockState()),
+//
+//                Map.entry(new BlockPos(0, 3, 8), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
+//                Map.entry(new BlockPos(4, 3, 8), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
+//                Map.entry(new BlockPos(8, 3, 8), BlockInit.POLISHED_ALCHECRYSITE.get().defaultBlockState()),
+//
+//
+//                Map.entry(new BlockPos(0, 4, 0), BlockInit.ALCHEMETRIC_PYLON.get().defaultBlockState()),
+//                Map.entry(new BlockPos(4, 4, 0), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
+//                Map.entry(new BlockPos(8, 4, 0), BlockInit.ALCHEMETRIC_PYLON.get().defaultBlockState()),
+//
+//                Map.entry(new BlockPos(0, 4, 4), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
+//                Map.entry(new BlockPos(8, 4, 4), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
+//
+//                Map.entry(new BlockPos(0, 4, 8), BlockInit.ALCHEMETRIC_PYLON.get().defaultBlockState()),
+//                Map.entry(new BlockPos(4, 4, 8), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
+//                Map.entry(new BlockPos(8, 4, 8), BlockInit.ALCHEMETRIC_PYLON.get().defaultBlockState()),
+//
+//
+//                Map.entry(new BlockPos(4, 5, 0), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
+//
+//                Map.entry(new BlockPos(0, 5, 4), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
+//                Map.entry(new BlockPos(4, 5, 4), BlockInit.MANA_NODE.get().defaultBlockState().setValue(ManaNodeBlock.FACING, Direction.DOWN)),
+//                Map.entry(new BlockPos(8, 5, 4), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
+//
+//                Map.entry(new BlockPos(4, 5, 8), BlockInit.ALCHECRYSITE_BRICK_WALL.get().defaultBlockState()),
+//
+//
+//                Map.entry(new BlockPos(4, 6, 0), BlockInit.ALCHECRYSITE_BRICKS.get().defaultBlockState()),
+//
+//                Map.entry(new BlockPos(4, 6, 1), BlockInit.ALCHECRYSITE_BRICK_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)),
+//
+//                Map.entry(new BlockPos(4, 6, 2), BlockInit.ALCHECRYSITE_BRICK_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)),
+//
+//                Map.entry(new BlockPos(4, 6, 3), BlockInit.ALCHECRYSITE_BRICK_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)),
+//
+//                Map.entry(new BlockPos(0, 6, 4), BlockInit.ALCHECRYSITE_BRICKS.get().defaultBlockState()),
+//                Map.entry(new BlockPos(1, 6, 4), BlockInit.ALCHECRYSITE_BRICK_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)),
+//                Map.entry(new BlockPos(2, 6, 4), BlockInit.ALCHECRYSITE_BRICK_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)),
+//                Map.entry(new BlockPos(3, 6, 4), BlockInit.ALCHECRYSITE_BRICK_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)),
+//                Map.entry(new BlockPos(4, 6, 4), BlockInit.MANA_VESSEL.get().defaultBlockState()),
+//                Map.entry(new BlockPos(5, 6, 4), BlockInit.ALCHECRYSITE_BRICK_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)),
+//                Map.entry(new BlockPos(6, 6, 4), BlockInit.ALCHECRYSITE_BRICK_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)),
+//                Map.entry(new BlockPos(7, 6, 4), BlockInit.ALCHECRYSITE_BRICK_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)),
+//                Map.entry(new BlockPos(8, 6, 4), BlockInit.ALCHECRYSITE_BRICKS.get().defaultBlockState()),
+//
+//                Map.entry(new BlockPos(4, 6, 5), BlockInit.ALCHECRYSITE_BRICK_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)),
+//
+//                Map.entry(new BlockPos(4, 6, 6), BlockInit.ALCHECRYSITE_BRICK_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)),
+//
+//                Map.entry(new BlockPos(4, 6, 7), BlockInit.ALCHECRYSITE_BRICK_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)),
+//
+//                Map.entry(new BlockPos(4, 6, 8), BlockInit.ALCHECRYSITE_BRICKS.get().defaultBlockState())
+//        );
+//    }
+
+    private static final IMultiblock STRUCTURE = PatchouliAPI.get().makeMultiblock(
+            new String[][]
+                    {
+                            {
+                                    "    B    ",
+                                    "    A    ",
+                                    "    A    ",
+                                    "    A    ",
+                                    "BAAAVAAAB",
+                                    "    A    ",
+                                    "    A    ",
+                                    "    A    ",
+                                    "    B    "
+                            },
+                            {
+                                    "    L    ",
+                                    "         ",
+                                    "         ",
+                                    "         ",
+                                    "L   D   L",
+                                    "         ",
+                                    "         ",
+                                    "         ",
+                                    "    L    "
+                            },
+                            {
+                                    "M   L   M",
+                                    "         ",
+                                    "         ",
+                                    "         ",
+                                    "L       L",
+                                    "         ",
+                                    "         ",
+                                    "         ",
+                                    "M   L   M"
+                            },
+                            {
+                                    "P   L   P",
+                                    "    M    ",
+                                    "         ",
+                                    "         ",
+                                    "LM     ML",
+                                    "         ",
+                                    "         ",
+                                    "    M    ",
+                                    "P   L   P"
+                            },
+                            {
+                                    "L   P   L",
+                                    " U  T  U ",
+                                    "         ",
+                                    "         ",
+                                    "PT     TP",
+                                    "         ",
+                                    "         ",
+                                    " U  T  U ",
+                                    "L   P   L"
+                            },
+                            {
+                                    "L   L   L",
+                                    " V     V ",
+                                    "  M   M  ",
+                                    "         ",
+                                    "L   I   L",
+                                    "         ",
+                                    "  M   M  ",
+                                    " V     V ",
+                                    "L   L   L"
+                            },
+                            {
+                                    "PPEEPEEPP",
+                                    "PFPOOOPFP",
+                                    "SPPBBBPPN",
+                                    "SOBCCCBON",
+                                    "POBC0CBOP",
+                                    "SOBCCCBON",
+                                    "SPPBBBPPN",
+                                    "PFPOOOPFP",
+                                    "PPWWPWWPP"
+                            }
+                    },
+            '0', BlockInit.ALCHECRYSITE.get(),
+            'C', BlockInit.ALCHECRYSITE.get(),
+            'W', PatchouliAPI.get().stateMatcher(BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.WEST)),
+            'N', PatchouliAPI.get().stateMatcher(BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.NORTH)),
+            'S', PatchouliAPI.get().stateMatcher(BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.SOUTH)),
+            'E', PatchouliAPI.get().stateMatcher(BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.EAST)),
+            'P', BlockInit.POLISHED_ALCHECRYSITE.get(),
+            'T', PatchouliAPI.get().stateMatcher(BlockInit.POLISHED_ALCHECRYSITE_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)),
+            'B', BlockInit.ALCHECRYSITE_BRICKS.get(),
+            'L', BlockInit.ALCHECRYSITE_BRICK_WALL.get(),
+            'A', PatchouliAPI.get().stateMatcher(BlockInit.ALCHECRYSITE_BRICK_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)),
+            'F', BlockInit.FLUORITE_BLOCK.get(),
+            'O', BlockInit.FLUORITE_BRICKS.get(),
+            'M', BlockInit.ALCHEMETRIC_PYLON.get(),
+            'V', BlockInit.MANA_VESSEL.get(),
+            'U', PatchouliAPI.get().stateMatcher(BlockInit.MANA_NODE.get().defaultBlockState().setValue(ManaNodeBlock.FACING, Direction.UP)),
+            'D', PatchouliAPI.get().stateMatcher(BlockInit.MANA_NODE.get().defaultBlockState().setValue(BlockStateProperties.FACING, Direction.DOWN)),
+            'I', BlockInit.ATHANOR_PILLAR.get());
+
+
+//    private static Map<BlockPos, BlockState> getStructure() {
+//        return StructureHolder.STRUCTURE;
+//    }
 
     public static boolean hasCorrectStructure(Level level, BlockPos pos) {
-        return StructureHelper.matchesStructure(level, pos.subtract(new Vec3i(4, 1, 4)), getStructure(), new Vec3i(9, 7, 9), blockState -> blockState.getTags().anyMatch(Predicate.isEqual(BlockTags.AIR)));
+        return StructureHelper.checkMultiblock(level, STRUCTURE, pos.subtract(new Vec3i(0, 1, 0)));
     }
 
     public static BlockPos detectIncorrectStructurePos(Level level, BlockPos pos) {
-        return StructureHelper.detectStructureError(level, pos.subtract(new Vec3i(4, 1, 4)), getStructure(), new Vec3i(9, 7, 9), blockState -> blockState.getTags().anyMatch(Predicate.isEqual(BlockTags.AIR)));
+        return StructureHelper.detectMultiblockError(level, STRUCTURE, pos.subtract(new Vec3i(0, 1, 0)), Rotation.NONE, false);
     }
+
 }

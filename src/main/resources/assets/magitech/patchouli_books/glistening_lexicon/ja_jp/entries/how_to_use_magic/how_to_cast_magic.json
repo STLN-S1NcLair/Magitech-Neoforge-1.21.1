@@ -29,19 +29,22 @@
       "type": "patchouli:spotlight",
       "title": "スレッドバウンド",
       "text": "$(#000000)いわば「魔導書」。$(br)スレッドページを挟んで、身につけて使う。",
-      "item": "magitech:glistening_lexicon"
+      "item": "magitech:glistening_lexicon",
+      "link_recipe" : "true"
     },
     {
       "type": "patchouli:spotlight",
       "title": "スレッド",
       "text": "$(#000000)魔法の設計図。$(br)紙だったり布だったりするが、中には回路（エイドス導管）が仕込まれてて、術の流れを決める。",
-      "item": "magitech:thread_page[magitech:thread_page_component={\"spell\":\"magitech:frigala\"}]"
+      "item": "magitech:thread_page[magitech:thread_page_component={\"spell\":\"magitech:frigala\"}]",
+      "link_recipe" : "true"
     },
     {
       "type": "patchouli:spotlight",
       "title": "杖（または魔導器）",
       "text": "$(#000000)中にいろんな部品が詰まっていて、魔法を発動させる器械。$(br)小型なものから据え置きの魔導砲まで形は様々。",
-      "item": "magitech:wand[magitech:part_material_component={\"materials\":[\"magitech:iron\", \"magitech:iron\", \"magitech:iron\", \"magitech:iron\"]}]"
+      "item": "magitech:wand[magitech:part_material_component={\"materials\":[\"magitech:iron\", \"magitech:iron\", \"magitech:iron\", \"magitech:iron\"]}]",
+      "link_recipe" : "true"
     },
     {
       "type": "patchouli:text",
