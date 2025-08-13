@@ -248,34 +248,37 @@ public class ZardiusCrucibleBlockEntity extends BlockEntity {
                 }
             }
         } else if (!player.isCrouching() && pItemStack.getCapability(Capabilities.FluidHandler.ITEM) != null) {
-            IFluidHandlerItem iFluidHandlerItem = pItemStack.getCapability(Capabilities.FluidHandler.ITEM);
+            IFluidHandlerItem iFluidHandlerItem = pItemStack.split(1).getCapability(Capabilities.FluidHandler.ITEM);
             boolean isEmpty = true;
             for (int i = 0; i < iFluidHandlerItem.getTanks(); i++) {
                 if (!iFluidHandlerItem.getFluidInTank(i).isEmpty()) {
                     isEmpty = false;
                 }
             }
-            if (isEmpty) {
+            if (isEmpty && getItemFluidEmptySlot(iFluidHandlerItem) != null && iFluidHandlerItem.isFluidValid(getItemFluidEmptySlot(iFluidHandlerItem), this.fluidTank.getFluid())) {
                 if (!player.getAbilities().instabuild) {
                     playFluidDrainSound(this.fluidTank, iFluidHandlerItem);
                     FluidStack stack = this.fluidTank.drain(1000, IFluidHandler.FluidAction.EXECUTE);
                     iFluidHandlerItem.fill(new FluidStack(stack.getFluid(), stack.getAmount()), IFluidHandler.FluidAction.EXECUTE);
-                    player.setItemInHand(InteractionHand.MAIN_HAND, iFluidHandlerItem.getContainer());
                 } else {
                     playFluidDrainSound(this.fluidTank, iFluidHandlerItem);
                     this.fluidTank.drain(1000, IFluidHandler.FluidAction.EXECUTE);
                 }
-            } else {
+            } else if (hasSameFluidOrEmpty(fluidTank, iFluidHandlerItem)) {
                 if (!player.getAbilities().instabuild) {
                     playFluidFillSound(this.fluidTank, iFluidHandlerItem);
-                    int drainAmount = Math.min(this.fluidTank.getSpace(), 1000);
+                    int drainAmount = Math.min(getItemFluidStack(iFluidHandlerItem).getAmount(), 1000);
                     FluidStack stack = iFluidHandlerItem.drain(drainAmount, IFluidHandler.FluidAction.EXECUTE);
                     this.fluidTank.fill(new FluidStack(stack.getFluid(), stack.getAmount()), IFluidHandler.FluidAction.EXECUTE);
-                    player.setItemInHand(InteractionHand.MAIN_HAND, iFluidHandlerItem.getContainer());
                 } else {
                     playFluidFillSound(this.fluidTank, iFluidHandlerItem);
                     this.fluidTank.fill(new FluidStack(iFluidHandlerItem.getFluidInTank(0).getFluidHolder(), 1000), IFluidHandler.FluidAction.EXECUTE);
                 }
+            }
+            if (pItemStack.isEmpty()) {
+                player.setItemInHand(InteractionHand.MAIN_HAND, iFluidHandlerItem.getContainer());
+            } else {
+                player.addItem(iFluidHandlerItem.getContainer());
             }
         } else {
             addItemStack(pItemStack, 1);
@@ -292,7 +295,7 @@ public class ZardiusCrucibleBlockEntity extends BlockEntity {
             }
         }
         if (fluidTank.getSpace() != 0 && !isEmpty && hasSameFluidOrEmpty(fluidTank, iFluidHandlerItem)) {
-            if ((!fluidTank.isEmpty() ? fluidTank.getFluid().getFluid() : getItemFluid(iFluidHandlerItem)).isSame(Fluids.LAVA)) {
+            if ((!fluidTank.isEmpty() ? fluidTank.getFluid().getFluid() : getItemFluidStack(iFluidHandlerItem).getFluid()).isSame(Fluids.LAVA)) {
                 this.level.playSound(null, this.worldPosition, SoundEvents.BUCKET_EMPTY_LAVA, SoundSource.PLAYERS);
             } else {
                 this.level.playSound(null, this.worldPosition, SoundEvents.BUCKET_EMPTY, SoundSource.PLAYERS);
@@ -308,7 +311,7 @@ public class ZardiusCrucibleBlockEntity extends BlockEntity {
             }
         }
         if (!fluidTank.isEmpty() && !isMax && hasSameFluidOrEmpty(fluidTank, iFluidHandlerItem)) {
-            if ((!fluidTank.isEmpty() ? fluidTank.getFluid().getFluid() : getItemFluid(iFluidHandlerItem)).isSame(Fluids.LAVA)) {
+            if ((!fluidTank.isEmpty() ? fluidTank.getFluid().getFluid() : getItemFluidStack(iFluidHandlerItem).getFluid()).isSame(Fluids.LAVA)) {
                 this.level.playSound(null, this.worldPosition, SoundEvents.BUCKET_FILL_LAVA, SoundSource.PLAYERS);
             } else {
                 this.level.playSound(null, this.worldPosition, SoundEvents.BUCKET_FILL, SoundSource.PLAYERS);
@@ -317,22 +320,33 @@ public class ZardiusCrucibleBlockEntity extends BlockEntity {
     }
 
     private boolean hasSameFluidOrEmpty(FluidTank fluidTank, IFluidHandlerItem iFluidHandlerItem) {
-        Fluid itemFluid = getItemFluid(iFluidHandlerItem);
+        Fluid itemFluid = getItemFluidStack(iFluidHandlerItem).getFluid();
         if (fluidTank.isEmpty() || itemFluid.isSame(Fluids.EMPTY)) {
             return true;
         }
         return fluidTank.getFluid().getFluid() == itemFluid;
     }
 
-    private Fluid getItemFluid(IFluidHandlerItem iFluidHandlerItem) {
-        Fluid itemFluid = Fluids.EMPTY;
+    private FluidStack getItemFluidStack(IFluidHandlerItem iFluidHandlerItem) {
+        FluidStack itemFluid = FluidStack.EMPTY;
         for (int i = 0; i < iFluidHandlerItem.getTanks(); i++) {
             if (!iFluidHandlerItem.getFluidInTank(i).isEmpty()) {
-                itemFluid = iFluidHandlerItem.getFluidInTank(i).getFluid();
+                itemFluid = iFluidHandlerItem.getFluidInTank(i);
                 break;
             }
         }
         return itemFluid;
+    }
+
+    private Integer getItemFluidEmptySlot(IFluidHandlerItem iFluidHandlerItem) {
+        Integer slot = null;
+        for (int i = 0; i < iFluidHandlerItem.getTanks(); i++) {
+            if (iFluidHandlerItem.getFluidInTank(i).isEmpty()) {
+                slot = i;
+                break;
+            }
+        }
+        return slot;
     }
 
     private boolean addItemStack(ItemStack pItemStack, int count) {

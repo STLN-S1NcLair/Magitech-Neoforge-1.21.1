@@ -10,6 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
+import net.stln.magitech.Magitech;
 import net.stln.magitech.item.ItemInit;
 import net.stln.magitech.item.LeftClickOverrideItem;
 import net.stln.magitech.item.armor.AetherLifterItem;
@@ -33,5 +34,11 @@ public class DoubleJumpPayLoadHandler {
         if (boots.getItem() == ItemInit.AETHER_LIFTER.get()) {
             AetherLifterItem.doubleJump(player, payload.jumpCount(), boots);
         }
+        MinecraftServer server = Objects.requireNonNull(ServerLifecycleHooks.getCurrentServer(), "Cannot send clientbound payloads on the client");
+        for (ServerPlayer serverPlayer : server.getPlayerList().getPlayers())
+            if (player.getUUID() != serverPlayer.getUUID()) {
+                PacketDistributor.sendToPlayer(serverPlayer, payload);
+                Magitech.LOGGER.debug("Sent DoubleJumpPayload to player: " + serverPlayer.getName().getString());
+            }
     }
 }

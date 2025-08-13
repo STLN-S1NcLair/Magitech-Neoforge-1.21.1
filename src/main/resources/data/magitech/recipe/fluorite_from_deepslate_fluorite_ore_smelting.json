@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 1.0,
+  "ingredient": {
+    "item": "magitech:deepslate_fluorite_ore"
+  },
+  "result": {
+    "id": "magitech:fluorite"
+  }
+}

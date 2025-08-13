@@ -427,6 +427,8 @@
   "biome.magitech.mistjade_forest": "Mistjade Forest",
   "tooltip.magitech.shift": "[Shift] fot More Info",
   "key.categories.magitech.category": "Magitech",
+  "key.magitech.double_jump": "Double Jump",
+  "key.magitech.long_jump": "Long Jump",
   "key.magitech.radial_spell_menu": "Open Radial Spell Menu",
   "key.magitech.spell_shift_left": "Shift Spell Left",
   "key.magitech.spell_shift_right": "Shift Spell Right",
