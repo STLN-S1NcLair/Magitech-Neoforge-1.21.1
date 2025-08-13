@@ -10,6 +10,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SweetBerryBushBlock;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -86,7 +87,8 @@ public class ModBlockLootProvider extends BlockLootSubProvider {
         dropSelf(BlockInit.CELIFERN_TRAPDOOR.get());
         dropSelf(BlockInit.CELIFERN_PRESSURE_PLATE.get());
         dropSelf(BlockInit.CELIFERN_BUTTON.get());
-        dropSelf(BlockInit.CELIFERN_LEAVES.get());
+        add(BlockInit.CELIFERN_LEAVES.get(),
+                block -> this.createLeavesDrops(block, BlockInit.CELIFERN_SAPLING.get(), NORMAL_LEAVES_SAPLING_CHANCES));
         dropSelf(BlockInit.CELIFERN_SAPLING.get());
         dropSelf(BlockInit.CELIFERN_SIGN.get());
         dropSelf(BlockInit.CELIFERN_WALL_SIGN.get());
