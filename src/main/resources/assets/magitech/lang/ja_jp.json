@@ -378,6 +378,8 @@
   "death.attack.magitech_mana": "%1$sは輝きに包まれた",
   "death.attack.magitech_mana.player": "%1$sは%2$sのマナポテンシャルに押し流された",
   "death.attack.magitech_mana.item": "%1$sは%2$sの%3$sが放つエネルギーに吹き飛ばされずにはいられなかった",
+  "death.attack.mana_berry_bush": "%1$sはマナベリーの結晶が刺さって死んだ",
+  "death.attack.mana_berry_bush.player": "%1$sは%2$sから逃げようとしてマナベリーの結晶が刺さって死んだ",
   "effect.magitech.mana_addiction": "マナ中毒",
   "effect.magitech.seize": "光縛",
   "effect.magitech.echolocation": "エコーロケーション",

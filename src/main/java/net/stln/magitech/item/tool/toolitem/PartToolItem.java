@@ -23,6 +23,7 @@ import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
@@ -55,9 +56,11 @@ import net.stln.magitech.util.EffectUtil;
 import net.stln.magitech.util.EntityUtil;
 import net.stln.magitech.util.MathUtil;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public abstract class PartToolItem extends Item implements LeftClickOverrideItem {
@@ -383,6 +386,16 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
     }
 
     @Override
+    public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, @Nullable T entity, Consumer<Item> onBroken) {
+        Consumer<Item> consumer = item -> {
+            entity.level().playSound(entity, entity.getOnPos(),
+                    SoundEvents.ITEM_BREAK, SoundSource.PLAYERS, 1.0F, 1.0F);
+            onBroken.accept(item);
+        };
+        return super.damageItem(stack, amount, entity, consumer);
+    }
+
+    @Override
     public void appendHoverText(@NotNull ItemStack stack, Item.@NotNull TooltipContext context, List<Component> tooltipComponents, @NotNull TooltipFlag tooltipFlag) {
         addStatsHoverText(stack, tooltipComponents);
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
@@ -436,7 +449,7 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
 
         tooltipComponents.add(Component.translatable("attribute.magitech.durability").append(": ").withColor(0xa0a0a0)
                 .append(Component.literal(
-                        (finalStats.getStats().get(ToolStats.DUR_STAT).intValue() - stack.getDamageValue()) + " / " + finalStats.getStats().get(ToolStats.DUR_STAT).intValue()
+                        (Math.round(finalStats.getStats().get(ToolStats.DUR_STAT)) - stack.getDamageValue()) + " / " + Math.round(finalStats.getStats().get(ToolStats.DUR_STAT))
                 ).withColor(0xFFFFFF)));
         Map<Trait, Integer> traitIntegerMap = getTraitLevel(getTraits(stack));
         traitIntegerMap.forEach(((trait, integer) -> {
@@ -547,9 +560,7 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
                 ((AdjustableAttackStrengthEntity) user).setLastAttackedTicks((int) cooldown);
                 applyElementDamage(user, target, stack);
                 user.attack(target);
-                getTraitLevel(getTraits(stack)).forEach((trait, integer) -> {
-                    trait.onAttackEntity(user, world, stack, integer, getModifiedStats(user, world, stack), target);
-                });
+                callTraitAttackEntity(world, user, target, stack);
             }
         }
         if (!attackList.isEmpty()) {
@@ -595,5 +606,23 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
             }
             target.invulnerableTime = 0;
         }
+    }
+
+    public void callTraitAttackEntity(Level world, Player user, Entity target, ItemStack stack) {
+        getTraitLevel(getTraits(stack)).forEach((trait, integer) -> {
+            trait.onAttackEntity(user, world, stack, integer, getModifiedStats(user, world, stack), target);
+        });
+    }
+
+    public void callTraitSpellHitEntity(Level world, Player user, Entity target, ItemStack stack) {
+        getTraitLevel(getTraits(stack)).forEach((trait, integer) -> {
+            trait.onSpellHitEntity(user, world, stack, integer, getModifiedStats(user, world, stack), target);
+        });
+    }
+
+    public void callTraitDamageEntity(Level world, Player user, Entity target, ItemStack stack) {
+        getTraitLevel(getTraits(stack)).forEach((trait, integer) -> {
+            trait.onDamageEntity(user, world, stack, integer, getModifiedStats(user, world, stack), target);
+        });
     }
 }

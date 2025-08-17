@@ -115,9 +115,17 @@ public abstract class Trait {
     }
 
     public void onAttackEntity(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, Entity target) {
+        onDamageEntity(player, level, stack, traitLevel, stats, target);
     }
 
     public void onCastSpell(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
+    }
+
+    public void onSpellHitEntity(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, Entity target) {
+        onDamageEntity(player, level, stack, traitLevel, stats, target);
+    }
+
+    public void onDamageEntity(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, Entity target) {
     }
 
     public void traitAction(Player player, Level level, Entity target, Vec3 lookingPos, ItemStack stack, int traitLevel, ToolStats stats, InteractionHand hand, boolean isHost) {

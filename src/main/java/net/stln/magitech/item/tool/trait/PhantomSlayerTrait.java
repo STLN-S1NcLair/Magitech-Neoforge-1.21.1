@@ -118,8 +118,8 @@ public class PhantomSlayerTrait extends Trait {
     }
 
     @Override
-    public void onAttackEntity(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, Entity target) {
-        super.onAttackEntity(player, level, stack, traitLevel, stats, target);
+    public void onDamageEntity(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, Entity target) {
+        super.onDamageEntity(player, level, stack, traitLevel, stats, target);
         player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, traitLevel * 10, 0));
         player.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, traitLevel * 5, 0));
         EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(1.0F, 1.0F, 0.5F), new Vector3f(1.0F, 1.0F, 0.5F), 1F, 1, 0), player, 20);

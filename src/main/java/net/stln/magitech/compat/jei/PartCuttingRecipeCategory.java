@@ -11,9 +11,11 @@ import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.stln.magitech.Magitech;
@@ -84,11 +86,12 @@ public class PartCuttingRecipeCategory implements IRecipeCategory<PartCuttingRec
         List<ItemStack> inputs = new ArrayList<>();
         List<ItemStack> results = new ArrayList<>();
         for (ToolMaterialRecipe materialRecipe : materialRecipes) {
-            for (int i = 0; i < materialRecipe.getIngredients().get(0).getItems().length; i++) {
-                ItemStack itemStack = materialRecipe.getIngredients().get(0).getItems()[0].copy();
-                itemStack.setCount(recipe.getCount());
-                inputs.add(itemStack);
-            }
+                Ingredient ingredient = materialRecipe.getIngredients().get(0);
+                for (ItemStack itemStack : ingredient.getItems()) {
+                    if (itemStack.isEmpty()) continue;
+                    itemStack.setCount(recipe.getCount());
+                    inputs.add(itemStack.copy());
+                }
             ItemStack resultStack = recipe.getResultItem(null).copy();
             resultStack.set(ComponentInit.MATERIAL_COMPONENT, new MaterialComponent(ToolMaterialRegister.getMaterial(materialRecipe.getResultId())));
             results.add(resultStack);

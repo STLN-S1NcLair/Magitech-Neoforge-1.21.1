@@ -23,6 +23,8 @@ public class DamageTypeInit {
     public static final ResourceKey<DamageType> FLOW_DAMAGE = ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "flow"));
     public static final ResourceKey<DamageType> HOLLOW_DAMAGE = ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "hollow"));
 
+    public static final ResourceKey<DamageType> MANA_BERRY_BUSH = ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "mana_berry_bush"));
+
     public static float getElementDamage(Player player, Entity target, ItemStack stack) {
         ToolStats stats = ((PartToolItem) stack.getItem()).getSumStats(player, player.level(), stack);
         return stats.getStats().get(ToolStats.ELM_ATK_STAT) * EntityElementRegister.getElementAffinity(target, stats.getElement()).getMultiplier();

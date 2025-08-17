@@ -35,6 +35,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.stln.magitech.item.tool.toolitem.PartToolItem;
 import net.stln.magitech.util.Element;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -210,6 +211,10 @@ public abstract class SpellProjectileEntity extends Projectile implements GeoEnt
         }
 
         if (entity.hurt(damageSource, amount)) {
+            if (firedFromWeapon != null && firedFromWeapon.getItem() instanceof PartToolItem toolItem) {
+                toolItem.callTraitSpellHitEntity(
+                        this.level(), (Player) owner, entity, this.firedFromWeapon);
+            }
 
             if (entity instanceof LivingEntity livingentity) {
 

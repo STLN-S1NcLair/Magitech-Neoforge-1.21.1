@@ -34,6 +34,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.damage.EntityElementRegister;
 import net.stln.magitech.entity.status.AttributeInit;
+import net.stln.magitech.item.tool.toolitem.SpellCasterItem;
 import net.stln.magitech.util.Element;
 import net.stln.magitech.magic.charge.Charge;
 import net.stln.magitech.magic.charge.ChargeData;
@@ -262,6 +263,9 @@ public abstract class Spell {
                 user.awardStat(Stats.DAMAGE_DEALT, Math.round((targetHealth - livingTarget.getHealth()) * 10));
             }
             user.setLastHurtMob(target);
+        }
+        if (stack.getItem() instanceof SpellCasterItem spellCasterItem) {
+            spellCasterItem.callTraitSpellHitEntity(user.level(), user, target, stack);
         }
     }
 

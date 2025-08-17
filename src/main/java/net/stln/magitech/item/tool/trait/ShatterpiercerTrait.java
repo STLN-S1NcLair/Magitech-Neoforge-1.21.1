@@ -71,8 +71,8 @@ public class ShatterpiercerTrait extends Trait {
     }
 
     @Override
-    public void onAttackEntity(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, Entity target) {
-        super.onAttackEntity(player, level, stack, traitLevel, stats, target);
+    public void onDamageEntity(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, Entity target) {
+        super.onDamageEntity(player, level, stack, traitLevel, stats, target);
         if (target instanceof LivingEntity livingEntity) {
             if (livingEntity.getPercentFrozen() > 0.8F) {
                 Vec3 range = new Vec3(3, 3, 3);
@@ -101,22 +101,6 @@ public class ShatterpiercerTrait extends Trait {
                 float rotSpeed = player.getRandom().nextFloat() / 5 - 0.1F;
 
                 EffectUtil.entityEffect(level, new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, rotSpeed), livingEntity, 60);
-            }
-        }
-    }
-
-    @Override
-    public void tick(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
-        super.tick(player, level, stack, traitLevel, stats);
-        if (stack.getItem() instanceof SpellCasterItem) {
-            if (player.getRandom().nextFloat() > 0.7) {
-                EffectUtil.entityEffect(level, new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1F, 1, 0), player, 1);
-            }
-            if (player.getLastHurtMob() != null) {
-                if (player.tickCount - player.getLastHurtMobTimestamp() < 80) {
-                    EffectUtil.entityEffect(level, new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1F, 1, 0), player.getLastHurtMob(), 1);
-                    player.getLastHurtMob().setTicksFrozen(Math.min(player.getLastHurtMob().getTicksFrozen() + 3, 300));
-                }
             }
         }
     }

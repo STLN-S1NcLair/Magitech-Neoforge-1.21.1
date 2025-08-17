@@ -75,8 +75,8 @@ public class BlindResonanceTrait extends Trait {
     }
 
     @Override
-    public void onAttackEntity(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, Entity target) {
-        super.onAttackEntity(player, level, stack, traitLevel, stats, target);
+    public void onDamageEntity(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, Entity target) {
+        super.onDamageEntity(player, level, stack, traitLevel, stats, target);
         if (target instanceof LivingEntity livingEntity) {
             ResourceKey<DamageType> damageType = DamageTypeInit.TREMOR_DAMAGE;
             DamageSource damageSource = player.damageSources().source(damageType, player);
@@ -98,18 +98,6 @@ public class BlindResonanceTrait extends Trait {
                 if (player.getRandom().nextFloat() < 0.2F) {
                     EffectUtil.entityEffect(level, new PowerupNoCullParticleEffect(new Vector3f(0.0F, 0.5F, 0.5F), new Vector3f(0.0F, 1.0F, 1.0F), 1F, 1, 0), entity, 1);
                     EffectUtil.entityEffect(level, new WaveNoCullParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 5F, 1, 0), entity, 1);
-                }
-            }
-        }
-        if (stack.getItem() instanceof SpellCasterItem) {
-            if (player.getLastHurtMob() != null) {
-                if (player.tickCount - player.getLastHurtMobTimestamp() < 1 && player.getRandom().nextFloat() > 0.5) {
-                    ResourceKey<DamageType> damageType = DamageTypeInit.TREMOR_DAMAGE;
-                    DamageSource damageSource = player.damageSources().source(damageType, player);
-
-                    player.getLastHurtMob().hurt(damageSource, player.getLastHurtMob().getArmorValue() * 0.25F * traitLevel);
-
-                    EffectUtil.entityEffect(level, new WaveParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, 0), player.getLastHurtMob(), 60);
                 }
             }
         }

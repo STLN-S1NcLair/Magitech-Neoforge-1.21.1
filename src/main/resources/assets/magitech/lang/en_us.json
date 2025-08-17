@@ -377,6 +377,8 @@
   "death.attack.magitech_mana": "%1$s was consumed by brilliance.",
   "death.attack.magitech_mana.player": "%1$s was overwhelmed by %2$s's mana potential.",
   "death.attack.magitech_mana.item": "%1$s couldn't resist the energy unleashed by %2$s's %3$s.",
+  "death.attack.mana_berry_bush": "%1$swas poked to death by a mana berry bush",
+  "death.attack.mana_berry_bush.player": "%1$s was poked to death by a mana berry bush while trying to escape %2$s",
   "effect.magitech.mana_addiction": "Mana Addiction",
   "effect.magitech.seize": "Seize",
   "effect.magitech.echolocation": "Echolocation",

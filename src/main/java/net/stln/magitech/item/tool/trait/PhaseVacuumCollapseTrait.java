@@ -25,26 +25,13 @@ import java.util.List;
 public class PhaseVacuumCollapseTrait extends Trait {
 
     @Override
-    public void onAttackEntity(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, Entity target) {
-        super.onAttackEntity(player, level, stack, traitLevel, stats, target);
+    public void onDamageEntity(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, Entity target) {
+        super.onDamageEntity(player, level, stack, traitLevel, stats, target);
         if (target instanceof LivingEntity livingEntity && player.getRandom().nextFloat() > 0.5) {
 
             livingEntity.addEffect(new MobEffectInstance(MobEffectInit.PHASELOCK, 10 * traitLevel, 0));
 
             EffectUtil.entityEffect(level, new VoidGlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, 0), livingEntity, 60);
-        }
-    }
-
-    @Override
-    public void tick(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
-        super.tick(player, level, stack, traitLevel, stats);
-        if (stack.getItem() instanceof SpellCasterItem) {
-            if (player.getLastHurtMob() != null) {
-                if (player.tickCount - player.getLastHurtMobTimestamp() < 1 && player.getRandom().nextFloat() > 0.5) {
-                    EffectUtil.entityEffect(level, new VoidGlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1F, 1, 0), player.getLastHurtMob(), 1);
-                    player.getLastHurtMob().addEffect(new MobEffectInstance(MobEffectInit.PHASELOCK, 10 * traitLevel, 0));
-                }
-            }
         }
     }
 

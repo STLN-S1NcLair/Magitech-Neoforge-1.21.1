@@ -119,12 +119,12 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
     private void fenceBlockWithItem(Block block, Block fullTextureBlock) {
         fenceBlock((FenceBlock) block, blockTexture(fullTextureBlock));
-        simpleBlockItem(block, models().fenceInventory(getName(block), blockTexture(fullTextureBlock)));
+        simpleBlockItem(block, models().fenceInventory(getName(block) + "_inventory", blockTexture(fullTextureBlock)));
     }
 
     private void wallBlockWithItem(Block block, Block fullTextureBlock) {
         wallBlock((WallBlock) block, blockTexture(fullTextureBlock));
-        simpleBlockItem(block, models().wallInventory(getName(block), blockTexture(fullTextureBlock)));
+        simpleBlockItem(block, models().wallInventory(getName(block) + "_inventory", blockTexture(fullTextureBlock)));
     }
 
     private void fenceGateBlockWithItem(Block block, Block fullTextureBlock) {
@@ -149,7 +149,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
     private void buttonBlockWithItem(Block block, Block fullTextureBlock) {
         buttonBlock((ButtonBlock) block, blockTexture(fullTextureBlock));
-        simpleBlockItem(block, models().buttonInventory(getName(block), blockTexture(fullTextureBlock)));
+        simpleBlockItem(block, models().buttonInventory(getName(block) + "_inventory", blockTexture(fullTextureBlock)));
     }
 
     private void leavesBlockWithItem(Block block) {

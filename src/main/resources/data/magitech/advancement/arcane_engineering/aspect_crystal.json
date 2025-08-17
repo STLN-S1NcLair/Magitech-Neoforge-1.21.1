@@ -18,49 +18,49 @@
     "ember_crystal": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
-        "items": [{"items": ["magitech:ember_crystal"], "count": 1}]
+        "items": [{"items": ["magitech:ember_crystal"]}]
       }
     },
     "glace_crystal": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
-        "items": [{"items": ["magitech:glace_crystal"], "count": 1}]
+        "items": [{"items": ["magitech:glace_crystal"]}]
       }
     },
     "surge_crystal": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
-        "items": [{"items": ["magitech:surge_crystal"], "count": 1}]
+        "items": [{"items": ["magitech:surge_crystal"]}]
       }
     },
     "phantom_crystal": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
-        "items": [{"items": ["magitech:phantom_crystal"], "count": 1}]
+        "items": [{"items": ["magitech:phantom_crystal"]}]
       }
     },
     "tremor_crystal": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
-        "items": [{"items": ["magitech:tremor_crystal"], "count": 1}]
+        "items": [{"items": ["magitech:tremor_crystal"]}]
       }
     },
     "magic_crystal": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
-        "items": [{"items": ["magitech:magic_crystal"], "count": 1}]
+        "items": [{"items": ["magitech:magic_crystal"]}]
       }
     },
     "flow_crystal": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
-        "items": [{"items": ["magitech:flow_crystal"], "count": 1}]
+        "items": [{"items": ["magitech:flow_crystal"]}]
       }
     },
     "hollow_crystal": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
-        "items": [{"items": ["magitech:hollow_crystal"], "count": 1}]
+        "items": [{"items": ["magitech:hollow_crystal"]}]
       }
     }
   },
