@@ -15,6 +15,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.neoforged.fml.ModList;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.magic.spell.SpellRegister;
@@ -53,7 +54,7 @@ public class ThreadboundItem extends TooltipTextItem implements ICurioItem {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
-        if (level.isClientSide) {
+        if (level.isClientSide && ModList.get().isLoaded("patchouli")) {
             Book book = BookRegistry.INSTANCE.books.get(player.getItemInHand(usedHand).get(PatchouliDataComponents.BOOK));
             if (book != null) {
                 PatchouliAPI.get().openBookGUI(book.id);

@@ -2,6 +2,7 @@ package net.stln.magitech.event;
 
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.item.ItemInit;
@@ -41,14 +42,23 @@ public class ModifyDefaultComponentsEvent {
         event.modify(ItemInit.CATALYST, builder -> builder.set(ComponentInit.MATERIAL_COMPONENT.get(), new MaterialComponent(MaterialInit.IRON)).build());
         event.modify(ItemInit.CONDUCTOR, builder -> builder.set(ComponentInit.MATERIAL_COMPONENT.get(), new MaterialComponent(MaterialInit.IRON)).build());
 
-        event.modify(ItemInit.GLISTENING_LEXICON, builder -> builder.set(ComponentInit.SPELL_COMPONENT.get(),
-                        new SpellComponent(List.of(), 0))
-                .set(PatchouliDataComponents.BOOK, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "glistening_lexicon")).build());
-        event.modify(ItemInit.THE_FIRE_THAT_THINKS, builder -> builder.set(ComponentInit.SPELL_COMPONENT.get(),
-                        new SpellComponent(List.of(), 0))
-                .set(PatchouliDataComponents.BOOK, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "the_fire_that_thinks")).build());
-        event.modify(ItemInit.ARCANE_ENGINEERING_COMPENDIUM, builder -> builder.set(ComponentInit.SPELL_COMPONENT.get(),
-                new SpellComponent(List.of(), 0)).build());
+        if (ModList.get().isLoaded("patchouli")) {
+            event.modify(ItemInit.GLISTENING_LEXICON, builder -> builder.set(ComponentInit.SPELL_COMPONENT.get(),
+                            new SpellComponent(List.of(), 0))
+                    .set(PatchouliDataComponents.BOOK, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "glistening_lexicon")).build());
+            event.modify(ItemInit.THE_FIRE_THAT_THINKS, builder -> builder.set(ComponentInit.SPELL_COMPONENT.get(),
+                            new SpellComponent(List.of(), 0))
+                    .set(PatchouliDataComponents.BOOK, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "the_fire_that_thinks")).build());
+            event.modify(ItemInit.ARCANE_ENGINEERING_COMPENDIUM, builder -> builder.set(ComponentInit.SPELL_COMPONENT.get(),
+                    new SpellComponent(List.of(), 0)).build());
+        } else {
+            event.modify(ItemInit.GLISTENING_LEXICON, builder -> builder.set(ComponentInit.SPELL_COMPONENT.get(),
+                            new SpellComponent(List.of(), 0)).build());
+            event.modify(ItemInit.THE_FIRE_THAT_THINKS, builder -> builder.set(ComponentInit.SPELL_COMPONENT.get(),
+                            new SpellComponent(List.of(), 0)).build());
+            event.modify(ItemInit.ARCANE_ENGINEERING_COMPENDIUM, builder -> builder.set(ComponentInit.SPELL_COMPONENT.get(),
+                    new SpellComponent(List.of(), 0)).build());
+        }
         event.modify(ItemInit.THREAD_PAGE, builder -> builder.set(ComponentInit.THREAD_PAGE_COMPONENT.get(),
                 new ThreadPageComponent(SpellInit.ENERCRUX)).build());
     }
