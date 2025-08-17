@@ -82,7 +82,7 @@ side = "BOTH"
 
 [[dependencies.magitech]]
 modId = "patchouli"
-type = "required"
+type = "optional"
 ordering = "AFTER"
 side = "BOTH"
 
