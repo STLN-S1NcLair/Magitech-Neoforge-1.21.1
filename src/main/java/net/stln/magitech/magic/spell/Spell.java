@@ -256,16 +256,18 @@ public abstract class Spell {
         DamageSource elementalDamageSource = user.damageSources().source(damageType, user);
         if (target.isAttackable()) {
             damage *= EntityElementRegister.getElementAffinity(target, element).getMultiplier();
-            target.hurt(elementalDamageSource, damage);
-            if (target instanceof LivingEntity livingTarget) {
-                float targetHealth = livingTarget.getHealth();
-                livingTarget.setLastHurtByMob(user);
-                user.awardStat(Stats.DAMAGE_DEALT, Math.round((targetHealth - livingTarget.getHealth()) * 10));
+
+            if (target instanceof LivingEntity livingTarget && livingTarget.invulnerableTime < 10) {
+                if (stack.getItem() instanceof SpellCasterItem spellCasterItem) {
+                    spellCasterItem.callTraitSpellHitEntity(user.level(), user, target, stack);
+                }
+                if (target.hurt(elementalDamageSource, damage)) {
+                    float targetHealth = livingTarget.getHealth();
+                    livingTarget.setLastHurtByMob(user);
+                    user.awardStat(Stats.DAMAGE_DEALT, Math.round((targetHealth - livingTarget.getHealth()) * 10));
+                }
             }
             user.setLastHurtMob(target);
-        }
-        if (stack.getItem() instanceof SpellCasterItem spellCasterItem) {
-            spellCasterItem.callTraitSpellHitEntity(user.level(), user, target, stack);
         }
     }
 
