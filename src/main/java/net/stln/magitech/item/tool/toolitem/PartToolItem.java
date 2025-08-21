@@ -294,14 +294,14 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
                     trait.tick(player, world, stack, integer, getDefaultStats(stack), true);
                 });
                 if (world.isClientSide) {
-                    PacketDistributor.sendToServer(new TraitTickPayload(((Player) entity).getItemInHand(InteractionHand.MAIN_HAND) == stack, false, entity.getUUID().toString()));
+                    PacketDistributor.sendToServer(new TraitTickPayload(((Player) entity).getItemInHand(InteractionHand.MAIN_HAND) == stack, false, slot, entity.getUUID().toString()));
                 }
             }
             getTraitLevel(getTraits(stack)).forEach((trait, integer) -> {
                 trait.inventoryTick(player, world, stack, integer, getDefaultStats(stack), true);
             });
             if (world.isClientSide) {
-                PacketDistributor.sendToServer(new TraitTickPayload(((Player) entity).getItemInHand(InteractionHand.MAIN_HAND) == stack, true, entity.getUUID().toString()));
+                PacketDistributor.sendToServer(new TraitTickPayload(((Player) entity).getItemInHand(InteractionHand.MAIN_HAND) == stack, true, slot, entity.getUUID().toString()));
             }
         }
 

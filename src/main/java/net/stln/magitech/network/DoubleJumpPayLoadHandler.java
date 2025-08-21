@@ -38,7 +38,6 @@ public class DoubleJumpPayLoadHandler {
         for (ServerPlayer serverPlayer : server.getPlayerList().getPlayers())
             if (player.getUUID() != serverPlayer.getUUID()) {
                 PacketDistributor.sendToPlayer(serverPlayer, payload);
-                Magitech.LOGGER.debug("Sent DoubleJumpPayload to player: " + serverPlayer.getName().getString());
             }
     }
 }
