@@ -7,6 +7,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
@@ -19,7 +20,18 @@ import java.util.UUID;
 public class TraitActionPayLoadHandler {
 
     public static void handleDataOnMainS2C(final TraitActionPayload payload, final IPayloadContext context) {
-        Player player = context.player().level().getPlayerByUUID(UUID.fromString(payload.uuid()));
+        Player player = null;
+        Level level = context.player().level();
+        for (Player search : level.players()) {
+            if (search.getUUID().toString().equals(payload.uuid())) {
+                player = search;
+                break;
+            }
+        }
+        Player player1 = player;
+        if (player == null) {
+            return;
+        }
         Entity entity = player.level().getEntity(payload.targetId());
         InteractionHand hand = payload.isMainHand() ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
         Item item = player.getItemInHand(hand).getItem();
@@ -30,13 +42,16 @@ public class TraitActionPayLoadHandler {
                 if (lookingPos.x == Double.MAX_VALUE && lookingPos.y == Double.MAX_VALUE && lookingPos.z == Double.MAX_VALUE) {
                     lookingPos = null;
                 }
-                trait.traitAction(player, player.level(), entity, lookingPos, stack, integer, ((PartToolItem) stack.getItem()).getSumStats(player, player.level(), stack), hand, false);
+                trait.traitAction(player1, player1.level(), entity, lookingPos, stack, integer, ((PartToolItem) stack.getItem()).getSumStats(player1, player1.level(), stack), hand, false);
             });
         }
     }
 
     public static void handleDataOnMainC2S(final TraitActionPayload payload, final IPayloadContext context) {
-        Player player = context.player();
+        Player player = context.player().level().getPlayerByUUID(UUID.fromString(payload.uuid()));
+        if (player == null) {
+            return;
+        }
         Entity entity = player.level().getEntity(payload.targetId());
         InteractionHand hand = payload.isMainHand() ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
         Item item = player.getItemInHand(hand).getItem();
