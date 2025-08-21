@@ -39,7 +39,7 @@ public class Cryoluxa extends BeamSpell {
     @Override
     public Map<ManaUtil.ManaType, Double> getBaseRequiredMana() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
-        cost.put(ManaUtil.ManaType.MANA, 40.0);
+        cost.put(ManaUtil.ManaType.MANA, 50.0);
         cost.put(ManaUtil.ManaType.NOCTIS, 4.0);
         cost.put(ManaUtil.ManaType.FLUXIA, 3.0);
         return cost;

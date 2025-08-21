@@ -29,7 +29,7 @@ public class SignalRushTrait extends Trait {
             if (signal > 0) {
                 mul *= signal * 0.08F + 1;
             }
-            Float spd = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.SPD_STAT);
+            Float spd = stats.getStats().get(ToolStats.SPD_STAT);
             modified.put(ToolStats.SPD_STAT, spd * mul);
             return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
         }
@@ -46,7 +46,7 @@ public class SignalRushTrait extends Trait {
             if (signal > 0) {
                 mul *= signal * 0.08F + 1;
             }
-            Float spd = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.SPD_STAT);
+            Float spd = stats.getStats().get(ToolStats.SPD_STAT);
             modified.put(ToolStats.SPD_STAT, spd * mul);
             return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
         }
@@ -61,7 +61,7 @@ public class SignalRushTrait extends Trait {
             if (signal > 0) {
                 mul *= signal * 0.08F + 1;
             }
-            Float min = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.MIN_STAT);
+            Float min = stats.getStats().get(ToolStats.MIN_STAT);
             return min * mul;
         }
         return super.modifyMiningSpeed(player, level, stack, traitLevel, stats, blockState, pos);
@@ -101,8 +101,8 @@ public class SignalRushTrait extends Trait {
     }
 
     @Override
-    public void tick(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
-        super.tick(player, level, stack, traitLevel, stats);
+    public void tick(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, boolean isHost) {
+        super.tick(player, level, stack, traitLevel, stats, isHost);
         if (player.getFoodData().getSaturationLevel() > 0) {
             int signal = Math.max(level.getBestNeighborSignal(player.getOnPos()), level.getSignal(player.getOnPos(), Direction.UP));
             EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(1.0F, 0.0F, 0.0F), new Vector3f(1.0F, (float) signal / 20, (float) signal / 20), 1F, 1, 0), player, 1);

@@ -44,7 +44,7 @@ public class Enercrux extends BeamSpell {
     @Override
     public Map<ManaUtil.ManaType, Double> getBaseRequiredMana() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
-        cost.put(ManaUtil.ManaType.MANA, 20.0);
+        cost.put(ManaUtil.ManaType.MANA, 30.0);
         return cost;
     }
 

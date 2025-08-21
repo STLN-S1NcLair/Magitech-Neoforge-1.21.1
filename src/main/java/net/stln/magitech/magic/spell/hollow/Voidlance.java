@@ -44,7 +44,7 @@ public class Voidlance extends BeamSpell {
     public Map<ManaUtil.ManaType, Double> getBaseRequiredMana() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
         cost.put(ManaUtil.ManaType.MANA, 40.0);
-        cost.put(ManaUtil.ManaType.NOCTIS, 5.0);
+        cost.put(ManaUtil.ManaType.NOCTIS, 6.0);
         return cost;
     }
 

@@ -40,7 +40,7 @@ public class Oscilbeam extends BeamSpell {
     public Map<ManaUtil.ManaType, Double> getBaseRequiredMana() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
         cost.put(ManaUtil.ManaType.MANA, 55.0);
-        cost.put(ManaUtil.ManaType.NOCTIS, 5.5);
+        cost.put(ManaUtil.ManaType.NOCTIS, 7.5);
         return cost;
     }
 
@@ -51,7 +51,7 @@ public class Oscilbeam extends BeamSpell {
 
     @Override
     public void use(Level level, Player user, InteractionHand hand, boolean isHost) {
-        addCharge(user, 30, this.getElement());
+        addCharge(user, 15, this.getElement());
         super.use(level, user, hand, isHost);
     }
 

@@ -23,7 +23,7 @@ import java.util.Map;
 public class Mystaven extends BeamSpell {
 
     public Mystaven() {
-        baseDamage = 8.0F;
+        baseDamage = 7.0F;
         baseMaxRange = 63;
         beamradius = 0.2;
     }
@@ -39,8 +39,8 @@ public class Mystaven extends BeamSpell {
     @Override
     public Map<ManaUtil.ManaType, Double> getBaseRequiredMana() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
-        cost.put(ManaUtil.ManaType.MANA, 25.0);
-        cost.put(ManaUtil.ManaType.FLUXIA, 3.0);
+        cost.put(ManaUtil.ManaType.MANA, 55.0);
+        cost.put(ManaUtil.ManaType.FLUXIA, 8.5);
         return cost;
     }
 

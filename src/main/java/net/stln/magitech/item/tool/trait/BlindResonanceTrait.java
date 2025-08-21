@@ -27,7 +27,6 @@ import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.item.tool.material.ToolMaterial;
 import net.stln.magitech.item.tool.toolitem.PartToolItem;
-import net.stln.magitech.item.tool.toolitem.SpellCasterItem;
 import net.stln.magitech.particle.particle_option.PowerupNoCullParticleEffect;
 import net.stln.magitech.particle.particle_option.PowerupParticleEffect;
 import net.stln.magitech.particle.particle_option.WaveNoCullParticleEffect;
@@ -46,7 +45,9 @@ public class BlindResonanceTrait extends Trait {
 
     @Override
     public void modifyAttribute(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, List<ItemAttributeModifiers.Entry> entries) {
-        if (level.getLightEngine().getRawBrightness(player.blockPosition(), 0) < 4) {
+        level.updateSkyBrightness();
+        int light = level.getMaxLocalRawBrightness(player.blockPosition());
+        if (light < 4) {
             entries.add(new ItemAttributeModifiers.Entry(Attributes.MOVEMENT_SPEED, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "blind_touch"), traitLevel * 0.25, AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.MAINHAND));
         }
         super.modifyAttribute(player, level, stack, traitLevel, stats, entries);
@@ -54,7 +55,9 @@ public class BlindResonanceTrait extends Trait {
 
     @Override
     public void modifySpellCasterAttribute(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, List<ItemAttributeModifiers.Entry> entries) {
-        if (level.getLightEngine().getRawBrightness(player.blockPosition(), 0) < 4) {
+        level.updateSkyBrightness();
+        int light = level.getMaxLocalRawBrightness(player.blockPosition());
+        if (light < 4) {
             entries.add(new ItemAttributeModifiers.Entry(Attributes.MOVEMENT_SPEED, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "blind_touch"), traitLevel * 0.25, AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.MAINHAND));
         }
         super.modifySpellCasterAttribute(player, level, stack, traitLevel, stats, entries);
@@ -62,7 +65,9 @@ public class BlindResonanceTrait extends Trait {
 
     @Override
     public ToolStats modifySpellCasterStatsConditional1(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
-        if (level.getLightEngine().getRawBrightness(player.blockPosition(), 0) < 4) {
+        level.updateSkyBrightness();
+        int light = level.getMaxLocalRawBrightness(player.blockPosition());
+        if (light < 4) {
             List<ToolMaterial> materials = stack.getComponents().get(ComponentInit.PART_MATERIAL_COMPONENT.get()).materials();
             Set<ToolMaterial> materialSet = PartToolItem.getMaterialSet(materials);
             ToolStats defaultStats = ToolStats.DEFAULT;
@@ -89,9 +94,11 @@ public class BlindResonanceTrait extends Trait {
     }
 
     @Override
-    public void tick(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
-        super.tick(player, level, stack, traitLevel, stats);
-        if (level.getLightEngine().getRawBrightness(player.blockPosition(), 0) < 4 && !player.hasEffect(MobEffects.NIGHT_VISION)) {
+    public void tick(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, boolean isHost) {
+        super.tick(player, level, stack, traitLevel, stats, isHost);
+        level.updateSkyBrightness();
+        int light = level.getMaxLocalRawBrightness(player.blockPosition());
+        if (light < 4 && !player.hasEffect(MobEffects.NIGHT_VISION)) {
             EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(0.0F, 0.5F, 0.5F), new Vector3f(0.0F, 1.0F, 1.0F), 1F, 1, 0), player, 1);
             List<Entity> entities = EntityUtil.getEntitiesInBox(level, player, player.position(), new Vec3(10, 10, 10));
             for (Entity entity : entities) {

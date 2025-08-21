@@ -13,7 +13,7 @@ public class LightweightTrait extends Trait {
     public ToolStats modifyStats1(ItemStack stack, int traitLevel, ToolStats stats) {
         ToolStats defaultStats = ToolStats.DEFAULT;
         Map<String, Float> modified = new HashMap<>(defaultStats.getStats());
-        float mul = traitLevel * 0.03F;
+        float mul = traitLevel * 0.05F;
         modified.put(ToolStats.SPD_STAT, (stats.getStats().get(ToolStats.SPD_STAT)) * mul);
         modified.put(ToolStats.MIN_STAT, stats.getStats().get(ToolStats.MIN_STAT) * mul);
         return new ToolStats(modified, defaultStats.getElement(), defaultStats.getMiningLevel(), defaultStats.getTier());
@@ -23,7 +23,7 @@ public class LightweightTrait extends Trait {
     public ToolStats modifySpellCasterStats1(ItemStack stack, int traitLevel, ToolStats stats) {
         ToolStats defaultStats = ToolStats.DEFAULT;
         Map<String, Float> modified = new HashMap<>(defaultStats.getStats());
-        float mul = traitLevel * 0.03F;
+        float mul = traitLevel * 0.05F;
         modified.put(ToolStats.SPD_STAT, (stats.getStats().get(ToolStats.SPD_STAT)) * mul);
         modified.put(ToolStats.MIN_STAT, stats.getStats().get(ToolStats.MIN_STAT) * mul);
         return new ToolStats(modified, defaultStats.getElement(), defaultStats.getMiningLevel(), defaultStats.getTier());

@@ -55,6 +55,7 @@ public abstract class Spell {
 
     public float baseDamage = 0;
     public float baseEffectStrength = 0;
+    public float baseDuration = 0;
     public float tickBaseDamage = 0;
     public double baseSpeed = 0;
     public double baseMaxRange = 0;
@@ -285,6 +286,9 @@ public abstract class Spell {
         }
         if (this.baseEffectStrength != 0) {
             list.add(Component.translatable("tooltip.magitech.spell.effect_strength").append(": " + MathUtil.round(this.getDamage(user, new HashMap<>(), (float) this.baseEffectStrength, this.getElement()), 2)));
+        }
+        if (this.baseDuration != 0) {
+            list.add(Component.translatable("tooltip.magitech.spell.duration").append(": " + MathUtil.round(this.getDamage(user, new HashMap<>(), (float) this.baseDuration, this.getElement()), 2)));
         }
         if (this.baseMaxRange != 0) {
             list.add(Component.translatable("tooltip.magitech.spell.max_range").append(": " + MathUtil.round(this.getDamage(user, new HashMap<>(), (float) this.baseMaxRange, this.getElement()), 2)));

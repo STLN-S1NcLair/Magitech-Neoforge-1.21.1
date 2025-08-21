@@ -69,7 +69,7 @@ public class Glymora extends Spell {
     public Map<ManaUtil.ManaType, Double> getBaseTickCost() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
         cost.put(ManaUtil.ManaType.MANA, 2.0);
-        cost.put(ManaUtil.ManaType.FLUXIA, 0.6);
+        cost.put(ManaUtil.ManaType.FLUXIA, 0.3);
         return cost;
     }
 

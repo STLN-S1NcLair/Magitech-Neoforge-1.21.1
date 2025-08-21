@@ -149,14 +149,64 @@
       "magitech:enercrux"
     ]
   },
+  "blazewend": {
+    "sounds": [
+      "magitech:blazewend"
+    ]
+  },
+  "glistelda": {
+    "sounds": [
+      "magitech:glistelda"
+    ]
+  },
+  "glistelda_break": {
+    "sounds": [
+      "magitech:glistelda_break"
+    ]
+  },
+  "fadancea": {
+    "sounds": [
+      "magitech:fadancea"
+    ]
+  },
+  "quaveris": {
+    "sounds": [
+      "magitech:quaveris"
+    ]
+  },
+  "envistra": {
+    "sounds": [
+      "magitech:envistra"
+    ]
+  },
   "syllaeze": {
     "sounds": [
       "magitech:syllaeze"
     ]
   },
+  "disparundra": {
+    "sounds": [
+      "magitech:disparundra"
+    ]
+  },
   "arclume": {
     "sounds": [
       "magitech:arclume"
+    ]
+  },
+  "nymphora": {
+    "sounds": [
+      "magitech:nymphora"
+    ]
+  },
+  "tenebport": {
+    "sounds": [
+      "magitech:tenebport"
+    ]
+  },
+  "tenebport_charge": {
+    "sounds": [
+      "magitech:tenebport_charge"
     ]
   },
   "aether_lifter_jump": {

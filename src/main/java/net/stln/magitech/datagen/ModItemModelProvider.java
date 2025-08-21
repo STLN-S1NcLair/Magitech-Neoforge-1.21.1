@@ -70,6 +70,8 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ItemInit.POLISHED_REDSTONE_CRYSTAL.get());
         basicItem(ItemInit.CHROMIUM_INGOT.get());
         basicItem(ItemInit.ENDER_METAL_INGOT.get());
+        basicItem(ItemInit.NETHER_STAR_BRILLIANCE.get());
+        basicItem(ItemInit.RADIANT_STEEL_INGOT.get());
         basicItem(ItemInit.FRIGIDITE.get());
         basicItem(ItemInit.POLISHED_FRIGIDITE.get());
         basicItem(ItemInit.TRANSLUCIUM.get());

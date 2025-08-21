@@ -1,0 +1,31 @@
+{
+  "display": {
+    "icon": {
+      "id": "magitech:radiant_steel_ingot"
+    },
+    "title": {
+      "translate": "advancement.magitech.arcane_engineering.radiant_steel_ingot.title"
+    },
+    "description": {
+      "translate": "advancement.magitech.arcane_engineering.radiant_steel_ingot.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "parent": "magitech:arcane_engineering/zardius_crucible",
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "magitech:radiant_steel_ingot"
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

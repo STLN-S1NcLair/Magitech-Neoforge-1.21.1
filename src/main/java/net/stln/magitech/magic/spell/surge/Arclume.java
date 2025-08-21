@@ -53,9 +53,9 @@ public class Arclume extends Spell {
     @Override
     public Map<ManaUtil.ManaType, Double> getBaseCost() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
-        cost.put(ManaUtil.ManaType.MANA, 40.0);
-        cost.put(ManaUtil.ManaType.LUMINIS, 3.0);
-        cost.put(ManaUtil.ManaType.FLUXIA, 1.5);
+        cost.put(ManaUtil.ManaType.MANA, 55.0);
+        cost.put(ManaUtil.ManaType.LUMINIS, 6.0);
+        cost.put(ManaUtil.ManaType.NOCTIS, 1.5);
         return cost;
     }
 
@@ -89,6 +89,7 @@ public class Arclume extends Spell {
         if (isHost) {
             user.setPos(hitPos);
         }
+        user.fallDistance = 0;
         addCooldown(level, user, stack);
     }
 

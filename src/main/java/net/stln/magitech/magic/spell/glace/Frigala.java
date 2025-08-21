@@ -61,7 +61,7 @@ public class Frigala extends Spell {
     public Map<ManaUtil.ManaType, Double> getBaseRequiredMana() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
         cost.put(ManaUtil.ManaType.MANA, 55.0);
-        cost.put(ManaUtil.ManaType.NOCTIS, 2.0);
+        cost.put(ManaUtil.ManaType.NOCTIS, 5.0);
         cost.put(ManaUtil.ManaType.FLUXIA, 3.0);
         return cost;
     }

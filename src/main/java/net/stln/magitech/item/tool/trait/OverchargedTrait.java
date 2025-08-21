@@ -6,7 +6,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.stln.magitech.Magitech;
 import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.item.tool.toolitem.PartToolItem;
 import net.stln.magitech.item.tool.toolitem.SpellCasterItem;
@@ -28,8 +27,8 @@ public class OverchargedTrait extends Trait {
         if (currentMana >= maxMana) {
             ToolStats aDefault = ToolStats.DEFAULT;
             Map<String, Float> modified = new HashMap<>(aDefault.getStats());
-            float mul = traitLevel * 0.15F;
-            Float elmAtk = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.ELM_ATK_STAT);
+            float mul = traitLevel * 0.35F;
+            Float elmAtk = stats.getStats().get(ToolStats.ELM_ATK_STAT);
             modified.put(ToolStats.ELM_ATK_STAT, elmAtk * mul);
             return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
         }
@@ -43,9 +42,9 @@ public class OverchargedTrait extends Trait {
         if (currentMana >= maxMana / 2) {
             ToolStats aDefault = ToolStats.DEFAULT;
             Map<String, Float> modified = new HashMap<>(aDefault.getStats());
-            float mul = traitLevel * 0.15F;
-            Float pwr = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.PWR_STAT);
-            Float chg = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.CHG_STAT);
+            float mul = traitLevel * 0.35F;
+            Float pwr = stats.getStats().get(ToolStats.PWR_STAT);
+            Float chg = stats.getStats().get(ToolStats.CHG_STAT);
             modified.put(ToolStats.PWR_STAT, pwr * mul);
             modified.put(ToolStats.CHG_STAT, chg * mul);
             return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
@@ -58,16 +57,16 @@ public class OverchargedTrait extends Trait {
         double currentMana = ManaData.getCurrentMana(player, ManaUtil.ManaType.MANA);
         double maxMana = ManaUtil.getMaxMana(player, ManaUtil.ManaType.MANA);
         if (currentMana >= maxMana) {
-            float mul = traitLevel * 0.15F;
-            Float min = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.MIN_STAT);
+            float mul = traitLevel * 0.35F;
+            Float min = stats.getStats().get(ToolStats.MIN_STAT);
             return min * mul;
         }
         return super.modifyMiningSpeed(player, level, stack, traitLevel, stats, blockState, pos);
     }
 
     @Override
-    public void tick(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
-        super.tick(player, level, stack, traitLevel, stats);
+    public void tick(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, boolean isHost) {
+        super.tick(player, level, stack, traitLevel, stats, isHost);
         double currentMana = ManaData.getCurrentMana(player, ManaUtil.ManaType.MANA);
         double maxMana = ManaUtil.getMaxMana(player, ManaUtil.ManaType.MANA);
         if (currentMana >= maxMana / (stack.getItem() instanceof SpellCasterItem ? 2 : 1)) {

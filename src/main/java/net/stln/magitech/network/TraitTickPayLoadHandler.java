@@ -22,9 +22,15 @@ public class TraitTickPayLoadHandler {
         Item item = player.getItemInHand(hand).getItem();
         if (item instanceof PartToolItem partToolItem) {
             ItemStack stack = player.getItemInHand(hand);
-            PartToolItem.getTraitLevel(PartToolItem.getTraits(stack)).forEach((trait, integer) -> {
-                trait.tick(player, player.level(), stack, integer, ((PartToolItem) stack.getItem()).getSumStats(player, player.level(), stack));
-            });
+            if (payload.isInventory()) {
+                PartToolItem.getTraitLevel(PartToolItem.getTraits(stack)).forEach((trait, integer) -> {
+                    trait.inventoryTick(player, player.level(), stack, integer, ((PartToolItem) stack.getItem()).getSumStats(player, player.level(), stack), false);
+                });
+            } else {
+                PartToolItem.getTraitLevel(PartToolItem.getTraits(stack)).forEach((trait, integer) -> {
+                    trait.tick(player, player.level(), stack, integer, ((PartToolItem) stack.getItem()).getSumStats(player, player.level(), stack), false);
+                });
+            }
         }
     }
 
@@ -34,10 +40,15 @@ public class TraitTickPayLoadHandler {
         Item item = player.getItemInHand(hand).getItem();
         if (item instanceof PartToolItem partToolItem) {
             ItemStack stack = player.getItemInHand(hand);
-
-            PartToolItem.getTraitLevel(PartToolItem.getTraits(stack)).forEach((trait, integer) -> {
-                trait.tick(player, player.level(), stack, integer, ((PartToolItem) stack.getItem()).getSumStats(player, player.level(), stack));
-            });
+            if (payload.isInventory()) {
+                PartToolItem.getTraitLevel(PartToolItem.getTraits(stack)).forEach((trait, integer) -> {
+                    trait.inventoryTick(player, player.level(), stack, integer, ((PartToolItem) stack.getItem()).getSumStats(player, player.level(), stack), false);
+                });
+            } else {
+                PartToolItem.getTraitLevel(PartToolItem.getTraits(stack)).forEach((trait, integer) -> {
+                    trait.tick(player, player.level(), stack, integer, ((PartToolItem) stack.getItem()).getSumStats(player, player.level(), stack), false);
+                });
+            }
         }
         MinecraftServer server = Objects.requireNonNull(ServerLifecycleHooks.getCurrentServer(), "Cannot send clientbound payloads on the client");
         for (ServerPlayer serverPlayer : server.getPlayerList().getPlayers())

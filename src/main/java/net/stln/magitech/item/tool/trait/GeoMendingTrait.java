@@ -26,7 +26,7 @@ public class GeoMendingTrait extends Trait {
         ToolStats aDefault = ToolStats.DEFAULT;
         Map<String, Float> modified = new HashMap<>(aDefault.getStats());
         float mul = traitLevel * 0.8F;
-        Float def = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.DEF_STAT);
+        Float def = stats.getStats().get(ToolStats.DEF_STAT);
         modified.put(ToolStats.DEF_STAT, def * mul);
         return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
     }

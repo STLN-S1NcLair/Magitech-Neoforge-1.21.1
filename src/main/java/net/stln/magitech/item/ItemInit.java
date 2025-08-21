@@ -269,6 +269,14 @@ public class ItemInit {
             TooltipTextItem::new,
             new Item.Properties());
 
+    public static final DeferredItem<Item> NETHER_STAR_BRILLIANCE = ITEMS.registerItem("nether_star_brilliance",
+            TooltipTextItem::new,
+            new Item.Properties());
+
+    public static final DeferredItem<Item> RADIANT_STEEL_INGOT = ITEMS.registerItem("radiant_steel_ingot",
+            TooltipTextItem::new,
+            new Item.Properties());
+
     public static final DeferredItem<Item> FRIGIDITE = ITEMS.registerItem("frigidite",
             TooltipTextItem::new,
             new Item.Properties());

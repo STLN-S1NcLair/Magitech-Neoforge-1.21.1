@@ -3,10 +3,10 @@
   "package": "net.stln.magitech.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "EntityAttackStrengthMixin"
+    "MagitechEntityAttackStrengthMixin"
   ],
   "client": [
-    "ItemRendererMixin"
+    "MagitechItemRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

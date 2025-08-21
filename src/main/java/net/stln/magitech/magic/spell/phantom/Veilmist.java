@@ -73,7 +73,7 @@ public class Veilmist extends Spell {
     public Map<ManaUtil.ManaType, Double> getBaseTickCost() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
         cost.put(ManaUtil.ManaType.MANA, 2.5);
-        cost.put(ManaUtil.ManaType.LUMINIS, 0.8);
+        cost.put(ManaUtil.ManaType.LUMINIS, 0.4);
         return cost;
     }
 

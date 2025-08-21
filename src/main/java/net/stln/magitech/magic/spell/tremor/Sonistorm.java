@@ -43,7 +43,7 @@ import java.util.Set;
 public class Sonistorm extends Spell {
 
     public Sonistorm() {
-        tickBaseDamage = 3.0F;
+        tickBaseDamage = 5.0F;
     }
 
     public Element getElement() {
@@ -65,7 +65,7 @@ public class Sonistorm extends Spell {
     public Map<ManaUtil.ManaType, Double> getBaseCost() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
         cost.put(ManaUtil.ManaType.MANA, 25.0);
-        cost.put(ManaUtil.ManaType.NOCTIS, 4.0);
+        cost.put(ManaUtil.ManaType.NOCTIS, 3.0);
         return cost;
     }
 

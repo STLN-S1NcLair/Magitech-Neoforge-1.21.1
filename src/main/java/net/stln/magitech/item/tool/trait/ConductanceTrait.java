@@ -14,7 +14,7 @@ public class ConductanceTrait extends Trait {
         super.modifyStats1(stack, traitLevel, stats);
         ToolStats defaultStats = ToolStats.DEFAULT;
         Map<String, Float> modified = new HashMap<>(defaultStats.getStats());
-        float mul = traitLevel * 0.10F;
+        float mul = traitLevel * 0.2F;
         modified.put(ToolStats.ELM_ATK_STAT, stats.getStats().get(ToolStats.ELM_ATK_STAT) * mul);
         return new ToolStats(modified, defaultStats.getElement(), defaultStats.getMiningLevel(), defaultStats.getTier());
     }
@@ -24,7 +24,7 @@ public class ConductanceTrait extends Trait {
         super.modifySpellCasterStats1(stack, traitLevel, stats);
         ToolStats defaultStats = ToolStats.DEFAULT;
         Map<String, Float> modified = new HashMap<>(defaultStats.getStats());
-        float mul = traitLevel * 0.1F;
+        float mul = traitLevel * 0.2F;
         modified.put(ToolStats.ELM_ATK_STAT, stats.getStats().get(ToolStats.ELM_ATK_STAT) * mul);
         return new ToolStats(modified, defaultStats.getElement(), defaultStats.getMiningLevel(), defaultStats.getTier());
     }

@@ -21,8 +21,8 @@ public class ShatterforceTrait extends Trait {
     public ToolStats modifyStatsConditional1(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
         ToolStats aDefault = ToolStats.DEFAULT;
         Map<String, Float> modified = new HashMap<>(aDefault.getStats());
-        float mul = traitLevel * 0.25F * stack.getDamageValue() / stack.getMaxDamage();
-        Float swp = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.SWP_STAT);
+        float mul = traitLevel * 0.35F * stack.getDamageValue() / stack.getMaxDamage();
+        Float swp = stats.getStats().get(ToolStats.SWP_STAT);
         modified.put(ToolStats.SWP_STAT, swp * mul);
         return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
     }
@@ -31,22 +31,22 @@ public class ShatterforceTrait extends Trait {
     public ToolStats modifySpellCasterStatsConditional1(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
         ToolStats aDefault = ToolStats.DEFAULT;
         Map<String, Float> modified = new HashMap<>(aDefault.getStats());
-        float mul = traitLevel * 0.25F * stack.getDamageValue() / stack.getMaxDamage();
-        Float swp = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.SWP_STAT);
+        float mul = traitLevel * 0.35F * stack.getDamageValue() / stack.getMaxDamage();
+        Float swp = stats.getStats().get(ToolStats.SWP_STAT);
         modified.put(ToolStats.SWP_STAT, swp * mul);
         return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
     }
 
     @Override
     public float modifyMiningSpeed(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos) {
-        float mul = traitLevel * 0.25F * stack.getDamageValue() / stack.getMaxDamage();
-        Float min = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.MIN_STAT);
+        float mul = traitLevel * 0.35F * stack.getDamageValue() / stack.getMaxDamage();
+        Float min = stats.getStats().get(ToolStats.MIN_STAT);
         return min * mul;
     }
 
     @Override
-    public void tick(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
-        super.tick(player, level, stack, traitLevel, stats);
+    public void tick(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, boolean isHost) {
+        super.tick(player, level, stack, traitLevel, stats, isHost);
         if (player.getRandom().nextFloat() < (float) stack.getDamageValue() / stack.getMaxDamage()) {
             EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(0.9F, 0.6F, 1.0F), new Vector3f(0.9F, 0.6F, 1.0F), 1F, 1, 0), player, 1);
         }

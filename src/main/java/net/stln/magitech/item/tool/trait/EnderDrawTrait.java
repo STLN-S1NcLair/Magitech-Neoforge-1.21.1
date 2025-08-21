@@ -21,7 +21,7 @@ import java.util.List;
 public class EnderDrawTrait extends Trait {
 
     @Override
-    public void tick(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
+    public void tick(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, boolean isHost) {
         if (player.isCrouching()) {
             float range = traitLevel * 4;
             Vec3 rangeVec = new Vec3(range, range, range);

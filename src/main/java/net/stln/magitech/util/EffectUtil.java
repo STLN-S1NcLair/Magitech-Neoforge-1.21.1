@@ -11,6 +11,9 @@ import org.joml.Math;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
+import java.util.function.Consumer;
+import java.util.function.Supplier;
+
 public class EffectUtil {
 
     public static void lineEffect(Level level, ParticleOptions particleOptions, Vec3 start, Vec3 end, int density, boolean alwaysVisible) {
@@ -28,12 +31,17 @@ public class EffectUtil {
     }
 
     public static void entityEffect(Level level, ParticleOptions particleOptions, Entity entity, int amount) {
+        entityEffect(level, () -> particleOptions, () -> new Vec3(0, 0, 0), entity, amount);
+    }
+
+    public static void entityEffect(Level level, Supplier<ParticleOptions> particleOptions, Supplier<Vec3> vector, Entity entity, int amount) {
         for (int i = 0; i < amount; i++) {
+            Vec3 vec3 = vector.get();
             Vec3 randomBody = new Vec3(entity.getX() + (entity.getBbWidth() + 0.5F) * (entity.getRandom().nextFloat() - 0.5),
                     entity.getY(0.5F) + (entity.getBbHeight() + 0.5F) * (entity.getRandom().nextFloat() - 0.5),
                     entity.getZ() + (entity.getBbWidth() + 0.5F) * (entity.getRandom().nextFloat() - 0.5));
 
-            level.addParticle(particleOptions, randomBody.x, randomBody.y, randomBody.z, 0, 0, 0);
+            level.addParticle(particleOptions.get(), randomBody.x, randomBody.y, randomBody.z, vec3.x, vec3.y, vec3.z);
         }
     }
 

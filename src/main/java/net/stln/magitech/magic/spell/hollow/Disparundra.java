@@ -23,6 +23,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.entity.mobeffect.MobEffectInit;
+import net.stln.magitech.sound.SoundInit;
 import net.stln.magitech.util.*;
 import net.stln.magitech.magic.charge.ChargeData;
 import net.stln.magitech.magic.mana.ManaUtil;
@@ -37,7 +38,7 @@ import java.util.Map;
 public class Disparundra extends Spell {
 
     public Disparundra() {
-        this.baseMaxRange = 20;
+        this.baseMaxRange = 30;
     }
 
     public Element getElement() {
@@ -62,7 +63,7 @@ public class Disparundra extends Spell {
     public Map<ManaUtil.ManaType, Double> getBaseRequiredMana() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
         cost.put(ManaUtil.ManaType.MANA, 20.0);
-        cost.put(ManaUtil.ManaType.NOCTIS, 2.0);
+        cost.put(ManaUtil.ManaType.NOCTIS, 3.0);
         return cost;
     }
 
@@ -93,13 +94,12 @@ public class Disparundra extends Spell {
                             hitPos.x, hitPos.y, hitPos.z, (user.getRandom().nextFloat() - 0.5) / 3, (user.getRandom().nextFloat() - 0.5) / 3, (user.getRandom().nextFloat() - 0.5) / 3);
                 }
 
-                level.playSound(user, hitPos.x, hitPos.y, hitPos.z, SoundEvents.PLAYER_TELEPORT, SoundSource.PLAYERS, 1.0F, 0.4F + (user.getRandom().nextFloat() * 0.6F));
+                level.playSound(user, hitPos.x, hitPos.y, hitPos.z, SoundInit.DISPARUNDRA.get(), SoundSource.PLAYERS, 1.0F, 0.7F + (user.getRandom().nextFloat() * 0.6F));
                 livingEntity.setPos(hitPos);
                 livingEntity.fallDistance = 0;
                 TickScheduler.schedule(1, () -> {
                     livingEntity.addEffect(new MobEffectInstance(MobEffectInit.PHASELOCK, 5));
                 }, level.isClientSide);
-                addCooldown(level, user, stack);
 
                 if (level.isClientSide) {
                     playShootAnimation(user);

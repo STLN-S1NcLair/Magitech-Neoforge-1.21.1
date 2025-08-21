@@ -1,5 +1,6 @@
 package net.stln.magitech.magic.mana;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -38,8 +39,9 @@ public class ManaUtil {
 
     public static boolean checkMana(Player player, Map<ManaType, Double> map) {
         boolean flag = true;
-        if (map.getOrDefault(ManaType.MANA, 0.0) > ManaData.getPrevMana(player, ManaType.MANA)) {
+        if (map.getOrDefault(ManaType.MANA, 0.0) > ManaData.getPrevMana(player, ManaType.MANA) && !player.isCreative()) {
             flag = false;
+            player.displayClientMessage(Component.translatable("spell.magitech.hint.not_enough_mana").withColor(0xFF8080), true);
         }
         return flag;
     }
@@ -48,8 +50,9 @@ public class ManaUtil {
         for (Map.Entry<ManaType, Double> entry : map.entrySet()) {
             ManaType type = entry.getKey();
             Double value = entry.getValue();
-            if (value > ManaData.getPrevMana(player, type) && type != ManaType.MANA) {
+            if (value > ManaData.getPrevMana(player, type) && type != ManaType.MANA && !player.isCreative()) {
                 spellDamage /= 2;
+                player.displayClientMessage(Component.translatable("spell.magitech.hint.not_enough_" + type.getName()).withColor(0xFF8080), true);
             }
         }
         return spellDamage;
@@ -57,7 +60,7 @@ public class ManaUtil {
 
     public static boolean useMana(Player player, Map<ManaType, Double> map) {
         boolean flag = true;
-        if (map.getOrDefault(ManaType.MANA, 0.0) > ManaData.getPrevMana(player, ManaType.MANA)) {
+        if (map.getOrDefault(ManaType.MANA, 0.0) > ManaData.getPrevMana(player, ManaType.MANA) && !player.isCreative()) {
             flag = false;
         }
         if (flag) {
@@ -75,7 +78,7 @@ public class ManaUtil {
 
     public static boolean useManaServerOnly(Player player, Map<ManaType, Double> map) {
         boolean flag = true;
-        if (map.getOrDefault(ManaType.MANA, 0.0) > ManaData.getPrevMana(player, ManaType.MANA)) {
+        if (map.getOrDefault(ManaType.MANA, 0.0) > ManaData.getPrevMana(player, ManaType.MANA) && !player.isCreative()) {
             flag = false;
         }
         if (flag) {
@@ -88,12 +91,13 @@ public class ManaUtil {
             }
             return true;
         }
+        player.displayClientMessage(Component.translatable("spell.magitech.hint.not_enough_mana").withColor(0xFF8080), true);
         return false;
     }
 
     public static boolean useManaClientOnly(Player player, Map<ManaType, Double> map) {
         boolean flag = true;
-        if (map.getOrDefault(ManaType.MANA, 0.0) > ManaData.getPrevMana(player, ManaType.MANA)) {
+        if (map.getOrDefault(ManaType.MANA, 0.0) > ManaData.getPrevMana(player, ManaType.MANA) && !player.isCreative()) {
             flag = false;
         }
         if (flag) {
@@ -106,6 +110,7 @@ public class ManaUtil {
             }
             return true;
         }
+        player.displayClientMessage(Component.translatable("spell.magitech.hint.not_enough_mana").withColor(0xFF8080), true);
         return false;
     }
 
@@ -155,19 +160,25 @@ public class ManaUtil {
     }
 
     public enum ManaType {
-        MANA(0),
-        NOCTIS(1),
-        LUMINIS(2),
-        FLUXIA(3);
+        MANA(0, "mana"),
+        NOCTIS(1, "noctis"),
+        LUMINIS(2, "luminis"),
+        FLUXIA(3, "fluxia");
 
         final int id;
+        final String name;
 
-        ManaType(int id) {
+        ManaType(int id, String name) {
             this.id = id;
+            this.name = name;
         }
 
         public int getId() {
             return id;
+        }
+
+        public String getName() {
+            return name;
         }
     }
 }

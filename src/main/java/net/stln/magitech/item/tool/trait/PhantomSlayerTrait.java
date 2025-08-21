@@ -88,8 +88,8 @@ public class PhantomSlayerTrait extends Trait {
     }
 
     @Override
-    public void tick(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
-        super.tick(player, level, stack, traitLevel, stats);
+    public void tick(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, boolean isHost) {
+        super.tick(player, level, stack, traitLevel, stats, isHost);
         if (level.isClientSide && Minecraft.getInstance().isLocalPlayer(player.getUUID()) && player.tickCount % 10 == 0) {
             Vec3 playerEyePos = player.getEyePosition();
             Vec3 forward = Vec3.directionFromRotation(player.getRotationVector());

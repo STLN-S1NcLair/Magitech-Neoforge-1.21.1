@@ -14,7 +14,7 @@ public class CatalysisTrait extends Trait {
         super.modifyStats2(stack, traitLevel, stats);
         ToolStats defaultStats = ToolStats.DEFAULT;
         Map<String, Float> modified = new HashMap<>(defaultStats.getStats());
-        float mul = traitLevel * 0.15F;
+        float mul = traitLevel * 0.25F;
         Float elmAtk = stats.getStats().get(ToolStats.ELM_ATK_STAT);
         modified.put(ToolStats.ATK_STAT, elmAtk * mul);
         modified.put(ToolStats.MIN_STAT, elmAtk * mul);
@@ -26,7 +26,7 @@ public class CatalysisTrait extends Trait {
         super.modifySpellCasterStats2(stack, traitLevel, stats);
         ToolStats defaultStats = ToolStats.DEFAULT;
         Map<String, Float> modified = new HashMap<>(defaultStats.getStats());
-        float mul = traitLevel * 0.15F;
+        float mul = traitLevel * 0.25F;
         Float elmAtk = stats.getStats().get(ToolStats.ELM_ATK_STAT);
         modified.put(ToolStats.PWR_STAT, elmAtk * mul);
         modified.put(ToolStats.PRJ_STAT, elmAtk * mul);

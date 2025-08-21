@@ -45,8 +45,8 @@ public class Aeltherin extends Spell {
     @Override
     public Map<ManaUtil.ManaType, Double> getBaseCost() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
-        cost.put(ManaUtil.ManaType.MANA, 30.0);
-        cost.put(ManaUtil.ManaType.LUMINIS, 5.0);
+        cost.put(ManaUtil.ManaType.MANA, 50.0);
+        cost.put(ManaUtil.ManaType.LUMINIS, 6.0);
         return cost;
     }
 

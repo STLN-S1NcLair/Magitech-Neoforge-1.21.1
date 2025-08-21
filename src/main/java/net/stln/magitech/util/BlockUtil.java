@@ -16,7 +16,7 @@ public class BlockUtil {
         queue.add(startPos);
         visited.add(startPos);
 
-        while (!queue.isEmpty() && result.size() < limit) {
+        while (!queue.isEmpty() && result.size() < limit + 1) {
             BlockPos current = queue.poll();
 
             if (level.getBlockState(current).getBlock() == targetBlock) {

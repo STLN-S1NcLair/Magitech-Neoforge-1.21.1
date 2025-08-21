@@ -23,10 +23,10 @@ public class LavaforgedTrait extends Trait {
         if (player.position().y < 0 || player.level().dimension().equals(LevelStem.NETHER)) {
             ToolStats aDefault = ToolStats.DEFAULT;
             Map<String, Float> modified = new HashMap<>(aDefault.getStats());
-            float mul = traitLevel * 0.25F;
-            Float atk = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.ATK_STAT);
+            float mul = traitLevel * 0.35F;
+            Float atk = stats.getStats().get(ToolStats.ATK_STAT);
             modified.put(ToolStats.ATK_STAT, atk * mul);
-            Float min = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.MIN_STAT);
+            Float min = stats.getStats().get(ToolStats.MIN_STAT);
             modified.put(ToolStats.MIN_STAT, min * mul);
             return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
         }
@@ -38,10 +38,10 @@ public class LavaforgedTrait extends Trait {
         if (player.position().y < 0 || player.level().dimension().equals(LevelStem.NETHER)) {
             ToolStats aDefault = ToolStats.DEFAULT;
             Map<String, Float> modified = new HashMap<>(aDefault.getStats());
-            float mul = traitLevel * 0.25F;
-            Float atk = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.ATK_STAT);
+            float mul = traitLevel * 0.35F;
+            Float atk = stats.getStats().get(ToolStats.ATK_STAT);
             modified.put(ToolStats.ATK_STAT, atk * mul);
-            Float chg = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.CHG_STAT);
+            Float chg = stats.getStats().get(ToolStats.CHG_STAT);
             modified.put(ToolStats.CHG_STAT, chg * mul);
             return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
         }
@@ -51,16 +51,16 @@ public class LavaforgedTrait extends Trait {
     @Override
     public float modifyMiningSpeed(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos) {
         if (player.position().y < 0 || player.level().dimension().equals(LevelStem.NETHER)) {
-            float mul = traitLevel * 0.1F;
-            Float min = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.MIN_STAT);
+            float mul = traitLevel * 0.35F;
+            Float min = stats.getStats().get(ToolStats.MIN_STAT);
             return min * mul;
         }
         return super.modifyMiningSpeed(player, level, stack, traitLevel, stats, blockState, pos);
     }
 
     @Override
-    public void tick(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
-        super.tick(player, level, stack, traitLevel, stats);
+    public void tick(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, boolean isHost) {
+        super.tick(player, level, stack, traitLevel, stats, isHost);
         if (player.position().y < 0 || player.level().dimension().equals(LevelStem.NETHER)) {
             EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(1.0F, 0.25F, 0F), new Vector3f(1.0F, 0.25F, 0F), 1F, 1, 0), player, 1);
         }

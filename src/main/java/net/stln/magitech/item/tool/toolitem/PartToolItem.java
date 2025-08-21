@@ -2,6 +2,7 @@ package net.stln.magitech.item.tool.toolitem;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -23,10 +24,10 @@ import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -287,12 +288,20 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
     @Override
     public void inventoryTick(ItemStack stack, Level world, Entity entity, int slot, boolean selected) {
         super.inventoryTick(stack, world, entity, slot, selected);
-        if (entity instanceof Player player && player.getItemInHand(InteractionHand.MAIN_HAND) == stack) {
+        if (entity instanceof Player player) {
+            if (player.getItemInHand(InteractionHand.MAIN_HAND) == stack || player.getItemInHand(InteractionHand.OFF_HAND) == stack) {
+                getTraitLevel(getTraits(stack)).forEach((trait, integer) -> {
+                    trait.tick(player, world, stack, integer, getDefaultStats(stack), true);
+                });
+                if (world.isClientSide) {
+                    PacketDistributor.sendToServer(new TraitTickPayload(((Player) entity).getItemInHand(InteractionHand.MAIN_HAND) == stack, false, entity.getUUID().toString()));
+                }
+            }
             getTraitLevel(getTraits(stack)).forEach((trait, integer) -> {
-                trait.tick(player, world, stack, integer, getDefaultStats(stack));
+                trait.inventoryTick(player, world, stack, integer, getDefaultStats(stack), true);
             });
             if (world.isClientSide) {
-                PacketDistributor.sendToServer(new TraitTickPayload(((Player) entity).getItemInHand(InteractionHand.MAIN_HAND) == stack, entity.getUUID().toString()));
+                PacketDistributor.sendToServer(new TraitTickPayload(((Player) entity).getItemInHand(InteractionHand.MAIN_HAND) == stack, true, entity.getUUID().toString()));
             }
         }
 
@@ -606,6 +615,20 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
             }
             target.invulnerableTime = 0;
         }
+    }
+
+    @Override
+    public int getEnchantmentLevel(ItemStack stack, Holder<Enchantment> enchantment) {
+        int level = super.getEnchantmentLevel(stack, enchantment);
+        final int[] add = {0};
+        final int[] enhance = {0};
+        getTraitLevel(getTraits(stack)).forEach((trait, integer) -> {
+            add[0] = Math.max(add[0], trait.addEnchantments(stack, integer, getDefaultStats(stack), enchantment, level));
+        });
+        getTraitLevel(getTraits(stack)).forEach((trait, integer) -> {
+            enhance[0] += trait.enhanceEnchantments(stack, integer, getDefaultStats(stack), enchantment, add[0] + level);
+        });
+        return Math.max(0, level + add[0] + enhance[0]);
     }
 
     public void callTraitAttackEntity(Level world, Player user, Entity target, ItemStack stack) {

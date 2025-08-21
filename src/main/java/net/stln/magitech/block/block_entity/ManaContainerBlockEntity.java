@@ -82,6 +82,16 @@ public abstract class ManaContainerBlockEntity extends BlockEntity {
         return list;
     }
 
+    public List<Component> getSimpleManaInfo() {
+        List<Component> list = new ArrayList<>();
+        double chargedRatio = (double) this.mana / this.maxMana;
+        int litBarGaugeLength = (int) (chargedRatio * barGaugeLength);
+        list.add(Component.translatable("tooltip.magitech.block.mana_capacity").append(": ").withColor(0x808080));
+        list.add(Component.literal("|".repeat(litBarGaugeLength)).withColor(Element.NONE.getSpellColor()).append(Component.literal("|".repeat(barGaugeLength - litBarGaugeLength)).withColor(Element.NONE.getSpellDark())));
+        list.add(Component.literal(String.valueOf(this.mana)).withColor(Element.NONE.getSpellColor()).append(Component.literal(" / ").withColor(0x808080)).append(Component.literal(String.valueOf(this.maxMana)).withColor(Element.NONE.getSpellDark())));
+        return list;
+    }
+
     public int getMana() {
         return mana;
     }

@@ -45,8 +45,9 @@ public class Voltaris extends Spell {
     @Override
     public Map<ManaUtil.ManaType, Double> getBaseCost() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
-        cost.put(ManaUtil.ManaType.MANA, 20.0);
+        cost.put(ManaUtil.ManaType.MANA, 50.0);
         cost.put(ManaUtil.ManaType.LUMINIS, 4.0);
+        cost.put(ManaUtil.ManaType.NOCTIS, 3.0);
         return cost;
     }
 

@@ -71,7 +71,7 @@ public class Nivalune extends Spell {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
         cost.put(ManaUtil.ManaType.MANA, 1.5);
         cost.put(ManaUtil.ManaType.NOCTIS, 0.2);
-        cost.put(ManaUtil.ManaType.FLUXIA, 0.4);
+        cost.put(ManaUtil.ManaType.FLUXIA, 0.1);
         return cost;
     }
 

@@ -63,12 +63,20 @@ public abstract class SpellCasterItem extends PartToolItem {
     @Override
     public void inventoryTick(ItemStack stack, Level world, Entity entity, int slot, boolean selected) {
         super.inventoryTick(stack, world, entity, slot, selected);
-        if (entity instanceof Player player && player.getItemInHand(InteractionHand.MAIN_HAND) == stack) {
+        if (entity instanceof Player player) {
+            if (player.getItemInHand(InteractionHand.MAIN_HAND) == stack || player.getItemInHand(InteractionHand.OFF_HAND) == stack) {
+                getTraitLevel(getTraits(stack)).forEach((trait, integer) -> {
+                    trait.tick(player, world, stack, integer, getDefaultStats(stack), true);
+                });
+                if (world.isClientSide) {
+                    PacketDistributor.sendToServer(new TraitTickPayload(((Player) entity).getItemInHand(InteractionHand.MAIN_HAND) == stack, false, entity.getUUID().toString()));
+                }
+            }
             getTraitLevel(getTraits(stack)).forEach((trait, integer) -> {
-                trait.tick(player, world, stack, integer, getDefaultStats(stack));
+                trait.inventoryTick(player, world, stack, integer, getDefaultStats(stack), true);
             });
             if (world.isClientSide) {
-                PacketDistributor.sendToServer(new TraitTickPayload(((Player) entity).getItemInHand(InteractionHand.MAIN_HAND) == stack, entity.getUUID().toString()));
+                PacketDistributor.sendToServer(new TraitTickPayload(((Player) entity).getItemInHand(InteractionHand.MAIN_HAND) == stack, true, entity.getUUID().toString()));
             }
         }
 

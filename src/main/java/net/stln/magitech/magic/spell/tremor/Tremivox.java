@@ -61,13 +61,13 @@ public class Tremivox extends Spell {
     public Map<ManaUtil.ManaType, Double> getBaseRequiredMana() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
         cost.put(ManaUtil.ManaType.MANA, 30.0);
-        cost.put(ManaUtil.ManaType.NOCTIS, 3.0);
+        cost.put(ManaUtil.ManaType.NOCTIS, 4.0);
         return cost;
     }
 
     @Override
     public void use(Level level, Player user, InteractionHand hand, boolean isHost) {
-        addCharge(user, 20, this.getElement());
+        addCharge(user, 10, this.getElement());
         super.use(level, user, hand, isHost);
     }
 

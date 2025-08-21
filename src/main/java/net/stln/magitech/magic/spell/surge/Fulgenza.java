@@ -45,9 +45,9 @@ public class Fulgenza extends BeamSpell {
     @Override
     public Map<ManaUtil.ManaType, Double> getBaseRequiredMana() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
-        cost.put(ManaUtil.ManaType.MANA, 75.0);
+        cost.put(ManaUtil.ManaType.MANA, 85.0);
         cost.put(ManaUtil.ManaType.LUMINIS, 10.0);
-        cost.put(ManaUtil.ManaType.FLUXIA, 7.0);
+        cost.put(ManaUtil.ManaType.NOCTIS, 5.0);
         return cost;
     }
 

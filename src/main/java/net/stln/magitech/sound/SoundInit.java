@@ -43,8 +43,18 @@ public class SoundInit {
     public static final Supplier<SoundEvent> TENEBRISOL = registerSoundEvent("tenebrisol");
     public static final Supplier<SoundEvent> ECHOLOCATION = registerSoundEvent("echolocation");
     public static final Supplier<SoundEvent> ENERCRUX = registerSoundEvent("enercrux");
+    public static final Supplier<SoundEvent> BLAZEWEND = registerSoundEvent("blazewend");
+    public static final Supplier<SoundEvent> GLISTELDA = registerSoundEvent("glistelda");
+    public static final Supplier<SoundEvent> GLISTELDA_BREAK = registerSoundEvent("glistelda_break");
+    public static final Supplier<SoundEvent> FADANCEA = registerSoundEvent("fadancea");
+    public static final Supplier<SoundEvent> QUAVERIS = registerSoundEvent("quaveris");
+    public static final Supplier<SoundEvent> ENVISTRA = registerSoundEvent("envistra");
+    public static final Supplier<SoundEvent> DISPARUNDRA = registerSoundEvent("disparundra");
     public static final Supplier<SoundEvent> SYLLAEZE = registerSoundEvent("syllaeze");
     public static final Supplier<SoundEvent> ARCLUME = registerSoundEvent("arclume");
+    public static final Supplier<SoundEvent> NYMPHORA = registerSoundEvent("nymphora");
+    public static final Supplier<SoundEvent> TENEBPORT = registerSoundEvent("tenebport");
+    public static final Supplier<SoundEvent> TENEBPORT_CHARGE = registerSoundEvent("tenebport_charge");
 
     public static final Supplier<SoundEvent> AETHER_LIFTER_JUMP = registerSoundEvent("aether_lifter_jump");
     public static final Supplier<SoundEvent> FLAMGLIDE_STRIDER_JUMP = registerSoundEvent("flamglide_strider_jump");

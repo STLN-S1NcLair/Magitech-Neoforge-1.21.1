@@ -20,6 +20,10 @@ public class MobEffectInit {
             .addAttributeModifier(AttributeInit.MANA_REGEN, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "mana_addiction"), 2, AttributeModifier.Operation.ADD_VALUE)
             .addAttributeModifier(AttributeInit.MAX_MANA, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "mana_addiction"), -50, AttributeModifier.Operation.ADD_VALUE));
 
+    public static final DeferredHolder<MobEffect, MobEffect> LEAP_STEP = STATUS_EFFECTS.register("leap_step", () -> new CustomMobEffect(MobEffectCategory.BENEFICIAL, 0xF0F0FF)
+            .addAttributeModifier(Attributes.MOVEMENT_SPEED, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "leap_step"), 0.5, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+            .addAttributeModifier(Attributes.STEP_HEIGHT, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "leap_step"), 0.5, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+
     public static final DeferredHolder<MobEffect, MobEffect> SEIZE = STATUS_EFFECTS.register("seize", () -> new CustomMobEffect(MobEffectCategory.HARMFUL, 0xFFFFC0)
             .addAttributeModifier(Attributes.MOVEMENT_SPEED, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "seize"), -1, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
 

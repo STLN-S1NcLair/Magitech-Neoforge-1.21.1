@@ -159,6 +159,12 @@ dependencies {
     implementation "curse.maven:advancements-reloaded-1113876:5835520"
     implementation "curse.maven:cloth-config-348521:5729127"
     implementation "com.github.glitchfiend:TerraBlender-neoforge:1.21.1-4.1.0.8"
+
+//    runtimeOnly("curse.maven:supplementaries-412082:6854370")
+//    runtimeOnly("curse.maven:selene-499980:6818413")
+//    runtimeOnly("curse.maven:cloth-config-348521:5729127")
+//    runtimeOnly("curse.maven:create-328085:6641610")
+
     // Example optional mod dependency with JEI
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
     // compileOnly "mezz.jei:jei-${mc_version}-common-api:${jei_version}"

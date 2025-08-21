@@ -45,7 +45,7 @@ public class Nullixis extends Spell {
     @Override
     public Map<ManaUtil.ManaType, Double> getBaseCost() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
-        cost.put(ManaUtil.ManaType.MANA, 35.0);
+        cost.put(ManaUtil.ManaType.MANA, 55.0);
         cost.put(ManaUtil.ManaType.NOCTIS, 8.0);
         return cost;
     }

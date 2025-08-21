@@ -32,11 +32,11 @@ public class ShatterpiercerTrait extends Trait {
 
     @Override
     public ToolStats modifySpellCasterStats1(ItemStack stack, int traitLevel, ToolStats stats) {
-        if (PartToolItem.getDefaultStats(stack).getElement() == Element.GLACE) {
+        if (stats.getElement() == Element.GLACE) {
             ToolStats aDefault = ToolStats.DEFAULT;
             Map<String, Float> modified = new HashMap<>(aDefault.getStats());
             float mul = traitLevel * 0.1F;
-            Float elmpwr = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.ELM_PWR_STAT);
+            Float elmpwr = stats.getStats().get(ToolStats.ELM_PWR_STAT);
             modified.put(ToolStats.ELM_PWR_STAT, elmpwr * mul);
             return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
         }

@@ -45,8 +45,8 @@ public class Arcaleth extends Spell {
     @Override
     public Map<ManaUtil.ManaType, Double> getBaseCost() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
-        cost.put(ManaUtil.ManaType.MANA, 35.0);
-        cost.put(ManaUtil.ManaType.FLUXIA, 3.5);
+        cost.put(ManaUtil.ManaType.MANA, 45.0);
+        cost.put(ManaUtil.ManaType.FLUXIA, 5.5);
         return cost;
     }
 

@@ -2,6 +2,7 @@ package net.stln.magitech.item.tool.trait;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.sounds.SoundSource;
@@ -10,6 +11,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -114,6 +116,30 @@ public abstract class Trait {
         return posSet;
     }
 
+    public void modifyEnchantmentOnBlockLooting(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos, List<ItemStack> lootStack) {
+    }
+
+    // EXP倍率で指定すること
+    public double modifyExpOnBlockLooting(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos, List<ItemStack> lootStack, int exp) {
+        return 1.0;
+    }
+
+    public List<ItemStack> setItemOnBlockLooting(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos, List<ItemStack> lootStack) {
+        return List.of();
+    }
+
+    public List<ItemStack> addItemOnBlockLooting(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos, List<ItemStack> lootStack) {
+        return List.of();
+    }
+
+    public int addEnchantments(ItemStack stack, int traitLevel, ToolStats stats, Holder<Enchantment> enchantmentHolder, int enchantmentLevel) {
+        return 0;
+    }
+
+    public int enhanceEnchantments(ItemStack stack, int traitLevel, ToolStats stats, Holder<Enchantment> enchantmentHolder, int enchantmentLevel) {
+        return 0;
+    }
+
     public void onAttackEntity(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, Entity target) {
         onDamageEntity(player, level, stack, traitLevel, stats, target);
     }
@@ -139,7 +165,10 @@ public abstract class Trait {
         }
     }
 
-    public void tick(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
+    public void tick(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, boolean isHost) {
+    }
+
+    public void inventoryTick(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, boolean isHost) {
     }
 
     public void onRepair(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, int repairAmount) {

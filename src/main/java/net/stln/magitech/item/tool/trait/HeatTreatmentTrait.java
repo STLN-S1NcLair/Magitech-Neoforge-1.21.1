@@ -23,7 +23,7 @@ public class HeatTreatmentTrait extends Trait {
         if (materials.contains(MaterialInit.AMETHYST)) {
             Map<String, Float> statsMap = stats.getStats();
             Map<String, Float> modified = new HashMap<>(defaultStats.getStats());
-            float mul = 0.15F * traitLevel;
+            float mul = 0.35F * traitLevel;
             modified.put(ToolStats.ELM_ATK_STAT, statsMap.get(ToolStats.ELM_ATK_STAT) * mul);
             modified.put(ToolStats.MIN_STAT, statsMap.get(ToolStats.MIN_STAT) * mul);
             return new ToolStats(modified, defaultStats.getElement(), defaultStats.getMiningLevel(), defaultStats.getTier());
@@ -39,7 +39,7 @@ public class HeatTreatmentTrait extends Trait {
         if (materials.contains(MaterialInit.AMETHYST)) {
             Map<String, Float> statsMap = stats.getStats();
             Map<String, Float> modified = new HashMap<>(defaultStats.getStats());
-            float mul = 0.15F * traitLevel;
+            float mul = 0.35F * traitLevel;
             modified.put(ToolStats.ELM_ATK_STAT, statsMap.get(ToolStats.ELM_ATK_STAT) * mul);
             modified.put(ToolStats.MIN_STAT, statsMap.get(ToolStats.MIN_STAT) * mul);
             return new ToolStats(modified, defaultStats.getElement(), defaultStats.getMiningLevel(), defaultStats.getTier());

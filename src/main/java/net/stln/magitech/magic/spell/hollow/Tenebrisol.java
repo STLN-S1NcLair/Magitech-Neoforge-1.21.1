@@ -63,7 +63,7 @@ public class Tenebrisol extends Spell {
     public Map<ManaUtil.ManaType, Double> getBaseCost() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
         cost.put(ManaUtil.ManaType.MANA, 35.0);
-        cost.put(ManaUtil.ManaType.NOCTIS, 4.0);
+        cost.put(ManaUtil.ManaType.NOCTIS, 5.0);
         return cost;
     }
 
@@ -71,7 +71,7 @@ public class Tenebrisol extends Spell {
     public Map<ManaUtil.ManaType, Double> getBaseTickCost() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
         cost.put(ManaUtil.ManaType.MANA, 1.5);
-        cost.put(ManaUtil.ManaType.NOCTIS, 1.0);
+        cost.put(ManaUtil.ManaType.NOCTIS, 2.0);
         return cost;
     }
 

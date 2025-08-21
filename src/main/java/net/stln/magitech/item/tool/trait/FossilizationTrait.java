@@ -22,8 +22,8 @@ public class FossilizationTrait extends Trait {
         if (player.getHealth() < player.getMaxHealth() / 2 && player.getFoodData().getFoodLevel() < 10 && player.getDeltaMovement().length() < 0.1) {
             ToolStats aDefault = ToolStats.DEFAULT;
             Map<String, Float> modified = new HashMap<>(aDefault.getStats());
-            float mul = traitLevel * 0.4F;
-            Float atk = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.ATK_STAT);
+            float mul = traitLevel * 0.8F;
+            Float atk = stats.getStats().get(ToolStats.ATK_STAT);
             modified.put(ToolStats.ATK_STAT, atk * mul);
             return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
         }
@@ -35,10 +35,10 @@ public class FossilizationTrait extends Trait {
         if (player.getHealth() < player.getMaxHealth() / 2 && player.getFoodData().getFoodLevel() < 10 && player.getDeltaMovement().length() < 0.1) {
             ToolStats aDefault = ToolStats.DEFAULT;
             Map<String, Float> modified = new HashMap<>(aDefault.getStats());
-            float mul = traitLevel * 0.4F;
-            Float atk = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.ATK_STAT);
+            float mul = traitLevel * 0.8F;
+            Float atk = stats.getStats().get(ToolStats.ATK_STAT);
             modified.put(ToolStats.ATK_STAT, atk * mul);
-            Float chg = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.CHG_STAT);
+            Float chg = stats.getStats().get(ToolStats.CHG_STAT);
             modified.put(ToolStats.CHG_STAT, chg * mul);
             return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
         }
@@ -48,16 +48,16 @@ public class FossilizationTrait extends Trait {
     @Override
     public float modifyMiningSpeed(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos) {
         if (player.getHealth() < player.getMaxHealth() / 2 && player.getFoodData().getFoodLevel() < 10 && player.getDeltaMovement().length() < 0.1) {
-            float mul = traitLevel * 0.5F;
-            Float min = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.MIN_STAT);
+            float mul = traitLevel * 1.0F;
+            Float min = stats.getStats().get(ToolStats.MIN_STAT);
             return min * mul;
         }
         return super.modifyMiningSpeed(player, level, stack, traitLevel, stats, blockState, pos);
     }
 
     @Override
-    public void tick(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
-        super.tick(player, level, stack, traitLevel, stats);
+    public void tick(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, boolean isHost) {
+        super.tick(player, level, stack, traitLevel, stats, isHost);
         if (player.getHealth() < player.getMaxHealth() / 2 && player.getFoodData().getFoodLevel() < 10 && player.getDeltaMovement().length() < 0.1) {
             EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(0.9F, 1.0F, 0.7F), new Vector3f(0.9F, 1.0F, 0.7F), 1F, 1, 0), player, 1);
         }

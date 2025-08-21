@@ -23,8 +23,8 @@ public class PrecipitationTrait extends Trait {
         if (player.isInWater()) {
             ToolStats aDefault = ToolStats.DEFAULT;
             Map<String, Float> modified = new HashMap<>(aDefault.getStats());
-            float mul = traitLevel * 0.15F;
-            Float atk = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.ATK_STAT);
+            float mul = traitLevel * 0.45F;
+            Float atk = stats.getStats().get(ToolStats.ATK_STAT);
             modified.put(ToolStats.ATK_STAT, atk * mul);
             return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
         }
@@ -36,8 +36,8 @@ public class PrecipitationTrait extends Trait {
         if (player.isInWater()) {
             ToolStats aDefault = ToolStats.DEFAULT;
             Map<String, Float> modified = new HashMap<>(aDefault.getStats());
-            float mul = traitLevel * 0.15F;
-            Float atk = PartToolItem.getDefaultStats(stack).getStats().get(ToolStats.ATK_STAT);
+            float mul = traitLevel * 0.45F;
+            Float atk = stats.getStats().get(ToolStats.ATK_STAT);
             modified.put(ToolStats.ATK_STAT, atk * mul);
             return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
         }
@@ -77,8 +77,8 @@ public class PrecipitationTrait extends Trait {
     }
 
     @Override
-    public void tick(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
-        super.tick(player, level, stack, traitLevel, stats);
+    public void tick(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, boolean isHost) {
+        super.tick(player, level, stack, traitLevel, stats, isHost);
         if (player.isInWater()) {
             EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(0.8F, 0.7F, 0.5F), new Vector3f(0.8F, 0.7F, 0.5F), 1F, 1, 0), player, 1);
         }

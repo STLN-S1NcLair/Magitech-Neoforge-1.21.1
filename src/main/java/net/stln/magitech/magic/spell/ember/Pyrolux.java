@@ -40,7 +40,7 @@ public class Pyrolux extends BeamSpell {
     public Map<ManaUtil.ManaType, Double> getBaseRequiredMana() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
         cost.put(ManaUtil.ManaType.MANA, 45.0);
-        cost.put(ManaUtil.ManaType.FLUXIA, 4.0);
+        cost.put(ManaUtil.ManaType.FLUXIA, 6.0);
         return cost;
     }
 
