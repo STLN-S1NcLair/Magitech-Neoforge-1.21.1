@@ -12,7 +12,7 @@ public record MaterialComponent(ToolMaterial material) {
 
     public static final Codec<MaterialComponent> CODEC = RecordCodecBuilder.create(partMaterialComponentInstance ->
             partMaterialComponentInstance.group(
-                    ResourceLocation.CODEC.fieldOf("upgradeInstance").forGetter(MaterialComponent::getMaterialId)
+                    ResourceLocation.CODEC.fieldOf("material").forGetter(MaterialComponent::getMaterialId)
             ).apply(partMaterialComponentInstance, MaterialComponentUtil::generatefromId)
     );
     public static final StreamCodec<ByteBuf, MaterialComponent> STREAM_CODEC = ResourceLocation.STREAM_CODEC.map(

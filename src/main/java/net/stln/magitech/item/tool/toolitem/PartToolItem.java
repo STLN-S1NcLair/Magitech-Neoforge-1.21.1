@@ -47,7 +47,6 @@ import net.stln.magitech.entity.AdjustableAttackStrengthEntity;
 import net.stln.magitech.gui.toast.TierUpToast;
 import net.stln.magitech.item.LeftClickOverrideItem;
 import net.stln.magitech.item.component.ComponentInit;
-import net.stln.magitech.item.tool.upgrade.Upgrade;
 import net.stln.magitech.item.tool.upgrade.UpgradeInstance;
 import net.stln.magitech.network.TierUpToastPayload;
 import net.stln.magitech.util.*;
@@ -60,7 +59,6 @@ import net.stln.magitech.item.tool.register.ToolMaterialRegister;
 import net.stln.magitech.item.tool.trait.Trait;
 import net.stln.magitech.network.TraitTickPayload;
 import net.stln.magitech.particle.particle_option.*;
-import org.checkerframework.checker.units.qual.C;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
@@ -110,7 +108,7 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
 
         if (stack.has(ComponentInit.UPGRADE_COMPONENT)) {
             ToolType toolType = ((PartToolItem) stack.getItem()).getToolType();
-            List<UpgradeInstance> upgrades = stack.getComponents().get(ComponentInit.UPGRADE_COMPONENT.get()).upgradeInstance();
+            List<UpgradeInstance> upgrades = stack.getComponents().get(ComponentInit.UPGRADE_COMPONENT.get()).upgrades();
             List<ToolStats> upgradeStats = new ArrayList<>();
             for (int i = 0; i < upgrades.size(); i++) {
                 if (upgrades.get(i) != null) {

@@ -132,7 +132,7 @@ public class ToolUpgradeScreen extends AbstractContainerScreen<ToolUpgradeMenu> 
     private void renderButtons(GuiGraphics guiGraphics, int mouseX, int mouseY, int x, int y, int lastVisibleElementIndex) {
         ItemStack stack = this.menu.container.getItem(0);
         if (stack.getItem() instanceof PartToolItem) {
-            List<UpgradeInstance> upgrades = stack.has(ComponentInit.UPGRADE_COMPONENT) ? stack.get(ComponentInit.UPGRADE_COMPONENT).upgradeInstance() : List.of();
+            List<UpgradeInstance> upgrades = stack.has(ComponentInit.UPGRADE_COMPONENT) ? stack.get(ComponentInit.UPGRADE_COMPONENT).upgrades() : List.of();
                 List<Upgrade> currentUpgrades = ((ToolUpgradeMenu) menu).upgrades;
                 for (int i = 0; i < lastVisibleElementIndex; i++) {
                     int i1 = y + i * 18;
