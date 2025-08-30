@@ -9,6 +9,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.event.KeyMappingEvent;
+import net.stln.magitech.gui.overlay.RadialSpellMenuOverlay;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 

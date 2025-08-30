@@ -43,6 +43,7 @@ public class MaterialInit {
     public static ToolMaterial ABYSSITE = new ToolMaterial(new PhaseVacuumCollapseTrait(), ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "abyssite"));
 
     public static void registerMaterials() {
+        Magitech.LOGGER.info("Registering Mateirals for" + Magitech.MOD_ID);
         ToolMaterialRegister.init();
 
         WOOD.addStats(new ToolStats(0.4F, 0.4F, 1.1F, 0.4F, 0.5F, 0.9F, 0.7F, 0.3F, Element.FLOW, MiningLevel.NONE, 0));
@@ -87,7 +88,7 @@ public class MaterialInit {
         DRIPSTONE.addStats(new ToolStats(0.5F, 0.6F, 0.7F, 0.75F, 0.8F, 1F, 0.75F, 0.4F, Element.FLOW, MiningLevel.STONE, 1));
         DRIPSTONE.addSpellCasterStats(new ToolStats(0.8F, 0.6F, 0.7F, 0.75F, 0.8F, 1F, 0.75F, 0.4F, Element.FLOW, MiningLevel.STONE, 1));
 
-        FLUORITE.addStats(new ToolStats(0F, 1.4F, 1.1F, 0.9F, 0.1F, 0.7F, 1.2F, 0.5F, Element.PHANTOM, MiningLevel.STONE, 1));
+        FLUORITE.addStats(new ToolStats(0F, 1.0F, 1.1F, 0.9F, 0.1F, 0.7F, 1.2F, 0.5F, Element.PHANTOM, MiningLevel.STONE, 1));
         FLUORITE.addSpellCasterStats(new ToolStats(0.3F, 1.2F, 1.1F, 0.9F, 0.1F, 0.7F, 2.0F, 0.5F, Element.PHANTOM, MiningLevel.STONE, 1));
 
         DIAMOND.addStats(new ToolStats(1.5F, 0F, 1.1F, 1.6F, 0.8F, 1F, 0.8F, 4.0F, Element.NONE, MiningLevel.DIAMOND, 2));
@@ -125,6 +126,7 @@ public class MaterialInit {
     }
 
     public static void registerElements() {
+        Magitech.LOGGER.info("Registering Elements for" + Magitech.MOD_ID);
         ElementAffinityRegister.registerAffinity(Element.EMBER, ElementAffinityRegister.INEFFICIENT, Element.EMBER);
         ElementAffinityRegister.registerAffinity(Element.GLACE, ElementAffinityRegister.INEFFICIENT, Element.GLACE);
         ElementAffinityRegister.registerAffinity(Element.SURGE, ElementAffinityRegister.INEFFICIENT, Element.SURGE);

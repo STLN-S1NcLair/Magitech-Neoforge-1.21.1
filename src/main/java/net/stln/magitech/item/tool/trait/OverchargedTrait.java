@@ -27,7 +27,7 @@ public class OverchargedTrait extends Trait {
         if (currentMana >= maxMana) {
             ToolStats aDefault = ToolStats.DEFAULT;
             Map<String, Float> modified = new HashMap<>(aDefault.getStats());
-            float mul = traitLevel * 0.35F;
+            float mul = traitLevel * 0.25F;
             Float elmAtk = stats.getStats().get(ToolStats.ELM_ATK_STAT);
             modified.put(ToolStats.ELM_ATK_STAT, elmAtk * mul);
             return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());

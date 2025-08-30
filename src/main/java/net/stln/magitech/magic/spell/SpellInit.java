@@ -76,5 +76,6 @@ public class SpellInit {
     public static final Spell ENERCRUX = SpellRegister.registerSpell(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "enercrux"), new Enercrux());
 
     public static void registerSpells() {
+        Magitech.LOGGER.info("Registering Spells for" + Magitech.MOD_ID);
     }
 }

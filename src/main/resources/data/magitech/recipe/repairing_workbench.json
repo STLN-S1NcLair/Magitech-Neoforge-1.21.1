@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "tag": "c:stripped_logs"
+    },
+    "S": {
+      "tag": "c:stones"
+    },
+    "P": {
+      "tag": "minecraft:planks"
+    }
+  },
+  "pattern": [
+    "SSS",
+    "#S#",
+    "SPS"
+  ],
+  "result": {
+    "count": 1,
+    "id": "magitech:repairing_workbench"
+  }
+}

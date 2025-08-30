@@ -64,10 +64,7 @@ public class NetworkInit {
         registrar.playToClient(
                 BreakBlockPayload.TYPE,
                 BreakBlockPayload.STREAM_CODEC,
-                new DirectionalPayloadHandler<>(
-                        BreakBlockPayLoadHandler::handleDataOnMainS2C,
-                        BreakBlockPayLoadHandler::handleDataOnMainS2C
-                )
+                BreakBlockPayLoadHandler::handleDataOnMainS2C
         );
         registrar.playBidirectional(
                 UseSpellPayload.TYPE,
@@ -94,9 +91,14 @@ public class NetworkInit {
                 )
         );
         registrar.playToServer(
-                OpenSpellboundPageScreenPayload.TYPE,
-                OpenSpellboundPageScreenPayload.STREAM_CODEC,
-                OpenSpellboundPageScreenPayLoadHandler::handleDataOnMainC2S
+                OpenThreadBoundPageScreenPayload.TYPE,
+                OpenThreadBoundPageScreenPayload.STREAM_CODEC,
+                OpenThreadBoundPageScreenPayLoadHandler::handleDataOnMainC2S
+        );
+        registrar.playToClient(
+                TierUpToastPayload.TYPE,
+                TierUpToastPayload.STREAM_CODEC,
+                TierUpToastPayLoadHandler::handleDataOnMainS2C
         );
     }
 }

@@ -76,6 +76,20 @@ public class BlockInit {
 
     public static final DeferredItem<BlockItem> ASSEMBLY_WORKBENCH_ITEM = ItemInit.ITEMS.register("assembly_workbench", key -> new TooltipTextBlockItem(ASSEMBLY_WORKBENCH.get(), new Item.Properties()));
 
+    public static final DeferredBlock<RepairingWorkbenchBlock> REPAIRING_WORKBENCH = BLOCKS.registerBlock("repairing_workbench",
+            RepairingWorkbenchBlock::new,
+            BlockBehaviour.Properties.of().mapColor(MapColor.STONE)
+                    .strength(2F, 5.0F));
+
+    public static final DeferredItem<BlockItem> REPAIRING_WORKBENCH_ITEM = ItemInit.ITEMS.register("repairing_workbench", key -> new TooltipTextBlockItem(REPAIRING_WORKBENCH.get(), new Item.Properties()));
+
+    public static final DeferredBlock<UpgradeWorkbenchBlock> UPGRADE_WORKBENCH = BLOCKS.registerBlock("upgrade_workbench",
+            UpgradeWorkbenchBlock::new,
+            BlockBehaviour.Properties.of().mapColor(MapColor.STONE)
+                    .strength(2F, 5.0F));
+
+    public static final DeferredItem<BlockItem> UPGRADE_WORKBENCH_ITEM = ItemInit.ITEMS.register("upgrade_workbench", key -> new TooltipTextBlockItem(UPGRADE_WORKBENCH.get(), new Item.Properties()));
+
     public static final DeferredBlock<ZardiusCrucibleBlock> ZARDIUS_CRUCIBLE = BLOCKS.registerBlock("zardius_crucible",
             ZardiusCrucibleBlock::new,
             BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(SoundType.NETHERITE_BLOCK).lightLevel((blockState) -> 5).noOcclusion());

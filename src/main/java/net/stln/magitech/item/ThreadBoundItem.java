@@ -30,11 +30,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ThreadboundItem extends TooltipTextItem implements ICurioItem {
+public class ThreadBoundItem extends TooltipTextItem implements ICurioItem {
 
     Map<Holder<Attribute>, AttributeModifier> attributeModifiers = new HashMap<>();
 
-    public ThreadboundItem(Properties settings) {
+    public ThreadBoundItem(Properties settings) {
         super(settings);
     }
 
@@ -47,7 +47,7 @@ public class ThreadboundItem extends TooltipTextItem implements ICurioItem {
         return modifierMultimap.build();
     }
 
-    public ThreadboundItem attributeModifier(Map<Holder<Attribute>, AttributeModifier> map) {
+    public ThreadBoundItem attributeModifier(Map<Holder<Attribute>, AttributeModifier> map) {
         attributeModifiers = map;
         return this;
     }

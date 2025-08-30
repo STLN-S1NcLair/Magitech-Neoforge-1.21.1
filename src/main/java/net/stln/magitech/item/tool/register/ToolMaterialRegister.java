@@ -89,7 +89,7 @@ public class ToolMaterialRegister {
         componentPartId.put(ToolType.WAND, 2, ToolPart.CONDUCTOR);
         componentPartId.put(ToolType.WAND, 3, ToolPart.TOOL_BINDING);
 
-        baseStats.put(ToolType.DAGGER, new ToolStats(2F, 4F, 3.0F, 5F, 2F, 1.5F, 1F, 288, Element.NONE, MiningLevel.NONE, 0));
+        baseStats.put(ToolType.DAGGER, new ToolStats(2F, 3F, 3.0F, 5F, 2F, 1.5F, 1F, 288, Element.NONE, MiningLevel.NONE, 0));
         baseStats.put(ToolType.LIGHT_SWORD, new ToolStats(4F, 4F, 1.6F, 5F, 2F, 3F, 3F, 361, Element.NONE, MiningLevel.NONE, 0));
         baseStats.put(ToolType.HEAVY_SWORD, new ToolStats(6F, 4F, 0.8F, 5F, 6F, 3F, 3F, 536, Element.NONE, MiningLevel.NONE, 0));
         baseStats.put(ToolType.PICKAXE, new ToolStats(2F, 1F, 2.4F, 5F, 1F, 2F, 1.5F, 319, Element.NONE, MiningLevel.NONE, 0));

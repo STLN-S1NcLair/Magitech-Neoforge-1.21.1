@@ -1,4 +1,4 @@
-package net.stln.magitech.gui;
+package net.stln.magitech.gui.overlay;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;

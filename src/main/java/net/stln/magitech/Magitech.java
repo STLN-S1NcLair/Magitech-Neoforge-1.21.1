@@ -22,12 +22,13 @@ import net.stln.magitech.entity.EntityInit;
 import net.stln.magitech.entity.mobeffect.MobEffectInit;
 import net.stln.magitech.entity.status.AttributeInit;
 import net.stln.magitech.event.EventInit;
-import net.stln.magitech.gui.OverlayInit;
+import net.stln.magitech.gui.GuiInit;
 import net.stln.magitech.item.ItemInit;
 import net.stln.magitech.item.ItemPropertyInit;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.creative_tab.CreativeTabInit;
 import net.stln.magitech.item.tool.material.MaterialInit;
+import net.stln.magitech.item.tool.upgrade.UpgradeInit;
 import net.stln.magitech.loot.LootFunctionInit;
 import net.stln.magitech.magic.spell.SpellInit;
 import net.stln.magitech.particle.ParticleInit;
@@ -36,7 +37,6 @@ import net.stln.magitech.sound.SoundInit;
 import net.stln.magitech.worldgen.WorldGenInit;
 import net.stln.magitech.worldgen.tree.TreeGrowerInit;
 import org.slf4j.Logger;
-import vazkii.patchouli.api.PatchouliAPI;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(Magitech.MOD_ID)
@@ -71,10 +71,11 @@ public class Magitech {
         WorldGenInit.registerFeatures(modEventBus);
         LootFunctionInit.registerFunctions(modEventBus);
         TreeGrowerInit.registerTrunkPlacerTypes(modEventBus);
-        OverlayInit.registerMenus(modEventBus);
+        GuiInit.registerMenus(modEventBus);
         MaterialInit.registerElements();
         MaterialInit.registerMaterials();
         SpellInit.registerSpells();
+        UpgradeInit.registerUpgrades();
         ValidatorInit.registerValidators();
 
         // Register ourselves for server and other game events we are interested in.

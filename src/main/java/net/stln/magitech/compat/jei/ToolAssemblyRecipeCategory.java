@@ -24,7 +24,6 @@ import net.stln.magitech.item.component.MaterialComponent;
 import net.stln.magitech.item.component.PartMaterialComponent;
 import net.stln.magitech.item.tool.material.ToolMaterial;
 import net.stln.magitech.item.tool.register.ToolMaterialRegister;
-import net.stln.magitech.recipe.PartCuttingRecipe;
 import net.stln.magitech.recipe.ToolAssemblyRecipe;
 import net.stln.magitech.recipe.RecipeInit;
 import net.stln.magitech.recipe.ToolMaterialRecipe;
@@ -33,6 +32,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class ToolAssemblyRecipeCategory implements IRecipeCategory<ToolAssemblyRecipe> {
     public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "tool_assembly");
@@ -117,23 +117,18 @@ public class ToolAssemblyRecipeCategory implements IRecipeCategory<ToolAssemblyR
                 .toList();
 
         List<Ingredient> ingredients = recipe.getIngredients();
-        int partCount = ingredients.size();
-        int materialCount = materials.size();
 
-        // デカルト積 (m^n通り)
         List<ItemStack> results = new ArrayList<>();
-        int totalCombinations = (int) Math.pow(materialCount, partCount);
 
-        for (int i = 0; i < totalCombinations; i++) {
-            int index = i;
+        for (int i = 0; i < 200; i++) {
             List<ItemStack> parts = new ArrayList<>();
             List<ToolMaterial> toolMaterials = new ArrayList<>();
 
-            for (int j = 0; j < partCount; j++) {
-                int materialIndex = index % materialCount;
-                index /= materialCount;
+            for (Ingredient value : ingredients) {
+                Random random = new Random();
+                int materialIndex = random.nextInt(materials.size());
 
-                Ingredient ingredient = ingredients.get(j);
+                Ingredient ingredient = value;
                 ItemStack partStack = ingredient.getItems()[0].copy(); // NOTE: 複数アイテムある場合は適宜対応
                 partStack.set(ComponentInit.MATERIAL_COMPONENT, new MaterialComponent(materials.get(materialIndex)));
                 parts.add(partStack);

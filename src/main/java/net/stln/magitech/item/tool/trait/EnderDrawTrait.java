@@ -29,7 +29,7 @@ public class EnderDrawTrait extends Trait {
             if (!list.isEmpty()) {
                 Entity item = null;
                 for (Entity entity : list) {
-                    if (entity.getPosition(0F).distanceTo(player.getPosition(0F)) > 0.1) {
+                    if (entity.getPosition(0F).distanceTo(player.getPosition(0F)) > 0.5) {
                         item = entity;
                     }
                 }
@@ -41,6 +41,7 @@ public class EnderDrawTrait extends Trait {
                     EffectUtil.lineEffect(level, new UnstableSquareParticleEffect(new Vector3f(0.0F, 1.0F, 0.8F), new Vector3f(0.0F, 1.0F, 0.8F), 1.0F, 4, 0), playerPos, itemPos, 4, false);
                     level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_TELEPORT, SoundSource.PLAYERS);
                     item.setPos(player.getPosition(0F));
+                    item.setDeltaMovement(0, 0, 0);
                 }
             }
         }

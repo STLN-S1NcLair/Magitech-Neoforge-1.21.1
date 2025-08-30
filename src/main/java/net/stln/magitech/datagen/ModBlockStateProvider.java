@@ -20,6 +20,8 @@ public class ModBlockStateProvider extends BlockStateProvider {
     protected void registerStatesAndModels() {
         sideBottomTopBlockWithItem(BlockInit.ENGINEERING_WORKBENCH.get());
         sideBottomTopBlockWithItem(BlockInit.ASSEMBLY_WORKBENCH.get());
+        sideBottomTopBlockWithItem(BlockInit.REPAIRING_WORKBENCH.get());
+        sideBottomTopBlockWithItem(BlockInit.UPGRADE_WORKBENCH.get());
         handModeledBlockWithItem(BlockInit.ALCHEMETRIC_PYLON.get());
         handModeledBlockWithItem(BlockInit.ATHANOR_PILLAR.get());
         handModeledBlockWithItem(BlockInit.ZARDIUS_CRUCIBLE.get());

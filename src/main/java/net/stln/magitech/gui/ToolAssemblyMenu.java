@@ -45,7 +45,7 @@ public class ToolAssemblyMenu extends AbstractContainerMenu {
     }
 
     public ToolAssemblyMenu(int containerId, Inventory playerInventory, ContainerLevelAccess access) {
-        super(OverlayInit.TOOL_ASSEMBLY_MENU.get(), containerId);
+        super(GuiInit.TOOL_ASSEMBLY_MENU.get(), containerId);
         this.access = access;
         this.player = playerInventory.player;
         this.addSlot(new Slot(this.resultSlots, 0, 134, 49) {
@@ -211,7 +211,7 @@ public class ToolAssemblyMenu extends AbstractContainerMenu {
 
     @Override
     public MenuType<?> getType() {
-        return OverlayInit.TOOL_ASSEMBLY_MENU.get();
+        return GuiInit.TOOL_ASSEMBLY_MENU.get();
     }
 
     /**

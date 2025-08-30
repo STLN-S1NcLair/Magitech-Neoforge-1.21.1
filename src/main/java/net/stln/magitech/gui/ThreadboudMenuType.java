@@ -9,7 +9,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.stln.magitech.item.ItemInit;
 import net.stln.magitech.item.ThreadPageItem;
-import net.stln.magitech.item.ThreadboundItem;
+import net.stln.magitech.item.ThreadBoundItem;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.SpellComponent;
 import net.stln.magitech.item.component.ThreadPageComponent;
@@ -28,14 +28,14 @@ public class ThreadboudMenuType extends AbstractContainerMenu {
     private int containerColumns = 5;
 
     public ThreadboudMenuType(int containerId, Inventory playerInv) {
-        this(containerId, playerInv, playerInv.player, playerInv.player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof ThreadboundItem ? playerInv.player.getItemInHand(InteractionHand.MAIN_HAND) : playerInv.player.getItemInHand(InteractionHand.OFF_HAND));
+        this(containerId, playerInv, playerInv.player, playerInv.player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof ThreadBoundItem ? playerInv.player.getItemInHand(InteractionHand.MAIN_HAND) : playerInv.player.getItemInHand(InteractionHand.OFF_HAND));
     }
 
     public ThreadboudMenuType(int containerId, Inventory playerInv, Player player, ItemStack threadbound) {
-        super(OverlayInit.THREADBOUND_MENU.get(), containerId);
+        super(GuiInit.THREADBOUND_MENU.get(), containerId);
         this.player = player;
 
-        if (!(threadbound.getItem() instanceof ThreadboundItem) && CuriosApi.getCuriosInventory(player).isPresent()) {
+        if (!(threadbound.getItem() instanceof ThreadBoundItem) && CuriosApi.getCuriosInventory(player).isPresent()) {
             threadbound = CuriosApi.getCuriosInventory(player).get().getCurios().get("threadbound").getStacks().getStackInSlot(0);
         }
         this.threadbound = threadbound;

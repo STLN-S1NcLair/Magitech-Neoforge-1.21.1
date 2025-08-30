@@ -12,7 +12,7 @@ import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.item.ItemInit;
-import net.stln.magitech.item.ThreadboundItem;
+import net.stln.magitech.item.ThreadBoundItem;
 import net.stln.magitech.item.armor.AetherLifterItem;
 import net.stln.magitech.item.armor.FlamglideStriderItem;
 import net.stln.magitech.item.component.ComponentInit;
@@ -20,7 +20,7 @@ import net.stln.magitech.item.component.SpellComponent;
 import net.stln.magitech.item.tool.toolitem.PartToolItem;
 import net.stln.magitech.network.DoubleJumpPayload;
 import net.stln.magitech.network.LongJumpPayload;
-import net.stln.magitech.network.OpenSpellboundPageScreenPayload;
+import net.stln.magitech.network.OpenThreadBoundPageScreenPayload;
 import net.stln.magitech.network.ThreadBoundSelectPayload;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
@@ -90,14 +90,14 @@ public class KeyPressEvent {
                 threadbound.set(ComponentInit.SPELL_COMPONENT, new SpellComponent(component.spells(), select));
             }
         }
-        while (KeyMappingEvent.OPEN_SPELLBOUND_PAGE_SCREEN.get().consumeClick()) {
+        while (KeyMappingEvent.open_thread_bound_page_screen.get().consumeClick()) {
             Player player = Minecraft.getInstance().player;
-            PacketDistributor.sendToServer(new OpenSpellboundPageScreenPayload(player.getUUID().toString()));
+            PacketDistributor.sendToServer(new OpenThreadBoundPageScreenPayload(player.getUUID().toString()));
         }
         while (KeyMappingEvent.OPEN_SPELLBOUND_AS_GUIDEBOOK.get().consumeClick()) {
             Player player = Minecraft.getInstance().player;
 
-            if (player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof ThreadboundItem) {
+            if (player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof ThreadBoundItem) {
                 Book book = BookRegistry.INSTANCE.books.get(player.getItemInHand(InteractionHand.MAIN_HAND).get(PatchouliDataComponents.BOOK));
                 if (book != null) {
                     PatchouliAPI.get().openBookGUI(book.id);

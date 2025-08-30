@@ -55,8 +55,8 @@ public class KeyMappingEvent {
             GLFW.GLFW_KEY_X,
             "key.categories.magitech.category"
     ));
-    public static final Lazy<KeyMapping> OPEN_SPELLBOUND_PAGE_SCREEN = Lazy.of(() -> new KeyMapping(
-            "key.magitech.open_spellbound_page_screen",
+    public static final Lazy<KeyMapping> open_thread_bound_page_screen = Lazy.of(() -> new KeyMapping(
+            "key.magitech.open_thread_bound_page_screen",
             KeyConflictContext.IN_GAME,
             InputConstants.Type.KEYSYM,
             GLFW.GLFW_KEY_N,
@@ -78,7 +78,7 @@ public class KeyMappingEvent {
         event.register(LONG_JUMP.get());
         event.register(SPELL_SHIFT_RIGHT.get());
         event.register(SPELL_SHIFT_LEFT.get());
-        event.register(OPEN_SPELLBOUND_PAGE_SCREEN.get());
+        event.register(open_thread_bound_page_screen.get());
         event.register(OPEN_SPELLBOUND_AS_GUIDEBOOK.get());
     }
 

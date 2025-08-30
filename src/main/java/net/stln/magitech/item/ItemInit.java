@@ -27,8 +27,8 @@ public class ItemInit {
 
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Magitech.MOD_ID);
 
-    public static final DeferredItem<ThreadboundItem> GLISTENING_LEXICON = ITEMS.registerItem("glistening_lexicon",
-            (properties) -> new ThreadboundItem(properties).attributeModifier(Map.of(
+    public static final DeferredItem<ThreadBoundItem> GLISTENING_LEXICON = ITEMS.registerItem("glistening_lexicon",
+            (properties) -> new ThreadBoundItem(properties).attributeModifier(Map.of(
                     AttributeInit.MAX_MANA, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 20, AttributeModifier.Operation.ADD_VALUE),
                     AttributeInit.MANA_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.2, AttributeModifier.Operation.ADD_VALUE),
 
@@ -41,8 +41,8 @@ public class ItemInit {
             )),
             new Item.Properties().stacksTo(1));
 
-    public static final DeferredItem<ThreadboundItem> THE_FIRE_THAT_THINKS = ITEMS.registerItem("the_fire_that_thinks",
-            (properties) -> new ThreadboundItem(properties).attributeModifier(Map.of(
+    public static final DeferredItem<ThreadBoundItem> THE_FIRE_THAT_THINKS = ITEMS.registerItem("the_fire_that_thinks",
+            (properties) -> new ThreadBoundItem(properties).attributeModifier(Map.of(
                     AttributeInit.MAX_MANA, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 100, AttributeModifier.Operation.ADD_VALUE),
                     AttributeInit.MANA_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 1, AttributeModifier.Operation.ADD_VALUE),
 
@@ -58,8 +58,8 @@ public class ItemInit {
             )),
             new Item.Properties().stacksTo(1));
 
-    public static final DeferredItem<ThreadboundItem> ARCANE_ENGINEERING_COMPENDIUM = ITEMS.registerItem("arcane_engineering_compendium",
-            (properties) -> new ThreadboundItem(properties).attributeModifier(Map.of(
+    public static final DeferredItem<ThreadBoundItem> ARCANE_ENGINEERING_COMPENDIUM = ITEMS.registerItem("arcane_engineering_compendium",
+            (properties) -> new ThreadBoundItem(properties).attributeModifier(Map.of(
                     AttributeInit.MAX_MANA, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 300, AttributeModifier.Operation.ADD_VALUE),
                     AttributeInit.MANA_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 4, AttributeModifier.Operation.ADD_VALUE),
 

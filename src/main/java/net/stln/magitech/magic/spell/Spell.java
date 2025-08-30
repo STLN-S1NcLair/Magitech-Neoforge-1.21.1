@@ -147,6 +147,7 @@ public abstract class Spell {
         ItemStack stack = user.getItemInHand(hand);
         if (!level.isClientSide && isHost) {
             stack.hurtAndBreak(1, user, LivingEntity.getSlotForHand(hand));
+            SpellCasterItem.progress(stack, user.level(), user);
         }
     }
 

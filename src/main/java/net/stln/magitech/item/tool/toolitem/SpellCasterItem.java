@@ -37,7 +37,6 @@ import net.stln.magitech.magic.cooldown.CooldownData;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.network.TraitTickPayload;
-import net.stln.magitech.util.ColorHelper;
 import net.stln.magitech.util.MathUtil;
 import net.stln.magitech.util.TextUtil;
 import org.jetbrains.annotations.NotNull;
@@ -66,14 +65,14 @@ public abstract class SpellCasterItem extends PartToolItem {
         if (entity instanceof Player player) {
             if (player.getItemInHand(InteractionHand.MAIN_HAND) == stack || player.getItemInHand(InteractionHand.OFF_HAND) == stack) {
                 getTraitLevel(getTraits(stack)).forEach((trait, integer) -> {
-                    trait.tick(player, world, stack, integer, getDefaultStats(stack), true);
+                    trait.tick(player, world, stack, integer, getBaseStats(stack), true);
                 });
                 if (world.isClientSide) {
                     PacketDistributor.sendToServer(new TraitTickPayload(((Player) entity).getItemInHand(InteractionHand.MAIN_HAND) == stack, false, slot, entity.getUUID().toString()));
                 }
             }
             getTraitLevel(getTraits(stack)).forEach((trait, integer) -> {
-                trait.inventoryTick(player, world, stack, integer, getDefaultStats(stack), true);
+                trait.inventoryTick(player, world, stack, integer, getBaseStats(stack), true);
             });
             if (world.isClientSide) {
                 PacketDistributor.sendToServer(new TraitTickPayload(((Player) entity).getItemInHand(InteractionHand.MAIN_HAND) == stack, true, slot, entity.getUUID().toString()));
@@ -94,11 +93,11 @@ public abstract class SpellCasterItem extends PartToolItem {
     public ToolStats getModifiedStats(Player player, Level level, ItemStack stack) {
         Map<Trait, Integer> traits = getTraitLevel(getTraits(stack));
         List<ToolStats> statsList = new ArrayList<>();
-        statsList.add(getDefaultStats(stack));
+        statsList.add(getBaseStats(stack));
         traits.forEach((trait, value) -> {
             if (trait != null) {
-                statsList.add(trait.modifySpellCasterStats1(stack, value, getDefaultStats(stack)));
-                statsList.add(trait.modifySpellCasterStatsConditional1(player, level, stack, value, getDefaultStats(stack)));
+                statsList.add(trait.modifySpellCasterStats1(stack, value, getBaseStats(stack)));
+                statsList.add(trait.modifySpellCasterStatsConditional1(player, level, stack, value, getBaseStats(stack)));
             }
         });
         ToolStats stats1 = ToolStats.add(statsList);
@@ -129,10 +128,10 @@ public abstract class SpellCasterItem extends PartToolItem {
     public ToolStats getModifiedStatsWithoutConditional(ItemStack stack) {
         Map<Trait, Integer> traits = getTraitLevel(getTraits(stack));
         List<ToolStats> statsList = new ArrayList<>();
-        statsList.add(getDefaultStats(stack));
+        statsList.add(getBaseStats(stack));
         traits.forEach((trait, value) -> {
             if (trait != null) {
-                statsList.add(trait.modifySpellCasterStats1(stack, value, getDefaultStats(stack)));
+                statsList.add(trait.modifySpellCasterStats1(stack, value, getBaseStats(stack)));
             }
         });
         ToolStats stats1 = ToolStats.add(statsList);
@@ -255,10 +254,8 @@ public abstract class SpellCasterItem extends PartToolItem {
         setTier(stack, finalStats);
         Map<String, Float> mod = ToolMaterialRegister.getModStats(this.getToolType()).getStats();
 
-        tooltipComponents.add(Component.empty());
-        tooltipComponents.add(Component.translatable("attribute.magitech.tier").append(" ")
-                .append(String.valueOf(stack.get(ComponentInit.TIER_COMPONENT))
-                ).withColor(ColorHelper.getTierColor(stack.get(ComponentInit.TIER_COMPONENT))));
+
+        addDefaultComponents(stack, tooltipComponents);
 
         tooltipComponents.add(Component.translatable("attribute.magitech.spell_power").append(": ").withColor(0xa0a0a0)
                 .append(Component.literal(
@@ -299,7 +296,7 @@ public abstract class SpellCasterItem extends PartToolItem {
 
         tooltipComponents.add(Component.translatable("attribute.magitech.durability").append(": ").withColor(0xa0a0a0)
                 .append(Component.literal(
-                        (finalStats.getStats().get(ToolStats.DUR_STAT).intValue() - stack.getDamageValue()) + " / " + finalStats.getStats().get(ToolStats.DUR_STAT).intValue()
+                        (Math.round(finalStats.getStats().get(ToolStats.DUR_STAT)) - stack.getDamageValue()) + " / " + Math.round(finalStats.getStats().get(ToolStats.DUR_STAT))
                 ).withColor(0xFFFFFF)));
         Map<Trait, Integer> traitIntegerMap = getTraitLevel(getTraits(stack));
         traitIntegerMap.forEach(((trait, integer) -> {

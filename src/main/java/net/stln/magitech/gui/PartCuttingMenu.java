@@ -67,7 +67,7 @@ public class PartCuttingMenu extends AbstractContainerMenu {
     }
 
     public PartCuttingMenu(int containerId, Inventory playerInventory, final ContainerLevelAccess access) {
-        super(MenuType.STONECUTTER, containerId);
+        super(GuiInit.PART_CUTTING_MENU.get(), containerId);
         this.access = access;
         this.level = playerInventory.player.level();
         this.inputSlot = this.addSlot(new Slot(this.container, 0, 20, 49));
@@ -174,8 +174,11 @@ public class PartCuttingMenu extends AbstractContainerMenu {
     }
 
     private void setupRecipeList(Container container, ItemStack stack) {
+        boolean isRecipeEmpty = this.recipes.isEmpty();
         this.recipes.clear();
-        this.selectedRecipeIndex.set(-1);
+        if (isRecipeEmpty) {
+            this.selectedRecipeIndex.set(-1);
+        }
         this.resultSlot.set(ItemStack.EMPTY);
         if (!stack.isEmpty()) {
             this.recipes = this.level.getRecipeManager().getRecipesFor(RecipeInit.PART_CUTTING_TYPE.get(), createRecipeInput(container), this.level);
@@ -201,7 +204,7 @@ public class PartCuttingMenu extends AbstractContainerMenu {
 
     @Override
     public MenuType<?> getType() {
-        return OverlayInit.PART_CUTTING_MENU.get();
+        return GuiInit.PART_CUTTING_MENU.get();
     }
 
     public void registerUpdateListener(Runnable listener) {

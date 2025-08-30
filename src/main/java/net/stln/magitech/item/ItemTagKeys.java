@@ -9,4 +9,10 @@ import net.stln.magitech.Magitech;
 public class ItemTagKeys {
 
     public static TagKey<Item> THREAD_BOUND = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"));
+    public static TagKey<Item> REPAIR_COMPONENT = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "repair_component"));
+    public static TagKey<Item> UPGRADE_MATERIAL_0 = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "upgrade_material_0"));
+    public static TagKey<Item> UPGRADE_MATERIAL_5 = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "upgrade_material_5"));
+    public static TagKey<Item> UPGRADE_MATERIAL_10 = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "upgrade_material_10"));
+    public static TagKey<Item> UPGRADE_MATERIAL_15 = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "upgrade_material_15"));
+    public static TagKey<Item> UPGRADE_MATERIAL_20 = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "upgrade_material_20"));
 }

@@ -116,6 +116,8 @@ public class CreativeTabInit {
             .displayItems((parameters, output) -> {
                 output.accept(BlockInit.ENGINEERING_WORKBENCH_ITEM.get());
                 output.accept(BlockInit.ASSEMBLY_WORKBENCH_ITEM.get());
+                output.accept(BlockInit.REPAIRING_WORKBENCH_ITEM.get());
+                output.accept(BlockInit.UPGRADE_WORKBENCH_ITEM.get());
                 output.accept(BlockInit.ZARDIUS_CRUCIBLE_ITEM.get());
                 output.accept(BlockInit.ALCHEMETRIC_PYLON_ITEM.get());
                 output.accept(BlockInit.ATHANOR_PILLAR_ITEM.get());

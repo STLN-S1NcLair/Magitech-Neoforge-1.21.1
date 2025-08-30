@@ -1,5 +1,6 @@
 package net.stln.magitech.item.tool.toolitem;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
@@ -9,6 +10,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
@@ -34,15 +36,21 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.common.ItemAbility;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.damage.EntityElementRegister;
 import net.stln.magitech.entity.AdjustableAttackStrengthEntity;
+import net.stln.magitech.gui.toast.TierUpToast;
 import net.stln.magitech.item.LeftClickOverrideItem;
 import net.stln.magitech.item.component.ComponentInit;
-import net.stln.magitech.util.Element;
+import net.stln.magitech.item.tool.upgrade.Upgrade;
+import net.stln.magitech.item.tool.upgrade.UpgradeInstance;
+import net.stln.magitech.network.TierUpToastPayload;
+import net.stln.magitech.util.*;
 import net.stln.magitech.item.tool.ToolPart;
 import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.item.tool.ToolType;
@@ -52,10 +60,7 @@ import net.stln.magitech.item.tool.register.ToolMaterialRegister;
 import net.stln.magitech.item.tool.trait.Trait;
 import net.stln.magitech.network.TraitTickPayload;
 import net.stln.magitech.particle.particle_option.*;
-import net.stln.magitech.util.ColorHelper;
-import net.stln.magitech.util.EffectUtil;
-import net.stln.magitech.util.EntityUtil;
-import net.stln.magitech.util.MathUtil;
+import org.checkerframework.checker.units.qual.C;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
@@ -98,6 +103,24 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
             return ToolStats.add(stats);
         }
         return ToolStats.DEFAULT;
+    }
+
+    public static ToolStats getBaseStats(ItemStack stack) {
+        ToolStats stats = getDefaultStats(stack);
+
+        if (stack.has(ComponentInit.UPGRADE_COMPONENT)) {
+            ToolType toolType = ((PartToolItem) stack.getItem()).getToolType();
+            List<UpgradeInstance> upgrades = stack.getComponents().get(ComponentInit.UPGRADE_COMPONENT.get()).upgradeInstance();
+            List<ToolStats> upgradeStats = new ArrayList<>();
+            for (int i = 0; i < upgrades.size(); i++) {
+                if (upgrades.get(i) != null) {
+                    upgradeStats.add(ToolStats.mulWithoutElementCode(ToolMaterialRegister.getBaseStats(toolType), upgrades.get(i).upgrade.getUpgradeStats(upgrades.get(i).level)));
+                }
+            }
+            upgradeStats.add(stats);
+            return ToolStats.add(upgradeStats);
+        }
+        return stats;
     }
 
     public static @NotNull Set<ToolMaterial> getMaterialSet(List<ToolMaterial> materials) {
@@ -170,11 +193,11 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
     public ToolStats getModifiedStats(Player player, Level level, ItemStack stack) {
         Map<Trait, Integer> traits = getTraitLevel(getTraits(stack));
         List<ToolStats> statsList = new ArrayList<>();
-        statsList.add(getDefaultStats(stack));
+        statsList.add(getBaseStats(stack));
         traits.forEach((trait, value) -> {
             if (trait != null) {
-                statsList.add(trait.modifyStats1(stack, value, getDefaultStats(stack)));
-                statsList.add(trait.modifyStatsConditional1(player, level, stack, value, getDefaultStats(stack)));
+                statsList.add(trait.modifyStats1(stack, value, getBaseStats(stack)));
+                statsList.add(trait.modifyStatsConditional1(player, level, stack, value, getBaseStats(stack)));
             }
         });
         ToolStats stats1 = ToolStats.add(statsList);
@@ -203,10 +226,10 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
     public ToolStats getModifiedStatsWithoutConditional(ItemStack stack) {
         Map<Trait, Integer> traits = getTraitLevel(getTraits(stack));
         List<ToolStats> statsList = new ArrayList<>();
-        statsList.add(getDefaultStats(stack));
+        statsList.add(getBaseStats(stack));
         traits.forEach((trait, value) -> {
             if (trait != null) {
-                statsList.add(trait.modifyStats1(stack, value, getDefaultStats(stack)));
+                statsList.add(trait.modifyStats1(stack, value, getBaseStats(stack)));
             }
         });
         ToolStats stats1 = ToolStats.add(statsList);
@@ -291,14 +314,14 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
         if (entity instanceof Player player) {
             if (player.getItemInHand(InteractionHand.MAIN_HAND) == stack || player.getItemInHand(InteractionHand.OFF_HAND) == stack) {
                 getTraitLevel(getTraits(stack)).forEach((trait, integer) -> {
-                    trait.tick(player, world, stack, integer, getDefaultStats(stack), true);
+                    trait.tick(player, world, stack, integer, getBaseStats(stack), true);
                 });
                 if (world.isClientSide) {
                     PacketDistributor.sendToServer(new TraitTickPayload(((Player) entity).getItemInHand(InteractionHand.MAIN_HAND) == stack, false, slot, entity.getUUID().toString()));
                 }
             }
             getTraitLevel(getTraits(stack)).forEach((trait, integer) -> {
-                trait.inventoryTick(player, world, stack, integer, getDefaultStats(stack), true);
+                trait.inventoryTick(player, world, stack, integer, getBaseStats(stack), true);
             });
             if (world.isClientSide) {
                 PacketDistributor.sendToServer(new TraitTickPayload(((Player) entity).getItemInHand(InteractionHand.MAIN_HAND) == stack, true, slot, entity.getUUID().toString()));
@@ -375,6 +398,15 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
         if (!stack.has(ComponentInit.TIER_COMPONENT)) {
             stack.set(ComponentInit.TIER_COMPONENT, finalStats.getTier() * 5 / this.getToolType().getSize());
         }
+        if (!stack.has(ComponentInit.UPGRADE_POINT_COMPONENT)) {
+            stack.set(ComponentInit.UPGRADE_POINT_COMPONENT, Math.max(0, stack.get(ComponentInit.TIER_COMPONENT) - finalStats.getTier() * 5 / this.getToolType().getSize()));
+        }
+        if (!stack.has(ComponentInit.PROGRESSION_COMPONENT)) {
+            stack.set(ComponentInit.PROGRESSION_COMPONENT, 0);
+        }
+        if (!stack.has(ComponentInit.MAX_PROGRESSION_COMPONENT)) {
+            stack.set(ComponentInit.MAX_PROGRESSION_COMPONENT, getMaxProgression(stack.get(ComponentInit.TIER_COMPONENT)));
+        }
     }
 
     protected void modifyTraitAttribute(Player player, Level level, ItemStack stack, ToolStats finalStats, List<ItemAttributeModifiers.Entry> entries) {
@@ -386,6 +418,7 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
     @Override
     public void postHurtEnemy(ItemStack stack, @NotNull LivingEntity target, @NotNull LivingEntity attacker) {
         stack.hurtAndBreak(1, attacker, EquipmentSlot.MAINHAND);
+        progress(stack, attacker.level(), attacker);
     }
 
     @Override
@@ -396,16 +429,15 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
 
     @Override
     public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, @Nullable T entity, Consumer<Item> onBroken) {
-        Consumer<Item> consumer = item -> {
-            entity.level().playSound(entity, entity.getOnPos(),
+        if (stack.getMaxDamage() - stack.getDamageValue() <= amount && entity != null) {
+            entity.level().playSound(null, entity.getOnPos(),
                     SoundEvents.ITEM_BREAK, SoundSource.PLAYERS, 1.0F, 1.0F);
-            onBroken.accept(item);
-        };
-        return super.damageItem(stack, amount, entity, consumer);
+        }
+        return super.damageItem(stack, amount, entity, onBroken);
     }
 
     @Override
-    public void appendHoverText(@NotNull ItemStack stack, Item.@NotNull TooltipContext context, List<Component> tooltipComponents, @NotNull TooltipFlag tooltipFlag) {
+    public void appendHoverText(@NotNull ItemStack stack, @NotNull TooltipContext context, List<Component> tooltipComponents, @NotNull TooltipFlag tooltipFlag) {
         addStatsHoverText(stack, tooltipComponents);
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
     }
@@ -414,10 +446,7 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
         ToolStats finalStats = getSumStatsWithoutConditional(stack);
         setTier(stack, finalStats);
 
-        tooltipComponents.add(Component.empty());
-        tooltipComponents.add(Component.translatable("attribute.magitech.tier").append(" ")
-                .append(String.valueOf(stack.get(ComponentInit.TIER_COMPONENT))
-                ).withColor(ColorHelper.getTierColor(stack.get(ComponentInit.TIER_COMPONENT))));
+        addDefaultComponents(stack, tooltipComponents);
 
         tooltipComponents.add(Component.translatable("attribute.magitech.attack_damage").append(": ").withColor(0xa0a0a0)
                 .append(Component.literal(String.valueOf(
@@ -478,6 +507,25 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
         ));
     }
 
+    protected static void addDefaultComponents(@NotNull ItemStack stack, List<Component> tooltipComponents) {
+        tooltipComponents.add(Component.empty());
+        tooltipComponents.add(Component.translatable("attribute.magitech.tier").append(" ")
+                .append(String.valueOf(stack.get(ComponentInit.TIER_COMPONENT))
+                ).withColor(ColorHelper.getTierColor(stack.get(ComponentInit.TIER_COMPONENT))));
+
+        tooltipComponents.add(
+                RenderHelper.getGradationGauge(0, stack.get(ComponentInit.MAX_PROGRESSION_COMPONENT), stack.get(ComponentInit.PROGRESSION_COMPONENT), 30,
+                        ColorHelper.getTierColor(stack.get(ComponentInit.TIER_COMPONENT)), ColorHelper.getTierColor(stack.get(ComponentInit.TIER_COMPONENT) + 1)));
+
+        tooltipComponents.add(Component.translatable("attribute.magitech.progress").withColor(0xa0a0a0).append(": ")
+                .append(Component.literal(String.valueOf(stack.get(ComponentInit.PROGRESSION_COMPONENT))).withColor(0xFFFFFF)).append(" / ").append(Component.literal(String.valueOf(stack.get(ComponentInit.MAX_PROGRESSION_COMPONENT)))
+                        .withColor(ColorHelper.getTierColor(stack.get(ComponentInit.TIER_COMPONENT)))));
+
+        tooltipComponents.add(Component.translatable("attribute.magitech.upgrade_point").withColor(0xa0a0a0).append(": ")
+                .append(Component.literal(String.valueOf(stack.get(ComponentInit.UPGRADE_POINT_COMPONENT)
+                )).withColor(0xC0FF60)));
+    }
+
     public void traitAction(Level level, Player player, InteractionHand usedHand) {
         ItemStack stack = player.getItemInHand(usedHand);
 
@@ -522,8 +570,11 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
     @Override
     public boolean mineBlock(ItemStack stack, Level level, BlockState state, BlockPos pos, LivingEntity miningEntity) {
         List<Trait> traits = getTraits(stack);
-        stack.hurtAndBreak(1, (ServerLevel) level, miningEntity, item -> {
-        });
+        if (state.getDestroySpeed(level, pos) != 0) {
+            stack.hurtAndBreak(1, (ServerLevel) level, miningEntity, item -> {
+            });
+            progress(stack, level, miningEntity);
+        }
         return super.mineBlock(stack, level, state, pos, miningEntity);
     }
 
@@ -574,9 +625,39 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
         }
         if (!attackList.isEmpty()) {
             stack.hurtAndBreak(1, user, EquipmentSlot.MAINHAND);
+            progress(stack, world, user);
         }
 
         user.resetAttackStrengthTicker();
+    }
+
+    public static void progress(ItemStack stack, Level level, Entity entity) {
+        if (stack.has(ComponentInit.PROGRESSION_COMPONENT)) {
+            stack.set(ComponentInit.PROGRESSION_COMPONENT, stack.get(ComponentInit.PROGRESSION_COMPONENT) + 1);
+            if (stack.get(ComponentInit.PROGRESSION_COMPONENT) >= stack.get(ComponentInit.MAX_PROGRESSION_COMPONENT)) {
+                int tier = stack.get(ComponentInit.TIER_COMPONENT);
+                stack.set(ComponentInit.TIER_COMPONENT, tier + 1);
+                stack.set(ComponentInit.UPGRADE_POINT_COMPONENT, stack.get(ComponentInit.UPGRADE_POINT_COMPONENT) + 1);
+                stack.set(ComponentInit.PROGRESSION_COMPONENT, 0);
+                stack.set(ComponentInit.MAX_PROGRESSION_COMPONENT, getMaxProgression(tier + 1));
+                if (entity instanceof Player player) {
+                    if (level.isClientSide) {
+//                        addToast(stack, tier);
+                    } else {
+                        PacketDistributor.sendToPlayer((ServerPlayer) player, new TierUpToastPayload(player.getInventory().findSlotMatchingItem(stack), tier + 1, player.getUUID().toString()));
+                    }
+                }
+            }
+        }
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private static void addToast(ItemStack stack, int tier) {
+        Minecraft.getInstance().getToasts().addToast(new TierUpToast(tier, stack.copy()));
+    }
+
+    private static int getMaxProgression(int level) {
+        return (int) Math.round(100 * Math.exp(Math.log(3) * Math.sqrt(level) / Math.sqrt(5)));
     }
 
 
@@ -623,10 +704,10 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
         final int[] add = {0};
         final int[] enhance = {0};
         getTraitLevel(getTraits(stack)).forEach((trait, integer) -> {
-            add[0] = Math.max(add[0], trait.addEnchantments(stack, integer, getDefaultStats(stack), enchantment, level));
+            add[0] = Math.max(add[0], trait.addEnchantments(stack, integer, getBaseStats(stack), enchantment, level));
         });
         getTraitLevel(getTraits(stack)).forEach((trait, integer) -> {
-            enhance[0] += trait.enhanceEnchantments(stack, integer, getDefaultStats(stack), enchantment, add[0] + level);
+            enhance[0] += trait.enhanceEnchantments(stack, integer, getBaseStats(stack), enchantment, add[0] + level);
         });
         return Math.max(0, level + add[0] + enhance[0]);
     }
@@ -646,6 +727,17 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
     public void callTraitDamageEntity(Level world, Player user, Entity target, ItemStack stack) {
         getTraitLevel(getTraits(stack)).forEach((trait, integer) -> {
             trait.onDamageEntity(user, world, stack, integer, getModifiedStats(user, world, stack), target);
+        });
+    }
+
+    public void callTestRepair(Level world, Player user, int amount, ItemStack stack) {
+        getTraitLevel(getTraits(stack)).forEach((trait, integer) -> {
+            trait.testRepair(user, world, stack, integer, getModifiedStats(user, world, stack), amount);
+        });
+    }
+    public void callOnRepair(Level world, Player user, int amount, ItemStack stack) {
+        getTraitLevel(getTraits(stack)).forEach((trait, integer) -> {
+            trait.onRepair(user, world, stack, integer, getModifiedStats(user, world, stack), amount);
         });
     }
 }

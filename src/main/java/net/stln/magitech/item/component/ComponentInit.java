@@ -1,7 +1,6 @@
 package net.stln.magitech.item.component;
 
 import net.minecraft.core.component.DataComponentType;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.util.ExtraCodecs;
@@ -30,6 +29,21 @@ public class ComponentInit {
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> TIER_COMPONENT = register("tier_component",
             builder -> builder.persistent(ExtraCodecs.NON_NEGATIVE_INT).networkSynchronized(ByteBufCodecs.VAR_INT));
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> PROGRESSION_COMPONENT = register("progression_component",
+            builder -> builder.persistent(ExtraCodecs.NON_NEGATIVE_INT).networkSynchronized(ByteBufCodecs.VAR_INT));
+
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> MAX_PROGRESSION_COMPONENT = register("max_progression_component",
+            builder -> builder.persistent(ExtraCodecs.NON_NEGATIVE_INT).networkSynchronized(ByteBufCodecs.VAR_INT));
+
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> UPGRADE_SEED_COMPONENT = register("upgrade_seed",
+            builder -> builder.persistent(ExtraCodecs.NON_NEGATIVE_INT).networkSynchronized(ByteBufCodecs.VAR_INT));
+
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<UpgradeComponent>> UPGRADE_COMPONENT = register("upgrade_component",
+            builder -> builder.persistent(UpgradeComponent.CODEC).networkSynchronized(UpgradeComponent.STREAM_CODEC).cacheEncoding());
+
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> UPGRADE_POINT_COMPONENT = register("upgrade_point_component",
+            builder -> builder.persistent(ExtraCodecs.NON_NEGATIVE_INT).networkSynchronized(ByteBufCodecs.VAR_INT));
+
 
     public static void registerComponents(IEventBus eventBus) {
         Magitech.LOGGER.info("Registering Data Components for" + Magitech.MOD_ID);

@@ -3,6 +3,8 @@
   "values": [
     "magitech:engineering_workbench",
     "magitech:assembly_workbench",
+    "magitech:repairing_workbench",
+    "magitech:upgrade_workbench",
     "magitech:celifern_log",
     "magitech:celifern_wood",
     "magitech:stripped_celifern_log",

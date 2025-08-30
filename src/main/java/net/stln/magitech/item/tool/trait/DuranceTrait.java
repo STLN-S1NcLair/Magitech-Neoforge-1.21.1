@@ -33,7 +33,12 @@ public class DuranceTrait extends Trait {
 
     @Override
     public void onRepair(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, int repairAmount) {
-        stack.setDamageValue((int) Math.max(0, repairAmount * traitLevel * 0.3F));
+        stack.setDamageValue((int) Math.max(0, stack.getDamageValue() - repairAmount * traitLevel * 0.3F));
+    }
+
+    @Override
+    public void testRepair(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, int repairAmount) {
+        stack.setDamageValue((int) Math.max(0, stack.getDamageValue() - repairAmount * traitLevel * 0.3F));
     }
 
     @Override

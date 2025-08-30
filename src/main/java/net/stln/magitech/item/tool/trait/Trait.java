@@ -174,6 +174,9 @@ public abstract class Trait {
     public void onRepair(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, int repairAmount) {
     }
 
+    public void testRepair(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, int repairAmount) {
+    }
+
     public int getColor() {
         return 0xFFFFFF;
     }
