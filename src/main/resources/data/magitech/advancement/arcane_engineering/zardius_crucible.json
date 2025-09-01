@@ -11,7 +11,9 @@
     },
     "frame": "task",
     "show_toast": true,
-    "announce_to_chat": true
+    "announce_to_chat": true,
+    "hidden": false,
+    "always_visible": true
   },
   "parent": "magitech:arcane_engineering/tourmaline",
   "criteria": {

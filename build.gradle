@@ -26,6 +26,14 @@ repositories {
         }
     }
     maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+    }
+    maven {
+        name = "OwO lib"
+        url = "https://maven.wispforest.io/releases/"
+    }
+    maven {
         name = 'GeckoLib'
         url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
         content {
@@ -141,24 +149,31 @@ configurations {
 }
 
 dependencies {
-    // compile against the JEI API but do not include it at runtime
-    compileOnly("mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}")
-    // at runtime, use the full JEI jar for NeoForge
-    runtimeOnly("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
+    compileOnly "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}"
+    runtimeOnly "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
     implementation "curse.maven:jade-324717:${jade_id}"
-    implementation "curse.maven:appleskin-248787:${appleskin_id}"
     implementation "curse.maven:curios-309927:${curiosapi_id}"
     implementation "org.sinytra.forgified-fabric-api:forgified-fabric-api:${forgified_fabric_api_version}"
     implementation "curse.maven:playeranimator-658587:${playeranimator_id}"
     implementation "curse.maven:patchouli-306770:${patchouli_id}"
 //    compileOnly("curse.maven:patchouli-306770:${patchouli_id}")
-    implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_id}"
-    implementation "curse.maven:auth-me-356643:6177873"
-    implementation "curse.maven:xaeros-world-map-317780:6538359"
-    implementation "curse.maven:xaeros-minimap-263420:6515043"
-    implementation "curse.maven:advancements-reloaded-1113876:5835520"
-    implementation "curse.maven:cloth-config-348521:5729127"
     implementation "com.github.glitchfiend:TerraBlender-neoforge:1.21.1-4.1.0.8"
+    implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_id}"
+    compileOnly "io.wispforest:owo-lib-neoforge:${owo_version}"
+    interfaceInjectionData "io.wispforest:owo-lib-neoforge:${owo_version}"
+
+    runtimeOnly "curse.maven:appleskin-248787:${appleskin_id}"
+    runtimeOnly "curse.maven:auth-me-356643:6177873"
+    runtimeOnly "curse.maven:xaeros-world-map-317780:6538359"
+    runtimeOnly "curse.maven:xaeros-minimap-263420:6515043"
+    runtimeOnly "curse.maven:advancements-reloaded-1113876:5835520"
+    runtimeOnly "curse.maven:cloth-config-348521:5729127"
+
+    runtimeOnly "maven.modrinth:miragefairy2024-kakera-unofficial:royW33Zn"
+    runtimeOnly "maven.modrinth:architectury-api:ZxYGwlk0"
+    runtimeOnly "maven.modrinth:kotlin-for-forge:4qCjWixP"
+    runtimeOnly "maven.modrinth:owo-lib:NMCHU6DZ"
+    runtimeOnly "maven.modrinth:cloth-config:izKINKFg"
 
 //    runtimeOnly("curse.maven:supplementaries-412082:6854370")
 //    runtimeOnly("curse.maven:selene-499980:6818413")

@@ -15,6 +15,7 @@ import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import net.stln.magitech.advancement.CriterionInit;
 import net.stln.magitech.biome.BiomeInit;
 import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.compat.curios.ValidatorInit;
@@ -72,6 +73,7 @@ public class Magitech {
         LootFunctionInit.registerFunctions(modEventBus);
         TreeGrowerInit.registerTrunkPlacerTypes(modEventBus);
         GuiInit.registerMenus(modEventBus);
+        CriterionInit.registerCrtiteria(modEventBus);
         MaterialInit.registerElements();
         MaterialInit.registerMaterials();
         SpellInit.registerSpells();
@@ -108,7 +110,7 @@ public class Magitech {
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
-    @EventBusSubscriber(modid = MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+    @EventBusSubscriber(modid = MOD_ID, value = Dist.CLIENT)
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {

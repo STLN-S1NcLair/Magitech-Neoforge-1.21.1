@@ -1,21 +1,21 @@
 {
   "display": {
     "icon": {
-      "id": "magitech:arcane_engineering_compendium"
+      "id": "magitech:upgrade_workbench"
     },
     "title": {
-      "translate": "advancement.magitech.arcane_engineering.root.title"
+      "translate": "advancement.magitech.arcane_engineering.upgrade_workbench.title"
     },
     "description": {
-      "translate": "advancement.magitech.arcane_engineering.root.description"
+      "translate": "advancement.magitech.arcane_engineering.upgrade_workbench.description"
     },
-    "background": "magitech:textures/block/alchecrysite.png",
     "frame": "task",
-    "show_toast": false,
-    "announce_to_chat": false,
+    "show_toast": true,
+    "announce_to_chat": true,
     "hidden": false,
     "always_visible": true
   },
+  "parent": "magitech:arcane_engineering/make_part_tool",
   "criteria": {
     "requirement": {
       "trigger": "minecraft:inventory_changed",
@@ -23,7 +23,7 @@
         "items": [
           {
             "items": [
-              "magitech:glistening_lexicon"
+              "magitech:upgrade_workbench"
             ]
           }
         ]

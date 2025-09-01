@@ -1,0 +1,38 @@
+{
+  "display": {
+      "icon": {
+        "id": "magitech:pickaxe",
+        "components": {
+          "magitech:part_material_component": {
+            "materials": [
+              "magitech:diamond",
+              "magitech:diamond",
+              "magitech:diamond"
+            ]
+          }
+        }
+    },
+    "title": {
+      "translate": "advancement.magitech.arcane_engineering.tool_upgrade_10.title"
+    },
+    "description": {
+      "translate": "advancement.magitech.arcane_engineering.tool_upgrade_10.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false,
+    "always_visible": true
+  },
+  "parent": "magitech:arcane_engineering/tool_upgrade",
+  "criteria": {
+    "requirement": {
+      "trigger": "magitech:tool_upgrade",
+      "conditions": {
+        "tier": {
+          "min": 10
+        }
+      }
+    }
+  }
+}

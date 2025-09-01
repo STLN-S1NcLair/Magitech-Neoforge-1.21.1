@@ -7,7 +7,7 @@ import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.block.BlockInit;
 
-@EventBusSubscriber(modid = Magitech.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = Magitech.MOD_ID, value = Dist.CLIENT)
 public class BlockRendererInit {
 
     @SubscribeEvent

@@ -1,5 +1,7 @@
 package net.stln.magitech.gui;
 
+import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
@@ -10,6 +12,7 @@ import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.stln.magitech.advancement.CriterionInit;
 import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.UpgradeComponent;
@@ -129,6 +132,9 @@ public class ToolUpgradeMenu extends AbstractContainerMenu {
             material.shrink(1);
             this.container.setItem(1, material);
             player.level().playSound(player, player, SoundEvents.SMITHING_TABLE_USE, SoundSource.BLOCKS, 1.0F, 1.0F);
+            if (!player.level().isClientSide && player instanceof ServerPlayer serverPlayer) {
+                CriterionInit.TOOL_UPGRADE.get().trigger(serverPlayer, stack, stack.get(ComponentInit.TIER_COMPONENT) - stack.get(ComponentInit.UPGRADE_POINT_COMPONENT));
+            }
         }
         return true;
     }

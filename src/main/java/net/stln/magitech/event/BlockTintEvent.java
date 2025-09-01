@@ -8,7 +8,7 @@ import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.block.BlockInit;
 
-@EventBusSubscriber(modid = Magitech.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = Magitech.MOD_ID)
 public class BlockTintEvent {
 
     @SubscribeEvent

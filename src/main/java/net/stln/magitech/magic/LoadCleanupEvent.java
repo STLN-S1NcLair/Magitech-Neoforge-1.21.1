@@ -9,7 +9,7 @@ import net.stln.magitech.magic.charge.ChargeData;
 import net.stln.magitech.magic.cooldown.CooldownData;
 import net.stln.magitech.magic.mana.ManaData;
 
-@EventBusSubscriber(modid = Magitech.MOD_ID, bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(modid = Magitech.MOD_ID)
 public class LoadCleanupEvent {
 
     @SubscribeEvent

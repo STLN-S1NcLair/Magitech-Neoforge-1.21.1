@@ -11,7 +11,7 @@ import net.stln.magitech.item.tool.register.ToolMaterialRegister;
 
 import java.util.List;
 
-@EventBusSubscriber(modid = Magitech.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = Magitech.MOD_ID)
 public class ModelRegistrar {
 
     public static final List<ToolMaterial> materials = ToolMaterialRegister.getDictId().values().stream().toList();

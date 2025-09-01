@@ -23,7 +23,7 @@ import java.util.Optional;
 /**
  * This is an example implementation of PlayerAnimator resourceLoading and playerMapping
  */
-@EventBusSubscriber(modid = Magitech.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = Magitech.MOD_ID, value = Dist.CLIENT)
 public class PlayerAnimatorInit {
 
 

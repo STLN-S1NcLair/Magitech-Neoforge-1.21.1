@@ -2,6 +2,7 @@ package net.stln.magitech.item.tool.trait;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
@@ -11,6 +12,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -24,8 +28,9 @@ import net.stln.magitech.network.BreakBlockPayload;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
-@EventBusSubscriber(modid = Magitech.MOD_ID, bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(modid = Magitech.MOD_ID)
 public class BlockBreakEvent {
     private static final Set<BlockPos> BROKEN_BLOCKS = new HashSet<>();
 
@@ -131,9 +136,7 @@ public class BlockBreakEvent {
         if (entity instanceof Player player && tool.getItem() instanceof PartToolItem partToolItem) {
             AtomicReference<List<ItemStack>> lootStack = new AtomicReference<>(new ArrayList<>());
             AtomicReference<List<ItemStack>> setLootStack = new AtomicReference<>(new ArrayList<>());
-            for (ItemEntity itemEntity : drops) {
-                lootStack.get().add(itemEntity.getItem().copy());
-            }
+            lootStack.set(drops.stream().map(ItemEntity::getItem).collect(Collectors.toCollection(ArrayList::new)));
             traitMap.forEach((trait, value) -> {
                 trait.modifyEnchantmentOnBlockLooting(player, player.level(), tool, value, partToolItem.getSumStats(player, player.level(), tool), state, pos, lootStack.get());
             });
@@ -142,8 +145,15 @@ public class BlockBreakEvent {
                  expMul[0] *= trait.modifyExpOnBlockLooting(player, player.level(), tool, value, partToolItem.getSumStats(player, player.level(), tool), state, pos, lootStack.get(), event.getDroppedExperience());
             });
             event.setDroppedExperience((int) (event.getDroppedExperience() * expMul[0]));
-            lootStack.get().clear();
-            lootStack.get().addAll(Block.getDrops(state, event.getLevel(), pos, event.getLevel().getBlockEntity(pos), player, tool));
+
+            LootParams.Builder builder = new LootParams.Builder((ServerLevel) entity.level())
+                    .withParameter(LootContextParams.ORIGIN, pos.getCenter())
+                    .withParameter(LootContextParams.TOOL, tool)
+                    .withOptionalParameter(LootContextParams.BLOCK_ENTITY, event.getBlockEntity())
+                    .withParameter(LootContextParams.THIS_ENTITY, player);
+
+            lootStack.set(state.getDrops(builder));
+
             traitMap.forEach((trait, value) -> {
                 lootStack.get().addAll(trait.addItemOnBlockLooting(player, player.level(), tool, value, partToolItem.getSumStats(player, player.level(), tool), state, pos, lootStack.get()));
             });
@@ -161,8 +171,8 @@ public class BlockBreakEvent {
                     }
                 }
             } else {
+                event.getDrops().clear();
                 for (ItemStack itemStack : lootStack.get()) {
-                    event.getDrops().clear();
                     if (!itemStack.isEmpty()) {
                         ItemEntity itemEntity = new ItemEntity(event.getLevel(), center.x, center.y, center.z, itemStack);
                         itemEntity.setPickUpDelay(10);

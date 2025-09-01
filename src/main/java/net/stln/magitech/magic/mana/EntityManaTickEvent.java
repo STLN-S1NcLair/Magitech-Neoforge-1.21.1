@@ -8,7 +8,7 @@ import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.entity.status.AttributeInit;
 
-@EventBusSubscriber(modid = Magitech.MOD_ID, bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(modid = Magitech.MOD_ID)
 public class EntityManaTickEvent {
 
     @SubscribeEvent

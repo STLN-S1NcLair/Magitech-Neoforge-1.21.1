@@ -11,7 +11,7 @@ import net.neoforged.neoforge.common.util.Lazy;
 import net.stln.magitech.Magitech;
 import org.lwjgl.glfw.GLFW;
 
-@EventBusSubscriber(modid = Magitech.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = Magitech.MOD_ID, value = Dist.CLIENT)
 public class KeyMappingEvent {
     public static final Lazy<KeyMapping> RADIAL_SPELL_MENU = Lazy.of(() -> new KeyMapping(
             "key.magitech.radial_spell_menu",

@@ -14,7 +14,7 @@ import vazkii.patchouli.common.item.PatchouliDataComponents;
 
 import java.util.List;
 
-@EventBusSubscriber(modid = Magitech.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = Magitech.MOD_ID)
 public class ModifyDefaultComponentsEvent {
 
     @SubscribeEvent

@@ -611,6 +611,7 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
 
         Vec3 center = EntityUtil.getAttackTargetPosition(user, user.entityInteractionRange(), 2, 0.0);
         List<Entity> attackList = EntityUtil.getEntitiesInBox(world, user, center, new Vec3(swp, swp / 3.0F, swp));
+        attackList.removeIf(e -> !(e instanceof LivingEntity livingEntity) || e == user || !user.canAttack(livingEntity) || e.isInvulnerable());
 
         float cooldown = ((AdjustableAttackStrengthEntity) user).getLastAttackedTicks();
         for (Entity target : attackList) {

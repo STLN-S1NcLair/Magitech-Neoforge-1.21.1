@@ -17,7 +17,7 @@ import net.stln.magitech.item.tool.toolitem.PartToolItem;
 
 import java.util.Optional;
 
-@EventBusSubscriber(modid = Magitech.MOD_ID, bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(modid = Magitech.MOD_ID)
 public class ModifyBreakSpeedEvent {
 
     @SubscribeEvent

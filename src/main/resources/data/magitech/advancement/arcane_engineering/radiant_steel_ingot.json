@@ -11,7 +11,8 @@
     },
     "frame": "challenge",
     "show_toast": true,
-    "announce_to_chat": true
+    "announce_to_chat": true,
+    "hidden": false
   },
   "parent": "magitech:arcane_engineering/zardius_crucible",
   "criteria": {

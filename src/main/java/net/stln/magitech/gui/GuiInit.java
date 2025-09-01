@@ -19,7 +19,7 @@ import net.stln.magitech.gui.overlay.SpellGaugeOverlay;
 
 import java.util.function.Supplier;
 
-@EventBusSubscriber(modid = Magitech.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = Magitech.MOD_ID, value = Dist.CLIENT)
 public class GuiInit {
     public static final DeferredRegister<MenuType<?>> MENU_TYPES = DeferredRegister.create(Registries.MENU, Magitech.MOD_ID);
     public static final Supplier<MenuType<PartCuttingMenu>> PART_CUTTING_MENU = MENU_TYPES.register("part_cutting_menu", () -> new MenuType(PartCuttingMenu::new, FeatureFlags.DEFAULT_FLAGS));

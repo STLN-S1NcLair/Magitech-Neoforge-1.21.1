@@ -11,9 +11,11 @@
     },
     "frame": "task",
     "show_toast": true,
-    "announce_to_chat": true
+    "announce_to_chat": true,
+    "hidden": false,
+    "always_visible": true
   },
-  "parent": "magitech:arcane_engineering/engineering_workbench",
+  "parent": "magitech:arcane_engineering/make_part",
   "criteria": {
     "requirement": {
       "trigger": "minecraft:inventory_changed",

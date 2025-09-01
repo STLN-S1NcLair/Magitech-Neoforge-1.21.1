@@ -1,0 +1,38 @@
+{
+  "display": {
+      "icon": {
+        "id": "magitech:pickaxe",
+        "components": {
+          "magitech:part_material_component": {
+            "materials": [
+              "magitech:resonite",
+              "magitech:resonite",
+              "magitech:resonite"
+            ]
+          }
+        }
+    },
+    "title": {
+      "translate": "advancement.magitech.arcane_engineering.tool_upgrade_30.title"
+    },
+    "description": {
+      "translate": "advancement.magitech.arcane_engineering.tool_upgrade_30.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true,
+    "always_visible": true
+  },
+  "parent": "magitech:arcane_engineering/tool_upgrade_10",
+  "criteria": {
+    "requirement": {
+      "trigger": "magitech:tool_upgrade",
+      "conditions": {
+        "tier": {
+          "min": 30
+        }
+      }
+    }
+  }
+}
