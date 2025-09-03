@@ -62,6 +62,7 @@ public class AxeItem extends PartToolItem {
                 level.gameEvent(GameEvent.BLOCK_CHANGE, blockpos, GameEvent.Context.of(player, optional.get()));
                 if (player != null) {
                     itemstack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(context.getHand()));
+                    progress(player.getItemBySlot(LivingEntity.getSlotForHand(context.getHand())), level, player);
                 }
 
                 return InteractionResult.sidedSuccess(level.isClientSide);

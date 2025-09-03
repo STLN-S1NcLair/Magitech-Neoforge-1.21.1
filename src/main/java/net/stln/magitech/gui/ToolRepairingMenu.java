@@ -135,6 +135,7 @@ public class ToolRepairingMenu extends AbstractContainerMenu {
                             if (itemstack.getDamageValue() > 0) {
                                 itemstack.setDamageValue(itemstack.getDamageValue() - itemstack.getMaxDamage() / 5);
                                 ((PartToolItem) itemstack.getItem()).callTestRepair(level, player, itemstack.getMaxDamage() / 5, itemstack);
+                                ((PartToolItem) itemstack.getItem()).reloadComponent(player, level, itemstack);
                                 isRepairable = true;
                             }
                         }

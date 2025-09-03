@@ -75,6 +75,7 @@ public class ShovelItem extends PartToolItem {
                     level.gameEvent(GameEvent.BLOCK_CHANGE, blockpos, GameEvent.Context.of(player, blockstate2));
                     if (player != null) {
                         context.getItemInHand().hurtAndBreak(1, player, LivingEntity.getSlotForHand(context.getHand()));
+                        progress(player.getItemBySlot(LivingEntity.getSlotForHand(context.getHand())), level, player);
                     }
                 }
 

@@ -1,5 +1,6 @@
 package net.stln.magitech.item.component;
 
+import com.mojang.serialization.Codec;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -43,6 +44,10 @@ public class ComponentInit {
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> UPGRADE_POINT_COMPONENT = register("upgrade_point_component",
             builder -> builder.persistent(ExtraCodecs.NON_NEGATIVE_INT).networkSynchronized(ByteBufCodecs.VAR_INT));
+
+
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> BROKEN_COMPONENT = register("broken_component",
+            builder -> builder.persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL));
 
 
     public static void registerComponents(IEventBus eventBus) {

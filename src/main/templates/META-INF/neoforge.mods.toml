@@ -104,6 +104,12 @@ type = "required"
 ordering = "AFTER"
 side = "BOTH"
 
+[[dependencies.magitech]]
+modId = "owo"
+type = "required"
+ordering = "AFTER"
+side = "BOTH"
+
 [[dependencies.${ mod_id }]]
 modId = "minecraft"
 type = "required"

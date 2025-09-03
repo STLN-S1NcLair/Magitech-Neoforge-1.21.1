@@ -192,29 +192,34 @@ public abstract class SpellCasterItem extends PartToolItem {
         ToolStats finalStats = getSumStats(player, level, stack);
         Map<String, Float> map = finalStats.getStats();
 
+        stack.set(ComponentInit.BROKEN_COMPONENT, stack.getDamageValue() + 1 >= stack.getMaxDamage());
+
         Map<String, Float> mod = ToolMaterialRegister.getModStats(this.getToolType()).getStats();
         EquipmentSlotGroup hand = player.getItemInHand(InteractionHand.OFF_HAND).equals(stack) && !(player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof SpellCasterItem) ? EquipmentSlotGroup.OFFHAND : EquipmentSlotGroup.MAINHAND;
-        entries.add(new ItemAttributeModifiers.Entry(AttributeInit.SPELL_POWER, new AttributeModifier(atkId, map.get(ToolStats.ATK_STAT) - mod.get(ToolStats.ATK_STAT), AttributeModifier.Operation.ADD_VALUE), hand));
-        if (finalStats.getElement() != Element.NONE) {
-            DeferredHolder<Attribute, Attribute> elementAttribute = switch (finalStats.getElement()) {
-                case NONE -> null;
-                case EMBER -> AttributeInit.EMBER_SPELL_POWER;
-                case GLACE -> AttributeInit.GLACE_SPELL_POWER;
-                case SURGE -> AttributeInit.SURGE_SPELL_POWER;
-                case PHANTOM -> AttributeInit.PHANTOM_SPELL_POWER;
-                case TREMOR -> AttributeInit.TREMOR_SPELL_POWER;
-                case MAGIC -> AttributeInit.MAGIC_SPELL_POWER;
-                case FLOW -> AttributeInit.FLOW_SPELL_POWER;
-                case HOLLOW -> AttributeInit.HOLLOW_SPELL_POWER;
-            };
-            entries.add(new ItemAttributeModifiers.Entry(elementAttribute, new AttributeModifier(elmatkId, map.get(ToolStats.ELM_ATK_STAT), AttributeModifier.Operation.ADD_VALUE), hand));
+
+        if (!stack.get(ComponentInit.BROKEN_COMPONENT)) {
+            entries.add(new ItemAttributeModifiers.Entry(AttributeInit.SPELL_POWER, new AttributeModifier(atkId, map.get(ToolStats.ATK_STAT) - mod.get(ToolStats.ATK_STAT), AttributeModifier.Operation.ADD_VALUE), hand));
+            if (finalStats.getElement() != Element.NONE) {
+                DeferredHolder<Attribute, Attribute> elementAttribute = switch (finalStats.getElement()) {
+                    case NONE -> null;
+                    case EMBER -> AttributeInit.EMBER_SPELL_POWER;
+                    case GLACE -> AttributeInit.GLACE_SPELL_POWER;
+                    case SURGE -> AttributeInit.SURGE_SPELL_POWER;
+                    case PHANTOM -> AttributeInit.PHANTOM_SPELL_POWER;
+                    case TREMOR -> AttributeInit.TREMOR_SPELL_POWER;
+                    case MAGIC -> AttributeInit.MAGIC_SPELL_POWER;
+                    case FLOW -> AttributeInit.FLOW_SPELL_POWER;
+                    case HOLLOW -> AttributeInit.HOLLOW_SPELL_POWER;
+                };
+                entries.add(new ItemAttributeModifiers.Entry(elementAttribute, new AttributeModifier(elmatkId, map.get(ToolStats.ELM_ATK_STAT), AttributeModifier.Operation.ADD_VALUE), hand));
+            }
+            entries.add(new ItemAttributeModifiers.Entry(AttributeInit.CASTING_SPEED, new AttributeModifier(spdId, map.get(ToolStats.SPD_STAT) - mod.get(ToolStats.SPD_STAT), AttributeModifier.Operation.ADD_VALUE), hand));
+            entries.add(new ItemAttributeModifiers.Entry(AttributeInit.COOLDOWN_SPEED, new AttributeModifier(minId, map.get(ToolStats.MIN_STAT) - mod.get(ToolStats.MIN_STAT), AttributeModifier.Operation.ADD_VALUE), hand));
+            entries.add(new ItemAttributeModifiers.Entry(Attributes.ARMOR, new AttributeModifier(defId, map.get(ToolStats.DEF_STAT), AttributeModifier.Operation.ADD_VALUE), hand));
+            entries.add(new ItemAttributeModifiers.Entry(AttributeInit.PROJECTILE_SPEED, new AttributeModifier(rngId, map.get(ToolStats.RNG_STAT) - mod.get(ToolStats.RNG_STAT), AttributeModifier.Operation.ADD_VALUE), hand));
+            entries.add(new ItemAttributeModifiers.Entry(AttributeInit.MANA_EFFICIENCY, new AttributeModifier(rngId, map.get(ToolStats.SWP_STAT) - mod.get(ToolStats.SWP_STAT), AttributeModifier.Operation.ADD_MULTIPLIED_BASE), hand));
+            modifyTraitAttribute(player, level, stack, finalStats, entries);
         }
-        entries.add(new ItemAttributeModifiers.Entry(AttributeInit.CASTING_SPEED, new AttributeModifier(spdId, map.get(ToolStats.SPD_STAT) - mod.get(ToolStats.SPD_STAT), AttributeModifier.Operation.ADD_VALUE), hand));
-        entries.add(new ItemAttributeModifiers.Entry(AttributeInit.COOLDOWN_SPEED, new AttributeModifier(minId, map.get(ToolStats.MIN_STAT) - mod.get(ToolStats.MIN_STAT), AttributeModifier.Operation.ADD_VALUE), hand));
-        entries.add(new ItemAttributeModifiers.Entry(Attributes.ARMOR, new AttributeModifier(defId, map.get(ToolStats.DEF_STAT), AttributeModifier.Operation.ADD_VALUE), hand));
-        entries.add(new ItemAttributeModifiers.Entry(AttributeInit.PROJECTILE_SPEED, new AttributeModifier(rngId, map.get(ToolStats.RNG_STAT) - mod.get(ToolStats.RNG_STAT), AttributeModifier.Operation.ADD_VALUE), hand));
-        entries.add(new ItemAttributeModifiers.Entry(AttributeInit.MANA_EFFICIENCY, new AttributeModifier(rngId, map.get(ToolStats.SWP_STAT) - mod.get(ToolStats.SWP_STAT), AttributeModifier.Operation.ADD_MULTIPLIED_BASE), hand));
-        modifyTraitAttribute(player, level, stack, finalStats, entries);
         ItemAttributeModifiers component = new ItemAttributeModifiers(entries, false);
         stack.set(DataComponents.ATTRIBUTE_MODIFIERS, component);
         setTier(stack, finalStats);
@@ -249,7 +254,7 @@ public abstract class SpellCasterItem extends PartToolItem {
     }
 
     @Override
-    protected void addStatsHoverText(@NotNull ItemStack stack, List<Component> tooltipComponents) {
+    public void addStatsHoverText(@NotNull ItemStack stack, List<Component> tooltipComponents) {
         ToolStats finalStats = getSumStatsWithoutConditional(stack);
         setTier(stack, finalStats);
         Map<String, Float> mod = ToolMaterialRegister.getModStats(this.getToolType()).getStats();
@@ -296,8 +301,11 @@ public abstract class SpellCasterItem extends PartToolItem {
 
         tooltipComponents.add(Component.translatable("attribute.magitech.durability").append(": ").withColor(0xa0a0a0)
                 .append(Component.literal(
-                        (Math.round(finalStats.getStats().get(ToolStats.DUR_STAT)) - stack.getDamageValue()) + " / " + Math.round(finalStats.getStats().get(ToolStats.DUR_STAT))
+                        (Math.round(finalStats.getStats().get(ToolStats.DUR_STAT)) - stack.getDamageValue() - 1) + " / " + Math.round(finalStats.getStats().get(ToolStats.DUR_STAT) - 1)
                 ).withColor(0xFFFFFF)));
+
+        tooltipComponents.add(Component.empty());
+
         Map<Trait, Integer> traitIntegerMap = getTraitLevel(getTraits(stack));
         traitIntegerMap.forEach(((trait, integer) -> {
             if (trait != null) {
@@ -319,6 +327,11 @@ public abstract class SpellCasterItem extends PartToolItem {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
         ItemStack itemStack = player.getItemInHand(usedHand);
+
+        if (itemStack.get(ComponentInit.BROKEN_COMPONENT)) {
+            return InteractionResultHolder.pass(itemStack);
+        }
+
         ICuriosItemHandler curiosInventory = CuriosApi.getCuriosInventory(player).get();
         ItemStack threadbound = curiosInventory.getCurios().get("threadbound").getStacks().getStackInSlot(0);
 
@@ -374,6 +387,10 @@ public abstract class SpellCasterItem extends PartToolItem {
     @Override
     public void onUseTick(Level level, LivingEntity livingEntity, ItemStack stack, int remainingUseDuration) {
         super.onUseTick(level, livingEntity, stack, remainingUseDuration);
+
+        if (stack.get(ComponentInit.BROKEN_COMPONENT)) {
+            return;
+        }
         if (livingEntity instanceof Player user) {
             ICuriosItemHandler curiosInventory = CuriosApi.getCuriosInventory(user).get();
             ItemStack threadbound = curiosInventory.getCurios().get("threadbound").getStacks().getStackInSlot(0);
@@ -404,6 +421,10 @@ public abstract class SpellCasterItem extends PartToolItem {
 
     @Override
     public void releaseUsing(ItemStack stack, Level level, LivingEntity livingEntity, int timeCharged) {
+
+        if (stack.get(ComponentInit.BROKEN_COMPONENT)) {
+            return;
+        }
         super.releaseUsing(stack, level, livingEntity, timeCharged);
         if (livingEntity instanceof Player user && level.isClientSide) {
             ICuriosItemHandler curiosInventory = CuriosApi.getCuriosInventory(user).get();

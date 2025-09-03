@@ -28,25 +28,25 @@ public class AbstractCustomizableParticle extends TextureSheetParticle {
 
         @Override
         public String toString() {
-            return "PARTICLE_SHEET_TRANSLUCENT";
+            return "PARTICLE_SHEET_ADDITIVE";
         }
     };
 
     public static ParticleRenderType PARTICLE_SHEET_ADDITIVE_NO_CULL = new ParticleRenderType() {
         @Override
         public BufferBuilder begin(Tesselator p_350826_, TextureManager p_107456_) {
-            RenderSystem.depthMask(false);
-            RenderSystem.depthFunc(GL11.GL_ALWAYS);
+            RenderSystem.disableDepthTest();
+            RenderSystem.depthMask(true);
             RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
             RenderSystem.enableBlend();
             RenderSystem.blendFunc(GL11.GL_ONE, GL11.GL_ONE);
-            RenderSystem.disableCull();
+
             return p_350826_.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
         }
 
         @Override
         public String toString() {
-            return "PARTICLE_SHEET_TRANSLUCENT_NO_CULL";
+            return "PARTICLE_SHEET_ADDITIVE_NO_CULL";
         }
     };
     protected float scale;

@@ -35,6 +35,11 @@ public class ToolAssemblyMenu extends AbstractContainerMenu {
             ToolAssemblyMenu.this.slotsChanged(this);
         }
     };
+
+    public ResultContainer getResultSlots() {
+        return resultSlots;
+    }
+
     private final ResultContainer resultSlots = new ResultContainer();
     private final ContainerLevelAccess access;
     private final Player player;

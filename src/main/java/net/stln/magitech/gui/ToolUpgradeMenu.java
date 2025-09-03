@@ -16,6 +16,7 @@ import net.stln.magitech.advancement.CriterionInit;
 import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.UpgradeComponent;
+import net.stln.magitech.item.tool.partitem.PartItem;
 import net.stln.magitech.item.tool.toolitem.PartToolItem;
 import net.stln.magitech.item.tool.upgrade.Upgrade;
 import net.stln.magitech.item.tool.upgrade.UpgradeInstance;
@@ -134,6 +135,7 @@ public class ToolUpgradeMenu extends AbstractContainerMenu {
             player.level().playSound(player, player, SoundEvents.SMITHING_TABLE_USE, SoundSource.BLOCKS, 1.0F, 1.0F);
             if (!player.level().isClientSide && player instanceof ServerPlayer serverPlayer) {
                 CriterionInit.TOOL_UPGRADE.get().trigger(serverPlayer, stack, stack.get(ComponentInit.TIER_COMPONENT) - stack.get(ComponentInit.UPGRADE_POINT_COMPONENT));
+                ((PartToolItem) stack.getItem()).reloadComponent(player, level, stack);
             }
         }
         return true;

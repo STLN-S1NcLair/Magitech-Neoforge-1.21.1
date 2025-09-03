@@ -1,5 +1,9 @@
 package net.stln.magitech.gui;
 
+import io.wispforest.owo.ui.container.Containers;
+import io.wispforest.owo.ui.container.FlowLayout;
+import io.wispforest.owo.ui.container.ScrollContainer;
+import io.wispforest.owo.ui.core.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -9,6 +13,7 @@ import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Inventory;
@@ -37,13 +42,25 @@ public class ToolUpgradeScreen extends AbstractContainerScreen<ToolUpgradeMenu> 
     private int tickCounter = 0;
     private int currentIndex = 0;
     List<Item> tagItems = new ArrayList<>();
+    ItemStack stack = null;
+    private OwoUIAdapter<FlowLayout> uiAdapter;
+
+    private int bgWidth = 176;
+    private int panelWidth = 160;
 
     public ToolUpgradeScreen(ToolUpgradeMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
-        this.imageWidth = 176;
+        this.imageWidth = bgWidth + panelWidth;
         this.imageHeight = 199;
         this.titleLabelY = 4;
         this.inventoryLabelY = 106;
+    }
+
+    @Override
+    protected void init() {
+        super.init();
+        this.uiAdapter = OwoUIAdapter.create(this, Containers::verticalFlow);
+        reloadUI();
     }
 
     /**
@@ -64,7 +81,7 @@ public class ToolUpgradeScreen extends AbstractContainerScreen<ToolUpgradeMenu> 
     protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
         int i = this.leftPos;
         int j = this.topPos;
-        guiGraphics.blit(BG_LOCATION, i, j, 0, 0, this.imageWidth, this.imageHeight);
+        guiGraphics.blit(BG_LOCATION, i, j, 0, 0, bgWidth, this.imageHeight);
         int l = this.leftPos + 44;
         int i1 = this.topPos + 31;
         int j1 = 3;
@@ -74,10 +91,11 @@ public class ToolUpgradeScreen extends AbstractContainerScreen<ToolUpgradeMenu> 
             ItemStack itemStack = menu.container.getItem(0);
             if (itemStack.getItem() instanceof PartToolItem) {
                 if (menu.hasUpgradePoint(itemStack) && !ToolMaterialUtil.isCorrectMaterialForUpgrade(itemStack.get(ComponentInit.TIER_COMPONENT), itemStack.get(ComponentInit.UPGRADE_POINT_COMPONENT), menu.container.getItem(1).getItem())) {
-                MutableComponent text = Component.translatable("recipe.magitech.tool_upgrade.incorrect_material");
-                guiGraphics.drawString(this.font, text.withColor(0xF0D080), l - font.width(text) / 2 + 58, i1 + 15, 0xFFFFFF, false);
+                    MutableComponent text = Component.translatable("recipe.magitech.tool_upgrade.incorrect_material");
+                    guiGraphics.drawString(this.font, text.withColor(0xF0D080), l - font.width(text) / 2 + 58, i1 + 15, 0xFFFFFF, false);
 
-                tagItems = BuiltInRegistries.ITEM.getTag(ToolMaterialUtil.getUpgradeMaterialTag(itemStack.get(ComponentInit.TIER_COMPONENT), itemStack.get(ComponentInit.UPGRADE_POINT_COMPONENT))).stream().flatMap(HolderSet.ListBacked::stream).map(Holder::value).toList();
+                    tagItems = BuiltInRegistries.ITEM.getTag(ToolMaterialUtil.getUpgradeMaterialTag(itemStack.get(ComponentInit.TIER_COMPONENT), itemStack.get(ComponentInit.UPGRADE_POINT_COMPONENT))).stream().flatMap(HolderSet.ListBacked::stream).map(Holder::value).toList();
+                    currentIndex = Math.min(currentIndex, tagItems.size() - 1);
                     guiGraphics.renderItem(new ItemStack(tagItems.get(currentIndex)), l - 8 + 58, i1 + 31);
 
                 } else {
@@ -94,14 +112,31 @@ public class ToolUpgradeScreen extends AbstractContainerScreen<ToolUpgradeMenu> 
     @Override
     protected void containerTick() {
         super.containerTick();
-        if (tagItems.isEmpty()) {
-            return;
+        if (stack != menu.container.getItem(0)) {
+            reloadUI();
+            stack = menu.container.getItem(0);
         }
-        tickCounter++;
-        if (tickCounter >= SWITCH_INTERVAL) {
-            tickCounter = 0;
-            currentIndex = (currentIndex + 1) % tagItems.size();
+        if (!tagItems.isEmpty()) {
+            tickCounter++;
+            if (tickCounter >= SWITCH_INTERVAL) {
+                tickCounter = 0;
+                currentIndex = (currentIndex + 1) % tagItems.size();
+            }
         }
+    }
+
+    private void reloadUI() {
+        FlowLayout root = this.uiAdapter.rootComponent;
+        root.clearChildren();
+        ToolStatsPanel.addPanel(root, Positioning.absolute(leftPos + bgWidth, topPos), menu.container.getItem(0), Component.translatable("recipe.magitech.tool_stats_panel"), getPanelText());
+        this.uiAdapter.inflateAndMount();
+    }
+
+    private static List<Component> getPanelText() {
+        List<Component> components = new ArrayList<>();
+        components.add(Component.translatable("recipe.magitech.tool_upgrade.panel.title").withStyle(Style.EMPTY.withUnderlined(true)));
+        components.add(Component.translatable("recipe.magitech.tool_upgrade.panel.text"));
+        return components;
     }
 
     @Override

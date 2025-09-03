@@ -1,10 +1,15 @@
 package net.stln.magitech.gui;
 
+import io.wispforest.owo.ui.container.Containers;
+import io.wispforest.owo.ui.container.FlowLayout;
+import io.wispforest.owo.ui.core.OwoUIAdapter;
+import io.wispforest.owo.ui.core.Positioning;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
@@ -17,6 +22,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.recipe.PartCuttingRecipe;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
@@ -32,6 +38,11 @@ public class PartCuttingScreen extends AbstractContainerScreen<PartCuttingMenu> 
     private static final int RECIPES_X = 46;
     private static final int RECIPES_Y = 31;
     private float scrollOffs;
+    private OwoUIAdapter<FlowLayout> uiAdapter;
+    ItemStack stack = null;
+
+    private int bgWidth = 176;
+    private int panelWidth = 160;
     /**
      * Is {@code true} if the player clicked on the scroll wheel in the GUI.
      */
@@ -46,10 +57,40 @@ public class PartCuttingScreen extends AbstractContainerScreen<PartCuttingMenu> 
     public PartCuttingScreen(PartCuttingMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
         menu.registerUpdateListener(this::containerChanged);
-        this.imageWidth = 176;
+        this.imageWidth = bgWidth + panelWidth;
         this.imageHeight = 199;
         this.titleLabelY = 4;
         this.inventoryLabelY = 106;
+    }
+
+    @Override
+    public void containerTick() {
+        super.containerTick();
+        if (!menu.resultSlot.getItem().equals(stack)) {
+            reloadUI();
+            stack = menu.resultSlot.getItem();
+        }
+    }
+
+    @Override
+    protected void init() {
+        super.init();
+        this.uiAdapter = OwoUIAdapter.create(this, Containers::verticalFlow);
+        reloadUI();
+    }
+
+    private void reloadUI() {
+        FlowLayout root = this.uiAdapter.rootComponent;
+        root.clearChildren();
+        ToolStatsPanel.addPartPanel(root, Positioning.absolute(leftPos + bgWidth, topPos), menu.resultSlot.getItem(), Component.translatable("recipe.magitech.tool_stats_panel"), getPanelText());
+        this.uiAdapter.inflateAndMount();
+    }
+
+    private static List<Component> getPanelText() {
+        List<Component> components = new ArrayList<>();
+        components.add(Component.translatable("recipe.magitech.part_cutting.panel.title").withStyle(Style.EMPTY.withUnderlined(true)));
+        components.add(Component.translatable("recipe.magitech.part_cutting.panel.text"));
+        return components;
     }
 
     /**
@@ -70,7 +111,7 @@ public class PartCuttingScreen extends AbstractContainerScreen<PartCuttingMenu> 
     protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
         int i = this.leftPos;
         int j = this.topPos;
-        guiGraphics.blit(BG_LOCATION, i, j, 0, 0, this.imageWidth, this.imageHeight);
+        guiGraphics.blit(BG_LOCATION, i, j, 0, 0, this.bgWidth, this.imageHeight);
         int k = (int) (41.0F * this.scrollOffs);
         int offset = this.isScrollBarActive() ? 0 : 8;
         guiGraphics.blit(BG_LOCATION, i + 121, j + 31 + k, offset, 240, 8, 8);
@@ -201,11 +242,18 @@ public class PartCuttingScreen extends AbstractContainerScreen<PartCuttingMenu> 
 
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
-        if (this.isScrollBarActive()) {
-            int i = this.getOffscreenRows();
-            float f = (float) scrollY / (float) i;
+        int i = this.leftPos + 119;
+        int j = this.topPos + 9;
+        if (mouseX >= (double) i && mouseX < (double) (i + 12) && mouseY >= (double) j && mouseY < (double) (j + 54)) {
+            this.scrolling = true;
+        }
+        if (this.isScrollBarActive() && this.scrolling) {
+            int k = this.getOffscreenRows();
+            float f = (float) scrollY / (float) k;
             this.scrollOffs = Mth.clamp(this.scrollOffs - f, 0.0F, 1.0F);
-            this.startIndex = (int) ((double) (this.scrollOffs * (float) i) + 0.5) * 4;
+            this.startIndex = (int) ((double) (this.scrollOffs * (float) k) + 0.5) * 4;
+        } else {
+            return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
         }
 
         return true;

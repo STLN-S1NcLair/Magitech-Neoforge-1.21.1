@@ -63,7 +63,7 @@ public abstract class PartItem extends Item {
 
     @Override
     public void appendHoverText(@NotNull ItemStack stack, Item.@NotNull TooltipContext context, List<Component> tooltipComponents, @NotNull TooltipFlag tooltipFlag) {
-        addStatsHoverText(stack, tooltipComponents);
+        addStatsHoverText(stack, tooltipComponents, Screen.hasShiftDown());
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
     }
 
@@ -73,7 +73,7 @@ public abstract class PartItem extends Item {
         }
     }
 
-    protected void addStatsHoverText(@NotNull ItemStack stack, List<Component> tooltipComponents) {
+    public void addStatsHoverText(@NotNull ItemStack stack, List<Component> tooltipComponents, boolean shiftDown) {
         if (stack.has(ComponentInit.MATERIAL_COMPONENT)) {
             ToolStats finalStats = getDefaultStats(stack);
             setTier(stack, finalStats);
@@ -83,7 +83,7 @@ public abstract class PartItem extends Item {
                     .append(String.valueOf(stack.get(ComponentInit.TIER_COMPONENT))
                     ).withColor(ColorHelper.getTierColor(stack.get(ComponentInit.TIER_COMPONENT) * 5)));
 
-            if (Screen.hasShiftDown()) {
+            if (shiftDown) {
 
                 tooltipComponents.add(Component.translatable("attribute.magitech.attack_damage").append(": ").withColor(0xa0a0a0)
                         .append(Component.literal("x" + String.valueOf(
@@ -174,6 +174,7 @@ public abstract class PartItem extends Item {
             } else {
                 tooltipComponents.add(Component.translatable("tooltip.magitech.shift").withColor(0x404040));
             }
+            tooltipComponents.add(Component.empty());
 
             Trait trait = getTrait(stack);
             if (trait != null) {
