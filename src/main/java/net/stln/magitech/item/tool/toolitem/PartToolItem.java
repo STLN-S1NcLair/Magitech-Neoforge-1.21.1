@@ -743,7 +743,7 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
 
     @Override
     public int getEnchantmentLevel(ItemStack stack, Holder<Enchantment> enchantment) {
-        if (stack.get(ComponentInit.BROKEN_COMPONENT)) {
+        if (stack.has(ComponentInit.BROKEN_COMPONENT) && stack.get(ComponentInit.BROKEN_COMPONENT)) {
             return super.getEnchantmentLevel(stack, enchantment);
         }
         int level = super.getEnchantmentLevel(stack, enchantment);
