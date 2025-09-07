@@ -3,6 +3,10 @@
     "magitech:celifern_log",
     "magitech:celifern_wood",
     "magitech:stripped_celifern_log",
-    "magitech:stripped_celifern_wood"
+    "magitech:stripped_celifern_wood",
+    "magitech:charcoal_birch_log",
+    "magitech:charcoal_birch_wood",
+    "magitech:stripped_charcoal_birch_log",
+    "magitech:stripped_charcoal_birch_wood"
   ]
 }

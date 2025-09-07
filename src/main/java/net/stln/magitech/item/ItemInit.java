@@ -249,6 +249,18 @@ public class ItemInit {
             TooltipTextItem::new,
             new Item.Properties());
 
+    public static final DeferredItem<Item> AGGREGATED_NOCTIS = ITEMS.registerItem("aggregated_noctis",
+            TooltipTextItem::new,
+            new Item.Properties());
+
+    public static final DeferredItem<Item> AGGREGATED_LUMINIS = ITEMS.registerItem("aggregated_luminis",
+            TooltipTextItem::new,
+            new Item.Properties());
+
+    public static final DeferredItem<Item> AGGREGATED_FLUXIA = ITEMS.registerItem("aggregated_fluxia",
+            TooltipTextItem::new,
+            new Item.Properties());
+
     public static final DeferredItem<Item> CITRINE = ITEMS.registerItem("citrine",
             TooltipTextItem::new,
             new Item.Properties());
@@ -258,6 +270,10 @@ public class ItemInit {
             new Item.Properties());
 
     public static final DeferredItem<Item> POLISHED_REDSTONE_CRYSTAL = ITEMS.registerItem("polished_redstone_crystal",
+            TooltipTextItem::new,
+            new Item.Properties());
+
+    public static final DeferredItem<Item> SULFUR = ITEMS.registerItem("sulfur",
             TooltipTextItem::new,
             new Item.Properties());
 

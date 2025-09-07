@@ -20,6 +20,7 @@ public class TreeGrowerInit {
     public static final DeferredHolder<TrunkPlacerType<?>, TrunkPlacerType<RandomBranchingTrunkPlacer>> RANDOM_BRANCHING_TRUNK_PLACER = register("random_branching_trunk_placer", RandomBranchingTrunkPlacer.CODEC);
 
     public static final TreeGrower CELIFERN = new TreeGrower(Magitech.MOD_ID + ":celifern", Optional.empty(), Optional.of(WorldGenInit.CELIFERN_CONFIGURED_KEY), Optional.empty());
+    public static final TreeGrower CHARCOAL_BIRCH = new TreeGrower(Magitech.MOD_ID + ":charcoal_birch", Optional.empty(), Optional.of(WorldGenInit.CHARCOAL_BIRCH_CONFIGURED_KEY), Optional.empty());
 
 
     private static <P extends TrunkPlacer> DeferredHolder<TrunkPlacerType<?>, TrunkPlacerType<P>> register(String name, MapCodec<P> codec) {

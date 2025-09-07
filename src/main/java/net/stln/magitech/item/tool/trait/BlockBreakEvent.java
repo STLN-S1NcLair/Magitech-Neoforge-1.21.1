@@ -22,6 +22,7 @@ import net.neoforged.neoforge.event.level.BlockDropsEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.stln.magitech.Magitech;
+import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.tool.ToolType;
 import net.stln.magitech.item.tool.toolitem.PartToolItem;
 import net.stln.magitech.network.BreakBlockPayload;
@@ -43,7 +44,7 @@ public class BlockBreakEvent {
         }
         ItemStack tool = event.getPlayer().getItemInHand(InteractionHand.MAIN_HAND).copy();
         Player player = event.getPlayer();
-        if (tool.getItem() instanceof PartToolItem partToolItem && player instanceof ServerPlayer serverPlayer) {
+        if (tool.getItem() instanceof PartToolItem partToolItem && player instanceof ServerPlayer serverPlayer && !tool.get(ComponentInit.BROKEN_COMPONENT)) {
 
             Map<Trait, Integer> traitMap = PartToolItem.getTraitLevel(PartToolItem.getTraits(tool));
             Set<BlockPos> blockList = new HashSet<>();
@@ -133,7 +134,7 @@ public class BlockBreakEvent {
         List<ItemEntity> drops = event.getDrops();
         Entity entity = event.getBreaker();
         Map<Trait, Integer> traitMap = PartToolItem.getTraitLevel(PartToolItem.getTraits(tool));
-        if (entity instanceof Player player && tool.getItem() instanceof PartToolItem partToolItem) {
+        if (entity instanceof Player player && tool.getItem() instanceof PartToolItem partToolItem && !tool.get(ComponentInit.BROKEN_COMPONENT)) {
             AtomicReference<List<ItemStack>> lootStack = new AtomicReference<>(new ArrayList<>());
             AtomicReference<List<ItemStack>> setLootStack = new AtomicReference<>(new ArrayList<>());
             lootStack.set(drops.stream().map(ItemEntity::getItem).collect(Collectors.toCollection(ArrayList::new)));

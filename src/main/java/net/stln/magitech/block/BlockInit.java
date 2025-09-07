@@ -203,6 +203,28 @@ public class BlockInit {
 
     public static final DeferredItem<BlockItem> REDSTONE_CRYSTAL_CLUSTER_ITEM = ItemInit.ITEMS.register("redstone_crystal_cluster", key -> new TooltipTextBlockItem(REDSTONE_CRYSTAL_CLUSTER.get(), new Item.Properties()));
 
+    public static final DeferredBlock<CrystalClusterBlock> SULFUR_CRYSTAL_CLUSTER = BLOCKS.registerBlock("sulfur_crystal_cluster",
+            (properties) -> new CrystalClusterBlock(UniformInt.of(0, 1), properties),
+            BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_YELLOW)
+                    .sound(SoundType.TUFF)
+                    .forceSolidOn()
+                    .noOcclusion()
+                    .strength(0.5F, 2.0F)
+                    .requiresCorrectToolForDrops()
+                    .pushReaction(PushReaction.DESTROY));
+
+    public static final DeferredItem<BlockItem> SULFUR_CRYSTAL_CLUSTER_ITEM = ItemInit.ITEMS.register("sulfur_crystal_cluster", key -> new TooltipTextBlockItem(SULFUR_CRYSTAL_CLUSTER.get(), new Item.Properties()));
+
+    public static final DeferredBlock<Block> SULFUR_BLOCK = BLOCKS.registerBlock("sulfur_block",
+            (properties) -> new Block(
+                    BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_YELLOW)
+                            .sound(SoundType.TUFF)
+                            .requiresCorrectToolForDrops()
+                            .strength(1.5F, 2.0F)
+            ));
+
+    public static final DeferredItem<BlockItem> SULFUR_BLOCK_ITEM = ItemInit.ITEMS.register("sulfur_block", key -> new TooltipTextBlockItem(SULFUR_BLOCK.get(), new Item.Properties()));
+
     public static final DeferredBlock<Block> ALCHECRYSITE = BLOCKS.registerBlock("alchecrysite",
             (properties) -> new Block(
                     BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(ALCHECRYSITE_SOUND)
@@ -448,6 +470,138 @@ public class BlockInit {
     ));
 
     public static final DeferredItem<BlockItem> CELIFERN_SAPLING_ITEM = ItemInit.ITEMS.register("celifern_sapling", key -> new TooltipTextBlockItem(CELIFERN_SAPLING.get(), new Item.Properties()));
+
+
+
+    public static final BlockSetType CHARCOAL_BIRCH_SET_TYPE = BlockSetType.register(new BlockSetType("magitech:charcoal_birch"));
+    public static final WoodType CHARCOAL_BIRCH_WOOD_TYPE = WoodType.register(new WoodType("magitech:charcoal_birch", CHARCOAL_BIRCH_SET_TYPE));
+
+    public static final DeferredBlock<RotatedPillarBlock> CHARCOAL_BIRCH_LOG = BLOCKS.register("charcoal_birch_log", key -> new RotatedPillarBlock(
+            BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LOG)
+                .mapColor(p_152624_ -> p_152624_.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? MapColor.COLOR_GREEN : MapColor.TERRACOTTA_GREEN)
+        ));
+
+    public static final DeferredItem<BlockItem> CHARCOAL_BIRCH_LOG_ITEM = ItemInit.ITEMS.register("charcoal_birch_log", key -> new TooltipTextBlockItem(CHARCOAL_BIRCH_LOG.get(), new Item.Properties()));
+
+    public static final DeferredBlock<RotatedPillarBlock> CHARCOAL_BIRCH_WOOD = BLOCKS.register("charcoal_birch_wood", key -> new RotatedPillarBlock(
+            BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WOOD)
+                .mapColor(MapColor.TERRACOTTA_GREEN)
+        ));
+
+    public static final DeferredItem<BlockItem> CHARCOAL_BIRCH_WOOD_ITEM = ItemInit.ITEMS.register("charcoal_birch_wood", key -> new TooltipTextBlockItem(CHARCOAL_BIRCH_WOOD.get(), new Item.Properties()));
+
+    public static final DeferredBlock<RotatedPillarBlock> STRIPPED_CHARCOAL_BIRCH_LOG = BLOCKS.register("stripped_charcoal_birch_log", key -> new RotatedPillarBlock(
+            BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_LOG)
+                .mapColor(MapColor.COLOR_GREEN)
+        ));
+
+    public static final DeferredItem<BlockItem> STRIPPED_CHARCOAL_BIRCH_LOG_ITEM = ItemInit.ITEMS.register("stripped_charcoal_birch_log", key -> new TooltipTextBlockItem(STRIPPED_CHARCOAL_BIRCH_LOG.get(), new Item.Properties()));
+
+    public static final DeferredBlock<RotatedPillarBlock> STRIPPED_CHARCOAL_BIRCH_WOOD = BLOCKS.register("stripped_charcoal_birch_wood", key -> new RotatedPillarBlock(
+            BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_WOOD)
+                    .mapColor(MapColor.COLOR_GREEN)
+        ));
+
+    public static final DeferredItem<BlockItem> STRIPPED_CHARCOAL_BIRCH_WOOD_ITEM = ItemInit.ITEMS.register("stripped_charcoal_birch_wood", key -> new TooltipTextBlockItem(STRIPPED_CHARCOAL_BIRCH_WOOD.get(), new Item.Properties()));
+
+    public static final DeferredBlock<Block> CHARCOAL_BIRCH_PLANKS = BLOCKS.register("charcoal_birch_planks", key -> new Block(
+            BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS)
+    ));
+
+    public static final DeferredItem<BlockItem> CHARCOAL_BIRCH_PLANKS_ITEM = ItemInit.ITEMS.register("charcoal_birch_planks", key -> new TooltipTextBlockItem(CHARCOAL_BIRCH_PLANKS.get(), new Item.Properties()));
+
+    public static final DeferredBlock<Block> CHARCOAL_BIRCH_SLAB = BLOCKS.register("charcoal_birch_slab", key -> new SlabBlock(
+            BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SLAB)
+    ));
+
+    public static final DeferredItem<BlockItem> CHARCOAL_BIRCH_SLAB_ITEM = ItemInit.ITEMS.register("charcoal_birch_slab", key -> new TooltipTextBlockItem(CHARCOAL_BIRCH_SLAB.get(), new Item.Properties()));
+
+    public static final DeferredBlock<Block> CHARCOAL_BIRCH_STAIRS = BLOCKS.register("charcoal_birch_stairs", key -> new StairBlock(
+            CHARCOAL_BIRCH_PLANKS.get().defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_STAIRS)
+    ));
+
+    public static final DeferredItem<BlockItem> CHARCOAL_BIRCH_STAIRS_ITEM = ItemInit.ITEMS.register("charcoal_birch_stairs", key -> new TooltipTextBlockItem(CHARCOAL_BIRCH_STAIRS.get(), new Item.Properties()));
+
+    public static final DeferredBlock<Block> CHARCOAL_BIRCH_DOOR = BLOCKS.register("charcoal_birch_door", key -> new DoorBlock(
+            CHARCOAL_BIRCH_SET_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_DOOR)
+    ));
+
+    public static final DeferredItem<BlockItem> CHARCOAL_BIRCH_DOOR_ITEM = ItemInit.ITEMS.register("charcoal_birch_door", key -> new TooltipTextBlockItem(CHARCOAL_BIRCH_DOOR.get(), new Item.Properties()));
+
+    public static final DeferredBlock<Block> CHARCOAL_BIRCH_TRAPDOOR = BLOCKS.register("charcoal_birch_trapdoor", key -> new TrapDoorBlock(
+            CHARCOAL_BIRCH_SET_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_TRAPDOOR)
+    ));
+
+    public static final DeferredItem<BlockItem> CHARCOAL_BIRCH_TRAPDOOR_ITEM = ItemInit.ITEMS.register("charcoal_birch_trapdoor", key -> new TooltipTextBlockItem(CHARCOAL_BIRCH_TRAPDOOR.get(), new Item.Properties()));
+
+    public static final DeferredBlock<Block> CHARCOAL_BIRCH_FENCE = BLOCKS.register("charcoal_birch_fence", key -> new FenceBlock(
+            BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE)
+    ));
+
+    public static final DeferredItem<BlockItem> CHARCOAL_BIRCH_FENCE_ITEM = ItemInit.ITEMS.register("charcoal_birch_fence", key -> new TooltipTextBlockItem(CHARCOAL_BIRCH_FENCE.get(), new Item.Properties()));
+
+    public static final DeferredBlock<Block> CHARCOAL_BIRCH_FENCE_GATE = BLOCKS.register("charcoal_birch_fence_gate", key -> new FenceGateBlock(
+            CHARCOAL_BIRCH_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE_GATE)
+    ));
+
+    public static final DeferredItem<BlockItem> CHARCOAL_BIRCH_FENCE_GATE_ITEM = ItemInit.ITEMS.register("charcoal_birch_fence_gate", key -> new TooltipTextBlockItem(CHARCOAL_BIRCH_FENCE_GATE.get(), new Item.Properties()));
+
+    public static final DeferredBlock<Block> CHARCOAL_BIRCH_PRESSURE_PLATE = BLOCKS.register("charcoal_birch_pressure_plate", key -> new PressurePlateBlock(
+            CHARCOAL_BIRCH_SET_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PRESSURE_PLATE)
+    ));
+
+    public static final DeferredItem<BlockItem> CHARCOAL_BIRCH_PRESSURE_PLATE_ITEM = ItemInit.ITEMS.register("charcoal_birch_pressure_plate", key -> new TooltipTextBlockItem(CHARCOAL_BIRCH_PRESSURE_PLATE.get(), new Item.Properties()));
+
+    public static final DeferredBlock<Block> CHARCOAL_BIRCH_BUTTON = BLOCKS.register("charcoal_birch_button", key -> new ButtonBlock(
+            CHARCOAL_BIRCH_SET_TYPE, 30, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_BUTTON)
+    ));
+
+    public static final DeferredItem<BlockItem> CHARCOAL_BIRCH_BUTTON_ITEM = ItemInit.ITEMS.register("charcoal_birch_button", key -> new TooltipTextBlockItem(CHARCOAL_BIRCH_BUTTON.get(), new Item.Properties()));
+
+    public static final DeferredBlock<Block> CHARCOAL_BIRCH_SIGN = BLOCKS.register("charcoal_birch_sign", key -> new StandingSignBlock(
+            CHARCOAL_BIRCH_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SIGN)
+    ));
+
+    public static final DeferredBlock<Block> CHARCOAL_BIRCH_WALL_SIGN = BLOCKS.register("charcoal_birch_wall_sign", key -> new WallSignBlock(
+            CHARCOAL_BIRCH_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_SIGN)
+    ));
+
+    public static final DeferredItem<BlockItem> CHARCOAL_BIRCH_SIGN_ITEM = ItemInit.ITEMS.register("charcoal_birch_sign", key -> new TooltipTextSignItem(new Item.Properties(), CHARCOAL_BIRCH_SIGN.get(), CHARCOAL_BIRCH_WALL_SIGN.get()));
+
+    public static final DeferredBlock<Block> CHARCOAL_BIRCH_HANGING_SIGN = BLOCKS.register("charcoal_birch_hanging_sign", key -> new CeilingHangingSignBlock(
+            CHARCOAL_BIRCH_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_HANGING_SIGN)
+    ));
+
+    public static final DeferredBlock<Block> CHARCOAL_BIRCH_WALL_HANGING_SIGN = BLOCKS.register("charcoal_birch_wall_hanging_sign", key -> new WallHangingSignBlock(
+            CHARCOAL_BIRCH_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_HANGING_SIGN)
+    ));
+
+    public static final DeferredItem<BlockItem> CHARCOAL_BIRCH_HANGING_SIGN_ITEM = ItemInit.ITEMS.register("charcoal_birch_hanging_sign", key -> new TooltipTextSignItem(new Item.Properties(), CHARCOAL_BIRCH_HANGING_SIGN.get(), CHARCOAL_BIRCH_WALL_HANGING_SIGN.get()));
+
+    public static final DeferredBlock<Block> CHARCOAL_BIRCH_LEAVES = BLOCKS.register("charcoal_birch_leaves", key -> new LeavesBlock(
+            BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES)
+    ));
+
+    public static final DeferredItem<BlockItem> CHARCOAL_BIRCH_LEAVES_ITEM = ItemInit.ITEMS.register("charcoal_birch_leaves", key -> new TooltipTextBlockItem(CHARCOAL_BIRCH_LEAVES.get(), new Item.Properties()));
+
+    public static final DeferredBlock<Block> CHARCOAL_BIRCH_SAPLING = BLOCKS.register("charcoal_birch_sapling", key -> new SaplingBlock(
+                    TreeGrowerInit.CHARCOAL_BIRCH,
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SAPLING)
+    ));
+
+    public static final DeferredItem<BlockItem> CHARCOAL_BIRCH_SAPLING_ITEM = ItemInit.ITEMS.register("charcoal_birch_sapling", key -> new TooltipTextBlockItem(CHARCOAL_BIRCH_SAPLING.get(), new Item.Properties()));
+
+    public static final DeferredBlock<Block> SCORCHED_GRASS_SOIL = BLOCKS.register("scorched_grass_soil", key -> new ScorchedGrassSoilBlock(
+            BlockBehaviour.Properties.ofFullCopy(Blocks.GRASS_BLOCK).sound(SoundType.ROOTED_DIRT).mapColor(MapColor.COLOR_LIGHT_GRAY)
+    ));
+
+    public static final DeferredItem<BlockItem> SCORCHED_GRASS_SOIL_ITEM = ItemInit.ITEMS.register("scorched_grass_soil", key -> new TooltipTextBlockItem(SCORCHED_GRASS_SOIL.get(), new Item.Properties()));
+
+    public static final DeferredBlock<Block> SCORCHED_SOIL = BLOCKS.register("scorched_soil", key -> new Block(
+            BlockBehaviour.Properties.ofFullCopy(Blocks.DIRT).sound(SoundType.ROOTED_DIRT).mapColor(MapColor.COLOR_BROWN)
+    ));
+
+    public static final DeferredItem<BlockItem> SCORCHED_SOIL_ITEM = ItemInit.ITEMS.register("scorched_soil", key -> new TooltipTextBlockItem(SCORCHED_SOIL.get(), new Item.Properties()));
 
     public static final DeferredBlock<Block> MANA_BERRY_BUSH = BLOCKS.register(
             "mana_berry_bush",

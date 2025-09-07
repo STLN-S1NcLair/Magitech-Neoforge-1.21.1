@@ -46,7 +46,10 @@ import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.biome.BiomeInit;
 import net.stln.magitech.block.BlockInit;
+import net.stln.magitech.worldgen.terrain.ScorchedGeyserFeature;
+import net.stln.magitech.worldgen.terrain.ScorchedLavaLakeFeature;
 import net.stln.magitech.worldgen.tree.RandomBranchingTrunkPlacer;
+import net.stln.magitech.worldgen.tree.RandomShortBranchingTrunkPlacer;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -122,6 +125,17 @@ public class WorldGenInit {
 
 
 
+    public static final ResourceKey<ConfiguredFeature<?, ?>> CHARCOAL_BIRCH_CONFIGURED_KEY =
+            ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "charcoal_birch"));
+
+    public static final ResourceKey<PlacedFeature> CHARCOAL_BIRCH_PLACED_KEY =
+            ResourceKey.create(Registries.PLACED_FEATURE, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "charcoal_birch"));
+
+    public static final ResourceKey<BiomeModifier> CHARCOAL_BIRCH_BIOME_MODIFIER_KEY =
+            ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "charcoal_birch"));
+
+
+
     public static final ResourceKey<ConfiguredFeature<?, ?>> MANA_BERRY_BUSH_CONFIGURED_KEY =
             ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "mana_berry_bush"));
 
@@ -141,6 +155,35 @@ public class WorldGenInit {
 
     public static final ResourceKey<BiomeModifier> MISTALIA_PETALS_BIOME_MODIFIER_KEY =
             ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "mistalia_petals"));
+
+
+
+
+    public static final Supplier<Feature<NoneFeatureConfiguration>> SCORCHED_GEYSER_FEATURE =
+            FEATURES.register("scorched_geyser", () -> new ScorchedGeyserFeature());
+
+    public static final ResourceKey<ConfiguredFeature<?, ?>> SCORCHED_GEYSER_CONFIGURED_KEY =
+            ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "scorched_geyser"));
+
+    public static final ResourceKey<PlacedFeature> SCORCHED_GEYSER_PLACED_KEY =
+            ResourceKey.create(Registries.PLACED_FEATURE, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "scorched_geyser"));
+
+    public static final ResourceKey<BiomeModifier> SCORCHED_GEYSER_BIOME_MODIFIER_KEY =
+            ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "scorched_geyser"));
+
+
+
+    public static final Supplier<Feature<NoneFeatureConfiguration>> SCORCHED_LAVA_LAKE_FEATURE =
+            FEATURES.register("scorched_lava_lake", () -> new ScorchedLavaLakeFeature());
+
+    public static final ResourceKey<ConfiguredFeature<?, ?>> SCORCHED_LAVA_LAKE_CONFIGURED_KEY =
+            ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "scorched_lava_lake"));
+
+    public static final ResourceKey<PlacedFeature> SCORCHED_LAVA_LAKE_PLACED_KEY =
+            ResourceKey.create(Registries.PLACED_FEATURE, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "scorched_lava_lake"));
+
+    public static final ResourceKey<BiomeModifier> SCORCHED_LAVA_LAKE_BIOME_MODIFIER_KEY =
+            ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "scorched_lava_lake"));
 
 
     public static void Configured(BootstrapContext<ConfiguredFeature<?, ?>> context) {
@@ -177,6 +220,15 @@ public class WorldGenInit {
 
                 new TwoLayersFeatureSize(1, 0, 2)).build()));
 
+        context.register(CHARCOAL_BIRCH_CONFIGURED_KEY, new ConfiguredFeature<>(Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(
+                BlockStateProvider.simple(BlockInit.CHARCOAL_BIRCH_LOG.get()),
+                new RandomShortBranchingTrunkPlacer(8, 1, 7),
+
+                BlockStateProvider.simple(BlockInit.CHARCOAL_BIRCH_LEAVES.get()),
+                new RandomSpreadFoliagePlacer(ConstantInt.of(3), ConstantInt.of(0), ConstantInt.of(2), 50),
+
+                new TwoLayersFeatureSize(1, 0, 2)).build()));
+
         context.register(MANA_BERRY_BUSH_CONFIGURED_KEY, new ConfiguredFeature<>(Feature.RANDOM_PATCH,
                 FeatureUtils.simplePatchConfiguration(Feature.SIMPLE_BLOCK,
                         new SimpleBlockConfiguration(BlockStateProvider.simple(BlockInit.MANA_BERRY_BUSH.get()
@@ -196,6 +248,15 @@ public class WorldGenInit {
         context.register(
                 MISTALIA_PETALS_CONFIGURED_KEY, new ConfiguredFeature<>(Feature.FLOWER,
                 new RandomPatchConfiguration(96, 6, 2, PlacementUtils.onlyWhenEmpty(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(new WeightedStateProvider(builder))))));
+
+
+        context.register(SCORCHED_GEYSER_CONFIGURED_KEY,
+                new ConfiguredFeature<>(SCORCHED_GEYSER_FEATURE.get(), NoneFeatureConfiguration.INSTANCE)
+        );
+
+        context.register(SCORCHED_LAVA_LAKE_CONFIGURED_KEY,
+                new ConfiguredFeature<>(SCORCHED_LAVA_LAKE_FEATURE.get(), NoneFeatureConfiguration.INSTANCE)
+        );
     }
 
 
@@ -221,11 +282,22 @@ public class WorldGenInit {
         context.register(CELIFERN_PLACED_KEY, new PlacedFeature(configured.getOrThrow(CELIFERN_CONFIGURED_KEY),
                VegetationPlacements.treePlacement(PlacementUtils.countExtra(3, 0.5f, 7),
                         BlockInit.CELIFERN_SAPLING.get())));
+        context.register(CHARCOAL_BIRCH_PLACED_KEY, new PlacedFeature(configured.getOrThrow(CHARCOAL_BIRCH_CONFIGURED_KEY),
+               VegetationPlacements.treePlacement(PlacementUtils.countExtra(0, 0.2f, 3),
+                        BlockInit.CHARCOAL_BIRCH_SAPLING.get())));
 
         context.register(MANA_BERRY_BUSH_PLACED_KEY, new PlacedFeature(configured.getOrThrow(MANA_BERRY_BUSH_CONFIGURED_KEY),
                 List.of(RarityFilter.onAverageOnceEvery(32), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome())));
 
         context.register(MISTALIA_PETALS_PLACED_KEY, new PlacedFeature(configured.getOrThrow(MISTALIA_PETALS_CONFIGURED_KEY),
+                List.of(RarityFilter.onAverageOnceEvery(4), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome())));
+
+        context.register(SCORCHED_GEYSER_PLACED_KEY, new PlacedFeature(
+                configured.getOrThrow(SCORCHED_GEYSER_CONFIGURED_KEY),
+                List.of(RarityFilter.onAverageOnceEvery(4), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome())));
+
+        context.register(SCORCHED_LAVA_LAKE_PLACED_KEY, new PlacedFeature(
+                configured.getOrThrow(SCORCHED_LAVA_LAKE_CONFIGURED_KEY),
                 List.of(RarityFilter.onAverageOnceEvery(4), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome())));
     }
 
@@ -258,6 +330,11 @@ public class WorldGenInit {
                 HolderSet.direct(placedFeatures.getOrThrow(CELIFERN_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
+        context.register(CHARCOAL_BIRCH_BIOME_MODIFIER_KEY, new BiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeInit.HAS_CHARCOAL_BIRCH_FOREST),
+                HolderSet.direct(placedFeatures.getOrThrow(CHARCOAL_BIRCH_PLACED_KEY)),
+                GenerationStep.Decoration.VEGETAL_DECORATION));
+
         context.register(MANA_BERRY_BUSH_BIOME_MODIFIER_KEY, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(BiomeInit.HAS_MANA_BERRY_BUSH),
                 HolderSet.direct(placedFeatures.getOrThrow(MANA_BERRY_BUSH_PLACED_KEY)),
@@ -267,6 +344,16 @@ public class WorldGenInit {
                 biomes.getOrThrow(BiomeInit.HAS_MISTALIA_PETALS),
                 HolderSet.direct(placedFeatures.getOrThrow(MISTALIA_PETALS_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
+
+        context.register(SCORCHED_GEYSER_BIOME_MODIFIER_KEY, new BiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeInit.IS_SCORCHED),
+                HolderSet.direct(placedFeatures.getOrThrow(SCORCHED_GEYSER_PLACED_KEY)),
+                GenerationStep.Decoration.SURFACE_STRUCTURES));
+
+        context.register(SCORCHED_LAVA_LAKE_BIOME_MODIFIER_KEY, new BiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeInit.IS_SCORCHED),
+                HolderSet.direct(placedFeatures.getOrThrow(SCORCHED_LAVA_LAKE_PLACED_KEY)),
+                GenerationStep.Decoration.SURFACE_STRUCTURES));
     }
 
 //    public static void registerBiomeModifiers() {

@@ -87,10 +87,14 @@ public class CreativeTabInit {
                 output.accept(ItemInit.MAGIC_CRYSTAL.get());
                 output.accept(ItemInit.FLOW_CRYSTAL.get());
                 output.accept(ItemInit.HOLLOW_CRYSTAL.get());
+                output.accept(ItemInit.AGGREGATED_NOCTIS.get());
+                output.accept(ItemInit.AGGREGATED_LUMINIS.get());
+                output.accept(ItemInit.AGGREGATED_FLUXIA.get());
                 output.accept(ItemInit.CITRINE.get());
                 output.accept(ItemInit.CHROMIUM_INGOT.get());
                 output.accept(ItemInit.REDSTONE_CRYSTAL.get());
                 output.accept(ItemInit.POLISHED_REDSTONE_CRYSTAL.get());
+                output.accept(ItemInit.SULFUR.get());
                 output.accept(ItemInit.ENDER_METAL_INGOT.get());
                 output.accept(ItemInit.NETHER_STAR_BRILLIANCE.get());
                 output.accept(ItemInit.RADIANT_STEEL_INGOT.get());
@@ -129,6 +133,8 @@ public class CreativeTabInit {
                 output.accept(BlockInit.DEEPSLATE_TOURMALINE_ORE_ITEM.get());
                 output.accept(BlockInit.FLUORITE_CRYSTAL_CLUSTER_ITEM.get());
                 output.accept(BlockInit.REDSTONE_CRYSTAL_CLUSTER_ITEM.get());
+                output.accept(BlockInit.SULFUR_CRYSTAL_CLUSTER_ITEM.get());
+                output.accept(BlockInit.SULFUR_BLOCK_ITEM.get());
                 output.accept(BlockInit.MISTALIA_PETALS_ITEM.get());
                 output.accept(BlockInit.ALCHECRYSITE_ITEM.get());
                 output.accept(BlockInit.ALCHECRYSITE_STAIRS_ITEM.get());
@@ -165,6 +171,25 @@ public class CreativeTabInit {
                 output.accept(BlockInit.CELIFERN_SAPLING_ITEM.get());
                 output.accept(BlockInit.CELIFERN_SIGN_ITEM.get());
                 output.accept(BlockInit.CELIFERN_HANGING_SIGN_ITEM.get());
+                output.accept(BlockInit.CHARCOAL_BIRCH_LOG_ITEM.get());
+                output.accept(BlockInit.CHARCOAL_BIRCH_WOOD_ITEM.get());
+                output.accept(BlockInit.STRIPPED_CHARCOAL_BIRCH_LOG_ITEM.get());
+                output.accept(BlockInit.STRIPPED_CHARCOAL_BIRCH_WOOD_ITEM.get());
+                output.accept(BlockInit.CHARCOAL_BIRCH_PLANKS_ITEM.get());
+                output.accept(BlockInit.CHARCOAL_BIRCH_STAIRS_ITEM.get());
+                output.accept(BlockInit.CHARCOAL_BIRCH_SLAB_ITEM.get());
+                output.accept(BlockInit.CHARCOAL_BIRCH_FENCE_ITEM.get());
+                output.accept(BlockInit.CHARCOAL_BIRCH_FENCE_GATE_ITEM.get());
+                output.accept(BlockInit.CHARCOAL_BIRCH_DOOR_ITEM.get());
+                output.accept(BlockInit.CHARCOAL_BIRCH_TRAPDOOR_ITEM.get());
+                output.accept(BlockInit.CHARCOAL_BIRCH_PRESSURE_PLATE_ITEM.get());
+                output.accept(BlockInit.CHARCOAL_BIRCH_BUTTON_ITEM.get());
+                output.accept(BlockInit.CHARCOAL_BIRCH_LEAVES_ITEM.get());
+                output.accept(BlockInit.CHARCOAL_BIRCH_SAPLING_ITEM.get());
+                output.accept(BlockInit.CHARCOAL_BIRCH_SIGN_ITEM.get());
+                output.accept(BlockInit.CHARCOAL_BIRCH_HANGING_SIGN_ITEM.get());
+                output.accept(BlockInit.SCORCHED_GRASS_SOIL_ITEM.get());
+                output.accept(BlockInit.SCORCHED_SOIL_ITEM.get());
             }).build());
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MAGITECH_TOOL_TAB = CREATIVE_MODE_TABS.register("magitech_tool_tab", () -> CreativeModeTab.builder()

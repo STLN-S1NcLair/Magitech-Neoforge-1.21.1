@@ -31,6 +31,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         blockWithItem(BlockInit.DEEPSLATE_FLUORITE_ORE.get());
         blockWithItem(BlockInit.TOURMALINE_ORE.get());
         blockWithItem(BlockInit.DEEPSLATE_TOURMALINE_ORE.get());
+        blockWithItem(BlockInit.SULFUR_BLOCK.get());
         blockWithItem(BlockInit.ALCHECRYSITE.get());
         stairsBlockWithItem(BlockInit.ALCHECRYSITE_STAIRS.get(), BlockInit.ALCHECRYSITE.get());
         slabBlockWithItem(BlockInit.ALCHECRYSITE_SLAB.get(), BlockInit.ALCHECRYSITE.get());
@@ -66,6 +67,25 @@ public class ModBlockStateProvider extends BlockStateProvider {
         saplingBlock(BlockInit.CELIFERN_SAPLING.get());
         signBlock(BlockInit.CELIFERN_SIGN.get(), BlockInit.CELIFERN_WALL_SIGN.get(), BlockInit.CELIFERN_PLANKS.get());
         hangingSignBlock(BlockInit.CELIFERN_HANGING_SIGN.get(), BlockInit.CELIFERN_WALL_HANGING_SIGN.get(), BlockInit.STRIPPED_CELIFERN_LOG.get());
+        logBlockWithItem(BlockInit.CHARCOAL_BIRCH_LOG.get());
+        woodBlockWithItem(BlockInit.CHARCOAL_BIRCH_WOOD.get());
+        logBlockWithItem(BlockInit.STRIPPED_CHARCOAL_BIRCH_LOG.get());
+        woodBlockWithItem(BlockInit.STRIPPED_CHARCOAL_BIRCH_WOOD.get());
+        blockWithItem(BlockInit.CHARCOAL_BIRCH_PLANKS.get());
+        stairsBlockWithItem(BlockInit.CHARCOAL_BIRCH_STAIRS.get(), BlockInit.CHARCOAL_BIRCH_PLANKS.get());
+        slabBlockWithItem(BlockInit.CHARCOAL_BIRCH_SLAB.get(), BlockInit.CHARCOAL_BIRCH_PLANKS.get());
+        fenceBlockWithItem(BlockInit.CHARCOAL_BIRCH_FENCE.get(), BlockInit.CHARCOAL_BIRCH_PLANKS.get());
+        fenceGateBlockWithItem(BlockInit.CHARCOAL_BIRCH_FENCE_GATE.get(), BlockInit.CHARCOAL_BIRCH_PLANKS.get());
+        doorBlockWithItem(BlockInit.CHARCOAL_BIRCH_DOOR.get());
+        trapdoorBlockWithItem(BlockInit.CHARCOAL_BIRCH_TRAPDOOR.get(), true);
+        pressurePlateBlockWithItem(BlockInit.CHARCOAL_BIRCH_PRESSURE_PLATE.get(), BlockInit.CHARCOAL_BIRCH_PLANKS.get());
+        buttonBlockWithItem(BlockInit.CHARCOAL_BIRCH_BUTTON.get(), BlockInit.CHARCOAL_BIRCH_PLANKS.get());
+        leavesBlockWithItem(BlockInit.CHARCOAL_BIRCH_LEAVES.get());
+        saplingBlock(BlockInit.CHARCOAL_BIRCH_SAPLING.get());
+        signBlock(BlockInit.CHARCOAL_BIRCH_SIGN.get(), BlockInit.CHARCOAL_BIRCH_WALL_SIGN.get(), BlockInit.CHARCOAL_BIRCH_PLANKS.get());
+        hangingSignBlock(BlockInit.CHARCOAL_BIRCH_HANGING_SIGN.get(), BlockInit.CHARCOAL_BIRCH_WALL_HANGING_SIGN.get(), BlockInit.STRIPPED_CHARCOAL_BIRCH_LOG.get());
+        grassBlockWithItem(BlockInit.SCORCHED_GRASS_SOIL.get(), BlockInit.SCORCHED_SOIL.get());
+        blockWithItem(BlockInit.SCORCHED_SOIL.get());
     }
 
     private String getName(Block block) {
@@ -88,6 +108,11 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
     private void sideBottomTopBlockWithItem(Block block) {
         simpleBlockWithItem(block, models().cubeBottomTop(getName(block), blockTexture(block).withSuffix("_side"), blockTexture(block).withSuffix("_bottom"), blockTexture(block).withSuffix("_top")));
+        blockItem(block);
+    }
+
+    private void grassBlockWithItem(Block block, Block soil) {
+        simpleBlockWithItem(block, models().cubeBottomTop(getName(block), blockTexture(block).withSuffix("_side"), blockTexture(soil), blockTexture(block).withSuffix("_top")));
         blockItem(block);
     }
 

@@ -33,6 +33,9 @@ public class RenderFogEvent {
         if (level.getBiome(pos).is(BiomeInit.MISTJADE_FOREST)) {
             targetNearPlane = 10;
             targetFarPlane = 100;
+        } else if (level.getBiome(pos).is(BiomeInit.SCORCHED_PLAINS)) {
+            targetNearPlane = 0;
+            targetFarPlane = 125;
         } else {
             targetNearPlane = event.getNearPlaneDistance();
             targetFarPlane = event.getFarPlaneDistance();

@@ -13,8 +13,8 @@ import terrablender.api.VanillaParameterOverlayBuilder;
 
 import java.util.function.Consumer;
 
-public class MysticalBiomeRegion extends Region {
-    public MysticalBiomeRegion(ResourceLocation name, int weight)
+public class MistjadeForestRegion extends Region {
+    public MistjadeForestRegion(ResourceLocation name, int weight)
 {
     super(name, RegionType.OVERWORLD, weight);
 }
@@ -28,8 +28,8 @@ public class MysticalBiomeRegion extends Region {
                 .temperature(ParameterUtils.Temperature.span(ParameterUtils.Temperature.COOL, ParameterUtils.Temperature.WARM))
                 .humidity(ParameterUtils.Humidity.span(ParameterUtils.Humidity.ARID, ParameterUtils.Humidity.HUMID))
                 .continentalness(ParameterUtils.Continentalness.span(ParameterUtils.Continentalness.INLAND, ParameterUtils.Continentalness.FAR_INLAND))
-                .erosion(ParameterUtils.Erosion.span(ParameterUtils.Erosion.EROSION_0, ParameterUtils.Erosion.EROSION_3))
-                .depth(ParameterUtils.Depth.span(ParameterUtils.Depth.FULL_RANGE, ParameterUtils.Depth.SURFACE))
+                .erosion(ParameterUtils.Erosion.span(ParameterUtils.Erosion.EROSION_0, ParameterUtils.Erosion.EROSION_4))
+                .depth(ParameterUtils.Depth.span(ParameterUtils.Depth.SURFACE, ParameterUtils.Depth.SURFACE))
                 .weirdness(ParameterUtils.Weirdness.span(ParameterUtils.Weirdness.FULL_RANGE, ParameterUtils.Weirdness.FULL_RANGE))
                 .build().forEach(point -> builder.add(point, BiomeInit.MISTJADE_FOREST));
 

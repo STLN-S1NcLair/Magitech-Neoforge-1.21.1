@@ -65,9 +65,13 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ItemInit.MAGIC_CRYSTAL.get());
         basicItem(ItemInit.FLOW_CRYSTAL.get());
         basicItem(ItemInit.HOLLOW_CRYSTAL.get());
+        basicItem(ItemInit.AGGREGATED_NOCTIS.get());
+        basicItem(ItemInit.AGGREGATED_LUMINIS.get());
+        basicItem(ItemInit.AGGREGATED_FLUXIA.get());
         basicItem(ItemInit.CITRINE.get());
         basicItem(ItemInit.REDSTONE_CRYSTAL.get());
         basicItem(ItemInit.POLISHED_REDSTONE_CRYSTAL.get());
+        basicItem(ItemInit.SULFUR.get());
         basicItem(ItemInit.CHROMIUM_INGOT.get());
         basicItem(ItemInit.ENDER_METAL_INGOT.get());
         basicItem(ItemInit.NETHER_STAR_BRILLIANCE.get());
@@ -92,6 +96,12 @@ public class ModItemModelProvider extends ItemModelProvider {
                 .texture("layer0", ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "block/" + BlockInit.CELIFERN_SAPLING_ITEM.getId().getPath()));
         basicItem(BlockInit.CELIFERN_SIGN_ITEM.get());
         basicItem(BlockInit.CELIFERN_HANGING_SIGN_ITEM.get());
+        basicItem(BlockInit.CHARCOAL_BIRCH_DOOR_ITEM.get());
+        getBuilder(BlockInit.CHARCOAL_BIRCH_SAPLING_ITEM.get().toString())
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "block/" + BlockInit.CHARCOAL_BIRCH_SAPLING_ITEM.getId().getPath()));
+        basicItem(BlockInit.CHARCOAL_BIRCH_SIGN_ITEM.get());
+        basicItem(BlockInit.CHARCOAL_BIRCH_HANGING_SIGN_ITEM.get());
         basicItem(BlockInit.MISTALIA_PETALS_ITEM.get());
 
         for (ToolMaterial material : ModelRegistrar.materials) {

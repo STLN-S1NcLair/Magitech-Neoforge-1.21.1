@@ -87,6 +87,12 @@ ordering = "AFTER"
 side = "BOTH"
 
 [[dependencies.magitech]]
+modId = "fabric_api"
+type = "required"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.magitech]]
 modId = "geckolib"
 type = "required"
 ordering = "AFTER"
@@ -100,6 +106,12 @@ side = "BOTH"
 
 [[dependencies.magitech]]
 modId = "playeranimator"
+type = "required"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.magitech]]
+modId = "terrablender"
 type = "required"
 ordering = "AFTER"
 side = "BOTH"

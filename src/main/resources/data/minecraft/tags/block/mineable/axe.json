@@ -21,6 +21,23 @@
     "magitech:celifern_sign",
     "magitech:celifern_hanging_sign",
     "magitech:celifern_wall_sign",
-    "magitech:celifern_wall_hanging_sign"
+    "magitech:celifern_wall_hanging_sign",
+    "magitech:charcoal_birch_log",
+    "magitech:charcoal_birch_wood",
+    "magitech:stripped_charcoal_birch_log",
+    "magitech:stripped_charcoal_birch_wood",
+    "magitech:charcoal_birch_planks",
+    "magitech:charcoal_birch_slab",
+    "magitech:charcoal_birch_stairs",
+    "magitech:charcoal_birch_door",
+    "magitech:charcoal_birch_trapdoor",
+    "magitech:charcoal_birch_fence",
+    "magitech:charcoal_birch_fence_gate",
+    "magitech:charcoal_birch_pressure_plate",
+    "magitech:charcoal_birch_button",
+    "magitech:charcoal_birch_sign",
+    "magitech:charcoal_birch_hanging_sign",
+    "magitech:charcoal_birch_wall_sign",
+    "magitech:charcoal_birch_wall_hanging_sign"
   ]
 }
