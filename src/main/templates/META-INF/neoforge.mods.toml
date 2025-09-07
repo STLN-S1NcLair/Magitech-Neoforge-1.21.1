@@ -78,7 +78,7 @@ ordering = "NONE"
 # Side this dependency is applied on - BOTH, CLIENT, or SERVER
 side = "BOTH"
 
-# Here's another dependency
+# Here's another dependencyp
 
 [[dependencies.magitech]]
 modId = "patchouli"
