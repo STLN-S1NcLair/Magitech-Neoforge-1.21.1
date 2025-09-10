@@ -5,6 +5,9 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.entity.magicentity.aeltherin.AeltherinEntity;
@@ -23,9 +26,12 @@ import net.stln.magitech.entity.magicentity.tremivox.TremivoxEntity;
 import net.stln.magitech.entity.magicentity.tremivox.TremivoxRenderer;
 import net.stln.magitech.entity.magicentity.voltaris.VoltarisEntity;
 import net.stln.magitech.entity.magicentity.voltaris.VoltarisRenderer;
+import net.stln.magitech.entity.mob.WeaverEntity;
+import net.stln.magitech.entity.mob.WeaverRenderer;
 
 import java.util.function.Supplier;
 
+@EventBusSubscriber(modid = Magitech.MOD_ID)
 public class EntityInit {
 
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, Magitech.MOD_ID);
@@ -47,6 +53,9 @@ public class EntityInit {
     public static final Supplier<EntityType<NullixisEntity>> NULLIXIS_ENTITY = ENTITY_TYPES.register("nullixis",
             () -> EntityType.Builder.<NullixisEntity>of(NullixisEntity::new, MobCategory.MISC).sized(0.5F, 0.5F).build("nullixis"));
 
+    public static final Supplier<EntityType<WeaverEntity>> WEAVER_ENTITY = ENTITY_TYPES.register("weaver",
+            () -> EntityType.Builder.<WeaverEntity>of(WeaverEntity::new, MobCategory.MONSTER).sized(0.6F, 1.8F).eyeHeight(1.62F).clientTrackingRange(8).build("weaver"));
+
     public static void registerModEntities(IEventBus eventBus) {
         Magitech.LOGGER.info("Registering Entity for " + Magitech.MOD_ID);
         ENTITY_TYPES.register(eventBus);
@@ -62,6 +71,15 @@ public class EntityInit {
         EntityRenderers.register(EntityInit.ARCALETH_ENTITY.get(), ArcalethRenderer::new);
         EntityRenderers.register(EntityInit.AELTHERIN_ENTITY.get(), AeltherinRenderer::new);
         EntityRenderers.register(EntityInit.NULLIXIS_ENTITY.get(), NullixisRenderer::new);
+
+        EntityRenderers.register(EntityInit.WEAVER_ENTITY.get(), WeaverRenderer::new);
+    }
+
+
+    @SubscribeEvent
+    public static void registerDefaultAttributes(EntityAttributeCreationEvent event) {
+        Magitech.LOGGER.info("Registering Entity Attribute for " + Magitech.MOD_ID);
+        event.put(WEAVER_ENTITY.get(), WeaverEntity.createAttributes().build());
     }
 
 }

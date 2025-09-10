@@ -124,14 +124,16 @@ public class EntityUtil {
         return playerEyePos.add(forward.multiply(hitDistance, hitDistance, hitDistance));
     }
 
-    public static Vec3 raycastBeam(Player player, double maxReachLength, double radius) {
+    public static Vec3 raycastBeam(Entity player, double maxReachLength, double radius) {
+        return raycastBeam(player, maxReachLength, radius, Vec3.directionFromRotation(player.getRotationVector()));
+    }
+
+    public static Vec3 raycastBeam(Entity player, double maxReachLength, double radius, Vec3 directionNormalized) {
         Level world = player.level();
 
         // プレイヤーの目線の位置（頭の高さ）
         Vec3 playerEyePos = player.getEyePosition();
-        // 視線の方向を取得
-        Vec3 forward = Vec3.directionFromRotation(player.getRotationVector());
-        Vec3 maxReachPos = playerEyePos.add(forward.scale(maxReachLength));
+        Vec3 maxReachPos = playerEyePos.add(directionNormalized.scale(maxReachLength));
 
         // Raycast (ブロック)
         BlockHitResult blockHit = world.clip(new ClipContext(
@@ -150,17 +152,19 @@ public class EntityUtil {
 
         // 近い方を採用
         double hitDistance = Math.min(blockHitDist, entityHitDist);
-        return playerEyePos.add(forward.multiply(hitDistance, hitDistance, hitDistance));
+        return playerEyePos.add(directionNormalized.multiply(hitDistance, hitDistance, hitDistance));
     }
 
-    public static BlockHitResult raycastBeamBlockHit(Player player, double maxReachLength, double radius) {
+    public static BlockHitResult raycastBeamBlockHit(Entity player, double maxReachLength, double radius) {
+        return raycastBeamBlockHit(player, maxReachLength, radius, Vec3.directionFromRotation(player.getRotationVector()));
+    }
+
+    public static BlockHitResult raycastBeamBlockHit(Entity player, double maxReachLength, double radius, Vec3 directionNormalized) {
         Level world = player.level();
 
         // プレイヤーの目線の位置（頭の高さ）
         Vec3 playerEyePos = player.getEyePosition();
-        // 視線の方向を取得
-        Vec3 forward = Vec3.directionFromRotation(player.getRotationVector());
-        Vec3 maxReachPos = playerEyePos.add(forward.scale(maxReachLength));
+        Vec3 maxReachPos = playerEyePos.add(directionNormalized.scale(maxReachLength));
 
         // Raycast (ブロック)
         BlockHitResult blockHit = world.clip(new ClipContext(
@@ -264,15 +268,17 @@ public class EntityUtil {
         return null;
     }
 
-    public static Entity raycastBeamEntity(Player player, double maxReachLength, double radius) {
+    public static Entity raycastBeamEntity(Entity player, double maxReachLength, double radius) {
+        return raycastBeamEntity(player, maxReachLength, radius, Vec3.directionFromRotation(player.getRotationVector()));
+    }
+
+    public static Entity raycastBeamEntity(Entity player, double maxReachLength, double radius, Vec3 directionNormalized) {
         Level world = player.level();
 
         // プレイヤーの目線の位置（頭の高さ）
         Vec3 playerEyePos = player.getEyePosition();
-        // 視線の方向を取得
-        Vec3 forward = Vec3.directionFromRotation(player.getRotationVector());
         // 最大射程の位置
-        Vec3 maxReachPos = playerEyePos.add(forward.scale(maxReachLength));
+        Vec3 maxReachPos = playerEyePos.add(directionNormalized.scale(maxReachLength));
 
         // Raycast (ブロック)
         BlockHitResult blockHit = world.clip(new ClipContext(
@@ -346,7 +352,7 @@ public class EntityUtil {
         return null;
     }
 
-    private static @Nullable EntityHitResult getCylinderHit(Player player, double maxReachLength, Vec3 start, double radius, EntityHitResult entityHit, Level world, Vec3 maxReachPos) {
+    private static @Nullable EntityHitResult getCylinderHit(Entity player, double maxReachLength, Vec3 start, double radius, EntityHitResult entityHit, Level world, Vec3 maxReachPos) {
         if (entityHit == null) {
 
             for (Entity entity : world.getEntities(player, new AABB(start, maxReachPos).inflate(radius))) {
@@ -366,7 +372,7 @@ public class EntityUtil {
     /**
      * プレイヤーの視線上のエンティティを取得する
      */
-    public static EntityHitResult getEntityHitResult(Player player, Vec3 startLoc, Vec3 endLoc, Level level) {
+    public static EntityHitResult getEntityHitResult(Entity player, Vec3 startLoc, Vec3 endLoc, Level level) {
         double distance = startLoc.distanceTo(endLoc);
         AABB searchBox = new AABB(startLoc, endLoc).inflate(1.0); // 線分を含む範囲を検索
 

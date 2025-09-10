@@ -725,16 +725,18 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
                 baseAttackDamage *= 1.5F;
             }
 
-            DamageSource ElementalDamageSource = stack.has(DataComponents.CUSTOM_NAME) ? attacker.damageSources().source(damageType, attacker) : attacker.damageSources().source(damageType);
+            DamageSource elementalDamageSource = attacker.damageSources().source(damageType, attacker);
             float damage = baseAttackDamage * EntityElementRegister.getElementAffinity(target, stats.getElement()).getMultiplier();
             if (target instanceof LivingEntity livingEntity) {
                 float targetHealth = livingEntity.getHealth();
-                livingEntity.setLastHurtByPlayer(attacker);
-                target.hurt(ElementalDamageSource, damage);
-                attacker.awardStat(Stats.DAMAGE_DEALT, Math.round((targetHealth - livingEntity.getHealth()) * 10));
+                if (!target.isInvulnerableTo(elementalDamageSource)) {
+                    livingEntity.setLastHurtByPlayer(attacker);
+                    attacker.awardStat(Stats.DAMAGE_DEALT, Math.round((targetHealth - livingEntity.getHealth()) * 10));
+                }
+                target.hurt(elementalDamageSource, damage);
             } else {
                 Vec3 delta = target.getDeltaMovement();
-                target.hurt(ElementalDamageSource, damage);
+                target.hurt(elementalDamageSource, damage);
                 target.setDeltaMovement(delta);
             }
             target.invulnerableTime = 0;

@@ -8,12 +8,14 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.block.BlockInit;
+import net.stln.magitech.entity.EntityInit;
 import net.stln.magitech.entity.status.AttributeInit;
 import net.stln.magitech.item.armor.AetherLifterItem;
 import net.stln.magitech.item.armor.FlamglideStriderItem;
@@ -344,6 +346,10 @@ public class ItemInit {
     public static final DeferredItem<Item> MANA_PIE = ITEMS.registerItem("mana_pie",
             TooltipTextItem::new,
             new Item.Properties().food(FoodInit.MANA_PIE));
+
+    public static final DeferredItem<Item> WEAVER_SPAWN_EGG = ITEMS.registerItem("weaver_spawn_egg",
+            (key) -> new SpawnEggItem(EntityInit.WEAVER_ENTITY.get(), 0x2F2E30, 0xB1F3CC,
+            new Item.Properties()));
 
     public static void registerItems(IEventBus eventBus) {
         Magitech.LOGGER.info("Registering Items for" + Magitech.MOD_ID);

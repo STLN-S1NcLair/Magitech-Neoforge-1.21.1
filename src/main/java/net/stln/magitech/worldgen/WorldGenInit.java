@@ -27,6 +27,7 @@ import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.OreFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.*;
 import net.minecraft.world.level.levelgen.feature.featuresize.TwoLayersFeatureSize;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.BlobFoliagePlacer;
@@ -87,7 +88,7 @@ public class WorldGenInit {
 
 
     public static final Supplier<Feature<OreConfiguration>> FLUORITE_ORE_FEATURE =
-            FEATURES.register("fluorite_ore", () -> Feature.ORE);
+            FEATURES.register("fluorite_ore", () -> new OreFeature(OreConfiguration.CODEC));
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> FLUORITE_ORE_CONFIGURED_KEY =
             ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "fluorite_ore"));
@@ -101,7 +102,7 @@ public class WorldGenInit {
 
 
     public static final Supplier<Feature<OreConfiguration>> TOURMALINE_ORE_FEATURE =
-            FEATURES.register("tourmaline_ore", () -> Feature.ORE);
+            FEATURES.register("tourmaline_ore", () -> new OreFeature(OreConfiguration.CODEC));
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> TOURMALINE_ORE_CONFIGURED_KEY =
             ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "tourmaline_ore"));

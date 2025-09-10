@@ -100,5 +100,10 @@ public class NetworkInit {
                 TierUpToastPayload.STREAM_CODEC,
                 TierUpToastPayLoadHandler::handleDataOnMainS2C
         );
+        registrar.playToClient(
+                RangedEntityAttackPayload.TYPE,
+                RangedEntityAttackPayload.STREAM_CODEC,
+                RangedEntityAttackPayLoadHandler::handleDataOnMainS2C
+        );
     }
 }

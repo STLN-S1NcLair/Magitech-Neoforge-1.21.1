@@ -263,11 +263,12 @@ public abstract class Spell {
                 if (stack.getItem() instanceof SpellCasterItem spellCasterItem) {
                     spellCasterItem.callTraitSpellHitEntity(user.level(), user, target, stack);
                 }
-                if (target.hurt(elementalDamageSource, damage)) {
+                if (!target.isInvulnerableTo(elementalDamageSource)) {
                     float targetHealth = livingTarget.getHealth();
                     livingTarget.setLastHurtByMob(user);
                     user.awardStat(Stats.DAMAGE_DEALT, Math.round((targetHealth - livingTarget.getHealth()) * 10));
                 }
+                target.hurt(elementalDamageSource, damage);
             }
             user.setLastHurtMob(target);
         }

@@ -90,8 +90,9 @@ public class Glistelda extends Spell {
         }
         TickScheduler.schedule(duration, () -> {
             for (Entity entity : entities) {
-                if (entity instanceof LivingEntity && entity.isAlive()) {
+                if (entity instanceof LivingEntity livingTarget && entity.isAlive()) {
                     this.applyDamage(baseDamage, this.getRequiredMana(level, user, stack), this.getElement(), stack, user, entity);
+                    livingTarget.setTicksFrozen(Math.min(livingTarget.getTicksFrozen() + 170, 300));
                     level.playSound(user, entity.getX(), entity.getY(), entity.getZ(), SoundInit.GLISTELDA_BREAK.get(), SoundSource.PLAYERS, 1.0F, 0.7F + (user.getRandom().nextFloat() * 0.6F));
                 }
                 for (int i = 0; i < 60; i++) {

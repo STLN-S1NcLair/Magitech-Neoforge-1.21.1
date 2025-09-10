@@ -101,10 +101,12 @@ public class EffectUtil {
 
     private static void displayParticle(Level world, ParticleOptions particleEffect, boolean alwaysVisible, double x, double y, double z, double xOffset, double yOffset, double zOffset) {
         // **パーティクルをスポーン**
-        if (alwaysVisible) {
-            world.addAlwaysVisibleParticle(particleEffect, x, y, z, xOffset, yOffset, zOffset);
-        } else {
-            world.addParticle(particleEffect, x, y, z, xOffset, yOffset, zOffset);
+        if (world != null) {
+            if (alwaysVisible) {
+                world.addAlwaysVisibleParticle(particleEffect, x, y, z, xOffset, yOffset, zOffset);
+            } else {
+                world.addParticle(particleEffect, x, y, z, xOffset, yOffset, zOffset);
+            }
         }
     }
 

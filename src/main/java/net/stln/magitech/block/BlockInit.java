@@ -629,5 +629,7 @@ public class BlockInit {
     public static void registerStrippableBlocks() {
         StrippableBlockRegistry.register(CELIFERN_LOG.get(), STRIPPED_CELIFERN_LOG.get());
         StrippableBlockRegistry.register(CELIFERN_WOOD.get(), STRIPPED_CELIFERN_WOOD.get());
+        StrippableBlockRegistry.register(CHARCOAL_BIRCH_LOG.get(), STRIPPED_CHARCOAL_BIRCH_LOG.get());
+        StrippableBlockRegistry.register(CHARCOAL_BIRCH_WOOD.get(), STRIPPED_CHARCOAL_BIRCH_WOOD.get());
     }
 }

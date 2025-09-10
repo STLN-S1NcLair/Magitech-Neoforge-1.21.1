@@ -9,7 +9,6 @@ import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.block.BlockInit;
-import org.jetbrains.annotations.NotNull;
 
 public class ModBlockStateProvider extends BlockStateProvider {
     public ModBlockStateProvider(PackOutput output, ExistingFileHelper exFileHelper) {
@@ -59,7 +58,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         slabBlockWithItem(BlockInit.CELIFERN_SLAB.get(), BlockInit.CELIFERN_PLANKS.get());
         fenceBlockWithItem(BlockInit.CELIFERN_FENCE.get(), BlockInit.CELIFERN_PLANKS.get());
         fenceGateBlockWithItem(BlockInit.CELIFERN_FENCE_GATE.get(), BlockInit.CELIFERN_PLANKS.get());
-        doorBlockWithItem(BlockInit.CELIFERN_DOOR.get());
+        doorBlock(BlockInit.CELIFERN_DOOR.get());
         trapdoorBlockWithItem(BlockInit.CELIFERN_TRAPDOOR.get(), true);
         pressurePlateBlockWithItem(BlockInit.CELIFERN_PRESSURE_PLATE.get(), BlockInit.CELIFERN_PLANKS.get());
         buttonBlockWithItem(BlockInit.CELIFERN_BUTTON.get(), BlockInit.CELIFERN_PLANKS.get());
@@ -76,7 +75,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         slabBlockWithItem(BlockInit.CHARCOAL_BIRCH_SLAB.get(), BlockInit.CHARCOAL_BIRCH_PLANKS.get());
         fenceBlockWithItem(BlockInit.CHARCOAL_BIRCH_FENCE.get(), BlockInit.CHARCOAL_BIRCH_PLANKS.get());
         fenceGateBlockWithItem(BlockInit.CHARCOAL_BIRCH_FENCE_GATE.get(), BlockInit.CHARCOAL_BIRCH_PLANKS.get());
-        doorBlockWithItem(BlockInit.CHARCOAL_BIRCH_DOOR.get());
+        doorBlock(BlockInit.CHARCOAL_BIRCH_DOOR.get());
         trapdoorBlockWithItem(BlockInit.CHARCOAL_BIRCH_TRAPDOOR.get(), true);
         pressurePlateBlockWithItem(BlockInit.CHARCOAL_BIRCH_PRESSURE_PLATE.get(), BlockInit.CHARCOAL_BIRCH_PLANKS.get());
         buttonBlockWithItem(BlockInit.CHARCOAL_BIRCH_BUTTON.get(), BlockInit.CHARCOAL_BIRCH_PLANKS.get());
@@ -159,9 +158,8 @@ public class ModBlockStateProvider extends BlockStateProvider {
         blockItem(block);
     }
 
-    private void doorBlockWithItem(Block block) {
+    private void doorBlock(Block block) {
         doorBlockWithRenderType((DoorBlock) block, blockTexture(block).withSuffix("_bottom"), blockTexture(block).withSuffix("_top"), "cutout");
-        blockItem(block);
     }
 
     private void trapdoorBlockWithItem(Block block, boolean orientable) {
