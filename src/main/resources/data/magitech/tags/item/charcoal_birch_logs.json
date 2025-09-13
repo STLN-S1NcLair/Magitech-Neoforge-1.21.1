@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "magitech:charcoal_birch_log",
+    "magitech:charcoal_birch_wood",
+    "magitech:stripped_charcoal_birch_log",
+    "magitech:stripped_charcoal_birch_wood"
+  ]
+}
