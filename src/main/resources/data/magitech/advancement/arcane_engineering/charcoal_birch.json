@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "id": "magitech:charcoal_birch_log"
+    },
+    "title": {
+      "translate": "advancement.magitech.arcane_engineering.charcoal_birch.title"
+    },
+    "description": {
+      "translate": "advancement.magitech.arcane_engineering.charcoal_birch.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false,
+    "always_visible": true
+  },
+  "parent": "magitech:arcane_engineering/unwanted_gift",
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "magitech:charcoal_birch_log"
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

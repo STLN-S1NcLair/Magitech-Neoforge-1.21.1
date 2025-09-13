@@ -29,6 +29,9 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ItemInit.GALEVENT_RING.get());
         basicItem(ItemInit.CHARGEBIND_RING.get());
         basicItem(ItemInit.TORSION_RING.get());
+        basicItem(ItemInit.UMBRAL_RING.get());
+        basicItem(ItemInit.DAWN_RING.get());
+        basicItem(ItemInit.FLUXBOUND_RING.get());
         basicItem(ItemInit.LIGHT_BLADE.get());
         basicItem(ItemInit.HEAVY_BLADE.get());
         basicItem(ItemInit.LIGHT_HANDLE.get());

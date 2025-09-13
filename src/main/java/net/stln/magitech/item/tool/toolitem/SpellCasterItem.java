@@ -328,7 +328,7 @@ public abstract class SpellCasterItem extends PartToolItem {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
         ItemStack itemStack = player.getItemInHand(usedHand);
 
-        if (itemStack.get(ComponentInit.BROKEN_COMPONENT)) {
+        if (itemStack.getOrDefault(ComponentInit.BROKEN_COMPONENT, false)) {
             return InteractionResultHolder.pass(itemStack);
         }
 
@@ -388,7 +388,7 @@ public abstract class SpellCasterItem extends PartToolItem {
     public void onUseTick(Level level, LivingEntity livingEntity, ItemStack stack, int remainingUseDuration) {
         super.onUseTick(level, livingEntity, stack, remainingUseDuration);
 
-        if (stack.get(ComponentInit.BROKEN_COMPONENT)) {
+        if (stack.getOrDefault(ComponentInit.BROKEN_COMPONENT, false)) {
             return;
         }
         if (livingEntity instanceof Player user) {
@@ -422,7 +422,7 @@ public abstract class SpellCasterItem extends PartToolItem {
     @Override
     public void releaseUsing(ItemStack stack, Level level, LivingEntity livingEntity, int timeCharged) {
 
-        if (stack.get(ComponentInit.BROKEN_COMPONENT)) {
+        if (stack.getOrDefault(ComponentInit.BROKEN_COMPONENT, false)) {
             return;
         }
         super.releaseUsing(stack, level, livingEntity, timeCharged);

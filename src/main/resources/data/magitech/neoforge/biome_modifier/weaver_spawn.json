@@ -1,0 +1,13 @@
+{
+  "type": "neoforge:add_spawns",
+  "spawners": [
+    {
+      "type": "magitech:weaver",
+      "minCount": 1,
+      "maxCount": 3,
+      "weight": 20
+    }
+  ],
+  "biomes": "#minecraft:is_overworld",
+  "category": "monster"
+}

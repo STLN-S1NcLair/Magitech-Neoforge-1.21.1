@@ -74,6 +74,9 @@ public class SoundInit {
     public static final Supplier<SoundEvent> ALCHECRYSITE_STEP = registerSoundEvent("alchecrysite_step");
     public static final Supplier<SoundEvent> ALCHECRYSITE_FALL = registerSoundEvent("alchecrysite_fall");
 
+    public static final Supplier<SoundEvent> WEAVER_HURT = registerSoundEvent("weaver_hurt");
+    public static final Supplier<SoundEvent> WEAVER_DEATH = registerSoundEvent("weaver_death");
+
 
     private static Supplier<SoundEvent> registerSoundEvent(String name) {
         ResourceLocation id = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, name);

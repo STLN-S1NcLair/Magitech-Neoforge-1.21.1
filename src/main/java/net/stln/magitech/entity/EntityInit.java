@@ -4,10 +4,15 @@ import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.SpawnPlacementTypes;
+import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
+import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.entity.magicentity.aeltherin.AeltherinEntity;
@@ -54,7 +59,7 @@ public class EntityInit {
             () -> EntityType.Builder.<NullixisEntity>of(NullixisEntity::new, MobCategory.MISC).sized(0.5F, 0.5F).build("nullixis"));
 
     public static final Supplier<EntityType<WeaverEntity>> WEAVER_ENTITY = ENTITY_TYPES.register("weaver",
-            () -> EntityType.Builder.<WeaverEntity>of(WeaverEntity::new, MobCategory.MONSTER).sized(0.6F, 1.8F).eyeHeight(1.62F).clientTrackingRange(8).build("weaver"));
+            () -> EntityType.Builder.<WeaverEntity>of(WeaverEntity::new, MobCategory.MONSTER).sized(0.6F, 2.0F).eyeHeight(1.62F).clientTrackingRange(8).build("weaver"));
 
     public static void registerModEntities(IEventBus eventBus) {
         Magitech.LOGGER.info("Registering Entity for " + Magitech.MOD_ID);
@@ -80,6 +85,17 @@ public class EntityInit {
     public static void registerDefaultAttributes(EntityAttributeCreationEvent event) {
         Magitech.LOGGER.info("Registering Entity Attribute for " + Magitech.MOD_ID);
         event.put(WEAVER_ENTITY.get(), WeaverEntity.createAttributes().build());
+    }
+
+    @SubscribeEvent
+    public static void registerSpawnPlacements(RegisterSpawnPlacementsEvent event) {
+        event.register(
+                WEAVER_ENTITY.get(),
+                SpawnPlacementTypes.ON_GROUND,              // 湧く場所のタイプ
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,   // 高さ判定
+                ((entityType, serverLevel, spawnType, pos, random) -> true),             // 条件 (ここは独自関数でもOK)
+                RegisterSpawnPlacementsEvent.Operation.REPLACE
+        );
     }
 
 }

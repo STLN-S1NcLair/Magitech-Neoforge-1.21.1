@@ -74,6 +74,9 @@ public class CreativeTabInit {
                 output.accept(ItemInit.GALEVENT_RING.get());
                 output.accept(ItemInit.CHARGEBIND_RING.get());
                 output.accept(ItemInit.TORSION_RING.get());
+                output.accept(ItemInit.UMBRAL_RING.get());
+                output.accept(ItemInit.DAWN_RING.get());
+                output.accept(ItemInit.FLUXBOUND_RING.get());
                 output.accept(ItemInit.ALCHAEFABRIC.get());
                 output.accept(ItemInit.AEGIS_WEAVE.get());
                 output.accept(ItemInit.FLUORITE.get());

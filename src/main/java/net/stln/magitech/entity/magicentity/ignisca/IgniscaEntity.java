@@ -36,13 +36,13 @@ public class IgniscaEntity extends SpellProjectileEntity implements GeoEntity {
         super(entityType, world);
     }
 
-    public IgniscaEntity(Level world, Player player, float damage) {
-        super(EntityInit.IGNISCA_ENTITY.get(), player, world, null, damage);
+    public IgniscaEntity(Level world, LivingEntity owner, float damage) {
+        super(EntityInit.IGNISCA_ENTITY.get(), owner, world, null, damage);
 
     }
 
-    public IgniscaEntity(Level world, Player player, ItemStack weapon, float damage) {
-        super(EntityInit.IGNISCA_ENTITY.get(), player, world, weapon, damage);
+    public IgniscaEntity(Level world, LivingEntity owner, ItemStack weapon, float damage) {
+        super(EntityInit.IGNISCA_ENTITY.get(), owner, world, weapon, damage);
     }
 
     public IgniscaEntity(EntityType<? extends SpellProjectileEntity> type, double x, double y, double z, Level world, ItemStack stack, @Nullable ItemStack weapon, float damage) {

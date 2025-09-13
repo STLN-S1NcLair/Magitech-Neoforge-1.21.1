@@ -89,6 +89,12 @@
         "maxCount": 4,
         "minCount": 1,
         "weight": 30
+      },
+      {
+        "type": "magitech:weaver",
+        "minCount": 1,
+        "maxCount": 3,
+        "weight": 50
       }
     ],
     "underground_water_creature": [

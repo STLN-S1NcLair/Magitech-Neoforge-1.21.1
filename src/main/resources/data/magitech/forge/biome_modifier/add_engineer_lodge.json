@@ -1,5 +1,0 @@
-{
-  "type": "forge:add_structure",
-  "structure": "magitech:engineer_lodge",
-  "biomes": "#magitech:has_engineer_lodge"
-}

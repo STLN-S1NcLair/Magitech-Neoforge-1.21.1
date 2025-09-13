@@ -24,6 +24,6 @@ public class GlowingParticle extends AbstractCustomizableParticle {
 
     @Override
     public ParticleRenderType getRenderType() {
-        return PARTICLE_SHEET_ADDITIVE;
+        return CustomParticleRenderTypes.PARTICLE_SHEET_ADDITIVE;
     }
 }

@@ -1,13 +1,16 @@
 package net.stln.magitech.item.tool.model;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ModelEvent;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.item.tool.material.ToolMaterial;
 import net.stln.magitech.item.tool.register.ToolMaterialRegister;
+import org.apache.logging.log4j.core.appender.FileManager;
 
 import java.util.List;
 
@@ -23,13 +26,19 @@ public class ModelRegistrar {
         for (ToolMaterial material : materials) {
             for (String type : toolTypes) {
                 for (String part : partTypes) {
-                    registerAdditional.register(ModelResourceLocation.standalone(getPartModelId(material, type, part)));
+                    ResourceLocation partModelId = getPartModelId(material, type, part);
+                    if (Minecraft.getInstance().getResourceManager().getResource(partModelId.withPrefix("models/").withSuffix(".json")).isPresent()) {
+                        registerAdditional.register(ModelResourceLocation.standalone(partModelId));
+                    }
                 }
             }
         }
         for (ToolMaterial material : materials) {
             for (String part : partTypes) {
-                registerAdditional.register(ModelResourceLocation.standalone(getPartItemModelId(material, part)));
+                ResourceLocation partItemModelId = getPartItemModelId(material, part);
+                if (Minecraft.getInstance().getResourceManager().getResource(partItemModelId.withPrefix("models/").withSuffix(".json")).isPresent()) {
+                    registerAdditional.register(ModelResourceLocation.standalone(partItemModelId));
+                }
             }
         }
     }

@@ -570,5 +570,33 @@
         "pitch": 1
       }
     ]
+  },
+  "weaver_hurt": {
+    "sounds": [
+      {
+        "name": "magitech:weaver_hurt_1",
+        "pitch": 1
+      },
+      {
+        "name": "magitech:weaver_hurt_2",
+        "pitch": 1
+      },
+      {
+        "name": "magitech:weaver_hurt_3",
+        "pitch": 1
+      },
+      {
+        "name": "magitech:weaver_hurt_4",
+        "pitch": 1
+      }
+    ]
+  },
+  "weaver_death": {
+    "sounds": [
+      {
+        "name": "magitech:weaver_death",
+        "pitch": 1
+      }
+    ]
   }
 }

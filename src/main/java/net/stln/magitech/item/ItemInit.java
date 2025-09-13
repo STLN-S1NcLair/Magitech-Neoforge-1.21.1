@@ -11,6 +11,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.common.DeferredSpawnEggItem;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.stln.magitech.Magitech;
@@ -96,6 +97,34 @@ public class ItemInit {
     public static final DeferredItem<RingItem> TORSION_RING = ITEMS.registerItem("torsion_ring",
             (properties) -> new RingItem(properties).attributeModifier(Map.of(
                     AttributeInit.PROJECTILE_SPEED, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.6, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+            )),
+            new Item.Properties().stacksTo(1));
+
+    public static final DeferredItem<RingItem> UMBRAL_RING = ITEMS.registerItem("umbral_ring",
+            (properties) -> new RingItem(properties).attributeModifier(Map.of(
+                    AttributeInit.GLACE_SPELL_POWER, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.1, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
+                    AttributeInit.SURGE_SPELL_POWER, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.1, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
+                    AttributeInit.TREMOR_SPELL_POWER, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
+                    AttributeInit.HOLLOW_SPELL_POWER, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
+                    AttributeInit.MANA_EFFICIENCY, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), -0.15, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+            )),
+            new Item.Properties().stacksTo(1));
+
+    public static final DeferredItem<RingItem> DAWN_RING = ITEMS.registerItem("dawn_ring",
+            (properties) -> new RingItem(properties).attributeModifier(Map.of(
+                    AttributeInit.SURGE_SPELL_POWER, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
+                    AttributeInit.PHANTOM_SPELL_POWER, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
+                    AttributeInit.FLOW_SPELL_POWER, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
+                    AttributeInit.MANA_EFFICIENCY, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), -0.15, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+            )),
+            new Item.Properties().stacksTo(1));
+
+    public static final DeferredItem<RingItem> FLUXBOUND_RING = ITEMS.registerItem("fluxbound_ring",
+            (properties) -> new RingItem(properties).attributeModifier(Map.of(
+                    AttributeInit.EMBER_SPELL_POWER, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
+                    AttributeInit.GLACE_SPELL_POWER, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
+                    AttributeInit.MAGIC_SPELL_POWER, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
+                    AttributeInit.MANA_EFFICIENCY, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), -0.15, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
             )),
             new Item.Properties().stacksTo(1));
 
@@ -252,15 +281,15 @@ public class ItemInit {
             new Item.Properties());
 
     public static final DeferredItem<Item> AGGREGATED_NOCTIS = ITEMS.registerItem("aggregated_noctis",
-            TooltipTextItem::new,
+            AggregatedNoctisItem::new,
             new Item.Properties());
 
     public static final DeferredItem<Item> AGGREGATED_LUMINIS = ITEMS.registerItem("aggregated_luminis",
-            TooltipTextItem::new,
+            AggregatedLuminisItem::new,
             new Item.Properties());
 
     public static final DeferredItem<Item> AGGREGATED_FLUXIA = ITEMS.registerItem("aggregated_fluxia",
-            TooltipTextItem::new,
+            AggregatedFluxiaItem::new,
             new Item.Properties());
 
     public static final DeferredItem<Item> CITRINE = ITEMS.registerItem("citrine",
@@ -348,7 +377,7 @@ public class ItemInit {
             new Item.Properties().food(FoodInit.MANA_PIE));
 
     public static final DeferredItem<Item> WEAVER_SPAWN_EGG = ITEMS.registerItem("weaver_spawn_egg",
-            (key) -> new SpawnEggItem(EntityInit.WEAVER_ENTITY.get(), 0x2F2E30, 0xB1F3CC,
+            (key) -> new DeferredSpawnEggItem(EntityInit.WEAVER_ENTITY, 0x2F2E30, 0xB1F3CC,
             new Item.Properties()));
 
     public static void registerItems(IEventBus eventBus) {

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "magitech:aggregated_noctis"
+    },
+    "C": {
+      "item": "minecraft:diamond"
+    },
+    "S": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "pattern": [
+    "CSS",
+    "S#S",
+    "SS "
+  ],
+  "result": {
+    "count": 1,
+    "id": "magitech:umbral_ring"
+  }
+}

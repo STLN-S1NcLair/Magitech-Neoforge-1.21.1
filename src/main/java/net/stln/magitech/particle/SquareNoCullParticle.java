@@ -91,7 +91,7 @@ public class SquareNoCullParticle extends GlowingParticle {
 
     @Override
     public ParticleRenderType getRenderType() {
-        return PARTICLE_SHEET_ADDITIVE_NO_CULL;
+        return CustomParticleRenderTypes.PARTICLE_SHEET_ADDITIVE_NO_CULL;
     }
 
     @Environment(EnvType.CLIENT)

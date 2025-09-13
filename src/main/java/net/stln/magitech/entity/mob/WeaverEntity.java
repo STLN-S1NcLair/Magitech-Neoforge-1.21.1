@@ -23,7 +23,9 @@ import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.animal.Turtle;
 import net.minecraft.world.entity.animal.Wolf;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.monster.AbstractSkeleton;
+import net.stln.magitech.entity.RangedSpellAttackGoal;
+import net.stln.magitech.entity.magicentity.ignisca.IgniscaEntity;
+import net.stln.magitech.entity.mob.WeaverEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.entity.player.Player;
@@ -71,20 +73,6 @@ public class WeaverEntity extends Monster implements GeoEntity, RangedAttackMob 
 
     private static final int HARD_ATTACK_INTERVAL = 20;
     private static final int NORMAL_ATTACK_INTERVAL = 40;
-    private final RangedBowAttackGoal<AbstractSkeleton> bowGoal = new RangedBowAttackGoal<>(this, 1.0, 20, 15.0F);
-    private final MeleeAttackGoal meleeGoal = new MeleeAttackGoal(this, 1.2, false) {
-        @Override
-        public void stop() {
-            super.stop();
-            WeaverEntity.this.setAggressive(false);
-        }
-
-        @Override
-        public void start() {
-            super.start();
-            WeaverEntity.this.setAggressive(true);
-        }
-    };
 
     private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
     private static final RawAnimation WALK = RawAnimation.begin().thenLoop("walk");
@@ -98,21 +86,18 @@ public class WeaverEntity extends Monster implements GeoEntity, RangedAttackMob 
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return AbstractSkeleton.createAttributes().add(Attributes.MAX_HEALTH, 16.0).add(Attributes.MOVEMENT_SPEED, 0.25);
+        return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, 16.0).add(Attributes.MOVEMENT_SPEED, 0.25);
     }
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(2, new RestrictSunGoal(this));
-        this.goalSelector.addGoal(3, new FleeSunGoal(this, 1.0));
-        this.goalSelector.addGoal(3, new AvoidEntityGoal<>(this, Wolf.class, 6.0F, 1.0, 1.2));
+        this.goalSelector.addGoal(4, new RangedSpellAttackGoal<>(this, 1.0, 15.0F, NORMAL_ATTACK_INTERVAL, HARD_ATTACK_INTERVAL)); // 魔法攻撃専用ゴール
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0));
         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Turtle.class, 10, true, false, Turtle.BABY_ON_LAND_SELECTOR));
     }
 
     @Override
@@ -141,7 +126,6 @@ public class WeaverEntity extends Monster implements GeoEntity, RangedAttackMob 
         RandomSource randomsource = level.getRandom();
         this.populateDefaultEquipmentSlots(randomsource, difficulty);
         this.populateDefaultEquipmentEnchantments(level, randomsource, difficulty);
-        this.reassessWeaponGoal();
         this.setCanPickUpLoot(randomsource.nextFloat() < 0.55F * difficulty.getSpecialMultiplier());
         if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
             LocalDate localdate = LocalDate.now();
@@ -156,19 +140,6 @@ public class WeaverEntity extends Monster implements GeoEntity, RangedAttackMob 
         return spawnGroupData;
     }
 
-    public void reassessWeaponGoal() {
-        if (this.level() != null && !this.level().isClientSide) {
-            this.goalSelector.removeGoal(this.meleeGoal);
-            this.goalSelector.removeGoal(this.bowGoal);
-            int i = this.getHardAttackInterval();
-            if (this.level().getDifficulty() != Difficulty.HARD) {
-                i = this.getAttackInterval();
-            }
-            this.bowGoal.setMinAttackInterval(i);
-            this.goalSelector.addGoal(4, this.bowGoal);
-        }
-    }
-
     protected int getHardAttackInterval() {
         return 20;
     }
@@ -180,7 +151,7 @@ public class WeaverEntity extends Monster implements GeoEntity, RangedAttackMob 
     @Override
     public void performRangedAttack(LivingEntity target, float distanceFactor) {
 
-        int index = random.nextInt(2);
+        int index = random.nextInt(3);
         performSpell(level(), target, index);
 
         if (!level().isClientSide) {
@@ -192,6 +163,7 @@ public class WeaverEntity extends Monster implements GeoEntity, RangedAttackMob 
         switch (index) {
             case 0 -> addLightning(level, target);
             case 1 -> addFrostBeam(level, target);
+            case 2 -> addFireBall(level, target);
         }
         this.triggerAnim("controller", "spell");
     }
@@ -314,6 +286,17 @@ public class WeaverEntity extends Monster implements GeoEntity, RangedAttackMob 
         }, level.isClientSide);
     }
 
+    private void addFireBall(Level level, LivingEntity target) {
+        Vec3 forward = target.position().add(0, target.getBbHeight() / 2, 0).subtract(this.getEyePosition()).normalize();
+        IgniscaEntity igniscaEntity = new IgniscaEntity(level, this, 4);
+        igniscaEntity.setPos(this.position().add(0, this.getBbHeight() * 0.7, 0));
+        igniscaEntity.setDeltaMovement(forward.scale(1.0));
+        level.addFreshEntity(igniscaEntity);
+
+
+        level.playSound(this, this.blockPosition(), SoundInit.FIREBALL.get(), SoundSource.HOSTILE, 1.0F, 0.6F + (this.getRandom().nextFloat() * 0.6F));
+    }
+
     @Override
     public boolean canFireProjectileWeapon(ProjectileWeaponItem projectileWeapon) {
         return true;
@@ -330,12 +313,12 @@ public class WeaverEntity extends Monster implements GeoEntity, RangedAttackMob 
 
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSource) {
-        return SoundEvents.TUFF_BREAK;
+        return SoundInit.WEAVER_HURT.get();
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundEvents.DEEPSLATE_BREAK;
+        return SoundInit.WEAVER_DEATH.get();
     }
 
     @Override
@@ -356,21 +339,7 @@ public class WeaverEntity extends Monster implements GeoEntity, RangedAttackMob 
     }
 
     protected SoundEvent getStepSound() {
-        return SoundEvents.TUFF_STEP;
-    }
-
-    @Override
-    public void readAdditionalSaveData(CompoundTag compound) {
-        super.readAdditionalSaveData(compound);
-        this.reassessWeaponGoal();
-    }
-
-    @Override
-    public void setItemSlot(EquipmentSlot slot, ItemStack stack) {
-        super.setItemSlot(slot, stack);
-        if (!this.level().isClientSide) {
-            this.reassessWeaponGoal();
-        }
+        return SoundInit.ALCHECRYSITE_STEP.get();
     }
 
     public boolean isShaking() {
