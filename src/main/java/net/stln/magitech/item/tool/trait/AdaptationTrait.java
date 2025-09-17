@@ -2,10 +2,10 @@ package net.stln.magitech.item.tool.trait;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
-import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.item.tool.material.ToolMaterial;
 import net.stln.magitech.item.tool.toolitem.PartToolItem;
+import net.stln.magitech.util.ComponentHelper;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +17,7 @@ public class AdaptationTrait extends Trait {
     @Override
     public ToolStats modifyStats1(ItemStack stack, int traitLevel, ToolStats stats) {
         super.modifyStats1(stack, traitLevel, stats);
-        List<ToolMaterial> materials = stack.getComponents().get(ComponentInit.PART_MATERIAL_COMPONENT.get()).materials();
+        List<ToolMaterial> materials = ComponentHelper.getPartMaterials(stack);
         Set<ToolMaterial> materialSet = PartToolItem.getMaterialSet(materials);
         ToolStats defaultStats = ToolStats.DEFAULT;
         Map<String, Float> statsMap = stats.getStats();
@@ -37,7 +37,7 @@ public class AdaptationTrait extends Trait {
     @Override
     public ToolStats modifySpellCasterStats1(ItemStack stack, int traitLevel, ToolStats stats) {
         super.modifySpellCasterStats1(stack, traitLevel, stats);
-        List<ToolMaterial> materials = stack.getComponents().get(ComponentInit.PART_MATERIAL_COMPONENT.get()).materials();
+        List<ToolMaterial> materials = ComponentHelper.getPartMaterials(stack);
         Set<ToolMaterial> materialSet = PartToolItem.getMaterialSet(materials);
         ToolStats defaultStats = ToolStats.DEFAULT;
         Map<String, Float> statsMap = stats.getStats();

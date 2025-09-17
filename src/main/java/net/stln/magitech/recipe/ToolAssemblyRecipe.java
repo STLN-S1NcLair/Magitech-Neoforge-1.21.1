@@ -19,6 +19,8 @@ import net.stln.magitech.item.tool.material.ToolMaterial;
 import net.stln.magitech.item.tool.partitem.PartItem;
 import net.stln.magitech.item.tool.register.ToolMaterialRegister;
 import net.stln.magitech.item.tool.toolitem.PartToolItem;
+import net.stln.magitech.util.ComponentHelper;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +66,7 @@ public class ToolAssemblyRecipe implements Recipe<MultiStackRecipeInput> {
     }
 
     @Override
-    public ItemStack assemble(MultiStackRecipeInput input, HolderLookup.Provider registries) {
+    public @NotNull ItemStack assemble(@NotNull MultiStackRecipeInput input, HolderLookup.@NotNull Provider registries) {
         if (!(result.getItem() instanceof PartToolItem)) {
             throw new IllegalArgumentException("the result item expected to be a PartToolItem");
         }
@@ -94,9 +96,10 @@ public class ToolAssemblyRecipe implements Recipe<MultiStackRecipeInput> {
                     boolean found = partList.contains(partItem.getPart());
                     int index = partList.indexOf(partItem.getPart());
                     if (found) {
-                        ToolMaterial material = input.getItem(i).get(ComponentInit.MATERIAL_COMPONENT.get()).getMaterial();
-                        result.set(index, material);
-                        partList.set(index, null);
+                        ComponentHelper.getMaterial(input.getItem(i)).ifPresent(material -> {
+                            result.set(index, material);
+                            partList.set(index, null);
+                        });
                     }
                     flag &= found;
                 }

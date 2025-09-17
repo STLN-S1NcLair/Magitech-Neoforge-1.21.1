@@ -15,7 +15,6 @@ import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import net.stln.magitech.item.tool.toolitem.PartToolItem;
 
 import java.util.Objects;
-import java.util.UUID;
 
 public class TraitActionPayLoadHandler {
 
@@ -23,7 +22,7 @@ public class TraitActionPayLoadHandler {
         Player player = null;
         Level level = context.player().level();
         for (Player search : level.players()) {
-            if (search.getUUID().toString().equals(payload.uuid())) {
+            if (search.getUUID().equals(payload.uuid())) {
                 player = search;
                 break;
             }
@@ -48,7 +47,7 @@ public class TraitActionPayLoadHandler {
     }
 
     public static void handleDataOnMainC2S(final TraitActionPayload payload, final IPayloadContext context) {
-        Player player = context.player().level().getPlayerByUUID(UUID.fromString(payload.uuid()));
+        Player player = context.player().level().getPlayerByUUID(payload.uuid());
         if (player == null) {
             return;
         }

@@ -7,41 +7,16 @@ import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.holdersets.AnyHolderSet;
 import net.stln.magitech.Magitech;
+import net.stln.magitech.MagitechRegistries;
 import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.item.ItemInit;
 import net.stln.magitech.item.ThreadboundGenerator;
 import net.stln.magitech.item.tool.material.MaterialInit;
 import net.stln.magitech.item.tool.partitem.PartItem;
 import net.stln.magitech.item.tool.toolitem.PartToolGenerator;
-import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.magic.spell.SpellInit;
-import net.stln.magitech.magic.spell.ember.Fluvalen;
-import net.stln.magitech.magic.spell.ember.Ignisca;
-import net.stln.magitech.magic.spell.ember.Pyrolux;
-import net.stln.magitech.magic.spell.flow.Aeltherin;
-import net.stln.magitech.magic.spell.flow.Fluvinae;
-import net.stln.magitech.magic.spell.flow.Mistrelune;
-import net.stln.magitech.magic.spell.glace.Cryoluxa;
-import net.stln.magitech.magic.spell.glace.Frigala;
-import net.stln.magitech.magic.spell.glace.Nivalune;
-import net.stln.magitech.magic.spell.hollow.Disparundra;
-import net.stln.magitech.magic.spell.hollow.Nullixis;
-import net.stln.magitech.magic.spell.hollow.Tenebrisol;
-import net.stln.magitech.magic.spell.hollow.Voidlance;
-import net.stln.magitech.magic.spell.magic.Arcaleth;
-import net.stln.magitech.magic.spell.magic.Glymora;
-import net.stln.magitech.magic.spell.magic.Mystaven;
-import net.stln.magitech.magic.spell.mana.Enercrux;
-import net.stln.magitech.magic.spell.phantom.Mirazien;
-import net.stln.magitech.magic.spell.phantom.Phantastra;
-import net.stln.magitech.magic.spell.phantom.Veilmist;
-import net.stln.magitech.magic.spell.surge.Fulgenza;
-import net.stln.magitech.magic.spell.surge.Sparkion;
-import net.stln.magitech.magic.spell.surge.Voltaris;
-import net.stln.magitech.magic.spell.tremor.Oscilbeam;
-import net.stln.magitech.magic.spell.tremor.Sonistorm;
-import net.stln.magitech.magic.spell.tremor.Tremivox;
 
 import java.util.List;
 
@@ -49,22 +24,14 @@ public class CreativeTabInit {
 
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Magitech.MOD_ID);
 
-    static List<Spell> allSpells = List.of(
-            SpellInit.IGNISCA, SpellInit.PYROLUX, SpellInit.FLUVALEN, SpellInit.BLAZEWEND,
-            SpellInit.FRIGALA, SpellInit.CRYOLUXA, SpellInit.NIVALUNE, SpellInit.GLISTELDA,
-            SpellInit.VOLTARIS, SpellInit.FULGENZA, SpellInit.SPARKION, SpellInit.ARCLUME,
-            SpellInit.MIRAZIEN, SpellInit.PHANTASTRA, SpellInit.VEILMIST, SpellInit.FADANCEA,
-            SpellInit.TREMIVOX, SpellInit.OSCILBEAM, SpellInit.SONISTORM, SpellInit.QUAVERIS,
-            SpellInit.ARCALETH, SpellInit.MYSTAVEN, SpellInit.GLYMORA, SpellInit.ENVISTRA,
-            SpellInit.AELTHERIN, SpellInit.FLUVINAE, SpellInit.MISTRELUNE, SpellInit.SYLLAEZE, SpellInit.NYMPHORA,
-            SpellInit.NULLIXIS, SpellInit.VOIDLANCE, SpellInit.TENEBRISOL, SpellInit.DISPARUNDRA, SpellInit.TENEBPORT,
-            SpellInit.ENERCRUX
-    );
-
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MAGITECH_TAB = CREATIVE_MODE_TABS.register("magitech_tab", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.magitech.magitech"))
             .icon(() -> ItemInit.GLISTENING_LEXICON.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
+                var registries = parameters.holders();
+                var spellLookup = registries.lookupOrThrow(MagitechRegistries.Keys.SPELL);
+                var allSpells = new AnyHolderSet<>(spellLookup);
+
                 output.accept(ThreadboundGenerator.generateThreadbound(ItemInit.GLISTENING_LEXICON.get(), allSpells));
                 output.accept(ThreadboundGenerator.generateThreadbound(ItemInit.THE_FIRE_THAT_THINKS.get(), allSpells));
                 output.accept(ThreadboundGenerator.generateThreadbound(ItemInit.ARCANE_ENGINEERING_COMPENDIUM.get(), allSpells));
@@ -502,7 +469,7 @@ public class CreativeTabInit {
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MAGITECH_SPELL_TAB = CREATIVE_MODE_TABS.register("magitech_spell_tab", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.magitech.magitech_spell"))
-            .icon(() -> ThreadboundGenerator.generateThreadPage(new Enercrux()))
+            .icon(() -> ThreadboundGenerator.generateThreadPage(SpellInit.ENERCRUX))
             .withTabsBefore(MAGITECH_PART_TAB.getKey())
             .displayItems((parameters, output) -> {
                 output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.IGNISCA));
@@ -547,7 +514,7 @@ public class CreativeTabInit {
                 output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.DISPARUNDRA));
                 output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.TENEBPORT));
 
-                output.accept(ThreadboundGenerator.generateThreadPage(new Enercrux()));
+                output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.ENERCRUX));
 
             }).build());
 

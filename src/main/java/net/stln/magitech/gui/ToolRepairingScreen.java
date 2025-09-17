@@ -22,7 +22,7 @@ import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
 public class ToolRepairingScreen extends AbstractContainerScreen<ToolRepairingMenu> {
-    private static final ResourceLocation CRAFTING_TABLE_LOCATION = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "textures/gui/tool_repairing.png");
+    private static final ResourceLocation CRAFTING_TABLE_LOCATION = Magitech.id("textures/gui/tool_repairing.png");
     private OwoUIAdapter<FlowLayout> uiAdapter;
     ItemStack stack = null;
 

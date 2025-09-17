@@ -1,8 +1,6 @@
 package net.stln.magitech.datagen;
 
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.client.model.generators.ModelProvider;
@@ -12,8 +10,6 @@ import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.item.ItemInit;
 import net.stln.magitech.item.tool.material.ToolMaterial;
 import net.stln.magitech.item.tool.model.ModelRegistrar;
-
-import java.util.Objects;
 
 public class ModItemModelProvider extends ItemModelProvider {
     public ModItemModelProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
@@ -96,13 +92,13 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(BlockInit.CELIFERN_DOOR_ITEM.get());
         getBuilder(BlockInit.CELIFERN_SAPLING_ITEM.get().toString())
                 .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                .texture("layer0", ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "block/" + BlockInit.CELIFERN_SAPLING_ITEM.getId().getPath()));
+                .texture("layer0", Magitech.id("block/" + BlockInit.CELIFERN_SAPLING_ITEM.getId().getPath()));
         basicItem(BlockInit.CELIFERN_SIGN_ITEM.get());
         basicItem(BlockInit.CELIFERN_HANGING_SIGN_ITEM.get());
         basicItem(BlockInit.CHARCOAL_BIRCH_DOOR_ITEM.get());
         getBuilder(BlockInit.CHARCOAL_BIRCH_SAPLING_ITEM.get().toString())
                 .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                .texture("layer0", ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "block/" + BlockInit.CHARCOAL_BIRCH_SAPLING_ITEM.getId().getPath()));
+                .texture("layer0", Magitech.id("block/" + BlockInit.CHARCOAL_BIRCH_SAPLING_ITEM.getId().getPath()));
         basicItem(BlockInit.CHARCOAL_BIRCH_SIGN_ITEM.get());
         basicItem(BlockInit.CHARCOAL_BIRCH_HANGING_SIGN_ITEM.get());
         basicItem(BlockInit.MISTALIA_PETALS_ITEM.get());

@@ -4,8 +4,6 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
@@ -35,7 +33,6 @@ import net.stln.magitech.block.block_entity.ZardiusCrucibleBlockEntity;
 import net.stln.magitech.util.TickScheduler;
 
 import javax.annotation.Nullable;
-import java.util.Random;
 
 public class ZardiusCrucibleBlock extends BaseEntityBlock {
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
@@ -119,10 +116,8 @@ public class ZardiusCrucibleBlock extends BaseEntityBlock {
                 } else {
                     pLevel.addParticle(ParticleTypes.BUBBLE, d0, d1, d2,
                             pRandom.nextGaussian() * 0.005D, pRandom.nextGaussian() * 0.005D, pRandom.nextGaussian() * 0.005D);
-                    TickScheduler.schedule(1, () -> {
-                        pLevel.addParticle(ParticleTypes.BUBBLE_POP, d0, d1, d2,
-                                pRandom.nextGaussian() * 0.005D, pRandom.nextGaussian() * 0.005D, pRandom.nextGaussian() * 0.005D);
-                    }, pLevel.isClientSide);
+                    TickScheduler.schedule(1, () -> pLevel.addParticle(ParticleTypes.BUBBLE_POP, d0, d1, d2,
+                            pRandom.nextGaussian() * 0.005D, pRandom.nextGaussian() * 0.005D, pRandom.nextGaussian() * 0.005D), pLevel.isClientSide);
                 }
             }
         }

@@ -2,44 +2,27 @@ package net.stln.magitech.item.component;
 
 
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
-import io.netty.buffer.ByteBuf;
-import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.core.Holder;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import net.stln.magitech.magic.spell.Spell;
-import net.stln.magitech.magic.spell.SpellRegister;
+import net.stln.magitech.util.RegistryHelper;
+import org.jetbrains.annotations.NotNull;
 
-public record ThreadPageComponent(Spell spell) {
+import java.util.Optional;
 
-    public static final Codec<ThreadPageComponent> CODEC = RecordCodecBuilder.create(spellComponentInstance ->
-            spellComponentInstance.group(
-                    Codec.STRING.fieldOf("spell").forGetter(ThreadPageComponent::getStringSpellId)
-            ).apply(spellComponentInstance, ThreadPageComponentUtil::generateFromId)
-    );
-    public static final StreamCodec<ByteBuf, ThreadPageComponent> STREAM_CODEC = StreamCodec.composite(
-            ByteBufCodecs.STRING_UTF8.map(SpellRegister::getSpellFromString, SpellRegister::getStringId),
-            ThreadPageComponent::spell,
-            ThreadPageComponent::new
-    );
+public record ThreadPageComponent(@NotNull Holder<Spell> spell) {
+    public static final Codec<ThreadPageComponent> CODEC = Spell.HOLDER_CODEC.xmap(ThreadPageComponent::new, ThreadPageComponent::spell);
+    public static final StreamCodec<RegistryFriendlyByteBuf, ThreadPageComponent> STREAM_CODEC = Spell.HOLDER_STREAM_CODEC.map(ThreadPageComponent::new, ThreadPageComponent::spell);
 
-
-    public ResourceLocation getSpellId() {
-        if (spell != null) {
-            return SpellRegister.getId(spell);
-        }
-        return null;
+    public ThreadPageComponent(DeferredHolder<Spell, ?> spell) {
+        this(spell.getDelegate());
     }
-
-    public String getStringSpellId() {
-        if (spell != null) {
-            return SpellRegister.getId(spell).toString();
-        }
-        return null;
-    }
-
-    public Spell getSpell() {
-        return spell;
+    
+    public @NotNull Optional<ResourceLocation> getId() {
+        return RegistryHelper.getId(spell);
     }
 }
 

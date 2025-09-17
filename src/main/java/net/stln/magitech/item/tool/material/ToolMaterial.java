@@ -2,43 +2,41 @@ package net.stln.magitech.item.tool.material;
 
 import net.minecraft.resources.ResourceLocation;
 import net.stln.magitech.item.tool.ToolStats;
-import net.stln.magitech.item.tool.register.ToolMaterialRegister;
 import net.stln.magitech.item.tool.trait.Trait;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
 public class ToolMaterial {
     protected ToolStats statsMap = ToolStats.DEFAULT;
     protected ToolStats spellCasterStatsMap = ToolStats.DEFAULT;
-    protected ResourceLocation id;
-    protected Trait materialTrait;
+    protected final ResourceLocation id;
+    protected final Trait materialTrait;
 
-    public ToolMaterial(@Nullable Trait materialTrait, ResourceLocation id) {
+    public ToolMaterial(@NotNull Trait materialTrait, ResourceLocation id) {
         this.materialTrait = materialTrait;
         this.id = id;
-        ToolMaterialRegister.registerId(id, this);
     }
 
-    public void addStats(ToolStats stats) {
+    public void addStats(@NotNull ToolStats stats) {
         statsMap = stats;
     }
 
-    public void addSpellCasterStats(ToolStats stats) {
+    public void addSpellCasterStats(@NotNull ToolStats stats) {
         spellCasterStatsMap = stats;
     }
 
-    public ToolStats getStats() {
+    public @NotNull ToolStats getStats() {
         return statsMap;
     }
 
-    public ToolStats getSpellCasterStats() {
+    public @NotNull ToolStats getSpellCasterStats() {
         return spellCasterStatsMap;
     }
 
-    public Trait getTrait() {
+    public @NotNull Trait getTrait() {
         return this.materialTrait;
     }
 
-    public ResourceLocation getId() {
+    public @NotNull ResourceLocation getId() {
         return id;
     }
 }

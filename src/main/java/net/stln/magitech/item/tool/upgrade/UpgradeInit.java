@@ -1,6 +1,5 @@
 package net.stln.magitech.item.tool.upgrade;
 
-import net.minecraft.resources.ResourceLocation;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.item.tool.material.MiningLevel;
@@ -28,21 +27,21 @@ public class UpgradeInit {
 
     public static void registerUpgrades() {
         Magitech.LOGGER.info("Registering Upgrades for " + Magitech.MOD_ID);
-        UpgradeRegister.registerId(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "damage_upgrade"), ATTACK_UPGRADE);
-        UpgradeRegister.registerId(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "elemental_damage_upgrade"), ELEMENTAL_ATTACK_UPGRADE);
-        UpgradeRegister.registerId(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "speed_upgrade"), SPEED_UPGRADE);
-        UpgradeRegister.registerId(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "mining_upgrade"), MINING_UPGRADE);
-        UpgradeRegister.registerId(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "defence_upgrade"), DEFENCE_UPGRADE);
-        UpgradeRegister.registerId(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "range_upgrade"), RANGE_UPGRADE);
-        UpgradeRegister.registerId(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "sweep_upgrade"), SWEEP_UPGRADE);
-        UpgradeRegister.registerId(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "durability_upgrade"), DURABILITY_UPGRADE);
-        UpgradeRegister.registerSpellCasterId(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "caster_power_upgrade"), CASTER_POWER_UPGRADE);
-        UpgradeRegister.registerSpellCasterId(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "caster_elemental_power_upgrade"), CASTER_ELEMENTAL_POWER_UPGRADE);
-        UpgradeRegister.registerSpellCasterId(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "caster_charge_upgrade"), CASTER_CHARGE_UPGRADE);
-        UpgradeRegister.registerSpellCasterId(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "caster_cooldown_upgrade"), CASTER_COOLDOWN_UPGRADE);
-        UpgradeRegister.registerSpellCasterId(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "caster_defence_upgrade"), CASTER_DEFENCE_UPGRADE);
-        UpgradeRegister.registerSpellCasterId(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "caster_projectile_speed_upgrade"), CASTER_PROJECTILE_SPEED_UPGRADE);
-        UpgradeRegister.registerSpellCasterId(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "caster_efficiency_upgrade"), CASTER_EFFICIENCY_UPGRADE);
-        UpgradeRegister.registerSpellCasterId(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "caster_durability_upgrade"), CASTER_DURABILITY_UPGRADE);
+        UpgradeRegister.registerId(Magitech.id("damage_upgrade"), ATTACK_UPGRADE);
+        UpgradeRegister.registerId(Magitech.id("elemental_damage_upgrade"), ELEMENTAL_ATTACK_UPGRADE);
+        UpgradeRegister.registerId(Magitech.id("speed_upgrade"), SPEED_UPGRADE);
+        UpgradeRegister.registerId(Magitech.id("mining_upgrade"), MINING_UPGRADE);
+        UpgradeRegister.registerId(Magitech.id("defence_upgrade"), DEFENCE_UPGRADE);
+        UpgradeRegister.registerId(Magitech.id("range_upgrade"), RANGE_UPGRADE);
+        UpgradeRegister.registerId(Magitech.id("sweep_upgrade"), SWEEP_UPGRADE);
+        UpgradeRegister.registerId(Magitech.id("durability_upgrade"), DURABILITY_UPGRADE);
+        UpgradeRegister.registerSpellCasterId(Magitech.id("caster_power_upgrade"), CASTER_POWER_UPGRADE);
+        UpgradeRegister.registerSpellCasterId(Magitech.id("caster_elemental_power_upgrade"), CASTER_ELEMENTAL_POWER_UPGRADE);
+        UpgradeRegister.registerSpellCasterId(Magitech.id("caster_charge_upgrade"), CASTER_CHARGE_UPGRADE);
+        UpgradeRegister.registerSpellCasterId(Magitech.id("caster_cooldown_upgrade"), CASTER_COOLDOWN_UPGRADE);
+        UpgradeRegister.registerSpellCasterId(Magitech.id("caster_defence_upgrade"), CASTER_DEFENCE_UPGRADE);
+        UpgradeRegister.registerSpellCasterId(Magitech.id("caster_projectile_speed_upgrade"), CASTER_PROJECTILE_SPEED_UPGRADE);
+        UpgradeRegister.registerSpellCasterId(Magitech.id("caster_efficiency_upgrade"), CASTER_EFFICIENCY_UPGRADE);
+        UpgradeRegister.registerSpellCasterId(Magitech.id("caster_durability_upgrade"), CASTER_DURABILITY_UPGRADE);
     }
 }

@@ -21,6 +21,7 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePrope
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.item.ItemInit;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
 
@@ -153,7 +154,7 @@ public class ModBlockLootProvider extends BlockLootSubProvider {
     }
 
     @Override
-    protected Iterable<Block> getKnownBlocks() {
+    protected @NotNull Iterable<Block> getKnownBlocks() {
         return BlockInit.BLOCKS.getEntries().stream().map(Holder::value)::iterator;
     }
 }

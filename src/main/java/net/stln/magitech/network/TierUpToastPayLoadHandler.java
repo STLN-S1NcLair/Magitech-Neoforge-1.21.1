@@ -5,6 +5,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.stln.magitech.gui.toast.TierUpToast;
+import net.stln.magitech.util.ClientHelper;
 
 public class TierUpToastPayLoadHandler {
 
@@ -14,6 +15,8 @@ public class TierUpToastPayLoadHandler {
 
     @OnlyIn(Dist.CLIENT)
     private static void addToast(TierUpToastPayload payload) {
-        Minecraft.getInstance().getToasts().addToast(new TierUpToast(payload.newTier(), Minecraft.getInstance().player.getInventory().getItem(payload.slot()).copy()));
+        var player = ClientHelper.getPlayer();
+        if (player == null) return;
+        Minecraft.getInstance().getToasts().addToast(new TierUpToast(payload.newTier(), player.getInventory().getItem(payload.slot()).copy()));
     }
 }

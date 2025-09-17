@@ -1,5 +1,7 @@
 package net.stln.magitech.gui;
 
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -8,47 +10,46 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.stln.magitech.item.ItemInit;
-import net.stln.magitech.item.ThreadPageItem;
 import net.stln.magitech.item.ThreadBoundItem;
+import net.stln.magitech.item.ThreadPageItem;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.SpellComponent;
 import net.stln.magitech.item.component.ThreadPageComponent;
 import net.stln.magitech.magic.spell.Spell;
-import top.theillusivec4.curios.api.CuriosApi;
-import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
+import net.stln.magitech.util.ComponentHelper;
+import net.stln.magitech.util.CuriosHelper;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ThreadboudMenuType extends AbstractContainerMenu {
-    private final Player player;
-    private ItemStack threadbound;
-    private SimpleContainer container = new SimpleContainer(15);
-    private int containerRows = 3;
-    private int containerColumns = 5;
+public class ThreadboundMenuType extends AbstractContainerMenu {
+    private final ItemStack threadbound;
+    private final SimpleContainer container = new SimpleContainer(15);
+    private final int containerRows = 3;
+    private final int containerColumns = 5;
 
-    public ThreadboudMenuType(int containerId, Inventory playerInv) {
+    public ThreadboundMenuType(int containerId, Inventory playerInv) {
         this(containerId, playerInv, playerInv.player, playerInv.player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof ThreadBoundItem ? playerInv.player.getItemInHand(InteractionHand.MAIN_HAND) : playerInv.player.getItemInHand(InteractionHand.OFF_HAND));
     }
 
-    public ThreadboudMenuType(int containerId, Inventory playerInv, Player player, ItemStack threadbound) {
+    public ThreadboundMenuType(int containerId, Inventory playerInv, Player player, ItemStack threadbound) {
         super(GuiInit.THREADBOUND_MENU.get(), containerId);
-        this.player = player;
 
-        if (!(threadbound.getItem() instanceof ThreadBoundItem) && CuriosApi.getCuriosInventory(player).isPresent()) {
-            threadbound = CuriosApi.getCuriosInventory(player).get().getCurios().get("threadbound").getStacks().getStackInSlot(0);
+        if (!(threadbound.getItem() instanceof ThreadBoundItem)) {
+            threadbound = CuriosHelper.getThreadBoundStack(player).orElse(ItemStack.EMPTY);
         }
         this.threadbound = threadbound;
 
         for (int i = 0; i < 15; i++) {
             this.addSlot(new Slot(container, i, 44 + 18 * (i % 5), 27 + 18 * (i / 5)) {
                 @Override
-                public boolean mayPlace(ItemStack stack) {
+                public boolean mayPlace(@NotNull ItemStack stack) {
                     return stack.getItem() instanceof ThreadPageItem;
                 }
 
                 @Override
-                public void set(ItemStack stack) {
+                public void set(@NotNull ItemStack stack) {
                     this.setChanged();
                     super.set(stack);
                 }
@@ -58,7 +59,7 @@ public class ThreadboudMenuType extends AbstractContainerMenu {
         addInventory(playerInv);
         addHotbar(playerInv);
 
-        List<Spell> spells = threadbound.get(ComponentInit.SPELL_COMPONENT).spells();
+        HolderSet<Spell> spells = ComponentHelper.getSpells(threadbound).spells();
         for (int i = 0; i < Math.min(spells.size(), container.getContainerSize()); i++) {
             ItemStack stack = new ItemStack(ItemInit.THREAD_PAGE.get());
             stack.set(ComponentInit.THREAD_PAGE_COMPONENT, new ThreadPageComponent(spells.get(i)));
@@ -67,10 +68,10 @@ public class ThreadboudMenuType extends AbstractContainerMenu {
     }
 
     @Override
-    public ItemStack quickMoveStack(Player player, int index) {
+    public @NotNull ItemStack quickMoveStack(@NotNull Player player, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
-        if (slot != null && slot.hasItem()) {
+        if (slot.hasItem()) {
             ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
             if (index < this.containerRows * containerColumns) {
@@ -92,9 +93,8 @@ public class ThreadboudMenuType extends AbstractContainerMenu {
     }
 
     @Override
-    public boolean stillValid(Player player) {
-        ICuriosItemHandler curiosInventory = CuriosApi.getCuriosInventory(player).get();
-        return player.getInventory().contains(threadbound) || !curiosInventory.getCurios().get("threadbound").getStacks().getStackInSlot(0).isEmpty();
+    public boolean stillValid(@NotNull Player player) {
+        return CuriosHelper.getThreadBoundStack(player).isPresent();
     }
 
     private void addInventory(Inventory playerInventory) {
@@ -118,7 +118,7 @@ public class ThreadboudMenuType extends AbstractContainerMenu {
     }
 
     @Override
-    public void removed(Player player) {
+    public void removed(@NotNull Player player) {
         // プレイヤーが閉じた時にカーソルにあるアイテムをドロップさせる
         ItemStack carried = this.getCarried();
         if (!carried.isEmpty() && !player.level().isClientSide) {
@@ -130,12 +130,10 @@ public class ThreadboudMenuType extends AbstractContainerMenu {
     }
 
     public void updateComponent() {
-        List<Spell> spells = new ArrayList<>();
+        List<Holder<Spell>> spells = new ArrayList<>();
         for (int i = 0; i < 15; i++) {
-            if (!container.getItem(i).isEmpty() && container.getItem(i).getItem() instanceof ThreadPageItem pageItem && container.getItem(i).has(ComponentInit.THREAD_PAGE_COMPONENT)) {
-                spells.add(container.getItem(i).get(ComponentInit.THREAD_PAGE_COMPONENT).spell());
-            }
+            ComponentHelper.getThreadPageSpell(container.getItem(i)).ifPresent(spells::add);
         }
-        threadbound.set(ComponentInit.SPELL_COMPONENT, new SpellComponent(spells, 0));
+        threadbound.set(ComponentInit.SPELL_COMPONENT, new SpellComponent(spells));
     }
 }

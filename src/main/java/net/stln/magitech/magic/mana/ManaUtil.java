@@ -118,23 +118,21 @@ public class ManaUtil {
         ManaData.setPrevMana(player, type, ManaData.getCurrentMana(player, type));
         ManaData.setCurrentMana(player, type, value);
         if (player.level().isClientSide) {
-            PacketDistributor.sendToServer(new SyncManaPayload(value, type.id, player.getStringUUID()));
+            PacketDistributor.sendToServer(new SyncManaPayload(value, type.id, player.getUUID()));
         } else {
-            PacketDistributor.sendToAllPlayers(new SyncManaPayload(value, type.id, player.getStringUUID()));
+            PacketDistributor.sendToAllPlayers(new SyncManaPayload(value, type.id, player.getUUID()));
         }
     }
 
     public static double getManaRegen(Player player, ManaType type) {
-        return switch (type) {
-            case MANA ->
-                    player.getAttribute(AttributeInit.MANA_REGEN) == null ? 0 : player.getAttribute(AttributeInit.MANA_REGEN).getValue();
-            case NOCTIS ->
-                    player.getAttribute(AttributeInit.NOCTIS_REGEN) == null ? 0 : player.getAttribute(AttributeInit.NOCTIS_REGEN).getValue();
-            case LUMINIS ->
-                    player.getAttribute(AttributeInit.LUMINIS_REGEN) == null ? 0 : player.getAttribute(AttributeInit.LUMINIS_REGEN).getValue();
-            case FLUXIA ->
-                    player.getAttribute(AttributeInit.FLUXIA_REGEN) == null ? 0 : player.getAttribute(AttributeInit.FLUXIA_REGEN).getValue();
+        var attributeHolder = switch (type) {
+            case MANA -> AttributeInit.MANA_REGEN;
+            case NOCTIS -> AttributeInit.NOCTIS_REGEN;
+            case LUMINIS -> AttributeInit.LUMINIS_REGEN;
+            case FLUXIA -> AttributeInit.FLUXIA_REGEN;
         };
+        var attribute = player.getAttribute(attributeHolder);
+        return attribute == null ? 0 : attribute.getValue();
     }
 
     public static double getMaxMana(Player player, ManaType type) {

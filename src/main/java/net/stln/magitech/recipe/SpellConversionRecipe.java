@@ -3,25 +3,26 @@ package net.stln.magitech.recipe;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.stln.magitech.item.ItemInit;
+import net.stln.magitech.magic.spell.Spell;
 
 public class SpellConversionRecipe implements Recipe<SingleRecipeInput> {
     protected final Ingredient ingredient;
-    protected final ResourceLocation spell;
+    protected final Holder<Spell> spell;
     protected final ItemStack result;
     protected final String group;
     private final RecipeType<?> type;
     private final RecipeSerializer<?> serializer;
 
-    public SpellConversionRecipe(String group, Ingredient ingredient, ResourceLocation spell, ItemStack result) {
+    public SpellConversionRecipe(String group, Ingredient ingredient, Holder<Spell> spell, ItemStack result) {
         this.type = RecipeInit.SPELL_CONVERSION_TYPE.get();
         this.serializer = RecipeInit.SPELL_CONVERSION_SERIALIZER.get();
         this.group = group;
@@ -49,7 +50,7 @@ public class SpellConversionRecipe implements Recipe<SingleRecipeInput> {
         return ingredient;
     }
 
-    public ResourceLocation getSpell() {
+    public Holder<Spell> getSpell() {
         return spell;
     }
 
@@ -81,7 +82,7 @@ public class SpellConversionRecipe implements Recipe<SingleRecipeInput> {
     }
 
     public interface Factory<T extends SpellConversionRecipe> {
-        T create(String group, Ingredient ingredient, ResourceLocation spell, ItemStack result);
+        T create(String group, Ingredient ingredient, Holder<Spell> spell, ItemStack result);
     }
 
     public static class Serializer<T extends SpellConversionRecipe> implements RecipeSerializer<T> {
@@ -95,7 +96,7 @@ public class SpellConversionRecipe implements Recipe<SingleRecipeInput> {
                     p_340781_ -> p_340781_.group(
                                     Codec.STRING.optionalFieldOf("group", "").forGetter(p_300947_ -> p_300947_.group),
                                     Ingredient.CODEC_NONEMPTY.fieldOf("ingredient").forGetter(p_301068_ -> p_301068_.ingredient),
-                                    ResourceLocation.CODEC.fieldOf("spell").forGetter(p_301068_ -> p_301068_.spell),
+                                    Spell.HOLDER_CODEC.fieldOf("spell").forGetter(p_301068_ -> p_301068_.spell),
                                     ItemStack.STRICT_CODEC.fieldOf("result").forGetter(p_302316_ -> p_302316_.result)
                             )
                             .apply(p_340781_, factory::create)
@@ -105,7 +106,7 @@ public class SpellConversionRecipe implements Recipe<SingleRecipeInput> {
                     p_319737_ -> p_319737_.group,
                     Ingredient.CONTENTS_STREAM_CODEC,
                     p_319737_ -> p_319737_.ingredient,
-                    ResourceLocation.STREAM_CODEC,
+                    Spell.HOLDER_STREAM_CODEC,
                     p_319737_ -> p_319737_.spell,
                     ItemStack.STREAM_CODEC,
                     p_319736_ -> p_319736_.result,

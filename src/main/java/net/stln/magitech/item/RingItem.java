@@ -27,7 +27,7 @@ public class RingItem extends TooltipTextItem implements ICurioItem {
     public Multimap<Holder<Attribute>, AttributeModifier> getAttributeModifiers(SlotContext slotContext, ResourceLocation id, ItemStack stack) {
         ImmutableMultimap.Builder<Holder<Attribute>, AttributeModifier> modifierMultimap = ImmutableMultimap.builder();
         for (Map.Entry<Holder<Attribute>, AttributeModifier> modifier : attributeModifiers.entrySet()) {
-            ResourceLocation location = ResourceLocation.tryParse(modifier.getValue().id().toString());
+            ResourceLocation location = ResourceLocation.parse(modifier.getValue().id().toString());
             AttributeModifier attributeModifier = new AttributeModifier(location.withSuffix(generateUUID(slotContext, stack).toString()), modifier.getValue().amount(), modifier.getValue().operation());
             modifierMultimap.put(modifier.getKey(), attributeModifier);
         }

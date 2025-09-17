@@ -2,7 +2,7 @@ package net.stln.magitech.block;
 
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
 import net.minecraft.core.Direction;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -15,9 +15,6 @@ import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.common.util.DeferredSoundType;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -27,7 +24,6 @@ import net.stln.magitech.block.block_entity.AlchemetricPylonBlockEntity;
 import net.stln.magitech.block.block_entity.AthanorPillarBlockEntity;
 import net.stln.magitech.block.block_entity.ManaVesselBlockEntity;
 import net.stln.magitech.block.block_entity.ZardiusCrucibleBlockEntity;
-import net.stln.magitech.block.block_entity.renderer.ManaVesselBlockEntityRenderer;
 import net.stln.magitech.item.ItemInit;
 import net.stln.magitech.item.TooltipTextBlockItem;
 import net.stln.magitech.item.TooltipTextSignItem;
@@ -60,7 +56,7 @@ public class BlockInit {
 
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(Magitech.MOD_ID);
 
-    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENITIES = DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, Magitech.MOD_ID);
+    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENITIES = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, Magitech.MOD_ID);
 
     public static final DeferredBlock<EnginneringWorkbenchBlock> ENGINEERING_WORKBENCH = BLOCKS.registerBlock("engineering_workbench",
             EnginneringWorkbenchBlock::new,

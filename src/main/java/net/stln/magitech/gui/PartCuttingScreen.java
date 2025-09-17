@@ -14,6 +14,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
@@ -21,13 +22,15 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.recipe.PartCuttingRecipe;
+import net.stln.magitech.util.ClientHelper;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
 public class PartCuttingScreen extends AbstractContainerScreen<PartCuttingMenu> {
-    private static final ResourceLocation BG_LOCATION = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "textures/gui/part_cutting.png");
+    private static final ResourceLocation BG_LOCATION = Magitech.id("textures/gui/part_cutting.png");
     private static final int SCROLLER_WIDTH = 8;
     private static final int SCROLLER_HEIGHT = 8;
     private static final int RECIPES_COLUMNS = 4;
@@ -102,7 +105,7 @@ public class PartCuttingScreen extends AbstractContainerScreen<PartCuttingMenu> 
      * @param partialTick the partial tick time.
      */
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+    public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.render(guiGraphics, mouseX, mouseY, partialTick);
         this.renderTooltip(guiGraphics, mouseX, mouseY);
     }
@@ -148,7 +151,6 @@ public class PartCuttingScreen extends AbstractContainerScreen<PartCuttingMenu> 
             int k = x + j % 4 * 18;
             int l = j / 4;
             int i1 = y + l * 18 + 2;
-            ResourceLocation resourcelocation;
             int offx = 0;
             int offy = 0;
             if (i == this.menu.getSelectedRecipeIndex()) {
@@ -188,6 +190,8 @@ public class PartCuttingScreen extends AbstractContainerScreen<PartCuttingMenu> 
      */
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        Player player = ClientHelper.getPlayer();
+        if (player == null) return false;
         this.scrolling = false;
         if (this.displayRecipes) {
             int i = this.leftPos + 46;
@@ -198,7 +202,7 @@ public class PartCuttingScreen extends AbstractContainerScreen<PartCuttingMenu> 
                 int i1 = l - this.startIndex;
                 double d0 = mouseX - (double) (i + i1 % 4 * 18);
                 double d1 = mouseY - (double) (j + i1 / 4 * 18);
-                if (d0 >= 0.0 && d1 >= 0.0 && d0 < 18.0 && d1 < 18.0 && this.menu.clickMenuButton(this.minecraft.player, l)) {
+                if (d0 >= 0.0 && d1 >= 0.0 && d0 < 18.0 && d1 < 18.0 && this.menu.clickMenuButton(player, l)) {
                     Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_STONECUTTER_SELECT_RECIPE, 1.0F));
                     this.minecraft.gameMode.handleInventoryButtonClick(this.menu.containerId, l);
                     return true;

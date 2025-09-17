@@ -1,7 +1,6 @@
 package net.stln.magitech.sound;
 
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.sounds.SoundEvent;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -11,7 +10,7 @@ import java.util.function.Supplier;
 
 public class SoundInit {
 
-    public static final DeferredRegister<SoundEvent> SOUND_EVENTS = DeferredRegister.create(BuiltInRegistries.SOUND_EVENT, Magitech.MOD_ID);
+    public static final DeferredRegister<SoundEvent> SOUND_EVENTS = DeferredRegister.create(Registries.SOUND_EVENT, Magitech.MOD_ID);
 
     public static final Supplier<SoundEvent> PHANTOM_BUFF = registerSoundEvent("phantom_buff");
     public static final Supplier<SoundEvent> GEOMENDING_BREAK = registerSoundEvent("geomending_break");
@@ -79,8 +78,7 @@ public class SoundInit {
 
 
     private static Supplier<SoundEvent> registerSoundEvent(String name) {
-        ResourceLocation id = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, name);
-        return SOUND_EVENTS.register(name, () -> SoundEvent.createVariableRangeEvent(id));
+        return SOUND_EVENTS.register(name, SoundEvent::createVariableRangeEvent);
     }
 
     public static void registerSoundEvents(IEventBus eventBus) {

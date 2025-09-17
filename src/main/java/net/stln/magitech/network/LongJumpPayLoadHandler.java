@@ -22,7 +22,7 @@ public class LongJumpPayLoadHandler {
         Player player = null;
         Level level = context.player().level();
         for (Player search : level.players()) {
-            if (search.getUUID().toString().equals(payload.uuid())) {
+            if (Objects.equals(search.getUUID(), payload.uuid())) {
                 player = search;
                 break;
             }
@@ -37,7 +37,7 @@ public class LongJumpPayLoadHandler {
     }
 
     public static void handleDataOnMainC2S(final LongJumpPayload payload, final IPayloadContext context) {
-        Player player = context.player().level().getPlayerByUUID(UUID.fromString(payload.uuid()));
+        Player player = context.player().level().getPlayerByUUID(payload.uuid());
         if (player == null) {
             return;
         }

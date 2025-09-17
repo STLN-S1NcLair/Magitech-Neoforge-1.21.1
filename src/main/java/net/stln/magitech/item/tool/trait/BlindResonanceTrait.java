@@ -32,6 +32,7 @@ import net.stln.magitech.particle.particle_option.PowerupParticleEffect;
 import net.stln.magitech.particle.particle_option.WaveNoCullParticleEffect;
 import net.stln.magitech.particle.particle_option.WaveParticleEffect;
 import net.stln.magitech.sound.SoundInit;
+import net.stln.magitech.util.ComponentHelper;
 import net.stln.magitech.util.EffectUtil;
 import net.stln.magitech.util.EntityUtil;
 import org.joml.Vector3f;
@@ -48,7 +49,7 @@ public class BlindResonanceTrait extends Trait {
         level.updateSkyBrightness();
         int light = level.getMaxLocalRawBrightness(player.blockPosition());
         if (light < 4) {
-            entries.add(new ItemAttributeModifiers.Entry(Attributes.MOVEMENT_SPEED, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "blind_touch"), traitLevel * 0.25, AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.MAINHAND));
+            entries.add(new ItemAttributeModifiers.Entry(Attributes.MOVEMENT_SPEED, new AttributeModifier(Magitech.id("blind_touch"), traitLevel * 0.25, AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.MAINHAND));
         }
         super.modifyAttribute(player, level, stack, traitLevel, stats, entries);
     }
@@ -58,7 +59,7 @@ public class BlindResonanceTrait extends Trait {
         level.updateSkyBrightness();
         int light = level.getMaxLocalRawBrightness(player.blockPosition());
         if (light < 4) {
-            entries.add(new ItemAttributeModifiers.Entry(Attributes.MOVEMENT_SPEED, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "blind_touch"), traitLevel * 0.25, AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.MAINHAND));
+            entries.add(new ItemAttributeModifiers.Entry(Attributes.MOVEMENT_SPEED, new AttributeModifier(Magitech.id("blind_touch"), traitLevel * 0.25, AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.MAINHAND));
         }
         super.modifySpellCasterAttribute(player, level, stack, traitLevel, stats, entries);
     }
@@ -68,7 +69,7 @@ public class BlindResonanceTrait extends Trait {
         level.updateSkyBrightness();
         int light = level.getMaxLocalRawBrightness(player.blockPosition());
         if (light < 4) {
-            List<ToolMaterial> materials = stack.getComponents().get(ComponentInit.PART_MATERIAL_COMPONENT.get()).materials();
+            List<ToolMaterial> materials = ComponentHelper.getPartMaterials(stack);
             Set<ToolMaterial> materialSet = PartToolItem.getMaterialSet(materials);
             ToolStats defaultStats = ToolStats.DEFAULT;
             Map<String, Float> statsMap = stats.getStats();

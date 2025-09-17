@@ -1,6 +1,5 @@
 package net.stln.magitech.worldgen.terrain;
 
-import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
@@ -9,13 +8,9 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.VegetationPatchFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.VegetationPatchConfiguration;
 import net.stln.magitech.block.BlockInit;
 
 import java.util.Arrays;
@@ -66,7 +61,7 @@ public class ScorchedLavaLakeFeature extends Feature<NoneFeatureConfiguration> {
             level.setBlock(blockpos1, Blocks.LAVA.defaultBlockState(), 2);
 
             Predicate<BlockState> predicate = p_204782_ -> p_204782_.is(BlockInit.SCORCHED_GRASS_SOIL.get()) || p_204782_.is(BlockInit.SCORCHED_SOIL.get()) || p_204782_.is(Blocks.STONE);
-            List<Direction> directions = new java.util.ArrayList<>(Arrays.stream(Direction.values().clone()).toList());
+            List<Direction> directions = Arrays.asList(Direction.values().clone());
             directions.remove(Direction.UP);
             for (Direction direction : directions) {
                 BlockPos pos1 = blockpos1.relative(direction);

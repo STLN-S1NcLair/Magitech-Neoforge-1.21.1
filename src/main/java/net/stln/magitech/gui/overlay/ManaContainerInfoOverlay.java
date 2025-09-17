@@ -16,19 +16,22 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.block.block_entity.ManaContainerBlockEntity;
+import net.stln.magitech.util.ClientHelper;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
 public class ManaContainerInfoOverlay implements LayeredDraw.Layer {
 
-    private static ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "textures/gui/mana_gauge.png");
+    private static final ResourceLocation TEXTURE = Magitech.id("textures/gui/mana_gauge.png");
 
     @Override
-    public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
-        if (!Minecraft.getInstance().options.hideGui && !Minecraft.getInstance().player.isSpectator() && !Minecraft.getInstance().gui.getDebugOverlay().showDebugScreen() && Minecraft.getInstance().screen == null) {
+    public void render(@NotNull GuiGraphics guiGraphics, @NotNull DeltaTracker deltaTracker) {
+        Player player = ClientHelper.getPlayer();
+        if (player == null) return;
+        if (!Minecraft.getInstance().options.hideGui && !player.isSpectator() && !Minecraft.getInstance().gui.getDebugOverlay().showDebugScreen() && Minecraft.getInstance().screen == null) {
             int x = guiGraphics.guiWidth() / 2;
             int y = guiGraphics.guiHeight() / 2;
-            Player player = Minecraft.getInstance().player;
             Level level = player.level();
             BlockHitResult traceResult = level.clip(new ClipContext(player.getEyePosition(1f),
                     (player.getEyePosition(1f).add(player.getViewVector(1f).scale(player.getAttribute(Attributes.BLOCK_INTERACTION_RANGE).getValue()))),

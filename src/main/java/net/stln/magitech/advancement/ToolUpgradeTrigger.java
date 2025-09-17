@@ -1,26 +1,18 @@
 package net.stln.magitech.advancement;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.advancements.Criterion;
-import net.minecraft.advancements.CriterionTrigger;
-import net.minecraft.advancements.CriterionTriggerInstance;
 import net.minecraft.advancements.critereon.*;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.PlayerAdvancements;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.bus.EventBus;
-import net.stln.magitech.Magitech;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
 public class ToolUpgradeTrigger extends SimpleCriterionTrigger<ToolUpgradeTrigger.TriggerInstance> {
     @Override
-    public Codec<ToolUpgradeTrigger.TriggerInstance> codec() {
+    public @NotNull Codec<ToolUpgradeTrigger.TriggerInstance> codec() {
         return ToolUpgradeTrigger.TriggerInstance.CODEC;
     }
 
@@ -44,7 +36,7 @@ public class ToolUpgradeTrigger extends SimpleCriterionTrigger<ToolUpgradeTrigge
         }
 
         public boolean matches(ItemStack stack, int tier) {
-            return (!item.isPresent() || item.get().test(stack)) && this.tier.matches(tier);
+            return (item.isEmpty() || item.get().test(stack)) && this.tier.matches(tier);
         }
     }
 }
