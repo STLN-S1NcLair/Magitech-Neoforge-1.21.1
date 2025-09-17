@@ -16,32 +16,6 @@ import net.stln.magitech.item.tool.partitem.PartItem;
 import net.stln.magitech.item.tool.toolitem.PartToolGenerator;
 import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.magic.spell.SpellInit;
-import net.stln.magitech.magic.spell.ember.Fluvalen;
-import net.stln.magitech.magic.spell.ember.Ignisca;
-import net.stln.magitech.magic.spell.ember.Pyrolux;
-import net.stln.magitech.magic.spell.flow.Aeltherin;
-import net.stln.magitech.magic.spell.flow.Fluvinae;
-import net.stln.magitech.magic.spell.flow.Mistrelune;
-import net.stln.magitech.magic.spell.glace.Cryoluxa;
-import net.stln.magitech.magic.spell.glace.Frigala;
-import net.stln.magitech.magic.spell.glace.Nivalune;
-import net.stln.magitech.magic.spell.hollow.Disparundra;
-import net.stln.magitech.magic.spell.hollow.Nullixis;
-import net.stln.magitech.magic.spell.hollow.Tenebrisol;
-import net.stln.magitech.magic.spell.hollow.Voidlance;
-import net.stln.magitech.magic.spell.magic.Arcaleth;
-import net.stln.magitech.magic.spell.magic.Glymora;
-import net.stln.magitech.magic.spell.magic.Mystaven;
-import net.stln.magitech.magic.spell.mana.Enercrux;
-import net.stln.magitech.magic.spell.phantom.Mirazien;
-import net.stln.magitech.magic.spell.phantom.Phantastra;
-import net.stln.magitech.magic.spell.phantom.Veilmist;
-import net.stln.magitech.magic.spell.surge.Fulgenza;
-import net.stln.magitech.magic.spell.surge.Sparkion;
-import net.stln.magitech.magic.spell.surge.Voltaris;
-import net.stln.magitech.magic.spell.tremor.Oscilbeam;
-import net.stln.magitech.magic.spell.tremor.Sonistorm;
-import net.stln.magitech.magic.spell.tremor.Tremivox;
 
 import java.util.List;
 
@@ -502,7 +476,7 @@ public class CreativeTabInit {
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MAGITECH_SPELL_TAB = CREATIVE_MODE_TABS.register("magitech_spell_tab", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.magitech.magitech_spell"))
-            .icon(() -> ThreadboundGenerator.generateThreadPage(new Enercrux()))
+            .icon(() -> ThreadboundGenerator.generateThreadPage(SpellInit.ENERCRUX))
             .withTabsBefore(MAGITECH_PART_TAB.getKey())
             .displayItems((parameters, output) -> {
                 output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.IGNISCA));
@@ -547,7 +521,7 @@ public class CreativeTabInit {
                 output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.DISPARUNDRA));
                 output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.TENEBPORT));
 
-                output.accept(ThreadboundGenerator.generateThreadPage(new Enercrux()));
+                output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.ENERCRUX));
 
             }).build());
 

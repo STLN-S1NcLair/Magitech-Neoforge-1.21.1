@@ -12,8 +12,8 @@ import net.stln.magitech.item.ItemInit;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.SpellComponent;
 import net.stln.magitech.magic.spell.Spell;
+import net.stln.magitech.magic.spell.SpellInit;
 import net.stln.magitech.magic.spell.SpellRegister;
-import net.stln.magitech.magic.spell.mana.Enercrux;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +38,8 @@ public class PlayerFirstSpawnEvent {
         if (!persisted.getBoolean("hasReceivedInitialItems")) {
             ItemStack glisteningLexicon = new ItemStack(ItemInit.GLISTENING_LEXICON.get());
             List<Spell> list = new ArrayList<>(SpellRegister.getRegister().values());
-            list.remove(new Enercrux());
-            glisteningLexicon.set(ComponentInit.SPELL_COMPONENT, new SpellComponent(List.of(new Enercrux(), list.get(player.getRandom().nextInt(0, list.size())))));
+            list.remove(SpellInit.ENERCRUX);
+            glisteningLexicon.set(ComponentInit.SPELL_COMPONENT, new SpellComponent(List.of(SpellInit.ENERCRUX, list.get(player.getRandom().nextInt(0, list.size())))));
             player.getInventory().add(glisteningLexicon);
 
             persisted.putBoolean("hasReceivedInitialItems", true);
