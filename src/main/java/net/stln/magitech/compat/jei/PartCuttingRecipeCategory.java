@@ -8,13 +8,12 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
-import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.block.BlockInit;
@@ -25,17 +24,19 @@ import net.stln.magitech.recipe.PartCuttingRecipe;
 import net.stln.magitech.recipe.RecipeInit;
 import net.stln.magitech.recipe.ToolMaterialRecipe;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public record PartCuttingRecipeCategory(IDrawable icon) implements IRecipeCategory<PartCuttingRecipe> {
+public class PartCuttingRecipeCategory extends AbstractMagitechRecipeCategory<PartCuttingRecipe> {
     public static final ResourceLocation UID = Magitech.id("part_cutting");
     public static final ResourceLocation TEXTURE = Magitech.id("textures/gui/jei_widgets.png");
 
-    public static final RecipeType<PartCuttingRecipe> PART_CUTTING_RECIPE_TYPE =
-            new RecipeType<>(UID, PartCuttingRecipe.class);
+    public static final RecipeType<PartCuttingRecipe> PART_CUTTING_RECIPE_TYPE = new RecipeType<>(UID, PartCuttingRecipe.class);
+
+    public PartCuttingRecipeCategory(IDrawable icon) {
+        super(icon);
+    }
 
     public PartCuttingRecipeCategory(IGuiHelper helper) {
         this(helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(BlockInit.ENGINEERING_WORKBENCH)));
@@ -52,13 +53,8 @@ public record PartCuttingRecipeCategory(IDrawable icon) implements IRecipeCatego
     }
 
     @Override
-    public @Nullable IDrawable getIcon() {
-        return icon;
-    }
-
-    @Override
-    public void draw(PartCuttingRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
-        IRecipeCategory.super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
+    public void draw(@NotNull PartCuttingRecipe recipe, @NotNull IRecipeSlotsView recipeSlotsView, @NotNull GuiGraphics guiGraphics, double mouseX, double mouseY) {
+        super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
         guiGraphics.blit(TEXTURE, 18, 4, 0, 0, 18, 18);
         guiGraphics.blit(TEXTURE, 40, 8, 0, 18, 21, 10);
         guiGraphics.blit(TEXTURE, 65, 4, 36, 0, 18, 18);
@@ -75,21 +71,17 @@ public record PartCuttingRecipeCategory(IDrawable icon) implements IRecipeCatego
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, PartCuttingRecipe recipe, IFocusGroup focuses) {
-        RecipeManager recipeManager = JeiHelper.getRecipeManager();
-        if (recipeManager == null) return;
-
-        List<ToolMaterialRecipe> materialRecipes = recipeManager.getAllRecipesFor(RecipeInit.TOOL_MATERIAL_TYPE.get()).stream().map(RecipeHolder::value).toList();
+    protected void setRecipe(@NotNull IRecipeLayoutBuilder builder, @NotNull PartCuttingRecipe recipe, @NotNull IFocusGroup focuses, @NotNull RecipeManager recipeManager, @NotNull RegistryAccess access) {
+        List<ToolMaterialRecipe> materialRecipes = JeiHelper.getAllRecipes(RecipeInit.TOOL_MATERIAL_TYPE);
         List<ItemStack> inputs = new ArrayList<>();
         List<ItemStack> results = new ArrayList<>();
         for (ToolMaterialRecipe materialRecipe : materialRecipes) {
-            Ingredient ingredient = materialRecipe.getIngredients().get(0);
+            Ingredient ingredient = materialRecipe.getIngredients().getFirst();
             for (ItemStack itemStack : ingredient.getItems()) {
                 if (itemStack.isEmpty()) continue;
-                itemStack.setCount(recipe.getCount());
-                inputs.add(itemStack.copy());
+                inputs.add(itemStack.copyWithCount(recipe.getCount()));
             }
-            ItemStack resultStack = recipe.getResultItem(null).copy();
+            ItemStack resultStack = recipe.getResultItem(access).copy();
             resultStack.set(ComponentInit.MATERIAL_COMPONENT, new MaterialComponent(ToolMaterialRegister.getMaterial(materialRecipe.getResultId())));
             results.add(resultStack);
         }
