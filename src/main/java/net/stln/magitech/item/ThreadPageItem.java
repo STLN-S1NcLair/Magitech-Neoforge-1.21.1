@@ -2,7 +2,7 @@ package net.stln.magitech.item;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.neoforged.api.distmarker.Dist;
@@ -10,7 +10,6 @@ import net.neoforged.api.distmarker.OnlyIn;
 import net.stln.magitech.util.ClientHelper;
 import net.stln.magitech.util.ColorHelper;
 import net.stln.magitech.util.ComponentHelper;
-import net.stln.magitech.util.RegistryHelper;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -24,21 +23,16 @@ public class ThreadPageItem extends TooltipTextItem {
     @Override
     public @NotNull Component getName(@NotNull ItemStack stack) {
         return ComponentHelper.getThreadPageSpell(stack)
-                .flatMap(RegistryHelper::getId)
-                .map(id -> Component.translatable("item.magitech.thread_page", Component.translatable("spell.magitech." + id.getPath())))
+                .map(spell -> Component.translatable("item.magitech.thread_page", spell.getDescription()))
                 .orElseGet(() -> super.getName(stack).copy());
     }
 
     @OnlyIn(Dist.CLIENT)
     @Override
     public void appendHoverText(ItemStack stack, @NotNull TooltipContext context, List<Component> tooltipComponents, @NotNull TooltipFlag tooltipFlag) {
-        ComponentHelper.getThreadPageSpell(stack).ifPresent(holder -> {
-            var spell = holder.value();
-            ResourceLocation location = RegistryHelper.getIdOrNull(holder);
-            if (location != null) {
-                tooltipComponents.add(Component.translatable(location.toLanguageKey("spell")).withColor(spell.getElement().getSpellColor()));
-            }
-            var player = ClientHelper.getPlayer();
+        ComponentHelper.getThreadPageSpell(stack).ifPresent(spell -> {
+            tooltipComponents.add(spell.getDescription().withColor(spell.getElement().getSpellColor()));
+            Player player = ClientHelper.getPlayer();
             if (player == null) return;
             List<Component> componentList = spell.getTooltip(player.level(), player, stack);
             int i = 0;

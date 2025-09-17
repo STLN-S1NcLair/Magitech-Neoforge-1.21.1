@@ -1,5 +1,6 @@
 package net.stln.magitech.event;
 
+import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -36,8 +37,12 @@ public class PlayerFirstSpawnEvent {
         if (!persisted.getBoolean("hasReceivedInitialItems")) {
             ItemStack stack = new ItemStack(ItemInit.GLISTENING_LEXICON.get());
             var enercrux = SpellInit.ENERCRUX;
-            MagitechRegistries.SPELL.holders().filter(holder -> !holder.is(enercrux)).findAny().ifPresent(holder -> {
-                ComponentHelper.updateSpells(stack, spellComponent -> new SpellComponent(List.of(SpellInit.ENERCRUX.getDelegate(), holder)));
+            MagitechRegistries.SPELL.holders()
+                    .filter(holder -> !holder.is(enercrux))
+                    .findAny()
+                    .map(Holder::value)
+                    .ifPresent(spell -> {
+                        ComponentHelper.updateSpells(stack, spellComponent -> new SpellComponent(List.of(SpellInit.ENERCRUX, spell)));
                 player.getInventory().add(stack);
 
                 persisted.putBoolean("hasReceivedInitialItems", true);

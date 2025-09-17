@@ -1,26 +1,29 @@
 package net.stln.magitech.gui;
 
 import net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.*;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.inventory.ResultContainer;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
 import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.item.ItemTagKeys;
-import net.stln.magitech.item.tool.register.ToolMaterialRegister;
+import net.stln.magitech.item.tool.material.ToolMaterial;
 import net.stln.magitech.item.tool.toolitem.PartToolItem;
 import net.stln.magitech.recipe.MultiStackRecipeInput;
 import net.stln.magitech.recipe.RecipeInit;
 import net.stln.magitech.recipe.ToolAssemblyRecipe;
 import net.stln.magitech.recipe.ToolMaterialRecipe;
 import net.stln.magitech.util.ComponentHelper;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -61,16 +64,16 @@ public class ToolRepairingMenu extends AbstractContainerMenu {
         this.player = playerInventory.player;
         this.addSlot(new Slot(this.resultSlots, 0, 134, 49) {
         @Override
-        public boolean mayPlace(ItemStack p_40362_) {
+        public boolean mayPlace(@NotNull ItemStack stack) {
             return false;
         }
 
         @Override
-        public void onTake(Player p_150672_, ItemStack p_150673_) {
-            p_150673_.onCraftedBy(p_150672_.level(), p_150672_, p_150673_.getCount());
-            ToolRepairingMenu.this.resultSlots.awardUsedRecipes(p_150672_, this.getRelevantItems());
+        public void onTake(@NotNull Player player, @NotNull ItemStack stack) {
+            stack.onCraftedBy(player.level(), player, stack.getCount());
+            ToolRepairingMenu.this.resultSlots.awardUsedRecipes(player, this.getRelevantItems());
             removeCount();
-            super.onTake(p_150672_, p_150673_);
+            super.onTake(player, stack);
             ToolRepairingMenu.this.slotsChanged(inputSlots);
         }
 
@@ -117,21 +120,19 @@ public class ToolRepairingMenu extends AbstractContainerMenu {
         @Nullable RecipeHolder<ToolAssemblyRecipe> recipe
     ) {
         if (!level.isClientSide) {
-            MultiStackRecipeInput craftinginput = createRecipeInput(craftSlots);
+            MultiStackRecipeInput recipeInput = createRecipeInput(craftSlots);
             ServerPlayer serverplayer = (ServerPlayer)player;
-            ItemStack itemstack = craftinginput.getItem(0).copy();
-            SingleRecipeInput input = new SingleRecipeInput(craftinginput.getItem(1));
-            Optional<RecipeHolder<ToolMaterialRecipe>> optional = level.getServer()
-                .getRecipeManager()
-                .getRecipeFor(RecipeInit.TOOL_MATERIAL_TYPE.get(), input, level);
+            ItemStack itemstack = recipeInput.getItem(0).copy();
+            SingleRecipeInput input = new SingleRecipeInput(recipeInput.getItem(1));
+            Optional<RecipeHolder<ToolMaterialRecipe>> optional = level.getRecipeManager().getRecipeFor(RecipeInit.TOOL_MATERIAL_TYPE.get(), input, level);
             boolean isRepairable = false;
-            if (!itemstack.isEmpty() && optional.isPresent() && craftinginput.getItem(2).getTags().anyMatch(Predicate.isEqual(ItemTagKeys.REPAIR_COMPONENT))) {
+            if (!itemstack.isEmpty() && optional.isPresent() && recipeInput.getItem(2).getTags().anyMatch(Predicate.isEqual(ItemTagKeys.REPAIR_COMPONENT))) {
                 RecipeHolder<ToolMaterialRecipe> recipeholder = optional.get();
-                ToolMaterialRecipe craftingrecipe = recipeholder.value();
+                ToolMaterialRecipe toolMaterialRecipe = recipeholder.value();
                 if (resultSlots.setRecipeUsed(level, serverplayer, recipeholder)) {
-                    ResourceLocation material = craftingrecipe.getResultId();
-                    if (ComponentHelper.getPartMaterials(itemstack).contains(ToolMaterialRegister.getMaterial(material))) {
-                        for (int i = 0; i < Math.min(craftinginput.getItem(1).getCount(), craftinginput.getItem(2).getCount()); i++) {
+                    ToolMaterial toolMaterial = toolMaterialRecipe.getToolMaterial();
+                    if (ComponentHelper.getPartMaterials(itemstack).contains(toolMaterial)) {
+                        for (int i = 0; i < Math.min(recipeInput.getItem(1).getCount(), recipeInput.getItem(2).getCount()); i++) {
                             if (itemstack.getDamageValue() > 0) {
                                 itemstack.setDamageValue(itemstack.getDamageValue() - itemstack.getMaxDamage() / 5);
                                 ((PartToolItem) itemstack.getItem()).callTestRepair(level, player, itemstack.getMaxDamage() / 5, itemstack);
@@ -164,7 +165,7 @@ public class ToolRepairingMenu extends AbstractContainerMenu {
      * Callback for when the crafting matrix is changed.
      */
     @Override
-    public void slotsChanged(Container inventory) {
+    public void slotsChanged(@NotNull Container inventory) {
         if (!this.placingRecipe) {
             this.access.execute((p_344363_, p_344364_) -> slotChangedCraftingGrid(this, p_344363_, this.player, this.inputSlots, this.resultSlots, null));
         }
@@ -174,7 +175,7 @@ public class ToolRepairingMenu extends AbstractContainerMenu {
      * Called when the container is closed.
      */
     @Override
-    public void removed(Player player) {
+    public void removed(@NotNull Player player) {
         super.removed(player);
         this.access.execute((p_39371_, p_39372_) -> this.clearContainer(player, this.inputSlots));
     }
@@ -183,7 +184,7 @@ public class ToolRepairingMenu extends AbstractContainerMenu {
      * Determines whether supplied player can use this container
      */
     @Override
-    public boolean stillValid(Player player) {
+    public boolean stillValid(@NotNull Player player) {
         return stillValid(this.access, player, BlockInit.REPAIRING_WORKBENCH.get());
     }
 
@@ -191,10 +192,10 @@ public class ToolRepairingMenu extends AbstractContainerMenu {
      * Handle when the stack in slot {@code index} is shift-clicked. Normally this moves the stack between the player inventory and the other inventory(s).
      */
     @Override
-    public ItemStack quickMoveStack(Player player, int index) {
+    public @NotNull ItemStack quickMoveStack(@NotNull Player player, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
-        if (slot != null && slot.hasItem()) {
+        if (slot.hasItem()) {
             ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
             if (index == 0) {
@@ -237,32 +238,27 @@ public class ToolRepairingMenu extends AbstractContainerMenu {
         return itemstack;
     }
 
-    private boolean moveToSlots(ItemStack itemstack1) {
-        SingleRecipeInput craftinginput = new SingleRecipeInput(inputSlots.getItem(1));
+    private boolean moveToSlots(ItemStack itemStack) {
+        SingleRecipeInput recipeInput = new SingleRecipeInput(inputSlots.getItem(1));
         List<RecipeHolder<ToolMaterialRecipe>> optional = level
                 .getRecipeManager()
                 .getAllRecipesFor(RecipeInit.TOOL_MATERIAL_TYPE.get());
 
-        if (itemstack1.getItem() instanceof PartToolItem) {
-            return this.moveItemStackTo(itemstack1, 1, 2, false);
-        } else if (optional.stream().anyMatch(recipe -> Arrays.stream(recipe.value().getIngredients().get(0).getItems()).anyMatch(stack -> stack.is(itemstack1.getItem())))) {
-            return this.moveItemStackTo(itemstack1, 2, 3, false);
-        } else if (itemstack1.getTags().anyMatch(Predicate.isEqual(ItemTagKeys.REPAIR_COMPONENT))) {
-            return this.moveItemStackTo(itemstack1, 3, 4, false);
+        if (itemStack.getItem() instanceof PartToolItem) {
+            return this.moveItemStackTo(itemStack, 1, 2, false);
+        } else if (optional.stream().anyMatch(recipe -> Arrays.stream(recipe.value().getIngredients().get(0).getItems()).anyMatch(stack -> stack.is(itemStack.getItem())))) {
+            return this.moveItemStackTo(itemStack, 2, 3, false);
+        } else if (itemStack.getTags().anyMatch(Predicate.isEqual(ItemTagKeys.REPAIR_COMPONENT))) {
+            return this.moveItemStackTo(itemStack, 3, 4, false);
         }
         return false;
-    }
-
-    @Override
-    public MenuType<?> getType() {
-        return GuiInit.TOOL_REPAIRING_MENU.get();
     }
 
     /**
      * Called to determine if the current slot is valid for the stack merging (double-click) code. The stack passed in is null for the initial slot that was double-clicked.
      */
     @Override
-    public boolean canTakeItemForPickAll(ItemStack stack, Slot slot) {
+    public boolean canTakeItemForPickAll(@NotNull ItemStack stack, Slot slot) {
         return slot.container != this.resultSlots && super.canTakeItemForPickAll(stack, slot);
     }
 }

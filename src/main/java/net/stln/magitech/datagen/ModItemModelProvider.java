@@ -6,9 +6,9 @@ import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.client.model.generators.ModelProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.stln.magitech.Magitech;
+import net.stln.magitech.MagitechRegistries;
 import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.item.ItemInit;
-import net.stln.magitech.item.tool.material.ToolMaterial;
 import net.stln.magitech.item.tool.model.ModelRegistrar;
 
 public class ModItemModelProvider extends ItemModelProvider {
@@ -103,10 +103,10 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(BlockInit.CHARCOAL_BIRCH_HANGING_SIGN_ITEM.get());
         basicItem(BlockInit.MISTALIA_PETALS_ITEM.get());
 
-        for (ToolMaterial material : ModelRegistrar.materials) {
+        MagitechRegistries.TOOL_MATERIAL.stream().forEach(toolMaterial -> {
             for (String type : ModelRegistrar.toolTypes) {
                 for (String part : ModelRegistrar.partTypes) {
-                    if (existingFileHelper.exists(ModelRegistrar.getPartTextureId(material, type, part), ModelProvider.TEXTURE)) {
+                    if (existingFileHelper.exists(ModelRegistrar.getPartTextureId(toolMaterial, type, part), ModelProvider.TEXTURE)) {
                         String parent = "item/handheld";
                         if (type.equals("heavy_sword") ||
                                 type.equals("hammer") ||
@@ -115,22 +115,22 @@ public class ModItemModelProvider extends ItemModelProvider {
                                 type.equals("staff")) {
                             parent = "magitech:item/heavy_tool";
                         }
-                        getBuilder(ModelRegistrar.getPartModelName(material, type, part))
+                        getBuilder(ModelRegistrar.getPartModelName(toolMaterial, type, part))
                                 .parent(new ModelFile.UncheckedModelFile(parent))
-                                .texture("layer0", ModelRegistrar.getPartTextureId(material, type, part));
+                                .texture("layer0", ModelRegistrar.getPartTextureId(toolMaterial, type, part));
                     }
                 }
             }
-        }
-        for (ToolMaterial material : ModelRegistrar.materials) {
+        });
+        MagitechRegistries.TOOL_MATERIAL.stream().forEach(toolMaterial -> {
             for (String part : ModelRegistrar.partTypes) {
-                if (existingFileHelper.exists(ModelRegistrar.getPartItemTextureId(material, part), ModelProvider.TEXTURE)) {
+                if (existingFileHelper.exists(ModelRegistrar.getPartItemTextureId(toolMaterial, part), ModelProvider.TEXTURE)) {
                     String parent = "item/generated";
-                    getBuilder(ModelRegistrar.getPartItemModelName(material, part))
+                    getBuilder(ModelRegistrar.getPartItemModelName(toolMaterial, part))
                             .parent(new ModelFile.UncheckedModelFile(parent))
-                            .texture("layer0", ModelRegistrar.getPartItemTextureId(material, part));
+                            .texture("layer0", ModelRegistrar.getPartItemTextureId(toolMaterial, part));
                 }
             }
-        }
+        });
     }
 }

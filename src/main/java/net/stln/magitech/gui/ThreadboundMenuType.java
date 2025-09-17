@@ -1,7 +1,5 @@
 package net.stln.magitech.gui;
 
-import net.minecraft.core.Holder;
-import net.minecraft.core.HolderSet;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -16,6 +14,7 @@ import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.SpellComponent;
 import net.stln.magitech.item.component.ThreadPageComponent;
 import net.stln.magitech.magic.spell.Spell;
+import net.stln.magitech.magic.spell.SpellLike;
 import net.stln.magitech.util.ComponentHelper;
 import net.stln.magitech.util.CuriosHelper;
 import org.jetbrains.annotations.NotNull;
@@ -59,7 +58,7 @@ public class ThreadboundMenuType extends AbstractContainerMenu {
         addInventory(playerInv);
         addHotbar(playerInv);
 
-        HolderSet<Spell> spells = ComponentHelper.getSpells(threadbound).spells();
+        List<Spell> spells = ComponentHelper.getSpells(threadbound).spells();
         for (int i = 0; i < Math.min(spells.size(), container.getContainerSize()); i++) {
             ItemStack stack = new ItemStack(ItemInit.THREAD_PAGE.get());
             stack.set(ComponentInit.THREAD_PAGE_COMPONENT, new ThreadPageComponent(spells.get(i)));
@@ -130,7 +129,7 @@ public class ThreadboundMenuType extends AbstractContainerMenu {
     }
 
     public void updateComponent() {
-        List<Holder<Spell>> spells = new ArrayList<>();
+        List<SpellLike> spells = new ArrayList<>();
         for (int i = 0; i < 15; i++) {
             ComponentHelper.getThreadPageSpell(container.getItem(i)).ifPresent(spells::add);
         }

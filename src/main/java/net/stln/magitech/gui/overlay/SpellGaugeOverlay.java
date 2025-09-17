@@ -11,7 +11,7 @@ import net.stln.magitech.Magitech;
 import net.stln.magitech.magic.charge.Charge;
 import net.stln.magitech.magic.charge.ChargeData;
 import net.stln.magitech.util.ClientHelper;
-import net.stln.magitech.util.Element;
+import net.stln.magitech.item.tool.element.Element;
 import net.stln.magitech.util.MathUtil;
 import net.stln.magitech.util.RenderHelper;
 import org.jetbrains.annotations.NotNull;

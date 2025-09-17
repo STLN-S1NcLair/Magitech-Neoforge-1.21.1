@@ -1,6 +1,5 @@
 package net.stln.magitech.entity.magicentity.mirazien;
 
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.damagesource.DamageSource;
@@ -21,7 +20,7 @@ import net.stln.magitech.damage.EntityElementRegister;
 import net.stln.magitech.entity.EntityInit;
 import net.stln.magitech.entity.SpellProjectileEntity;
 import net.stln.magitech.entity.mobeffect.MobEffectInit;
-import net.stln.magitech.util.Element;
+import net.stln.magitech.item.tool.element.Element;
 import net.stln.magitech.particle.particle_option.UnstableSquareParticleEffect;
 import net.stln.magitech.sound.SoundInit;
 import org.jetbrains.annotations.Nullable;

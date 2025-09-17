@@ -8,17 +8,14 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.stln.magitech.Magitech;
+import net.stln.magitech.MagitechRegistries;
 import net.stln.magitech.item.tool.material.ToolMaterial;
-import net.stln.magitech.item.tool.register.ToolMaterialRegister;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collection;
 import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
 public class PartToolItemModelRegister {
-
-    private static final Collection<ToolMaterial> materials = ToolMaterialRegister.getDictId().values();
     private static final List<String> toolTypes = List.of("dagger", "light_sword", "heavy_sword", "pickaxe", "hammer", "axe", "shovel", "scythe", "spear", "wand", "staff");
     private static final List<String> partTypes = List.of("light_blade", "heavy_blade", "light_handle", "heavy_handle", "tool_binding", "handguard", "strike_head", "spike_head", "reinforced_stick", "plate", "catalyst", "conductor");
     public static ModelResolver ToolPartItemModelResolver = context -> {
@@ -37,14 +34,13 @@ public class PartToolItemModelRegister {
 
     public static void register() {
         ModelLoadingPlugin.register(pluginContext -> {
-            for (ToolMaterial material : materials) {
+            MagitechRegistries.TOOL_MATERIAL.stream().forEach(toolMaterial -> {
                 for (String toolType : toolTypes) {
                     for (String partType : partTypes) {
-                        pluginContext.addModels(getPartModelId(material, toolType, partType));
+                        pluginContext.addModels(getPartModelId(toolMaterial, toolType, partType));
                     }
                 }
-            }
-
+            });
             Event<ModelResolver> resolverEvent = pluginContext.resolveModel();
 
             resolverEvent.register(ToolPartItemModelResolver);
