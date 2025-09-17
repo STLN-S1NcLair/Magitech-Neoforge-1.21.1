@@ -1,12 +1,12 @@
 package net.stln.magitech.util;
 
-import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentHolder;
 import net.neoforged.neoforge.common.MutableDataComponentHolder;
 import net.stln.magitech.item.component.*;
 import net.stln.magitech.item.tool.material.ToolMaterial;
 import net.stln.magitech.item.tool.upgrade.UpgradeInstance;
 import net.stln.magitech.magic.spell.Spell;
+import net.stln.magitech.magic.spell.SpellLike;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.function.UnaryOperator;
 
 public class ComponentHelper {
     // Getter
-    public static @NotNull List<@NotNull ToolMaterial> getPartMaterials(@NotNull DataComponentHolder holder) {
+    public static @NotNull List<ToolMaterial> getPartMaterials(@NotNull DataComponentHolder holder) {
         return holder.getOrDefault(ComponentInit.PART_MATERIAL_COMPONENT, PartMaterialComponent.EMPTY).materials();
     }
 
@@ -27,7 +27,7 @@ public class ComponentHelper {
         return holder.getOrDefault(ComponentInit.SPELL_COMPONENT, SpellComponent.EMPTY);
     }
 
-    public static @NotNull Optional<Holder<Spell>> getThreadPageSpell(@NotNull DataComponentHolder holder) {
+    public static @NotNull Optional<Spell> getThreadPageSpell(@NotNull DataComponentHolder holder) {
         return Optional.ofNullable(holder.get(ComponentInit.THREAD_PAGE_COMPONENT)).map(ThreadPageComponent::spell);
     }
 
@@ -48,7 +48,7 @@ public class ComponentHelper {
     }
 
     // Setter
-    public static void setThreadPage(@NotNull MutableDataComponentHolder holder, @NotNull Holder<Spell> spell) {
+    public static void setThreadPage(@NotNull MutableDataComponentHolder holder, @NotNull SpellLike spell) {
         holder.set(ComponentInit.THREAD_PAGE_COMPONENT, new ThreadPageComponent(spell));
     }
 

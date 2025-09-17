@@ -52,6 +52,7 @@ import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.tool.ToolPart;
 import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.item.tool.ToolType;
+import net.stln.magitech.item.tool.element.Element;
 import net.stln.magitech.item.tool.material.MiningLevel;
 import net.stln.magitech.item.tool.material.ToolMaterial;
 import net.stln.magitech.item.tool.register.ToolMaterialRegister;
@@ -87,17 +88,16 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
             List<ToolStats> stats = new ArrayList<>();
             ToolStats base = ToolMaterialRegister.getBaseStats(toolType);
             for (int i = 0; i < materials.size(); i++) {
+                ToolMaterial toolMaterial = materials.get(i);
                 ToolPart toolPart = ToolMaterialRegister.getToolPartFromIndex(toolType, i);
                 float value = 0;
                 if (toolPart != null) {
                     value = ((PartToolItem) stack.getItem()).getMultiplier(toolPart);
                 }
-                if (materials.get(i) != null) {
-                    if (!(stack.getItem() instanceof SpellCasterItem)) {
-                        stats.add(ToolStats.mulWithoutElementCode(ToolStats.mulWithoutElementCode(materials.get(i).getStats(), base), value));
-                    } else {
-                        stats.add(ToolStats.mulWithoutElementCode(ToolStats.mulWithoutElementCode(materials.get(i).getSpellCasterStats(), base), value));
-                    }
+                if (!(stack.getItem() instanceof SpellCasterItem)) {
+                    stats.add(ToolStats.mulWithoutElementCode(ToolStats.mulWithoutElementCode(toolMaterial.stats(), base), value));
+                } else {
+                    stats.add(ToolStats.mulWithoutElementCode(ToolStats.mulWithoutElementCode(toolMaterial.spellCasterStats(), base), value));
                 }
             }
             return ToolStats.add(stats);
@@ -124,17 +124,7 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
     }
 
     public static List<Trait> getTraits(ItemStack stack) {
-        List<ToolMaterial> materials = ComponentHelper.getPartMaterials(stack);
-        if (!materials.isEmpty()) {
-            List<Trait> traits = new ArrayList<>();
-
-            for (ToolMaterial material : materials) {
-                if (material != null) {
-                    traits.add(material.getTrait());
-                }
-            }
-            return traits;
-        } else return new ArrayList<>();
+        return ComponentHelper.getPartMaterials(stack).stream().map(ToolMaterial::trait).toList();
     }
 
     public static @NotNull Map<Trait, Integer> getTraitLevel(List<Trait> traits) {
@@ -350,16 +340,9 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
             var secondMaterial = materials.get(1);
             if (materials.size() == toolType.getSize() && firstMaterial != null && secondMaterial != null) {
                 if (Objects.equals(firstMaterial, secondMaterial)) {
-                    component.append(
-                            Component.translatable("item.magitech." + toolType.getId() + ".simple", Component.translatable("material." + firstMaterial.getId().toLanguageKey()))
-                    );
+                    component.append(Component.translatable("item.magitech." + toolType.getId() + ".simple", firstMaterial.getDescription()));
                 } else {
-                    component.append(
-                            Component.translatable("item.magitech." + toolType.getId() + ".complex",
-                                    Component.translatable("material." + firstMaterial.getId().toLanguageKey()),
-                                    Component.translatable("material." + secondMaterial.getId().toLanguageKey())
-                            )
-                    );
+                    component.append(Component.translatable("item.magitech." + toolType.getId() + ".complex", firstMaterial.getDescription(), secondMaterial.getDescription()));
                 }
             } else {
                 component.append(Component.translatable("item.magitech." + ((PartToolItem) stack.getItem()).getToolType().getId()));

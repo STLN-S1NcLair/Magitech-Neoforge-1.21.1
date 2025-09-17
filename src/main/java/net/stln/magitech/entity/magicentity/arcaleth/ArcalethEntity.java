@@ -18,7 +18,7 @@ import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.damage.EntityElementRegister;
 import net.stln.magitech.entity.EntityInit;
 import net.stln.magitech.entity.SpellProjectileEntity;
-import net.stln.magitech.util.Element;
+import net.stln.magitech.item.tool.element.Element;
 import net.stln.magitech.particle.particle_option.UnstableSquareParticleEffect;
 import net.stln.magitech.sound.SoundInit;
 import org.jetbrains.annotations.Nullable;

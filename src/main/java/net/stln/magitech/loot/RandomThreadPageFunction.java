@@ -3,6 +3,7 @@ package net.stln.magitech.loot;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
+import net.minecraft.resources.RegistryFixedCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunction;
@@ -20,7 +21,7 @@ public class RandomThreadPageFunction extends LootItemConditionalFunction {
 
     public static final MapCodec<RandomThreadPageFunction> CODEC = RecordCodecBuilder.mapCodec(
             p_340803_ -> commonFields(p_340803_)
-                    .and(Spell.HOLDER_CODEC.listOf().fieldOf("spells").forGetter(RandomThreadPageFunction::getSpells))
+                    .and(RegistryFixedCodec.create(MagitechRegistries.Keys.SPELL).listOf().fieldOf("spells").forGetter(RandomThreadPageFunction::getSpells))
                     .apply(p_340803_, RandomThreadPageFunction::new)
     );
 
@@ -51,7 +52,7 @@ public class RandomThreadPageFunction extends LootItemConditionalFunction {
     protected @NotNull ItemStack run(@NotNull ItemStack stack, @NotNull LootContext context) {
         return spells.stream().findAny().map(holder -> {
             if (holder.isBound()) {
-                ComponentHelper.setThreadPage(stack, holder);
+                ComponentHelper.setThreadPage(stack, holder.value());
             }
             return stack;
         }).orElse(stack);

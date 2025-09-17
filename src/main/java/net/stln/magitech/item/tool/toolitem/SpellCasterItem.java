@@ -28,6 +28,7 @@ import net.stln.magitech.entity.status.AttributeInit;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.SpellComponent;
 import net.stln.magitech.item.tool.ToolStats;
+import net.stln.magitech.item.tool.element.Element;
 import net.stln.magitech.item.tool.register.ToolMaterialRegister;
 import net.stln.magitech.item.tool.trait.Trait;
 import net.stln.magitech.magic.cooldown.CooldownData;

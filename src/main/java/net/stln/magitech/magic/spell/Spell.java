@@ -10,12 +10,11 @@ import dev.kosmx.playerAnim.core.data.KeyframeAnimation;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
 import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.core.Holder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.RegistryFixedCodec;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.stats.Stats;
@@ -42,7 +41,6 @@ import net.stln.magitech.MagitechRegistries;
 import net.stln.magitech.damage.EntityElementRegister;
 import net.stln.magitech.entity.status.AttributeInit;
 import net.stln.magitech.item.tool.toolitem.SpellCasterItem;
-import net.stln.magitech.util.Element;
 import net.stln.magitech.magic.charge.Charge;
 import net.stln.magitech.magic.charge.ChargeData;
 import net.stln.magitech.magic.cooldown.Cooldown;
@@ -53,17 +51,16 @@ import net.stln.magitech.network.ReleaseUsingSpellPayload;
 import net.stln.magitech.network.UseSpellPayload;
 import net.stln.magitech.recipe.RecipeInit;
 import net.stln.magitech.recipe.SpellConversionRecipe;
+import net.stln.magitech.item.tool.element.Element;
 import net.stln.magitech.util.MathUtil;
 import net.stln.magitech.util.SpellShape;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-public abstract class Spell {
+public abstract class Spell implements SpellLike {
     public static final Codec<Spell> CODEC = MagitechRegistries.SPELL.byNameCodec();
-    public static final Codec<Holder<Spell>> HOLDER_CODEC = RegistryFixedCodec.create(MagitechRegistries.Keys.SPELL);
-    
     public static final StreamCodec<RegistryFriendlyByteBuf, Spell> STREAM_CODEC = ByteBufCodecs.registry(MagitechRegistries.Keys.SPELL);
-    public static final StreamCodec<RegistryFriendlyByteBuf, Holder<Spell>> HOLDER_STREAM_CODEC = ByteBufCodecs.holderRegistry(MagitechRegistries.Keys.SPELL);
     
     public float baseDamage = 0;
     public float baseEffectStrength = 0;
@@ -299,10 +296,10 @@ public abstract class Spell {
             list.add(Component.translatable("tooltip.magitech.spell.projectile_speed").append(": " + MathUtil.round(this.getProjectileSpeed(user, this.baseSpeed), 2)));
         }
         if (this.baseEffectStrength != 0) {
-            list.add(Component.translatable("tooltip.magitech.spell.effect_strength").append(": " + MathUtil.round(this.getDamage(user, new HashMap<>(), (float) this.baseEffectStrength, this.getElement()), 2)));
+            list.add(Component.translatable("tooltip.magitech.spell.effect_strength").append(": " + MathUtil.round(this.getDamage(user, new HashMap<>(), this.baseEffectStrength, this.getElement()), 2)));
         }
         if (this.baseDuration != 0) {
-            list.add(Component.translatable("tooltip.magitech.spell.duration").append(": " + MathUtil.round(this.getDamage(user, new HashMap<>(), (float) this.baseDuration, this.getElement()), 2)));
+            list.add(Component.translatable("tooltip.magitech.spell.duration").append(": " + MathUtil.round(this.getDamage(user, new HashMap<>(), this.baseDuration, this.getElement()), 2)));
         }
         if (this.baseMaxRange != 0) {
             list.add(Component.translatable("tooltip.magitech.spell.max_range").append(": " + MathUtil.round(this.getDamage(user, new HashMap<>(), (float) this.baseMaxRange, this.getElement()), 2)));
@@ -326,8 +323,8 @@ public abstract class Spell {
             Optional<RecipeHolder<SpellConversionRecipe>> recipeHolder = level.getRecipeManager().getRecipeFor(RecipeInit.SPELL_CONVERSION_TYPE.get(), new SingleRecipeInput(item.getItem()), level);
             if (recipeHolder.isPresent()) {
                 SpellConversionRecipe recipe = recipeHolder.get().value();
-                if (MagitechRegistries.SPELL.getResourceKey(this).map(recipe.getSpell()::is).orElse(false)) {
-                    ItemStack stack = recipe.assemble(new SingleRecipeInput(item.getItem()), null);
+                if (Objects.equals(recipe.getSpell(), this)) {
+                    ItemStack stack = recipe.assemble(new SingleRecipeInput(item.getItem()), level.registryAccess());
                     int count = item.getItem().getCount() * stack.getCount();
                     while (count > 0) {
                         int spawnCount = Math.min(stack.getMaxStackSize(), count);
@@ -341,5 +338,26 @@ public abstract class Spell {
                 }
             }
         }
+    }
+
+    @Override
+    public @NotNull Spell asSpell() {
+        return this;
+    }
+
+    public @NotNull ResourceLocation getId() {
+        return Objects.requireNonNull(MagitechRegistries.SPELL.getKey(this));
+    }
+
+    public @NotNull String getDescriptionId() {
+        return getId().toLanguageKey("spell");
+    }
+
+    public @NotNull MutableComponent getDescription() {
+        return Component.translatable(getDescriptionId());
+    }
+
+    public @NotNull ResourceLocation getIconId() {
+        return getId().withPrefix("textures/spell/").withSuffix(".png");
     }
 }

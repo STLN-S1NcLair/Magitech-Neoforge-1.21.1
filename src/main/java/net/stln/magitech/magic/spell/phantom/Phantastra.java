@@ -10,7 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.entity.mobeffect.MobEffectInit;
-import net.stln.magitech.util.Element;
+import net.stln.magitech.item.tool.element.Element;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.BeamSpell;
 import net.stln.magitech.particle.particle_option.BeamParticleEffect;

@@ -2,7 +2,6 @@ package net.stln.magitech.item.tool.trait;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
@@ -23,7 +22,6 @@ import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.damage.DamageTypeInit;
 import net.stln.magitech.entity.mobeffect.MobEffectInit;
-import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.item.tool.material.ToolMaterial;
 import net.stln.magitech.item.tool.toolitem.PartToolItem;

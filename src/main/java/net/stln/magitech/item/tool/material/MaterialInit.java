@@ -1,51 +1,51 @@
 package net.stln.magitech.item.tool.material;
 
-import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
-import net.minecraft.world.entity.monster.*;
-import net.minecraft.world.entity.monster.breeze.Breeze;
-import net.minecraft.world.entity.monster.warden.Warden;
+import net.neoforged.bus.api.IEventBus;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.damage.ElementAffinityRegister;
-import net.stln.magitech.damage.EntityElementRegister;
 import net.stln.magitech.item.tool.ToolStats;
-import net.stln.magitech.item.tool.register.ToolMaterialRegister;
 import net.stln.magitech.item.tool.trait.*;
-import net.stln.magitech.util.Element;
+import net.stln.magitech.registry.DeferredToolMaterial;
+import net.stln.magitech.registry.DeferredToolMaterialRegister;
 
 public class MaterialInit {
 
-    public static final ToolMaterial WOOD = new ToolMaterial(new AdaptationTrait(), Magitech.id("wood"));
-    public static final ToolMaterial STONE = new ToolMaterial(new GeoMendingTrait(), Magitech.id("stone"));
-    public static final ToolMaterial DEEPSLATE = new ToolMaterial(new HardmineTrait(), Magitech.id("deepslate"));
-    public static final ToolMaterial COPPER = new ToolMaterial(new ConductanceTrait(), Magitech.id("copper"));
-    public static final ToolMaterial BONE = new ToolMaterial(new FossilizationTrait(), Magitech.id("bone"));
-    public static final ToolMaterial MOSS = new ToolMaterial(new GrowthTrait(), Magitech.id("moss"));
-    public static final ToolMaterial IRON = new ToolMaterial(new DuranceTrait(), Magitech.id("iron"));
-    public static final ToolMaterial GOLD = new ToolMaterial(new CatalysisTrait(), Magitech.id("gold"));
-    public static final ToolMaterial AMETHYST = new ToolMaterial(new ShatterforceTrait(), Magitech.id("amethyst"));
-    public static final ToolMaterial CITRINE = new ToolMaterial(new HeatTreatmentTrait(), Magitech.id("citrine"));
-    public static final ToolMaterial REDSTONE = new ToolMaterial(new SignalRushTrait(), Magitech.id("redstone"));
-    public static final ToolMaterial LAPIS = new ToolMaterial(new InclusionTrait(), Magitech.id("lapis"));
-    public static final ToolMaterial CALCITE = new ToolMaterial(new BirefringenceTrait(), Magitech.id("calcite"));
-    public static final ToolMaterial DRIPSTONE = new ToolMaterial(new PrecipitationTrait(), Magitech.id("dripstone"));
-    public static final ToolMaterial FLUORITE = new ToolMaterial(new OverchargedTrait(), Magitech.id("fluorite"));
-    public static final ToolMaterial DIAMOND = new ToolMaterial(new LightweightTrait(), Magitech.id("diamond"));
-    public static final ToolMaterial EMERALD = new ToolMaterial(new ConcentrationTrait(), Magitech.id("emerald"));
-    public static final ToolMaterial ENDER_METAL = new ToolMaterial(new EnderDrawTrait(), Magitech.id("ender_metal"));
-    public static final ToolMaterial QUARTZ = new ToolMaterial(new SmoothTrait(), Magitech.id("quartz"));
-    public static final ToolMaterial GLOWSTONE = new ToolMaterial(new IlluminationTrait(), Magitech.id("glowstone"));
-    public static final ToolMaterial NETHERITE = new ToolMaterial(new LavaforgedTrait(), Magitech.id("netherite"));
-    public static final ToolMaterial RADIANT_STEEL = new ToolMaterial(new BrillianceTrait(), Magitech.id("radiant_steel"));
-    public static final ToolMaterial FRIGIDITE = new ToolMaterial(new ShatterpiercerTrait(), Magitech.id("frigidite"));
-    public static final ToolMaterial TRANSLUCIUM = new ToolMaterial(new PhantomSlayerTrait(), Magitech.id("translucium"));
-    public static final ToolMaterial RESONITE = new ToolMaterial(new BlindResonanceTrait(), Magitech.id("resonite"));
-    public static final ToolMaterial ABYSSITE = new ToolMaterial(new PhaseVacuumCollapseTrait(), Magitech.id("abyssite"));
+    public static final DeferredToolMaterialRegister REGISTER = new DeferredToolMaterialRegister(Magitech.MOD_ID);
+    public static final DeferredToolMaterial<ToolMaterial> WOOD = register("wood", ToolStatsInit.WOOD, SpellToolStatsInit.WOOD, new AdaptationTrait());
+    public static final DeferredToolMaterial<ToolMaterial> STONE = register("stone", ToolStatsInit.STONE, SpellToolStatsInit.STONE, new GeoMendingTrait());
+    public static final DeferredToolMaterial<ToolMaterial> DEEPSLATE = register("deepslate", ToolStatsInit.DEEPSLATE, SpellToolStatsInit.DEEPSLATE, new HardmineTrait());
+    public static final DeferredToolMaterial<ToolMaterial> COPPER = register("copper", ToolStatsInit.COPPER, SpellToolStatsInit.COPPER, new ConductanceTrait());
+    public static final DeferredToolMaterial<ToolMaterial> BONE = register("bone", ToolStatsInit.BONE, SpellToolStatsInit.BONE, new FossilizationTrait());
+    public static final DeferredToolMaterial<ToolMaterial> MOSS = register("moss", ToolStatsInit.MOSS, SpellToolStatsInit.MOSS, new GrowthTrait());
+    public static final DeferredToolMaterial<ToolMaterial> IRON = register("iron", ToolStatsInit.IRON, SpellToolStatsInit.IRON, new DuranceTrait());
+    public static final DeferredToolMaterial<ToolMaterial> GOLD = register("gold", ToolStatsInit.GOLD, SpellToolStatsInit.GOLD, new CatalysisTrait());
+    public static final DeferredToolMaterial<ToolMaterial> AMETHYST = register("amethyst", ToolStatsInit.AMETHYST, SpellToolStatsInit.AMETHYST, new ShatterforceTrait());
+    public static final DeferredToolMaterial<ToolMaterial> CITRINE = register("citrine", ToolStatsInit.CITRINE, SpellToolStatsInit.CITRINE, new HeatTreatmentTrait());
+    public static final DeferredToolMaterial<ToolMaterial> REDSTONE = register("redstone", ToolStatsInit.REDSTONE, SpellToolStatsInit.REDSTONE, new SignalRushTrait());
+    public static final DeferredToolMaterial<ToolMaterial> LAPIS = register("lapis", ToolStatsInit.LAPIS, SpellToolStatsInit.LAPIS, new InclusionTrait());
+    public static final DeferredToolMaterial<ToolMaterial> CALCITE = register("calcite", ToolStatsInit.CALCITE, SpellToolStatsInit.CALCITE, new BirefringenceTrait());
+    public static final DeferredToolMaterial<ToolMaterial> DRIPSTONE = register("dripstone", ToolStatsInit.DRIPSTONE, SpellToolStatsInit.DRIPSTONE, new PrecipitationTrait());
+    public static final DeferredToolMaterial<ToolMaterial> FLUORITE = register("fluorite", ToolStatsInit.FLUORITE, SpellToolStatsInit.FLUORITE, new OverchargedTrait());
+    public static final DeferredToolMaterial<ToolMaterial> DIAMOND = register("diamond", ToolStatsInit.DIAMOND, SpellToolStatsInit.DIAMOND, new LightweightTrait());
+    public static final DeferredToolMaterial<ToolMaterial> EMERALD = register("emerald", ToolStatsInit.EMERALD, SpellToolStatsInit.EMERALD, new ConcentrationTrait());
+    public static final DeferredToolMaterial<ToolMaterial> ENDER_METAL = register("ender_metal", ToolStatsInit.ENDER_METAL, SpellToolStatsInit.ENDER_METAL, new EnderDrawTrait());
+    public static final DeferredToolMaterial<ToolMaterial> QUARTZ = register("quartz", ToolStatsInit.QUARTZ, SpellToolStatsInit.QUARTZ, new SmoothTrait());
+    public static final DeferredToolMaterial<ToolMaterial> GLOWSTONE = register("glowstone", ToolStatsInit.GLOWSTONE, SpellToolStatsInit.GLOWSTONE, new IlluminationTrait());
+    public static final DeferredToolMaterial<ToolMaterial> NETHERITE = register("netherite", ToolStatsInit.NETHERITE, SpellToolStatsInit.NETHERITE, new LavaforgedTrait());
+    public static final DeferredToolMaterial<ToolMaterial> RADIANT_STEEL = register("radiant_steel", ToolStatsInit.RADIANT_STEEL, SpellToolStatsInit.RADIANT_STEEL, new BrillianceTrait());
+    public static final DeferredToolMaterial<ToolMaterial> FRIGIDITE = register("frigidite", ToolStatsInit.FRIGIDITE, SpellToolStatsInit.FRIGIDITE, new ShatterpiercerTrait());
+    public static final DeferredToolMaterial<ToolMaterial> TRANSLUCIUM = register("translucium", ToolStatsInit.TRANSLUCIUM, SpellToolStatsInit.TRANSLUCIUM, new PhantomSlayerTrait());
+    public static final DeferredToolMaterial<ToolMaterial> RESONITE = register("resonite", ToolStatsInit.RESONITE, SpellToolStatsInit.RESONITE, new BlindResonanceTrait());
+    public static final DeferredToolMaterial<ToolMaterial> ABYSSITE = register("abyssite", ToolStatsInit.ABYSSITE, SpellToolStatsInit.ABYSSITE, new PhaseVacuumCollapseTrait());
 
-    public static void registerMaterials() {
+    private static DeferredToolMaterial<ToolMaterial> register(String name, ToolStats stats, ToolStats spellCasterStats, Trait trait) {
+        return REGISTER.register(name, () -> new ToolMaterial(stats, spellCasterStats, trait));
+    }
+
+    public static void registerMaterials(IEventBus bus) {
         Magitech.LOGGER.info("Registering Materials for" + Magitech.MOD_ID);
-        ToolMaterialRegister.init();
+        REGISTER.register(bus);
 
-        WOOD.addStats(new ToolStats(0.4F, 0.4F, 1.1F, 0.4F, 0.5F, 0.9F, 0.7F, 0.3F, Element.FLOW, MiningLevel.NONE, 0));
+        /*WOOD.addStats(new ToolStats(0.4F, 0.4F, 1.1F, 0.4F, 0.5F, 0.9F, 0.7F, 0.3F, Element.FLOW, MiningLevel.NONE, 0));
         WOOD.addSpellCasterStats(new ToolStats(0.4F, 0.4F, 1.1F, 1.2F, 0.5F, 0.9F, 0.7F, 0.3F, Element.FLOW, MiningLevel.NONE, 0));
 
         STONE.addStats(new ToolStats(1F, 0F, 0.85F, 0.8F, 1.5F, 1F, 0.8F, 0.5F, Element.NONE, MiningLevel.STONE, 0));
@@ -121,53 +121,6 @@ public class MaterialInit {
         RESONITE.addSpellCasterStats(new ToolStats(1.3F, 0.8F, 0.8F, 1.0F, 2.6F, 1.2F, 1F, 6.7F, Element.TREMOR, MiningLevel.NETHERITE, 4));
 
         ABYSSITE.addStats(new ToolStats(0.5F, 1.7F, 1F, 1.7F, 0.4F, 1.3F, 0.9F, 5.8F, Element.HOLLOW, MiningLevel.NETHERITE, 4));
-        ABYSSITE.addSpellCasterStats(new ToolStats(0.5F, 1.7F, 1F, 1.1F, 0.4F, 1.3F, 0.9F, 5.8F, Element.HOLLOW, MiningLevel.NETHERITE, 4));
-    }
-
-    public static void registerElements() {
-        Magitech.LOGGER.info("Registering Elements for" + Magitech.MOD_ID);
-        ElementAffinityRegister.registerAffinity(Element.EMBER, ElementAffinityRegister.INEFFICIENT, Element.EMBER);
-        ElementAffinityRegister.registerAffinity(Element.GLACE, ElementAffinityRegister.INEFFICIENT, Element.GLACE);
-        ElementAffinityRegister.registerAffinity(Element.SURGE, ElementAffinityRegister.INEFFICIENT, Element.SURGE);
-        ElementAffinityRegister.registerAffinity(Element.PHANTOM, ElementAffinityRegister.INEFFICIENT, Element.PHANTOM);
-        ElementAffinityRegister.registerAffinity(Element.TREMOR, ElementAffinityRegister.INEFFICIENT, Element.TREMOR);
-        ElementAffinityRegister.registerAffinity(Element.MAGIC, ElementAffinityRegister.INEFFICIENT, Element.MAGIC);
-        ElementAffinityRegister.registerAffinity(Element.FLOW, ElementAffinityRegister.INEFFICIENT, Element.FLOW);
-        ElementAffinityRegister.registerAffinity(Element.HOLLOW, ElementAffinityRegister.INEFFICIENT, Element.HOLLOW);
-
-        ElementAffinityRegister.registerAffinity(Element.EMBER, ElementAffinityRegister.EFFICIENT, Element.SURGE);
-        ElementAffinityRegister.registerAffinity(Element.SURGE, ElementAffinityRegister.EFFICIENT, Element.TREMOR);
-        ElementAffinityRegister.registerAffinity(Element.TREMOR, ElementAffinityRegister.EFFICIENT, Element.GLACE);
-        ElementAffinityRegister.registerAffinity(Element.GLACE, ElementAffinityRegister.EFFICIENT, Element.PHANTOM);
-        ElementAffinityRegister.registerAffinity(Element.PHANTOM, ElementAffinityRegister.EFFICIENT, Element.MAGIC);
-        ElementAffinityRegister.registerAffinity(Element.MAGIC, ElementAffinityRegister.EFFICIENT, Element.FLOW);
-        ElementAffinityRegister.registerAffinity(Element.FLOW, ElementAffinityRegister.EFFICIENT, Element.HOLLOW);
-        ElementAffinityRegister.registerAffinity(Element.HOLLOW, ElementAffinityRegister.EFFICIENT, Element.EMBER);
-
-        ElementAffinityRegister.registerAffinity(Element.EMBER, ElementAffinityRegister.EFFICIENT, Element.GLACE);
-        ElementAffinityRegister.registerAffinity(Element.GLACE, ElementAffinityRegister.EFFICIENT, Element.MAGIC);
-        ElementAffinityRegister.registerAffinity(Element.MAGIC, ElementAffinityRegister.EFFICIENT, Element.SURGE);
-        ElementAffinityRegister.registerAffinity(Element.SURGE, ElementAffinityRegister.EFFICIENT, Element.PHANTOM);
-        ElementAffinityRegister.registerAffinity(Element.PHANTOM, ElementAffinityRegister.EFFICIENT, Element.HOLLOW);
-        ElementAffinityRegister.registerAffinity(Element.HOLLOW, ElementAffinityRegister.EFFICIENT, Element.TREMOR);
-        ElementAffinityRegister.registerAffinity(Element.TREMOR, ElementAffinityRegister.EFFICIENT, Element.FLOW);
-        ElementAffinityRegister.registerAffinity(Element.FLOW, ElementAffinityRegister.EFFICIENT, Element.EMBER);
-
-        EntityElementRegister.registerEntityElement(Blaze.class, Element.EMBER);
-        EntityElementRegister.registerEntityElement(MagmaCube.class, Element.EMBER);
-        EntityElementRegister.registerEntityElement(Stray.class, Element.GLACE);
-        EntityElementRegister.registerEntityElement(Phantom.class, Element.PHANTOM);
-        EntityElementRegister.registerEntityElement(Vex.class, Element.PHANTOM);
-        EntityElementRegister.registerEntityElement(Warden.class, Element.TREMOR);
-        EntityElementRegister.registerEntityElement(Witch.class, Element.MAGIC);
-        EntityElementRegister.registerEntityElement(Evoker.class, Element.MAGIC);
-        EntityElementRegister.registerEntityElement(Drowned.class, Element.FLOW);
-        EntityElementRegister.registerEntityElement(Guardian.class, Element.FLOW);
-        EntityElementRegister.registerEntityElement(ElderGuardian.class, Element.FLOW);
-        EntityElementRegister.registerEntityElement(Breeze.class, Element.FLOW);
-        EntityElementRegister.registerEntityElement(EnderMan.class, Element.HOLLOW);
-        EntityElementRegister.registerEntityElement(EnderDragon.class, Element.HOLLOW);
-        EntityElementRegister.registerEntityElement(Endermite.class, Element.HOLLOW);
-        EntityElementRegister.registerEntityElement(Shulker.class, Element.HOLLOW);
+        ABYSSITE.addSpellCasterStats(new ToolStats(0.5F, 1.7F, 1F, 1.1F, 0.4F, 1.3F, 0.9F, 5.8F, Element.HOLLOW, MiningLevel.NETHERITE, 4));*/
     }
 }

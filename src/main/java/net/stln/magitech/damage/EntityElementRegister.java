@@ -1,7 +1,7 @@
 package net.stln.magitech.damage;
 
 import net.minecraft.world.entity.Entity;
-import net.stln.magitech.util.Element;
+import net.stln.magitech.item.tool.element.Element;
 
 import java.util.HashMap;
 import java.util.Map;

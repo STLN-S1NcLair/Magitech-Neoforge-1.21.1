@@ -1,5 +1,6 @@
 package net.stln.magitech.item.creative_tab;
 
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -7,7 +8,6 @@ import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import net.neoforged.neoforge.registries.holdersets.AnyHolderSet;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.MagitechRegistries;
 import net.stln.magitech.block.BlockInit;
@@ -17,6 +17,7 @@ import net.stln.magitech.item.tool.material.MaterialInit;
 import net.stln.magitech.item.tool.partitem.PartItem;
 import net.stln.magitech.item.tool.toolitem.PartToolGenerator;
 import net.stln.magitech.magic.spell.SpellInit;
+import net.stln.magitech.magic.spell.SpellLike;
 
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class CreativeTabInit {
             .displayItems((parameters, output) -> {
                 var registries = parameters.holders();
                 var spellLookup = registries.lookupOrThrow(MagitechRegistries.Keys.SPELL);
-                var allSpells = new AnyHolderSet<>(spellLookup);
+                List<SpellLike> allSpells = spellLookup.listElements().map(Holder::value).map(spell -> (SpellLike) spell).toList();
 
                 output.accept(ThreadboundGenerator.generateThreadbound(ItemInit.GLISTENING_LEXICON.get(), allSpells));
                 output.accept(ThreadboundGenerator.generateThreadbound(ItemInit.THE_FIRE_THAT_THINKS.get(), allSpells));

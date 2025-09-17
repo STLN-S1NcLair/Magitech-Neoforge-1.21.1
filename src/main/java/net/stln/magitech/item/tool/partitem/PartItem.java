@@ -4,7 +4,6 @@ package net.stln.magitech.item.tool.partitem;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -27,26 +26,25 @@ public abstract class PartItem extends Item {
     }
 
     public static @NotNull ToolStats getDefaultStats(@NotNull ItemStack stack) {
-        return ComponentHelper.getMaterial(stack).map(ToolMaterial::getStats).orElse(ToolStats.DEFAULT);
+        return ComponentHelper.getMaterial(stack).map(ToolMaterial::stats).orElse(ToolStats.DEFAULT);
     }
 
     public static @NotNull ToolStats getSpellCasterStats(@NotNull ItemStack stack) {
-        return ComponentHelper.getMaterial(stack).map(ToolMaterial::getSpellCasterStats).orElse(ToolStats.DEFAULT);
+        return ComponentHelper.getMaterial(stack).map(ToolMaterial::spellCasterStats).orElse(ToolStats.DEFAULT);
     }
 
     public static @NotNull Optional<Trait> getTrait(@NotNull ItemStack stack) {
-        return ComponentHelper.getMaterial(stack).map(ToolMaterial::getTrait);
+        return ComponentHelper.getMaterial(stack).map(ToolMaterial::trait);
     }
 
     public abstract ToolPart getPart();
 
     @Override
-    public @NotNull Component getName(ItemStack stack) {
-        if (stack.has(ComponentInit.MATERIAL_COMPONENT)) {
-            ResourceLocation resourceLocation = stack.get(ComponentInit.MATERIAL_COMPONENT).getMaterialId();
-            return Component.translatable("item." + resourceLocation.getNamespace() + "." + getPart().get(), Component.translatable("material.magitech." + resourceLocation.getPath()));
-        }
-        return super.getName(stack);
+    public @NotNull Component getName(@NotNull ItemStack stack) {
+        return ComponentHelper.getMaterial(stack)
+                .map(ToolMaterial::getId)
+                .map(id -> Component.translatable("item." + id.getNamespace() + "." + getPart().get(), Component.translatable("material.magitech." + id.getPath())))
+                .orElseGet(() -> super.getName(stack).copy());
     }
 
     @Override
