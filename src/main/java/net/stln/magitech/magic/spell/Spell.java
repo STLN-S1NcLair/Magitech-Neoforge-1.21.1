@@ -9,10 +9,13 @@ import dev.kosmx.playerAnim.api.layered.ModifierLayer;
 import dev.kosmx.playerAnim.core.data.KeyframeAnimation;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.core.Holder;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.RegistryFixedCodec;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.stats.Stats;
@@ -35,6 +38,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.stln.magitech.Magitech;
+import net.stln.magitech.MagitechRegistries;
 import net.stln.magitech.damage.EntityElementRegister;
 import net.stln.magitech.entity.status.AttributeInit;
 import net.stln.magitech.item.tool.toolitem.SpellCasterItem;
@@ -55,8 +59,11 @@ import net.stln.magitech.util.SpellShape;
 import java.util.*;
 
 public abstract class Spell {
-    public static final Codec<Spell> CODEC = ResourceLocation.CODEC.flatXmap(SpellRegister::getSpellResult, SpellRegister::getSpellIdResult);
-    public static final StreamCodec<ByteBuf, Spell> STREAM_CODEC = ResourceLocation.STREAM_CODEC.map(id -> SpellRegister.getSpellResult(id).getPartialOrThrow(), spell -> SpellRegister.getSpellIdResult(spell).getPartialOrThrow());
+    public static final Codec<Spell> CODEC = MagitechRegistries.SPELL.byNameCodec();
+    public static final Codec<Holder<Spell>> HOLDER_CODEC = RegistryFixedCodec.create(MagitechRegistries.Keys.SPELL);
+    
+    public static final StreamCodec<RegistryFriendlyByteBuf, Spell> STREAM_CODEC = ByteBufCodecs.registry(MagitechRegistries.Keys.SPELL);
+    public static final StreamCodec<RegistryFriendlyByteBuf, Holder<Spell>> HOLDER_STREAM_CODEC = ByteBufCodecs.holderRegistry(MagitechRegistries.Keys.SPELL);
     
     public float baseDamage = 0;
     public float baseEffectStrength = 0;
@@ -319,7 +326,7 @@ public abstract class Spell {
             Optional<RecipeHolder<SpellConversionRecipe>> recipeHolder = level.getRecipeManager().getRecipeFor(RecipeInit.SPELL_CONVERSION_TYPE.get(), new SingleRecipeInput(item.getItem()), level);
             if (recipeHolder.isPresent()) {
                 SpellConversionRecipe recipe = recipeHolder.get().value();
-                if (recipe.getSpell().equals(SpellRegister.getId(this))) {
+                if (recipe.getSpell().equals(MagitechRegistries.SPELL.getKeyOrNull(this))) {
                     ItemStack stack = recipe.assemble(new SingleRecipeInput(item.getItem()), null);
                     int count = item.getItem().getCount() * stack.getCount();
                     while (count > 0) {

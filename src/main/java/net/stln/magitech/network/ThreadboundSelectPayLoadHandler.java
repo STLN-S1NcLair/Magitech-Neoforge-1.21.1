@@ -7,7 +7,6 @@ import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
-import net.stln.magitech.item.component.SpellComponent;
 import net.stln.magitech.util.ComponentHelper;
 import net.stln.magitech.util.CuriosHelper;
 
@@ -28,7 +27,7 @@ public class ThreadboundSelectPayLoadHandler {
         if (player == null) {
             return;
         }
-        CuriosHelper.getThreadBoundStack(player).ifPresent(stack -> ComponentHelper.updateSpells(stack, spellComponent -> new SpellComponent(spellComponent.spells(), payload.select())));
+        CuriosHelper.getThreadBoundStack(player).ifPresent(stack -> ComponentHelper.updateSpells(stack, spellComponent -> spellComponent.setSelected(payload.select())));
     }
 
     public static void handleDataOnMainC2S(final ThreadBoundSelectPayload payload, final IPayloadContext context) {
@@ -41,6 +40,6 @@ public class ThreadboundSelectPayLoadHandler {
                 PacketDistributor.sendToPlayer(serverPlayer, payload);
             }
         }
-        CuriosHelper.getThreadBoundStack(player).ifPresent(stack -> ComponentHelper.updateSpells(stack, spellComponent -> new SpellComponent(spellComponent.spells(), payload.select())));
+        CuriosHelper.getThreadBoundStack(player).ifPresent(stack -> ComponentHelper.updateSpells(stack, spellComponent -> spellComponent.setSelected(payload.select())));
     }
 }

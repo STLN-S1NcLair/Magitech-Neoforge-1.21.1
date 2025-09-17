@@ -3,11 +3,12 @@ package net.stln.magitech.item.component;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import io.netty.buffer.ByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.stln.magitech.magic.spell.Spell;
 
+import java.util.Arrays;
 import java.util.List;
 
 public record SpellComponent(List<Spell> spells, int selected) {
@@ -18,7 +19,7 @@ public record SpellComponent(List<Spell> spells, int selected) {
                     Codec.INT.fieldOf("selected").forGetter(SpellComponent::selected)
             ).apply(instance, SpellComponent::new)
     );
-    public static final StreamCodec<ByteBuf, SpellComponent> STREAM_CODEC = StreamCodec.composite(
+    public static final StreamCodec<RegistryFriendlyByteBuf, SpellComponent> STREAM_CODEC = StreamCodec.composite(
             Spell.STREAM_CODEC.apply(ByteBufCodecs.list()),
             SpellComponent::spells,
             ByteBufCodecs.INT,
@@ -26,9 +27,17 @@ public record SpellComponent(List<Spell> spells, int selected) {
             SpellComponent::new
     );
     public static final SpellComponent EMPTY = new SpellComponent(List.of(), 0);
+
+    public SpellComponent(Spell... spells) {
+        this(Arrays.asList(spells));
+    }
     
     public SpellComponent(List<Spell> spells) {
         this(spells, 0);
+    }
+    
+    public SpellComponent setSelected(int selected) {
+        return new SpellComponent(this.spells, selected);
     }
 }
 

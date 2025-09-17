@@ -1,7 +1,9 @@
 package net.stln.magitech.magic.spell;
 
-import net.minecraft.resources.ResourceLocation;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import net.stln.magitech.Magitech;
+import net.stln.magitech.MagitechRegistries;
 import net.stln.magitech.magic.spell.ember.Blazewend;
 import net.stln.magitech.magic.spell.ember.Fluvalen;
 import net.stln.magitech.magic.spell.ember.Ignisca;
@@ -29,53 +31,63 @@ import net.stln.magitech.magic.spell.tremor.Oscilbeam;
 import net.stln.magitech.magic.spell.tremor.Quaveris;
 import net.stln.magitech.magic.spell.tremor.Sonistorm;
 import net.stln.magitech.magic.spell.tremor.Tremivox;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.function.Supplier;
 
 public class SpellInit {
-    public static final Spell IGNISCA = SpellRegister.registerSpell(Magitech.id("ignisca"), new Ignisca());
-    public static final Spell PYROLUX = SpellRegister.registerSpell(Magitech.id("pyrolux"), new Pyrolux());
-    public static final Spell FLUVALEN = SpellRegister.registerSpell(Magitech.id("fluvalen"), new Fluvalen());
-    public static final Spell BLAZEWEND = SpellRegister.registerSpell(Magitech.id("blazewend"), new Blazewend());
+    public static final DeferredRegister<Spell> REGISTER = DeferredRegister.create(MagitechRegistries.Keys.SPELL, Magitech.MOD_ID);
 
-    public static final Spell FRIGALA = SpellRegister.registerSpell(Magitech.id("frigala"), new Frigala());
-    public static final Spell CRYOLUXA = SpellRegister.registerSpell(Magitech.id("cryoluxa"), new Cryoluxa());
-    public static final Spell NIVALUNE = SpellRegister.registerSpell(Magitech.id("nivalune"), new Nivalune());
-    public static final Spell GLISTELDA = SpellRegister.registerSpell(Magitech.id("glistelda"), new Glistelda());
+    public static final Supplier<Spell> IGNISCA = register("ignisca", new Ignisca());
+    public static final Supplier<Spell> PYROLUX = register("pyrolux", new Pyrolux());
+    public static final Supplier<Spell> FLUVALEN = register("fluvalen", new Fluvalen());
+    public static final Supplier<Spell> BLAZEWEND = register("blazewend", new Blazewend());
 
-    public static final Spell VOLTARIS = SpellRegister.registerSpell(Magitech.id("voltaris"), new Voltaris());
-    public static final Spell FULGENZA = SpellRegister.registerSpell(Magitech.id("fulgenza"), new Fulgenza());
-    public static final Spell SPARKION = SpellRegister.registerSpell(Magitech.id("sparkion"), new Sparkion());
-    public static final Spell ARCLUME = SpellRegister.registerSpell(Magitech.id("arclume"), new Arclume());
+    public static final Supplier<Spell> FRIGALA = register("frigala", new Frigala());
+    public static final Supplier<Spell> CRYOLUXA = register("cryoluxa", new Cryoluxa());
+    public static final Supplier<Spell> NIVALUNE = register("nivalune", new Nivalune());
+    public static final Supplier<Spell> GLISTELDA = register("glistelda", new Glistelda());
 
-    public static final Spell TREMIVOX = SpellRegister.registerSpell(Magitech.id("tremivox"), new Tremivox());
-    public static final Spell OSCILBEAM = SpellRegister.registerSpell(Magitech.id("oscilbeam"), new Oscilbeam());
-    public static final Spell SONISTORM = SpellRegister.registerSpell(Magitech.id("sonistorm"), new Sonistorm());
-    public static final Spell QUAVERIS = SpellRegister.registerSpell(Magitech.id("quaveris"), new Quaveris());
+    public static final Supplier<Spell> VOLTARIS = register("voltaris", new Voltaris());
+    public static final Supplier<Spell> FULGENZA = register("fulgenza", new Fulgenza());
+    public static final Supplier<Spell> SPARKION = register("sparkion", new Sparkion());
+    public static final Supplier<Spell> ARCLUME = register("arclume", new Arclume());
 
-    public static final Spell MIRAZIEN = SpellRegister.registerSpell(Magitech.id("mirazien"), new Mirazien());
-    public static final Spell PHANTASTRA = SpellRegister.registerSpell(Magitech.id("phantastra"), new Phantastra());
-    public static final Spell VEILMIST = SpellRegister.registerSpell(Magitech.id("veilmist"), new Veilmist());
-    public static final Spell FADANCEA = SpellRegister.registerSpell(Magitech.id("fadancea"), new Fadancea());
+    public static final Supplier<Spell> TREMIVOX = register("tremivox", new Tremivox());
+    public static final Supplier<Spell> OSCILBEAM = register("oscilbeam", new Oscilbeam());
+    public static final Supplier<Spell> SONISTORM = register("sonistorm", new Sonistorm());
+    public static final Supplier<Spell> QUAVERIS = register("quaveris", new Quaveris());
 
-    public static final Spell ARCALETH = SpellRegister.registerSpell(Magitech.id("arcaleth"), new Arcaleth());
-    public static final Spell MYSTAVEN = SpellRegister.registerSpell(Magitech.id("mystaven"), new Mystaven());
-    public static final Spell GLYMORA = SpellRegister.registerSpell(Magitech.id("glymora"), new Glymora());
-    public static final Spell ENVISTRA = SpellRegister.registerSpell(Magitech.id("envistra"), new Envistra());
+    public static final Supplier<Spell> MIRAZIEN = register("mirazien", new Mirazien());
+    public static final Supplier<Spell> PHANTASTRA = register("phantastra", new Phantastra());
+    public static final Supplier<Spell> VEILMIST = register("veilmist", new Veilmist());
+    public static final Supplier<Spell> FADANCEA = register("fadancea", new Fadancea());
 
-    public static final Spell AELTHERIN = SpellRegister.registerSpell(Magitech.id("aeltherin"), new Aeltherin());
-    public static final Spell FLUVINAE = SpellRegister.registerSpell(Magitech.id("fluvinae"), new Fluvinae());
-    public static final Spell MISTRELUNE = SpellRegister.registerSpell(Magitech.id("mistrelune"), new Mistrelune());
-    public static final Spell SYLLAEZE = SpellRegister.registerSpell(Magitech.id("syllaeze"), new Syllaeze());
-    public static final Spell NYMPHORA = SpellRegister.registerSpell(Magitech.id("nymphora"), new Nymphora());
+    public static final Supplier<Spell> ARCALETH = register("arcaleth", new Arcaleth());
+    public static final Supplier<Spell> MYSTAVEN = register("mystaven", new Mystaven());
+    public static final Supplier<Spell> GLYMORA = register("glymora", new Glymora());
+    public static final Supplier<Spell> ENVISTRA = register("envistra", new Envistra());
 
-    public static final Spell NULLIXIS = SpellRegister.registerSpell(Magitech.id("nullixis"), new Nullixis());
-    public static final Spell VOIDLANCE = SpellRegister.registerSpell(Magitech.id("voidlance"), new Voidlance());
-    public static final Spell TENEBRISOL = SpellRegister.registerSpell(Magitech.id("tenebrisol"), new Tenebrisol());
-    public static final Spell DISPARUNDRA = SpellRegister.registerSpell(Magitech.id("disparundra"), new Disparundra());
-    public static final Spell TENEBPORT = SpellRegister.registerSpell(Magitech.id("tenebport"), new Tenebport());
+    public static final Supplier<Spell> AELTHERIN = register("aeltherin", new Aeltherin());
+    public static final Supplier<Spell> FLUVINAE = register("fluvinae", new Fluvinae());
+    public static final Supplier<Spell> MISTRELUNE = register("mistrelune", new Mistrelune());
+    public static final Supplier<Spell> SYLLAEZE = register("syllaeze", new Syllaeze());
+    public static final Supplier<Spell> NYMPHORA = register("nymphora", new Nymphora());
 
-    public static final Spell ENERCRUX = SpellRegister.registerSpell(Magitech.id("enercrux"), new Enercrux());
+    public static final Supplier<Spell> NULLIXIS = register("nullixis", new Nullixis());
+    public static final Supplier<Spell> VOIDLANCE = register("voidlance", new Voidlance());
+    public static final Supplier<Spell> TENEBRISOL = register("tenebrisol", new Tenebrisol());
+    public static final Supplier<Spell> DISPARUNDRA = register("disparundra", new Disparundra());
+    public static final Supplier<Spell> TENEBPORT = register("tenebport", new Tenebport());
 
-    public static void registerSpells() {
+    public static final Supplier<Spell> ENERCRUX = register("enercrux", new Enercrux());
+
+    private static @NotNull Supplier<Spell> register(@NotNull String path, @NotNull Spell spell) {
+        return REGISTER.register(path, () -> spell);
+    }
+    
+    public static void registerSpells(IEventBus bus) {
         Magitech.LOGGER.info("Registering Spells for" + Magitech.MOD_ID);
+        REGISTER.register(bus);
     }
 }

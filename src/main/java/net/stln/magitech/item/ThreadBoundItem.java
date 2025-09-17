@@ -16,9 +16,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.neoforged.fml.ModList;
+import net.stln.magitech.MagitechRegistries;
 import net.stln.magitech.item.component.SpellComponent;
 import net.stln.magitech.magic.spell.Spell;
-import net.stln.magitech.magic.spell.SpellRegister;
 import net.stln.magitech.util.ComponentHelper;
 import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.SlotContext;
@@ -70,7 +70,7 @@ public class ThreadBoundItem extends TooltipTextItem implements ICurioItem {
         int i = 0;
         SpellComponent spells = ComponentHelper.getSpells(stack);
         for (Spell spell : spells.spells()) {
-            ResourceLocation location = SpellRegister.getId(spell);
+            ResourceLocation location = MagitechRegistries.SPELL.getKeyOrNull(spell);
             if (location != null) {
                 int abs = Math.abs(spells.selected() - i);
                 if (abs <= 2 || Screen.hasShiftDown()) {

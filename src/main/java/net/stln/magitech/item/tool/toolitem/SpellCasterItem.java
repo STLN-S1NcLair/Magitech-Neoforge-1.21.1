@@ -350,7 +350,7 @@ public abstract class SpellCasterItem extends PartToolItem {
                     player.releaseUsingItem();
                 }
             } else {
-                threadbound.set(ComponentInit.SPELL_COMPONENT, new SpellComponent(spells.spells()));
+                threadbound.set(ComponentInit.SPELL_COMPONENT, spells.setSelected(0));
             }
         }
         player.awardStat(Stats.ITEM_USED.get(this));

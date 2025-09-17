@@ -13,7 +13,6 @@ import net.stln.magitech.item.ItemInit;
 import net.stln.magitech.item.ThreadBoundItem;
 import net.stln.magitech.item.armor.AetherLifterItem;
 import net.stln.magitech.item.armor.FlamglideStriderItem;
-import net.stln.magitech.item.component.SpellComponent;
 import net.stln.magitech.item.tool.toolitem.PartToolItem;
 import net.stln.magitech.network.DoubleJumpPayload;
 import net.stln.magitech.network.LongJumpPayload;
@@ -69,7 +68,7 @@ public class KeyPressEvent {
                     int select = selected < 0 || selected >= component.spells().size() - 1 ? 0 : selected + 1;
 
                     PacketDistributor.sendToServer(new ThreadBoundSelectPayload(select, player.getUUID().toString()));
-                    return new SpellComponent(component.spells(), select);
+                    return component.setSelected(selected);
                 });
             });
         }
@@ -79,7 +78,7 @@ public class KeyPressEvent {
                     int selected = component.selected();
                     int select = selected < 1 || selected >= component.spells().size() ? component.spells().size() - 1 : selected - 1;
                     PacketDistributor.sendToServer(new ThreadBoundSelectPayload(select, player.getUUID().toString()));
-                    return new SpellComponent(component.spells(), select);
+                    return component.setSelected(selected);
                 });
             });
         }

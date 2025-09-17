@@ -55,7 +55,8 @@ public class Magitech {
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
     public Magitech(IEventBus modEventBus, ModContainer modContainer) {
-
+        MagitechRegistries.register(modEventBus);
+        
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
 
@@ -80,7 +81,7 @@ public class Magitech {
         CriterionInit.registerCriteria(modEventBus);
         MaterialInit.registerElements();
         MaterialInit.registerMaterials();
-        SpellInit.registerSpells();
+        SpellInit.registerSpells(modEventBus);
         UpgradeInit.registerUpgrades();
         ValidatorInit.registerValidators();
 

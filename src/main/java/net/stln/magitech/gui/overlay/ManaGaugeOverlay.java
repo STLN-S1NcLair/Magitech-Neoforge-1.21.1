@@ -10,6 +10,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.stln.magitech.Magitech;
+import net.stln.magitech.MagitechRegistries;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.SpellComponent;
 import net.stln.magitech.item.tool.toolitem.SpellCasterItem;
@@ -18,7 +19,6 @@ import net.stln.magitech.magic.cooldown.CooldownData;
 import net.stln.magitech.magic.mana.ManaData;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.Spell;
-import net.stln.magitech.magic.spell.SpellRegister;
 import net.stln.magitech.util.*;
 import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.CuriosApi;
@@ -74,7 +74,7 @@ public class ManaGaugeOverlay implements LayeredDraw.Layer {
                     SpellComponent spellComponent = ComponentHelper.getSpells(threadbound);
                     if (spellComponent.selected() < spellComponent.spells().size() && spellComponent.selected() >= 0) {
                         Spell spell = spellComponent.spells().get(spellComponent.selected());
-                        ResourceLocation icon = SpellRegister.getId(spell);
+                        ResourceLocation icon = MagitechRegistries.SPELL.getKeyOrNull(spell);
                         if (icon != null) {
                             String namespace = icon.getNamespace();
                             String path = icon.getPath();
@@ -118,7 +118,7 @@ public class ManaGaugeOverlay implements LayeredDraw.Layer {
                             }
                         }
                     } else {
-                        threadbound.set(ComponentInit.SPELL_COMPONENT, new SpellComponent(spellComponent.spells(), 0));
+                        threadbound.set(ComponentInit.SPELL_COMPONENT, spellComponent.setSelected(0));
                     }
 
                     guiGraphics.blit(TEXTURE, x - 1, y + 59 - manaGaugeHeight, 0, 144, 6, 10);

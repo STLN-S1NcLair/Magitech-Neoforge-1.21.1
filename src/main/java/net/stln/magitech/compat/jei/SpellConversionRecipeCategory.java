@@ -18,6 +18,7 @@ import net.stln.magitech.Magitech;
 import net.stln.magitech.item.ItemInit;
 import net.stln.magitech.recipe.SpellConversionRecipe;
 import net.stln.magitech.util.ComponentHelper;
+import net.stln.magitech.util.RegistryHelper;
 import org.jetbrains.annotations.NotNull;
 
 public class SpellConversionRecipeCategory extends AbstractMagitechRecipeCategory<SpellConversionRecipe> {
@@ -46,16 +47,14 @@ public class SpellConversionRecipeCategory extends AbstractMagitechRecipeCategor
 
     @Override
     public void draw(SpellConversionRecipe recipe, @NotNull IRecipeSlotsView recipeSlotsView, @NotNull GuiGraphics guiGraphics, double mouseX, double mouseY) {
-        ResourceLocation icon = recipe.getSpell();
-        String namespace = icon.getNamespace();
-        String path = icon.getPath();
-        icon = ResourceLocation.fromNamespaceAndPath(namespace, "textures/spell/" + path + ".png");
-        super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
-        guiGraphics.blit(TEXTURE, 18, 12, 0, 0, 18, 18);
-        guiGraphics.blit(icon, 38, 5, 0, 0, 32, 32, 32, 32);
-        guiGraphics.blit(TEXTURE, 68, 24, 18, 0, 18, 18);
-        guiGraphics.blit(TEXTURE, 74, 16, 0, 18, 21, 10);
-        guiGraphics.blit(TEXTURE, 99, 12, 36, 0, 18, 18);
+        RegistryHelper.getId(recipe.getSpell()).ifPresent(id -> {
+            super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
+            guiGraphics.blit(TEXTURE, 18, 12, 0, 0, 18, 18);
+            guiGraphics.blit(id.withPrefix("textures/spell/").withSuffix(".png"), 38, 5, 0, 0, 32, 32, 32, 32);
+            guiGraphics.blit(TEXTURE, 68, 24, 18, 0, 18, 18);
+            guiGraphics.blit(TEXTURE, 74, 16, 0, 18, 21, 10);
+            guiGraphics.blit(TEXTURE, 99, 12, 36, 0, 18, 18);
+        });
     }
 
     @Override

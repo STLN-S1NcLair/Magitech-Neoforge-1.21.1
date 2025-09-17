@@ -11,11 +11,16 @@ import net.stln.magitech.item.tool.toolitem.PartToolGenerator;
 import net.stln.magitech.magic.spell.Spell;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 public class ThreadboundGenerator {
 
     public static ItemStack generatePart(PartItem partItem, ToolMaterial material) {
         return PartToolGenerator.generatePart(partItem, material);
+    }
+
+    public static ItemStack generateThreadboundAlt(Item item, List<? extends Supplier<Spell>> spell) {
+        return generateThreadbound(item, spell.stream().map(Supplier::get).toList());
     }
 
     public static ItemStack generateThreadbound(Item item, List<Spell> spell) {
@@ -24,6 +29,10 @@ public class ThreadboundGenerator {
         return stack;
     }
 
+    public static ItemStack generateThreadPage(Supplier<? extends Spell> supplier) {
+        return generateThreadPage(supplier.get());
+    }
+    
     public static ItemStack generateThreadPage(Spell spell) {
         ItemStack stack = ItemInit.THREAD_PAGE.toStack();
         stack.set(ComponentInit.THREAD_PAGE_COMPONENT, new ThreadPageComponent(spell));

@@ -1,13 +1,12 @@
 package net.stln.magitech.util;
 
+import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentHolder;
-import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.common.MutableDataComponentHolder;
 import net.stln.magitech.item.component.*;
 import net.stln.magitech.item.tool.material.ToolMaterial;
 import net.stln.magitech.item.tool.upgrade.UpgradeInstance;
 import net.stln.magitech.magic.spell.Spell;
-import net.stln.magitech.magic.spell.SpellRegister;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -53,10 +52,13 @@ public class ComponentHelper {
     }
 
     // Setter
-    public static void setThreadPage(@NotNull MutableDataComponentHolder holder, @NotNull ResourceLocation id) {
-        var spell = SpellRegister.getSpell(id);
-        if (spell != null) {
-            holder.set(ComponentInit.THREAD_PAGE_COMPONENT, new ThreadPageComponent(spell));
+    public static void setThreadPage(@NotNull MutableDataComponentHolder holder, @NotNull Holder<Spell> spell) {
+        if (spell.isBound()) {
+            setThreadPage(holder, spell.value());
         }
+    }
+
+    public static void setThreadPage(@NotNull MutableDataComponentHolder holder, @NotNull Spell spell) {
+        holder.set(ComponentInit.THREAD_PAGE_COMPONENT, new ThreadPageComponent(spell));
     }
 }

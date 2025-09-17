@@ -18,12 +18,13 @@ import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.magic.spell.SpellInit;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 public class CreativeTabInit {
 
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Magitech.MOD_ID);
 
-    static List<Spell> allSpells = List.of(
+    static List<Supplier<Spell>> allSpells = List.of(
             SpellInit.IGNISCA, SpellInit.PYROLUX, SpellInit.FLUVALEN, SpellInit.BLAZEWEND,
             SpellInit.FRIGALA, SpellInit.CRYOLUXA, SpellInit.NIVALUNE, SpellInit.GLISTELDA,
             SpellInit.VOLTARIS, SpellInit.FULGENZA, SpellInit.SPARKION, SpellInit.ARCLUME,
@@ -39,9 +40,9 @@ public class CreativeTabInit {
             .title(Component.translatable("itemGroup.magitech.magitech"))
             .icon(() -> ItemInit.GLISTENING_LEXICON.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
-                output.accept(ThreadboundGenerator.generateThreadbound(ItemInit.GLISTENING_LEXICON.get(), allSpells));
-                output.accept(ThreadboundGenerator.generateThreadbound(ItemInit.THE_FIRE_THAT_THINKS.get(), allSpells));
-                output.accept(ThreadboundGenerator.generateThreadbound(ItemInit.ARCANE_ENGINEERING_COMPENDIUM.get(), allSpells));
+                output.accept(ThreadboundGenerator.generateThreadboundAlt(ItemInit.GLISTENING_LEXICON.get(), allSpells));
+                output.accept(ThreadboundGenerator.generateThreadboundAlt(ItemInit.THE_FIRE_THAT_THINKS.get(), allSpells));
+                output.accept(ThreadboundGenerator.generateThreadboundAlt(ItemInit.ARCANE_ENGINEERING_COMPENDIUM.get(), allSpells));
                 output.accept(ItemInit.AETHER_LIFTER.get());
                 output.accept(ItemInit.FLAMGLIDE_STRIDER.get());
                 output.accept(ItemInit.MANA_RING.get());

@@ -10,6 +10,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.stln.magitech.Magitech;
+import net.stln.magitech.MagitechRegistries;
 import net.stln.magitech.event.KeyMappingEvent;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.SpellComponent;
@@ -17,7 +18,6 @@ import net.stln.magitech.item.tool.toolitem.SpellCasterItem;
 import net.stln.magitech.magic.cooldown.Cooldown;
 import net.stln.magitech.magic.cooldown.CooldownData;
 import net.stln.magitech.magic.spell.Spell;
-import net.stln.magitech.magic.spell.SpellRegister;
 import net.stln.magitech.network.ThreadBoundSelectPayload;
 import net.stln.magitech.util.*;
 import org.jetbrains.annotations.NotNull;
@@ -26,7 +26,7 @@ import java.util.List;
 
 public class RadialSpellMenuOverlay extends Screen {
 
-    private static ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "textures/gui/mana_gauge.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "textures/gui/mana_gauge.png");
     float selectAnimTick = 0;
     float selectTick = 0.0F;
     private int select = -1;
@@ -57,7 +57,7 @@ public class RadialSpellMenuOverlay extends Screen {
             
             int index = 0;
             for (Spell spell : spellComponent.spells()) {
-                ResourceLocation icon = SpellRegister.getId(spell);
+                ResourceLocation icon = MagitechRegistries.SPELL.getKeyOrNull(spell);
                 if (icon != null) {
                     int animLength = 3;
                     float animTick = Math.min(ticks + partialTicks, animLength);
@@ -87,20 +87,18 @@ public class RadialSpellMenuOverlay extends Screen {
                         size *= (float) (Math.clamp(selectTick / 5, 0.0, 0.5) + 1.0);
 
                         if (distance > 20) {
-                            SpellRegister.getOptionalId(spell).ifPresent(id -> {
-                                String text = Component.translatable(id.toLanguageKey("spell")).getString();
-                                List<Component> componentList = spell.getTooltip(player.level(), player, player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof SpellCasterItem ? player.getItemInHand(InteractionHand.MAIN_HAND) : player.getItemInHand(InteractionHand.OFF_HAND));
-                                int renderx = (x - font.width(text) / 2);
-                                int rendery = (int) (y - 4 + 8 - squareEase - componentList.size() * 4);
-                                RenderHelper.renderFramedText(guiGraphics, font, text, renderx, rendery, spell.getElement());
-                                int i = 1;
-                                for (Component component : componentList) {
-                                    i++;
-                                    int tooltipx = (x - font.width(component.getString()) / 2);
-                                    int color = component.getStyle().getColor() != null ? component.getStyle().getColor().getValue() : 0xFFFFFF;
-                                    RenderHelper.renderFramedText(guiGraphics, font, component.getString(), tooltipx, rendery + i * 10, color, color == spell.getElement().getSpellColor() ? spell.getElement().getSpellDark() : ColorHelper.Argb.mul(color, 0x404040));
-                                }
-                            });
+                            String text = Component.translatable(icon.toLanguageKey("spell")).getString();
+                            List<Component> componentList = spell.getTooltip(player.level(), player, player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof SpellCasterItem ? player.getItemInHand(InteractionHand.MAIN_HAND) : player.getItemInHand(InteractionHand.OFF_HAND));
+                            int renderx = (x - font.width(text) / 2);
+                            int rendery = (int) (y - 4 + 8 - squareEase - componentList.size() * 4);
+                            RenderHelper.renderFramedText(guiGraphics, font, text, renderx, rendery, spell.getElement());
+                            int i = 1;
+                            for (Component component : componentList) {
+                                i++;
+                                int tooltipx = (x - font.width(component.getString()) / 2);
+                                int color = component.getStyle().getColor() != null ? component.getStyle().getColor().getValue() : 0xFFFFFF;
+                                RenderHelper.renderFramedText(guiGraphics, font, component.getString(), tooltipx, rendery + i * 10, color, color == spell.getElement().getSpellColor() ? spell.getElement().getSpellDark() : ColorHelper.Argb.mul(color, 0x404040));
+                            }
                         }
                     } else if (distance <= 10) {
                         select = -1;
@@ -161,7 +159,7 @@ public class RadialSpellMenuOverlay extends Screen {
         CuriosHelper.getThreadBoundStack(player).ifPresent(stack -> {
             if (stack.has(ComponentInit.SPELL_COMPONENT) && select >= 0) {
                 PacketDistributor.sendToServer(new ThreadBoundSelectPayload(select, player.getUUID().toString()));
-                ComponentHelper.updateSpells(stack, spellComponent -> new SpellComponent(spellComponent.spells(), select));
+                ComponentHelper.updateSpells(stack, spellComponent -> spellComponent.setSelected(select));
             }
         });
     }

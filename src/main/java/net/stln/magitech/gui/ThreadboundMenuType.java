@@ -116,7 +116,7 @@ public class ThreadboundMenuType extends AbstractContainerMenu {
     }
 
     @Override
-    public void removed(Player player) {
+    public void removed(@NotNull Player player) {
         // プレイヤーが閉じた時にカーソルにあるアイテムをドロップさせる
         ItemStack carried = this.getCarried();
         if (!carried.isEmpty() && !player.level().isClientSide) {
