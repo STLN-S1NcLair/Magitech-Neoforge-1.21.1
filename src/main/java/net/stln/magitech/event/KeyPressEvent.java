@@ -44,14 +44,14 @@ public class KeyPressEvent {
         }
         while (KeyMappingEvent.DOUBLE_JUMP.get().consumeClick()) {
             if (player.getItemBySlot(EquipmentSlot.FEET).getItem() == ItemInit.AETHER_LIFTER.get() && onGroundMarker > 2) {
-                PacketDistributor.sendToServer(new DoubleJumpPayload(jumpCount, player.getStringUUID()));
+                PacketDistributor.sendToServer(new DoubleJumpPayload(jumpCount, player.getUUID()));
                 AetherLifterItem.doubleJump(player, jumpCount, player.getItemBySlot(EquipmentSlot.FEET));
                 jumpCount++;
             }
         }
         while (KeyMappingEvent.LONG_JUMP.get().consumeClick()) {
             if (player.getItemBySlot(EquipmentSlot.FEET).getItem() == ItemInit.FLAMGLIDE_STRIDER.get() && onGroundMarker < 2 && player.isSprinting()) {
-                PacketDistributor.sendToServer(new LongJumpPayload(jumpCount, player.getStringUUID()));
+                PacketDistributor.sendToServer(new LongJumpPayload(jumpCount, player.getUUID()));
                 FlamglideStriderItem.longJump(player, jumpCount, player.getItemBySlot(EquipmentSlot.FEET));
                 jumpCount++;
             }
@@ -67,7 +67,7 @@ public class KeyPressEvent {
                     int selected = component.selected();
                     int select = selected < 0 || selected >= component.spells().size() - 1 ? 0 : selected + 1;
 
-                    PacketDistributor.sendToServer(new ThreadBoundSelectPayload(select, player.getUUID().toString()));
+                    PacketDistributor.sendToServer(new ThreadBoundSelectPayload(select, player.getUUID()));
                     return component.setSelected(selected);
                 });
             });
@@ -77,7 +77,7 @@ public class KeyPressEvent {
                 ComponentHelper.updateSpells(stack, component -> {
                     int selected = component.selected();
                     int select = selected < 1 || selected >= component.spells().size() ? component.spells().size() - 1 : selected - 1;
-                    PacketDistributor.sendToServer(new ThreadBoundSelectPayload(select, player.getUUID().toString()));
+                    PacketDistributor.sendToServer(new ThreadBoundSelectPayload(select, player.getUUID()));
                     return component.setSelected(selected);
                 });
             });

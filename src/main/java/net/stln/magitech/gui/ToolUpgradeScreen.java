@@ -41,7 +41,7 @@ import java.util.Optional;
 
 @OnlyIn(Dist.CLIENT)
 public class ToolUpgradeScreen extends AbstractContainerScreen<ToolUpgradeMenu> {
-    private static final ResourceLocation BG_LOCATION = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "textures/gui/tool_upgrade.png");
+    private static final ResourceLocation BG_LOCATION = Magitech.id("textures/gui/tool_upgrade.png");
     private static final int SWITCH_INTERVAL = 20; // 20tick = 1秒
     private int tickCounter = 0;
     private int currentIndex = 0;

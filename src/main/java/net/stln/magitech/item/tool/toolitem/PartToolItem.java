@@ -70,10 +70,10 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public abstract class PartToolItem extends Item implements LeftClickOverrideItem {
-    ResourceLocation atkId = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "part_tool_attack_damage_modifier");
-    ResourceLocation spdId = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "part_tool_attack_speed_modifier");
-    ResourceLocation defId = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "part_tool_defense_modifier");
-    ResourceLocation rngId = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "part_tool_attack_range_modifier");
+    ResourceLocation atkId = Magitech.id("part_tool_attack_damage_modifier");
+    ResourceLocation spdId = Magitech.id("part_tool_attack_speed_modifier");
+    ResourceLocation defId = Magitech.id("part_tool_defense_modifier");
+    ResourceLocation rngId = Magitech.id("part_tool_attack_range_modifier");
 
     public PartToolItem(Properties settings) {
         super(settings);
@@ -280,7 +280,7 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
     }
 
     @Override
-    public boolean canPerformAction(ItemStack stack, ItemAbility itemAbility) {
+    public boolean canPerformAction(@NotNull ItemStack stack, @NotNull ItemAbility itemAbility) {
         if (ComponentHelper.isBroken(stack)) {
             return false;
         }
@@ -309,7 +309,7 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
     public abstract float getMultiplier(ToolPart part);
 
     @Override
-    public void inventoryTick(ItemStack stack, Level world, Entity entity, int slot, boolean selected) {
+    public void inventoryTick(@NotNull ItemStack stack, @NotNull Level world, @NotNull Entity entity, int slot, boolean selected) {
         super.inventoryTick(stack, world, entity, slot, selected);
         if (entity instanceof Player player) {
             if (player.getItemInHand(InteractionHand.MAIN_HAND) == stack || player.getItemInHand(InteractionHand.OFF_HAND) == stack) {
@@ -317,14 +317,14 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
                     trait.tick(player, world, stack, integer, getBaseStats(stack), true);
                 });
                 if (world.isClientSide) {
-                    PacketDistributor.sendToServer(new TraitTickPayload(((Player) entity).getItemInHand(InteractionHand.MAIN_HAND) == stack, false, slot, entity.getUUID().toString()));
+                    PacketDistributor.sendToServer(new TraitTickPayload(player.getItemInHand(InteractionHand.MAIN_HAND) == stack, false, slot, entity.getUUID()));
                 }
             }
             getTraitLevel(getTraits(stack)).forEach((trait, integer) -> {
                 trait.inventoryTick(player, world, stack, integer, getBaseStats(stack), true);
             });
             if (world.isClientSide) {
-                PacketDistributor.sendToServer(new TraitTickPayload(((Player) entity).getItemInHand(InteractionHand.MAIN_HAND) == stack, true, slot, entity.getUUID().toString()));
+                PacketDistributor.sendToServer(new TraitTickPayload(player.getItemInHand(InteractionHand.MAIN_HAND) == stack, true, slot, entity.getUUID()));
             }
         }
 
@@ -677,7 +677,7 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
                     if (level.isClientSide) {
 //                        addToast(stack, tier);
                     } else {
-                        PacketDistributor.sendToPlayer((ServerPlayer) player, new TierUpToastPayload(player.getInventory().findSlotMatchingItem(stack), tier + 1, player.getUUID().toString()));
+                        PacketDistributor.sendToPlayer((ServerPlayer) player, new TierUpToastPayload(player.getInventory().findSlotMatchingItem(stack), tier + 1, player.getUUID()));
                     }
                 }
             }

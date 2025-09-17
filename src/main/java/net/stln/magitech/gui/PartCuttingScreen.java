@@ -29,7 +29,7 @@ import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
 public class PartCuttingScreen extends AbstractContainerScreen<PartCuttingMenu> {
-    private static final ResourceLocation BG_LOCATION = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "textures/gui/part_cutting.png");
+    private static final ResourceLocation BG_LOCATION = Magitech.id("textures/gui/part_cutting.png");
     private static final int SCROLLER_WIDTH = 8;
     private static final int SCROLLER_HEIGHT = 8;
     private static final int RECIPES_COLUMNS = 4;

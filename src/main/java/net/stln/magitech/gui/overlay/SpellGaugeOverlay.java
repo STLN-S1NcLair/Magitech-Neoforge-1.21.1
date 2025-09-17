@@ -18,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class SpellGaugeOverlay implements LayeredDraw.Layer {
 
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "textures/gui/spell_gauge.png");
+    private static final ResourceLocation TEXTURE = Magitech.id("textures/gui/spell_gauge.png");
 
     @Override
     public void render(@NotNull GuiGraphics guiGraphics, @NotNull DeltaTracker deltaTracker) {

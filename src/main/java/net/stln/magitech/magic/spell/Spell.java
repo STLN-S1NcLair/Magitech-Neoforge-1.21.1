@@ -74,7 +74,7 @@ public abstract class Spell {
 
     @OnlyIn(Dist.CLIENT)
     private static void stopAnim(Player player) {
-        var playerAnimationData = (ModifierLayer<IAnimation>) PlayerAnimationAccess.getPlayerAssociatedData((AbstractClientPlayer) player).get(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "animation"));
+        var playerAnimationData = (ModifierLayer<IAnimation>) PlayerAnimationAccess.getPlayerAssociatedData((AbstractClientPlayer) player).get(Magitech.id("animation"));
         if (playerAnimationData != null && playerAnimationData.getAnimation() instanceof KeyframeAnimationPlayer keyframeAnimationPlayer) {
 
             keyframeAnimationPlayer.stop();
@@ -149,7 +149,7 @@ public abstract class Spell {
         if (level.isClientSide) {
             playAnimation(user);
             if (isHost) {
-                PacketDistributor.sendToServer(new UseSpellPayload(hand == InteractionHand.MAIN_HAND, user.getUUID().toString()));
+                PacketDistributor.sendToServer(new UseSpellPayload(hand == InteractionHand.MAIN_HAND, user.getUUID()));
             }
         }
         if (canHoldUsing()) {
@@ -169,11 +169,11 @@ public abstract class Spell {
 
     @OnlyIn(Dist.CLIENT)
     protected void playAnimation(Player user) {
-        var playerAnimationData = (ModifierLayer<IAnimation>) PlayerAnimationAccess.getPlayerAssociatedData((AbstractClientPlayer) user).get(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "animation"));
+        var playerAnimationData = (ModifierLayer<IAnimation>) PlayerAnimationAccess.getPlayerAssociatedData((AbstractClientPlayer) user).get(Magitech.id("animation"));
         if (playerAnimationData != null) {
 
             user.yBodyRot = user.yHeadRot;
-            playerAnimationData.setAnimation(new KeyframeAnimationPlayer((KeyframeAnimation) PlayerAnimationRegistry.getAnimation(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "swing_wand")))
+            playerAnimationData.setAnimation(new KeyframeAnimationPlayer((KeyframeAnimation) PlayerAnimationRegistry.getAnimation(Magitech.id("swing_wand")))
                     .setFirstPersonMode(FirstPersonMode.THIRD_PERSON_MODEL).setFirstPersonConfiguration(new FirstPersonConfiguration(true, true, true, true)));
         }
     }

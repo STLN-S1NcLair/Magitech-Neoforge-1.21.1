@@ -6,14 +6,14 @@ import net.minecraft.client.gui.components.toasts.ToastComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeHolder;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.stln.magitech.Magitech;
+import org.jetbrains.annotations.NotNull;
 
 @OnlyIn(Dist.CLIENT)
 public class TierUpToast implements Toast {
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "textures/gui/tier_up_toast.png");
+    private static final ResourceLocation TEXTURE = Magitech.id("textures/gui/tier_up_toast.png");
     private final int newTier;
     private final ItemStack stack;
     private long lastChanged;
@@ -25,7 +25,7 @@ public class TierUpToast implements Toast {
     }
 
     @Override
-    public Visibility render(GuiGraphics guiGraphics, ToastComponent toastComponent, long timeSinceLastVisible) {
+    public @NotNull Visibility render(@NotNull GuiGraphics guiGraphics, @NotNull ToastComponent toastComponent, long timeSinceLastVisible) {
         if (this.changed) {
             this.lastChanged = timeSinceLastVisible;
             this.changed = false;

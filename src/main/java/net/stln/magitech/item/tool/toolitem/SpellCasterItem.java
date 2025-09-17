@@ -54,7 +54,7 @@ public abstract class SpellCasterItem extends PartToolItem {
     }
 
     @Override
-    public void inventoryTick(ItemStack stack, Level world, Entity entity, int slot, boolean selected) {
+    public void inventoryTick(@NotNull ItemStack stack, @NotNull Level world, @NotNull Entity entity, int slot, boolean selected) {
         super.inventoryTick(stack, world, entity, slot, selected);
         if (entity instanceof Player player) {
             if (player.getItemInHand(InteractionHand.MAIN_HAND) == stack || player.getItemInHand(InteractionHand.OFF_HAND) == stack) {
@@ -62,14 +62,12 @@ public abstract class SpellCasterItem extends PartToolItem {
                     trait.tick(player, world, stack, integer, getBaseStats(stack), true);
                 });
                 if (world.isClientSide) {
-                    PacketDistributor.sendToServer(new TraitTickPayload(player.getItemInHand(InteractionHand.MAIN_HAND) == stack, false, slot, entity.getUUID().toString()));
+                    PacketDistributor.sendToServer(new TraitTickPayload(player.getItemInHand(InteractionHand.MAIN_HAND) == stack, false, slot, entity.getUUID()));
                 }
             }
-            getTraitLevel(getTraits(stack)).forEach((trait, integer) -> {
-                trait.inventoryTick(player, world, stack, integer, getBaseStats(stack), true);
-            });
+            getTraitLevel(getTraits(stack)).forEach((trait, integer) -> trait.inventoryTick(player, world, stack, integer, getBaseStats(stack), true));
             if (world.isClientSide) {
-                PacketDistributor.sendToServer(new TraitTickPayload(player.getItemInHand(InteractionHand.MAIN_HAND) == stack, true, slot, entity.getUUID().toString()));
+                PacketDistributor.sendToServer(new TraitTickPayload(player.getItemInHand(InteractionHand.MAIN_HAND) == stack, true, slot, entity.getUUID()));
             }
         }
 

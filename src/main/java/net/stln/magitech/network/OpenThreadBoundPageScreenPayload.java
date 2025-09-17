@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.UUID;
 
 public record OpenThreadBoundPageScreenPayload(UUID uuid) implements CustomPacketPayload {
-    public static final ResourceLocation open_thread_bound_page_screen_C2S_PAYLOAD_ID = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "open_thread_bound_page_screen");
+    public static final ResourceLocation open_thread_bound_page_screen_C2S_PAYLOAD_ID = Magitech.id("open_thread_bound_page_screen");
     public static final Type<OpenThreadBoundPageScreenPayload> TYPE = new Type<>(open_thread_bound_page_screen_C2S_PAYLOAD_ID);
     public static final StreamCodec<ByteBuf, OpenThreadBoundPageScreenPayload> STREAM_CODEC = StreamCodec.composite(
             UUIDUtil.STREAM_CODEC,

@@ -13,13 +13,12 @@ import net.stln.magitech.util.ComponentHelper;
 import net.stln.magitech.util.CuriosHelper;
 
 import java.util.Objects;
-import java.util.UUID;
 
 public class UseSpellPayLoadHandler {
 
     public static void handleDataOnMainS2C(final UseSpellPayload payload, final IPayloadContext context) {
         Level level = context.player().level();
-        Player player = level.getPlayerByUUID(UUID.fromString(payload.uuid()));
+        Player player = level.getPlayerByUUID(payload.uuid());
         InteractionHand hand = payload.isMainHand() ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
         CuriosHelper.getThreadBoundStack(player).ifPresent(stack -> {
             SpellComponent spellComponent = ComponentHelper.getSpells(stack);
@@ -29,7 +28,7 @@ public class UseSpellPayLoadHandler {
 
     public static void handleDataOnMainC2S(final UseSpellPayload payload, final IPayloadContext context) {
         Level level = context.player().level();
-        Player player = level.getPlayerByUUID(UUID.fromString(payload.uuid()));
+        Player player = level.getPlayerByUUID(payload.uuid());
         if (player == null) return;
         InteractionHand hand = payload.isMainHand() ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
         CuriosHelper.getThreadBoundStack(player).ifPresent(stack -> {

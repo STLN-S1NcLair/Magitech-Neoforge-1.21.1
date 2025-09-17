@@ -158,9 +158,9 @@ public abstract class Trait {
         int id = target != null ? target.getId() : -1;
         if (isHost) {
             if (level.isClientSide) {
-                PacketDistributor.sendToServer(new TraitActionPayload(hand == InteractionHand.MAIN_HAND, id, lookingPos, player.getUUID().toString()));
+                PacketDistributor.sendToServer(new TraitActionPayload(hand == InteractionHand.MAIN_HAND, id, lookingPos, player.getUUID()));
             } else {
-                PacketDistributor.sendToAllPlayers(new TraitActionPayload(hand == InteractionHand.MAIN_HAND, id, lookingPos, player.getUUID().toString()));
+                PacketDistributor.sendToAllPlayers(new TraitActionPayload(hand == InteractionHand.MAIN_HAND, id, lookingPos, player.getUUID()));
             }
         }
     }

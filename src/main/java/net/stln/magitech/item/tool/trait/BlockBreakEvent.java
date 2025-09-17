@@ -54,18 +54,12 @@ public class BlockBreakEvent {
             } else {
                 blockList.add(pos);
             }
-            blockList.forEach(pos1 -> {
-                traitMap.forEach((trait, value) -> {
-                    blockList2.addAll(trait.addAdditionalBlockBreakFirst(player, event.getPlayer().level(), tool, value, partToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getLevel().getBlockState(pos1), pos1, 1, breakDirection));
-                });
-            });
-            blockList2.forEach(pos1 -> {
-                traitMap.forEach((trait, value) -> {
-                    if (!event.getLevel().getBlockState(pos1).getBlock().equals(Blocks.AIR)) {
-                        finalBlockList.addAll(trait.addAdditionalBlockBreakSecond(player, event.getPlayer().level(), tool, value, partToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getLevel().getBlockState(pos1), pos1, 1, breakDirection));
-                    }
-                });
-            });
+            blockList.forEach(pos1 -> traitMap.forEach((trait, value) -> blockList2.addAll(trait.addAdditionalBlockBreakFirst(player, event.getPlayer().level(), tool, value, partToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getLevel().getBlockState(pos1), pos1, 1, breakDirection))));
+            blockList2.forEach(pos1 -> traitMap.forEach((trait, value) -> {
+                if (!event.getLevel().getBlockState(pos1).getBlock().equals(Blocks.AIR)) {
+                    finalBlockList.addAll(trait.addAdditionalBlockBreakSecond(player, event.getPlayer().level(), tool, value, partToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getLevel().getBlockState(pos1), pos1, 1, breakDirection));
+                }
+            }));
             BROKEN_BLOCKS.addAll(finalBlockList);
             if (finalBlockList.size() < 2) {
                 BROKEN_BLOCKS.removeAll(finalBlockList);
@@ -74,7 +68,7 @@ public class BlockBreakEvent {
                 final boolean[] flag = {true};
                 traitMap.forEach((trait, value) -> {
                     if (pos1 != pos) {
-                        BreakBlockPayload payload = new BreakBlockPayload(pos1, pos, player.getUUID().toString(), trait.emitEffect(player, event.getPlayer().level(), tool, value, partToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getState(), pos1, 1, false), flag[0]);
+                        BreakBlockPayload payload = new BreakBlockPayload(pos1, pos, player.getUUID(), trait.emitEffect(player, event.getPlayer().level(), tool, value, partToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getState(), pos1, 1, false), flag[0]);
                         PacketDistributor.sendToAllPlayers(payload);
                         if (flag[0]) {
                             trait.onBreakBlock(player, event.getPlayer().level(), tool, value, partToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getLevel().getBlockState(pos1), pos1, 1, false);
@@ -83,7 +77,7 @@ public class BlockBreakEvent {
                             flag[0] = false;
                         }
                     } else {
-                        BreakBlockPayload payload = new BreakBlockPayload(pos1, pos, player.getUUID().toString(), trait.emitEffect(player, event.getPlayer().level(), tool, value, partToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getState(), pos1, 1, true), flag[0]);
+                        BreakBlockPayload payload = new BreakBlockPayload(pos1, pos, player.getUUID(), trait.emitEffect(player, event.getPlayer().level(), tool, value, partToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getState(), pos1, 1, true), flag[0]);
                         PacketDistributor.sendToAllPlayers(payload);
                         if (flag[0]) {
                             trait.onBreakBlock(player, event.getPlayer().level(), tool, value, partToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getState(), pos1, 1, true);
@@ -136,13 +130,9 @@ public class BlockBreakEvent {
             AtomicReference<List<ItemStack>> lootStack = new AtomicReference<>(new ArrayList<>());
             AtomicReference<List<ItemStack>> setLootStack = new AtomicReference<>(new ArrayList<>());
             lootStack.set(drops.stream().map(ItemEntity::getItem).collect(Collectors.toCollection(ArrayList::new)));
-            traitMap.forEach((trait, value) -> {
-                trait.modifyEnchantmentOnBlockLooting(player, player.level(), tool, value, partToolItem.getSumStats(player, player.level(), tool), state, pos, lootStack.get());
-            });
+            traitMap.forEach((trait, value) -> trait.modifyEnchantmentOnBlockLooting(player, player.level(), tool, value, partToolItem.getSumStats(player, player.level(), tool), state, pos, lootStack.get()));
             final double[] expMul = {1.0};
-            traitMap.forEach((trait, value) -> {
-                 expMul[0] *= trait.modifyExpOnBlockLooting(player, player.level(), tool, value, partToolItem.getSumStats(player, player.level(), tool), state, pos, lootStack.get(), event.getDroppedExperience());
-            });
+            traitMap.forEach((trait, value) -> expMul[0] *= trait.modifyExpOnBlockLooting(player, player.level(), tool, value, partToolItem.getSumStats(player, player.level(), tool), state, pos, lootStack.get(), event.getDroppedExperience()));
             event.setDroppedExperience((int) (event.getDroppedExperience() * expMul[0]));
 
             LootParams.Builder builder = new LootParams.Builder((ServerLevel) entity.level())
@@ -153,12 +143,8 @@ public class BlockBreakEvent {
 
             lootStack.set(state.getDrops(builder));
 
-            traitMap.forEach((trait, value) -> {
-                lootStack.get().addAll(trait.addItemOnBlockLooting(player, player.level(), tool, value, partToolItem.getSumStats(player, player.level(), tool), state, pos, lootStack.get()));
-            });
-            traitMap.forEach((trait, value) -> {
-                setLootStack.set(trait.setItemOnBlockLooting(player, player.level(), tool, value, partToolItem.getSumStats(player, player.level(), tool), state, pos, lootStack.get()));
-            });
+            traitMap.forEach((trait, value) -> lootStack.get().addAll(trait.addItemOnBlockLooting(player, player.level(), tool, value, partToolItem.getSumStats(player, player.level(), tool), state, pos, lootStack.get())));
+            traitMap.forEach((trait, value) -> setLootStack.set(trait.setItemOnBlockLooting(player, player.level(), tool, value, partToolItem.getSumStats(player, player.level(), tool), state, pos, lootStack.get())));
             Vec3 center = pos.getCenter();
             if (setLootStack.get() != null && !setLootStack.get().isEmpty()) {
                 event.getDrops().clear();

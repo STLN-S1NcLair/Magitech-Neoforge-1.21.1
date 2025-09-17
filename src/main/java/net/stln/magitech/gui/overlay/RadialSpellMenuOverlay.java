@@ -26,7 +26,7 @@ import java.util.List;
 
 public class RadialSpellMenuOverlay extends Screen {
 
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "textures/gui/mana_gauge.png");
+    private static final ResourceLocation TEXTURE = Magitech.id("textures/gui/mana_gauge.png");
     float selectAnimTick = 0;
     float selectTick = 0.0F;
     private int select = -1;
@@ -134,7 +134,7 @@ public class RadialSpellMenuOverlay extends Screen {
 
                         Font font = Minecraft.getInstance().font;
                         String text = MathUtil.round((cooldown.getCooltime() - cooldown.getProgress()) / 20, 1) + "s";
-                        int renderx = (int) (x + sin - font.width(text) / 2);
+                        int renderx = (int) (x + sin - (float) font.width(text) / 2);
                         int rendery = (int) (y + cos + 8 * size);
                         if (animTick == animLength) {
                             RenderHelper.renderFramedText(guiGraphics, font, text, renderx, rendery, element);
@@ -159,7 +159,7 @@ public class RadialSpellMenuOverlay extends Screen {
         if (player == null) return;
         CuriosHelper.getThreadBoundStack(player).ifPresent(stack -> {
             if (stack.has(ComponentInit.SPELL_COMPONENT) && select >= 0) {
-                PacketDistributor.sendToServer(new ThreadBoundSelectPayload(select, player.getUUID().toString()));
+                PacketDistributor.sendToServer(new ThreadBoundSelectPayload(select, player.getUUID()));
                 ComponentHelper.updateSpells(stack, spellComponent -> spellComponent.setSelected(select));
             }
         });

@@ -8,8 +8,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.stln.magitech.Magitech;
 
 public class ThreadboundScreen extends AbstractContainerScreen<ThreadboundMenuType> {
-    private static final ResourceLocation GUI_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "textures/gui/threadbound.png");
+    private static final ResourceLocation GUI_TEXTURE = Magitech.id("textures/gui/threadbound.png");
 
     public ThreadboundScreen(ThreadboundMenuType menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);

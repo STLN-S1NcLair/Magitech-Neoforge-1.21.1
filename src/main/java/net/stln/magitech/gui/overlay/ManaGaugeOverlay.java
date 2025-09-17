@@ -26,7 +26,7 @@ import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
 public class ManaGaugeOverlay implements LayeredDraw.Layer {
 
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "textures/gui/mana_gauge.png");
+    private static final ResourceLocation TEXTURE = Magitech.id("textures/gui/mana_gauge.png");
 
     @Override
     public void render(@NotNull GuiGraphics guiGraphics, @NotNull DeltaTracker deltaTracker) {

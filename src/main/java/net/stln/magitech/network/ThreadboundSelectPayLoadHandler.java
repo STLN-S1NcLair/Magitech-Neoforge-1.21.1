@@ -11,7 +11,6 @@ import net.stln.magitech.util.ComponentHelper;
 import net.stln.magitech.util.CuriosHelper;
 
 import java.util.Objects;
-import java.util.UUID;
 
 public class ThreadboundSelectPayLoadHandler {
 
@@ -19,7 +18,7 @@ public class ThreadboundSelectPayLoadHandler {
         Player player = null;
         Level level = context.player().level();
         for (Player search : level.players()) {
-            if (search.getUUID().toString().equals(payload.uuid())) {
+            if (Objects.equals(search.getUUID(), payload.uuid())) {
                 player = search;
                 break;
             }
@@ -31,7 +30,7 @@ public class ThreadboundSelectPayLoadHandler {
     }
 
     public static void handleDataOnMainC2S(final ThreadBoundSelectPayload payload, final IPayloadContext context) {
-        Player player = context.player().level().getPlayerByUUID(UUID.fromString(payload.uuid()));
+        Player player = context.player().level().getPlayerByUUID(payload.uuid());
         if (player == null) return;
 
         MinecraftServer server = Objects.requireNonNull(ServerLifecycleHooks.getCurrentServer(), "Cannot send clientbound payloads on the client");

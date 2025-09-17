@@ -7,14 +7,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.stln.magitech.MagitechRegistries;
 import net.stln.magitech.util.ClientHelper;
 import net.stln.magitech.util.ColorHelper;
 import net.stln.magitech.util.ComponentHelper;
+import net.stln.magitech.util.RegistryHelper;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.Optional;
 
 public class ThreadPageItem extends TooltipTextItem {
 
@@ -25,7 +24,7 @@ public class ThreadPageItem extends TooltipTextItem {
     @Override
     public @NotNull Component getName(@NotNull ItemStack stack) {
         return ComponentHelper.getThreadPageSpell(stack)
-                .flatMap(spell -> Optional.ofNullable(MagitechRegistries.SPELL.getKeyOrNull(spell)))
+                .flatMap(RegistryHelper::getId)
                 .map(id -> Component.translatable("item.magitech.thread_page", Component.translatable("spell.magitech." + id.getPath())))
                 .orElseGet(() -> super.getName(stack).copy());
     }
@@ -33,8 +32,9 @@ public class ThreadPageItem extends TooltipTextItem {
     @OnlyIn(Dist.CLIENT)
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-        ComponentHelper.getThreadPageSpell(stack).ifPresent(spell -> {
-            ResourceLocation location = MagitechRegistries.SPELL.getKeyOrNull(spell);
+        ComponentHelper.getThreadPageSpell(stack).ifPresent(holder -> {
+            var spell = holder.value();
+            ResourceLocation location = RegistryHelper.getIdOrNull(holder);
             if (location != null) {
                 tooltipComponents.add(Component.translatable("spell." + location.getNamespace() + "." + location.getPath()).withColor(spell.getElement().getSpellColor()));
             }

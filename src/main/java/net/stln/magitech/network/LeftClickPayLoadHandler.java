@@ -12,7 +12,6 @@ import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import net.stln.magitech.item.LeftClickOverrideItem;
 
 import java.util.Objects;
-import java.util.UUID;
 
 public class LeftClickPayLoadHandler {
 
@@ -20,7 +19,7 @@ public class LeftClickPayLoadHandler {
         Player player = null;
         Level level = context.player().level();
         for (Player search : level.players()) {
-            if (search.getUUID().toString().equals(payload.uuid())) {
+            if (Objects.equals(search.getUUID(), payload.uuid())) {
                 player = search;
                 break;
             }
@@ -35,7 +34,7 @@ public class LeftClickPayLoadHandler {
     }
 
     public static void handleDataOnMainC2S(final LeftClickPayload payload, final IPayloadContext context) {
-        Player player = context.player().level().getPlayerByUUID(UUID.fromString(payload.uuid()));
+        Player player = context.player().level().getPlayerByUUID(payload.uuid());
         Item item = player.getItemInHand(InteractionHand.MAIN_HAND).getItem();
         if (item instanceof LeftClickOverrideItem clickOverrideItem && payload.clickCount() != 0) {
             clickOverrideItem.onLeftClick(player, InteractionHand.MAIN_HAND, player.level());

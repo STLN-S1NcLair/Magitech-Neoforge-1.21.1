@@ -49,7 +49,7 @@ public class BlindResonanceTrait extends Trait {
         level.updateSkyBrightness();
         int light = level.getMaxLocalRawBrightness(player.blockPosition());
         if (light < 4) {
-            entries.add(new ItemAttributeModifiers.Entry(Attributes.MOVEMENT_SPEED, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "blind_touch"), traitLevel * 0.25, AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.MAINHAND));
+            entries.add(new ItemAttributeModifiers.Entry(Attributes.MOVEMENT_SPEED, new AttributeModifier(Magitech.id("blind_touch"), traitLevel * 0.25, AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.MAINHAND));
         }
         super.modifyAttribute(player, level, stack, traitLevel, stats, entries);
     }
@@ -59,7 +59,7 @@ public class BlindResonanceTrait extends Trait {
         level.updateSkyBrightness();
         int light = level.getMaxLocalRawBrightness(player.blockPosition());
         if (light < 4) {
-            entries.add(new ItemAttributeModifiers.Entry(Attributes.MOVEMENT_SPEED, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "blind_touch"), traitLevel * 0.25, AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.MAINHAND));
+            entries.add(new ItemAttributeModifiers.Entry(Attributes.MOVEMENT_SPEED, new AttributeModifier(Magitech.id("blind_touch"), traitLevel * 0.25, AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.MAINHAND));
         }
         super.modifySpellCasterAttribute(player, level, stack, traitLevel, stats, entries);
     }
