@@ -8,23 +8,23 @@ import net.minecraft.client.gui.LayeredDraw;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.util.Element;
 import net.stln.magitech.magic.charge.Charge;
 import net.stln.magitech.magic.charge.ChargeData;
+import net.stln.magitech.util.ClientHelper;
+import net.stln.magitech.util.Element;
 import net.stln.magitech.util.MathUtil;
 import net.stln.magitech.util.RenderHelper;
-import top.theillusivec4.curios.api.CuriosApi;
-import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
+import org.jetbrains.annotations.NotNull;
 
 public class SpellGaugeOverlay implements LayeredDraw.Layer {
 
-    private static ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "textures/gui/spell_gauge.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "textures/gui/spell_gauge.png");
 
     @Override
-    public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
-        Player player = Minecraft.getInstance().player;
-        if (!Minecraft.getInstance().options.hideGui && CuriosApi.getCuriosInventory(player).isPresent()) {
-            ICuriosItemHandler curiosInventory = CuriosApi.getCuriosInventory(player).get();
+    public void render(@NotNull GuiGraphics guiGraphics, @NotNull DeltaTracker deltaTracker) {
+        Player player = ClientHelper.getPlayer();
+        if (player == null) return;
+        if (!Minecraft.getInstance().options.hideGui) {
             Charge charge = ChargeData.getCurrentCharge(player);
             if (charge != null) {
                 double chargeProgress = charge.getCharge() / charge.getMaxCharge();

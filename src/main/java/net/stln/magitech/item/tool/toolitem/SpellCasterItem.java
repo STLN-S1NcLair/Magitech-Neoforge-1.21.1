@@ -34,25 +34,20 @@ import net.stln.magitech.magic.cooldown.CooldownData;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.network.TraitTickPayload;
-import net.stln.magitech.util.ComponentHelper;
-import net.stln.magitech.util.Element;
-import net.stln.magitech.util.MathUtil;
-import net.stln.magitech.util.TextUtil;
+import net.stln.magitech.util.*;
 import org.jetbrains.annotations.NotNull;
-import top.theillusivec4.curios.api.CuriosApi;
-import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public abstract class SpellCasterItem extends PartToolItem {
-    ResourceLocation atkId = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "part_tool_attack_damage_modifier");
-    ResourceLocation elmatkId = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "part_tool_elemental_attack_damage_modifier");
-    ResourceLocation spdId = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "part_tool_attack_speed_modifier");
-    ResourceLocation minId = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "part_tool_mining_speed_modifier");
-    ResourceLocation defId = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "part_tool_defense_modifier");
-    ResourceLocation rngId = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "part_tool_attack_range_modifier");
+    ResourceLocation atkId = Magitech.id("part_tool_attack_damage_modifier");
+    ResourceLocation elmatkId = Magitech.id("part_tool_elemental_attack_damage_modifier");
+    ResourceLocation spdId = Magitech.id("part_tool_attack_speed_modifier");
+    ResourceLocation minId = Magitech.id("part_tool_mining_speed_modifier");
+    ResourceLocation defId = Magitech.id("part_tool_defense_modifier");
+    ResourceLocation rngId = Magitech.id("part_tool_attack_range_modifier");
 
     public SpellCasterItem(Properties settings) {
         super(settings);
@@ -67,14 +62,14 @@ public abstract class SpellCasterItem extends PartToolItem {
                     trait.tick(player, world, stack, integer, getBaseStats(stack), true);
                 });
                 if (world.isClientSide) {
-                    PacketDistributor.sendToServer(new TraitTickPayload(((Player) entity).getItemInHand(InteractionHand.MAIN_HAND) == stack, false, slot, entity.getUUID().toString()));
+                    PacketDistributor.sendToServer(new TraitTickPayload(player.getItemInHand(InteractionHand.MAIN_HAND) == stack, false, slot, entity.getUUID().toString()));
                 }
             }
             getTraitLevel(getTraits(stack)).forEach((trait, integer) -> {
                 trait.inventoryTick(player, world, stack, integer, getBaseStats(stack), true);
             });
             if (world.isClientSide) {
-                PacketDistributor.sendToServer(new TraitTickPayload(((Player) entity).getItemInHand(InteractionHand.MAIN_HAND) == stack, true, slot, entity.getUUID().toString()));
+                PacketDistributor.sendToServer(new TraitTickPayload(player.getItemInHand(InteractionHand.MAIN_HAND) == stack, true, slot, entity.getUUID().toString()));
             }
         }
 
@@ -183,10 +178,8 @@ public abstract class SpellCasterItem extends PartToolItem {
 
     @Override
     public void reloadComponent(Player player, Level level, ItemStack stack) {
-
         List<ItemAttributeModifiers.Entry> entries = new ArrayList<>();
-
-
+        
         ToolStats finalStats = getSumStats(player, level, stack);
         Map<String, Float> map = finalStats.getStats();
 
@@ -327,8 +320,7 @@ public abstract class SpellCasterItem extends PartToolItem {
         ItemStack stack = player.getItemInHand(usedHand);
         if (ComponentHelper.isBroken(stack)) return InteractionResultHolder.pass(stack);
 
-        ICuriosItemHandler curiosInventory = CuriosApi.getCuriosInventory(player).get();
-        ItemStack threadbound = curiosInventory.getCurios().get("threadbound").getStacks().getStackInSlot(0);
+        ItemStack threadbound = CuriosHelper.getThreadBoundStack(player).orElse(ItemStack.EMPTY);
 
         if (!threadbound.isEmpty()) {
             SpellComponent spells = ComponentHelper.getSpells(threadbound);
@@ -385,8 +377,7 @@ public abstract class SpellCasterItem extends PartToolItem {
 
         if (ComponentHelper.isBroken(stack)) return;
         if (livingEntity instanceof Player user) {
-            ICuriosItemHandler curiosInventory = CuriosApi.getCuriosInventory(user).get();
-            ItemStack threadbound = curiosInventory.getCurios().get("threadbound").getStacks().getStackInSlot(0);
+            ItemStack threadbound = CuriosHelper.getThreadBoundStack(user).orElse(ItemStack.EMPTY);
 
             if (!threadbound.isEmpty()) {
                 SpellComponent spellComponent = ComponentHelper.getSpells(threadbound);
@@ -418,25 +409,22 @@ public abstract class SpellCasterItem extends PartToolItem {
         if (ComponentHelper.isBroken(stack)) return;
         super.releaseUsing(stack, level, livingEntity, timeCharged);
         if (livingEntity instanceof Player user && level.isClientSide) {
-            ICuriosItemHandler curiosInventory = CuriosApi.getCuriosInventory(user).get();
-            ItemStack threadbound = curiosInventory.getCurios().get("threadbound").getStacks().getStackInSlot(0);
-
-            if (!threadbound.isEmpty()) {
+            CuriosHelper.getThreadBoundStack(user).ifPresent(threadbound -> {
                 SpellComponent spells = ComponentHelper.getSpells(threadbound);
                 Spell spell = spells.spells().get(spells.selected());
 
                 spell.finishUsing(stack, level, livingEntity, getUseDuration(stack, livingEntity) - timeCharged, true);
-            }
+            });
         }
     }
 
     @Override
-    public int getUseDuration(ItemStack stack, LivingEntity entity) {
+    public int getUseDuration(@NotNull ItemStack stack, @NotNull LivingEntity entity) {
         return 72000;
     }
 
     @Override
-    public UseAnim getUseAnimation(ItemStack stack) {
+    public @NotNull UseAnim getUseAnimation(@NotNull ItemStack stack) {
         return UseAnim.BOW;
     }
 

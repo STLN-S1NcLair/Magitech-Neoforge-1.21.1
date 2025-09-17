@@ -2,7 +2,8 @@ package net.stln.magitech.gui;
 
 import io.wispforest.owo.ui.container.Containers;
 import io.wispforest.owo.ui.container.FlowLayout;
-import io.wispforest.owo.ui.core.*;
+import io.wispforest.owo.ui.core.OwoUIAdapter;
+import io.wispforest.owo.ui.core.Positioning;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -16,6 +17,7 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
@@ -27,9 +29,11 @@ import net.stln.magitech.item.tool.toolitem.SpellCasterItem;
 import net.stln.magitech.item.tool.upgrade.Upgrade;
 import net.stln.magitech.item.tool.upgrade.UpgradeInstance;
 import net.stln.magitech.item.tool.upgrade.UpgradeRegister;
+import net.stln.magitech.util.ClientHelper;
 import net.stln.magitech.util.ComponentHelper;
 import net.stln.magitech.util.RenderHelper;
 import net.stln.magitech.util.ToolMaterialUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -140,7 +144,7 @@ public class ToolUpgradeScreen extends AbstractContainerScreen<ToolUpgradeMenu> 
     }
 
     @Override
-    protected void renderTooltip(GuiGraphics guiGraphics, int x, int y) {
+    protected void renderTooltip(@NotNull GuiGraphics guiGraphics, int x, int y) {
         super.renderTooltip(guiGraphics, x, y);
         ItemStack itemStack = menu.container.getItem(0);
         int i = this.leftPos + 44;
@@ -173,9 +177,9 @@ public class ToolUpgradeScreen extends AbstractContainerScreen<ToolUpgradeMenu> 
                     int i1 = y + i * 18;
                     int level = 0;
 
-                    for (int j = 0; j < upgrades.size(); j++) {
-                        if (currentUpgrades.get(i).equals(upgrades.get(j).upgrade())) {
-                            level = upgrades.get(j).level();
+                    for (UpgradeInstance upgrade : upgrades) {
+                        if (currentUpgrades.get(i).equals(upgrade.upgrade())) {
+                            level = upgrade.level();
                             break;
                         }
                     }
@@ -208,7 +212,9 @@ public class ToolUpgradeScreen extends AbstractContainerScreen<ToolUpgradeMenu> 
             for (int l = 0; l < k; l++) {
                 double d0 = mouseX - (double) (i);
                 double d1 = mouseY - (double) (j + l * 18);
-                if (d0 >= 0.0 && d1 >= 0.0 && d0 < 117.0 && d1 < 18.0 && this.menu.clickMenuButton(this.minecraft.player, l)) {
+                Player player = ClientHelper.getPlayer();
+                if (player == null) return false;
+                if (d0 >= 0.0 && d1 >= 0.0 && d0 < 117.0 && d1 < 18.0 && this.menu.clickMenuButton(player, l)) {
                     Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_STONECUTTER_SELECT_RECIPE, 1.0F));
                     this.minecraft.gameMode.handleInventoryButtonClick(this.menu.containerId, l);
                     return true;

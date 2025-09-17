@@ -26,7 +26,7 @@ public class GuiInit {
     public static final Supplier<MenuType<ToolAssemblyMenu>> TOOL_ASSEMBLY_MENU = MENU_TYPES.register("tool_assembly_menu", () -> new MenuType(ToolAssemblyMenu::new, FeatureFlags.DEFAULT_FLAGS));
     public static final Supplier<MenuType<ToolRepairingMenu>> TOOL_REPAIRING_MENU = MENU_TYPES.register("tool_repairing_menu", () -> new MenuType(ToolRepairingMenu::new, FeatureFlags.DEFAULT_FLAGS));
     public static final Supplier<MenuType<ToolUpgradeMenu>> TOOL_UPGRADE_MENU = MENU_TYPES.register("tool_upgrade_menu", () -> new MenuType(ToolUpgradeMenu::new, FeatureFlags.DEFAULT_FLAGS));
-    public static final Supplier<MenuType<ThreadboudMenuType>> THREADBOUND_MENU = MENU_TYPES.register("threadbound_menu", () -> new MenuType(ThreadboudMenuType::new, FeatureFlags.DEFAULT_FLAGS));
+    public static final Supplier<MenuType<ThreadboundMenuType>> THREADBOUND_MENU = MENU_TYPES.register("threadbound_menu", () -> new MenuType(ThreadboundMenuType::new, FeatureFlags.DEFAULT_FLAGS));
 
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)

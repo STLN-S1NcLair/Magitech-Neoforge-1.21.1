@@ -8,21 +8,19 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.event.KeyMappingEvent;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.SpellComponent;
-import net.stln.magitech.util.*;
 import net.stln.magitech.item.tool.toolitem.SpellCasterItem;
 import net.stln.magitech.magic.cooldown.Cooldown;
 import net.stln.magitech.magic.cooldown.CooldownData;
 import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.magic.spell.SpellRegister;
 import net.stln.magitech.network.ThreadBoundSelectPayload;
-import top.theillusivec4.curios.api.CuriosApi;
-import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
+import net.stln.magitech.util.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -44,7 +42,7 @@ public class RadialSpellMenuOverlay extends Screen {
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
+    public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         if (!Minecraft.getInstance().options.hideGui) {
             int x = guiGraphics.guiWidth() / 2;
             int y = guiGraphics.guiHeight() / 2;
@@ -53,12 +51,10 @@ public class RadialSpellMenuOverlay extends Screen {
             double dy = mouseY - y;
             double naturalMouseAngle = MathUtil.getGeneralAngle(Math.atan2(dy, dx) + Math.PI / 2);
 
-            Player player = Minecraft.getInstance().player;
+            Player player = ClientHelper.getPlayer();
             if (player == null) return;
-            ICuriosItemHandler curiosInventory = CuriosApi.getCuriosInventory(player).get();
-            ItemStack threadbound = curiosInventory.getCurios().get("threadbound").getStacks().getStackInSlot(0);
-
-            SpellComponent spellComponent = ComponentHelper.getSpells(threadbound);
+            SpellComponent spellComponent = CuriosHelper.getThreadBoundStack(player).map(ComponentHelper::getSpells).orElse(SpellComponent.EMPTY);
+            
             int index = 0;
             for (Spell spell : spellComponent.spells()) {
                 ResourceLocation icon = SpellRegister.getId(spell);
@@ -160,16 +156,14 @@ public class RadialSpellMenuOverlay extends Screen {
     @Override
     public void onClose() {
         super.onClose();
-
-        Player player = Minecraft.getInstance().player;
-        ICuriosItemHandler curiosInventory = CuriosApi.getCuriosInventory(player).get();
-        ItemStack threadbound = curiosInventory.getCurios().get("threadbound").getStacks().getStackInSlot(0);
-
-        if (threadbound.has(ComponentInit.SPELL_COMPONENT) && select >= 0) {
-            PacketDistributor.sendToServer(new ThreadBoundSelectPayload(select, Minecraft.getInstance().player.getUUID().toString()));
-            SpellComponent spellComponent = threadbound.get(ComponentInit.SPELL_COMPONENT);
-            threadbound.set(ComponentInit.SPELL_COMPONENT, new SpellComponent(spellComponent.spells(), select));
-        }
+        Player player = ClientHelper.getPlayer();
+        if (player == null) return;
+        CuriosHelper.getThreadBoundStack(player).ifPresent(stack -> {
+            if (stack.has(ComponentInit.SPELL_COMPONENT) && select >= 0) {
+                PacketDistributor.sendToServer(new ThreadBoundSelectPayload(select, player.getUUID().toString()));
+                ComponentHelper.updateSpells(stack, spellComponent -> new SpellComponent(spellComponent.spells(), select));
+            }
+        });
     }
 
     @Override

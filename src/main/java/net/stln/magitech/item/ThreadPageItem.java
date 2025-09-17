@@ -1,6 +1,5 @@
 package net.stln.magitech.item;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -9,6 +8,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.stln.magitech.magic.spell.SpellRegister;
+import net.stln.magitech.util.ClientHelper;
 import net.stln.magitech.util.ColorHelper;
 import net.stln.magitech.util.ComponentHelper;
 import org.jetbrains.annotations.NotNull;
@@ -37,7 +37,9 @@ public class ThreadPageItem extends TooltipTextItem {
             if (location != null) {
                 tooltipComponents.add(Component.translatable("spell." + location.getNamespace() + "." + location.getPath()).withColor(spell.getElement().getSpellColor()));
             }
-            List<Component> componentList = spell.getTooltip(Minecraft.getInstance().level, Minecraft.getInstance().player, stack);
+            var player = ClientHelper.getPlayer();
+            if (player == null) return;
+            List<Component> componentList = spell.getTooltip(player.level(), player, stack);
             int i = 0;
             for (Component component : componentList) {
                 int col = component.getStyle().getColor() != null ? component.getStyle().getColor().getValue() : 0x808080;

@@ -28,6 +28,10 @@ public class ComponentHelper {
         return holder.getOrDefault(ComponentInit.SPELL_COMPONENT, SpellComponent.EMPTY);
     }
 
+    public static void updateSpells(@NotNull MutableDataComponentHolder holder, @NotNull UnaryOperator<SpellComponent> operator) {
+        holder.update(ComponentInit.SPELL_COMPONENT, SpellComponent.EMPTY, operator);
+    }
+
     public static @NotNull Optional<Spell> getThreadPageSpell(@NotNull DataComponentHolder holder) {
         return Optional.ofNullable(holder.get(ComponentInit.THREAD_PAGE_COMPONENT)).map(ThreadPageComponent::spell);
     }

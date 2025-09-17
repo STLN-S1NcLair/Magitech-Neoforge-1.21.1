@@ -3,7 +3,6 @@ package net.stln.magitech.network;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
@@ -11,8 +10,8 @@ import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import net.stln.magitech.item.component.SpellComponent;
 import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.util.ComponentHelper;
+import net.stln.magitech.util.CuriosHelper;
 import org.jetbrains.annotations.NotNull;
-import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -38,9 +37,8 @@ public class ReleaseUsingSpellPayLoadHandler {
     }
 
     private static @NotNull Optional<Spell> getSpell(@NotNull Player player) {
-        return CuriosApi.getCuriosInventory(player).map(handler -> {
-            ItemStack threadbound = handler.getCurios().get("threadbound").getStacks().getStackInSlot(0);
-            SpellComponent spellComponent = ComponentHelper.getSpells(threadbound);
+        return CuriosHelper.getThreadBoundStack(player).map(stack -> {
+            SpellComponent spellComponent = ComponentHelper.getSpells(stack);
             return spellComponent.spells().get(spellComponent.selected());
         });
     }
