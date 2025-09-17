@@ -8,9 +8,9 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
-import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.SpellComponent;
 import net.stln.magitech.magic.spell.Spell;
+import net.stln.magitech.util.ComponentHelper;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
@@ -26,7 +26,7 @@ public class UseSpellPayLoadHandler {
             ICuriosItemHandler curiosInventory = CuriosApi.getCuriosInventory(player).get();
             ItemStack threadbound = curiosInventory.getCurios().get("threadbound").getStacks().getStackInSlot(0);
 
-            SpellComponent spellComponent = threadbound.get(ComponentInit.SPELL_COMPONENT);
+            SpellComponent spellComponent = ComponentHelper.getSpells(threadbound);
 
             Spell spell = spellComponent.spells().get(spellComponent.selected());
 
@@ -41,7 +41,7 @@ public class UseSpellPayLoadHandler {
         ICuriosItemHandler curiosInventory = CuriosApi.getCuriosInventory(player).get();
         ItemStack threadbound = curiosInventory.getCurios().get("threadbound").getStacks().getStackInSlot(0);
 
-        SpellComponent spellComponent = threadbound.get(ComponentInit.SPELL_COMPONENT);
+            SpellComponent spellComponent = ComponentHelper.getSpells(threadbound);
 
         Spell spell = spellComponent.spells().get(spellComponent.selected());
 

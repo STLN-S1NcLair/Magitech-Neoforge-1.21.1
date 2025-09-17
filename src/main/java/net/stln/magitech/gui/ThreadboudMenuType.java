@@ -14,6 +14,8 @@ import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.SpellComponent;
 import net.stln.magitech.item.component.ThreadPageComponent;
 import net.stln.magitech.magic.spell.Spell;
+import net.stln.magitech.util.ComponentHelper;
+import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
@@ -57,8 +59,8 @@ public class ThreadboudMenuType extends AbstractContainerMenu {
 
         addInventory(playerInv);
         addHotbar(playerInv);
-
-        List<Spell> spells = threadbound.get(ComponentInit.SPELL_COMPONENT).spells();
+        
+        List<Spell> spells = ComponentHelper.getSpells(threadbound).spells();
         for (int i = 0; i < Math.min(spells.size(), container.getContainerSize()); i++) {
             ItemStack stack = new ItemStack(ItemInit.THREAD_PAGE.get());
             stack.set(ComponentInit.THREAD_PAGE_COMPONENT, new ThreadPageComponent(spells.get(i)));
@@ -67,10 +69,10 @@ public class ThreadboudMenuType extends AbstractContainerMenu {
     }
 
     @Override
-    public ItemStack quickMoveStack(Player player, int index) {
+    public @NotNull ItemStack quickMoveStack(@NotNull Player player, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
-        if (slot != null && slot.hasItem()) {
+        if (slot.hasItem()) {
             ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
             if (index < this.containerRows * containerColumns) {
@@ -132,10 +134,8 @@ public class ThreadboudMenuType extends AbstractContainerMenu {
     public void updateComponent() {
         List<Spell> spells = new ArrayList<>();
         for (int i = 0; i < 15; i++) {
-            if (!container.getItem(i).isEmpty() && container.getItem(i).getItem() instanceof ThreadPageItem pageItem && container.getItem(i).has(ComponentInit.THREAD_PAGE_COMPONENT)) {
-                spells.add(container.getItem(i).get(ComponentInit.THREAD_PAGE_COMPONENT).spell());
-            }
+            ComponentHelper.getThreadPageSpell(container.getItem(i)).ifPresent(spells::add);
         }
-        threadbound.set(ComponentInit.SPELL_COMPONENT, new SpellComponent(spells, 0));
+        threadbound.set(ComponentInit.SPELL_COMPONENT, new SpellComponent(spells));
     }
 }

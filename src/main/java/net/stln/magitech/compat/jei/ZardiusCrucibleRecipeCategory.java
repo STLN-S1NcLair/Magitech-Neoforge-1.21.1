@@ -23,6 +23,7 @@ import net.stln.magitech.item.tool.register.ToolMaterialRegister;
 import net.stln.magitech.recipe.RecipeInit;
 import net.stln.magitech.recipe.ToolMaterialRecipe;
 import net.stln.magitech.recipe.ZardiusCrucibleRecipe;
+import net.stln.magitech.util.ClientHelper;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -91,7 +92,7 @@ public class ZardiusCrucibleRecipeCategory extends AbstractMagitechRecipeCategor
         }
         guiGraphics.blit(TEXTURE, 73, 13, 18, 0, 18, 18);
         guiGraphics.blit(TEXTURE, 95, 17, 0, 18, 21, 10);
-        var access = JeiHelper.getRegistryAccess();
+        var access = ClientHelper.getRegistryAccess();
         if (access == null) return;
         if (!recipe.getResultItem(access).isEmpty()) {
             guiGraphics.blit(TEXTURE, 120, 13, 36, 0, 18, 18);
@@ -113,7 +114,7 @@ public class ZardiusCrucibleRecipeCategory extends AbstractMagitechRecipeCategor
 
     @Override
     protected void setRecipe(@NotNull IRecipeLayoutBuilder builder, @NotNull ZardiusCrucibleRecipe recipe, @NotNull IFocusGroup focuses, @NotNull RecipeManager recipeManager, @NotNull RegistryAccess access) {
-        List<ToolMaterialRecipe> materialRecipes = JeiHelper.getAllRecipes(RecipeInit.TOOL_MATERIAL_TYPE);
+        List<ToolMaterialRecipe> materialRecipes = ClientHelper.getAllRecipes(RecipeInit.TOOL_MATERIAL_TYPE);
         List<ToolMaterial> materials = materialRecipes.stream()
                 .map(m -> ToolMaterialRegister.getMaterial(m.getResultId()))
                 .toList();

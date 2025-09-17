@@ -12,6 +12,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.SpellComponent;
+import net.stln.magitech.util.ComponentHelper;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
@@ -35,10 +36,8 @@ public class ThreadboundSelectPayLoadHandler {
         ICuriosItemHandler curiosInventory = CuriosApi.getCuriosInventory(player).get();
         ItemStack threadbound = curiosInventory.getCurios().get("threadbound").getStacks().getStackInSlot(0);
 
-        if (threadbound.has(ComponentInit.SPELL_COMPONENT)) {
-            SpellComponent spellComponent = threadbound.get(ComponentInit.SPELL_COMPONENT);
-            threadbound.set(ComponentInit.SPELL_COMPONENT, new SpellComponent(spellComponent.spells(), payload.select()));
-        }
+        SpellComponent spellComponent = ComponentHelper.getSpells(threadbound);
+        threadbound.set(ComponentInit.SPELL_COMPONENT, new SpellComponent(spellComponent.spells(), payload.select()));
     }
 
     public static void handleDataOnMainC2S(final ThreadBoundSelectPayload payload, final IPayloadContext context) {
@@ -57,9 +56,7 @@ public class ThreadboundSelectPayLoadHandler {
         ICuriosItemHandler curiosInventory = CuriosApi.getCuriosInventory(player).get();
         ItemStack threadbound = curiosInventory.getCurios().get("threadbound").getStacks().getStackInSlot(0);
 
-        if (threadbound.has(ComponentInit.SPELL_COMPONENT)) {
-            SpellComponent spellComponent = threadbound.get(ComponentInit.SPELL_COMPONENT);
-            threadbound.set(ComponentInit.SPELL_COMPONENT, new SpellComponent(spellComponent.spells(), payload.select()));
-        }
+        SpellComponent spellComponent = ComponentHelper.getSpells(threadbound);
+        threadbound.set(ComponentInit.SPELL_COMPONENT, new SpellComponent(spellComponent.spells(), payload.select()));
     }
 }

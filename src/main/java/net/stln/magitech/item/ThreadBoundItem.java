@@ -16,9 +16,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.neoforged.fml.ModList;
-import net.stln.magitech.item.component.ComponentInit;
+import net.stln.magitech.item.component.SpellComponent;
 import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.magic.spell.SpellRegister;
+import net.stln.magitech.util.ComponentHelper;
+import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import vazkii.patchouli.api.PatchouliAPI;
@@ -53,7 +55,7 @@ public class ThreadBoundItem extends TooltipTextItem implements ICurioItem {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
+    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand usedHand) {
         if (level.isClientSide && ModList.get().isLoaded("patchouli")) {
             Book book = BookRegistry.INSTANCE.books.get(player.getItemInHand(usedHand).get(PatchouliDataComponents.BOOK));
             if (book != null) {
@@ -65,23 +67,23 @@ public class ThreadBoundItem extends TooltipTextItem implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-        if (stack.has(ComponentInit.SPELL_COMPONENT)) {
-            int i = 0;
-            for (Spell spell : stack.get(ComponentInit.SPELL_COMPONENT).spells()) {
-                ResourceLocation location = SpellRegister.getId(spell);
-                if (location != null) {
-                    if (Math.abs(stack.get(ComponentInit.SPELL_COMPONENT).selected() - i) <= 2 || Screen.hasShiftDown()) {
-                        if (stack.get(ComponentInit.SPELL_COMPONENT).selected() == i) {
-                            tooltipComponents.add(Component.literal("> ").append(Component.translatable("spell." + location.getNamespace() + "." + location.getPath())).withColor(spell.getElement().getSpellColor()));
-                        } else {
-                            tooltipComponents.add(Component.translatable("spell." + location.getNamespace() + "." + location.getPath()).withColor(spell.getElement().getSpellDark()));
-                        }
-                    } else if (Math.abs(stack.get(ComponentInit.SPELL_COMPONENT).selected() - i) == 3) {
-                        tooltipComponents.add(Component.literal("...").withColor(0x405060));
+        int i = 0;
+        SpellComponent spells = ComponentHelper.getSpells(stack);
+        for (Spell spell : spells.spells()) {
+            ResourceLocation location = SpellRegister.getId(spell);
+            if (location != null) {
+                int abs = Math.abs(spells.selected() - i);
+                if (abs <= 2 || Screen.hasShiftDown()) {
+                    if (spells.selected() == i) {
+                        tooltipComponents.add(Component.literal("> ").append(Component.translatable("spell." + location.getNamespace() + "." + location.getPath())).withColor(spell.getElement().getSpellColor()));
+                    } else {
+                        tooltipComponents.add(Component.translatable("spell." + location.getNamespace() + "." + location.getPath()).withColor(spell.getElement().getSpellDark()));
                     }
+                } else if (abs == 3) {
+                    tooltipComponents.add(Component.literal("...").withColor(0x405060));
                 }
-                i++;
             }
+            i++;
         }
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
     }

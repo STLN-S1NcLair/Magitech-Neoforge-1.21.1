@@ -27,16 +27,15 @@ import net.stln.magitech.Magitech;
 import net.stln.magitech.entity.status.AttributeInit;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.SpellComponent;
-import net.stln.magitech.util.Element;
 import net.stln.magitech.item.tool.ToolStats;
-import net.stln.magitech.item.tool.ToolType;
-import net.stln.magitech.item.tool.material.ToolMaterial;
 import net.stln.magitech.item.tool.register.ToolMaterialRegister;
 import net.stln.magitech.item.tool.trait.Trait;
 import net.stln.magitech.magic.cooldown.CooldownData;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.network.TraitTickPayload;
+import net.stln.magitech.util.ComponentHelper;
+import net.stln.magitech.util.Element;
 import net.stln.magitech.util.MathUtil;
 import net.stln.magitech.util.TextUtil;
 import org.jetbrains.annotations.NotNull;
@@ -156,9 +155,8 @@ public abstract class SpellCasterItem extends PartToolItem {
         super.onCraftedPostProcess(stack, level);
 
     }
-
-    @Override
-    public @NotNull Component getName(ItemStack stack) {
+    
+    /*public @NotNull Component getName(@NotNull ItemStack stack) {
         MutableComponent component = Component.empty();
         if (stack.has(ComponentInit.PART_MATERIAL_COMPONENT)) {
             List<ToolMaterial> materials = stack.get(ComponentInit.PART_MATERIAL_COMPONENT).materials();
@@ -181,7 +179,7 @@ public abstract class SpellCasterItem extends PartToolItem {
             component.append(Component.translatable("item.magitech." + ((SpellCasterItem) stack.getItem()).getToolType().get()));
         }
         return component;
-    }
+    }*/
 
     @Override
     public void reloadComponent(Player player, Level level, ItemStack stack) {
@@ -197,7 +195,7 @@ public abstract class SpellCasterItem extends PartToolItem {
         Map<String, Float> mod = ToolMaterialRegister.getModStats(this.getToolType()).getStats();
         EquipmentSlotGroup hand = player.getItemInHand(InteractionHand.OFF_HAND).equals(stack) && !(player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof SpellCasterItem) ? EquipmentSlotGroup.OFFHAND : EquipmentSlotGroup.MAINHAND;
 
-        if (!stack.get(ComponentInit.BROKEN_COMPONENT)) {
+        if (!ComponentHelper.isBroken(stack)) {
             entries.add(new ItemAttributeModifiers.Entry(AttributeInit.SPELL_POWER, new AttributeModifier(atkId, map.get(ToolStats.ATK_STAT) - mod.get(ToolStats.ATK_STAT), AttributeModifier.Operation.ADD_VALUE), hand));
             if (finalStats.getElement() != Element.NONE) {
                 DeferredHolder<Attribute, Attribute> elementAttribute = switch (finalStats.getElement()) {
@@ -325,25 +323,22 @@ public abstract class SpellCasterItem extends PartToolItem {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
-        ItemStack itemStack = player.getItemInHand(usedHand);
-
-        if (itemStack.getOrDefault(ComponentInit.BROKEN_COMPONENT, false)) {
-            return InteractionResultHolder.pass(itemStack);
-        }
+    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand usedHand) {
+        ItemStack stack = player.getItemInHand(usedHand);
+        if (ComponentHelper.isBroken(stack)) return InteractionResultHolder.pass(stack);
 
         ICuriosItemHandler curiosInventory = CuriosApi.getCuriosInventory(player).get();
         ItemStack threadbound = curiosInventory.getCurios().get("threadbound").getStacks().getStackInSlot(0);
 
         if (!threadbound.isEmpty()) {
-            SpellComponent spellComponent = threadbound.get(ComponentInit.SPELL_COMPONENT);
-            if (spellComponent.selected() < spellComponent.spells().size()) {
-                Spell spell = spellComponent.spells().get(spellComponent.selected());
+            SpellComponent spells = ComponentHelper.getSpells(threadbound);
+            if (spells.selected() < spells.spells().size()) {
+                Spell spell = spells.spells().get(spells.selected());
                 if (CooldownData.getPrevCooldown(player, spell) == null && spell.isActiveUse(level, player, usedHand, true)) {
                     boolean flag;
-                    if (spell.needsUseCost(level, player, itemStack)) {
-                        if (ManaUtil.checkMana(player, spell.getRequiredMana(level, player, itemStack))) {
-                            flag = ManaUtil.useManaServerOnly(player, spell.getCost(level, player, itemStack)) || player.isCreative();
+                    if (spell.needsUseCost(level, player, stack)) {
+                        if (ManaUtil.checkMana(player, spell.getRequiredMana(level, player, stack))) {
+                            flag = ManaUtil.useManaServerOnly(player, spell.getCost(level, player, stack)) || player.isCreative();
                         } else {
                             flag = player.isCreative();
                         }
@@ -352,22 +347,22 @@ public abstract class SpellCasterItem extends PartToolItem {
                     }
                     if (flag) {
                         spell.use(level, player, usedHand, true);
-                        getTraitLevel(getTraits(itemStack)).forEach((trait, integer) -> {
-                            trait.onCastSpell(player, level, itemStack, integer, getModifiedStats(player, level, itemStack));
+                        getTraitLevel(getTraits(stack)).forEach((trait, integer) -> {
+                            trait.onCastSpell(player, level, stack, integer, getModifiedStats(player, level, stack));
                         });
                     } else {
                         player.releaseUsingItem();
-                        return InteractionResultHolder.consume(itemStack);
+                        return InteractionResultHolder.consume(stack);
                     }
                 } else {
                     player.releaseUsingItem();
                 }
             } else {
-                threadbound.set(ComponentInit.SPELL_COMPONENT, new SpellComponent(spellComponent.spells(), 0));
+                threadbound.set(ComponentInit.SPELL_COMPONENT, new SpellComponent(spells.spells()));
             }
         }
         player.awardStat(Stats.ITEM_USED.get(this));
-        return InteractionResultHolder.consume(itemStack);
+        return InteractionResultHolder.consume(stack);
 
 //        ItemStack stack = player.getItemInHand(usedHand);
 //        if (level.isClientSide) {
@@ -385,18 +380,16 @@ public abstract class SpellCasterItem extends PartToolItem {
     }
 
     @Override
-    public void onUseTick(Level level, LivingEntity livingEntity, ItemStack stack, int remainingUseDuration) {
+    public void onUseTick(@NotNull Level level, @NotNull LivingEntity livingEntity, @NotNull ItemStack stack, int remainingUseDuration) {
         super.onUseTick(level, livingEntity, stack, remainingUseDuration);
 
-        if (stack.getOrDefault(ComponentInit.BROKEN_COMPONENT, false)) {
-            return;
-        }
+        if (ComponentHelper.isBroken(stack)) return;
         if (livingEntity instanceof Player user) {
             ICuriosItemHandler curiosInventory = CuriosApi.getCuriosInventory(user).get();
             ItemStack threadbound = curiosInventory.getCurios().get("threadbound").getStacks().getStackInSlot(0);
 
             if (!threadbound.isEmpty()) {
-                SpellComponent spellComponent = threadbound.get(ComponentInit.SPELL_COMPONENT);
+                SpellComponent spellComponent = ComponentHelper.getSpells(threadbound);
                 Spell spell = spellComponent.spells().get(spellComponent.selected());
                 if (CooldownData.getCurrentCooldown(user, spell) == null && spell.isActiveUsingTick(level, livingEntity, stack, getUseDuration(stack, livingEntity) - remainingUseDuration)) {
                     boolean flag;
@@ -420,19 +413,17 @@ public abstract class SpellCasterItem extends PartToolItem {
     }
 
     @Override
-    public void releaseUsing(ItemStack stack, Level level, LivingEntity livingEntity, int timeCharged) {
+    public void releaseUsing(@NotNull ItemStack stack, @NotNull Level level, @NotNull LivingEntity livingEntity, int timeCharged) {
 
-        if (stack.getOrDefault(ComponentInit.BROKEN_COMPONENT, false)) {
-            return;
-        }
+        if (ComponentHelper.isBroken(stack)) return;
         super.releaseUsing(stack, level, livingEntity, timeCharged);
         if (livingEntity instanceof Player user && level.isClientSide) {
             ICuriosItemHandler curiosInventory = CuriosApi.getCuriosInventory(user).get();
             ItemStack threadbound = curiosInventory.getCurios().get("threadbound").getStacks().getStackInSlot(0);
 
             if (!threadbound.isEmpty()) {
-                SpellComponent spellComponent = threadbound.get(ComponentInit.SPELL_COMPONENT);
-                Spell spell = spellComponent.spells().get(spellComponent.selected());
+                SpellComponent spells = ComponentHelper.getSpells(threadbound);
+                Spell spell = spells.spells().get(spells.selected());
 
                 spell.finishUsing(stack, level, livingEntity, getUseDuration(stack, livingEntity) - timeCharged, true);
             }

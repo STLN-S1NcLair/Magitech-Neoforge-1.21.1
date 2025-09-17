@@ -2,7 +2,6 @@ package net.stln.magitech.gui;
 
 import io.wispforest.owo.ui.container.Containers;
 import io.wispforest.owo.ui.container.FlowLayout;
-import io.wispforest.owo.ui.container.ScrollContainer;
 import io.wispforest.owo.ui.core.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -28,6 +27,7 @@ import net.stln.magitech.item.tool.toolitem.SpellCasterItem;
 import net.stln.magitech.item.tool.upgrade.Upgrade;
 import net.stln.magitech.item.tool.upgrade.UpgradeInstance;
 import net.stln.magitech.item.tool.upgrade.UpgradeRegister;
+import net.stln.magitech.util.ComponentHelper;
 import net.stln.magitech.util.RenderHelper;
 import net.stln.magitech.util.ToolMaterialUtil;
 
@@ -167,15 +167,15 @@ public class ToolUpgradeScreen extends AbstractContainerScreen<ToolUpgradeMenu> 
     private void renderButtons(GuiGraphics guiGraphics, int mouseX, int mouseY, int x, int y, int lastVisibleElementIndex) {
         ItemStack stack = this.menu.container.getItem(0);
         if (stack.getItem() instanceof PartToolItem) {
-            List<UpgradeInstance> upgrades = stack.has(ComponentInit.UPGRADE_COMPONENT) ? stack.get(ComponentInit.UPGRADE_COMPONENT).upgrades() : List.of();
-                List<Upgrade> currentUpgrades = ((ToolUpgradeMenu) menu).upgrades;
+            List<UpgradeInstance> upgrades = ComponentHelper.getUpgrades(stack);
+                List<Upgrade> currentUpgrades = menu.upgrades;
                 for (int i = 0; i < lastVisibleElementIndex; i++) {
                     int i1 = y + i * 18;
                     int level = 0;
 
                     for (int j = 0; j < upgrades.size(); j++) {
-                        if (currentUpgrades.get(i).equals(upgrades.get(j).upgrade)) {
-                            level = upgrades.get(j).level;
+                        if (currentUpgrades.get(i).equals(upgrades.get(j).upgrade())) {
+                            level = upgrades.get(j).level();
                             break;
                         }
                     }

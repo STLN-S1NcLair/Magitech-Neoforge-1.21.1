@@ -39,7 +39,7 @@ public class PlayerFirstSpawnEvent {
             ItemStack glisteningLexicon = new ItemStack(ItemInit.GLISTENING_LEXICON.get());
             List<Spell> list = new ArrayList<>(SpellRegister.getRegister().values());
             list.remove(new Enercrux());
-            glisteningLexicon.set(ComponentInit.SPELL_COMPONENT, new SpellComponent(List.of(new Enercrux(), list.get(player.getRandom().nextInt(0, list.size()))), 0));
+            glisteningLexicon.set(ComponentInit.SPELL_COMPONENT, new SpellComponent(List.of(new Enercrux(), list.get(player.getRandom().nextInt(0, list.size())))));
             player.getInventory().add(glisteningLexicon);
 
             persisted.putBoolean("hasReceivedInitialItems", true);

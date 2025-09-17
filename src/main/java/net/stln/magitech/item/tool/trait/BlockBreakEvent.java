@@ -9,11 +9,9 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootParams;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -22,10 +20,10 @@ import net.neoforged.neoforge.event.level.BlockDropsEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.tool.ToolType;
 import net.stln.magitech.item.tool.toolitem.PartToolItem;
 import net.stln.magitech.network.BreakBlockPayload;
+import net.stln.magitech.util.ComponentHelper;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
@@ -44,7 +42,7 @@ public class BlockBreakEvent {
         }
         ItemStack tool = event.getPlayer().getItemInHand(InteractionHand.MAIN_HAND).copy();
         Player player = event.getPlayer();
-        if (tool.getItem() instanceof PartToolItem partToolItem && player instanceof ServerPlayer serverPlayer && !tool.get(ComponentInit.BROKEN_COMPONENT)) {
+        if (tool.getItem() instanceof PartToolItem partToolItem && player instanceof ServerPlayer serverPlayer && !ComponentHelper.isBroken(tool)) {
 
             Map<Trait, Integer> traitMap = PartToolItem.getTraitLevel(PartToolItem.getTraits(tool));
             Set<BlockPos> blockList = new HashSet<>();
@@ -134,7 +132,7 @@ public class BlockBreakEvent {
         List<ItemEntity> drops = event.getDrops();
         Entity entity = event.getBreaker();
         Map<Trait, Integer> traitMap = PartToolItem.getTraitLevel(PartToolItem.getTraits(tool));
-        if (entity instanceof Player player && tool.getItem() instanceof PartToolItem partToolItem && !tool.get(ComponentInit.BROKEN_COMPONENT)) {
+        if (entity instanceof Player player && tool.getItem() instanceof PartToolItem partToolItem && !ComponentHelper.isBroken(tool)) {
             AtomicReference<List<ItemStack>> lootStack = new AtomicReference<>(new ArrayList<>());
             AtomicReference<List<ItemStack>> setLootStack = new AtomicReference<>(new ArrayList<>());
             lootStack.set(drops.stream().map(ItemEntity::getItem).collect(Collectors.toCollection(ArrayList::new)));

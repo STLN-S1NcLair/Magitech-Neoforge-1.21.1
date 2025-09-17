@@ -23,6 +23,7 @@ import net.stln.magitech.item.tool.register.ToolMaterialRegister;
 import net.stln.magitech.recipe.AthanorPillarInfusionRecipe;
 import net.stln.magitech.recipe.RecipeInit;
 import net.stln.magitech.recipe.ToolMaterialRecipe;
+import net.stln.magitech.util.ClientHelper;
 import net.stln.magitech.util.Element;
 import net.stln.magitech.util.RenderHelper;
 import org.jetbrains.annotations.NotNull;
@@ -90,7 +91,7 @@ public class AthanorPillarInfusionRecipeCategory extends AbstractMagitechRecipeC
 
     @Override
     protected void setRecipe(@NotNull IRecipeLayoutBuilder builder, @NotNull AthanorPillarInfusionRecipe recipe, @NotNull IFocusGroup focuses, @NotNull RecipeManager recipeManager, @NotNull RegistryAccess access) {
-        List<ToolMaterialRecipe> materialRecipes = JeiHelper.getAllRecipes(RecipeInit.TOOL_MATERIAL_TYPE);
+        List<ToolMaterialRecipe> materialRecipes = ClientHelper.getAllRecipes(RecipeInit.TOOL_MATERIAL_TYPE);
         List<ToolMaterial> materials = materialRecipes.stream()
                 .map(m -> ToolMaterialRegister.getMaterial(m.getResultId()))
                 .toList();

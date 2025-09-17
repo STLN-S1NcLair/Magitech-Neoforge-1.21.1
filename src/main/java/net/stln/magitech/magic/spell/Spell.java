@@ -1,5 +1,6 @@
 package net.stln.magitech.magic.spell;
 
+import com.mojang.serialization.Codec;
 import dev.kosmx.playerAnim.api.firstPerson.FirstPersonConfiguration;
 import dev.kosmx.playerAnim.api.firstPerson.FirstPersonMode;
 import dev.kosmx.playerAnim.api.layered.IAnimation;
@@ -8,8 +9,10 @@ import dev.kosmx.playerAnim.api.layered.ModifierLayer;
 import dev.kosmx.playerAnim.core.data.KeyframeAnimation;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.stats.Stats;
@@ -52,7 +55,9 @@ import net.stln.magitech.util.SpellShape;
 import java.util.*;
 
 public abstract class Spell {
-
+    public static final Codec<Spell> CODEC = ResourceLocation.CODEC.flatXmap(SpellRegister::getSpellResult, SpellRegister::getSpellIdResult);
+    public static final StreamCodec<ByteBuf, Spell> STREAM_CODEC = ResourceLocation.STREAM_CODEC.map(id -> SpellRegister.getSpellResult(id).getPartialOrThrow(), spell -> SpellRegister.getSpellIdResult(spell).getPartialOrThrow());
+    
     public float baseDamage = 0;
     public float baseEffectStrength = 0;
     public float baseDuration = 0;
@@ -200,7 +205,7 @@ public abstract class Spell {
         }
         if (isHost) {
             if (level.isClientSide) {
-                PacketDistributor.sendToServer(new ReleaseUsingSpellPayload(stack, timeCharged, livingEntity.getUUID().toString()));
+                PacketDistributor.sendToServer(new ReleaseUsingSpellPayload(stack, timeCharged, livingEntity.getUUID()));
             }
         }
         if (level.isClientSide) {

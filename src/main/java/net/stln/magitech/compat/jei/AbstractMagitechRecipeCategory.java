@@ -7,6 +7,7 @@ import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeManager;
+import net.stln.magitech.util.ClientHelper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,9 +25,9 @@ public abstract class AbstractMagitechRecipeCategory<T extends Recipe<?>> implem
 
     @Override
     public final void setRecipe(@NotNull IRecipeLayoutBuilder builder, @NotNull T recipe, @NotNull IFocusGroup focuses) {
-        RecipeManager recipeManager = JeiHelper.getRecipeManager();
+        RecipeManager recipeManager = ClientHelper.getRecipeManager();
         if (recipeManager == null) return;
-        var access = JeiHelper.getRegistryAccess();
+        var access = ClientHelper.getRegistryAccess();
         if (access == null) return;
         setRecipe(builder, recipe, focuses, recipeManager, access);
     }

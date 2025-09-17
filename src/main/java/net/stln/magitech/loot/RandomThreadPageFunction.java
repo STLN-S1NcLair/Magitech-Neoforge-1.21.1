@@ -1,6 +1,5 @@
 package net.stln.magitech.loot;
 
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.resources.ResourceLocation;
@@ -10,12 +9,10 @@ import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunct
 import net.minecraft.world.level.storage.loot.functions.LootItemFunction;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
-import net.stln.magitech.item.component.ComponentInit;
-import net.stln.magitech.item.component.ThreadPageComponent;
 import net.stln.magitech.magic.spell.SpellRegister;
+import net.stln.magitech.util.ComponentHelper;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -23,42 +20,39 @@ public class RandomThreadPageFunction extends LootItemConditionalFunction {
 
     public static final MapCodec<RandomThreadPageFunction> CODEC = RecordCodecBuilder.mapCodec(
             p_340803_ -> commonFields(p_340803_)
-                    .and(Codec.STRING.listOf().fieldOf("spells").forGetter(RandomThreadPageFunction::getSpells))
+                    .and(ResourceLocation.CODEC.listOf().fieldOf("spells").forGetter(RandomThreadPageFunction::getSpells))
                     .apply(p_340803_, RandomThreadPageFunction::new)
     );
 
-    protected final List<String> spells;
+    protected final List<ResourceLocation> spells;
 
+    private static @NotNull List<ResourceLocation> getAllSpellIds() {
+        return SpellRegister.getSpellIds().stream().toList();
+    }
+    
     public RandomThreadPageFunction(List<LootItemCondition> lootItemConditions) {
-        this(lootItemConditions, getIds());
+        this(lootItemConditions, getAllSpellIds());
     }
 
-    private static @NotNull List<String> getIds() {
-        List<String> ids = new ArrayList<>();
-        SpellRegister.getRegister().keySet().stream().toList().forEach((resourceLocation -> {
-            ids.add(resourceLocation.toString());
-        }));
-        return ids;
-    }
-
-    public List<String> getSpells() {
-        return spells;
-    }
-
-    protected RandomThreadPageFunction(List<LootItemCondition> conditions, List<String> spells) {
+    protected RandomThreadPageFunction(List<LootItemCondition> conditions, List<ResourceLocation> spells) {
         super(conditions);
         if (spells.isEmpty()) {
-            this.spells = getIds();
+            this.spells = getAllSpellIds();
         } else {
             this.spells = spells;
         }
     }
 
+    public List<ResourceLocation> getSpells() {
+        return spells;
+    }
+
     @Override
-    protected @NotNull ItemStack run(ItemStack stack, LootContext context) {
+    protected @NotNull ItemStack run(@NotNull ItemStack stack, @NotNull LootContext context) {
         Collections.shuffle(spells);
-        String spellId = spells.getFirst();
-        stack.set(ComponentInit.THREAD_PAGE_COMPONENT, new ThreadPageComponent(SpellRegister.getSpell(ResourceLocation.parse(spellId))));
+        ResourceLocation spellId = spells.getFirst();
+        ComponentHelper.setThreadPage(stack, spellId);
+        ;
         return stack;
     }
 

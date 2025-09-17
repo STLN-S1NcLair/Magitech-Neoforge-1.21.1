@@ -14,13 +14,13 @@ import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
 import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.item.ItemTagKeys;
-import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.tool.register.ToolMaterialRegister;
 import net.stln.magitech.item.tool.toolitem.PartToolItem;
 import net.stln.magitech.recipe.MultiStackRecipeInput;
 import net.stln.magitech.recipe.RecipeInit;
 import net.stln.magitech.recipe.ToolAssemblyRecipe;
 import net.stln.magitech.recipe.ToolMaterialRecipe;
+import net.stln.magitech.util.ComponentHelper;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -130,7 +130,7 @@ public class ToolRepairingMenu extends AbstractContainerMenu {
                 ToolMaterialRecipe craftingrecipe = recipeholder.value();
                 if (resultSlots.setRecipeUsed(level, serverplayer, recipeholder)) {
                     ResourceLocation material = craftingrecipe.getResultId();
-                    if (itemstack.get(ComponentInit.PART_MATERIAL_COMPONENT.get()).getMaterials().contains(ToolMaterialRegister.getMaterial(material))) {
+                    if (ComponentHelper.getPartMaterials(itemstack).contains(ToolMaterialRegister.getMaterial(material))) {
                         for (int i = 0; i < Math.min(craftinginput.getItem(1).getCount(), craftinginput.getItem(2).getCount()); i++) {
                             if (itemstack.getDamageValue() > 0) {
                                 itemstack.setDamageValue(itemstack.getDamageValue() - itemstack.getMaxDamage() / 5);

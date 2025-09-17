@@ -13,6 +13,7 @@ import net.stln.magitech.gui.PartCuttingScreen;
 import net.stln.magitech.gui.ToolAssemblyScreen;
 import net.stln.magitech.item.ItemInit;
 import net.stln.magitech.recipe.RecipeInit;
+import net.stln.magitech.util.ClientHelper;
 import org.jetbrains.annotations.NotNull;
 
 @JeiPlugin
@@ -38,11 +39,11 @@ public class MagitechJeiPlugin implements IModPlugin {
 
     @Override
     public void registerRecipes(@NotNull IRecipeRegistration registration) {
-        registration.addRecipes(PartCuttingRecipeCategory.PART_CUTTING_RECIPE_TYPE, JeiHelper.getAllRecipes(RecipeInit.PART_CUTTING_TYPE));
-        registration.addRecipes(ToolAssemblyRecipeCategory.TOOL_ASSEMBLY_RECIPE_TYPE, JeiHelper.getAllRecipes(RecipeInit.TOOL_ASSEMBLY_TYPE));
-        registration.addRecipes(SpellConversionRecipeCategory.SPELL_CONVERSION_RECIPE_TYPE, JeiHelper.getAllRecipes(RecipeInit.SPELL_CONVERSION_TYPE));
-        registration.addRecipes(ZardiusCrucibleRecipeCategory.ZARDIUS_CRUCIBLE_RECIPE_TYPE, JeiHelper.getAllRecipes(RecipeInit.ZARDIUS_CRUCIBLE_TYPE));
-        registration.addRecipes(AthanorPillarInfusionRecipeCategory.ATHANOR_PILLAR_INFUSION_RECIPE_TYPE, JeiHelper.getAllRecipes(RecipeInit.ATHANOR_PILLAR_INFUSION_TYPE));
+        registration.addRecipes(PartCuttingRecipeCategory.PART_CUTTING_RECIPE_TYPE, ClientHelper.getAllRecipes(RecipeInit.PART_CUTTING_TYPE));
+        registration.addRecipes(ToolAssemblyRecipeCategory.TOOL_ASSEMBLY_RECIPE_TYPE, ClientHelper.getAllRecipes(RecipeInit.TOOL_ASSEMBLY_TYPE));
+        registration.addRecipes(SpellConversionRecipeCategory.SPELL_CONVERSION_RECIPE_TYPE, ClientHelper.getAllRecipes(RecipeInit.SPELL_CONVERSION_TYPE));
+        registration.addRecipes(ZardiusCrucibleRecipeCategory.ZARDIUS_CRUCIBLE_RECIPE_TYPE, ClientHelper.getAllRecipes(RecipeInit.ZARDIUS_CRUCIBLE_TYPE));
+        registration.addRecipes(AthanorPillarInfusionRecipeCategory.ATHANOR_PILLAR_INFUSION_RECIPE_TYPE, ClientHelper.getAllRecipes(RecipeInit.ATHANOR_PILLAR_INFUSION_TYPE));
     }
 
     @Override

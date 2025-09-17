@@ -31,49 +31,49 @@ import net.stln.magitech.magic.spell.tremor.Sonistorm;
 import net.stln.magitech.magic.spell.tremor.Tremivox;
 
 public class SpellInit {
-    public static final Spell IGNISCA = SpellRegister.registerSpell(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ignisca"), new Ignisca());
-    public static final Spell PYROLUX = SpellRegister.registerSpell(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "pyrolux"), new Pyrolux());
-    public static final Spell FLUVALEN = SpellRegister.registerSpell(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "fluvalen"), new Fluvalen());
-    public static final Spell BLAZEWEND = SpellRegister.registerSpell(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "blazewend"), new Blazewend());
+    public static final Spell IGNISCA = SpellRegister.registerSpell(Magitech.id("ignisca"), new Ignisca());
+    public static final Spell PYROLUX = SpellRegister.registerSpell(Magitech.id("pyrolux"), new Pyrolux());
+    public static final Spell FLUVALEN = SpellRegister.registerSpell(Magitech.id("fluvalen"), new Fluvalen());
+    public static final Spell BLAZEWEND = SpellRegister.registerSpell(Magitech.id("blazewend"), new Blazewend());
 
-    public static final Spell FRIGALA = SpellRegister.registerSpell(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "frigala"), new Frigala());
-    public static final Spell CRYOLUXA = SpellRegister.registerSpell(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "cryoluxa"), new Cryoluxa());
-    public static final Spell NIVALUNE = SpellRegister.registerSpell(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "nivalune"), new Nivalune());
-    public static final Spell GLISTELDA = SpellRegister.registerSpell(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "glistelda"), new Glistelda());
+    public static final Spell FRIGALA = SpellRegister.registerSpell(Magitech.id("frigala"), new Frigala());
+    public static final Spell CRYOLUXA = SpellRegister.registerSpell(Magitech.id("cryoluxa"), new Cryoluxa());
+    public static final Spell NIVALUNE = SpellRegister.registerSpell(Magitech.id("nivalune"), new Nivalune());
+    public static final Spell GLISTELDA = SpellRegister.registerSpell(Magitech.id("glistelda"), new Glistelda());
 
-    public static final Spell VOLTARIS = SpellRegister.registerSpell(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "voltaris"), new Voltaris());
-    public static final Spell FULGENZA = SpellRegister.registerSpell(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "fulgenza"), new Fulgenza());
-    public static final Spell SPARKION = SpellRegister.registerSpell(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "sparkion"), new Sparkion());
-    public static final Spell ARCLUME = SpellRegister.registerSpell(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "arclume"), new Arclume());
+    public static final Spell VOLTARIS = SpellRegister.registerSpell(Magitech.id("voltaris"), new Voltaris());
+    public static final Spell FULGENZA = SpellRegister.registerSpell(Magitech.id("fulgenza"), new Fulgenza());
+    public static final Spell SPARKION = SpellRegister.registerSpell(Magitech.id("sparkion"), new Sparkion());
+    public static final Spell ARCLUME = SpellRegister.registerSpell(Magitech.id("arclume"), new Arclume());
 
-    public static final Spell TREMIVOX = SpellRegister.registerSpell(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "tremivox"), new Tremivox());
-    public static final Spell OSCILBEAM = SpellRegister.registerSpell(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "oscilbeam"), new Oscilbeam());
-    public static final Spell SONISTORM = SpellRegister.registerSpell(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "sonistorm"), new Sonistorm());
-    public static final Spell QUAVERIS = SpellRegister.registerSpell(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "quaveris"), new Quaveris());
+    public static final Spell TREMIVOX = SpellRegister.registerSpell(Magitech.id("tremivox"), new Tremivox());
+    public static final Spell OSCILBEAM = SpellRegister.registerSpell(Magitech.id("oscilbeam"), new Oscilbeam());
+    public static final Spell SONISTORM = SpellRegister.registerSpell(Magitech.id("sonistorm"), new Sonistorm());
+    public static final Spell QUAVERIS = SpellRegister.registerSpell(Magitech.id("quaveris"), new Quaveris());
 
-    public static final Spell MIRAZIEN = SpellRegister.registerSpell(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "mirazien"), new Mirazien());
-    public static final Spell PHANTASTRA = SpellRegister.registerSpell(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "phantastra"), new Phantastra());
-    public static final Spell VEILMIST = SpellRegister.registerSpell(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "veilmist"), new Veilmist());
-    public static final Spell FADANCEA = SpellRegister.registerSpell(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "fadancea"), new Fadancea());
+    public static final Spell MIRAZIEN = SpellRegister.registerSpell(Magitech.id("mirazien"), new Mirazien());
+    public static final Spell PHANTASTRA = SpellRegister.registerSpell(Magitech.id("phantastra"), new Phantastra());
+    public static final Spell VEILMIST = SpellRegister.registerSpell(Magitech.id("veilmist"), new Veilmist());
+    public static final Spell FADANCEA = SpellRegister.registerSpell(Magitech.id("fadancea"), new Fadancea());
 
-    public static final Spell ARCALETH = SpellRegister.registerSpell(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "arcaleth"), new Arcaleth());
-    public static final Spell MYSTAVEN = SpellRegister.registerSpell(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "mystaven"), new Mystaven());
-    public static final Spell GLYMORA = SpellRegister.registerSpell(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "glymora"), new Glymora());
-    public static final Spell ENVISTRA = SpellRegister.registerSpell(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "envistra"), new Envistra());
+    public static final Spell ARCALETH = SpellRegister.registerSpell(Magitech.id("arcaleth"), new Arcaleth());
+    public static final Spell MYSTAVEN = SpellRegister.registerSpell(Magitech.id("mystaven"), new Mystaven());
+    public static final Spell GLYMORA = SpellRegister.registerSpell(Magitech.id("glymora"), new Glymora());
+    public static final Spell ENVISTRA = SpellRegister.registerSpell(Magitech.id("envistra"), new Envistra());
 
-    public static final Spell AELTHERIN = SpellRegister.registerSpell(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "aeltherin"), new Aeltherin());
-    public static final Spell FLUVINAE = SpellRegister.registerSpell(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "fluvinae"), new Fluvinae());
-    public static final Spell MISTRELUNE = SpellRegister.registerSpell(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "mistrelune"), new Mistrelune());
-    public static final Spell SYLLAEZE = SpellRegister.registerSpell(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "syllaeze"), new Syllaeze());
-    public static final Spell NYMPHORA = SpellRegister.registerSpell(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "nymphora"), new Nymphora());
+    public static final Spell AELTHERIN = SpellRegister.registerSpell(Magitech.id("aeltherin"), new Aeltherin());
+    public static final Spell FLUVINAE = SpellRegister.registerSpell(Magitech.id("fluvinae"), new Fluvinae());
+    public static final Spell MISTRELUNE = SpellRegister.registerSpell(Magitech.id("mistrelune"), new Mistrelune());
+    public static final Spell SYLLAEZE = SpellRegister.registerSpell(Magitech.id("syllaeze"), new Syllaeze());
+    public static final Spell NYMPHORA = SpellRegister.registerSpell(Magitech.id("nymphora"), new Nymphora());
 
-    public static final Spell NULLIXIS = SpellRegister.registerSpell(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "nullixis"), new Nullixis());
-    public static final Spell VOIDLANCE = SpellRegister.registerSpell(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "voidlance"), new Voidlance());
-    public static final Spell TENEBRISOL = SpellRegister.registerSpell(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "tenebrisol"), new Tenebrisol());
-    public static final Spell DISPARUNDRA = SpellRegister.registerSpell(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "disparundra"), new Disparundra());
-    public static final Spell TENEBPORT = SpellRegister.registerSpell(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "tenebport"), new Tenebport());
+    public static final Spell NULLIXIS = SpellRegister.registerSpell(Magitech.id("nullixis"), new Nullixis());
+    public static final Spell VOIDLANCE = SpellRegister.registerSpell(Magitech.id("voidlance"), new Voidlance());
+    public static final Spell TENEBRISOL = SpellRegister.registerSpell(Magitech.id("tenebrisol"), new Tenebrisol());
+    public static final Spell DISPARUNDRA = SpellRegister.registerSpell(Magitech.id("disparundra"), new Disparundra());
+    public static final Spell TENEBPORT = SpellRegister.registerSpell(Magitech.id("tenebport"), new Tenebport());
 
-    public static final Spell ENERCRUX = SpellRegister.registerSpell(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "enercrux"), new Enercrux());
+    public static final Spell ENERCRUX = SpellRegister.registerSpell(Magitech.id("enercrux"), new Enercrux());
 
     public static void registerSpells() {
         Magitech.LOGGER.info("Registering Spells for" + Magitech.MOD_ID);

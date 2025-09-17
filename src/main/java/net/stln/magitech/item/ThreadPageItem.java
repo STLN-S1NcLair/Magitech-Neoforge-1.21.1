@@ -8,10 +8,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.stln.magitech.item.component.ComponentInit;
-import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.magic.spell.SpellRegister;
 import net.stln.magitech.util.ColorHelper;
+import net.stln.magitech.util.ComponentHelper;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -22,19 +22,17 @@ public class ThreadPageItem extends TooltipTextItem {
     }
 
     @Override
-    public Component getName(ItemStack stack) {
-        if (stack.has(ComponentInit.THREAD_PAGE_COMPONENT)) {
-            Spell spell = stack.get(ComponentInit.THREAD_PAGE_COMPONENT).spell();
-            return Component.translatable("item.magitech.thread_page", Component.translatable("spell.magitech." + SpellRegister.getId(spell).getPath()));
-        }
-        return super.getName(stack);
+    public @NotNull Component getName(@NotNull ItemStack stack) {
+        return ComponentHelper.getThreadPageSpell(stack)
+                .flatMap(SpellRegister::getOptionalId)
+                .map(id -> Component.translatable("item.magitech.thread_page", Component.translatable("spell.magitech." + id.getPath())))
+                .orElseGet(() -> super.getName(stack).copy());
     }
 
     @OnlyIn(Dist.CLIENT)
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-        if (stack.has(ComponentInit.THREAD_PAGE_COMPONENT)) {
-            Spell spell = stack.get(ComponentInit.THREAD_PAGE_COMPONENT).spell();
+        ComponentHelper.getThreadPageSpell(stack).ifPresent(spell -> {
             ResourceLocation location = SpellRegister.getId(spell);
             if (location != null) {
                 tooltipComponents.add(Component.translatable("spell." + location.getNamespace() + "." + location.getPath()).withColor(spell.getElement().getSpellColor()));
@@ -48,7 +46,6 @@ public class ThreadPageItem extends TooltipTextItem {
                 i++;
             }
             tooltipComponents.addAll(componentList);
-        }
-        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+        });
     }
 }

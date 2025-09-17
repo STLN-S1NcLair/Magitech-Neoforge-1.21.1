@@ -1,6 +1,5 @@
 package net.stln.magitech.gui;
 
-import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -8,7 +7,10 @@ import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.*;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -16,11 +18,11 @@ import net.stln.magitech.advancement.CriterionInit;
 import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.UpgradeComponent;
-import net.stln.magitech.item.tool.partitem.PartItem;
 import net.stln.magitech.item.tool.toolitem.PartToolItem;
 import net.stln.magitech.item.tool.upgrade.Upgrade;
 import net.stln.magitech.item.tool.upgrade.UpgradeInstance;
 import net.stln.magitech.item.tool.upgrade.UpgradeUtil;
+import net.stln.magitech.util.ComponentHelper;
 import net.stln.magitech.util.ToolMaterialUtil;
 
 import java.util.List;
@@ -122,12 +124,9 @@ public class ToolUpgradeMenu extends AbstractContainerMenu {
     public boolean clickMenuButton(Player player, int id) {
         if (isValidUpgrade(id)) {
             ItemStack stack = container.getItem(0);
-            if (!stack.has(ComponentInit.UPGRADE_COMPONENT)) {
-                stack.set(ComponentInit.UPGRADE_COMPONENT, new UpgradeComponent(List.of()));
-            }
-            stack.set(ComponentInit.UPGRADE_COMPONENT, stack.get(ComponentInit.UPGRADE_COMPONENT).addUpgrade(new UpgradeInstance(1, upgrades.get(id))));
+            stack.update(ComponentInit.UPGRADE_COMPONENT, UpgradeComponent.EMPTY, upgradeComponent -> upgradeComponent.addUpgrade(new UpgradeInstance(1, upgrades.get(id))));
             stack.set(ComponentInit.UPGRADE_SEED_COMPONENT, new Random().nextInt(Integer.MAX_VALUE));
-            stack.set(ComponentInit.UPGRADE_POINT_COMPONENT, stack.get(ComponentInit.UPGRADE_POINT_COMPONENT) - 1);
+            ComponentHelper.updateUpgradePoint(stack, value -> value - 1);
             this.container.setItem(0, stack);
             ItemStack material = this.container.getItem(1).copy();
             material.shrink(1);
@@ -151,11 +150,11 @@ public class ToolUpgradeMenu extends AbstractContainerMenu {
     }
 
     public boolean isCorrectMaterialForUpgrade(ItemStack itemStack) {
-        return ToolMaterialUtil.isCorrectMaterialForUpgrade(itemStack.get(ComponentInit.TIER_COMPONENT), itemStack.get(ComponentInit.UPGRADE_POINT_COMPONENT), container.getItem(1).getItem());
+        return ToolMaterialUtil.isCorrectMaterialForUpgrade(itemStack.get(ComponentInit.TIER_COMPONENT), ComponentHelper.getUpgradePoint(itemStack), container.getItem(1).getItem());
     }
 
     public boolean hasUpgradePoint(ItemStack itemStack) {
-        return !itemStack.isEmpty() && itemStack.getItem() instanceof PartToolItem && itemStack.get(ComponentInit.UPGRADE_POINT_COMPONENT) > 0;
+        return !itemStack.isEmpty() && itemStack.getItem() instanceof PartToolItem && ComponentHelper.getUpgradePoint(itemStack) > 0;
     }
 
     /**

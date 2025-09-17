@@ -1,5 +1,7 @@
 package net.stln.magitech.item.tool;
 
+import org.jetbrains.annotations.NotNull;
+
 public enum ToolType {
     DAGGER("dagger", 3),
     LIGHT_SWORD("light_sword", 4),
@@ -21,7 +23,7 @@ public enum ToolType {
         this.size = size;
     }
 
-    public String get() {
+    public @NotNull String getId() {
         return this.id;
     }
 

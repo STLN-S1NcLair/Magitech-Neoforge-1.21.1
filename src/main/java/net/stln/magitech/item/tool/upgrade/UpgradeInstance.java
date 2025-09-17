@@ -7,8 +7,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 
-public class UpgradeInstance {
-
+public record UpgradeInstance(int level, Upgrade upgrade) {
     public static final Codec<UpgradeInstance> CODEC = RecordCodecBuilder.create(instance ->
             instance.group(
                     Codec.INT.fieldOf("level").forGetter((upgradeInstance) -> upgradeInstance.level),
@@ -17,30 +16,13 @@ public class UpgradeInstance {
     );
 
     public static final StreamCodec<ByteBuf, UpgradeInstance> STREAM_CODEC = StreamCodec.composite(
-            ByteBufCodecs.INT, UpgradeInstance::getLevel,
-            ResourceLocation.STREAM_CODEC, (instance) ->  UpgradeRegister.getId(instance.upgrade),
+            ByteBufCodecs.INT, UpgradeInstance::level,
+            ResourceLocation.STREAM_CODEC, (instance) -> UpgradeRegister.getId(instance.upgrade),
             UpgradeInstance::new
     );
 
-    public int getLevel() {
-        return level;
-    }
-
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
-    public int level;
-    public Upgrade upgrade;
-
-    public UpgradeInstance(int level, Upgrade upgrade) {
-        this.level = level;
-        this.upgrade = upgrade;
-    }
-
     public UpgradeInstance(int level, ResourceLocation upgrade) {
-        this.level = level;
-        this.upgrade = UpgradeRegister.getUpgradeFromAll(upgrade);
+        this(level, UpgradeRegister.getUpgradeFromAll(upgrade));
     }
 
     @Override

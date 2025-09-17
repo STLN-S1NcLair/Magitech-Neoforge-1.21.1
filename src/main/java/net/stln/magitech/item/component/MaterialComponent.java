@@ -7,24 +7,21 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.stln.magitech.item.tool.material.ToolMaterial;
+import org.jetbrains.annotations.NotNull;
 
 public record MaterialComponent(ToolMaterial material) {
 
-    public static final Codec<MaterialComponent> CODEC = RecordCodecBuilder.create(partMaterialComponentInstance ->
-            partMaterialComponentInstance.group(
+    public static final Codec<MaterialComponent> CODEC = RecordCodecBuilder.create(instance ->
+            instance.group(
                     ResourceLocation.CODEC.fieldOf("material").forGetter(MaterialComponent::getMaterialId)
-            ).apply(partMaterialComponentInstance, MaterialComponentUtil::generatefromId)
+            ).apply(instance, MaterialComponentUtil::generatefromId)
     );
     public static final StreamCodec<ByteBuf, MaterialComponent> STREAM_CODEC = ResourceLocation.STREAM_CODEC.map(
             MaterialComponentUtil::generatefromId, MaterialComponent::getMaterialId
     );
 
-    public ResourceLocation getMaterialId() {
+    public @NotNull ResourceLocation getMaterialId() {
         return material.getId();
-    }
-
-    public ToolMaterial getMaterial() {
-        return material;
     }
 }
 

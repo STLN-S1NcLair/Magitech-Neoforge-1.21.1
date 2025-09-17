@@ -16,10 +16,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.item.ItemInit;
-import net.stln.magitech.item.component.ComponentInit;
-import net.stln.magitech.item.component.ThreadPageComponent;
-import net.stln.magitech.magic.spell.SpellRegister;
 import net.stln.magitech.recipe.SpellConversionRecipe;
+import net.stln.magitech.util.ComponentHelper;
 import org.jetbrains.annotations.NotNull;
 
 public class SpellConversionRecipeCategory extends AbstractMagitechRecipeCategory<SpellConversionRecipe> {
@@ -75,7 +73,7 @@ public class SpellConversionRecipeCategory extends AbstractMagitechRecipeCategor
         builder.addSlot(RecipeIngredientRole.INPUT, 19, 13).addIngredients(recipe.getIngredient());
 
         ItemStack threadPage = new ItemStack(ItemInit.THREAD_PAGE.get());
-        threadPage.set(ComponentInit.THREAD_PAGE_COMPONENT, new ThreadPageComponent(SpellRegister.getSpell(recipe.getSpell())));
+        ComponentHelper.setThreadPage(threadPage, recipe.getSpell());
         builder.addSlot(RecipeIngredientRole.INPUT, 69, 25).addItemStack(threadPage);
 
         builder.addSlot(RecipeIngredientRole.OUTPUT, 100, 13).addItemStack(recipe.getResultItem(access));

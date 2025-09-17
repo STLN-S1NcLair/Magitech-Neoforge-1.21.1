@@ -8,8 +8,6 @@ import net.stln.magitech.item.component.PartMaterialComponent;
 import net.stln.magitech.item.tool.material.ToolMaterial;
 import net.stln.magitech.item.tool.partitem.PartItem;
 
-import java.util.List;
-
 public class PartToolGenerator {
 
     public static ItemStack generatePart(PartItem partItem, ToolMaterial material) {
@@ -20,7 +18,7 @@ public class PartToolGenerator {
 
     public static ItemStack generateDagger(ToolMaterial handle, ToolMaterial blade, ToolMaterial handguard) {
         ItemStack dagger = new ItemStack(ItemInit.DAGGER.get());
-        dagger.set(ComponentInit.PART_MATERIAL_COMPONENT, new PartMaterialComponent(List.of(handle, blade, handguard)));
+        dagger.set(ComponentInit.PART_MATERIAL_COMPONENT, new PartMaterialComponent(handle, blade, handguard));
         return dagger;
     }
 
@@ -30,7 +28,7 @@ public class PartToolGenerator {
 
     public static ItemStack generateLightSword(ToolMaterial handle, ToolMaterial blade, ToolMaterial handguard, ToolMaterial toolBinding) {
         ItemStack lightSword = new ItemStack(ItemInit.LIGHT_SWORD.get());
-        lightSword.set(ComponentInit.PART_MATERIAL_COMPONENT, new PartMaterialComponent(List.of(handle, blade, handguard, toolBinding)));
+        lightSword.set(ComponentInit.PART_MATERIAL_COMPONENT, new PartMaterialComponent(handle, blade, handguard, toolBinding));
         return lightSword;
     }
 
@@ -40,7 +38,7 @@ public class PartToolGenerator {
 
     public static ItemStack generateHeavySword(ToolMaterial handle, ToolMaterial blade, ToolMaterial toolBinding, ToolMaterial handguard) {
         ItemStack heavySword = new ItemStack(ItemInit.HEAVY_SWORD.get());
-        heavySword.set(ComponentInit.PART_MATERIAL_COMPONENT, new PartMaterialComponent(List.of(handle, blade, toolBinding, handguard)));
+        heavySword.set(ComponentInit.PART_MATERIAL_COMPONENT, new PartMaterialComponent(handle, blade, toolBinding, handguard));
         return heavySword;
     }
 
@@ -50,7 +48,7 @@ public class PartToolGenerator {
 
     public static ItemStack generatePickaxe(ToolMaterial handle, ToolMaterial spikeHead, ToolMaterial toolBinding) {
         ItemStack pickaxe = new ItemStack(ItemInit.PICKAXE.get());
-        pickaxe.set(ComponentInit.PART_MATERIAL_COMPONENT, new PartMaterialComponent(List.of(handle, spikeHead, toolBinding)));
+        pickaxe.set(ComponentInit.PART_MATERIAL_COMPONENT, new PartMaterialComponent(handle, spikeHead, toolBinding));
         return pickaxe;
     }
 
@@ -60,7 +58,7 @@ public class PartToolGenerator {
 
     public static ItemStack generateHammer(ToolMaterial handle, ToolMaterial strikeHead, ToolMaterial plate, ToolMaterial toolBinding) {
         ItemStack heavySword = new ItemStack(ItemInit.HAMMER.get());
-        heavySword.set(ComponentInit.PART_MATERIAL_COMPONENT, new PartMaterialComponent(List.of(handle, strikeHead, plate, toolBinding)));
+        heavySword.set(ComponentInit.PART_MATERIAL_COMPONENT, new PartMaterialComponent(handle, strikeHead, plate, toolBinding));
         return heavySword;
     }
 
@@ -70,7 +68,7 @@ public class PartToolGenerator {
 
     public static ItemStack generateAxe(ToolMaterial handle, ToolMaterial blade, ToolMaterial strikeHead, ToolMaterial toolBinding) {
         ItemStack heavySword = new ItemStack(ItemInit.AXE.get());
-        heavySword.set(ComponentInit.PART_MATERIAL_COMPONENT, new PartMaterialComponent(List.of(handle, blade, strikeHead, toolBinding)));
+        heavySword.set(ComponentInit.PART_MATERIAL_COMPONENT, new PartMaterialComponent(handle, blade, strikeHead, toolBinding));
         return heavySword;
     }
 
@@ -80,7 +78,7 @@ public class PartToolGenerator {
 
     public static ItemStack generateShovel(ToolMaterial handle, ToolMaterial blade, ToolMaterial plate, ToolMaterial toolBinding) {
         ItemStack heavySword = new ItemStack(ItemInit.SHOVEL.get());
-        heavySword.set(ComponentInit.PART_MATERIAL_COMPONENT, new PartMaterialComponent(List.of(handle, blade, plate, toolBinding)));
+        heavySword.set(ComponentInit.PART_MATERIAL_COMPONENT, new PartMaterialComponent(handle, blade, plate, toolBinding));
         return heavySword;
     }
 
@@ -90,7 +88,7 @@ public class PartToolGenerator {
 
     public static ItemStack generateScythe(ToolMaterial reinforcedStick, ToolMaterial handle, ToolMaterial blade, ToolMaterial toolBinding) {
         ItemStack scythe = new ItemStack(ItemInit.SCYTHE.get());
-        scythe.set(ComponentInit.PART_MATERIAL_COMPONENT, new PartMaterialComponent(List.of(reinforcedStick, handle, blade, toolBinding)));
+        scythe.set(ComponentInit.PART_MATERIAL_COMPONENT, new PartMaterialComponent(reinforcedStick, handle, blade, toolBinding));
         return scythe;
     }
 
@@ -100,7 +98,7 @@ public class PartToolGenerator {
 
     public static ItemStack generateWand(ToolMaterial catalyst, ToolMaterial lightHandle, ToolMaterial conductor, ToolMaterial toolBinding) {
         ItemStack wand = new ItemStack(ItemInit.WAND.get());
-        wand.set(ComponentInit.PART_MATERIAL_COMPONENT, new PartMaterialComponent(List.of(catalyst, lightHandle, conductor, toolBinding)));
+        wand.set(ComponentInit.PART_MATERIAL_COMPONENT, new PartMaterialComponent(catalyst, lightHandle, conductor, toolBinding));
         return wand;
     }
 
