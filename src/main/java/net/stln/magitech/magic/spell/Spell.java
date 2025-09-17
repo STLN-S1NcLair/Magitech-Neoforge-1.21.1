@@ -38,7 +38,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.MagitechRegistries;
-import net.stln.magitech.damage.EntityElementRegister;
+import net.stln.magitech.element.Element;
 import net.stln.magitech.entity.status.AttributeInit;
 import net.stln.magitech.item.tool.toolitem.SpellCasterItem;
 import net.stln.magitech.magic.charge.Charge;
@@ -51,7 +51,7 @@ import net.stln.magitech.network.ReleaseUsingSpellPayload;
 import net.stln.magitech.network.UseSpellPayload;
 import net.stln.magitech.recipe.RecipeInit;
 import net.stln.magitech.recipe.SpellConversionRecipe;
-import net.stln.magitech.item.tool.element.Element;
+import net.stln.magitech.util.DataMapHelper;
 import net.stln.magitech.util.MathUtil;
 import net.stln.magitech.util.SpellShape;
 import org.jetbrains.annotations.NotNull;
@@ -266,7 +266,7 @@ public abstract class Spell implements SpellLike {
 
         DamageSource elementalDamageSource = user.damageSources().source(damageType, user);
         if (target.isAttackable()) {
-            damage *= EntityElementRegister.getElementAffinity(target, element).getMultiplier();
+            damage *= DataMapHelper.getElementMultiplier(target, element);
 
             if (target instanceof LivingEntity livingTarget && livingTarget.invulnerableTime < 10) {
                 if (stack.getItem() instanceof SpellCasterItem spellCasterItem) {

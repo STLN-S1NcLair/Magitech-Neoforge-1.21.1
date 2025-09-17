@@ -1,0 +1,20 @@
+{
+  "values": {
+    "minecraft:blaze": "ember",
+    "minecraft:breeze": "flow",
+    "minecraft:drowned": "flow",
+    "minecraft:elder_guardian": "flow",
+    "minecraft:ender_dragon": "hollow",
+    "minecraft:enderman": "hollow",
+    "minecraft:endermite": "hollow",
+    "minecraft:evoker": "magic",
+    "minecraft:guardian": "flow",
+    "minecraft:magma_cube": "ember",
+    "minecraft:phantom": "phantom",
+    "minecraft:shulker": "hollow",
+    "minecraft:stray": "glace",
+    "minecraft:vex": "phantom",
+    "minecraft:warden": "tremor",
+    "minecraft:witch": "magic"
+  }
+}

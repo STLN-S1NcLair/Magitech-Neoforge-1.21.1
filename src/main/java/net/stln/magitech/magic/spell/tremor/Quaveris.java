@@ -34,7 +34,7 @@ import net.stln.magitech.particle.particle_option.BeamParticleEffect;
 import net.stln.magitech.particle.particle_option.WaveParticleEffect;
 import net.stln.magitech.sound.SoundInit;
 import net.stln.magitech.util.EffectUtil;
-import net.stln.magitech.item.tool.element.Element;
+import net.stln.magitech.element.Element;
 import net.stln.magitech.util.EntityUtil;
 import net.stln.magitech.util.SpellShape;
 import org.joml.Vector3f;

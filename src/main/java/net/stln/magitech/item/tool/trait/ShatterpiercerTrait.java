@@ -17,7 +17,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.damage.DamageTypeInit;
-import net.stln.magitech.item.tool.element.Element;
+import net.stln.magitech.element.Element;
 import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.particle.particle_option.FrostParticleEffect;
 import net.stln.magitech.sound.SoundInit;

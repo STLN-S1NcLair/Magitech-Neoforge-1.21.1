@@ -3,7 +3,7 @@ package net.stln.magitech.item.tool.upgrade;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.item.tool.material.MiningLevel;
-import net.stln.magitech.item.tool.element.Element;
+import net.stln.magitech.element.Element;
 
 public class UpgradeInit {
 

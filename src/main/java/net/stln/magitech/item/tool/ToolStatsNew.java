@@ -3,7 +3,7 @@ package net.stln.magitech.item.tool;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.util.StringRepresentable;
 import net.stln.magitech.item.tool.material.MiningLevel;
-import net.stln.magitech.item.tool.element.Element;
+import net.stln.magitech.element.Element;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;

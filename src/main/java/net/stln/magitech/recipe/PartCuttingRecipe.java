@@ -22,7 +22,6 @@ import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.MaterialComponent;
 import net.stln.magitech.item.tool.material.ToolMaterial;
-import net.stln.magitech.item.tool.register.ToolMaterialRegister;
 
 public class PartCuttingRecipe implements Recipe<SingleRecipeInput> {
     protected final int count;
@@ -90,7 +89,7 @@ public class PartCuttingRecipe implements Recipe<SingleRecipeInput> {
         } else {
             level = getClientLevel();
         }
-        ToolMaterial material = level != null ? ToolMaterialRegister.getMaterial(level.getRecipeManager().getRecipesFor(RecipeInit.TOOL_MATERIAL_TYPE.get(), input, level).getFirst().value().getResultId()) : null;
+        ToolMaterial material = level != null ? level.getRecipeManager().getRecipesFor(RecipeInit.TOOL_MATERIAL_TYPE.get(), input, level).getFirst().value().getToolMaterial() : null;
         if (material != null) {
             itemStack.set(ComponentInit.MATERIAL_COMPONENT, new MaterialComponent(material));
         }

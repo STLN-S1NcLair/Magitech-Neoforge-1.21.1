@@ -1,6 +1,6 @@
 package net.stln.magitech.magic.cooldown;
 
-import net.stln.magitech.item.tool.element.Element;
+import net.stln.magitech.element.Element;
 
 public class Cooldown {
     private double progress;

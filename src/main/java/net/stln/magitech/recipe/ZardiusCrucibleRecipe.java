@@ -1,69 +1,41 @@
 package net.stln.magitech.recipe;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
-import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.common.util.RecipeMatcher;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.stln.magitech.item.component.ComponentInit;
-import net.stln.magitech.item.component.PartMaterialComponent;
-import net.stln.magitech.item.tool.ToolPart;
-import net.stln.magitech.item.tool.ToolType;
-import net.stln.magitech.item.tool.material.ToolMaterial;
-import net.stln.magitech.item.tool.partitem.PartItem;
-import net.stln.magitech.item.tool.register.ToolMaterialRegister;
-import net.stln.magitech.item.tool.toolitem.PartToolItem;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
-public class ZardiusCrucibleRecipe implements Recipe<MultiStackRecipeInput> {
-
-    protected final List<Ingredient> ingredients;
-    protected final Optional<ItemStack> result;
-    protected final FluidStack inputFluid;
-    protected final Optional<FluidStack> outputFluid;
-    protected final String group;
-    private final RecipeType<?> type;
-    private final RecipeSerializer<?> serializer;
-
-    public ZardiusCrucibleRecipe(String group, List<Ingredient> ingredients, FluidStack inputFluid, Optional<ItemStack> result, Optional<FluidStack> outputFluid) {
-        this.type = RecipeInit.ZARDIUS_CRUCIBLE_TYPE.get();
-        this.serializer = RecipeInit.ZARDIUS_CRUCIBLE_SERIALIZER.get();
-        this.ingredients = ingredients;
-        this.inputFluid = inputFluid;
-        this.outputFluid = outputFluid;
-        this.group = group;
-        this.result = result;
-    }
+@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+public record ZardiusCrucibleRecipe(String group, List<Ingredient> ingredients, FluidStack inputFluid, Optional<ItemStack> result, Optional<FluidStack> outputFluid) implements Recipe<MultiStackRecipeInput> {
 
     @Override
-    public boolean matches(MultiStackRecipeInput input, Level level) {
-        var nonEmptyItems = new java.util.ArrayList<ItemStack>(input.ingredientCount());
+    public boolean matches(MultiStackRecipeInput input, @NotNull Level level) {
+        var nonEmptyItems = new ArrayList<ItemStack>(input.ingredientCount());
         for (var item : input.stacks())
             if (!item.isEmpty())
                 nonEmptyItems.add(item);
-        return net.neoforged.neoforge.common.util.RecipeMatcher.findMatches(nonEmptyItems, this.ingredients) != null;
+        return RecipeMatcher.findMatches(nonEmptyItems, this.ingredients) != null;
     }
 
     @Override
-    public ItemStack assemble(MultiStackRecipeInput input, HolderLookup.Provider registries) {
+    public @NotNull ItemStack assemble(@NotNull MultiStackRecipeInput input, HolderLookup.@NotNull Provider registries) {
         return result.orElse(ItemStack.EMPTY).copy();
     }
 
@@ -73,31 +45,23 @@ public class ZardiusCrucibleRecipe implements Recipe<MultiStackRecipeInput> {
     }
 
     @Override
-    public NonNullList<Ingredient> getIngredients() {
+    public @NotNull NonNullList<Ingredient> getIngredients() {
         return NonNullList.copyOf(ingredients);
     }
 
     @Override
-    public ItemStack getResultItem(HolderLookup.Provider registries) {
+    public @NotNull ItemStack getResultItem(HolderLookup.@NotNull Provider registries) {
         return result.orElse(ItemStack.EMPTY).copy();
     }
 
     @Override
-    public RecipeType<?> getType() {
+    public @NotNull RecipeType<?> getType() {
         return RecipeInit.ZARDIUS_CRUCIBLE_TYPE.get();
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public @NotNull RecipeSerializer<?> getSerializer() {
         return RecipeInit.ZARDIUS_CRUCIBLE_SERIALIZER.get();
-    }
-
-    public FluidStack getInputFluid() {
-        return inputFluid;
-    }
-
-    public FluidStack getOutputFluid() {
-        return outputFluid.orElse(FluidStack.EMPTY);
     }
 
     public interface Factory<T extends ZardiusCrucibleRecipe> {
@@ -105,44 +69,44 @@ public class ZardiusCrucibleRecipe implements Recipe<MultiStackRecipeInput> {
     }
 
     public static class Serializer<T extends ZardiusCrucibleRecipe> implements RecipeSerializer<T> {
-        final ZardiusCrucibleRecipe.Factory<T> factory;
+        final Factory<T> factory;
         private final MapCodec<T> codec;
         private final StreamCodec<RegistryFriendlyByteBuf, T> streamCodec;
 
-        protected Serializer(ZardiusCrucibleRecipe.Factory<T> factory) {
+        protected Serializer(Factory<T> factory) {
             this.factory = factory;
             this.codec = RecordCodecBuilder.mapCodec(
                     p_340781_ -> p_340781_.group(
-                                    Codec.STRING.optionalFieldOf("group", "").forGetter(p_300947_ -> p_300947_.group),
-                                    Ingredient.LIST_CODEC_NONEMPTY.fieldOf("ingredients").forGetter(p_300947_ -> p_300947_.ingredients),
-                                    FluidStack.CODEC.fieldOf("input_fluid").forGetter(p_302316_ -> p_302316_.inputFluid),
-                                    ItemStack.STRICT_CODEC.optionalFieldOf("result").forGetter(p_302316_ -> p_302316_.result),
-                                    FluidStack.CODEC.optionalFieldOf("output_fluid").forGetter(p_302316_ -> p_302316_.outputFluid)
+                                    Codec.STRING.optionalFieldOf("group", "").forGetter(ZardiusCrucibleRecipe::group),
+                                    Ingredient.LIST_CODEC_NONEMPTY.fieldOf("ingredients").forGetter(ZardiusCrucibleRecipe::ingredients),
+                                    FluidStack.CODEC.fieldOf("input_fluid").forGetter(ZardiusCrucibleRecipe::inputFluid),
+                                    ItemStack.STRICT_CODEC.optionalFieldOf("result").forGetter(ZardiusCrucibleRecipe::result),
+                                    FluidStack.CODEC.optionalFieldOf("output_fluid").forGetter(ZardiusCrucibleRecipe::outputFluid)
                             )
                             .apply(p_340781_, factory::create)
             );
             this.streamCodec = StreamCodec.composite(
                     ByteBufCodecs.STRING_UTF8,
-                    r -> r.group,
+                    ZardiusCrucibleRecipe::group,
                     Ingredient.CONTENTS_STREAM_CODEC.apply(ByteBufCodecs.list()),
-                    r -> r.ingredients,
+                    ZardiusCrucibleRecipe::ingredients,
                     FluidStack.STREAM_CODEC,
-                    r -> r.inputFluid,
+                    ZardiusCrucibleRecipe::inputFluid,
                     ItemStack.STREAM_CODEC.apply(ByteBufCodecs::optional),
-                    r -> r.result,
+                    ZardiusCrucibleRecipe::result,
                     FluidStack.STREAM_CODEC.apply(ByteBufCodecs::optional),
-                    r -> r.outputFluid,
+                    ZardiusCrucibleRecipe::outputFluid,
                     factory::create
             );
         }
 
         @Override
-        public MapCodec<T> codec() {
+        public @NotNull MapCodec<T> codec() {
             return this.codec;
         }
 
         @Override
-        public StreamCodec<RegistryFriendlyByteBuf, T> streamCodec() {
+        public @NotNull StreamCodec<RegistryFriendlyByteBuf, T> streamCodec() {
             return this.streamCodec;
         }
     }
