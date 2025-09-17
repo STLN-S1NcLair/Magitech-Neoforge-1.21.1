@@ -9,9 +9,7 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -26,32 +24,30 @@ import net.stln.magitech.item.tool.register.ToolMaterialRegister;
 import net.stln.magitech.recipe.PartCuttingRecipe;
 import net.stln.magitech.recipe.RecipeInit;
 import net.stln.magitech.recipe.ToolMaterialRecipe;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PartCuttingRecipeCategory implements IRecipeCategory<PartCuttingRecipe> {
-    public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "part_cutting");
-    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID,
-            "textures/gui/jei_widgets.png");
+public record PartCuttingRecipeCategory(IDrawable icon) implements IRecipeCategory<PartCuttingRecipe> {
+    public static final ResourceLocation UID = Magitech.id("part_cutting");
+    public static final ResourceLocation TEXTURE = Magitech.id("textures/gui/jei_widgets.png");
 
     public static final RecipeType<PartCuttingRecipe> PART_CUTTING_RECIPE_TYPE =
             new RecipeType<>(UID, PartCuttingRecipe.class);
 
-    private final IDrawable icon;
-
     public PartCuttingRecipeCategory(IGuiHelper helper) {
-        this.icon = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(BlockInit.ENGINEERING_WORKBENCH));
+        this(helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(BlockInit.ENGINEERING_WORKBENCH)));
     }
 
     @Override
-    public RecipeType<PartCuttingRecipe> getRecipeType() {
+    public @NotNull RecipeType<PartCuttingRecipe> getRecipeType() {
         return PART_CUTTING_RECIPE_TYPE;
     }
 
     @Override
-    public Component getTitle() {
+    public @NotNull Component getTitle() {
         return Component.translatable("recipe.magitech.part_cutting");
     }
 
@@ -80,18 +76,19 @@ public class PartCuttingRecipeCategory implements IRecipeCategory<PartCuttingRec
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, PartCuttingRecipe recipe, IFocusGroup focuses) {
-        RecipeManager recipeManager = Minecraft.getInstance().level.getRecipeManager();
+        RecipeManager recipeManager = JeiHelper.getRecipeManager();
+        if (recipeManager == null) return;
 
         List<ToolMaterialRecipe> materialRecipes = recipeManager.getAllRecipesFor(RecipeInit.TOOL_MATERIAL_TYPE.get()).stream().map(RecipeHolder::value).toList();
         List<ItemStack> inputs = new ArrayList<>();
         List<ItemStack> results = new ArrayList<>();
         for (ToolMaterialRecipe materialRecipe : materialRecipes) {
-                Ingredient ingredient = materialRecipe.getIngredients().get(0);
-                for (ItemStack itemStack : ingredient.getItems()) {
-                    if (itemStack.isEmpty()) continue;
-                    itemStack.setCount(recipe.getCount());
-                    inputs.add(itemStack.copy());
-                }
+            Ingredient ingredient = materialRecipe.getIngredients().get(0);
+            for (ItemStack itemStack : ingredient.getItems()) {
+                if (itemStack.isEmpty()) continue;
+                itemStack.setCount(recipe.getCount());
+                inputs.add(itemStack.copy());
+            }
             ItemStack resultStack = recipe.getResultItem(null).copy();
             resultStack.set(ComponentInit.MATERIAL_COMPONENT, new MaterialComponent(ToolMaterialRegister.getMaterial(materialRecipe.getResultId())));
             results.add(resultStack);

@@ -55,7 +55,7 @@ public class RandomThreadPageFunction extends LootItemConditionalFunction {
     }
 
     @Override
-    protected ItemStack run(ItemStack stack, LootContext context) {
+    protected @NotNull ItemStack run(ItemStack stack, LootContext context) {
         Collections.shuffle(spells);
         String spellId = spells.getFirst();
         stack.set(ComponentInit.THREAD_PAGE_COMPONENT, new ThreadPageComponent(SpellRegister.getSpell(ResourceLocation.parse(spellId))));
@@ -67,7 +67,7 @@ public class RandomThreadPageFunction extends LootItemConditionalFunction {
     }
 
     @Override
-    public LootItemFunctionType getType() {
+    public @NotNull LootItemFunctionType<? extends LootItemConditionalFunction> getType() {
         return LootFunctionInit.RANDOM_THREAD_PAGE.get();  // 登録済みである必要あり
     }
 }

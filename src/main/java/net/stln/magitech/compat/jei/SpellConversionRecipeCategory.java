@@ -14,45 +14,33 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.item.crafting.RecipeManager;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.item.ItemInit;
 import net.stln.magitech.item.component.ComponentInit;
-import net.stln.magitech.item.component.MaterialComponent;
 import net.stln.magitech.item.component.ThreadPageComponent;
-import net.stln.magitech.item.tool.register.ToolMaterialRegister;
 import net.stln.magitech.magic.spell.SpellRegister;
 import net.stln.magitech.recipe.SpellConversionRecipe;
-import net.stln.magitech.recipe.RecipeInit;
-import net.stln.magitech.recipe.ToolMaterialRecipe;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class SpellConversionRecipeCategory implements IRecipeCategory<SpellConversionRecipe> {
-    public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "spell_conversion");
-    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID,
-            "textures/gui/jei_widgets.png");
+public record SpellConversionRecipeCategory(IDrawable icon) implements IRecipeCategory<SpellConversionRecipe> {
+    public static final ResourceLocation UID = Magitech.id("spell_conversion");
+    public static final ResourceLocation TEXTURE = Magitech.id("textures/gui/jei_widgets.png");
 
     public static final RecipeType<SpellConversionRecipe> SPELL_CONVERSION_RECIPE_TYPE =
             new RecipeType<>(UID, SpellConversionRecipe.class);
 
-    private final IDrawable icon;
-
     public SpellConversionRecipeCategory(IGuiHelper helper) {
-        this.icon = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ItemInit.WAND.get()));
+        this(helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ItemInit.WAND.get())));
     }
 
     @Override
-    public RecipeType<SpellConversionRecipe> getRecipeType() {
+    public @NotNull RecipeType<SpellConversionRecipe> getRecipeType() {
         return SPELL_CONVERSION_RECIPE_TYPE;
     }
 
     @Override
-    public Component getTitle() {
+    public @NotNull Component getTitle() {
         return Component.translatable("recipe.magitech.spell_conversion");
     }
 

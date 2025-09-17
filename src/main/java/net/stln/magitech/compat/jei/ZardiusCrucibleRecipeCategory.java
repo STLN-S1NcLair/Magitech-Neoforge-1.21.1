@@ -118,7 +118,8 @@ public class ZardiusCrucibleRecipeCategory implements IRecipeCategory<ZardiusCru
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, ZardiusCrucibleRecipe recipe, IFocusGroup focuses) {
-        RecipeManager recipeManager = Minecraft.getInstance().level.getRecipeManager();
+        RecipeManager recipeManager = JeiHelper.getRecipeManager();
+        if (recipeManager == null) return;
         List<ToolMaterialRecipe> materialRecipes = recipeManager.getAllRecipesFor(RecipeInit.TOOL_MATERIAL_TYPE.get()).stream().map(RecipeHolder::value).toList();
         List<ToolMaterial> materials = materialRecipes.stream()
                 .map(m -> ToolMaterialRegister.getMaterial(m.getResultId()))

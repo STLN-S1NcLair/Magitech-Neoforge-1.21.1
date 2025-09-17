@@ -23,40 +23,24 @@ public class TickScheduler {
     }
 
     public static void tick(boolean isClient) {
-        if (!isClient) {
-            Iterator<DelayedTask> iteratorServer = scheduledTasksServer.iterator();
-            List<DelayedTask> nextServer = new ArrayList<>();
+        tick(!isClient ? scheduledTasksServer : scheduledTasksClient);
+    }
+    
+    private static void tick(List<DelayedTask> tasks) {
+        Iterator<DelayedTask> iterator = tasks.iterator();
+        List<DelayedTask> nextTask = new ArrayList<>();
 
-            while (iteratorServer.hasNext()) {
-                DelayedTask task = iteratorServer.next();
-                int newDelay = task.tick();
-                if (newDelay < 0) {
-                    task.getTask().run();
-                    iteratorServer.remove();
-                } else {
-                    nextServer.add(new DelayedTask(newDelay, task.getTask()));
-                    iteratorServer.remove();
-                }
+        while (iterator.hasNext()) {
+            DelayedTask task = iterator.next();
+            int newDelay = task.tick();
+            if (newDelay < 0) {
+                task.getTask().run();
+            } else {
+                nextTask.add(new DelayedTask(newDelay, task.getTask()));
             }
-
-            scheduledTasksServer.addAll(nextServer);
-        } else {
-            Iterator<DelayedTask> iteratorClient = scheduledTasksClient.iterator();
-            List<DelayedTask> nextClient = new ArrayList<>();
-
-            while (iteratorClient.hasNext()) {
-                DelayedTask task = iteratorClient.next();
-                int newDelay = task.tick();
-                if (newDelay < 0) {
-                    task.getTask().run();
-                    iteratorClient.remove();
-                } else {
-                    nextClient.add(new DelayedTask(newDelay, task.getTask()));
-                    iteratorClient.remove();
-                }
-            }
-
-            scheduledTasksClient.addAll(nextClient);
+            iterator.remove();
         }
+
+        tasks.addAll(nextTask);
     }
 }

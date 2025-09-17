@@ -19,39 +19,37 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.block.BlockInit;
-import net.stln.magitech.item.tool.material.MaterialInit;
 import net.stln.magitech.item.tool.material.ToolMaterial;
 import net.stln.magitech.item.tool.register.ToolMaterialRegister;
+import net.stln.magitech.recipe.AthanorPillarInfusionRecipe;
 import net.stln.magitech.recipe.RecipeInit;
 import net.stln.magitech.recipe.ToolMaterialRecipe;
-import net.stln.magitech.recipe.AthanorPillarInfusionRecipe;
 import net.stln.magitech.util.Element;
 import net.stln.magitech.util.RenderHelper;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class AthanorPillarInfusionRecipeCategory implements IRecipeCategory<AthanorPillarInfusionRecipe> {
-    public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "recipe.magitech.athanor_pillar_infusion");
-    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID,
-            "textures/gui/jei_widgets.png");
+public record AthanorPillarInfusionRecipeCategory(
+        IDrawable icon) implements IRecipeCategory<AthanorPillarInfusionRecipe> {
+    public static final ResourceLocation UID = Magitech.id("recipe.magitech.athanor_pillar_infusion");
+    public static final ResourceLocation TEXTURE = Magitech.id("textures/gui/jei_widgets.png");
 
     public static final RecipeType<AthanorPillarInfusionRecipe> ATHANOR_PILLAR_INFUSION_RECIPE_TYPE =
             new RecipeType<>(UID, AthanorPillarInfusionRecipe.class);
 
-    private final IDrawable icon;
-
     public AthanorPillarInfusionRecipeCategory(IGuiHelper helper) {
-        this.icon = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(BlockInit.ATHANOR_PILLAR));
+        this(helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(BlockInit.ATHANOR_PILLAR)));
     }
 
     @Override
-    public RecipeType<AthanorPillarInfusionRecipe> getRecipeType() {
+    public @NotNull RecipeType<AthanorPillarInfusionRecipe> getRecipeType() {
         return ATHANOR_PILLAR_INFUSION_RECIPE_TYPE;
     }
 
     @Override
-    public Component getTitle() {
+    public @NotNull Component getTitle() {
         return Component.translatable("recipe.magitech.athanor_pillar_infusion");
     }
 
@@ -97,7 +95,8 @@ public class AthanorPillarInfusionRecipeCategory implements IRecipeCategory<Atha
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, AthanorPillarInfusionRecipe recipe, IFocusGroup focuses) {
-        RecipeManager recipeManager = Minecraft.getInstance().level.getRecipeManager();
+        RecipeManager recipeManager = JeiHelper.getRecipeManager();
+        if (recipeManager == null) return;
         List<ToolMaterialRecipe> materialRecipes = recipeManager.getAllRecipesFor(RecipeInit.TOOL_MATERIAL_TYPE.get()).stream().map(RecipeHolder::value).toList();
         List<ToolMaterial> materials = materialRecipes.stream()
                 .map(m -> ToolMaterialRegister.getMaterial(m.getResultId()))

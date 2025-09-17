@@ -13,7 +13,7 @@ import snownee.jade.api.config.IPluginConfig;
 
 public class ManaContainerJadeProvider implements IBlockComponentProvider {
 
-    public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "mana_container");
+    public static final ResourceLocation UID = Magitech.id("mana_container");
 
     @Override
     public void appendTooltip(ITooltip iTooltip, BlockAccessor blockAccessor, IPluginConfig iPluginConfig) {

@@ -1,9 +1,8 @@
 package net.stln.magitech;
 
 import com.mojang.logging.LogUtils;
-import net.minecraft.server.MinecraftServer;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -16,7 +15,6 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
-import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.stln.magitech.advancement.CriterionInit;
 import net.stln.magitech.biome.BiomeInit;
@@ -50,7 +48,10 @@ public class Magitech {
     // Directly reference a slf4j logger
     public static final Logger LOGGER = LogUtils.getLogger();
 
-
+    public static ResourceLocation id(String path) {
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
+    }
+    
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
     public Magitech(IEventBus modEventBus, ModContainer modContainer) {
@@ -76,7 +77,7 @@ public class Magitech {
         LootFunctionInit.registerFunctions(modEventBus);
         TreeGrowerInit.registerTrunkPlacerTypes(modEventBus);
         GuiInit.registerMenus(modEventBus);
-        CriterionInit.registerCrtiteria(modEventBus);
+        CriterionInit.registerCriteria(modEventBus);
         MaterialInit.registerElements();
         MaterialInit.registerMaterials();
         SpellInit.registerSpells();

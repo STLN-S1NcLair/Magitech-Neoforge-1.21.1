@@ -388,7 +388,7 @@ public class MathHelper {
 
     @Deprecated
     public static long hashCode(int x, int y, int z) {
-        long l = (long) (x * 3129871) ^ (long) z * 116129781L ^ (long) y;
+        long l = (x * 3129871L) ^ (long) z * 116129781L ^ (long) y;
         l = l * l * 42317861L + l * 11L;
         return l >> 16;
     }

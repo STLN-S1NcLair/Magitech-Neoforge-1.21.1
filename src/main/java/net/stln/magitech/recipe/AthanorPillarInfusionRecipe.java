@@ -10,9 +10,12 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
-import net.stln.magitech.Magitech;
+import net.neoforged.neoforge.common.util.RecipeMatcher;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +61,7 @@ public class AthanorPillarInfusionRecipe implements Recipe<GroupedMultiStackReci
                         nonEmptyIngredients.add(item);
                     }
                 }
-                if (net.neoforged.neoforge.common.util.RecipeMatcher.findMatches(nonEmptyItems, nonEmptyIngredients) == null && (!nonEmptyItems.isEmpty() || !nonEmptyIngredients.isEmpty())) {
+                if (RecipeMatcher.findMatches(nonEmptyItems, nonEmptyIngredients) == null && (!nonEmptyItems.isEmpty() || !nonEmptyIngredients.isEmpty())) {
                     return false;
                 }
             }

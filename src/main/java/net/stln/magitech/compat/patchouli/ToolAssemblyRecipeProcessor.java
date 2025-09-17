@@ -10,7 +10,6 @@ import net.minecraft.world.level.Level;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.MaterialComponent;
 import net.stln.magitech.item.component.PartMaterialComponent;
-import net.stln.magitech.item.tool.material.MaterialInit;
 import net.stln.magitech.item.tool.material.ToolMaterial;
 import net.stln.magitech.item.tool.register.ToolMaterialRegister;
 import net.stln.magitech.recipe.RecipeInit;
@@ -20,7 +19,6 @@ import net.stln.magitech.util.ToolMaterialUtil;
 import vazkii.patchouli.api.IComponentProcessor;
 import vazkii.patchouli.api.IVariable;
 import vazkii.patchouli.api.IVariableProvider;
-import vazkii.patchouli.client.base.ClientTicker;
 
 import java.util.ArrayList;
 import java.util.Collections;

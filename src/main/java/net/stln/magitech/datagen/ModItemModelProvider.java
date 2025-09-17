@@ -1,6 +1,5 @@
 package net.stln.magitech.datagen;
 
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
@@ -12,8 +11,6 @@ import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.item.ItemInit;
 import net.stln.magitech.item.tool.material.ToolMaterial;
 import net.stln.magitech.item.tool.model.ModelRegistrar;
-
-import java.util.Objects;
 
 public class ModItemModelProvider extends ItemModelProvider {
     public ModItemModelProvider(PackOutput output, ExistingFileHelper existingFileHelper) {

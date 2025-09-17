@@ -9,7 +9,6 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -24,9 +23,10 @@ import net.stln.magitech.item.component.MaterialComponent;
 import net.stln.magitech.item.component.PartMaterialComponent;
 import net.stln.magitech.item.tool.material.ToolMaterial;
 import net.stln.magitech.item.tool.register.ToolMaterialRegister;
-import net.stln.magitech.recipe.ToolAssemblyRecipe;
 import net.stln.magitech.recipe.RecipeInit;
+import net.stln.magitech.recipe.ToolAssemblyRecipe;
 import net.stln.magitech.recipe.ToolMaterialRecipe;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -34,27 +34,24 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class ToolAssemblyRecipeCategory implements IRecipeCategory<ToolAssemblyRecipe> {
-    public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "tool_assembly");
-    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID,
-            "textures/gui/jei_widgets.png");
+public record ToolAssemblyRecipeCategory(IDrawable icon) implements IRecipeCategory<ToolAssemblyRecipe> {
+    public static final ResourceLocation UID = Magitech.id("tool_assembly");
+    public static final ResourceLocation TEXTURE = Magitech.id("textures/gui/jei_widgets.png");
 
     public static final RecipeType<ToolAssemblyRecipe> TOOL_ASSEMBLY_RECIPE_TYPE =
             new RecipeType<>(UID, ToolAssemblyRecipe.class);
 
-    private final IDrawable icon;
-
     public ToolAssemblyRecipeCategory(IGuiHelper helper) {
-        this.icon = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(BlockInit.ASSEMBLY_WORKBENCH));
+        this(helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(BlockInit.ASSEMBLY_WORKBENCH)));
     }
 
     @Override
-    public RecipeType<ToolAssemblyRecipe> getRecipeType() {
+    public @NotNull RecipeType<ToolAssemblyRecipe> getRecipeType() {
         return TOOL_ASSEMBLY_RECIPE_TYPE;
     }
 
     @Override
-    public Component getTitle() {
+    public @NotNull Component getTitle() {
         return Component.translatable("recipe.magitech.tool_assembly");
     }
 
@@ -110,7 +107,8 @@ public class ToolAssemblyRecipeCategory implements IRecipeCategory<ToolAssemblyR
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, ToolAssemblyRecipe recipe, IFocusGroup focuses) {
-        RecipeManager recipeManager = Minecraft.getInstance().level.getRecipeManager();
+        RecipeManager recipeManager = JeiHelper.getRecipeManager();
+        if (recipeManager == null) return;
         List<ToolMaterialRecipe> materialRecipes = recipeManager.getAllRecipesFor(RecipeInit.TOOL_MATERIAL_TYPE.get()).stream().map(RecipeHolder::value).toList();
         List<ToolMaterial> materials = materialRecipes.stream()
                 .map(m -> ToolMaterialRegister.getMaterial(m.getResultId()))

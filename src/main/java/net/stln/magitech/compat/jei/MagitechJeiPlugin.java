@@ -6,7 +6,6 @@ import mezz.jei.api.registration.IGuiHandlerRegistration;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
-import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -24,7 +23,7 @@ import java.util.List;
 public class MagitechJeiPlugin implements IModPlugin {
     @Override
     public ResourceLocation getPluginUid() {
-        return ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "jei_plugin");
+        return Magitech.id("jei_plugin");
     }
 
     @Override
@@ -43,7 +42,8 @@ public class MagitechJeiPlugin implements IModPlugin {
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
-        RecipeManager recipeManager = Minecraft.getInstance().level.getRecipeManager();
+        RecipeManager recipeManager = JeiHelper.getRecipeManager();
+        if (recipeManager == null) return;
 
         List<PartCuttingRecipe> partCuttingRecipes = recipeManager.getAllRecipesFor(RecipeInit.PART_CUTTING_TYPE.get()).stream().map(RecipeHolder::value).toList();
         registration.addRecipes(PartCuttingRecipeCategory.PART_CUTTING_RECIPE_TYPE, partCuttingRecipes);

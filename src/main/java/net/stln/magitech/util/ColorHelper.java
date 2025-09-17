@@ -45,10 +45,10 @@ public class ColorHelper {
         }
 
         public static int mul(int color, int mulColor) {
-            int alpha = Math.clamp(getAlpha(color) * getAlpha(mulColor), 0, 255);
-            int red = Math.clamp(getRed(color) * getRed(mulColor), 0, 255);
-            int green = Math.clamp(getGreen(color) * getGreen(mulColor), 0, 255);
-            int blue = Math.clamp(getBlue(color) * getBlue(mulColor), 0, 255);
+            int alpha = Math.clamp((long) getAlpha(color) * getAlpha(mulColor), 0, 255);
+            int red = Math.clamp((long) getRed(color) * getRed(mulColor), 0, 255);
+            int green = Math.clamp((long) getGreen(color) * getGreen(mulColor), 0, 255);
+            int blue = Math.clamp((long) getBlue(color) * getBlue(mulColor), 0, 255);
             return getAbgr(alpha, blue, green, red);
         }
     }
@@ -139,17 +139,17 @@ public class ColorHelper {
         }
 
         public static int mul(int color, int mulColor) {
-            int alpha = Math.clamp(getAlpha(color) * getAlpha(mulColor) / 255, 0, 255);
-            int red = Math.clamp(getRed(color) * getRed(mulColor) / 255, 0, 255);
-            int green = Math.clamp(getGreen(color) * getGreen(mulColor) / 255, 0, 255);
-            int blue = Math.clamp(getBlue(color) * getBlue(mulColor) / 255, 0, 255);
+            int alpha = Math.clamp((long) getAlpha(color) * getAlpha(mulColor) / 255, 0, 255);
+            int red = Math.clamp((long) getRed(color) * getRed(mulColor) / 255, 0, 255);
+            int green = Math.clamp((long) getGreen(color) * getGreen(mulColor) / 255, 0, 255);
+            int blue = Math.clamp((long) getBlue(color) * getBlue(mulColor) / 255, 0, 255);
             return getArgb(alpha, red, green, blue);
         }
     }
 
     public static int getTierColor(int tier) {
         if (tier <= 4) {
-            double t = (double) (tier - 0) / Math.max(1, 4 - 0);
+            double t = (double) (tier) / Math.max(1, 4);
             double l = interpolate(40, 55, t);
             Color c = hslToRgb(0, 0, l);
             return rgbToInt(c);
