@@ -31,7 +31,7 @@ public class ComponentHelper {
         holder.update(ComponentInit.SPELL_COMPONENT, SpellComponent.EMPTY, operator);
     }
 
-    public static @NotNull Optional<Spell> getThreadPageSpell(@NotNull DataComponentHolder holder) {
+    public static @NotNull Optional<Holder<Spell>> getThreadPageSpell(@NotNull DataComponentHolder holder) {
         return Optional.ofNullable(holder.get(ComponentInit.THREAD_PAGE_COMPONENT)).map(ThreadPageComponent::spell);
     }
 
@@ -53,12 +53,6 @@ public class ComponentHelper {
 
     // Setter
     public static void setThreadPage(@NotNull MutableDataComponentHolder holder, @NotNull Holder<Spell> spell) {
-        if (spell.isBound()) {
-            setThreadPage(holder, spell.value());
-        }
-    }
-
-    public static void setThreadPage(@NotNull MutableDataComponentHolder holder, @NotNull Spell spell) {
         holder.set(ComponentInit.THREAD_PAGE_COMPONENT, new ThreadPageComponent(spell));
     }
 }

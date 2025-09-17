@@ -16,10 +16,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.neoforged.fml.ModList;
-import net.stln.magitech.MagitechRegistries;
 import net.stln.magitech.item.component.SpellComponent;
 import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.util.ComponentHelper;
+import net.stln.magitech.util.Element;
+import net.stln.magitech.util.RegistryHelper;
 import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
@@ -68,16 +69,17 @@ public class ThreadBoundItem extends TooltipTextItem implements ICurioItem {
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
         int i = 0;
-        SpellComponent spells = ComponentHelper.getSpells(stack);
-        for (Spell spell : spells.spells()) {
-            ResourceLocation location = MagitechRegistries.SPELL.getKeyOrNull(spell);
+        @NotNull SpellComponent spells = ComponentHelper.getSpells(stack);
+        for (Holder<Spell> holder : spells.spells()) {
+            ResourceLocation location = RegistryHelper.getIdOrNull(holder);
             if (location != null) {
                 int abs = Math.abs(spells.selected() - i);
                 if (abs <= 2 || Screen.hasShiftDown()) {
+                    Element element = holder.value().getElement();
                     if (spells.selected() == i) {
-                        tooltipComponents.add(Component.literal("> ").append(Component.translatable("spell." + location.getNamespace() + "." + location.getPath())).withColor(spell.getElement().getSpellColor()));
+                        tooltipComponents.add(Component.literal("> ").append(Component.translatable("spell." + location.getNamespace() + "." + location.getPath())).withColor(element.getSpellColor()));
                     } else {
-                        tooltipComponents.add(Component.translatable("spell." + location.getNamespace() + "." + location.getPath()).withColor(spell.getElement().getSpellDark()));
+                        tooltipComponents.add(Component.translatable("spell." + location.getNamespace() + "." + location.getPath()).withColor(element.getSpellDark()));
                     }
                 } else if (abs == 3) {
                     tooltipComponents.add(Component.literal("...").withColor(0x405060));

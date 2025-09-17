@@ -11,11 +11,10 @@ import net.stln.magitech.Magitech;
 import net.stln.magitech.MagitechRegistries;
 import net.stln.magitech.item.ItemInit;
 import net.stln.magitech.item.component.SpellComponent;
-import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.magic.spell.SpellInit;
 import net.stln.magitech.util.ComponentHelper;
 
-import java.util.Objects;
+import java.util.List;
 
 @EventBusSubscriber(modid = Magitech.MOD_ID)
 public class PlayerFirstSpawnEvent {
@@ -36,9 +35,9 @@ public class PlayerFirstSpawnEvent {
 
         if (!persisted.getBoolean("hasReceivedInitialItems")) {
             ItemStack stack = new ItemStack(ItemInit.GLISTENING_LEXICON.get());
-            Spell enercrux = SpellInit.ENERCRUX.get();
-            MagitechRegistries.SPELL.stream().filter(spell -> !Objects.equals(spell, enercrux)).findAny().ifPresent(spell -> {
-                ComponentHelper.updateSpells(stack, spellComponent -> new SpellComponent(enercrux, spell));;
+            var enercrux = SpellInit.ENERCRUX;
+            MagitechRegistries.SPELL.holders().filter(holder -> !holder.is(enercrux)).findAny().ifPresent(holder -> {
+                ComponentHelper.updateSpells(stack, spellComponent -> new SpellComponent(List.of(SpellInit.ENERCRUX.getDelegate(), holder)));
                 player.getInventory().add(stack);
 
                 persisted.putBoolean("hasReceivedInitialItems", true);

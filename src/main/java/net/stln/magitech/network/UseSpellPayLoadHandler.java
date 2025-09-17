@@ -9,7 +9,6 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import net.stln.magitech.item.component.SpellComponent;
-import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.util.ComponentHelper;
 import net.stln.magitech.util.CuriosHelper;
 
@@ -24,8 +23,7 @@ public class UseSpellPayLoadHandler {
         InteractionHand hand = payload.isMainHand() ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
         CuriosHelper.getThreadBoundStack(player).ifPresent(stack -> {
             SpellComponent spellComponent = ComponentHelper.getSpells(stack);
-            Spell spell = spellComponent.spells().get(spellComponent.selected());
-            spell.use(level, player, hand, false);
+            spellComponent.getSelectedSpell().use(level, player, hand, false);
         });
     }
 
@@ -36,8 +34,7 @@ public class UseSpellPayLoadHandler {
         InteractionHand hand = payload.isMainHand() ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
         CuriosHelper.getThreadBoundStack(player).ifPresent(stack -> {
             SpellComponent spellComponent = ComponentHelper.getSpells(stack);
-            Spell spell = spellComponent.spells().get(spellComponent.selected());
-            spell.use(level, player, hand, false);
+            spellComponent.getSelectedSpell().use(level, player, hand, false);
             MinecraftServer server = Objects.requireNonNull(ServerLifecycleHooks.getCurrentServer(), "Cannot send clientbound payloads on the client");
             for (ServerPlayer serverPlayer : server.getPlayerList().getPlayers()) {
                 if (player.getUUID() != serverPlayer.getUUID()) {

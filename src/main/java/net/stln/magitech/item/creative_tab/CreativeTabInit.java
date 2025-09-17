@@ -7,42 +7,34 @@ import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.holdersets.AnyHolderSet;
 import net.stln.magitech.Magitech;
+import net.stln.magitech.MagitechRegistries;
 import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.item.ItemInit;
 import net.stln.magitech.item.ThreadboundGenerator;
 import net.stln.magitech.item.tool.material.MaterialInit;
 import net.stln.magitech.item.tool.partitem.PartItem;
 import net.stln.magitech.item.tool.toolitem.PartToolGenerator;
-import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.magic.spell.SpellInit;
 
 import java.util.List;
-import java.util.function.Supplier;
 
 public class CreativeTabInit {
 
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Magitech.MOD_ID);
 
-    static List<Supplier<Spell>> allSpells = List.of(
-            SpellInit.IGNISCA, SpellInit.PYROLUX, SpellInit.FLUVALEN, SpellInit.BLAZEWEND,
-            SpellInit.FRIGALA, SpellInit.CRYOLUXA, SpellInit.NIVALUNE, SpellInit.GLISTELDA,
-            SpellInit.VOLTARIS, SpellInit.FULGENZA, SpellInit.SPARKION, SpellInit.ARCLUME,
-            SpellInit.MIRAZIEN, SpellInit.PHANTASTRA, SpellInit.VEILMIST, SpellInit.FADANCEA,
-            SpellInit.TREMIVOX, SpellInit.OSCILBEAM, SpellInit.SONISTORM, SpellInit.QUAVERIS,
-            SpellInit.ARCALETH, SpellInit.MYSTAVEN, SpellInit.GLYMORA, SpellInit.ENVISTRA,
-            SpellInit.AELTHERIN, SpellInit.FLUVINAE, SpellInit.MISTRELUNE, SpellInit.SYLLAEZE, SpellInit.NYMPHORA,
-            SpellInit.NULLIXIS, SpellInit.VOIDLANCE, SpellInit.TENEBRISOL, SpellInit.DISPARUNDRA, SpellInit.TENEBPORT,
-            SpellInit.ENERCRUX
-    );
-
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MAGITECH_TAB = CREATIVE_MODE_TABS.register("magitech_tab", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.magitech.magitech"))
             .icon(() -> ItemInit.GLISTENING_LEXICON.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
-                output.accept(ThreadboundGenerator.generateThreadboundAlt(ItemInit.GLISTENING_LEXICON.get(), allSpells));
-                output.accept(ThreadboundGenerator.generateThreadboundAlt(ItemInit.THE_FIRE_THAT_THINKS.get(), allSpells));
-                output.accept(ThreadboundGenerator.generateThreadboundAlt(ItemInit.ARCANE_ENGINEERING_COMPENDIUM.get(), allSpells));
+                var registries = parameters.holders();
+                var spellLookup = registries.lookupOrThrow(MagitechRegistries.Keys.SPELL);
+                var allSpells = new AnyHolderSet<>(spellLookup);
+
+                output.accept(ThreadboundGenerator.generateThreadbound(ItemInit.GLISTENING_LEXICON.get(), allSpells));
+                output.accept(ThreadboundGenerator.generateThreadbound(ItemInit.THE_FIRE_THAT_THINKS.get(), allSpells));
+                output.accept(ThreadboundGenerator.generateThreadbound(ItemInit.ARCANE_ENGINEERING_COMPENDIUM.get(), allSpells));
                 output.accept(ItemInit.AETHER_LIFTER.get());
                 output.accept(ItemInit.FLAMGLIDE_STRIDER.get());
                 output.accept(ItemInit.MANA_RING.get());

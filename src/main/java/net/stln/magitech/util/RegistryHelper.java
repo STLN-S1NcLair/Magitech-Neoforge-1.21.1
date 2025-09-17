@@ -5,6 +5,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
@@ -15,5 +16,9 @@ public class RegistryHelper {
         } else {
             return holder.unwrapKey().map(ResourceKey::location);
         }
+    }
+
+    public static <T> @Nullable ResourceLocation getIdOrNull(@NotNull Holder<T> holder) {
+        return getId(holder).orElse(null);
     }
 }

@@ -1,6 +1,7 @@
 package net.stln.magitech.magic.spell;
 
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.MagitechRegistries;
@@ -33,56 +34,54 @@ import net.stln.magitech.magic.spell.tremor.Sonistorm;
 import net.stln.magitech.magic.spell.tremor.Tremivox;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.function.Supplier;
-
 public class SpellInit {
     public static final DeferredRegister<Spell> REGISTER = DeferredRegister.create(MagitechRegistries.Keys.SPELL, Magitech.MOD_ID);
 
-    public static final Supplier<Spell> IGNISCA = register("ignisca", new Ignisca());
-    public static final Supplier<Spell> PYROLUX = register("pyrolux", new Pyrolux());
-    public static final Supplier<Spell> FLUVALEN = register("fluvalen", new Fluvalen());
-    public static final Supplier<Spell> BLAZEWEND = register("blazewend", new Blazewend());
+    public static final DeferredHolder<Spell, Spell> IGNISCA = register("ignisca", new Ignisca());
+    public static final DeferredHolder<Spell, Spell> PYROLUX = register("pyrolux", new Pyrolux());
+    public static final DeferredHolder<Spell, Spell> FLUVALEN = register("fluvalen", new Fluvalen());
+    public static final DeferredHolder<Spell, Spell> BLAZEWEND = register("blazewend", new Blazewend());
 
-    public static final Supplier<Spell> FRIGALA = register("frigala", new Frigala());
-    public static final Supplier<Spell> CRYOLUXA = register("cryoluxa", new Cryoluxa());
-    public static final Supplier<Spell> NIVALUNE = register("nivalune", new Nivalune());
-    public static final Supplier<Spell> GLISTELDA = register("glistelda", new Glistelda());
+    public static final DeferredHolder<Spell, Spell> FRIGALA = register("frigala", new Frigala());
+    public static final DeferredHolder<Spell, Spell> CRYOLUXA = register("cryoluxa", new Cryoluxa());
+    public static final DeferredHolder<Spell, Spell> NIVALUNE = register("nivalune", new Nivalune());
+    public static final DeferredHolder<Spell, Spell> GLISTELDA = register("glistelda", new Glistelda());
 
-    public static final Supplier<Spell> VOLTARIS = register("voltaris", new Voltaris());
-    public static final Supplier<Spell> FULGENZA = register("fulgenza", new Fulgenza());
-    public static final Supplier<Spell> SPARKION = register("sparkion", new Sparkion());
-    public static final Supplier<Spell> ARCLUME = register("arclume", new Arclume());
+    public static final DeferredHolder<Spell, Spell> VOLTARIS = register("voltaris", new Voltaris());
+    public static final DeferredHolder<Spell, Spell> FULGENZA = register("fulgenza", new Fulgenza());
+    public static final DeferredHolder<Spell, Spell> SPARKION = register("sparkion", new Sparkion());
+    public static final DeferredHolder<Spell, Spell> ARCLUME = register("arclume", new Arclume());
 
-    public static final Supplier<Spell> TREMIVOX = register("tremivox", new Tremivox());
-    public static final Supplier<Spell> OSCILBEAM = register("oscilbeam", new Oscilbeam());
-    public static final Supplier<Spell> SONISTORM = register("sonistorm", new Sonistorm());
-    public static final Supplier<Spell> QUAVERIS = register("quaveris", new Quaveris());
+    public static final DeferredHolder<Spell, Spell> TREMIVOX = register("tremivox", new Tremivox());
+    public static final DeferredHolder<Spell, Spell> OSCILBEAM = register("oscilbeam", new Oscilbeam());
+    public static final DeferredHolder<Spell, Spell> SONISTORM = register("sonistorm", new Sonistorm());
+    public static final DeferredHolder<Spell, Spell> QUAVERIS = register("quaveris", new Quaveris());
 
-    public static final Supplier<Spell> MIRAZIEN = register("mirazien", new Mirazien());
-    public static final Supplier<Spell> PHANTASTRA = register("phantastra", new Phantastra());
-    public static final Supplier<Spell> VEILMIST = register("veilmist", new Veilmist());
-    public static final Supplier<Spell> FADANCEA = register("fadancea", new Fadancea());
+    public static final DeferredHolder<Spell, Spell> MIRAZIEN = register("mirazien", new Mirazien());
+    public static final DeferredHolder<Spell, Spell> PHANTASTRA = register("phantastra", new Phantastra());
+    public static final DeferredHolder<Spell, Spell> VEILMIST = register("veilmist", new Veilmist());
+    public static final DeferredHolder<Spell, Spell> FADANCEA = register("fadancea", new Fadancea());
 
-    public static final Supplier<Spell> ARCALETH = register("arcaleth", new Arcaleth());
-    public static final Supplier<Spell> MYSTAVEN = register("mystaven", new Mystaven());
-    public static final Supplier<Spell> GLYMORA = register("glymora", new Glymora());
-    public static final Supplier<Spell> ENVISTRA = register("envistra", new Envistra());
+    public static final DeferredHolder<Spell, Spell> ARCALETH = register("arcaleth", new Arcaleth());
+    public static final DeferredHolder<Spell, Spell> MYSTAVEN = register("mystaven", new Mystaven());
+    public static final DeferredHolder<Spell, Spell> GLYMORA = register("glymora", new Glymora());
+    public static final DeferredHolder<Spell, Spell> ENVISTRA = register("envistra", new Envistra());
 
-    public static final Supplier<Spell> AELTHERIN = register("aeltherin", new Aeltherin());
-    public static final Supplier<Spell> FLUVINAE = register("fluvinae", new Fluvinae());
-    public static final Supplier<Spell> MISTRELUNE = register("mistrelune", new Mistrelune());
-    public static final Supplier<Spell> SYLLAEZE = register("syllaeze", new Syllaeze());
-    public static final Supplier<Spell> NYMPHORA = register("nymphora", new Nymphora());
+    public static final DeferredHolder<Spell, Spell> AELTHERIN = register("aeltherin", new Aeltherin());
+    public static final DeferredHolder<Spell, Spell> FLUVINAE = register("fluvinae", new Fluvinae());
+    public static final DeferredHolder<Spell, Spell> MISTRELUNE = register("mistrelune", new Mistrelune());
+    public static final DeferredHolder<Spell, Spell> SYLLAEZE = register("syllaeze", new Syllaeze());
+    public static final DeferredHolder<Spell, Spell> NYMPHORA = register("nymphora", new Nymphora());
 
-    public static final Supplier<Spell> NULLIXIS = register("nullixis", new Nullixis());
-    public static final Supplier<Spell> VOIDLANCE = register("voidlance", new Voidlance());
-    public static final Supplier<Spell> TENEBRISOL = register("tenebrisol", new Tenebrisol());
-    public static final Supplier<Spell> DISPARUNDRA = register("disparundra", new Disparundra());
-    public static final Supplier<Spell> TENEBPORT = register("tenebport", new Tenebport());
+    public static final DeferredHolder<Spell, Spell> NULLIXIS = register("nullixis", new Nullixis());
+    public static final DeferredHolder<Spell, Spell> VOIDLANCE = register("voidlance", new Voidlance());
+    public static final DeferredHolder<Spell, Spell> TENEBRISOL = register("tenebrisol", new Tenebrisol());
+    public static final DeferredHolder<Spell, Spell> DISPARUNDRA = register("disparundra", new Disparundra());
+    public static final DeferredHolder<Spell, Spell> TENEBPORT = register("tenebport", new Tenebport());
 
-    public static final Supplier<Spell> ENERCRUX = register("enercrux", new Enercrux());
+    public static final DeferredHolder<Spell, Spell> ENERCRUX = register("enercrux", new Enercrux());
 
-    private static @NotNull Supplier<Spell> register(@NotNull String path, @NotNull Spell spell) {
+    private static @NotNull DeferredHolder<Spell, Spell> register(@NotNull String path, @NotNull Spell spell) {
         return REGISTER.register(path, () -> spell);
     }
     

@@ -1,5 +1,7 @@
 package net.stln.magitech.gui;
 
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -56,8 +58,8 @@ public class ThreadboundMenuType extends AbstractContainerMenu {
 
         addInventory(playerInv);
         addHotbar(playerInv);
-        
-        List<Spell> spells = ComponentHelper.getSpells(threadbound).spells();
+
+        HolderSet<Spell> spells = ComponentHelper.getSpells(threadbound).spells();
         for (int i = 0; i < Math.min(spells.size(), container.getContainerSize()); i++) {
             ItemStack stack = new ItemStack(ItemInit.THREAD_PAGE.get());
             stack.set(ComponentInit.THREAD_PAGE_COMPONENT, new ThreadPageComponent(spells.get(i)));
@@ -128,7 +130,7 @@ public class ThreadboundMenuType extends AbstractContainerMenu {
     }
 
     public void updateComponent() {
-        List<Spell> spells = new ArrayList<>();
+        List<Holder<Spell>> spells = new ArrayList<>();
         for (int i = 0; i < 15; i++) {
             ComponentHelper.getThreadPageSpell(container.getItem(i)).ifPresent(spells::add);
         }

@@ -5,12 +5,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.LayeredDraw;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.MagitechRegistries;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.SpellComponent;
 import net.stln.magitech.item.tool.toolitem.SpellCasterItem;
@@ -73,8 +73,9 @@ public class ManaGaugeOverlay implements LayeredDraw.Layer {
 
                     SpellComponent spellComponent = ComponentHelper.getSpells(threadbound);
                     if (spellComponent.selected() < spellComponent.spells().size() && spellComponent.selected() >= 0) {
-                        Spell spell = spellComponent.spells().get(spellComponent.selected());
-                        ResourceLocation icon = MagitechRegistries.SPELL.getKeyOrNull(spell);
+                        Holder<Spell> holder = spellComponent.getSelectedHolder();
+                        Spell spell = holder.value();
+                        ResourceLocation icon = RegistryHelper.getIdOrNull(holder);
                         if (icon != null) {
                             String namespace = icon.getNamespace();
                             String path = icon.getPath();

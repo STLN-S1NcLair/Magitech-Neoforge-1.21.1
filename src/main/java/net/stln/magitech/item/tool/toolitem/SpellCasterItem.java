@@ -325,7 +325,7 @@ public abstract class SpellCasterItem extends PartToolItem {
         if (!threadbound.isEmpty()) {
             SpellComponent spells = ComponentHelper.getSpells(threadbound);
             if (spells.selected() < spells.spells().size()) {
-                Spell spell = spells.spells().get(spells.selected());
+                Spell spell = spells.getSelectedSpell();
                 if (CooldownData.getPrevCooldown(player, spell) == null && spell.isActiveUse(level, player, usedHand, true)) {
                     boolean flag;
                     if (spell.needsUseCost(level, player, stack)) {
@@ -381,7 +381,7 @@ public abstract class SpellCasterItem extends PartToolItem {
 
             if (!threadbound.isEmpty()) {
                 SpellComponent spellComponent = ComponentHelper.getSpells(threadbound);
-                Spell spell = spellComponent.spells().get(spellComponent.selected());
+                Spell spell = spellComponent.getSelectedSpell();
                 if (CooldownData.getCurrentCooldown(user, spell) == null && spell.isActiveUsingTick(level, livingEntity, stack, getUseDuration(stack, livingEntity) - remainingUseDuration)) {
                     boolean flag;
                     if (spell.needsTickCost(level, user, stack)) {
@@ -411,7 +411,7 @@ public abstract class SpellCasterItem extends PartToolItem {
         if (livingEntity instanceof Player user && level.isClientSide) {
             CuriosHelper.getThreadBoundStack(user).ifPresent(threadbound -> {
                 SpellComponent spells = ComponentHelper.getSpells(threadbound);
-                Spell spell = spells.spells().get(spells.selected());
+                Spell spell = spells.getSelectedSpell();
 
                 spell.finishUsing(stack, level, livingEntity, getUseDuration(stack, livingEntity) - timeCharged, true);
             });

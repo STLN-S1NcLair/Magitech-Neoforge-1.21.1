@@ -326,7 +326,7 @@ public abstract class Spell {
             Optional<RecipeHolder<SpellConversionRecipe>> recipeHolder = level.getRecipeManager().getRecipeFor(RecipeInit.SPELL_CONVERSION_TYPE.get(), new SingleRecipeInput(item.getItem()), level);
             if (recipeHolder.isPresent()) {
                 SpellConversionRecipe recipe = recipeHolder.get().value();
-                if (recipe.getSpell().equals(MagitechRegistries.SPELL.getKeyOrNull(this))) {
+                if (MagitechRegistries.SPELL.getResourceKey(this).map(recipe.getSpell()::is).orElse(false)) {
                     ItemStack stack = recipe.assemble(new SingleRecipeInput(item.getItem()), null);
                     int count = item.getItem().getCount() * stack.getCount();
                     while (count > 0) {

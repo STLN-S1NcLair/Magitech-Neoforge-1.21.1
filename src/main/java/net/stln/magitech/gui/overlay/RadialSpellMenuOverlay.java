@@ -4,13 +4,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.MagitechRegistries;
 import net.stln.magitech.event.KeyMappingEvent;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.SpellComponent;
@@ -56,8 +56,9 @@ public class RadialSpellMenuOverlay extends Screen {
             SpellComponent spellComponent = CuriosHelper.getThreadBoundStack(player).map(ComponentHelper::getSpells).orElse(SpellComponent.EMPTY);
             
             int index = 0;
-            for (Spell spell : spellComponent.spells()) {
-                ResourceLocation icon = MagitechRegistries.SPELL.getKeyOrNull(spell);
+            for (Holder<Spell> holder : spellComponent.spells()) {
+                Spell spell = holder.value();
+                ResourceLocation icon = RegistryHelper.getIdOrNull(holder);
                 if (icon != null) {
                     int animLength = 3;
                     float animTick = Math.min(ticks + partialTicks, animLength);
