@@ -14,7 +14,7 @@ public class ToolMaterialUtil {
         int base = materials.size();
 
         for (int i = 0; i < partCount; i++) {
-            int materialIndex = (int)(index % base);
+            int materialIndex = (int) (index % base);
             result.add(materials.get(materialIndex));
             index /= base;
         }

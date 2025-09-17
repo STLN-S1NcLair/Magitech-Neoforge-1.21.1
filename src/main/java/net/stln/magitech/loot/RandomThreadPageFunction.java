@@ -33,18 +33,6 @@ public class RandomThreadPageFunction extends LootItemConditionalFunction {
         this(lootItemConditions, getIds());
     }
 
-    private static @NotNull List<String> getIds() {
-        List<String> ids = new ArrayList<>();
-        SpellRegister.getRegister().keySet().stream().toList().forEach((resourceLocation -> {
-            ids.add(resourceLocation.toString());
-        }));
-        return ids;
-    }
-
-    public List<String> getSpells() {
-        return spells;
-    }
-
     protected RandomThreadPageFunction(List<LootItemCondition> conditions, List<String> spells) {
         super(conditions);
         if (spells.isEmpty()) {
@@ -54,16 +42,28 @@ public class RandomThreadPageFunction extends LootItemConditionalFunction {
         }
     }
 
+    private static @NotNull List<String> getIds() {
+        List<String> ids = new ArrayList<>();
+        SpellRegister.getRegister().keySet().stream().toList().forEach((resourceLocation -> {
+            ids.add(resourceLocation.toString());
+        }));
+        return ids;
+    }
+
+    public static LootItemFunction.Builder builder() {
+        return simpleBuilder(RandomThreadPageFunction::new);
+    }
+
+    public List<String> getSpells() {
+        return spells;
+    }
+
     @Override
     protected ItemStack run(ItemStack stack, LootContext context) {
         Collections.shuffle(spells);
         String spellId = spells.getFirst();
         stack.set(ComponentInit.THREAD_PAGE_COMPONENT, new ThreadPageComponent(SpellRegister.getSpell(ResourceLocation.parse(spellId))));
         return stack;
-    }
-
-    public static LootItemFunction.Builder builder() {
-        return simpleBuilder(RandomThreadPageFunction::new);
     }
 
     @Override

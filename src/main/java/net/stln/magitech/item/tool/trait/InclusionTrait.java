@@ -1,7 +1,6 @@
 package net.stln.magitech.item.tool.trait;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
@@ -11,16 +10,8 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.stln.magitech.item.tool.ToolStats;
-import net.stln.magitech.item.tool.toolitem.PartToolItem;
 import net.stln.magitech.particle.particle_option.PowerupParticleEffect;
-import net.stln.magitech.util.BlockUtil;
-import net.stln.magitech.util.EffectUtil;
 import org.joml.Vector3f;
-
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 public class InclusionTrait extends Trait {
 

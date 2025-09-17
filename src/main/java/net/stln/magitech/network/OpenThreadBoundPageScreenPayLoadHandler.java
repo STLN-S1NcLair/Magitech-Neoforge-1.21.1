@@ -29,15 +29,17 @@ public class OpenThreadBoundPageScreenPayLoadHandler {
         if (player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof ThreadBoundItem) {
             player.openMenu(new SimpleMenuProvider(
                     (containerId, playerInventory, player2) -> new ThreadboudMenuType(containerId, playerInventory),
-                    player.getItemInHand(InteractionHand.MAIN_HAND).getDisplayName()
+                    Component.literal(player.getItemInHand(InteractionHand.MAIN_HAND).getHoverName().getString())
             ));
         } else {
             ICuriosItemHandler curiosInventory = CuriosApi.getCuriosInventory(player).get();
             ItemStack threadbound = curiosInventory.getCurios().get("threadbound").getStacks().getStackInSlot(0);
-            player.openMenu(new SimpleMenuProvider(
-                    (containerId, playerInventory, player2) -> new ThreadboudMenuType(containerId, playerInventory),
-                    threadbound.getDisplayName()
-            ));
+            if (threadbound.getItem() instanceof ThreadBoundItem) {
+                player.openMenu(new SimpleMenuProvider(
+                        (containerId, playerInventory, player2) -> new ThreadboudMenuType(containerId, playerInventory),
+                        Component.literal(player.getItemInHand(InteractionHand.MAIN_HAND).getHoverName().getString())
+                ));
+            }
         }
     }
 }

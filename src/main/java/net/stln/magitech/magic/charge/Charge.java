@@ -1,7 +1,7 @@
 package net.stln.magitech.magic.charge;
 
-import net.stln.magitech.util.Element;
 import net.stln.magitech.magic.spell.Spell;
+import net.stln.magitech.util.Element;
 
 public class Charge {
     private double charge;

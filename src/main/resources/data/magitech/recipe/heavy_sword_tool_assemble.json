@@ -2,10 +2,10 @@
   "type": "magitech:tool_assembly",
   "ingredients": [
     {
-      "item": "magitech:tool_binding"
+      "item": "magitech:handguard"
     },
     {
-      "item": "magitech:handguard"
+      "item": "magitech:tool_binding"
     },
     {
       "item": "magitech:heavy_blade"

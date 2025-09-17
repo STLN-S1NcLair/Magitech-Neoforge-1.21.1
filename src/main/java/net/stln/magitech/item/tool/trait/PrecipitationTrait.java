@@ -8,13 +8,15 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.stln.magitech.item.tool.ToolStats;
-import net.stln.magitech.item.tool.toolitem.PartToolItem;
 import net.stln.magitech.particle.particle_option.PowerupParticleEffect;
 import net.stln.magitech.util.BlockUtil;
 import net.stln.magitech.util.EffectUtil;
 import org.joml.Vector3f;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class PrecipitationTrait extends Trait {
 

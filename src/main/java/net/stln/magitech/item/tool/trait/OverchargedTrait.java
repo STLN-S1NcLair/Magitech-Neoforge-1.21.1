@@ -7,7 +7,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.stln.magitech.item.tool.ToolStats;
-import net.stln.magitech.item.tool.toolitem.PartToolItem;
 import net.stln.magitech.item.tool.toolitem.SpellCasterItem;
 import net.stln.magitech.magic.mana.ManaData;
 import net.stln.magitech.magic.mana.ManaUtil;

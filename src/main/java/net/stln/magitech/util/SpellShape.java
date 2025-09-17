@@ -1,10 +1,6 @@
 package net.stln.magitech.util;
 
 
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.damagesource.DamageType;
-import net.stln.magitech.damage.DamageTypeInit;
-
 public enum SpellShape {
     SHOT("shot", 0xFFFFFF, 0x808080),
     BEAM("beam", 0xFFFFFF, 0x808080),
@@ -23,6 +19,7 @@ public enum SpellShape {
     private final String id;
     private final int color;
     private final int dark;
+
     SpellShape(String id, int color, int dark) {
         this.id = id;
         this.color = color;

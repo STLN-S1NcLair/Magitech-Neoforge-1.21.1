@@ -19,7 +19,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -29,7 +28,6 @@ import net.stln.magitech.particle.particle_option.SquareFieldParticleEffect;
 import net.stln.magitech.particle.particle_option.SquareParticleEffect;
 import net.stln.magitech.particle.particle_option.UnstableSquareParticleEffect;
 import net.stln.magitech.sound.SoundInit;
-import net.stln.magitech.util.EntityUtil;
 import net.stln.magitech.util.TickScheduler;
 import org.joml.Vector3f;
 import software.bernie.geckolib.animatable.GeoItem;
@@ -51,34 +49,6 @@ public class FlamglideStriderItem extends TooltipArmorItem implements GeoItem {
         super(material, type, properties);
     }
 
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, state -> {
-//            state.getController().setAnimation(DefaultAnimations.ITEM_ON_USE);
-            return PlayState.CONTINUE;
-        }));
-    }
-
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return this.cache;
-    }
-
-    @Override
-    public void createGeoRenderer(Consumer<GeoRenderProvider> consumer) {
-        consumer.accept(new GeoRenderProvider() {
-            private GeoArmorRenderer<?> renderer;
-
-            @Override
-            public <T extends LivingEntity> HumanoidModel<?> getGeoArmorRenderer(@Nullable T livingEntity, ItemStack itemStack, @Nullable EquipmentSlot equipmentSlot, @Nullable HumanoidModel<T> original) {
-                if(this.renderer == null) // Important that we do this. If we just instantiate  it directly in the field it can cause incompatibilities with some mods.
-                    this.renderer = new FlamglideStriderRenderer();
-
-                return this.renderer;
-            }
-        });
-    }
-
     public static void longJump(Player player, int jumpCount, ItemStack stack) {
         if (jumpCount == 0 && !player.getCooldowns().isOnCooldown(stack.getItem())) {
             Level level = player.level();
@@ -88,10 +58,10 @@ public class FlamglideStriderItem extends TooltipArmorItem implements GeoItem {
             player.getCooldowns().addCooldown(stack.getItem(), 20);
             level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundInit.FLAMGLIDE_STRIDER_JUMP.get(), SoundSource.PLAYERS, 1, Mth.nextFloat(player.getRandom(), 0.8F, 1.2F));
             for (int i = 0; i < 12; i++) {
-                    TickScheduler.schedule(i + 1, () -> {
-                        Vec3 movement1 = player.getDeltaMovement();
-                        player.addDeltaMovement(new Vec3(rotation.x / 25, Math.max(0, movement1.y / 25), rotation.z / 25));
-                    }, level.isClientSide);
+                TickScheduler.schedule(i + 1, () -> {
+                    Vec3 movement1 = player.getDeltaMovement();
+                    player.addDeltaMovement(new Vec3(rotation.x / 25, Math.max(0, movement1.y / 25), rotation.z / 25));
+                }, level.isClientSide);
             }
 
             if (level.isClientSide) {
@@ -153,5 +123,33 @@ public class FlamglideStriderItem extends TooltipArmorItem implements GeoItem {
                 }
             }
         }
+    }
+
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+        controllers.add(new AnimationController<>(this, state -> {
+//            state.getController().setAnimation(DefaultAnimations.ITEM_ON_USE);
+            return PlayState.CONTINUE;
+        }));
+    }
+
+    @Override
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
+        return this.cache;
+    }
+
+    @Override
+    public void createGeoRenderer(Consumer<GeoRenderProvider> consumer) {
+        consumer.accept(new GeoRenderProvider() {
+            private GeoArmorRenderer<?> renderer;
+
+            @Override
+            public <T extends LivingEntity> HumanoidModel<?> getGeoArmorRenderer(@Nullable T livingEntity, ItemStack itemStack, @Nullable EquipmentSlot equipmentSlot, @Nullable HumanoidModel<T> original) {
+                if (this.renderer == null) // Important that we do this. If we just instantiate  it directly in the field it can cause incompatibilities with some mods.
+                    this.renderer = new FlamglideStriderRenderer();
+
+                return this.renderer;
+            }
+        });
     }
 }

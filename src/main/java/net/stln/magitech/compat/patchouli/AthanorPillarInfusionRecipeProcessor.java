@@ -7,7 +7,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.fluids.FluidStack;
 import net.stln.magitech.recipe.AthanorPillarInfusionRecipe;
 import vazkii.patchouli.api.IComponentProcessor;
 import vazkii.patchouli.api.IVariable;
@@ -18,11 +17,11 @@ import java.util.Collections;
 import java.util.List;
 
 public class AthanorPillarInfusionRecipeProcessor implements IComponentProcessor {
+    Recipe<?> recipe;
     private List<List<Ingredient>> inputs = new ArrayList<>();
     private ItemStack base = ItemStack.EMPTY;
     private ItemStack output = ItemStack.EMPTY;
     private int mana = 0;
-    Recipe<?> recipe;
     private String title;
     private String text;
 
@@ -36,8 +35,8 @@ public class AthanorPillarInfusionRecipeProcessor implements IComponentProcessor
         if (vars.has("text")) {
             text = vars.get("text", level.registryAccess()).asString();
         }
-         recipe = Minecraft.getInstance().level.getRecipeManager()
-            .byKey(ResourceLocation.tryParse(recipeId)).orElseThrow(IllegalArgumentException::new).value();
+        recipe = Minecraft.getInstance().level.getRecipeManager()
+                .byKey(ResourceLocation.tryParse(recipeId)).orElseThrow(IllegalArgumentException::new).value();
 
         if (recipe instanceof AthanorPillarInfusionRecipe r) {
             // 入力 ItemStack を取得・セット

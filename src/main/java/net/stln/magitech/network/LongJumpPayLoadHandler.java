@@ -10,7 +10,6 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import net.stln.magitech.item.ItemInit;
-import net.stln.magitech.item.armor.AetherLifterItem;
 import net.stln.magitech.item.armor.FlamglideStriderItem;
 
 import java.util.Objects;

@@ -18,7 +18,7 @@
     }
   ],
   "input_fluid": {
-    "id": "minecraft:lava",
+    "fluid": "minecraft:lava",
     "amount": 2000
   },
   "result": {

@@ -10,7 +10,6 @@ import net.minecraft.world.level.Level;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.MaterialComponent;
 import net.stln.magitech.item.component.PartMaterialComponent;
-import net.stln.magitech.item.tool.material.MaterialInit;
 import net.stln.magitech.item.tool.material.ToolMaterial;
 import net.stln.magitech.item.tool.register.ToolMaterialRegister;
 import net.stln.magitech.recipe.RecipeInit;
@@ -20,18 +19,17 @@ import net.stln.magitech.util.ToolMaterialUtil;
 import vazkii.patchouli.api.IComponentProcessor;
 import vazkii.patchouli.api.IVariable;
 import vazkii.patchouli.api.IVariableProvider;
-import vazkii.patchouli.client.base.ClientTicker;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class ToolAssemblyRecipeProcessor implements IComponentProcessor {
-    private List<ItemStack> inputs = new ArrayList<>();
-    private ItemStack output = ItemStack.EMPTY;
     Recipe<?> recipe;
     String title;
     String text;
+    private List<ItemStack> inputs = new ArrayList<>();
+    private ItemStack output = ItemStack.EMPTY;
 
     @Override
     public void setup(Level level, IVariableProvider vars) {
@@ -43,8 +41,8 @@ public class ToolAssemblyRecipeProcessor implements IComponentProcessor {
         if (vars.has("text")) {
             text = vars.get("text", level.registryAccess()).asString();
         }
-         recipe = Minecraft.getInstance().level.getRecipeManager()
-            .byKey(ResourceLocation.tryParse(recipeId)).orElseThrow(IllegalArgumentException::new).value();
+        recipe = Minecraft.getInstance().level.getRecipeManager()
+                .byKey(ResourceLocation.tryParse(recipeId)).orElseThrow(IllegalArgumentException::new).value();
 
         if (recipe instanceof ToolAssemblyRecipe r) {
             // 入力 ItemStack を取得・セット

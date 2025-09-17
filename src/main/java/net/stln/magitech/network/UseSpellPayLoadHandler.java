@@ -38,20 +38,20 @@ public class UseSpellPayLoadHandler {
         Player player = context.player().level().getPlayerByUUID(UUID.fromString(payload.uuid()));
         InteractionHand hand = payload.isMainHand() ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
         if (CuriosApi.getCuriosInventory(player).isPresent()) {
-        ICuriosItemHandler curiosInventory = CuriosApi.getCuriosInventory(player).get();
-        ItemStack threadbound = curiosInventory.getCurios().get("threadbound").getStacks().getStackInSlot(0);
+            ICuriosItemHandler curiosInventory = CuriosApi.getCuriosInventory(player).get();
+            ItemStack threadbound = curiosInventory.getCurios().get("threadbound").getStacks().getStackInSlot(0);
 
-        SpellComponent spellComponent = threadbound.get(ComponentInit.SPELL_COMPONENT);
+            SpellComponent spellComponent = threadbound.get(ComponentInit.SPELL_COMPONENT);
 
-        Spell spell = spellComponent.spells().get(spellComponent.selected());
+            Spell spell = spellComponent.spells().get(spellComponent.selected());
 
-        spell.use(player.level(), player, hand, false);
-        MinecraftServer server = Objects.requireNonNull(ServerLifecycleHooks.getCurrentServer(), "Cannot send clientbound payloads on the client");
-        for (ServerPlayer serverPlayer : server.getPlayerList().getPlayers()) {
-            if (player.getUUID() != serverPlayer.getUUID()) {
-                PacketDistributor.sendToPlayer(serverPlayer, payload);
+            spell.use(player.level(), player, hand, false);
+            MinecraftServer server = Objects.requireNonNull(ServerLifecycleHooks.getCurrentServer(), "Cannot send clientbound payloads on the client");
+            for (ServerPlayer serverPlayer : server.getPlayerList().getPlayers()) {
+                if (player.getUUID() != serverPlayer.getUUID()) {
+                    PacketDistributor.sendToPlayer(serverPlayer, payload);
+                }
             }
-        }
         }
     }
 }

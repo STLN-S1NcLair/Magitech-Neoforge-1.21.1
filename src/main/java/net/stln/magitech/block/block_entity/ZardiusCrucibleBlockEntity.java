@@ -34,7 +34,7 @@ import net.neoforged.neoforge.items.ItemStackHandler;
 import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.block.ZardiusCrucibleBlock;
 import net.stln.magitech.particle.particle_option.SquareParticleEffect;
-import net.stln.magitech.recipe.MultiStackRecipeInput;
+import net.stln.magitech.recipe.MultiStackWithFluidRecipeInput;
 import net.stln.magitech.recipe.RecipeInit;
 import net.stln.magitech.recipe.ZardiusCrucibleRecipe;
 import org.jetbrains.annotations.Nullable;
@@ -97,17 +97,17 @@ public class ZardiusCrucibleBlockEntity extends BlockEntity {
         for (int i = 0; i < this.inventory.getSlots(); i++) {
             stacks.add(this.inventory.getStackInSlot(i));
         }
-        Optional<RecipeHolder<ZardiusCrucibleRecipe>> recipe = level.getRecipeManager().getRecipeFor(RecipeInit.ZARDIUS_CRUCIBLE_TYPE.get(), new MultiStackRecipeInput(stacks), level);
-        if (recipe.isPresent() && ((ZardiusCrucibleBlock)pState.getBlock()).isOnFire(pState, pLevel, pPos) && this.inventory.getStackInSlot(0).getCount() < 2) {
+        Optional<RecipeHolder<ZardiusCrucibleRecipe>> recipe = level.getRecipeManager().getRecipeFor(RecipeInit.ZARDIUS_CRUCIBLE_TYPE.get(), new MultiStackWithFluidRecipeInput(stacks), level);
+        if (recipe.isPresent() && ((ZardiusCrucibleBlock) pState.getBlock()).isOnFire(pState, pLevel, pPos) && this.inventory.getStackInSlot(0).getCount() < 2) {
             ZardiusCrucibleRecipe zardiusCrucibleRecipe = recipe.get().value();
-            if ((zardiusCrucibleRecipe.getInputFluid().isEmpty() && this.fluidTank.isEmpty())
-                    || ((zardiusCrucibleRecipe.getOutputFluid().isEmpty() && this.fluidTank.getFluidAmount() >= zardiusCrucibleRecipe.getInputFluid().getAmount()
-                    || this.fluidTank.getFluidAmount() == zardiusCrucibleRecipe.getInputFluid().getAmount()) && this.fluidTank.getFluid().getFluid() == zardiusCrucibleRecipe.getInputFluid().getFluid())) {
+            if ((zardiusCrucibleRecipe.getInputFluid().ingredient().isEmpty() && this.fluidTank.isEmpty())
+                    || ((zardiusCrucibleRecipe.getOutputFluid().isEmpty() && this.fluidTank.getFluidAmount() >= zardiusCrucibleRecipe.getInputFluid().amount()
+                    || this.fluidTank.getFluidAmount() == zardiusCrucibleRecipe.getInputFluid().amount()) && zardiusCrucibleRecipe.getInputFluid().ingredient().test(this.fluidTank.getFluid()))) {
                 if (this.craftingTime < this.maxCraftingTime) {
                     this.craftingTime++;
                 } else {
-                    ItemStack result = zardiusCrucibleRecipe.assemble(new MultiStackRecipeInput(stacks), level.registryAccess());
-                    this.fluidTank.drain(zardiusCrucibleRecipe.getInputFluid(), IFluidHandler.FluidAction.EXECUTE);
+                    ItemStack result = zardiusCrucibleRecipe.assemble(new MultiStackWithFluidRecipeInput(stacks), level.registryAccess());
+                    this.fluidTank.drain(zardiusCrucibleRecipe.getInputFluid().amount(), IFluidHandler.FluidAction.EXECUTE);
                     if (!zardiusCrucibleRecipe.getOutputFluid().isEmpty()) {
                         this.fluidTank.fill(zardiusCrucibleRecipe.getOutputFluid(), IFluidHandler.FluidAction.EXECUTE);
                     }

@@ -20,56 +20,53 @@ public class RecipeInit {
             return "part_tool_assemble";
         }
     });
-    public static final Supplier<ToolAssemblyRecipe.Serializer<ToolAssemblyRecipe>> TOOL_ASSEMBLY_SERIALIZER = SERIALIZERS.register("tool_assembly", () -> new ToolAssemblyRecipe.Serializer<>(ToolAssemblyRecipe::new));
-
     public static final DeferredHolder<RecipeType<?>, RecipeType<PartCuttingRecipe>> PART_CUTTING_TYPE = TYPES.register("part_cutting", () -> new RecipeType<PartCuttingRecipe>() {
         @Override
         public String toString() {
             return "part_cutting";
         }
-    });    public static final Supplier<PartCuttingRecipe.Serializer<PartCuttingRecipe>> PART_CUTTING_SERIALIZER = SERIALIZERS.register("part_cutting", () -> new PartCuttingRecipe.Serializer<>(PartCuttingRecipe::new));
-
+    });    public static final Supplier<ToolAssemblyRecipe.Serializer<ToolAssemblyRecipe>> TOOL_ASSEMBLY_SERIALIZER = SERIALIZERS.register("tool_assembly", () -> new ToolAssemblyRecipe.Serializer<>(ToolAssemblyRecipe::new));
     public static final DeferredHolder<RecipeType<?>, RecipeType<ToolMaterialRecipe>> TOOL_MATERIAL_TYPE = TYPES.register("tool_material", () -> new RecipeType<ToolMaterialRecipe>() {
         @Override
         public String toString() {
             return "tool_material";
         }
     });
-
-    public static final Supplier<ToolMaterialRecipe.Serializer<ToolMaterialRecipe>> TOOL_MATERIAL_SERIALIZER = SERIALIZERS.register("tool_material", () -> new ToolMaterialRecipe.Serializer<>(ToolMaterialRecipe::new));
-
     public static final DeferredHolder<RecipeType<?>, RecipeType<SpellConversionRecipe>> SPELL_CONVERSION_TYPE = TYPES.register("spell_conversion", () -> new RecipeType<SpellConversionRecipe>() {
         @Override
         public String toString() {
             return "spell_conversion";
         }
-    });
-
-    public static final Supplier<SpellConversionRecipe.Serializer<SpellConversionRecipe>> SPELL_CONVERSION_SERIALIZER = SERIALIZERS.register("spell_conversion", () -> new SpellConversionRecipe.Serializer<>(SpellConversionRecipe::new));
-
+    });    public static final Supplier<PartCuttingRecipe.Serializer<PartCuttingRecipe>> PART_CUTTING_SERIALIZER = SERIALIZERS.register("part_cutting", () -> new PartCuttingRecipe.Serializer<>(PartCuttingRecipe::new));
     public static final DeferredHolder<RecipeType<?>, RecipeType<ZardiusCrucibleRecipe>> ZARDIUS_CRUCIBLE_TYPE = TYPES.register("zardius_crucible", () -> new RecipeType<ZardiusCrucibleRecipe>() {
         @Override
         public String toString() {
             return "zardius_crucible";
         }
     });
-
-    public static final Supplier<ZardiusCrucibleRecipe.Serializer<ZardiusCrucibleRecipe>> ZARDIUS_CRUCIBLE_SERIALIZER = SERIALIZERS.register("zardius_crucible", () -> new ZardiusCrucibleRecipe.Serializer<>(ZardiusCrucibleRecipe::new));
-
     public static final DeferredHolder<RecipeType<?>, RecipeType<AthanorPillarInfusionRecipe>> ATHANOR_PILLAR_INFUSION_TYPE = TYPES.register("athanor_pillar_infusion", () -> new RecipeType<AthanorPillarInfusionRecipe>() {
         @Override
         public String toString() {
             return "athanor_pillar_infusion";
         }
-    });
-
-    public static final Supplier<AthanorPillarInfusionRecipe.Serializer<AthanorPillarInfusionRecipe>> ATHANOR_PILLAR_INFUSION_SERIALIZER = SERIALIZERS.register("athanor_pillar_infusion", () -> new AthanorPillarInfusionRecipe.Serializer<>(AthanorPillarInfusionRecipe::new));
+    });    public static final Supplier<ToolMaterialRecipe.Serializer<ToolMaterialRecipe>> TOOL_MATERIAL_SERIALIZER = SERIALIZERS.register("tool_material", () -> new ToolMaterialRecipe.Serializer<>(ToolMaterialRecipe::new));
 
     public static void registerRecipes(IEventBus eventBus) {
         Magitech.LOGGER.info("Registering Recipes for " + Magitech.MOD_ID);
         SERIALIZERS.register(eventBus);
         TYPES.register(eventBus);
     }
+
+    public static final Supplier<SpellConversionRecipe.Serializer<SpellConversionRecipe>> SPELL_CONVERSION_SERIALIZER = SERIALIZERS.register("spell_conversion", () -> new SpellConversionRecipe.Serializer<>(SpellConversionRecipe::new));
+
+
+
+    public static final Supplier<ZardiusCrucibleRecipe.Serializer<ZardiusCrucibleRecipe>> ZARDIUS_CRUCIBLE_SERIALIZER = SERIALIZERS.register("zardius_crucible", () -> new ZardiusCrucibleRecipe.Serializer<>(ZardiusCrucibleRecipe::new));
+
+
+
+    public static final Supplier<AthanorPillarInfusionRecipe.Serializer<AthanorPillarInfusionRecipe>> ATHANOR_PILLAR_INFUSION_SERIALIZER = SERIALIZERS.register("athanor_pillar_infusion", () -> new AthanorPillarInfusionRecipe.Serializer<>(AthanorPillarInfusionRecipe::new));
+
 
 
 

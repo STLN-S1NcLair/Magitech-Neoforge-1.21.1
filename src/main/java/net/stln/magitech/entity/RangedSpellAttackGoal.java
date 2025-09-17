@@ -53,55 +53,55 @@ public class RangedSpellAttackGoal<T extends Mob & RangedAttackMob> extends Goal
             return;
         }
 
-            double d0 = this.mob.distanceToSqr(target.getX(), target.getY(), target.getZ());
-            boolean flag = this.mob.getSensing().hasLineOfSight(target);
-            boolean flag1 = this.seeTime > 0;
-            if (flag != flag1) {
-                this.seeTime = 0;
+        double d0 = this.mob.distanceToSqr(target.getX(), target.getY(), target.getZ());
+        boolean flag = this.mob.getSensing().hasLineOfSight(target);
+        boolean flag1 = this.seeTime > 0;
+        if (flag != flag1) {
+            this.seeTime = 0;
+        }
+
+        if (flag) {
+            this.seeTime++;
+        } else {
+            this.seeTime--;
+        }
+
+        if (!(d0 > (double) this.maxAttackDistance) && this.seeTime >= 20) {
+            this.mob.getNavigation().stop();
+            this.strafingTime++;
+        } else {
+            this.mob.getNavigation().moveTo(target, this.moveSpeedAmp);
+            this.strafingTime = -1;
+        }
+
+        if (this.strafingTime >= 20) {
+            if ((double) this.mob.getRandom().nextFloat() < 0.3) {
+                this.strafingClockwise = !this.strafingClockwise;
             }
 
-            if (flag) {
-                this.seeTime++;
-            } else {
-                this.seeTime--;
+            if ((double) this.mob.getRandom().nextFloat() < 0.3) {
+                this.strafingBackwards = !this.strafingBackwards;
             }
 
-            if (!(d0 > (double)this.maxAttackDistance) && this.seeTime >= 20) {
-                this.mob.getNavigation().stop();
-                this.strafingTime++;
-            } else {
-                this.mob.getNavigation().moveTo(target, this.moveSpeedAmp);
-                this.strafingTime = -1;
+            this.strafingTime = 0;
+        }
+
+        if (this.strafingTime > -1) {
+            if (d0 > (double) (this.maxAttackDistance * 0.75F)) {
+                this.strafingBackwards = false;
+            } else if (d0 < (double) (this.maxAttackDistance * 0.25F)) {
+                this.strafingBackwards = true;
             }
 
-            if (this.strafingTime >= 20) {
-                if ((double)this.mob.getRandom().nextFloat() < 0.3) {
-                    this.strafingClockwise = !this.strafingClockwise;
-                }
-
-                if ((double)this.mob.getRandom().nextFloat() < 0.3) {
-                    this.strafingBackwards = !this.strafingBackwards;
-                }
-
-                this.strafingTime = 0;
+            this.mob.getMoveControl().strafe(this.strafingBackwards ? -0.5F : 0.5F, this.strafingClockwise ? 0.5F : -0.5F);
+            if (this.mob.getControlledVehicle() instanceof Mob mob) {
+                mob.lookAt(target, 30.0F, 30.0F);
             }
 
-            if (this.strafingTime > -1) {
-                if (d0 > (double)(this.maxAttackDistance * 0.75F)) {
-                    this.strafingBackwards = false;
-                } else if (d0 < (double)(this.maxAttackDistance * 0.25F)) {
-                    this.strafingBackwards = true;
-                }
-
-                this.mob.getMoveControl().strafe(this.strafingBackwards ? -0.5F : 0.5F, this.strafingClockwise ? 0.5F : -0.5F);
-                if (this.mob.getControlledVehicle() instanceof Mob mob) {
-                    mob.lookAt(target, 30.0F, 30.0F);
-                }
-
-                this.mob.lookAt(target, 30.0F, 30.0F);
-            } else {
-                this.mob.getLookControl().setLookAt(target, 30.0F, 30.0F);
-            }
+            this.mob.lookAt(target, 30.0F, 30.0F);
+        } else {
+            this.mob.getLookControl().setLookAt(target, 30.0F, 30.0F);
+        }
 
         double distanceSq = this.mob.distanceToSqr(target);
         boolean canSee = this.mob.getSensing().hasLineOfSight(target);

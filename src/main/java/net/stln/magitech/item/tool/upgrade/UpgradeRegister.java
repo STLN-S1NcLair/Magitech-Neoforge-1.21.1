@@ -1,23 +1,17 @@
 package net.stln.magitech.item.tool.upgrade;
 
 import net.minecraft.resources.ResourceLocation;
-import net.stln.magitech.item.tool.ToolPart;
-import net.stln.magitech.item.tool.ToolStats;
-import net.stln.magitech.item.tool.ToolType;
-import net.stln.magitech.item.tool.material.ToolMaterial;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class UpgradeRegister {
     private static final Map<ResourceLocation, Upgrade> dictId = new LinkedHashMap<>();
+    private static final Map<ResourceLocation, Upgrade> dictSpellCasterId = new LinkedHashMap<>();
 
     public static void registerId(ResourceLocation id, Upgrade upgrade) {
         dictId.put(id, upgrade);
     }
-
-    private static final Map<ResourceLocation, Upgrade> dictSpellCasterId = new LinkedHashMap<>();
 
     public static void registerSpellCasterId(ResourceLocation id, Upgrade upgrade) {
         dictSpellCasterId.put(id, upgrade);

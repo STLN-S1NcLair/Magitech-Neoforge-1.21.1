@@ -6,12 +6,10 @@ import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.item.tool.material.MaterialInit;
 import net.stln.magitech.item.tool.material.ToolMaterial;
-import net.stln.magitech.item.tool.toolitem.PartToolItem;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class HeatTreatmentTrait extends Trait {
 

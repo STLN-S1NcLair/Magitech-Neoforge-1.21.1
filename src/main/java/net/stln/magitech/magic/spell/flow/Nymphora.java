@@ -12,27 +12,24 @@ import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.portal.DimensionTransition;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.magic.charge.ChargeData;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.Spell;
-import net.stln.magitech.particle.particle_option.*;
+import net.stln.magitech.particle.particle_option.BlowParticleEffect;
+import net.stln.magitech.particle.particle_option.SquareFieldParticleEffect;
+import net.stln.magitech.particle.particle_option.SquareParticleEffect;
 import net.stln.magitech.sound.SoundInit;
 import net.stln.magitech.util.EffectUtil;
 import net.stln.magitech.util.Element;
 import net.stln.magitech.util.SpellShape;
-import net.stln.magitech.util.TickScheduler;
 import org.joml.Vector3f;
 
 import java.util.HashMap;
@@ -44,14 +41,6 @@ public class Nymphora extends Spell {
         this.baseEffectStrength = 4.0F;
     }
 
-    public Element getElement() {
-        return Element.FLOW;
-    }
-
-    public SpellShape getSpellShape() {
-        return SpellShape.RESILIENCE;
-    }
-
     protected static void playShootAnimation(Player user) {
         var playerAnimationData = (ModifierLayer<IAnimation>) PlayerAnimationAccess.getPlayerAssociatedData((AbstractClientPlayer) user).get(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "animation"));
         if (playerAnimationData != null) {
@@ -60,6 +49,14 @@ public class Nymphora extends Spell {
             playerAnimationData.replaceAnimationWithFade(AbstractFadeModifier.standardFadeIn(1, Ease.OUTSINE), new KeyframeAnimationPlayer((KeyframeAnimation) PlayerAnimationRegistry.getAnimation(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "wand_shoot")))
                     .setFirstPersonMode(FirstPersonMode.THIRD_PERSON_MODEL).setFirstPersonConfiguration(new FirstPersonConfiguration(true, true, true, true)));
         }
+    }
+
+    public Element getElement() {
+        return Element.FLOW;
+    }
+
+    public SpellShape getSpellShape() {
+        return SpellShape.RESILIENCE;
     }
 
     @Override

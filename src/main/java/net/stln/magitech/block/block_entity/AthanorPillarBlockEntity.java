@@ -45,11 +45,109 @@ import vazkii.patchouli.api.PatchouliAPI;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 public class AthanorPillarBlockEntity extends BlockEntity {
 
+    private static final IMultiblock STRUCTURE = PatchouliAPI.get().makeMultiblock(
+            new String[][]
+                    {
+                            {
+                                    "    B    ",
+                                    "    A    ",
+                                    "    A    ",
+                                    "    A    ",
+                                    "BAAAVAAAB",
+                                    "    A    ",
+                                    "    A    ",
+                                    "    A    ",
+                                    "    B    "
+                            },
+                            {
+                                    "    L    ",
+                                    "         ",
+                                    "         ",
+                                    "         ",
+                                    "L   D   L",
+                                    "         ",
+                                    "         ",
+                                    "         ",
+                                    "    L    "
+                            },
+                            {
+                                    "M   L   M",
+                                    "         ",
+                                    "         ",
+                                    "         ",
+                                    "L       L",
+                                    "         ",
+                                    "         ",
+                                    "         ",
+                                    "M   L   M"
+                            },
+                            {
+                                    "P   L   P",
+                                    "    M    ",
+                                    "         ",
+                                    "         ",
+                                    "LM     ML",
+                                    "         ",
+                                    "         ",
+                                    "    M    ",
+                                    "P   L   P"
+                            },
+                            {
+                                    "L   P   L",
+                                    " U  T  U ",
+                                    "         ",
+                                    "         ",
+                                    "PT     TP",
+                                    "         ",
+                                    "         ",
+                                    " U  T  U ",
+                                    "L   P   L"
+                            },
+                            {
+                                    "L   L   L",
+                                    " V     V ",
+                                    "  M   M  ",
+                                    "         ",
+                                    "L   I   L",
+                                    "         ",
+                                    "  M   M  ",
+                                    " V     V ",
+                                    "L   L   L"
+                            },
+                            {
+                                    "PPEEPEEPP",
+                                    "PFPOOOPFP",
+                                    "SPPBBBPPN",
+                                    "SOBCCCBON",
+                                    "POBC0CBOP",
+                                    "SOBCCCBON",
+                                    "SPPBBBPPN",
+                                    "PFPOOOPFP",
+                                    "PPWWPWWPP"
+                            }
+                    },
+            '0', BlockInit.ALCHECRYSITE.get(),
+            'C', BlockInit.ALCHECRYSITE.get(),
+            'W', PatchouliAPI.get().stateMatcher(BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.WEST)),
+            'N', PatchouliAPI.get().stateMatcher(BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.NORTH)),
+            'S', PatchouliAPI.get().stateMatcher(BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.SOUTH)),
+            'E', PatchouliAPI.get().stateMatcher(BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.EAST)),
+            'P', BlockInit.POLISHED_ALCHECRYSITE.get(),
+            'T', PatchouliAPI.get().stateMatcher(BlockInit.POLISHED_ALCHECRYSITE_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)),
+            'B', BlockInit.ALCHECRYSITE_BRICKS.get(),
+            'L', BlockInit.ALCHECRYSITE_BRICK_WALL.get(),
+            'A', PatchouliAPI.get().stateMatcher(BlockInit.ALCHECRYSITE_BRICK_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)),
+            'F', BlockInit.FLUORITE_BLOCK.get(),
+            'O', BlockInit.FLUORITE_BRICKS.get(),
+            'M', BlockInit.ALCHEMETRIC_PYLON.get(),
+            'V', BlockInit.MANA_VESSEL.get(),
+            'U', PatchouliAPI.get().stateMatcher(BlockInit.MANA_NODE.get().defaultBlockState().setValue(ManaNodeBlock.FACING, Direction.UP)),
+            'D', PatchouliAPI.get().stateMatcher(BlockInit.MANA_NODE.get().defaultBlockState().setValue(BlockStateProperties.FACING, Direction.DOWN)),
+            'I', BlockInit.ATHANOR_PILLAR.get());
     public final ItemStackHandler inventory = new ItemStackHandler(1) {
         @Override
         protected int getStackLimit(int slot, ItemStack stack) {
@@ -64,176 +162,12 @@ public class AthanorPillarBlockEntity extends BlockEntity {
             }
         }
     };
+    public int tickCounter = 0;
     int craftingProgress = 0;
     int craftingTotalTime = 200;
-    public int tickCounter = 0;
 
     public AthanorPillarBlockEntity(BlockPos pos, BlockState blockState) {
         super(BlockInit.ATHANOR_PILLAR_ENTITY.get(), pos, blockState);
-    }
-
-    public void serverTick(Level level, BlockPos pos, BlockState state, AthanorPillarBlockEntity blockEntity) {
-        BlockState blockState = level.getBlockState(pos);
-        if ((blockState.getBlock() instanceof AthanorPillarBlock athanorPillarBlock) && hasCorrectStructure(level, pos)) {
-            List<List<ItemStack>> stacks = new ArrayList<>();
-            for (int i = 0; i < 3; i++) {
-                List<ItemStack> group = new ArrayList<>();
-                for (int j = 0; j < 4; j++) {
-                    group.add(((AlchemetricPylonBlockEntity) level.getBlockEntity(getPylonPos(pos, i, j))).inventory.getStackInSlot(0));
-                }
-                stacks.add(group);
-            }
-            GroupedMultiStackRecipeInput input = new GroupedMultiStackRecipeInput(stacks);
-            RecipeManager manager = level.getRecipeManager();
-            Optional<RecipeHolder<AthanorPillarInfusionRecipe>> recipeHolder = manager.getRecipeFor(RecipeInit.ATHANOR_PILLAR_INFUSION_TYPE.get(), input, level);
-
-            if (recipeHolder.isPresent() && blockEntity.inventory.getStackInSlot(0).is(recipeHolder.get().value().getBase().getItem())) {
-                boolean flag = true;
-                for (int i = 0; i < 5; i++) {
-                    BlockPos vesselPos = getVesselPos(pos, i);
-                    if (((ManaVesselBlockEntity) level.getBlockEntity(vesselPos)).getMana() < recipeHolder.get().value().getMana() / 5) {
-                        flag = false;
-                    }
-                }
-                if (flag) {
-                    if (blockEntity.craftingProgress == blockEntity.craftingTotalTime) {
-                        blockEntity.inventory.setStackInSlot(0, recipeHolder.get().value().assemble(input, level.registryAccess()));
-                        for (int i = 0; i < 3; i++) {
-                            for (int j = 0; j < 4; j++) {
-                                BlockPos pylonPos = getPylonPos(pos, i, j);
-                                ((AlchemetricPylonBlockEntity) level.getBlockEntity(pylonPos)).inventory.setStackInSlot(0, ItemStack.EMPTY);
-                                setChanged(level, pylonPos, level.getBlockState(pylonPos));
-                            }
-                        }
-                        for (int i = 0; i < 5; i++) {
-                            BlockPos vesselPos = getVesselPos(pos, i);
-                            BlockState state1 = level.getBlockState(vesselPos);
-                            ((ManaVesselBlockEntity) level.getBlockEntity(vesselPos)).subMana(recipeHolder.get().value().getMana() / 5);
-                            setChanged(level, vesselPos, state1);
-                            level.sendBlockUpdated(vesselPos, state1, state1, 3);
-                            blockEntity.craftingProgress = 0;
-                        }
-                        blockEntity.craftingProgress = 0;
-                        setChanged(level, pos, state);
-                    }
-                    blockEntity.craftingProgress++;
-                    if (blockEntity.craftingProgress % 5 == 0) {
-                        level.playSound(null, pos, SoundInit.ATHANOR_PILLAR_INFUSION.get(), SoundSource.BLOCKS, 1.0F, Mth.nextFloat(level.random, 0.9F, 1.1F));
-                    }
-                    if (level.random.nextBoolean() && level.random.nextBoolean()) {
-                        level.playSound(null, pos, SoundInit.ATHANOR_PILLAR_ZAP.get(), SoundSource.BLOCKS, 1.0F, Mth.nextFloat(level.random, 0.9F, 1.1F));
-                    }
-                    BlockState old = state;
-                    state = state.setValue(AthanorPillarBlock.LIT, true);
-                    level.setBlock(pos, state, 3);
-                    setChanged(level, pos, state);
-                    level.sendBlockUpdated(pos, old, state, 3);
-                } else {
-                    reset(level, pos, state, blockEntity);
-                }
-            } else {
-                reset(level, pos, state, blockEntity);
-            }
-        }
-    }
-
-    public void clientTick(Level level, BlockPos pos, BlockState state, AthanorPillarBlockEntity blockEntity) {
-        tickCounter++;
-        RandomSource random = level.random;
-        if (hasCorrectStructure(level, pos)) {
-            Vec3 center = pos.getCenter();
-            for (int i = 0; i < 3; i++) {
-                double x = center.x + Mth.nextDouble(random, -0.6, 0.6);
-                double y = center.y + Mth.nextDouble(random, -0.6, 0.6);
-                double z = center.z + Mth.nextDouble(random, -0.6, 0.6);
-                level.addParticle(new SquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 1.0F, 3, 0), x, y, z, 0, 0, 0);
-            }
-            for (int i = 0; i < 3; i++) {
-                double x = center.x + Mth.nextDouble(random, -0.2, 0.2);
-                double y = center.y + 0.5;
-                double z = center.z + Mth.nextDouble(random, -0.2, 0.2);
-                level.addParticle(new SquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 0.5F, 1, Mth.nextFloat(random, -0.1F, 0.1F)), x, y, z, 0, Mth.nextDouble(random, 0, 0.05), 0);
-            }
-            for (int i = 0; i < 3; i++) {
-                double x2 = center.x + Mth.nextDouble(random, -0.5, 0.5);
-                double y2 = center.y + Mth.nextDouble(random, -0.5, 0.5);
-                double z2 = center.z + Mth.nextDouble(random, -0.5, 0.5);
-                level.addParticle(new SquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 0.5F, 1, Mth.nextFloat(random, -0.1F, 0.1F)), x2, y2, z2, 0, 0.03, 0);
-            }
-            Vector3f color = new Vector3f(1.0F, 1.0F, 1.0F);
-            if ((long) level.random.nextInt(100) <= level.getGameTime() % 100L) {
-                Vec3 vec3 = Vec3.atCenterOf(pos);
-                double d0 = vec3.x + Mth.nextDouble(level.random, -1.0, 1.0) * (0.4);
-                double d1 = vec3.y + Mth.nextDouble(level.random, -1.0, 1.0) * (0.4);
-                double d2 = vec3.z + Mth.nextDouble(level.random, -1.0, 1.0) * (0.4);
-                double d3 = Mth.nextDouble(level.random, -0.2, 0.2);
-                double d4 = Mth.nextDouble(level.random, -0.2, 0.2);
-                double d5 = Mth.nextDouble(level.random, -0.2, 0.2);
-                level.addParticle(new UnstableSquareParticleEffect(new Vector3f(0.7F, 1.0F, 0.5F), new Vector3f(0.0F, 1.0F, 0.8F), 1.0F, 1, 0), d0, d1, d2, d3, d4, d5);
-                if (random.nextFloat() < 0.2) {
-                    level.addParticle(new ManaZapParticleEffect(color, color,
-                            new Vector3f((float) (Mth.nextFloat(level.random, -2F, 2F) + vec3.x), (float) (Mth.nextFloat(level.random, -2F, 2F) + vec3.y), (float) (Mth.nextFloat(level.random, -2F, 2F) + vec3.z)),
-                            1.0F, 2, 0), vec3.x, vec3.y, vec3.z, 0, 0, 0);
-                }
-            }
-            if (hasItemInInventory(level, pos) && state.getValue(AthanorPillarBlock.LIT) && random.nextBoolean()) {
-                zapParticle(level, pos, random, color);
-            }
-        } else if (random.nextFloat() < 0.2) {
-            BlockPos errorPos = detectIncorrectStructurePos(level, pos);
-            if (errorPos != null) {
-                Vec3 center = errorPos.getCenter();
-                double x = center.x + Mth.nextDouble(random, -0.6, 0.6);
-                double y = center.y + Mth.nextDouble(random, -0.6, 0.6);
-                double z = center.z + Mth.nextDouble(random, -0.6, 0.6);
-                Vec3 v1 = Vec3.atLowerCornerOf(errorPos);
-                Vec3 v2 = v1.add(1, 0, 0);
-                Vec3 v3 = v1.add(1, 0, 1);
-                Vec3 v4 = v1.add(0, 0, 1);
-                Vec3 v5 = v1.add(0, 1, 0);
-                Vec3 v6 = v1.add(1, 1, 0);
-                Vec3 v7 = v1.add(1, 1, 1);
-                Vec3 v8 = v1.add(0, 1, 1);
-                SquareParticleEffect effect = new SquareParticleEffect(new Vector3f(1.0F, 0.2F, 0.2F), new Vector3f(1.0F, 0.2F, 0.2F), 1.0F, 1, 0);
-                EffectUtil.lineEffect(level, effect, new Vec3(x, y, z), pos.getCenter(), 5, true);
-
-                EffectUtil.lineEffect(level, effect, v1, v2, 7, true);
-                EffectUtil.lineEffect(level, effect, v2, v3, 7, true);
-                EffectUtil.lineEffect(level, effect, v3, v4, 7, true);
-                EffectUtil.lineEffect(level, effect, v4, v1, 7, true);
-
-                EffectUtil.lineEffect(level, effect, v5, v6, 7, true);
-                EffectUtil.lineEffect(level, effect, v6, v7, 7, true);
-                EffectUtil.lineEffect(level, effect, v7, v8, 7, true);
-                EffectUtil.lineEffect(level, effect, v8, v5, 7, true);
-
-                EffectUtil.lineEffect(level, effect, v1, v5, 7, true);
-                EffectUtil.lineEffect(level, effect, v2, v6, 7, true);
-                EffectUtil.lineEffect(level, effect, v3, v7, 7, true);
-                EffectUtil.lineEffect(level, effect, v4, v8, 7, true);
-            }
-        }
-
-        if (blockEntity.craftingProgress > blockEntity.craftingTotalTime - 3) {
-            for (int i = 0; i < 100; i++) {
-
-                Vec3 vec3 = Vec3.atCenterOf(pos);
-                double d0 = Mth.nextDouble(level.random, -2.5, 2.5);
-                double d1 = Mth.nextDouble(level.random, -2.0, 2.0);
-                double d2 = Mth.nextDouble(level.random, -2.5, 2.5);
-                d0 *= Math.abs(d0);
-                d1 *= Math.abs(d1);
-                d2 *= Math.abs(d2);
-                d0 += vec3.x;
-                d1 += vec3.y + 2;
-                d2 += vec3.z;
-                double d3 = Mth.nextDouble(level.random, -0.05, 0.05);
-                double d4 = Mth.nextDouble(level.random, -0.05, 0.05);
-                double d5 = Mth.nextDouble(level.random, -0.05, 0.05);
-                level.addParticle(new SquareParticleEffect(new Vector3f(0.7F, 1.0F, 0.5F), new Vector3f(0.0F, 1.0F, 0.8F), 1.0F, 2, 0), d0, d1, d2, d3, d4, d5);
-                level.addParticle(new SquareParticleEffect(new Vector3f(0.0F, 1.0F, 0.8F), new Vector3f(0.3F, 0.6F, 1.0F), 1.0F, 2, 0), d0, d1, d2, d3, d4, d5);
-            }
-        }
     }
 
     public static BlockPos getPylonPos(BlockPos pos, int i, int j) {
@@ -445,6 +379,178 @@ public class AthanorPillarBlockEntity extends BlockEntity {
         blockEntity.craftingProgress = 0;
     }
 
+    public static boolean hasCorrectStructure(Level level, BlockPos pos) {
+        return StructureHelper.checkMultiblock(level, STRUCTURE, pos.subtract(new Vec3i(0, 1, 0)));
+    }
+
+    public static BlockPos detectIncorrectStructurePos(Level level, BlockPos pos) {
+        return StructureHelper.detectMultiblockError(level, STRUCTURE, pos.subtract(new Vec3i(0, 1, 0)), Rotation.NONE, false);
+    }
+
+    public void serverTick(Level level, BlockPos pos, BlockState state, AthanorPillarBlockEntity blockEntity) {
+        BlockState blockState = level.getBlockState(pos);
+        if ((blockState.getBlock() instanceof AthanorPillarBlock athanorPillarBlock) && hasCorrectStructure(level, pos)) {
+            List<List<ItemStack>> stacks = new ArrayList<>();
+            for (int i = 0; i < 3; i++) {
+                List<ItemStack> group = new ArrayList<>();
+                for (int j = 0; j < 4; j++) {
+                    group.add(((AlchemetricPylonBlockEntity) level.getBlockEntity(getPylonPos(pos, i, j))).inventory.getStackInSlot(0));
+                }
+                stacks.add(group);
+            }
+            GroupedMultiStackRecipeInput input = new GroupedMultiStackRecipeInput(stacks);
+            RecipeManager manager = level.getRecipeManager();
+            Optional<RecipeHolder<AthanorPillarInfusionRecipe>> recipeHolder = manager.getRecipeFor(RecipeInit.ATHANOR_PILLAR_INFUSION_TYPE.get(), input, level);
+
+            if (recipeHolder.isPresent() && blockEntity.inventory.getStackInSlot(0).is(recipeHolder.get().value().getBase().getItem())) {
+                boolean flag = true;
+                for (int i = 0; i < 5; i++) {
+                    BlockPos vesselPos = getVesselPos(pos, i);
+                    if (((ManaVesselBlockEntity) level.getBlockEntity(vesselPos)).getMana() < recipeHolder.get().value().getMana() / 5) {
+                        flag = false;
+                    }
+                }
+                if (flag) {
+                    if (blockEntity.craftingProgress == blockEntity.craftingTotalTime) {
+                        blockEntity.inventory.setStackInSlot(0, recipeHolder.get().value().assemble(input, level.registryAccess()));
+                        for (int i = 0; i < 3; i++) {
+                            for (int j = 0; j < 4; j++) {
+                                BlockPos pylonPos = getPylonPos(pos, i, j);
+                                ((AlchemetricPylonBlockEntity) level.getBlockEntity(pylonPos)).inventory.setStackInSlot(0, ItemStack.EMPTY);
+                                setChanged(level, pylonPos, level.getBlockState(pylonPos));
+                            }
+                        }
+                        for (int i = 0; i < 5; i++) {
+                            BlockPos vesselPos = getVesselPos(pos, i);
+                            BlockState state1 = level.getBlockState(vesselPos);
+                            ((ManaVesselBlockEntity) level.getBlockEntity(vesselPos)).subMana(recipeHolder.get().value().getMana() / 5);
+                            setChanged(level, vesselPos, state1);
+                            level.sendBlockUpdated(vesselPos, state1, state1, 3);
+                            blockEntity.craftingProgress = 0;
+                        }
+                        blockEntity.craftingProgress = 0;
+                        setChanged(level, pos, state);
+                    }
+                    blockEntity.craftingProgress++;
+                    if (blockEntity.craftingProgress % 5 == 0) {
+                        level.playSound(null, pos, SoundInit.ATHANOR_PILLAR_INFUSION.get(), SoundSource.BLOCKS, 1.0F, Mth.nextFloat(level.random, 0.9F, 1.1F));
+                    }
+                    if (level.random.nextBoolean() && level.random.nextBoolean()) {
+                        level.playSound(null, pos, SoundInit.ATHANOR_PILLAR_ZAP.get(), SoundSource.BLOCKS, 1.0F, Mth.nextFloat(level.random, 0.9F, 1.1F));
+                    }
+                    BlockState old = state;
+                    state = state.setValue(AthanorPillarBlock.LIT, true);
+                    level.setBlock(pos, state, 3);
+                    setChanged(level, pos, state);
+                    level.sendBlockUpdated(pos, old, state, 3);
+                } else {
+                    reset(level, pos, state, blockEntity);
+                }
+            } else {
+                reset(level, pos, state, blockEntity);
+            }
+        }
+    }
+
+    public void clientTick(Level level, BlockPos pos, BlockState state, AthanorPillarBlockEntity blockEntity) {
+        tickCounter++;
+        RandomSource random = level.random;
+        if (hasCorrectStructure(level, pos)) {
+            Vec3 center = pos.getCenter();
+            for (int i = 0; i < 3; i++) {
+                double x = center.x + Mth.nextDouble(random, -0.6, 0.6);
+                double y = center.y + Mth.nextDouble(random, -0.6, 0.6);
+                double z = center.z + Mth.nextDouble(random, -0.6, 0.6);
+                level.addParticle(new SquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 1.0F, 3, 0), x, y, z, 0, 0, 0);
+            }
+            for (int i = 0; i < 3; i++) {
+                double x = center.x + Mth.nextDouble(random, -0.2, 0.2);
+                double y = center.y + 0.5;
+                double z = center.z + Mth.nextDouble(random, -0.2, 0.2);
+                level.addParticle(new SquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 0.5F, 1, Mth.nextFloat(random, -0.1F, 0.1F)), x, y, z, 0, Mth.nextDouble(random, 0, 0.05), 0);
+            }
+            for (int i = 0; i < 3; i++) {
+                double x2 = center.x + Mth.nextDouble(random, -0.5, 0.5);
+                double y2 = center.y + Mth.nextDouble(random, -0.5, 0.5);
+                double z2 = center.z + Mth.nextDouble(random, -0.5, 0.5);
+                level.addParticle(new SquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 0.5F, 1, Mth.nextFloat(random, -0.1F, 0.1F)), x2, y2, z2, 0, 0.03, 0);
+            }
+            Vector3f color = new Vector3f(1.0F, 1.0F, 1.0F);
+            if ((long) level.random.nextInt(100) <= level.getGameTime() % 100L) {
+                Vec3 vec3 = Vec3.atCenterOf(pos);
+                double d0 = vec3.x + Mth.nextDouble(level.random, -1.0, 1.0) * (0.4);
+                double d1 = vec3.y + Mth.nextDouble(level.random, -1.0, 1.0) * (0.4);
+                double d2 = vec3.z + Mth.nextDouble(level.random, -1.0, 1.0) * (0.4);
+                double d3 = Mth.nextDouble(level.random, -0.2, 0.2);
+                double d4 = Mth.nextDouble(level.random, -0.2, 0.2);
+                double d5 = Mth.nextDouble(level.random, -0.2, 0.2);
+                level.addParticle(new UnstableSquareParticleEffect(new Vector3f(0.7F, 1.0F, 0.5F), new Vector3f(0.0F, 1.0F, 0.8F), 1.0F, 1, 0), d0, d1, d2, d3, d4, d5);
+                if (random.nextFloat() < 0.2) {
+                    level.addParticle(new ManaZapParticleEffect(color, color,
+                            new Vector3f((float) (Mth.nextFloat(level.random, -2F, 2F) + vec3.x), (float) (Mth.nextFloat(level.random, -2F, 2F) + vec3.y), (float) (Mth.nextFloat(level.random, -2F, 2F) + vec3.z)),
+                            1.0F, 2, 0), vec3.x, vec3.y, vec3.z, 0, 0, 0);
+                }
+            }
+            if (hasItemInInventory(level, pos) && state.getValue(AthanorPillarBlock.LIT) && random.nextBoolean()) {
+                zapParticle(level, pos, random, color);
+            }
+        } else if (random.nextFloat() < 0.2) {
+            BlockPos errorPos = detectIncorrectStructurePos(level, pos);
+            if (errorPos != null) {
+                Vec3 center = errorPos.getCenter();
+                double x = center.x + Mth.nextDouble(random, -0.6, 0.6);
+                double y = center.y + Mth.nextDouble(random, -0.6, 0.6);
+                double z = center.z + Mth.nextDouble(random, -0.6, 0.6);
+                Vec3 v1 = Vec3.atLowerCornerOf(errorPos);
+                Vec3 v2 = v1.add(1, 0, 0);
+                Vec3 v3 = v1.add(1, 0, 1);
+                Vec3 v4 = v1.add(0, 0, 1);
+                Vec3 v5 = v1.add(0, 1, 0);
+                Vec3 v6 = v1.add(1, 1, 0);
+                Vec3 v7 = v1.add(1, 1, 1);
+                Vec3 v8 = v1.add(0, 1, 1);
+                SquareParticleEffect effect = new SquareParticleEffect(new Vector3f(1.0F, 0.2F, 0.2F), new Vector3f(1.0F, 0.2F, 0.2F), 1.0F, 1, 0);
+                EffectUtil.lineEffect(level, effect, new Vec3(x, y, z), pos.getCenter(), 5, true);
+
+                EffectUtil.lineEffect(level, effect, v1, v2, 7, true);
+                EffectUtil.lineEffect(level, effect, v2, v3, 7, true);
+                EffectUtil.lineEffect(level, effect, v3, v4, 7, true);
+                EffectUtil.lineEffect(level, effect, v4, v1, 7, true);
+
+                EffectUtil.lineEffect(level, effect, v5, v6, 7, true);
+                EffectUtil.lineEffect(level, effect, v6, v7, 7, true);
+                EffectUtil.lineEffect(level, effect, v7, v8, 7, true);
+                EffectUtil.lineEffect(level, effect, v8, v5, 7, true);
+
+                EffectUtil.lineEffect(level, effect, v1, v5, 7, true);
+                EffectUtil.lineEffect(level, effect, v2, v6, 7, true);
+                EffectUtil.lineEffect(level, effect, v3, v7, 7, true);
+                EffectUtil.lineEffect(level, effect, v4, v8, 7, true);
+            }
+        }
+
+        if (blockEntity.craftingProgress > blockEntity.craftingTotalTime - 3) {
+            for (int i = 0; i < 100; i++) {
+
+                Vec3 vec3 = Vec3.atCenterOf(pos);
+                double d0 = Mth.nextDouble(level.random, -2.5, 2.5);
+                double d1 = Mth.nextDouble(level.random, -2.0, 2.0);
+                double d2 = Mth.nextDouble(level.random, -2.5, 2.5);
+                d0 *= Math.abs(d0);
+                d1 *= Math.abs(d1);
+                d2 *= Math.abs(d2);
+                d0 += vec3.x;
+                d1 += vec3.y + 2;
+                d2 += vec3.z;
+                double d3 = Mth.nextDouble(level.random, -0.05, 0.05);
+                double d4 = Mth.nextDouble(level.random, -0.05, 0.05);
+                double d5 = Mth.nextDouble(level.random, -0.05, 0.05);
+                level.addParticle(new SquareParticleEffect(new Vector3f(0.7F, 1.0F, 0.5F), new Vector3f(0.0F, 1.0F, 0.8F), 1.0F, 2, 0), d0, d1, d2, d3, d4, d5);
+                level.addParticle(new SquareParticleEffect(new Vector3f(0.0F, 1.0F, 0.8F), new Vector3f(0.3F, 0.6F, 1.0F), 1.0F, 2, 0), d0, d1, d2, d3, d4, d5);
+            }
+        }
+    }
+
     public void clearContents() {
         inventory.setStackInSlot(0, ItemStack.EMPTY);
     }
@@ -464,25 +570,6 @@ public class AthanorPillarBlockEntity extends BlockEntity {
         tag.put("inventory", this.inventory.serializeNBT(registries));
         tag.putInt("progress", this.craftingProgress);
         tag.putInt("totalProgress", this.craftingTotalTime);
-    }
-
-    @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
-        this.inventory.deserializeNBT(registries, tag.getCompound("inventory"));
-        this.craftingProgress = tag.getInt("progress");
-        this.craftingTotalTime = tag.getInt("totalProgress");
-    }
-
-    @Nullable
-    @Override
-    public Packet<ClientGamePacketListener> getUpdatePacket() {
-        return ClientboundBlockEntityDataPacket.create(this);
-    }
-
-    @Override
-    public CompoundTag getUpdateTag(HolderLookup.Provider pRegistries) {
-        return saveWithoutMetadata(pRegistries);
     }
 
 //        private static class StructureHolder {
@@ -693,117 +780,28 @@ public class AthanorPillarBlockEntity extends BlockEntity {
 //        );
 //    }
 
-    private static final IMultiblock STRUCTURE = PatchouliAPI.get().makeMultiblock(
-            new String[][]
-                    {
-                            {
-                                    "    B    ",
-                                    "    A    ",
-                                    "    A    ",
-                                    "    A    ",
-                                    "BAAAVAAAB",
-                                    "    A    ",
-                                    "    A    ",
-                                    "    A    ",
-                                    "    B    "
-                            },
-                            {
-                                    "    L    ",
-                                    "         ",
-                                    "         ",
-                                    "         ",
-                                    "L   D   L",
-                                    "         ",
-                                    "         ",
-                                    "         ",
-                                    "    L    "
-                            },
-                            {
-                                    "M   L   M",
-                                    "         ",
-                                    "         ",
-                                    "         ",
-                                    "L       L",
-                                    "         ",
-                                    "         ",
-                                    "         ",
-                                    "M   L   M"
-                            },
-                            {
-                                    "P   L   P",
-                                    "    M    ",
-                                    "         ",
-                                    "         ",
-                                    "LM     ML",
-                                    "         ",
-                                    "         ",
-                                    "    M    ",
-                                    "P   L   P"
-                            },
-                            {
-                                    "L   P   L",
-                                    " U  T  U ",
-                                    "         ",
-                                    "         ",
-                                    "PT     TP",
-                                    "         ",
-                                    "         ",
-                                    " U  T  U ",
-                                    "L   P   L"
-                            },
-                            {
-                                    "L   L   L",
-                                    " V     V ",
-                                    "  M   M  ",
-                                    "         ",
-                                    "L   I   L",
-                                    "         ",
-                                    "  M   M  ",
-                                    " V     V ",
-                                    "L   L   L"
-                            },
-                            {
-                                    "PPEEPEEPP",
-                                    "PFPOOOPFP",
-                                    "SPPBBBPPN",
-                                    "SOBCCCBON",
-                                    "POBC0CBOP",
-                                    "SOBCCCBON",
-                                    "SPPBBBPPN",
-                                    "PFPOOOPFP",
-                                    "PPWWPWWPP"
-                            }
-                    },
-            '0', BlockInit.ALCHECRYSITE.get(),
-            'C', BlockInit.ALCHECRYSITE.get(),
-            'W', PatchouliAPI.get().stateMatcher(BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.WEST)),
-            'N', PatchouliAPI.get().stateMatcher(BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.NORTH)),
-            'S', PatchouliAPI.get().stateMatcher(BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.SOUTH)),
-            'E', PatchouliAPI.get().stateMatcher(BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.EAST)),
-            'P', BlockInit.POLISHED_ALCHECRYSITE.get(),
-            'T', PatchouliAPI.get().stateMatcher(BlockInit.POLISHED_ALCHECRYSITE_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)),
-            'B', BlockInit.ALCHECRYSITE_BRICKS.get(),
-            'L', BlockInit.ALCHECRYSITE_BRICK_WALL.get(),
-            'A', PatchouliAPI.get().stateMatcher(BlockInit.ALCHECRYSITE_BRICK_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)),
-            'F', BlockInit.FLUORITE_BLOCK.get(),
-            'O', BlockInit.FLUORITE_BRICKS.get(),
-            'M', BlockInit.ALCHEMETRIC_PYLON.get(),
-            'V', BlockInit.MANA_VESSEL.get(),
-            'U', PatchouliAPI.get().stateMatcher(BlockInit.MANA_NODE.get().defaultBlockState().setValue(ManaNodeBlock.FACING, Direction.UP)),
-            'D', PatchouliAPI.get().stateMatcher(BlockInit.MANA_NODE.get().defaultBlockState().setValue(BlockStateProperties.FACING, Direction.DOWN)),
-            'I', BlockInit.ATHANOR_PILLAR.get());
+    @Override
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        this.inventory.deserializeNBT(registries, tag.getCompound("inventory"));
+        this.craftingProgress = tag.getInt("progress");
+        this.craftingTotalTime = tag.getInt("totalProgress");
+    }
 
 
 //    private static Map<BlockPos, BlockState> getStructure() {
 //        return StructureHolder.STRUCTURE;
 //    }
 
-    public static boolean hasCorrectStructure(Level level, BlockPos pos) {
-        return StructureHelper.checkMultiblock(level, STRUCTURE, pos.subtract(new Vec3i(0, 1, 0)));
+    @Nullable
+    @Override
+    public Packet<ClientGamePacketListener> getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
     }
 
-    public static BlockPos detectIncorrectStructurePos(Level level, BlockPos pos) {
-        return StructureHelper.detectMultiblockError(level, STRUCTURE, pos.subtract(new Vec3i(0, 1, 0)), Rotation.NONE, false);
+    @Override
+    public CompoundTag getUpdateTag(HolderLookup.Provider pRegistries) {
+        return saveWithoutMetadata(pRegistries);
     }
 
 }

@@ -10,13 +10,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.entity.mobeffect.MobEffectInit;
-import net.stln.magitech.util.*;
 import net.stln.magitech.magic.charge.ChargeData;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.BeamSpell;
 import net.stln.magitech.particle.particle_option.BeamParticleEffect;
 import net.stln.magitech.particle.particle_option.VoidGlowParticleEffect;
 import net.stln.magitech.sound.SoundInit;
+import net.stln.magitech.util.*;
 import org.joml.Vector3f;
 
 import java.util.ArrayList;

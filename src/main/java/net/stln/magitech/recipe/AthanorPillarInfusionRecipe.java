@@ -10,9 +10,11 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
-import net.stln.magitech.Magitech;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,10 +23,10 @@ public class AthanorPillarInfusionRecipe implements Recipe<GroupedMultiStackReci
     protected final List<List<Ingredient>> ingredients;
     protected final ItemStack result;
     protected final String group;
-    private final RecipeType<?> type;
-    private final RecipeSerializer<?> serializer;
     protected final ItemStack base;
     protected final int mana;
+    private final RecipeType<?> type;
+    private final RecipeSerializer<?> serializer;
 
     public AthanorPillarInfusionRecipe(String group, ItemStack base, List<List<Ingredient>> ingredients, int mana, ItemStack result) {
         this.base = base;

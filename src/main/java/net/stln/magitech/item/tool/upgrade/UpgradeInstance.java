@@ -18,18 +18,9 @@ public class UpgradeInstance {
 
     public static final StreamCodec<ByteBuf, UpgradeInstance> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.INT, UpgradeInstance::getLevel,
-            ResourceLocation.STREAM_CODEC, (instance) ->  UpgradeRegister.getId(instance.upgrade),
+            ResourceLocation.STREAM_CODEC, (instance) -> UpgradeRegister.getId(instance.upgrade),
             UpgradeInstance::new
     );
-
-    public int getLevel() {
-        return level;
-    }
-
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
     public int level;
     public Upgrade upgrade;
 
@@ -37,10 +28,17 @@ public class UpgradeInstance {
         this.level = level;
         this.upgrade = upgrade;
     }
-
     public UpgradeInstance(int level, ResourceLocation upgrade) {
         this.level = level;
         this.upgrade = UpgradeRegister.getUpgradeFromAll(upgrade);
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 
     @Override

@@ -35,7 +35,6 @@ import net.stln.magitech.Magitech;
 import net.stln.magitech.damage.EntityElementRegister;
 import net.stln.magitech.entity.status.AttributeInit;
 import net.stln.magitech.item.tool.toolitem.SpellCasterItem;
-import net.stln.magitech.util.Element;
 import net.stln.magitech.magic.charge.Charge;
 import net.stln.magitech.magic.charge.ChargeData;
 import net.stln.magitech.magic.cooldown.Cooldown;
@@ -46,6 +45,7 @@ import net.stln.magitech.network.ReleaseUsingSpellPayload;
 import net.stln.magitech.network.UseSpellPayload;
 import net.stln.magitech.recipe.RecipeInit;
 import net.stln.magitech.recipe.SpellConversionRecipe;
+import net.stln.magitech.util.Element;
 import net.stln.magitech.util.MathUtil;
 import net.stln.magitech.util.SpellShape;
 
@@ -268,9 +268,9 @@ public abstract class Spell {
                     livingTarget.setLastHurtByMob(user);
                     user.awardStat(Stats.DAMAGE_DEALT, Math.round((targetHealth - livingTarget.getHealth()) * 10));
                 }
-                target.hurt(elementalDamageSource, damage);
             }
             user.setLastHurtMob(target);
+            target.hurt(elementalDamageSource, damage);
         }
     }
 

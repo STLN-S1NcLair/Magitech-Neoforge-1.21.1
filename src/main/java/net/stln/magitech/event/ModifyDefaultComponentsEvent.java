@@ -1,5 +1,6 @@
 package net.stln.magitech.event;
 
+import com.klikli_dev.modonomicon.registry.DataComponentRegistry;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
@@ -9,7 +10,6 @@ import net.stln.magitech.item.ItemInit;
 import net.stln.magitech.item.component.*;
 import net.stln.magitech.item.tool.material.MaterialInit;
 import net.stln.magitech.magic.spell.SpellInit;
-import net.stln.magitech.magic.spell.SpellRegister;
 import vazkii.patchouli.common.item.PatchouliDataComponents;
 
 import java.util.List;
@@ -44,7 +44,7 @@ public class ModifyDefaultComponentsEvent {
 
         if (ModList.get().isLoaded("patchouli")) {
             event.modify(ItemInit.GLISTENING_LEXICON, builder -> builder.set(ComponentInit.SPELL_COMPONENT.get(),
-                            new SpellComponent(List.of(), 0))
+                            new SpellComponent(List.of(), 0)).set(DataComponentRegistry.BOOK_ID.get(), ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "glistening_lexicon"))
                     .set(PatchouliDataComponents.BOOK, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "glistening_lexicon")).build());
             event.modify(ItemInit.THE_FIRE_THAT_THINKS, builder -> builder.set(ComponentInit.SPELL_COMPONENT.get(),
                             new SpellComponent(List.of(), 0))
@@ -53,9 +53,9 @@ public class ModifyDefaultComponentsEvent {
                     new SpellComponent(List.of(), 0)).build());
         } else {
             event.modify(ItemInit.GLISTENING_LEXICON, builder -> builder.set(ComponentInit.SPELL_COMPONENT.get(),
-                            new SpellComponent(List.of(), 0)).build());
+                    new SpellComponent(List.of(), 0)).build());
             event.modify(ItemInit.THE_FIRE_THAT_THINKS, builder -> builder.set(ComponentInit.SPELL_COMPONENT.get(),
-                            new SpellComponent(List.of(), 0)).build());
+                    new SpellComponent(List.of(), 0)).build());
             event.modify(ItemInit.ARCANE_ENGINEERING_COMPENDIUM, builder -> builder.set(ComponentInit.SPELL_COMPONENT.get(),
                     new SpellComponent(List.of(), 0)).build());
         }

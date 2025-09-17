@@ -1,22 +1,13 @@
 package net.stln.magitech.advancement;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.advancements.Criterion;
-import net.minecraft.advancements.CriterionTrigger;
-import net.minecraft.advancements.CriterionTriggerInstance;
 import net.minecraft.advancements.critereon.*;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.PlayerAdvancements;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.bus.EventBus;
-import net.stln.magitech.Magitech;
 
-import java.util.*;
+import java.util.Optional;
 
 public class ToolUpgradeTrigger extends SimpleCriterionTrigger<ToolUpgradeTrigger.TriggerInstance> {
     @Override
@@ -28,7 +19,8 @@ public class ToolUpgradeTrigger extends SimpleCriterionTrigger<ToolUpgradeTrigge
         this.trigger(player, p_27675_ -> p_27675_.matches(item, tier));
     }
 
-    public record TriggerInstance(Optional<ContextAwarePredicate> player, Optional<ItemPredicate> item, MinMaxBounds.Ints tier)
+    public record TriggerInstance(Optional<ContextAwarePredicate> player, Optional<ItemPredicate> item,
+                                  MinMaxBounds.Ints tier)
             implements SimpleCriterionTrigger.SimpleInstance {
         public static final Codec<ToolUpgradeTrigger.TriggerInstance> CODEC = RecordCodecBuilder.create(
                 p_337356_ -> p_337356_.group(

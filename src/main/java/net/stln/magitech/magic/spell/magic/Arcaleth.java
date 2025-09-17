@@ -18,10 +18,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.entity.magicentity.arcaleth.ArcalethEntity;
-import net.stln.magitech.util.Element;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.sound.SoundInit;
+import net.stln.magitech.util.Element;
 import net.stln.magitech.util.SpellShape;
 
 import java.util.HashMap;

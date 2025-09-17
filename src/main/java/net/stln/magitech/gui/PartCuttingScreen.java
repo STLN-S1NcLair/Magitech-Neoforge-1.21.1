@@ -37,10 +37,9 @@ public class PartCuttingScreen extends AbstractContainerScreen<PartCuttingMenu> 
     private static final int SCROLLER_FULL_HEIGHT = 54;
     private static final int RECIPES_X = 46;
     private static final int RECIPES_Y = 31;
+    ItemStack stack = null;
     private float scrollOffs;
     private OwoUIAdapter<FlowLayout> uiAdapter;
-    ItemStack stack = null;
-
     private int bgWidth = 176;
     private int panelWidth = 160;
     /**
@@ -61,6 +60,13 @@ public class PartCuttingScreen extends AbstractContainerScreen<PartCuttingMenu> 
         this.imageHeight = 199;
         this.titleLabelY = 4;
         this.inventoryLabelY = 106;
+    }
+
+    private static List<Component> getPanelText() {
+        List<Component> components = new ArrayList<>();
+        components.add(Component.translatable("recipe.magitech.part_cutting.panel.title").withStyle(Style.EMPTY.withUnderlined(true)));
+        components.add(Component.translatable("recipe.magitech.part_cutting.panel.text"));
+        return components;
     }
 
     @Override
@@ -84,13 +90,6 @@ public class PartCuttingScreen extends AbstractContainerScreen<PartCuttingMenu> 
         root.clearChildren();
         ToolStatsPanel.addPartPanel(root, Positioning.absolute(leftPos + bgWidth, topPos), menu.resultSlot.getItem(), Component.translatable("recipe.magitech.tool_stats_panel"), getPanelText());
         this.uiAdapter.inflateAndMount();
-    }
-
-    private static List<Component> getPanelText() {
-        List<Component> components = new ArrayList<>();
-        components.add(Component.translatable("recipe.magitech.part_cutting.panel.title").withStyle(Style.EMPTY.withUnderlined(true)));
-        components.add(Component.translatable("recipe.magitech.part_cutting.panel.text"));
-        return components;
     }
 
     /**

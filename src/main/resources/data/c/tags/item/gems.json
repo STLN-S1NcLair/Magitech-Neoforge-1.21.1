@@ -1,11 +1,11 @@
 {
   "replace": false,
   "values": [
-    "magitech:fluorite",
-    "magitech:tourmaline",
-    "magitech:mana_charged_fluorite",
-    "magitech:citrine",
-    "magitech:redstone_crystal",
-    "magitech:sulfur"
+    "#c:gems/fluorite",
+    "#c:gems/tourmaline",
+    "#c:gems/mana_charged_fluorite",
+    "#c:gems/citrine",
+    "#c:gems/redstone_crystal",
+    "#c:gems/sulfur"
   ]
 }

@@ -2,7 +2,6 @@ package net.stln.magitech.item.armor;
 
 import net.minecraft.resources.ResourceLocation;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.entity.magicentity.aeltherin.AeltherinEntity;
 import software.bernie.geckolib.model.GeoModel;
 
 public class AetherLifterModel extends GeoModel<AetherLifterItem> {

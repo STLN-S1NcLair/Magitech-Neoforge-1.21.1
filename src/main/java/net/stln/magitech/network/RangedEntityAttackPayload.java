@@ -7,7 +7,8 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.stln.magitech.Magitech;
 
-public record RangedEntityAttackPayload(int id, int targetId, float distanceFactor, int index) implements CustomPacketPayload {
+public record RangedEntityAttackPayload(int id, int targetId, float distanceFactor,
+                                        int index) implements CustomPacketPayload {
     public static final ResourceLocation RANGED_ENTITY_ATTACK = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ranged_entity_attack");
     public static final Type<RangedEntityAttackPayload> TYPE = new Type<>(RANGED_ENTITY_ATTACK);
     public static final StreamCodec<ByteBuf, RangedEntityAttackPayload> STREAM_CODEC = StreamCodec.composite(

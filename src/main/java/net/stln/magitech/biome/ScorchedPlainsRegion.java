@@ -14,14 +14,12 @@ import terrablender.api.VanillaParameterOverlayBuilder;
 import java.util.function.Consumer;
 
 public class ScorchedPlainsRegion extends Region {
-    public ScorchedPlainsRegion(ResourceLocation name, int weight)
-{
-    super(name, RegionType.OVERWORLD, weight);
-}
+    public ScorchedPlainsRegion(ResourceLocation name, int weight) {
+        super(name, RegionType.OVERWORLD, weight);
+    }
 
     @Override
-    public void addBiomes(Registry<Biome> registry, Consumer<Pair<Climate.ParameterPoint, ResourceKey<Biome>>> mapper)
-    {
+    public void addBiomes(Registry<Biome> registry, Consumer<Pair<Climate.ParameterPoint, ResourceKey<Biome>>> mapper) {
         VanillaParameterOverlayBuilder builder = new VanillaParameterOverlayBuilder();
 
         new ParameterUtils.ParameterPointListBuilder()

@@ -2,21 +2,22 @@ package net.stln.magitech.gui;
 
 import io.wispforest.owo.ui.component.Components;
 import io.wispforest.owo.ui.component.LabelComponent;
-import io.wispforest.owo.ui.component.TextAreaComponent;
-import io.wispforest.owo.ui.container.*;
-import io.wispforest.owo.ui.core.*;
+import io.wispforest.owo.ui.container.Containers;
+import io.wispforest.owo.ui.container.FlowLayout;
+import io.wispforest.owo.ui.container.ScrollContainer;
+import io.wispforest.owo.ui.container.StackLayout;
+import io.wispforest.owo.ui.core.Color;
+import io.wispforest.owo.ui.core.Positioning;
+import io.wispforest.owo.ui.core.Sizing;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.item.tool.partitem.PartItem;
 import net.stln.magitech.item.tool.toolitem.PartToolItem;
-import org.checkerframework.checker.signature.qual.Identifier;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListResourceBundle;
 
 public class ToolStatsPanel {
     private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "textures/gui/tool_stats_panel.png");
@@ -70,7 +71,6 @@ public class ToolStatsPanel {
 
         StackLayout panel = Containers.stack(Sizing.fixed(160), Sizing.fixed(199));
         panel.positioning(positioning);
-
 
 
         // コンテナに追加

@@ -12,7 +12,6 @@ import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -23,13 +22,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.entity.mobeffect.MobEffectInit;
-import net.stln.magitech.sound.SoundInit;
-import net.stln.magitech.util.*;
 import net.stln.magitech.magic.charge.ChargeData;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.particle.particle_option.BeamParticleEffect;
 import net.stln.magitech.particle.particle_option.VoidGlowParticleEffect;
+import net.stln.magitech.sound.SoundInit;
+import net.stln.magitech.util.*;
 import org.joml.Vector3f;
 
 import java.util.HashMap;
@@ -41,14 +40,6 @@ public class Disparundra extends Spell {
         this.baseMaxRange = 30;
     }
 
-    public Element getElement() {
-        return Element.HOLLOW;
-    }
-
-    public SpellShape getSpellShape() {
-        return SpellShape.DASH;
-    }
-
     protected static void playShootAnimation(Player user) {
         var playerAnimationData = (ModifierLayer<IAnimation>) PlayerAnimationAccess.getPlayerAssociatedData((AbstractClientPlayer) user).get(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "animation"));
         if (playerAnimationData != null) {
@@ -57,6 +48,14 @@ public class Disparundra extends Spell {
             playerAnimationData.setAnimation(new KeyframeAnimationPlayer((KeyframeAnimation) PlayerAnimationRegistry.getAnimation(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "wand_blink")))
                     .setFirstPersonMode(FirstPersonMode.THIRD_PERSON_MODEL).setFirstPersonConfiguration(new FirstPersonConfiguration(true, true, true, true)));
         }
+    }
+
+    public Element getElement() {
+        return Element.HOLLOW;
+    }
+
+    public SpellShape getSpellShape() {
+        return SpellShape.DASH;
     }
 
     @Override

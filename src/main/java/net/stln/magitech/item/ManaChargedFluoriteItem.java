@@ -52,7 +52,7 @@ public class ManaChargedFluoriteItem extends TooltipTextItem {
         Level level = context.getLevel();
         Player player = context.getPlayer();
         BlockEntity entity = level.getBlockEntity(pos);
-        if (entity instanceof ManaContainerBlockEntity containerBlockEntity  && !containerBlockEntity.isFull()) {
+        if (entity instanceof ManaContainerBlockEntity containerBlockEntity && !containerBlockEntity.isFull()) {
             if (!player.isCreative()) {
                 stack.setCount(stack.getCount() - 1);
             }

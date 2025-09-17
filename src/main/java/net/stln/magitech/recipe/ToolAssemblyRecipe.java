@@ -9,7 +9,10 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.PartMaterialComponent;
@@ -69,12 +72,12 @@ public class ToolAssemblyRecipe implements Recipe<MultiStackRecipeInput> {
             throw new IllegalArgumentException("the result item expected to be a PartToolItem");
         }
         ToolType type = ((PartToolItem) result.getItem()).getToolType();
-            List<ToolMaterial> toolMaterials = isCorrectTypesForTool(input, type);
-            if (!toolMaterials.isEmpty()) {
-                ItemStack stack = result.copy();
-                stack.set(ComponentInit.PART_MATERIAL_COMPONENT, new PartMaterialComponent(toolMaterials));
-                return stack;
-            }
+        List<ToolMaterial> toolMaterials = isCorrectTypesForTool(input, type);
+        if (!toolMaterials.isEmpty()) {
+            ItemStack stack = result.copy();
+            stack.set(ComponentInit.PART_MATERIAL_COMPONENT, new PartMaterialComponent(toolMaterials));
+            return stack;
+        }
         return ItemStack.EMPTY;
     }
 

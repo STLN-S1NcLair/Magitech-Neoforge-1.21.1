@@ -24,8 +24,8 @@ import net.stln.magitech.item.component.MaterialComponent;
 import net.stln.magitech.item.component.PartMaterialComponent;
 import net.stln.magitech.item.tool.material.ToolMaterial;
 import net.stln.magitech.item.tool.register.ToolMaterialRegister;
-import net.stln.magitech.recipe.ToolAssemblyRecipe;
 import net.stln.magitech.recipe.RecipeInit;
+import net.stln.magitech.recipe.ToolAssemblyRecipe;
 import net.stln.magitech.recipe.ToolMaterialRecipe;
 import org.jetbrains.annotations.Nullable;
 

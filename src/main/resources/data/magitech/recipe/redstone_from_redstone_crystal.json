@@ -18,7 +18,7 @@
     }
   ],
   "input_fluid": {
-    "id": "minecraft:water",
+    "fluid": "minecraft:water",
     "amount": 100
   },
   "result": {

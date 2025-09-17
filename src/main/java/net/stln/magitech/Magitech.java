@@ -1,9 +1,7 @@
 package net.stln.magitech;
 
 import com.mojang.logging.LogUtils;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -16,12 +14,12 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
-import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.stln.magitech.advancement.CriterionInit;
 import net.stln.magitech.biome.BiomeInit;
 import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.compat.curios.ValidatorInit;
+import net.stln.magitech.compat.modonomicon.PageInit;
 import net.stln.magitech.entity.EntityInit;
 import net.stln.magitech.entity.mobeffect.MobEffectInit;
 import net.stln.magitech.entity.status.AttributeInit;
@@ -97,6 +95,7 @@ public class Magitech {
 //        WorldGenInit.registerBiomeModifiers();
         BlockInit.registerStrippableBlocks();
         BiomeInit.registerBiomeRegions(event);
+        PageInit.registerPages();
     }
 
     // Add the example block item to the building blocks tab
@@ -120,6 +119,7 @@ public class Magitech {
             EntityInit.registerModEntitiesRenderer();
             EventInit.registerClientEvent();
             ItemPropertyInit.registerItemProperties();
+            PageInit.registerRenderers();
         }
 
         @SubscribeEvent

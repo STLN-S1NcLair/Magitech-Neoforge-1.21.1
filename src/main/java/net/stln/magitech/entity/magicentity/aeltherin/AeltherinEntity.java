@@ -1,6 +1,5 @@
 package net.stln.magitech.entity.magicentity.aeltherin;
 
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.damagesource.DamageSource;
@@ -18,9 +17,9 @@ import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.damage.EntityElementRegister;
 import net.stln.magitech.entity.EntityInit;
 import net.stln.magitech.entity.SpellProjectileEntity;
-import net.stln.magitech.util.Element;
 import net.stln.magitech.particle.particle_option.BlowParticleEffect;
 import net.stln.magitech.sound.SoundInit;
+import net.stln.magitech.util.Element;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;

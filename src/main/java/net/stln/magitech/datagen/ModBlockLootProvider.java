@@ -10,7 +10,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SweetBerryBushBlock;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -128,7 +127,7 @@ public class ModBlockLootProvider extends BlockLootSubProvider {
                 block -> createPetalsDrops(BlockInit.MISTALIA_PETALS.get()));
         HolderLookup.RegistryLookup<Enchantment> registrylookup = this.registries.lookupOrThrow(Registries.ENCHANTMENT);
         this.add(BlockInit.MANA_BERRY_BUSH.get(), block -> this.applyExplosionDecay(
-                block,LootTable.lootTable().withPool(LootPool.lootPool().when(
+                block, LootTable.lootTable().withPool(LootPool.lootPool().when(
                                         LootItemBlockStatePropertyCondition.hasBlockStateProperties(BlockInit.MANA_BERRY_BUSH.get())
                                                 .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(SweetBerryBushBlock.AGE, 3))
                                 ).add(LootItem.lootTableItem(ItemInit.MANA_BERRIES.get()))

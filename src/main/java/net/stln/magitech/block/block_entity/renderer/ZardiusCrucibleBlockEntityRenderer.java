@@ -24,13 +24,31 @@ import net.minecraft.world.level.material.FluidState;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
-import net.stln.magitech.Magitech;
 import net.stln.magitech.block.ZardiusCrucibleBlock;
 import net.stln.magitech.block.block_entity.ZardiusCrucibleBlockEntity;
 
 public class ZardiusCrucibleBlockEntityRenderer implements BlockEntityRenderer<ZardiusCrucibleBlockEntity> {
     public ZardiusCrucibleBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
 
+    }
+
+    public static float intToRandPattern(float value) {
+        return (float) (Math.sqrt(value) % 1);
+    }
+
+    private static void drawVertex(VertexConsumer builder, PoseStack poseStack, float x, float y, float z, float u, float v, int packedLight, int color) {
+        builder.addVertex(poseStack.last().pose(), x, y, z)
+                .setColor(color)
+                .setUv(u, v)
+                .setLight(packedLight)
+                .setNormal(1, 0, 0);
+    }
+
+    private static void drawQuad(VertexConsumer builder, PoseStack poseStack, float x0, float y0, float z0, float x1, float y1, float z1, float u0, float v0, float u1, float v1, int packedLight, int color) {
+        drawVertex(builder, poseStack, x0, y0, z0, u0, v0, packedLight, color);
+        drawVertex(builder, poseStack, x0, y1, z1, u0, v1, packedLight, color);
+        drawVertex(builder, poseStack, x1, y1, z1, u1, v1, packedLight, color);
+        drawVertex(builder, poseStack, x1, y0, z0, u1, v0, packedLight, color);
     }
 
     @Override
@@ -109,7 +127,7 @@ public class ZardiusCrucibleBlockEntityRenderer implements BlockEntityRenderer<Z
             lightLevel = getLightLevel(pBlockEntity.getLevel(), pBlockEntity.getBlockPos());
         }
 
-        if(fluidStack.getAmount() > 0) {
+        if (fluidStack.getAmount() > 0) {
             drawQuad(builder, pPoseStack, 0.125f, height * 0.75f + 0.1875f, 0.125f, 0.875f, height * 0.75f + 0.1875f, 0.875f,
                     sprite.getU(0.125F), sprite.getV(0.125F), sprite.getU(0.875F), sprite.getV(0.875F),
                     lightLevel, tintColor);
@@ -134,25 +152,6 @@ public class ZardiusCrucibleBlockEntityRenderer implements BlockEntityRenderer<Z
 //        pPoseStack.translate(0, 0, -1f);
 //        drawQuad(builder, pPoseStack, 0.126f, 0.188f, 0.126f, 0.874f, /*height*/0.9f, 0.126f, sprite.getU0(), sprite.getV0(), sprite.getU1(), sprite.getV1(), pPackedLight, tintColor);
 //        pPoseStack.popPose();
-    }
-
-    public static float intToRandPattern(float value) {
-        return (float) (Math.sqrt(value) % 1);
-    }
-
-    private static void drawVertex(VertexConsumer builder, PoseStack poseStack, float x, float y, float z, float u, float v, int packedLight, int color) {
-        builder.addVertex(poseStack.last().pose(), x, y, z)
-                .setColor(color)
-                .setUv(u, v)
-                .setLight(packedLight)
-                .setNormal(1, 0, 0);
-    }
-
-    private static void drawQuad(VertexConsumer builder, PoseStack poseStack, float x0, float y0, float z0, float x1, float y1, float z1, float u0, float v0, float u1, float v1, int packedLight, int color) {
-        drawVertex(builder, poseStack, x0, y0, z0, u0, v0, packedLight, color);
-        drawVertex(builder, poseStack, x0, y1, z1, u0, v1, packedLight, color);
-        drawVertex(builder, poseStack, x1, y1, z1, u1, v1, packedLight, color);
-        drawVertex(builder, poseStack, x1, y0, z0, u1, v0, packedLight, color);
     }
 
     private int getLightLevel(Level level, BlockPos pos) {

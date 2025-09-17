@@ -1,0 +1,37 @@
+{
+  "name": "book.magitech.glistening_lexicon.introduction.magic.name",
+  "icon": {
+    "id": "magitech:wand",
+    "components": {
+      "magitech:part_material_component": {
+        "materials": [
+          "magitech:iron",
+          "magitech:iron",
+          "magitech:iron",
+          "magitech:iron"
+        ]
+      }
+    }
+  },
+  "category": "magitech:introduction",
+  "x": 0,
+  "y": 2,
+  "background_u_index": 1,
+  "background_v_index": 1,
+  "parents": [
+    {
+      "entry": "magitech:introduction/root"
+    }
+  ],
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "title": "book.magitech.glistening_lexicon.introduction.magic.0.title",
+      "text": "book.magitech.glistening_lexicon.introduction.magic.0.text"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.glistening_lexicon.introduction.magic.1.text"
+    }
+  ]
+}

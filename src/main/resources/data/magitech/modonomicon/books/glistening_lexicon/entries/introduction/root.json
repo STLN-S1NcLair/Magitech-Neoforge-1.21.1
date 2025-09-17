@@ -1,0 +1,22 @@
+{
+  "name": "book.magitech.glistening_lexicon.introduction.root.name",
+  "icon": {
+    "id": "magitech:glistening_lexicon"
+  },
+  "category": "magitech:introduction",
+  "x": 0,
+  "y": 0,
+  "background_u_index": 0,
+  "background_v_index": 1,
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "title": "book.magitech.glistening_lexicon.introduction.root.0.title",
+      "text": "book.magitech.glistening_lexicon.introduction.root.0.text"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.glistening_lexicon.introduction.root.1.text"
+    }
+  ]
+}

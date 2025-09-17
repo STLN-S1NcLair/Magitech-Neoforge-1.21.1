@@ -11,7 +11,6 @@ import org.joml.Math;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class EffectUtil {

@@ -1,7 +1,6 @@
 package net.stln.magitech.item;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SignItem;
 import net.minecraft.world.item.TooltipFlag;

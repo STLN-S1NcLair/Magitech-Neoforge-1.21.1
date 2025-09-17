@@ -27,6 +27,11 @@ public class AxeItem extends PartToolItem {
         super(settings);
     }
 
+    private static boolean playerHasShieldUseIntent(UseOnContext context) {
+        Player player = context.getPlayer();
+        return context.getHand().equals(InteractionHand.MAIN_HAND) && player.getOffhandItem().is(Items.SHIELD) && !player.isSecondaryUseActive();
+    }
+
     public ToolType getToolType() {
         return ToolType.AXE;
     }
@@ -55,7 +60,7 @@ public class AxeItem extends PartToolItem {
             } else {
                 ItemStack itemstack = context.getItemInHand();
                 if (player instanceof ServerPlayer) {
-                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer)player, blockpos, itemstack);
+                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, blockpos, itemstack);
                 }
 
                 level.setBlock(blockpos, optional.get(), 11);
@@ -68,11 +73,6 @@ public class AxeItem extends PartToolItem {
                 return InteractionResult.sidedSuccess(level.isClientSide);
             }
         }
-    }
-
-    private static boolean playerHasShieldUseIntent(UseOnContext context) {
-        Player player = context.getPlayer();
-        return context.getHand().equals(InteractionHand.MAIN_HAND) && player.getOffhandItem().is(Items.SHIELD) && !player.isSecondaryUseActive();
     }
 
     private Optional<BlockState> evaluateNewBlockState(Level level, BlockPos pos, @Nullable Player player, BlockState state, UseOnContext p_40529_) {

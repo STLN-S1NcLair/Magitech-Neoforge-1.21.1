@@ -8,8 +8,8 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.stln.magitech.item.ItemInit;
-import net.stln.magitech.item.ThreadPageItem;
 import net.stln.magitech.item.ThreadBoundItem;
+import net.stln.magitech.item.ThreadPageItem;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.SpellComponent;
 import net.stln.magitech.item.component.ThreadPageComponent;
@@ -58,11 +58,13 @@ public class ThreadboudMenuType extends AbstractContainerMenu {
         addInventory(playerInv);
         addHotbar(playerInv);
 
-        List<Spell> spells = threadbound.get(ComponentInit.SPELL_COMPONENT).spells();
-        for (int i = 0; i < Math.min(spells.size(), container.getContainerSize()); i++) {
-            ItemStack stack = new ItemStack(ItemInit.THREAD_PAGE.get());
-            stack.set(ComponentInit.THREAD_PAGE_COMPONENT, new ThreadPageComponent(spells.get(i)));
-            container.setItem(i, stack);
+        if (threadbound.get(ComponentInit.SPELL_COMPONENT) != null) {
+            List<Spell> spells = threadbound.get(ComponentInit.SPELL_COMPONENT).spells();
+            for (int i = 0; i < Math.min(spells.size(), container.getContainerSize()); i++) {
+                ItemStack stack = new ItemStack(ItemInit.THREAD_PAGE.get());
+                stack.set(ComponentInit.THREAD_PAGE_COMPONENT, new ThreadPageComponent(spells.get(i)));
+                container.setItem(i, stack);
+            }
         }
     }
 

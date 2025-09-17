@@ -23,10 +23,11 @@ import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.item.tool.material.ToolMaterial;
 import net.stln.magitech.item.tool.register.ToolMaterialRegister;
 import net.stln.magitech.recipe.RecipeInit;
-import net.stln.magitech.recipe.ZardiusCrucibleRecipe;
 import net.stln.magitech.recipe.ToolMaterialRecipe;
+import net.stln.magitech.recipe.ZardiusCrucibleRecipe;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class ZardiusCrucibleRecipeCategory implements IRecipeCategory<ZardiusCrucibleRecipe> {
@@ -161,7 +162,7 @@ public class ZardiusCrucibleRecipeCategory implements IRecipeCategory<ZardiusCru
                     .addIngredients(ingredients.get(i));
         }
         builder.addSlot(RecipeIngredientRole.INPUT, 74, 14)
-                .addIngredient(NeoForgeTypes.FLUID_STACK, recipe.getInputFluid()).addRichTooltipCallback((recipeSlotView, tooltip) -> {
+                .addIngredients(NeoForgeTypes.FLUID_STACK, Arrays.stream(recipe.getInputFluid().ingredient().getStacks()).toList()).addRichTooltipCallback((recipeSlotView, tooltip) -> {
                     recipeSlotView.getDisplayedIngredient(NeoForgeTypes.FLUID_STACK).ifPresent(fluid -> {
                         int amount = fluid.getAmount();
                         // mB単位で表示

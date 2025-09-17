@@ -2,7 +2,7 @@ package net.stln.magitech.item.tool.upgrade;
 
 import net.stln.magitech.item.tool.ToolStats;
 
-public  class SimpleUpgrade extends Upgrade {
+public class SimpleUpgrade extends Upgrade {
 
     ToolStats upgradeStats;
 

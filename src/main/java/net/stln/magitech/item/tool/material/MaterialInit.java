@@ -8,10 +8,10 @@ import net.minecraft.world.entity.monster.warden.Warden;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.damage.ElementAffinityRegister;
 import net.stln.magitech.damage.EntityElementRegister;
-import net.stln.magitech.util.Element;
 import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.item.tool.register.ToolMaterialRegister;
 import net.stln.magitech.item.tool.trait.*;
+import net.stln.magitech.util.Element;
 
 public class MaterialInit {
 
@@ -53,7 +53,7 @@ public class MaterialInit {
         STONE.addSpellCasterStats(new ToolStats(1F, 0F, 0.85F, 0.8F, 1.5F, 1F, 0.8F, 0.5F, Element.NONE, MiningLevel.STONE, 0));
 
         DEEPSLATE.addStats(new ToolStats(0.7F, 0.35F, 0.7F, 0.9F, 2F, 1F, 0.8F, 0.6F, Element.TREMOR, MiningLevel.STONE, 0));
-        DEEPSLATE.addSpellCasterStats(new ToolStats(0.7F, 0.35F, 0.7F, 0.9F, 2F, 1F, 0.8F, 0.6F, Element.TREMOR, MiningLevel.STONE, 0 ));
+        DEEPSLATE.addSpellCasterStats(new ToolStats(0.7F, 0.35F, 0.7F, 0.9F, 2F, 1F, 0.8F, 0.6F, Element.TREMOR, MiningLevel.STONE, 0));
 
         COPPER.addStats(new ToolStats(0.8F, 0.3F, 0.8F, 1F, 0.8F, 0.8F, 0.9F, 0.8F, Element.SURGE, MiningLevel.STONE, 0));
         COPPER.addSpellCasterStats(new ToolStats(0.9F, 0.3F, 0.8F, 1F, 0.8F, 0.8F, 0.9F, 0.8F, Element.SURGE, MiningLevel.STONE, 0));

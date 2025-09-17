@@ -8,7 +8,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.DeferredSpawnEggItem;
@@ -370,7 +369,7 @@ public class ItemInit {
 
     public static final DeferredItem<Item> MANA_BERRIES = ITEMS.registerItem("mana_berries",
             (key) -> new TooltipTextPlaceableItem(BlockInit.MANA_BERRY_BUSH.get(),
-            new Item.Properties().food(FoodInit.MANA_BERRIES)));
+                    new Item.Properties().food(FoodInit.MANA_BERRIES)));
 
     public static final DeferredItem<Item> MANA_PIE = ITEMS.registerItem("mana_pie",
             TooltipTextItem::new,
@@ -378,7 +377,7 @@ public class ItemInit {
 
     public static final DeferredItem<Item> WEAVER_SPAWN_EGG = ITEMS.registerItem("weaver_spawn_egg",
             (key) -> new DeferredSpawnEggItem(EntityInit.WEAVER_ENTITY, 0x2F2E30, 0xB1F3CC,
-            new Item.Properties()));
+                    new Item.Properties()));
 
     public static void registerItems(IEventBus eventBus) {
         Magitech.LOGGER.info("Registering Items for" + Magitech.MOD_ID);

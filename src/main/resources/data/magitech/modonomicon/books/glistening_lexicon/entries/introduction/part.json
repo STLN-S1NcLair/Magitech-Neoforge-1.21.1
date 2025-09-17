@@ -1,0 +1,52 @@
+{
+  "name": "book.magitech.glistening_lexicon.introduction.part.name",
+  "icon": {
+    "id": "magitech:light_blade",
+    "components": {
+      "magitech:part_material": {
+        "material": "magitech:iron"
+      }
+    }
+  },
+  "category": "magitech:introduction",
+  "x": 2,
+  "y": -2,
+  "background_u_index": 1,
+  "background_v_index": 0,
+  "parents": [
+    {
+      "entry": "magitech:introduction/part_tool"
+    }
+  ],
+  "pages": [
+    {
+      "type": "modonomicon:spotlight",
+      "title": "book.magitech.glistening_lexicon.introduction.part.0.title",
+      "text": "book.magitech.glistening_lexicon.introduction.part.0.text",
+      "item": {
+        "item": "magitech:light_blade",
+        "components": {
+          "magitech:part_material": {
+            "material": "magitech:iron"
+          }
+        }
+      },
+      "link_recipe" : "true"
+    },
+    {
+      "type": "modonomicon:crafting_recipe",
+      "recipe_id_1": "magitech:engineering_workbench",
+      "title": "book.magitech.glistening_lexicon.introduction.part.1.title",
+      "text": "book.magitech.glistening_lexicon.introduction.part.1.text"
+    },
+    {
+      "type": "modonomicon:spotlight",
+      "title": "book.magitech.glistening_lexicon.introduction.part.1.title",
+      "text": "book.magitech.glistening_lexicon.introduction.part.1.text",
+      "item": {
+        "item": "magitech:engineering_workbench"
+      },
+      "link_recipe" : "true"
+    }
+  ]
+}

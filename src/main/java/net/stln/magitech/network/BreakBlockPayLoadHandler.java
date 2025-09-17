@@ -9,8 +9,6 @@ import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.stln.magitech.item.tool.toolitem.PartToolItem;
 
-import java.util.UUID;
-
 public class BreakBlockPayLoadHandler {
 
     public static void handleDataOnMainS2C(final BreakBlockPayload payload, final IPayloadContext context) {

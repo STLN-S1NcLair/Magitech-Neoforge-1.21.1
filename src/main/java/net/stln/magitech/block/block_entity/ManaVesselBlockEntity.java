@@ -1,8 +1,6 @@
 package net.stln.magitech.block.block_entity;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.stln.magitech.block.BlockInit;
 import software.bernie.geckolib.animatable.GeoBlockEntity;

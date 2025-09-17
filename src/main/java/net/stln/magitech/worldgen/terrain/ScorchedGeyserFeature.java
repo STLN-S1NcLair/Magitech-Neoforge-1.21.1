@@ -1,26 +1,20 @@
 package net.stln.magitech.worldgen.terrain;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
-import net.minecraft.world.level.block.HorizontalDirectionalBlock;
-import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.BlockPos.MutableBlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.block.CrystalClusterBlock;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
-
-import static net.minecraft.core.Direction.Plane.HORIZONTAL;
 
 public class ScorchedGeyserFeature extends Feature<NoneFeatureConfiguration> {
     public ScorchedGeyserFeature() {

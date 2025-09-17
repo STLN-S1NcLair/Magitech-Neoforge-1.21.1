@@ -1,7 +1,6 @@
 package net.stln.magitech.worldgen;
 
 import net.minecraft.core.Direction;
-import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
@@ -15,8 +14,6 @@ import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.util.valueproviders.ConstantInt;
-import net.minecraft.util.valueproviders.UniformInt;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.PinkPetalsBlock;
@@ -24,18 +21,14 @@ import net.minecraft.world.level.block.SweetBerryBushBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
-import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.OreFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.*;
 import net.minecraft.world.level.levelgen.feature.featuresize.TwoLayersFeatureSize;
-import net.minecraft.world.level.levelgen.feature.foliageplacers.BlobFoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.RandomSpreadFoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
-import net.minecraft.world.level.levelgen.feature.trunkplacers.ForkingTrunkPlacer;
-import net.minecraft.world.level.levelgen.feature.trunkplacers.UpwardsBranchingTrunkPlacer;
 import net.minecraft.world.level.levelgen.placement.*;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
@@ -71,8 +64,6 @@ public class WorldGenInit {
             ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "redstone_crystal_surface"));
 
 
-
-
     public static final Supplier<Feature<NoneFeatureConfiguration>> FLUORITE_CRYSTAL_SURFACE_FEATURE =
             FEATURES.register("fluorite_crystal_surface", () -> new OreSurfaceFeature(BlockInit.FLUORITE_CRYSTAL_CLUSTER.get().defaultBlockState(), List.of(BlockInit.FLUORITE_ORE.get(), BlockInit.DEEPSLATE_FLUORITE_ORE.get()), 0.25));
 
@@ -84,7 +75,6 @@ public class WorldGenInit {
 
     public static final ResourceKey<BiomeModifier> FLUORITE_CRYSTAL_SURFACE_BIOME_MODIFIER_KEY =
             ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "fluorite_crystal_surface"));
-
 
 
     public static final Supplier<Feature<OreConfiguration>> FLUORITE_ORE_FEATURE =
@@ -100,7 +90,6 @@ public class WorldGenInit {
             ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "fluorite_ore"));
 
 
-
     public static final Supplier<Feature<OreConfiguration>> TOURMALINE_ORE_FEATURE =
             FEATURES.register("tourmaline_ore", () -> new OreFeature(OreConfiguration.CODEC));
 
@@ -114,7 +103,6 @@ public class WorldGenInit {
             ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "tourmaline_ore"));
 
 
-
     public static final ResourceKey<ConfiguredFeature<?, ?>> CELIFERN_CONFIGURED_KEY =
             ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "celifern"));
 
@@ -123,7 +111,6 @@ public class WorldGenInit {
 
     public static final ResourceKey<BiomeModifier> CELIFERN_BIOME_MODIFIER_KEY =
             ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "celifern"));
-
 
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> CHARCOAL_BIRCH_CONFIGURED_KEY =
@@ -136,7 +123,6 @@ public class WorldGenInit {
             ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "charcoal_birch"));
 
 
-
     public static final ResourceKey<ConfiguredFeature<?, ?>> MANA_BERRY_BUSH_CONFIGURED_KEY =
             ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "mana_berry_bush"));
 
@@ -147,7 +133,6 @@ public class WorldGenInit {
             ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "mana_berry_bush"));
 
 
-
     public static final ResourceKey<ConfiguredFeature<?, ?>> MISTALIA_PETALS_CONFIGURED_KEY =
             ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "mistalia_petals"));
 
@@ -156,8 +141,6 @@ public class WorldGenInit {
 
     public static final ResourceKey<BiomeModifier> MISTALIA_PETALS_BIOME_MODIFIER_KEY =
             ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "mistalia_petals"));
-
-
 
 
     public static final Supplier<Feature<NoneFeatureConfiguration>> SCORCHED_GEYSER_FEATURE =
@@ -171,7 +154,6 @@ public class WorldGenInit {
 
     public static final ResourceKey<BiomeModifier> SCORCHED_GEYSER_BIOME_MODIFIER_KEY =
             ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "scorched_geyser"));
-
 
 
     public static final Supplier<Feature<NoneFeatureConfiguration>> SCORCHED_LAVA_LAKE_FEATURE =
@@ -248,7 +230,7 @@ public class WorldGenInit {
 
         context.register(
                 MISTALIA_PETALS_CONFIGURED_KEY, new ConfiguredFeature<>(Feature.FLOWER,
-                new RandomPatchConfiguration(96, 6, 2, PlacementUtils.onlyWhenEmpty(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(new WeightedStateProvider(builder))))));
+                        new RandomPatchConfiguration(96, 6, 2, PlacementUtils.onlyWhenEmpty(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(new WeightedStateProvider(builder))))));
 
 
         context.register(SCORCHED_GEYSER_CONFIGURED_KEY,
@@ -281,10 +263,10 @@ public class WorldGenInit {
                 List.of(CountPlacement.of(8), InSquarePlacement.spread(), HeightRangePlacement.triangle(VerticalAnchor.aboveBottom(0), VerticalAnchor.aboveBottom(128))))
         );
         context.register(CELIFERN_PLACED_KEY, new PlacedFeature(configured.getOrThrow(CELIFERN_CONFIGURED_KEY),
-               VegetationPlacements.treePlacement(PlacementUtils.countExtra(3, 0.5f, 7),
+                VegetationPlacements.treePlacement(PlacementUtils.countExtra(3, 0.5f, 7),
                         BlockInit.CELIFERN_SAPLING.get())));
         context.register(CHARCOAL_BIRCH_PLACED_KEY, new PlacedFeature(configured.getOrThrow(CHARCOAL_BIRCH_CONFIGURED_KEY),
-               VegetationPlacements.treePlacement(PlacementUtils.countExtra(0, 0.2f, 3),
+                VegetationPlacements.treePlacement(PlacementUtils.countExtra(0, 0.2f, 3),
                         BlockInit.CHARCOAL_BIRCH_SAPLING.get())));
 
         context.register(MANA_BERRY_BUSH_PLACED_KEY, new PlacedFeature(configured.getOrThrow(MANA_BERRY_BUSH_CONFIGURED_KEY),

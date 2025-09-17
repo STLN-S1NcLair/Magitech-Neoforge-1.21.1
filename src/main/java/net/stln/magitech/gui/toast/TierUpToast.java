@@ -6,7 +6,6 @@ import net.minecraft.client.gui.components.toasts.ToastComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeHolder;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.stln.magitech.Magitech;
@@ -36,7 +35,7 @@ public class TierUpToast implements Toast {
         guiGraphics.pose().pushPose();
         guiGraphics.renderFakeItem(stack, 8, 8);
         guiGraphics.pose().popPose();
-        return (double)(timeSinceLastVisible - this.lastChanged) >= 5000.0 * toastComponent.getNotificationDisplayTimeMultiplier()
+        return (double) (timeSinceLastVisible - this.lastChanged) >= 5000.0 * toastComponent.getNotificationDisplayTimeMultiplier()
                 ? Toast.Visibility.HIDE
                 : Toast.Visibility.SHOW;
     }

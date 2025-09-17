@@ -9,11 +9,9 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootParams;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -143,7 +141,7 @@ public class BlockBreakEvent {
             });
             final double[] expMul = {1.0};
             traitMap.forEach((trait, value) -> {
-                 expMul[0] *= trait.modifyExpOnBlockLooting(player, player.level(), tool, value, partToolItem.getSumStats(player, player.level(), tool), state, pos, lootStack.get(), event.getDroppedExperience());
+                expMul[0] *= trait.modifyExpOnBlockLooting(player, player.level(), tool, value, partToolItem.getSumStats(player, player.level(), tool), state, pos, lootStack.get(), event.getDroppedExperience());
             });
             event.setDroppedExperience((int) (event.getDroppedExperience() * expMul[0]));
 

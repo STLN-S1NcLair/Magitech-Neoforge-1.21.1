@@ -1,12 +1,12 @@
 package net.stln.magitech.item.tool.register;
 
 import net.minecraft.resources.ResourceLocation;
-import net.stln.magitech.util.Element;
 import net.stln.magitech.item.tool.ToolPart;
 import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.item.tool.ToolType;
 import net.stln.magitech.item.tool.material.MiningLevel;
 import net.stln.magitech.item.tool.material.ToolMaterial;
+import net.stln.magitech.util.Element;
 import net.stln.magitech.util.Map2d;
 
 import java.util.HashMap;

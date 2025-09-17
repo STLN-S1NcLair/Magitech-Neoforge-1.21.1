@@ -12,7 +12,6 @@ import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -32,7 +31,10 @@ import net.stln.magitech.particle.particle_option.BeamParticleEffect;
 import net.stln.magitech.particle.particle_option.MembraneParticleEffect;
 import net.stln.magitech.particle.particle_option.SquareParticleEffect;
 import net.stln.magitech.sound.SoundInit;
-import net.stln.magitech.util.*;
+import net.stln.magitech.util.EffectUtil;
+import net.stln.magitech.util.Element;
+import net.stln.magitech.util.EntityUtil;
+import net.stln.magitech.util.SpellShape;
 import org.joml.Vector3f;
 
 import java.util.ArrayList;
@@ -134,7 +136,7 @@ public class Fadancea extends Spell {
                     if (entity instanceof LivingEntity && entity.isAlive()) {
                         this.applyDamage(baseDamage, this.getRequiredMana(level, user, stack), this.getElement(), stack, user, entity);
                         Vec3 hitDirection = entity.position().subtract(hitPos).normalize();
-                            entity.addDeltaMovement(hitDirection.scale(0.3));
+                        entity.addDeltaMovement(hitDirection.scale(0.3));
                     }
                 }
                 livingEntity.fallDistance = 0;
@@ -144,7 +146,7 @@ public class Fadancea extends Spell {
                     livingEntity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 40, 1, false, false, true));
                 }
 //                TickScheduler.schedule(1, () -> {
-                    livingEntity.addDeltaMovement(forward.normalize().scale(1).add(0, 0.6, 0));
+                livingEntity.addDeltaMovement(forward.normalize().scale(1).add(0, 0.6, 0));
                 livingEntity.hurtMarked = true;
 //                }, level.isClientSide);
                 for (int i = 0; i < 15; i++) {

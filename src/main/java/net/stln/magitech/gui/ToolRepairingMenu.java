@@ -37,19 +37,17 @@ public class ToolRepairingMenu extends AbstractContainerMenu {
     private static final int INV_SLOT_END = 37;
     private static final int USE_ROW_SLOT_START = 37;
     private static final int USE_ROW_SLOT_END = 46;
-    private final Container inputSlots = new SimpleContainer(3) {
+    private final ResultContainer resultSlots = new ResultContainer();    private final Container inputSlots = new SimpleContainer(3) {
         @Override
         public void setChanged() {
             super.setChanged();
             ToolRepairingMenu.this.slotsChanged(this);
         }
     };
-    private final ResultContainer resultSlots = new ResultContainer();
     private final ContainerLevelAccess access;
     private final Player player;
     private final Level level;
     private boolean placingRecipe;
-
     public ToolRepairingMenu(int containerId, Inventory playerInventory) {
         this(containerId, playerInventory, ContainerLevelAccess.NULL);
     }
@@ -60,27 +58,29 @@ public class ToolRepairingMenu extends AbstractContainerMenu {
         this.access = access;
         this.player = playerInventory.player;
         this.addSlot(new Slot(this.resultSlots, 0, 134, 49) {
-        @Override
-        public boolean mayPlace(ItemStack p_40362_) {
-            return false;
-        }
-
-        @Override
-        public void onTake(Player p_150672_, ItemStack p_150673_) {
-            p_150673_.onCraftedBy(p_150672_.level(), p_150672_, p_150673_.getCount());
-            ToolRepairingMenu.this.resultSlots.awardUsedRecipes(p_150672_, this.getRelevantItems());
-            removeCount();
-            super.onTake(p_150672_, p_150673_);
-            ToolRepairingMenu.this.slotsChanged(inputSlots);
-        }
-
-        private List<ItemStack> getRelevantItems() {
-            return createRecipeInput(inputSlots).stacks();
-        };
-        });
-            for (int i = 0; i < 3; i++) {
-                this.addSlot(new Slot(this.inputSlots, i, 20 + i * 18, 49));
+            @Override
+            public boolean mayPlace(ItemStack p_40362_) {
+                return false;
             }
+
+            @Override
+            public void onTake(Player p_150672_, ItemStack p_150673_) {
+                p_150673_.onCraftedBy(p_150672_.level(), p_150672_, p_150673_.getCount());
+                ToolRepairingMenu.this.resultSlots.awardUsedRecipes(p_150672_, this.getRelevantItems());
+                removeCount();
+                super.onTake(p_150672_, p_150673_);
+                ToolRepairingMenu.this.slotsChanged(inputSlots);
+            }
+
+            private List<ItemStack> getRelevantItems() {
+                return createRecipeInput(inputSlots).stacks();
+            }
+
+            ;
+        });
+        for (int i = 0; i < 3; i++) {
+            this.addSlot(new Slot(this.inputSlots, i, 20 + i * 18, 49));
+        }
 
         for (int k = 0; k < 3; k++) {
             for (int i1 = 0; i1 < 9; i1++) {
@@ -93,37 +93,22 @@ public class ToolRepairingMenu extends AbstractContainerMenu {
         }
     }
 
-    private void removeCount() {
-        int repairCount = 0;
-        ItemStack stack = inputSlots.getItem(0).copy();
-        for (int i = 0; i < Math.min(inputSlots.getItem(1).getCount(), inputSlots.getItem(2).getCount()); i++) {
-            if (stack.getDamageValue() > 0) {
-                stack.setDamageValue(stack.getDamageValue() - stack.getMaxDamage() / 5);
-                ((PartToolItem) stack.getItem()).callOnRepair(level, player, stack.getMaxDamage() / 5, stack);
-                repairCount++;
-            }
-        }
-        inputSlots.removeItem(0, 1);
-        inputSlots.removeItem(1, repairCount);
-        inputSlots.removeItem(2, repairCount);
-    }
-
     protected static void slotChangedCraftingGrid(
-        AbstractContainerMenu menu,
-        Level level,
-        Player player,
-        Container craftSlots,
-        ResultContainer resultSlots,
-        @Nullable RecipeHolder<ToolAssemblyRecipe> recipe
+            AbstractContainerMenu menu,
+            Level level,
+            Player player,
+            Container craftSlots,
+            ResultContainer resultSlots,
+            @Nullable RecipeHolder<ToolAssemblyRecipe> recipe
     ) {
         if (!level.isClientSide) {
             MultiStackRecipeInput craftinginput = createRecipeInput(craftSlots);
-            ServerPlayer serverplayer = (ServerPlayer)player;
+            ServerPlayer serverplayer = (ServerPlayer) player;
             ItemStack itemstack = craftinginput.getItem(0).copy();
             SingleRecipeInput input = new SingleRecipeInput(craftinginput.getItem(1));
             Optional<RecipeHolder<ToolMaterialRecipe>> optional = level.getServer()
-                .getRecipeManager()
-                .getRecipeFor(RecipeInit.TOOL_MATERIAL_TYPE.get(), input, level);
+                    .getRecipeManager()
+                    .getRecipeFor(RecipeInit.TOOL_MATERIAL_TYPE.get(), input, level);
             boolean isRepairable = false;
             if (!itemstack.isEmpty() && optional.isPresent() && craftinginput.getItem(2).getTags().anyMatch(Predicate.isEqual(ItemTagKeys.REPAIR_COMPONENT))) {
                 RecipeHolder<ToolMaterialRecipe> recipeholder = optional.get();
@@ -158,6 +143,21 @@ public class ToolRepairingMenu extends AbstractContainerMenu {
             stacks.add(container.getItem(i));
         }
         return new MultiStackRecipeInput(stacks);
+    }
+
+    private void removeCount() {
+        int repairCount = 0;
+        ItemStack stack = inputSlots.getItem(0).copy();
+        for (int i = 0; i < Math.min(inputSlots.getItem(1).getCount(), inputSlots.getItem(2).getCount()); i++) {
+            if (stack.getDamageValue() > 0) {
+                stack.setDamageValue(stack.getDamageValue() - stack.getMaxDamage() / 5);
+                ((PartToolItem) stack.getItem()).callOnRepair(level, player, stack.getMaxDamage() / 5, stack);
+                repairCount++;
+            }
+        }
+        inputSlots.removeItem(0, 1);
+        inputSlots.removeItem(1, repairCount);
+        inputSlots.removeItem(2, repairCount);
     }
 
     /**
@@ -265,4 +265,6 @@ public class ToolRepairingMenu extends AbstractContainerMenu {
     public boolean canTakeItemForPickAll(ItemStack stack, Slot slot) {
         return slot.container != this.resultSlots && super.canTakeItemForPickAll(stack, slot);
     }
+
+
 }

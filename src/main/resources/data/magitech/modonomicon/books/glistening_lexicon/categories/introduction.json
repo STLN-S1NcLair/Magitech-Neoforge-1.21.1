@@ -1,0 +1,19 @@
+{
+  "background": "magitech:textures/gui/glistening_lexicon/background.png",
+  "entry_textures": "magitech:textures/gui/glistening_lexicon/entry_textures.png",
+  "icon": {
+  "id": "magitech:wand",
+  "components": {
+    "magitech:part_material_component": {
+      "materials": [
+        "magitech:iron",
+        "magitech:iron",
+        "magitech:iron",
+        "magitech:iron"
+      ]
+    }
+  }
+},
+  "name": "book.magitech.glistening_lexicon.introduction.name",
+  "sort_number": 0
+}

@@ -71,7 +71,7 @@ public class Blazewend extends Spell {
         float strength = this.getDamage(user, getCost(level, user, stack), this.baseEffectStrength, this.getElement());
         int duration = 10;
         Vec3 front = Vec3.directionFromRotation(user.getRotationVector());
-            user.addDeltaMovement(front.scale(strength * 2));
+        user.addDeltaMovement(front.scale(strength * 2));
         for (int i = 0; i < duration; i++) {
             int finalI = i;
             TickScheduler.schedule(i, () -> {

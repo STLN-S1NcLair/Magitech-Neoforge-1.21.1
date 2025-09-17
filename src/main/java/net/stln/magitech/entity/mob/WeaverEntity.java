@@ -1,57 +1,39 @@
 package net.stln.magitech.entity.mob;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.IronGolem;
-import net.minecraft.world.entity.animal.Turtle;
-import net.minecraft.world.entity.animal.Wolf;
-import net.minecraft.world.entity.item.ItemEntity;
-import net.stln.magitech.entity.RangedSpellAttackGoal;
-import net.stln.magitech.entity.magicentity.ignisca.IgniscaEntity;
-import net.stln.magitech.entity.mob.WeaverEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.entity.projectile.ProjectileUtil;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.stln.magitech.damage.DamageTypeInit;
-import net.stln.magitech.damage.EntityElementRegister;
-import net.stln.magitech.entity.EntityInit;
-import net.stln.magitech.entity.SpellProjectileEntity;
+import net.stln.magitech.entity.RangedSpellAttackGoal;
+import net.stln.magitech.entity.magicentity.ignisca.IgniscaEntity;
 import net.stln.magitech.network.RangedEntityAttackPayload;
 import net.stln.magitech.particle.particle_option.*;
 import net.stln.magitech.sound.SoundInit;
 import net.stln.magitech.util.EffectUtil;
-import net.stln.magitech.util.Element;
 import net.stln.magitech.util.EntityUtil;
 import net.stln.magitech.util.TickScheduler;
 import org.joml.Vector3f;
@@ -66,7 +48,6 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 import javax.annotation.Nullable;
 import java.time.LocalDate;
 import java.time.temporal.ChronoField;
-import java.util.HashMap;
 import java.util.List;
 
 public class WeaverEntity extends Monster implements GeoEntity, RangedAttackMob {
@@ -192,13 +173,15 @@ public class WeaverEntity extends Monster implements GeoEntity, RangedAttackMob 
 
 
         TickScheduler.schedule(2, () -> {
-                surface[0] = EntityUtil.findSurface(level, target.position());
+            surface[0] = EntityUtil.findSurface(level, target.position());
         }, level.isClientSide);
 
         for (int j = 0; j < 3; j++) {
             TickScheduler.schedule(5 + 10 * j, () -> {
 
-                level().addParticle(new SquareFieldParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(0.5F, 0.5F, 1.0F), 1.0F, this.getRandom().nextInt(3, 6), 0), surface[0].x, surface[0].y + 0.1, surface[0].z, 0, 0, 0);
+                if (this.isAlive() && target.isAlive() && surface[0] != null && this.level() != null) {
+                    level().addParticle(new SquareFieldParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(0.5F, 0.5F, 1.0F), 1.0F, this.getRandom().nextInt(3, 6), 0), surface[0].x, surface[0].y + 0.1, surface[0].z, 0, 0, 0);
+                }
 
                 Vec3 lightningTop = surface[0].add(0, Mth.randomBetween(this.getRandom(), 5, 20), 0);
                 List<Entity> entities = EntityUtil.getEntitiesInBox(level, this, surface[0], new Vec3(2, 2, 2));
@@ -250,7 +233,8 @@ public class WeaverEntity extends Monster implements GeoEntity, RangedAttackMob 
                         double vz = (this.getRandom().nextFloat() - 0.5) / 2;
                         level.addParticle(new UnstableSquareParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed), x, y, z, vx, vy, vz);
                     }
-                }}, level.isClientSide);
+                }
+            }, level.isClientSide);
         }
     }
 
@@ -324,11 +308,11 @@ public class WeaverEntity extends Monster implements GeoEntity, RangedAttackMob 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "controller", 0, state -> {
-                if (state.isMoving()) {
-                    state.setAndContinue(WALK);
-                } else {
-                    state.setAndContinue(IDLE);
-                }
+            if (state.isMoving()) {
+                state.setAndContinue(WALK);
+            } else {
+                state.setAndContinue(IDLE);
+            }
             return PlayState.CONTINUE;
         }).triggerableAnim("damage", DAMAGE).triggerableAnim("spell", SPELL));
     }

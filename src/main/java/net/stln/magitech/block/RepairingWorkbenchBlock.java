@@ -12,7 +12,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import net.stln.magitech.gui.ToolAssemblyMenu;
 import net.stln.magitech.gui.ToolRepairingMenu;
 
 public class RepairingWorkbenchBlock extends Block {

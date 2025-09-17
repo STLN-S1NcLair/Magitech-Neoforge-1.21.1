@@ -35,15 +35,15 @@ public record UpgradeComponent(List<UpgradeInstance> upgrades) {
     public UpgradeComponent addUpgrade(UpgradeInstance upgrade) {
         List<UpgradeInstance> oldUpgrades = new java.util.ArrayList<>(List.copyOf(upgrades));
         List<UpgradeInstance> newUpgrades = new java.util.ArrayList<>();
-            int level = upgrade.level;
-            for (int i = 0; i < oldUpgrades.size(); i++) {
-                if (oldUpgrades.get(i).upgrade.equals(upgrade.upgrade)) {
-                    level += oldUpgrades.get(i).level;
-                } else {
-                    newUpgrades.add(oldUpgrades.get(i));
-                }
+        int level = upgrade.level;
+        for (int i = 0; i < oldUpgrades.size(); i++) {
+            if (oldUpgrades.get(i).upgrade.equals(upgrade.upgrade)) {
+                level += oldUpgrades.get(i).level;
+            } else {
+                newUpgrades.add(oldUpgrades.get(i));
             }
-            newUpgrades.add(new UpgradeInstance(level, upgrade.upgrade));
+        }
+        newUpgrades.add(new UpgradeInstance(level, upgrade.upgrade));
 
         return new UpgradeComponent(newUpgrades);
     }

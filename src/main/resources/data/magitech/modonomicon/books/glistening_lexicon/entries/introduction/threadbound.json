@@ -1,0 +1,31 @@
+{
+  "name": "book.magitech.glistening_lexicon.introduction.threadbound.name",
+  "icon": {
+    "id": "magitech:glistening_lexicon"
+  },
+  "category": "magitech:introduction",
+  "x": 2,
+  "y": 2,
+  "background_u_index": 1,
+  "background_v_index": 0,
+  "parents": [
+    {
+      "entry": "magitech:introduction/magic"
+    }
+  ],
+  "pages": [
+    {
+      "type": "modonomicon:spotlight",
+      "title": "book.magitech.glistening_lexicon.introduction.threadbound.0.title",
+      "text": "book.magitech.glistening_lexicon.introduction.threadbound.0.text",
+      "item": {
+        "item": "magitech:glistening_lexicon"
+      },
+      "link_recipe" : "true"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.glistening_lexicon.introduction.threadbound.1.text"
+    }
+  ]
+}

@@ -9,7 +9,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.stln.magitech.item.tool.ToolStats;
-import net.stln.magitech.item.tool.toolitem.PartToolItem;
 import net.stln.magitech.particle.particle_option.PowerupParticleEffect;
 import net.stln.magitech.sound.SoundInit;
 import org.joml.Vector3f;

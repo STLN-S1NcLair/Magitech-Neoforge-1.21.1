@@ -2,10 +2,8 @@ package net.stln.magitech.block;
 
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -24,7 +22,6 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.stln.magitech.block.block_entity.AlchemetricPylonBlockEntity;
-import net.stln.magitech.block.block_entity.AthanorPillarBlockEntity;
 
 import javax.annotation.Nullable;
 
@@ -73,8 +70,8 @@ public class AlchemetricPylonBlock extends BaseEntityBlock {
 
     @Override
     protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
-        if(state.getBlock() != newState.getBlock()) {
-            if(level.getBlockEntity(pos) instanceof AlchemetricPylonBlockEntity pylonBlockEntity) {
+        if (state.getBlock() != newState.getBlock()) {
+            if (level.getBlockEntity(pos) instanceof AlchemetricPylonBlockEntity pylonBlockEntity) {
                 pylonBlockEntity.drops();
                 level.updateNeighbourForOutputSignal(pos, this);
             }
@@ -85,12 +82,12 @@ public class AlchemetricPylonBlock extends BaseEntityBlock {
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
                                               Player player, InteractionHand hand, BlockHitResult hitResult) {
-        if(level.getBlockEntity(pos) instanceof AlchemetricPylonBlockEntity pylonBlockEntity) {
-            if(pylonBlockEntity.inventory.getStackInSlot(0).isEmpty() && !stack.isEmpty()) {
+        if (level.getBlockEntity(pos) instanceof AlchemetricPylonBlockEntity pylonBlockEntity) {
+            if (pylonBlockEntity.inventory.getStackInSlot(0).isEmpty() && !stack.isEmpty()) {
                 pylonBlockEntity.inventory.insertItem(0, stack.copy(), false);
                 stack.shrink(1);
                 level.playSound(player, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 0.5f, 2f);
-            } else if(stack.isEmpty()) {
+            } else if (stack.isEmpty()) {
                 ItemStack stackOnPedestal = pylonBlockEntity.inventory.extractItem(0, 1, false);
                 player.setItemInHand(InteractionHand.MAIN_HAND, stackOnPedestal);
                 pylonBlockEntity.clearContents();

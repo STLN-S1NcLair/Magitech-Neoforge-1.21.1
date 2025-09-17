@@ -55,6 +55,12 @@ repositories {
         url = "https://maven.blamejared.com/"
     }
     maven {
+        url "https://dl.cloudsmith.io/public/klikli-dev/mods/maven/"
+        content {
+            includeGroup "com.klikli_dev"
+        }
+    }
+    maven {
         // location of a maven mirror for JEI files, as a fallback
         name = "ModMaven"
         url = "https://modmaven.dev"
@@ -162,6 +168,7 @@ dependencies {
     implementation "org.sinytra.forgified-fabric-api:forgified-fabric-api:${forgified_fabric_api_version}"
     implementation "curse.maven:playeranimator-658587:${playeranimator_id}"
     implementation "curse.maven:patchouli-306770:${patchouli_id}"
+    implementation ("com.klikli_dev:modonomicon-${minecraft_version}-neoforge:${modonomicon_version}"){transitive=false}
 //    compileOnly("curse.maven:patchouli-306770:${patchouli_id}")
     implementation "com.github.glitchfiend:TerraBlender-neoforge:1.21.1-4.1.0.8"
     implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_id}"

@@ -1,6 +1,5 @@
 package net.stln.magitech.gui;
 
-import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -8,7 +7,10 @@ import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.*;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -16,7 +18,6 @@ import net.stln.magitech.advancement.CriterionInit;
 import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.UpgradeComponent;
-import net.stln.magitech.item.tool.partitem.PartItem;
 import net.stln.magitech.item.tool.toolitem.PartToolItem;
 import net.stln.magitech.item.tool.upgrade.Upgrade;
 import net.stln.magitech.item.tool.upgrade.UpgradeInstance;
@@ -47,7 +48,9 @@ public class ToolUpgradeMenu extends AbstractContainerMenu {
      * The {@linkplain ItemStack} set in the input slot by the player.
      */
     private ItemStack input = ItemStack.EMPTY;
-    public final Container container = new SimpleContainer(2) {
+    public ToolUpgradeMenu(int containerId, Inventory playerInventory) {
+        this(containerId, playerInventory, ContainerLevelAccess.NULL);
+    }    public final Container container = new SimpleContainer(2) {
         @Override
         public void setChanged() {
             super.setChanged();
@@ -55,10 +58,6 @@ public class ToolUpgradeMenu extends AbstractContainerMenu {
             ToolUpgradeMenu.this.slotUpdateListener.run();
         }
     };
-
-    public ToolUpgradeMenu(int containerId, Inventory playerInventory) {
-        this(containerId, playerInventory, ContainerLevelAccess.NULL);
-    }
 
     public ToolUpgradeMenu(int containerId, Inventory playerInventory, final ContainerLevelAccess access) {
         super(GuiInit.TOOL_UPGRADE_MENU.get(), containerId);
@@ -257,4 +256,6 @@ public class ToolUpgradeMenu extends AbstractContainerMenu {
         super.removed(player);
         this.access.execute((p_40313_, p_40314_) -> this.clearContainer(player, this.container));
     }
+
+
 }

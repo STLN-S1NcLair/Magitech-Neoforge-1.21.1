@@ -21,7 +21,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.util.*;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.particle.particle_option.SparkParticleEffect;
@@ -29,6 +28,7 @@ import net.stln.magitech.particle.particle_option.SquareParticleEffect;
 import net.stln.magitech.particle.particle_option.UnstableSquareParticleEffect;
 import net.stln.magitech.particle.particle_option.ZapParticleEffect;
 import net.stln.magitech.sound.SoundInit;
+import net.stln.magitech.util.*;
 import org.joml.Vector3f;
 
 import java.util.HashMap;

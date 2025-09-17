@@ -1,0 +1,32 @@
+{
+  "name": "book.magitech.glistening_lexicon.introduction.part_tool.name",
+  "icon": {
+    "id": "magitech:pickaxe",
+    "components": {
+      "magitech:part_material_component": {
+        "materials": [
+            "magitech:iron",
+            "magitech:iron",
+            "magitech:iron"
+          ]
+      }
+    }
+  },
+  "category": "magitech:introduction",
+  "x": 0,
+  "y": -2,
+  "background_u_index": 1,
+  "background_v_index": 1,
+  "parents": [
+    {
+      "entry": "magitech:introduction/root"
+    }
+  ],
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "title": "book.magitech.glistening_lexicon.introduction.part_tool.0.title",
+      "text": "book.magitech.glistening_lexicon.introduction.part_tool.0.text"
+    }
+  ]
+}

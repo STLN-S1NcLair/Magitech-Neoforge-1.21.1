@@ -64,12 +64,6 @@ public abstract class ManaContainerBlockEntity extends BlockEntity {
         level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
     }
 
-    public void setMana(int value) {
-        this.mana = value;
-        this.mana = Math.clamp(this.mana, 0, this.maxMana);
-        level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
-    }
-
     public List<Component> getManaInfo() {
         List<Component> list = new ArrayList<>();
         list.add(this.getBlockState().getBlock().getName());
@@ -94,6 +88,12 @@ public abstract class ManaContainerBlockEntity extends BlockEntity {
 
     public int getMana() {
         return mana;
+    }
+
+    public void setMana(int value) {
+        this.mana = value;
+        this.mana = Math.clamp(this.mana, 0, this.maxMana);
+        level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
     }
 
     public int getMaxMana() {

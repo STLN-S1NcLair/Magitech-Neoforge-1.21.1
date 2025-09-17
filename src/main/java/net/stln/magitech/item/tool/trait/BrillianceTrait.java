@@ -1,6 +1,5 @@
 package net.stln.magitech.item.tool.trait;
 
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -69,8 +68,8 @@ public class BrillianceTrait extends Trait {
         level.updateSkyBrightness();
         int light = level.getMaxLocalRawBrightness(player.blockPosition());
         if (light <= 3) {
-                EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(0.85F, 0.8F, 1.0F), new Vector3f(0.85F, 0.8F, 1.0F), 1F, 1, 0F), player, 1);
-                player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 220, 0, false, false));
+            EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(0.85F, 0.8F, 1.0F), new Vector3f(0.85F, 0.8F, 1.0F), 1F, 1, 0F), player, 1);
+            player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 220, 0, false, false));
         } else if (light >= 10) {
             EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(0.85F, 0.8F, 1.0F), new Vector3f(0.85F, 0.8F, 1.0F), 1F, 1, 0F), player, 1);
         }

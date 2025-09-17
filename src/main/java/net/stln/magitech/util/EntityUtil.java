@@ -377,7 +377,7 @@ public class EntityUtil {
         AABB searchBox = new AABB(startLoc, endLoc).inflate(1.0); // 線分を含む範囲を検索
 
         List<Entity> entities = level.getEntities(player, searchBox, entity ->
-                entity.isPickable() && entity.getBoundingBox().clip(startLoc, endLoc).isPresent()
+                entity.isAttackable() && entity.getBoundingBox().clip(startLoc, endLoc).isPresent()
         );
 
         EntityHitResult closestHit = null;

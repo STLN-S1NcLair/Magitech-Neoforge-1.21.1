@@ -1,6 +1,5 @@
 package net.stln.magitech.worldgen.terrain;
 
-import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
@@ -9,13 +8,9 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.VegetationPatchFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.VegetationPatchConfiguration;
 import net.stln.magitech.block.BlockInit;
 
 import java.util.Arrays;
@@ -27,7 +22,20 @@ import java.util.function.Predicate;
 public class ScorchedLavaLakeFeature extends Feature<NoneFeatureConfiguration> {
 
     public ScorchedLavaLakeFeature() {
-    super(NoneFeatureConfiguration.CODEC);
+        super(NoneFeatureConfiguration.CODEC);
+    }
+
+    private static boolean isExposed(WorldGenLevel level, Set<BlockPos> positions, BlockPos pos, BlockPos.MutableBlockPos mutablePos) {
+        return isExposedDirection(level, pos, mutablePos, Direction.NORTH)
+                || isExposedDirection(level, pos, mutablePos, Direction.EAST)
+                || isExposedDirection(level, pos, mutablePos, Direction.SOUTH)
+                || isExposedDirection(level, pos, mutablePos, Direction.WEST)
+                || isExposedDirection(level, pos, mutablePos, Direction.DOWN);
+    }
+
+    private static boolean isExposedDirection(WorldGenLevel level, BlockPos pos, BlockPos.MutableBlockPos mutablePos, Direction direction) {
+        mutablePos.setWithOffset(pos, direction);
+        return !level.getBlockState(mutablePos).isFaceSturdy(level, mutablePos, direction.getOpposite());
     }
 
     @Override
@@ -168,18 +176,5 @@ public class ScorchedLavaLakeFeature extends Feature<NoneFeatureConfiguration> {
         }
 
         return true;
-    }
-
-    private static boolean isExposed(WorldGenLevel level, Set<BlockPos> positions, BlockPos pos, BlockPos.MutableBlockPos mutablePos) {
-        return isExposedDirection(level, pos, mutablePos, Direction.NORTH)
-                || isExposedDirection(level, pos, mutablePos, Direction.EAST)
-                || isExposedDirection(level, pos, mutablePos, Direction.SOUTH)
-                || isExposedDirection(level, pos, mutablePos, Direction.WEST)
-                || isExposedDirection(level, pos, mutablePos, Direction.DOWN);
-    }
-
-    private static boolean isExposedDirection(WorldGenLevel level, BlockPos pos, BlockPos.MutableBlockPos mutablePos, Direction direction) {
-        mutablePos.setWithOffset(pos, direction);
-        return !level.getBlockState(mutablePos).isFaceSturdy(level, mutablePos, direction.getOpposite());
     }
 }
