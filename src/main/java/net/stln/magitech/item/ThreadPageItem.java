@@ -31,12 +31,12 @@ public class ThreadPageItem extends TooltipTextItem {
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
+    public void appendHoverText(ItemStack stack, @NotNull TooltipContext context, List<Component> tooltipComponents, @NotNull TooltipFlag tooltipFlag) {
         ComponentHelper.getThreadPageSpell(stack).ifPresent(holder -> {
             var spell = holder.value();
             ResourceLocation location = RegistryHelper.getIdOrNull(holder);
             if (location != null) {
-                tooltipComponents.add(Component.translatable("spell." + location.getNamespace() + "." + location.getPath()).withColor(spell.getElement().getSpellColor()));
+                tooltipComponents.add(Component.translatable(location.toLanguageKey("spell")).withColor(spell.getElement().getSpellColor()));
             }
             var player = ClientHelper.getPlayer();
             if (player == null) return;

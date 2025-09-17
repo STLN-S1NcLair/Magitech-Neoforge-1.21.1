@@ -15,16 +15,20 @@ public class BiomeInit {
 
     public static final ResourceKey<Biome> SCORCHED_PLAINS = ResourceKey.create(Registries.BIOME, Magitech.id("scorched_plains"));
 
-    public static final TagKey<Biome> HAS_CELIFERN_FOREST = TagKey.create(Registries.BIOME, Magitech.id("has_celifern_forest"));
+    public static final TagKey<Biome> HAS_CELIFERN_FOREST = createTagKey("has_celifern_forest");
 
-    public static final TagKey<Biome> HAS_CHARCOAL_BIRCH_FOREST = TagKey.create(Registries.BIOME, Magitech.id("has_charcoal_birch_forest"));
+    public static final TagKey<Biome> HAS_CHARCOAL_BIRCH_FOREST = createTagKey("has_charcoal_birch_forest");
 
-    public static final TagKey<Biome> HAS_MANA_BERRY_BUSH = TagKey.create(Registries.BIOME, Magitech.id("has_mana_berry_bush"));
+    public static final TagKey<Biome> HAS_MANA_BERRY_BUSH = createTagKey("has_mana_berry_bush");
 
-    public static final TagKey<Biome> HAS_MISTALIA_PETALS = TagKey.create(Registries.BIOME, Magitech.id("has_mistalia_petals"));
+    public static final TagKey<Biome> HAS_MISTALIA_PETALS = createTagKey("has_mistalia_petals");
 
-    public static final TagKey<Biome> IS_SCORCHED = TagKey.create(Registries.BIOME, Magitech.id("is_scorched"));
+    public static final TagKey<Biome> IS_SCORCHED = createTagKey("is_scorched");
 
+    private static TagKey<Biome> createTagKey(String path) {
+        return TagKey.create(Registries.BIOME, Magitech.id(path));
+    }
+    
     public static void registerBiomeRegions(FMLCommonSetupEvent event) {
         event.enqueueWork(() ->
         {

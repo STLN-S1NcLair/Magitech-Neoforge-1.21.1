@@ -67,7 +67,7 @@ public class ThreadBoundItem extends TooltipTextItem implements ICurioItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
+    public void appendHoverText(ItemStack stack, @NotNull TooltipContext context, List<Component> tooltipComponents, @NotNull TooltipFlag tooltipFlag) {
         int i = 0;
         @NotNull SpellComponent spells = ComponentHelper.getSpells(stack);
         for (Holder<Spell> holder : spells.spells()) {
@@ -76,10 +76,11 @@ public class ThreadBoundItem extends TooltipTextItem implements ICurioItem {
                 int abs = Math.abs(spells.selected() - i);
                 if (abs <= 2 || Screen.hasShiftDown()) {
                     Element element = holder.value().getElement();
+                    String key = location.toLanguageKey("spell");
                     if (spells.selected() == i) {
-                        tooltipComponents.add(Component.literal("> ").append(Component.translatable("spell." + location.getNamespace() + "." + location.getPath())).withColor(element.getSpellColor()));
+                        tooltipComponents.add(Component.literal("> ").append(Component.translatable(key)).withColor(element.getSpellColor()));
                     } else {
-                        tooltipComponents.add(Component.translatable("spell." + location.getNamespace() + "." + location.getPath()).withColor(element.getSpellDark()));
+                        tooltipComponents.add(Component.translatable(key).withColor(element.getSpellDark()));
                     }
                 } else if (abs == 3) {
                     tooltipComponents.add(Component.literal("...").withColor(0x405060));

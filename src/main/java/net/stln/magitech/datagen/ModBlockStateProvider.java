@@ -126,10 +126,8 @@ public class ModBlockStateProvider extends BlockStateProvider {
     }
 
     private void woodBlockWithItem(Block block) {
-        ResourceLocation resourceLocation = ResourceLocation.tryParse(blockTexture(block).toString().replace("_wood", "_log"));
-        if (resourceLocation != null) {
-            axisBlock((RotatedPillarBlock) block, resourceLocation, resourceLocation);
-        }
+        ResourceLocation resourceLocation = ResourceLocation.parse(blockTexture(block).toString().replace("_wood", "_log"));
+        axisBlock((RotatedPillarBlock) block, resourceLocation, resourceLocation);
         blockItem(block);
     }
 
