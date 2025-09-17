@@ -19,7 +19,7 @@ import net.neoforged.fml.ModList;
 import net.stln.magitech.item.component.SpellComponent;
 import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.util.ComponentHelper;
-import net.stln.magitech.item.tool.element.Element;
+import net.stln.magitech.element.Element;
 import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;

@@ -44,7 +44,7 @@ import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.common.ItemAbility;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.damage.EntityElementRegister;
+import net.stln.magitech.element.Element;
 import net.stln.magitech.entity.AdjustableAttackStrengthEntity;
 import net.stln.magitech.gui.toast.TierUpToast;
 import net.stln.magitech.item.LeftClickOverrideItem;
@@ -52,7 +52,6 @@ import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.tool.ToolPart;
 import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.item.tool.ToolType;
-import net.stln.magitech.item.tool.element.Element;
 import net.stln.magitech.item.tool.material.MiningLevel;
 import net.stln.magitech.item.tool.material.ToolMaterial;
 import net.stln.magitech.item.tool.register.ToolMaterialRegister;
@@ -691,7 +690,7 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
             }
 
             DamageSource elementalDamageSource = attacker.damageSources().source(damageType, attacker);
-            float damage = baseAttackDamage * EntityElementRegister.getElementAffinity(target, stats.getElement()).getMultiplier();
+            float damage = baseAttackDamage * DataMapHelper.getElementMultiplier(target, stats.getElement());
             if (target instanceof LivingEntity livingEntity) {
                 float targetHealth = livingEntity.getHealth();
                 if (!target.isInvulnerableTo(elementalDamageSource)) {

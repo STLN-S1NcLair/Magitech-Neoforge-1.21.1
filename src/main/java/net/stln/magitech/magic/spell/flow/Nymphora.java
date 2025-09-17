@@ -25,7 +25,7 @@ import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.particle.particle_option.*;
 import net.stln.magitech.sound.SoundInit;
 import net.stln.magitech.util.EffectUtil;
-import net.stln.magitech.item.tool.element.Element;
+import net.stln.magitech.element.Element;
 import net.stln.magitech.util.SpellShape;
 import org.joml.Vector3f;
 

@@ -1,7 +1,7 @@
 package net.stln.magitech.item.tool.material;
 
 import net.stln.magitech.item.tool.ToolStats;
-import net.stln.magitech.item.tool.element.Element;
+import net.stln.magitech.element.Element;
 
 public class ToolStatsInit {
     static final ToolStats WOOD = new ToolStats(0.4F, 0.4F, 1.1F, 0.4F, 0.5F, 0.9F, 0.7F, 0.3F, Element.FLOW, MiningLevel.NONE, 0);

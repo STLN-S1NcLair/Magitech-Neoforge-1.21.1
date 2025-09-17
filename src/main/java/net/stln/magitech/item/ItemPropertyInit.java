@@ -4,7 +4,7 @@ import net.minecraft.client.renderer.item.ItemProperties;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.util.ComponentHelper;
-import net.stln.magitech.item.tool.element.Element;
+import net.stln.magitech.element.Element;
 
 public class ItemPropertyInit {
     public static void registerItemProperties() {

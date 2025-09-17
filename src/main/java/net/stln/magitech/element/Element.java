@@ -1,20 +1,20 @@
-package net.stln.magitech.item.tool.element;
+package net.stln.magitech.element;
 
 
+import com.mojang.serialization.Codec;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.damagesource.DamageType;
-import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
-import net.minecraft.world.entity.monster.*;
-import net.minecraft.world.entity.monster.breeze.Breeze;
-import net.minecraft.world.entity.monster.warden.Warden;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.damage.DamageTypeInit;
 import net.stln.magitech.damage.ElementAffinityRegister;
-import net.stln.magitech.damage.EntityElementRegister;
+import org.jetbrains.annotations.NotNull;
 
-public enum Element {
+import java.util.Locale;
+
+public enum Element implements StringRepresentable {
     NONE("none", 0xFFFFFF, 0x404040, 0xA0FFD0, 0x005060, DamageTypeInit.MANA_DAMAGE),
     EMBER("ember", 0xFF4040, 0x400000, 0xFF4040, 0x400000, DamageTypeInit.EMBER_DAMAGE),
     GLACE("glace", 0xA0FFFF, 0x002840, 0xA0FFFF, 0x002840, DamageTypeInit.GLACE_DAMAGE),
@@ -25,6 +25,8 @@ public enum Element {
     FLOW("flow", 0xA0FF40, 0x104000, 0xA0FF40, 0x104000, DamageTypeInit.FLOW_DAMAGE),
     HOLLOW("hollow", 0x8020C0, 0x200040, 0x8020C0, 0x200040, DamageTypeInit.HOLLOW_DAMAGE);
 
+    public static final Codec<Element> CODEC = StringRepresentable.fromEnum(Element::values);
+    
     public static void registerElements() {
         Magitech.LOGGER.info("Registering Elements for" + Magitech.MOD_ID);
         ElementAffinityRegister.registerAffinity(Element.EMBER, ElementAffinityRegister.INEFFICIENT, Element.EMBER);
@@ -54,22 +56,22 @@ public enum Element {
         ElementAffinityRegister.registerAffinity(Element.TREMOR, ElementAffinityRegister.EFFICIENT, Element.FLOW);
         ElementAffinityRegister.registerAffinity(Element.FLOW, ElementAffinityRegister.EFFICIENT, Element.EMBER);
 
-        EntityElementRegister.registerEntityElement(Blaze.class, Element.EMBER);
-        EntityElementRegister.registerEntityElement(MagmaCube.class, Element.EMBER);
-        EntityElementRegister.registerEntityElement(Stray.class, Element.GLACE);
-        EntityElementRegister.registerEntityElement(Phantom.class, Element.PHANTOM);
-        EntityElementRegister.registerEntityElement(Vex.class, Element.PHANTOM);
-        EntityElementRegister.registerEntityElement(Warden.class, Element.TREMOR);
-        EntityElementRegister.registerEntityElement(Witch.class, Element.MAGIC);
-        EntityElementRegister.registerEntityElement(Evoker.class, Element.MAGIC);
-        EntityElementRegister.registerEntityElement(Drowned.class, Element.FLOW);
-        EntityElementRegister.registerEntityElement(Guardian.class, Element.FLOW);
-        EntityElementRegister.registerEntityElement(ElderGuardian.class, Element.FLOW);
-        EntityElementRegister.registerEntityElement(Breeze.class, Element.FLOW);
-        EntityElementRegister.registerEntityElement(EnderMan.class, Element.HOLLOW);
-        EntityElementRegister.registerEntityElement(EnderDragon.class, Element.HOLLOW);
-        EntityElementRegister.registerEntityElement(Endermite.class, Element.HOLLOW);
-        EntityElementRegister.registerEntityElement(Shulker.class, Element.HOLLOW);
+        // EntityElementRegister.registerEntityElement(Blaze.class, Element.EMBER);
+        // EntityElementRegister.registerEntityElement(MagmaCube.class, Element.EMBER);
+        // EntityElementRegister.registerEntityElement(Stray.class, Element.GLACE);
+        // EntityElementRegister.registerEntityElement(Phantom.class, Element.PHANTOM);
+        // EntityElementRegister.registerEntityElement(Vex.class, Element.PHANTOM);
+        // EntityElementRegister.registerEntityElement(Warden.class, Element.TREMOR);
+        // EntityElementRegister.registerEntityElement(Witch.class, Element.MAGIC);
+        // EntityElementRegister.registerEntityElement(Evoker.class, Element.MAGIC);
+        // EntityElementRegister.registerEntityElement(Drowned.class, Element.FLOW);
+        // EntityElementRegister.registerEntityElement(Guardian.class, Element.FLOW);
+        // EntityElementRegister.registerEntityElement(ElderGuardian.class, Element.FLOW);
+        // EntityElementRegister.registerEntityElement(Breeze.class, Element.FLOW);
+        // EntityElementRegister.registerEntityElement(EnderMan.class, Element.HOLLOW);
+        // EntityElementRegister.registerEntityElement(EnderDragon.class, Element.HOLLOW);
+        // EntityElementRegister.registerEntityElement(Endermite.class, Element.HOLLOW);
+        // EntityElementRegister.registerEntityElement(Shulker.class, Element.HOLLOW);
     }
     
     private final String id;
@@ -116,8 +118,12 @@ public enum Element {
         return spellDark;
     }
 
-
     public ResourceKey<DamageType> getDamageType() {
         return damageType;
+    }
+
+    @Override
+    public @NotNull String getSerializedName() {
+        return name().toLowerCase(Locale.ROOT);
     }
 }

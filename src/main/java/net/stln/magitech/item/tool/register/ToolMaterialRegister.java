@@ -6,7 +6,7 @@ import com.google.common.collect.Table;
 import net.stln.magitech.item.tool.ToolPart;
 import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.item.tool.ToolType;
-import net.stln.magitech.item.tool.element.Element;
+import net.stln.magitech.element.Element;
 import net.stln.magitech.item.tool.material.MiningLevel;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
