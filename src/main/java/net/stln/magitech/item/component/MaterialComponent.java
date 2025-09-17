@@ -9,7 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.stln.magitech.item.tool.material.ToolMaterial;
 import org.jetbrains.annotations.NotNull;
 
-public record MaterialComponent(ToolMaterial material) {
+public record MaterialComponent(@NotNull ToolMaterial material) {
 
     public static final Codec<MaterialComponent> CODEC = RecordCodecBuilder.create(instance ->
             instance.group(

@@ -3,21 +3,20 @@ package net.stln.magitech.item.tool.model;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ModelEvent;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.item.tool.material.ToolMaterial;
 import net.stln.magitech.item.tool.register.ToolMaterialRegister;
-import org.apache.logging.log4j.core.appender.FileManager;
 
+import java.util.Collection;
 import java.util.List;
 
 @EventBusSubscriber(modid = Magitech.MOD_ID)
 public class ModelRegistrar {
 
-    public static final List<ToolMaterial> materials = ToolMaterialRegister.getDictId().values().stream().toList();
+    public static final Collection<ToolMaterial> materials = ToolMaterialRegister.getDictId().values();
     public static final List<String> toolTypes = List.of("dagger", "light_sword", "heavy_sword", "pickaxe", "hammer", "axe", "shovel", "scythe", "spear", "wand", "staff", "wandrel");
     public static final List<String> partTypes = List.of("light_blade", "heavy_blade", "light_handle", "heavy_handle", "tool_binding", "handguard", "strike_head", "spike_head", "reinforced_stick", "plate", "catalyst", "conductor");
 

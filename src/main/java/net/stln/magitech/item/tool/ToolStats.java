@@ -117,7 +117,7 @@ public class ToolStats {
         }
         for (Element element2 : elementList) {
             if (elm != element2) {
-                elmAtk += elementMap.getOrDefault(element2, 0.0F) * 0.75;
+                elmAtk += (float) (elementMap.getOrDefault(element2, 0.0F) * 0.75);
             }
         }
         elementList.add(Element.NONE);
@@ -192,7 +192,7 @@ public class ToolStats {
         }
         for (Element element2 : elementList) {
             if (elm != element2) {
-                elmAtk += elementMap.getOrDefault(element2, 0.0F) * 0.75;
+                elmAtk += (float) (elementMap.getOrDefault(element2, 0.0F) * 0.75);
             }
         }
         elementList.add(Element.NONE);

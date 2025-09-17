@@ -68,6 +68,7 @@ import org.joml.Vector3f;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
 
 public abstract class PartToolItem extends Item implements LeftClickOverrideItem {
     ResourceLocation atkId = Magitech.id("part_tool_attack_damage_modifier");
@@ -334,7 +335,7 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
     }
 
     @Override
-    public void onCraftedPostProcess(ItemStack stack, Level level) {
+    public void onCraftedPostProcess(@NotNull ItemStack stack, @NotNull Level level) {
         super.onCraftedPostProcess(stack, level);
 
     }
@@ -403,22 +404,14 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
     }
 
     protected void setTier(ItemStack stack, ToolStats finalStats) {
-        if (!stack.has(ComponentInit.TIER_COMPONENT)) {
-            stack.set(ComponentInit.TIER_COMPONENT, finalStats.getTier() * 5 / this.getToolType().getSize());
-        }
+        stack.update(ComponentInit.TIER_COMPONENT, finalStats.getTier() * 5 / this.getToolType().getSize(), UnaryOperator.identity());
         ComponentHelper.updateUpgradePoint(stack, value -> Math.max(0, value - finalStats.getTier() * 5 / this.getToolType().getSize()));
-        if (!stack.has(ComponentInit.PROGRESSION_COMPONENT)) {
-            stack.set(ComponentInit.PROGRESSION_COMPONENT, 0);
-        }
-        if (!stack.has(ComponentInit.MAX_PROGRESSION_COMPONENT)) {
-            stack.set(ComponentInit.MAX_PROGRESSION_COMPONENT, getMaxProgression(stack.getOrDefault(ComponentInit.TIER_COMPONENT, 0)));
-        }
+        stack.update(ComponentInit.PROGRESSION_COMPONENT, 0, UnaryOperator.identity());
+        stack.update(ComponentInit.MAX_PROGRESSION_COMPONENT, getMaxProgression(ComponentHelper.getTier(stack)), UnaryOperator.identity());
     }
 
     protected void modifyTraitAttribute(Player player, Level level, ItemStack stack, ToolStats finalStats, List<ItemAttributeModifiers.Entry> entries) {
-        getTraitLevel(getTraits(stack)).forEach((trait, value) -> {
-            trait.modifyAttribute(player, level, stack, value, finalStats, entries);
-        });
+        getTraitLevel(getTraits(stack)).forEach((trait, value) -> trait.modifyAttribute(player, level, stack, value, finalStats, entries));
     }
 
     @Override
@@ -428,7 +421,7 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
     }
 
     @Override
-    public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {
+    public boolean isCorrectToolForDrops(@NotNull ItemStack stack, @NotNull BlockState state) {
         if (ComponentHelper.isBroken(stack)) {
             return false;
         }
@@ -452,7 +445,7 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
     }
 
     @Override
-    public void appendHoverText(@NotNull ItemStack stack, @NotNull TooltipContext context, List<Component> tooltipComponents, @NotNull TooltipFlag tooltipFlag) {
+    public void appendHoverText(@NotNull ItemStack stack, @NotNull TooltipContext context, @NotNull List<Component> tooltipComponents, @NotNull TooltipFlag tooltipFlag) {
         addStatsHoverText(stack, tooltipComponents);
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
     }
@@ -534,16 +527,16 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
             tooltipComponents.add(Component.translatable("attribute.magitech.broken").withColor(0xFF8080));
         }
         tooltipComponents.add(Component.translatable("attribute.magitech.tier").append(" ")
-                .append(String.valueOf(stack.getOrDefault(ComponentInit.TIER_COMPONENT, 0))
-                ).withColor(ColorHelper.getTierColor(stack.getOrDefault(ComponentInit.TIER_COMPONENT, 0))));
+                .append(String.valueOf(ComponentHelper.getTier(stack))
+                ).withColor(ColorHelper.getTierColor(ComponentHelper.getTier(stack))));
 
         tooltipComponents.add(
                 RenderHelper.getGradationGauge(0, stack.getOrDefault(ComponentInit.MAX_PROGRESSION_COMPONENT, 0), stack.getOrDefault(ComponentInit.PROGRESSION_COMPONENT, 0), 30,
-                        ColorHelper.getTierColor(stack.getOrDefault(ComponentInit.TIER_COMPONENT, 0)), ColorHelper.getTierColor(stack.getOrDefault(ComponentInit.TIER_COMPONENT, 0) + 1)));
+                        ColorHelper.getTierColor(ComponentHelper.getTier(stack)), ColorHelper.getTierColor(ComponentHelper.getTier(stack) + 1)));
 
         tooltipComponents.add(Component.translatable("attribute.magitech.progress").withColor(0xa0a0a0).append(": ")
                 .append(Component.literal(String.valueOf(stack.getOrDefault(ComponentInit.PROGRESSION_COMPONENT, 0))).withColor(0xFFFFFF)).append(" / ").append(Component.literal(String.valueOf(stack.getOrDefault(ComponentInit.MAX_PROGRESSION_COMPONENT, 0)))
-                        .withColor(ColorHelper.getTierColor(stack.getOrDefault(ComponentInit.TIER_COMPONENT, 0)))));
+                        .withColor(ColorHelper.getTierColor(ComponentHelper.getTier(stack)))));
 
         tooltipComponents.add(Component.translatable("attribute.magitech.upgrade_point").withColor(0xa0a0a0).append(": ")
                 .append(Component.literal(String.valueOf(ComponentHelper.getUpgradePoint(stack))).withColor(0xC0FF60)));
@@ -597,11 +590,10 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
     }
 
     @Override
-    public boolean mineBlock(ItemStack stack, Level level, BlockState state, BlockPos pos, LivingEntity miningEntity) {
+    public boolean mineBlock(@NotNull ItemStack stack, @NotNull Level level, BlockState state, @NotNull BlockPos pos, @NotNull LivingEntity miningEntity) {
         List<Trait> traits = getTraits(stack);
         if (state.getDestroySpeed(level, pos) != 0) {
-            stack.hurtAndBreak(1, (ServerLevel) level, miningEntity, item -> {
-            });
+            stack.hurtAndBreak(1, (ServerLevel) level, miningEntity, item -> {});
             progress(stack, level, miningEntity);
         }
         return super.mineBlock(stack, level, state, pos, miningEntity);
@@ -668,7 +660,7 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
         if (stack.has(ComponentInit.PROGRESSION_COMPONENT)) {
             stack.set(ComponentInit.PROGRESSION_COMPONENT, stack.getOrDefault(ComponentInit.PROGRESSION_COMPONENT, 0) + 1);
             if (stack.getOrDefault(ComponentInit.PROGRESSION_COMPONENT, 0) >= stack.getOrDefault(ComponentInit.MAX_PROGRESSION_COMPONENT, 0)) {
-                int tier = stack.getOrDefault(ComponentInit.TIER_COMPONENT, 0);
+                int tier = ComponentHelper.getTier(stack);
                 stack.set(ComponentInit.TIER_COMPONENT, tier + 1);
                 ComponentHelper.updateUpgradePoint(stack, value -> value + 1);
                 stack.set(ComponentInit.PROGRESSION_COMPONENT, 0);
@@ -698,7 +690,7 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
         ResourceKey<DamageType> damageType = getSumStats(attacker, attacker.level(), stack).getElement().getDamageType();
         if (damageType != null) {
             ToolStats stats = getSumStats(attacker, attacker.level(), stack);
-            float baseAttackDamage = (float) stats.getStats().get(ToolStats.ELM_ATK_STAT);
+            float baseAttackDamage = stats.getStats().get(ToolStats.ELM_ATK_STAT);
 
             float h = attacker.getAttackStrengthScale(0.5F);
             baseAttackDamage *= 0.2F + h * h * 0.8F;

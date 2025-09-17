@@ -23,7 +23,6 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.tool.toolitem.PartToolItem;
 import net.stln.magitech.item.tool.toolitem.SpellCasterItem;
 import net.stln.magitech.item.tool.upgrade.Upgrade;
@@ -94,11 +93,11 @@ public class ToolUpgradeScreen extends AbstractContainerScreen<ToolUpgradeMenu> 
         } else {
             ItemStack itemStack = menu.container.getItem(0);
             if (itemStack.getItem() instanceof PartToolItem) {
-                if (menu.hasUpgradePoint(itemStack) && !ToolMaterialUtil.isCorrectMaterialForUpgrade(itemStack.get(ComponentInit.TIER_COMPONENT), itemStack.get(ComponentInit.UPGRADE_POINT_COMPONENT), menu.container.getItem(1).getItem())) {
+                if (menu.hasUpgradePoint(itemStack) && !ToolMaterialUtil.isCorrectMaterialForUpgrade(ComponentHelper.getTier(itemStack), ComponentHelper.getUpgradePoint(itemStack), menu.container.getItem(1).getItem())) {
                     MutableComponent text = Component.translatable("recipe.magitech.tool_upgrade.incorrect_material");
                     guiGraphics.drawString(this.font, text.withColor(0xF0D080), l - font.width(text) / 2 + 58, i1 + 15, 0xFFFFFF, false);
 
-                    tagItems = BuiltInRegistries.ITEM.getTag(ToolMaterialUtil.getUpgradeMaterialTag(itemStack.get(ComponentInit.TIER_COMPONENT), itemStack.get(ComponentInit.UPGRADE_POINT_COMPONENT))).stream().flatMap(HolderSet.ListBacked::stream).map(Holder::value).toList();
+                    tagItems = BuiltInRegistries.ITEM.getTag(ToolMaterialUtil.getUpgradeMaterialTag(ComponentHelper.getTier(itemStack), ComponentHelper.getUpgradePoint(itemStack))).stream().flatMap(HolderSet.ListBacked::stream).map(Holder::value).toList();
                     currentIndex = Math.min(currentIndex, tagItems.size() - 1);
                     guiGraphics.renderItem(new ItemStack(tagItems.get(currentIndex)), l - 8 + 58, i1 + 31);
 
@@ -161,7 +160,7 @@ public class ToolUpgradeScreen extends AbstractContainerScreen<ToolUpgradeMenu> 
                 }
             }
         }
-        if (!menu.canUpgrade() && menu.hasUpgradePoint(itemStack) && itemStack.getItem() instanceof PartToolItem && !ToolMaterialUtil.isCorrectMaterialForUpgrade(itemStack.get(ComponentInit.TIER_COMPONENT), itemStack.get(ComponentInit.UPGRADE_POINT_COMPONENT), menu.container.getItem(1).getItem())) {
+        if (!menu.canUpgrade() && menu.hasUpgradePoint(itemStack) && itemStack.getItem() instanceof PartToolItem && !ToolMaterialUtil.isCorrectMaterialForUpgrade(ComponentHelper.getTier(itemStack), ComponentHelper.getUpgradePoint(itemStack), menu.container.getItem(1).getItem())) {
             if (x >= i + 50 && x < i + 66 && y >= j + 31 && y < j + 47) {
                 guiGraphics.renderTooltip(font, new ItemStack(tagItems.get(currentIndex)), x, y);
             }

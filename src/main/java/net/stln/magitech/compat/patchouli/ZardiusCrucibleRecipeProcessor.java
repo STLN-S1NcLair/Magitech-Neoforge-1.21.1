@@ -1,24 +1,15 @@
 package net.stln.magitech.compat.patchouli;
 
-import net.minecraft.client.Minecraft;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.stln.magitech.item.component.ComponentInit;
-import net.stln.magitech.item.component.MaterialComponent;
-import net.stln.magitech.item.component.PartMaterialComponent;
-import net.stln.magitech.item.tool.material.ToolMaterial;
-import net.stln.magitech.item.tool.register.ToolMaterialRegister;
-import net.stln.magitech.recipe.RecipeInit;
 import net.stln.magitech.recipe.ZardiusCrucibleRecipe;
-import net.stln.magitech.recipe.ToolMaterialRecipe;
-import net.stln.magitech.util.ToolMaterialUtil;
+import org.jetbrains.annotations.NotNull;
 import vazkii.patchouli.api.IComponentProcessor;
 import vazkii.patchouli.api.IVariable;
 import vazkii.patchouli.api.IVariableProvider;
@@ -28,7 +19,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class ZardiusCrucibleRecipeProcessor implements IComponentProcessor {
-    private List<Ingredient> inputs = new ArrayList<>();
+    private final List<Ingredient> inputs = new ArrayList<>();
     private ItemStack output = ItemStack.EMPTY;
     Recipe<?> recipe;
     private FluidStack fluid;
@@ -38,16 +29,16 @@ public class ZardiusCrucibleRecipeProcessor implements IComponentProcessor {
 
     @Override
     public void setup(Level level, IVariableProvider vars) {
+        RegistryAccess access = level.registryAccess();
         // "recipe" 変数を渡しても良い
-        String recipeId = vars.get("recipe", level.registryAccess()).asString();
+        String recipeId = vars.get("recipe", access).asString();
         if (vars.has("title")) {
-            title = vars.get("title", level.registryAccess()).asString();
+            title = vars.get("title", access).asString();
         }
         if (vars.has("text")) {
-            text = vars.get("text", level.registryAccess()).asString();
+            text = vars.get("text", access).asString();
         }
-         recipe = Minecraft.getInstance().level.getRecipeManager()
-            .byKey(ResourceLocation.tryParse(recipeId)).orElseThrow(IllegalArgumentException::new).value();
+        recipe = level.getRecipeManager().byKey(ResourceLocation.parse(recipeId)).orElseThrow(IllegalArgumentException::new).value();
 
         if (recipe instanceof ZardiusCrucibleRecipe r) {
             // 入力 ItemStack を取得・セット
@@ -61,19 +52,21 @@ public class ZardiusCrucibleRecipeProcessor implements IComponentProcessor {
     }
 
     @Override
-    public IVariable process(Level level, String key) {
-
-        if (key.equals("title")) {
-            return IVariable.wrap(title == null ? "block.magitech.zardius_crucible" : title, level.registryAccess());
-        }
-        if (key.equals("text")) {
-            return IVariable.wrap(text, level.registryAccess());
-        }
-        if (key.equals("input_fluid")) {
-            return IVariable.wrap(Component.translatable("book.magitech.zardius_crucible.input_fluid", Component.translatable(fluid.getDescriptionId()), fluid.getAmount()).getString(), level.registryAccess());
-        }
-        if (key.equals("output_fluid")) {
-            return IVariable.wrap(Component.translatable("book.magitech.zardius_crucible.output_fluid", Component.translatable(outputFluid.getDescriptionId()), outputFluid.getAmount()).getString(), level.registryAccess());
+    public @NotNull IVariable process(Level level, String key) {
+        RegistryAccess access = level.registryAccess();
+        switch (key) {
+            case "title" -> {
+                return IVariable.wrap(title == null ? "block.magitech.zardius_crucible" : title, access);
+            }
+            case "text" -> {
+                return IVariable.wrap(text, access);
+            }
+            case "input_fluid" -> {
+                return IVariable.wrap(Component.translatable("book.magitech.zardius_crucible.input_fluid", Component.translatable(fluid.getDescriptionId()), fluid.getAmount()).getString(), access);
+            }
+            case "output_fluid" -> {
+                return IVariable.wrap(Component.translatable("book.magitech.zardius_crucible.output_fluid", Component.translatable(outputFluid.getDescriptionId()), outputFluid.getAmount()).getString(), access);
+            }
         }
         int size = inputs.size();
         List<ItemStack> stacks = new ArrayList<>();
@@ -88,7 +81,7 @@ public class ZardiusCrucibleRecipeProcessor implements IComponentProcessor {
         }
         stacks.addAll(List.of(returnStack.getItems()));
         Collections.shuffle(stacks);
-        return IVariable.wrapList(stacks.stream().map((stack) -> IVariable.from(stack, level.registryAccess())).toList(), level.registryAccess());
+        return IVariable.wrapList(stacks.stream().map((stack) -> IVariable.from(stack, access)).toList(), access);
     }
 
 }

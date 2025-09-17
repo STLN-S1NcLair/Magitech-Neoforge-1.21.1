@@ -24,6 +24,7 @@ import net.stln.magitech.item.tool.upgrade.UpgradeInstance;
 import net.stln.magitech.item.tool.upgrade.UpgradeUtil;
 import net.stln.magitech.util.ComponentHelper;
 import net.stln.magitech.util.ToolMaterialUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Random;
@@ -113,7 +114,7 @@ public class ToolUpgradeMenu extends AbstractContainerMenu {
      * Determines whether supplied player can use this container
      */
     @Override
-    public boolean stillValid(Player player) {
+    public boolean stillValid(@NotNull Player player) {
         return stillValid(this.access, player, BlockInit.UPGRADE_WORKBENCH.get());
     }
 
@@ -121,7 +122,7 @@ public class ToolUpgradeMenu extends AbstractContainerMenu {
      * Handles the given Button-click on the server, currently only used by enchanting. Name is for legacy.
      */
     @Override
-    public boolean clickMenuButton(Player player, int id) {
+    public boolean clickMenuButton(@NotNull Player player, int id) {
         if (isValidUpgrade(id)) {
             ItemStack stack = container.getItem(0);
             stack.update(ComponentInit.UPGRADE_COMPONENT, UpgradeComponent.EMPTY, upgradeComponent -> upgradeComponent.addUpgrade(new UpgradeInstance(1, upgrades.get(id))));
@@ -133,7 +134,7 @@ public class ToolUpgradeMenu extends AbstractContainerMenu {
             this.container.setItem(1, material);
             player.level().playSound(player, player, SoundEvents.SMITHING_TABLE_USE, SoundSource.BLOCKS, 1.0F, 1.0F);
             if (!player.level().isClientSide && player instanceof ServerPlayer serverPlayer) {
-                CriterionInit.TOOL_UPGRADE.get().trigger(serverPlayer, stack, stack.get(ComponentInit.TIER_COMPONENT) - stack.get(ComponentInit.UPGRADE_POINT_COMPONENT));
+                CriterionInit.TOOL_UPGRADE.get().trigger(serverPlayer, stack, ComponentHelper.getTier(stack) - ComponentHelper.getUpgradePoint(stack));
                 ((PartToolItem) stack.getItem()).reloadComponent(player, level, stack);
             }
         }
@@ -150,7 +151,7 @@ public class ToolUpgradeMenu extends AbstractContainerMenu {
     }
 
     public boolean isCorrectMaterialForUpgrade(ItemStack itemStack) {
-        return ToolMaterialUtil.isCorrectMaterialForUpgrade(itemStack.get(ComponentInit.TIER_COMPONENT), ComponentHelper.getUpgradePoint(itemStack), container.getItem(1).getItem());
+        return ToolMaterialUtil.isCorrectMaterialForUpgrade(ComponentHelper.getTier(itemStack), ComponentHelper.getUpgradePoint(itemStack), container.getItem(1).getItem());
     }
 
     public boolean hasUpgradePoint(ItemStack itemStack) {
@@ -161,7 +162,7 @@ public class ToolUpgradeMenu extends AbstractContainerMenu {
      * Callback for when the crafting matrix is changed.
      */
     @Override
-    public void slotsChanged(Container inventory) {
+    public void slotsChanged(@NotNull Container inventory) {
         ItemStack itemstack = this.container.getItem(0);
         this.input = itemstack.copy();
         this.setupUpgrade(inventory, itemstack);
@@ -187,7 +188,7 @@ public class ToolUpgradeMenu extends AbstractContainerMenu {
      * Called to determine if the current slot is valid for the stack merging (double-click) code. The stack passed in is null for the initial slot that was double-clicked.
      */
     @Override
-    public boolean canTakeItemForPickAll(ItemStack stack, Slot slot) {
+    public boolean canTakeItemForPickAll(@NotNull ItemStack stack, @NotNull Slot slot) {
         return super.canTakeItemForPickAll(stack, slot);
     }
 
@@ -195,10 +196,10 @@ public class ToolUpgradeMenu extends AbstractContainerMenu {
      * Handle when the stack in slot {@code index} is shift-clicked. Normally this moves the stack between the player inventory and the other inventory(s).
      */
     @Override
-    public ItemStack quickMoveStack(Player player, int index) {
+    public @NotNull ItemStack quickMoveStack(@NotNull Player player, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
-        if (slot != null && slot.hasItem()) {
+        if (slot.hasItem()) {
             ItemStack itemstack1 = slot.getItem();
             Item item = itemstack1.getItem();
             itemstack = itemstack1.copy();
@@ -219,7 +220,7 @@ public class ToolUpgradeMenu extends AbstractContainerMenu {
                 }
             } else {
                 ItemStack itemStack = this.container.getItem(0);
-                if (this.hasUpgradePoint(itemStack) && ToolMaterialUtil.isCorrectMaterialForUpgrade(itemStack.get(ComponentInit.TIER_COMPONENT), itemStack.get(ComponentInit.UPGRADE_POINT_COMPONENT), itemstack1.getItem())) {
+                if (this.hasUpgradePoint(itemStack) && ToolMaterialUtil.isCorrectMaterialForUpgrade(ComponentHelper.getTier(itemStack), ComponentHelper.getUpgradePoint(itemStack), itemstack1.getItem())) {
                     if (!this.moveItemStackTo(itemstack1, 1, 2, false)) {
                         return ItemStack.EMPTY;
                     }

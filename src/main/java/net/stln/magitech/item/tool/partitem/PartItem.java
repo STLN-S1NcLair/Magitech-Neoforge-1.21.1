@@ -13,13 +13,13 @@ import net.stln.magitech.item.tool.ToolPart;
 import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.item.tool.material.ToolMaterial;
 import net.stln.magitech.item.tool.trait.Trait;
-import net.stln.magitech.util.ColorHelper;
 import net.stln.magitech.util.ComponentHelper;
 import net.stln.magitech.util.MathUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.UnaryOperator;
 
 public abstract class PartItem extends Item {
     public PartItem(Properties settings) {
@@ -56,23 +56,18 @@ public abstract class PartItem extends Item {
     }
 
     protected void setTier(ItemStack stack, ToolStats finalStats) {
-        if (!stack.has(ComponentInit.TIER_COMPONENT)) {
-            stack.set(ComponentInit.TIER_COMPONENT, finalStats.getTier());
-        }
+        stack.update(ComponentInit.TIER_COMPONENT, finalStats.getTier(), UnaryOperator.identity());
     }
 
     public void addStatsHoverText(@NotNull ItemStack stack, List<Component> tooltipComponents, boolean shiftDown) {
         if (stack.has(ComponentInit.MATERIAL_COMPONENT)) {
             ToolStats finalStats = getDefaultStats(stack);
             setTier(stack, finalStats);
-
+            var tier = ComponentHelper.getTier(stack);
             tooltipComponents.add(Component.empty());
-            tooltipComponents.add(Component.translatable("attribute.magitech.tier").append(" ")
-                    .append(String.valueOf(stack.get(ComponentInit.TIER_COMPONENT))
-                    ).withColor(ColorHelper.getTierColor(stack.get(ComponentInit.TIER_COMPONENT) * 5)));
+            tooltipComponents.add(Component.translatable("attribute.magitech.tier").append(" ").append(String.valueOf(tier)).withColor(tier));
 
             if (shiftDown) {
-
                 tooltipComponents.add(Component.translatable("attribute.magitech.attack_damage").append(": ").withColor(0xa0a0a0)
                         .append(Component.literal("x" + MathUtil.round(finalStats.getStats().get(ToolStats.ATK_STAT), 2)).withColor(0xFF4040)));
 

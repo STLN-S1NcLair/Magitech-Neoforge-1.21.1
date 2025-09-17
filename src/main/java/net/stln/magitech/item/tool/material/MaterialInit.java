@@ -14,35 +14,35 @@ import net.stln.magitech.util.Element;
 
 public class MaterialInit {
 
-    public static ToolMaterial WOOD = new ToolMaterial(new AdaptationTrait(), Magitech.id("wood"));
-    public static ToolMaterial STONE = new ToolMaterial(new GeoMendingTrait(), Magitech.id("stone"));
-    public static ToolMaterial DEEPSLATE = new ToolMaterial(new HardmineTrait(), Magitech.id("deepslate"));
-    public static ToolMaterial COPPER = new ToolMaterial(new ConductanceTrait(), Magitech.id("copper"));
-    public static ToolMaterial BONE = new ToolMaterial(new FossilizationTrait(), Magitech.id("bone"));
-    public static ToolMaterial MOSS = new ToolMaterial(new GrowthTrait(), Magitech.id("moss"));
-    public static ToolMaterial IRON = new ToolMaterial(new DuranceTrait(), Magitech.id("iron"));
-    public static ToolMaterial GOLD = new ToolMaterial(new CatalysisTrait(), Magitech.id("gold"));
-    public static ToolMaterial AMETHYST = new ToolMaterial(new ShatterforceTrait(), Magitech.id("amethyst"));
-    public static ToolMaterial CITRINE = new ToolMaterial(new HeatTreatmentTrait(), Magitech.id("citrine"));
-    public static ToolMaterial REDSTONE = new ToolMaterial(new SignalRushTrait(), Magitech.id("redstone"));
-    public static ToolMaterial LAPIS = new ToolMaterial(new InclusionTrait(), Magitech.id("lapis"));
-    public static ToolMaterial CALCITE = new ToolMaterial(new BirefringenceTrait(), Magitech.id("calcite"));
-    public static ToolMaterial DRIPSTONE = new ToolMaterial(new PrecipitationTrait(), Magitech.id("dripstone"));
-    public static ToolMaterial FLUORITE = new ToolMaterial(new OverchargedTrait(), Magitech.id("fluorite"));
-    public static ToolMaterial DIAMOND = new ToolMaterial(new LightweightTrait(), Magitech.id("diamond"));
-    public static ToolMaterial EMERALD = new ToolMaterial(new ConcentrationTrait(), Magitech.id("emerald"));
-    public static ToolMaterial ENDER_METAL = new ToolMaterial(new EnderDrawTrait(), Magitech.id("ender_metal"));
-    public static ToolMaterial QUARTZ = new ToolMaterial(new SmoothTrait(), Magitech.id("quartz"));
-    public static ToolMaterial GLOWSTONE = new ToolMaterial(new IlluminationTrait(), Magitech.id("glowstone"));
-    public static ToolMaterial NETHERITE = new ToolMaterial(new LavaforgedTrait(), Magitech.id("netherite"));
-    public static ToolMaterial RADIANT_STEEL = new ToolMaterial(new BrillianceTrait(), Magitech.id("radiant_steel"));
-    public static ToolMaterial FRIGIDITE = new ToolMaterial(new ShatterpiercerTrait(), Magitech.id("frigidite"));
-    public static ToolMaterial TRANSLUCIUM = new ToolMaterial(new PhantomSlayerTrait(), Magitech.id("translucium"));
-    public static ToolMaterial RESONITE = new ToolMaterial(new BlindResonanceTrait(), Magitech.id("resonite"));
-    public static ToolMaterial ABYSSITE = new ToolMaterial(new PhaseVacuumCollapseTrait(), Magitech.id("abyssite"));
+    public static final ToolMaterial WOOD = new ToolMaterial(new AdaptationTrait(), Magitech.id("wood"));
+    public static final ToolMaterial STONE = new ToolMaterial(new GeoMendingTrait(), Magitech.id("stone"));
+    public static final ToolMaterial DEEPSLATE = new ToolMaterial(new HardmineTrait(), Magitech.id("deepslate"));
+    public static final ToolMaterial COPPER = new ToolMaterial(new ConductanceTrait(), Magitech.id("copper"));
+    public static final ToolMaterial BONE = new ToolMaterial(new FossilizationTrait(), Magitech.id("bone"));
+    public static final ToolMaterial MOSS = new ToolMaterial(new GrowthTrait(), Magitech.id("moss"));
+    public static final ToolMaterial IRON = new ToolMaterial(new DuranceTrait(), Magitech.id("iron"));
+    public static final ToolMaterial GOLD = new ToolMaterial(new CatalysisTrait(), Magitech.id("gold"));
+    public static final ToolMaterial AMETHYST = new ToolMaterial(new ShatterforceTrait(), Magitech.id("amethyst"));
+    public static final ToolMaterial CITRINE = new ToolMaterial(new HeatTreatmentTrait(), Magitech.id("citrine"));
+    public static final ToolMaterial REDSTONE = new ToolMaterial(new SignalRushTrait(), Magitech.id("redstone"));
+    public static final ToolMaterial LAPIS = new ToolMaterial(new InclusionTrait(), Magitech.id("lapis"));
+    public static final ToolMaterial CALCITE = new ToolMaterial(new BirefringenceTrait(), Magitech.id("calcite"));
+    public static final ToolMaterial DRIPSTONE = new ToolMaterial(new PrecipitationTrait(), Magitech.id("dripstone"));
+    public static final ToolMaterial FLUORITE = new ToolMaterial(new OverchargedTrait(), Magitech.id("fluorite"));
+    public static final ToolMaterial DIAMOND = new ToolMaterial(new LightweightTrait(), Magitech.id("diamond"));
+    public static final ToolMaterial EMERALD = new ToolMaterial(new ConcentrationTrait(), Magitech.id("emerald"));
+    public static final ToolMaterial ENDER_METAL = new ToolMaterial(new EnderDrawTrait(), Magitech.id("ender_metal"));
+    public static final ToolMaterial QUARTZ = new ToolMaterial(new SmoothTrait(), Magitech.id("quartz"));
+    public static final ToolMaterial GLOWSTONE = new ToolMaterial(new IlluminationTrait(), Magitech.id("glowstone"));
+    public static final ToolMaterial NETHERITE = new ToolMaterial(new LavaforgedTrait(), Magitech.id("netherite"));
+    public static final ToolMaterial RADIANT_STEEL = new ToolMaterial(new BrillianceTrait(), Magitech.id("radiant_steel"));
+    public static final ToolMaterial FRIGIDITE = new ToolMaterial(new ShatterpiercerTrait(), Magitech.id("frigidite"));
+    public static final ToolMaterial TRANSLUCIUM = new ToolMaterial(new PhantomSlayerTrait(), Magitech.id("translucium"));
+    public static final ToolMaterial RESONITE = new ToolMaterial(new BlindResonanceTrait(), Magitech.id("resonite"));
+    public static final ToolMaterial ABYSSITE = new ToolMaterial(new PhaseVacuumCollapseTrait(), Magitech.id("abyssite"));
 
     public static void registerMaterials() {
-        Magitech.LOGGER.info("Registering Mateirals for" + Magitech.MOD_ID);
+        Magitech.LOGGER.info("Registering Materials for" + Magitech.MOD_ID);
         ToolMaterialRegister.init();
 
         WOOD.addStats(new ToolStats(0.4F, 0.4F, 1.1F, 0.4F, 0.5F, 0.9F, 0.7F, 0.3F, Element.FLOW, MiningLevel.NONE, 0));

@@ -23,6 +23,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.recipe.PartCuttingRecipe;
 import net.stln.magitech.util.ClientHelper;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,7 +105,7 @@ public class PartCuttingScreen extends AbstractContainerScreen<PartCuttingMenu> 
      * @param partialTick the partial tick time.
      */
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+    public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.render(guiGraphics, mouseX, mouseY, partialTick);
         this.renderTooltip(guiGraphics, mouseX, mouseY);
     }
@@ -150,7 +151,6 @@ public class PartCuttingScreen extends AbstractContainerScreen<PartCuttingMenu> 
             int k = x + j % 4 * 18;
             int l = j / 4;
             int i1 = y + l * 18 + 2;
-            ResourceLocation resourcelocation;
             int offx = 0;
             int offy = 0;
             if (i == this.menu.getSelectedRecipeIndex()) {
