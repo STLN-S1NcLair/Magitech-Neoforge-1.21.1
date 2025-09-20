@@ -78,18 +78,11 @@ public class BookToolAssemblyRecipePageRenderer extends BookRecipePageRenderer<T
             setDisplayList();
         }
 
-        // 1秒ごとに表示を切り替え
-        int index = (int) ((System.currentTimeMillis() / 1000) % displayList.size());
-
-        Pair<List<ItemStack>, ItemStack> pair = displayList.get(index);
-
-        List<ItemStack> currentInput = pair.getA();
-        ItemStack currentOutput = pair.getB();
-
-        for (int i = 0; i < currentInput.size(); i++) {
-            this.parentScreen.renderIngredient(guiGraphics, recipeX + (i % wrap) * 19, recipeY + (i / wrap) * 19 + 9, mouseX, mouseY, Ingredient.of(currentInput.get(i)));
+        for (int i = 0; i < displayList.getFirst().getA().size(); i++) {
+            int finalI = i;
+            this.parentScreen.renderItemStacks(guiGraphics, recipeX + (i % wrap) * 19, recipeY + (i / wrap) * 19 + 9, mouseX, mouseY, displayList.stream().map(p -> p.getA().get(finalI)).toList());
         }
-        this.parentScreen.renderItemStack(guiGraphics, recipeX + 76, recipeY + 18, mouseX, mouseY, currentOutput);
+        this.parentScreen.renderItemStacks(guiGraphics, recipeX + 76, recipeY + 18, mouseX, mouseY, displayList.stream().map(Pair::getB).toList());
 
         this.parentScreen.renderItemStack(guiGraphics, recipeX + 76, recipeY + 38, mouseX, mouseY, BlockInit.ASSEMBLY_WORKBENCH_ITEM.toStack());
     }

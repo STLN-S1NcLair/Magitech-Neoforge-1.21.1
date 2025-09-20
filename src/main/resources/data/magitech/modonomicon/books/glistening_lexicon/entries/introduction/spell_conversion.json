@@ -1,47 +1,36 @@
 {
   "name": "book.magitech.glistening_lexicon.introduction.spell_conversion.name",
   "icon": {
-    "id": "magitech:thread_page",
-    "components": {
-      "magitech:thread_page_component": {
-        "spell": "magitech:enercrux"
-      }
-    }
+    "id": "magitech:mana_charged_fluorite"
   },
   "category": "magitech:introduction",
-  "x": 5,
-  "y": 0,
+  "x": 6,
+  "y": 4,
   "background_u_index": 1,
+  "background_v_index": 0,
   "parents": [
     {
-      "entry": "magitech:introduction/how_to_cast_magic"
+      "entry": "magitech:introduction/cast_spell"
+    },
+    {
+      "entry": "magitech:introduction/fluorite"
     }
   ],
   "pages": [
     {
-      "title": "book.magitech.glistening_lexicon.introduction.spell_conversion.0.title",
       "type": "modonomicon:text",
+      "title": "book.magitech.glistening_lexicon.introduction.spell_conversion.0.title",
       "text": "book.magitech.glistening_lexicon.introduction.spell_conversion.0.text"
     },
     {
-      "type": "modonomicon:text",
-      "title": "book.magitech.glistening_lexicon.introduction.spell_conversion.1.title",
-      "text": "book.magitech.glistening_lexicon.introduction.spell_conversion.1.text"
-    },
-    {
-      "type": "modonomicon:text",
-      "title": "book.magitech.glistening_lexicon.introduction.spell_conversion.2.title",
-      "text": "book.magitech.glistening_lexicon.introduction.spell_conversion.2.text"
-    },
-    {
       "type": "modonomicon:spotlight",
-      "title": "book.magitech.glistening_lexicon.introduction.spell_conversion.3.title",
-      "text": "book.magitech.glistening_lexicon.introduction.spell_conversion.3.text",
+      "title": "book.magitech.glistening_lexicon.introduction.spell_conversion.1.title",
+      "text": "book.magitech.glistening_lexicon.introduction.spell_conversion.1.text",
       "item": {
         "item": "magitech:thread_page",
         "components": {
           "magitech:thread_page_component": {
-            "material": "magitech:enercrux"
+            "spell": "magitech:enercrux"
           }
         }
       },
@@ -49,25 +38,12 @@
     },
     {
       "type": "modonomicon:spotlight",
-      "title": "book.magitech.glistening_lexicon.introduction.spell_conversion.4.title",
-      "text": "book.magitech.glistening_lexicon.introduction.spell_conversion.4.text",
-      "item": {
-        "item": "magitech:fluorite"
-      },
-      "link_recipe" : "true"
-    },
-    {
-      "type": "modonomicon:spotlight",
-      "title": "book.magitech.glistening_lexicon.introduction.spell_conversion.5.title",
-      "text": "book.magitech.glistening_lexicon.introduction.spell_conversion.5.text",
+      "title": "book.magitech.glistening_lexicon.introduction.spell_conversion.2.title",
+      "text": "book.magitech.glistening_lexicon.introduction.spell_conversion.2.text",
       "item": {
         "item": "magitech:mana_charged_fluorite"
       },
       "link_recipe" : "true"
-    },
-    {
-      "type": "modonomicon:text",
-      "text": "book.magitech.glistening_lexicon.introduction.spell_conversion.6.text"
     }
   ]
 }

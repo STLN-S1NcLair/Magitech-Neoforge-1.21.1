@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "magitech:item/part/stone_heavy_handle"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "name": "book.magitech.glistening_lexicon.introduction.alchemy.name",
+  "icon": {
+    "id": "magitech:hollow_crystal"
+  },
+  "category": "magitech:introduction",
+  "x": -4,
+  "y": 0,
+  "background_u_index": 1,
+  "background_v_index": 1,
+  "parents": [
+    {
+      "entry": "magitech:introduction/root"
+    }
+  ],
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "title": "book.magitech.glistening_lexicon.introduction.alchemy.0.title",
+      "text": "book.magitech.glistening_lexicon.introduction.alchemy.0.text"
+    }
+  ]
+}

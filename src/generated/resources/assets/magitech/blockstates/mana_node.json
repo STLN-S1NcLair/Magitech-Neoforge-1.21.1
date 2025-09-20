@@ -1,0 +1,56 @@
+{
+  "variants": {
+    "facing=down,waterlogged=false": {
+      "model": "magitech:block/mana_node",
+      "x": 180
+    },
+    "facing=down,waterlogged=true": {
+      "model": "magitech:block/mana_node",
+      "x": 180
+    },
+    "facing=east,waterlogged=false": {
+      "model": "magitech:block/mana_node",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,waterlogged=true": {
+      "model": "magitech:block/mana_node",
+      "x": 90,
+      "y": 90
+    },
+    "facing=north,waterlogged=false": {
+      "model": "magitech:block/mana_node",
+      "x": 90
+    },
+    "facing=north,waterlogged=true": {
+      "model": "magitech:block/mana_node",
+      "x": 90
+    },
+    "facing=south,waterlogged=false": {
+      "model": "magitech:block/mana_node",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,waterlogged=true": {
+      "model": "magitech:block/mana_node",
+      "x": 90,
+      "y": 180
+    },
+    "facing=up,waterlogged=false": {
+      "model": "magitech:block/mana_node"
+    },
+    "facing=up,waterlogged=true": {
+      "model": "magitech:block/mana_node"
+    },
+    "facing=west,waterlogged=false": {
+      "model": "magitech:block/mana_node",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,waterlogged=true": {
+      "model": "magitech:block/mana_node",
+      "x": 90,
+      "y": 270
+    }
+  }
+}

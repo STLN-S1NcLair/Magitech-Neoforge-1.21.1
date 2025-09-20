@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "bottom": "magitech:block/polished_alchecrysite",
+    "side": "magitech:block/polished_alchecrysite",
+    "top": "magitech:block/polished_alchecrysite"
+  }
+}

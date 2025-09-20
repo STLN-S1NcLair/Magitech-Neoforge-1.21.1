@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "bottom": "magitech:block/alchecrysite_bricks",
+    "side": "magitech:block/alchecrysite_bricks",
+    "top": "magitech:block/alchecrysite_bricks"
+  }
+}

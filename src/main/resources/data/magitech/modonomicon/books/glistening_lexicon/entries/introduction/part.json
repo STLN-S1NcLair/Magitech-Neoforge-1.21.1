@@ -3,14 +3,14 @@
   "icon": {
     "id": "magitech:light_blade",
     "components": {
-      "magitech:part_material": {
+      "magitech:material_component": {
         "material": "magitech:iron"
       }
     }
   },
   "category": "magitech:introduction",
   "x": 2,
-  "y": -2,
+  "y": -4,
   "background_u_index": 1,
   "background_v_index": 0,
   "parents": [
@@ -26,7 +26,7 @@
       "item": {
         "item": "magitech:light_blade",
         "components": {
-          "magitech:part_material": {
+          "magitech:material_component": {
             "material": "magitech:iron"
           }
         }
@@ -36,17 +36,11 @@
     {
       "type": "modonomicon:crafting_recipe",
       "recipe_id_1": "magitech:engineering_workbench",
-      "title": "book.magitech.glistening_lexicon.introduction.part.1.title",
       "text": "book.magitech.glistening_lexicon.introduction.part.1.text"
     },
     {
-      "type": "modonomicon:spotlight",
-      "title": "book.magitech.glistening_lexicon.introduction.part.1.title",
-      "text": "book.magitech.glistening_lexicon.introduction.part.1.text",
-      "item": {
-        "item": "magitech:engineering_workbench"
-      },
-      "link_recipe" : "true"
+      "type": "modonomicon:text",
+      "text": "book.magitech.glistening_lexicon.introduction.part.2.text"
     }
   ]
 }

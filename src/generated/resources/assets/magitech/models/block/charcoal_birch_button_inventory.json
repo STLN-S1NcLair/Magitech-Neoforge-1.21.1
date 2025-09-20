@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/button_inventory",
+  "textures": {
+    "texture": "magitech:block/charcoal_birch_planks"
+  }
+}

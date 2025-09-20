@@ -195,7 +195,6 @@ public class ToolStats {
                 elmAtk += elementMap.getOrDefault(element2, 0.0F) * 0.75;
             }
         }
-        elementList.add(Element.NONE);
         for (Element element1 : elementList) {
             if (element1 != elm) {
                 elmAtk += elementMap.getOrDefault(element1, 0.0F) * (element1 == Element.NONE ? 1F : 0.5F);

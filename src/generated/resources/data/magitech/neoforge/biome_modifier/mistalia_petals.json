@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#magitech:has_mistalia_petals",
+  "features": "magitech:mistalia_petals",
+  "step": "vegetal_decoration"
+}

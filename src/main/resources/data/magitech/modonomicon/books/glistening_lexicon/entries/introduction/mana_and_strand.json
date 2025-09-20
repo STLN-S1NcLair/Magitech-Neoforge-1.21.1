@@ -1,0 +1,47 @@
+{
+  "name": "book.magitech.glistening_lexicon.introduction.mana_and_strand.name",
+  "icon": {
+    "id": "magitech:aggregated_fluxia"
+  },
+  "category": "magitech:introduction",
+  "x": 0,
+  "y": 8,
+  "background_u_index": 1,
+  "background_v_index": 0,
+  "parents": [
+    {
+      "entry": "magitech:introduction/magic"
+    },
+    {
+      "entry": "magitech:introduction/fluorite"
+    }
+  ],
+  "pages": [
+    {
+      "type": "modonomicon:spotlight",
+      "title": "book.magitech.glistening_lexicon.introduction.mana_and_strand.0.title",
+      "text": "book.magitech.glistening_lexicon.introduction.mana_and_strand.0.text",
+      "item": {
+        "item": "magitech:mana_charged_fluorite"
+      },
+      "link_recipe" : "true"
+    },
+    {
+      "type": "modonomicon:spotlight",
+      "title": "book.magitech.glistening_lexicon.introduction.mana_and_strand.1.title",
+      "text": "book.magitech.glistening_lexicon.introduction.mana_and_strand.1.text",
+      "item": [
+          {
+            "item": "magitech:aggregated_noctis"
+          },
+          {
+            "item": "magitech:aggregated_luminis"
+          },
+          {
+            "item": "magitech:aggregated_fluxia"
+          }
+        ],
+      "link_recipe" : "true"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "name": "book.magitech.glistening_lexicon.introduction.tourmaline.name",
+  "icon": {
+    "id": "magitech:tourmaline"
+  },
+  "category": "magitech:introduction",
+  "x": -4,
+  "y": -2,
+  "background_u_index": 1,
+  "background_v_index": 2,
+  "pages": [
+    {
+      "type": "modonomicon:spotlight",
+      "title": "book.magitech.glistening_lexicon.introduction.tourmaline.0.title",
+      "text": "book.magitech.glistening_lexicon.introduction.tourmaline.0.text",
+      "item": {
+        "item": "magitech:tourmaline"
+      },
+      "link_recipe" : "true"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#magitech:has_charcoal_birch_forest",
+  "features": "magitech:charcoal_birch",
+  "step": "vegetal_decoration"
+}

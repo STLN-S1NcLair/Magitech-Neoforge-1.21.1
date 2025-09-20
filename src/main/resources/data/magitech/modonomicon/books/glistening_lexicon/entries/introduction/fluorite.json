@@ -1,0 +1,22 @@
+{
+  "name": "book.magitech.glistening_lexicon.introduction.fluorite.name",
+  "icon": {
+    "id": "magitech:fluorite"
+  },
+  "category": "magitech:introduction",
+  "x": -2,
+  "y": 10,
+  "background_u_index": 1,
+  "background_v_index": 2,
+  "pages": [
+    {
+      "type": "modonomicon:spotlight",
+      "title": "book.magitech.glistening_lexicon.introduction.fluorite.0.title",
+      "text": "book.magitech.glistening_lexicon.introduction.fluorite.0.text",
+      "item": {
+        "item": "magitech:fluorite"
+      },
+      "link_recipe" : "true"
+    }
+  ]
+}

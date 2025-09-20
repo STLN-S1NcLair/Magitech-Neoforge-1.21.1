@@ -1,0 +1,35 @@
+{
+  "name": "book.magitech.glistening_lexicon.introduction.magic_crystal.name",
+  "icon": {
+    "id": "magitech:magic_crystal"
+  },
+  "category": "magitech:introduction",
+  "x": -8,
+  "y": 0,
+  "background_u_index": 1,
+  "background_v_index": 0,
+  "parents": [
+    {
+      "entry": "magitech:introduction/zardius_alchemy"
+    },
+    {
+      "entry": "magitech:introduction/tourmaline"
+    }
+  ],
+  "pages": [
+    {
+      "type": "modonomicon:spotlight",
+      "title": "book.magitech.glistening_lexicon.introduction.magic_crystal.0.title",
+      "text": "book.magitech.glistening_lexicon.introduction.magic_crystal.0.text",
+      "item": {
+        "item": "magitech:magic_crystal"
+      }
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "text": "book.magitech.glistening_lexicon.introduction.magic_crystal.1.text",
+      "recipe_id_1": "magitech:magic_crystal",
+      "link_recipe" : "true"
+    }
+  ]
+}

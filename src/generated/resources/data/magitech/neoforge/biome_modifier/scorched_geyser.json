@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#magitech:is_scorched",
+  "features": "magitech:scorched_geyser",
+  "step": "surface_structures"
+}

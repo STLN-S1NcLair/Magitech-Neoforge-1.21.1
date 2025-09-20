@@ -1,0 +1,55 @@
+{
+  "name": "book.magitech.glistening_lexicon.introduction.cast_spell.name",
+  "icon": {
+    "id": "magitech:thread_page",
+    "components": {
+      "magitech:thread_page_component": {
+        "spell": "magitech:arcaleth"
+      }
+    }
+  },
+  "category": "magitech:introduction",
+  "x": 4,
+  "y": 4,
+  "background_u_index": 1,
+  "background_v_index": 0,
+  "parents": [
+    {
+      "entry": "magitech:introduction/tool_assemble"
+    },
+    {
+      "entry": "magitech:introduction/thread_page"
+    },
+    {
+      "entry": "magitech:introduction/threadbound"
+    },
+    {
+      "entry": "magitech:introduction/mana_and_strand"
+    }
+  ],
+  "pages": [
+    {
+      "type": "modonomicon:spotlight",
+      "title": "book.magitech.glistening_lexicon.introduction.cast_spell.0.title",
+      "text": "book.magitech.glistening_lexicon.introduction.cast_spell.0.text",
+      "item": {
+          "item": "magitech:wand",
+          "components": {
+            "magitech:part_material_component": {
+              "materials": [
+                "magitech:iron",
+                "magitech:iron",
+                "magitech:iron",
+                "magitech:iron"
+              ]
+            }
+          }
+      },
+      "link_recipe" : "true"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.glistening_lexicon.introduction.cast_spell.1.text"
+    }
+  ]
+}

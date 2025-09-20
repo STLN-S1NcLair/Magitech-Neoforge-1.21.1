@@ -1,0 +1,86 @@
+{
+  "name": "book.magitech.glistening_lexicon.introduction.tool_type.name",
+  "icon": {
+    "id": "magitech:heavy_sword",
+    "components": {
+      "magitech:part_material_component": {
+        "materials": [
+          "magitech:iron",
+          "magitech:iron",
+          "magitech:iron",
+          "magitech:iron"
+        ]
+      }
+    }
+  },
+  "category": "magitech:introduction",
+  "x": 0,
+  "y": -6,
+  "background_u_index": 1,
+  "parents": [
+    {
+      "entry": "magitech:introduction/part_tool"
+    }
+  ],
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "title": "book.magitech.glistening_lexicon.introduction.tool_type.0.title",
+      "text": "book.magitech.glistening_lexicon.introduction.tool_type.0.text"
+    },
+    {
+      "type": "magitech:tool_assembly_recipe",
+      "title1": "item.magitech.dagger",
+      "text": "book.magitech.glistening_lexicon.introduction.tool_type.dagger.text",
+      "recipe_id_1": "magitech:dagger_tool_assemble"
+    },
+    {
+      "type": "magitech:tool_assembly_recipe",
+      "title1": "item.magitech.light_sword",
+      "text": "book.magitech.glistening_lexicon.introduction.tool_type.light_sword.text",
+      "recipe_id_1": "magitech:light_sword_tool_assemble"
+    },
+    {
+      "type": "magitech:tool_assembly_recipe",
+      "title1": "item.magitech.heavy_sword",
+      "text": "book.magitech.glistening_lexicon.introduction.tool_type.heavy_sword.text",
+      "recipe_id_1": "magitech:heavy_sword_tool_assemble"
+    },
+    {
+      "type": "magitech:tool_assembly_recipe",
+      "title1": "item.magitech.pickaxe",
+      "text": "book.magitech.glistening_lexicon.introduction.tool_type.pickaxe.text",
+      "recipe_id_1": "magitech:pickaxe_tool_assemble"
+    },
+    {
+      "type": "magitech:tool_assembly_recipe",
+      "title1": "item.magitech.hammer",
+      "text": "book.magitech.glistening_lexicon.introduction.tool_type.hammer.text",
+      "recipe_id_1": "magitech:hammer_tool_assemble"
+    },
+    {
+      "type": "magitech:tool_assembly_recipe",
+      "title1": "item.magitech.axe",
+      "text": "book.magitech.glistening_lexicon.introduction.tool_type.axe.text",
+      "recipe_id_1": "magitech:axe_tool_assemble"
+    },
+    {
+      "type": "magitech:tool_assembly_recipe",
+      "title1": "item.magitech.shovel",
+      "text": "book.magitech.glistening_lexicon.introduction.tool_type.shovel.text",
+      "recipe_id_1": "magitech:shovel_tool_assemble"
+    },
+    {
+      "type": "magitech:tool_assembly_recipe",
+      "title1": "item.magitech.scythe",
+      "text": "book.magitech.glistening_lexicon.introduction.tool_type.scythe.text",
+      "recipe_id_1": "magitech:scythe_tool_assemble"
+    },
+    {
+      "type": "magitech:tool_assembly_recipe",
+      "title1": "item.magitech.wand",
+      "text": "book.magitech.glistening_lexicon.introduction.tool_type.wand.text",
+      "recipe_id_1": "magitech:wand_tool_assemble"
+    }
+  ]
+}

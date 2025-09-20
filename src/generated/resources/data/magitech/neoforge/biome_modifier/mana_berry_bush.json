@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#magitech:has_mana_berry_bush",
+  "features": "magitech:mana_berry_bush",
+  "step": "vegetal_decoration"
+}

@@ -9,13 +9,16 @@ import net.stln.magitech.Magitech;
 public class PageInit {
 
     public static final ResourceLocation TOOL_ASSEMBLY_RECIPE = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "tool_assembly_recipe");
+    public static final ResourceLocation ZARDIUS_CRUCIBLE_RECIPE = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "zardius_crucible_recipe");
 
     public static void registerPages() {
         LoaderRegistry.registerPageLoader(TOOL_ASSEMBLY_RECIPE, (BookPageJsonLoader<?>) BookToolAssemblyRecipePage::fromJson, BookToolAssemblyRecipePage::fromNetwork);
+        LoaderRegistry.registerPageLoader(ZARDIUS_CRUCIBLE_RECIPE, (BookPageJsonLoader<?>) BookZardiusCrucibleRecipePage::fromJson, BookZardiusCrucibleRecipePage::fromNetwork);
     }
 
     public static void registerRenderers() {
         PageRendererRegistry.registerPageRenderer(TOOL_ASSEMBLY_RECIPE, p -> new BookToolAssemblyRecipePageRenderer((BookToolAssemblyRecipePage) p));
+        PageRendererRegistry.registerPageRenderer(ZARDIUS_CRUCIBLE_RECIPE, p -> new BookZardiusCrucibleRecipePageRenderer((BookZardiusCrucibleRecipePage) p));
     }
 
 }
