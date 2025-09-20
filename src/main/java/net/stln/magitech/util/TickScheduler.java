@@ -33,11 +33,11 @@ public class TickScheduler {
 
         while (iterator.hasNext()) {
             TickTask task = iterator.next();
-            int newDelay = task.getTick();
-            if (newDelay < 0) {
+            int newDelay = task.getTick() - 1;
+            if (newDelay <= 0) {
                 task.run();
             } else {
-                nextTask.add(task);
+                nextTask.add(new TickTask(newDelay, task));
             }
             iterator.remove();
         }
