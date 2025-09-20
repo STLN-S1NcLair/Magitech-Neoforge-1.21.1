@@ -118,7 +118,7 @@ public class ZardiusCrucibleBlockEntity extends BlockEntity {
                     })
                     .orElseGet(() -> {
                         // 大釜から液体を取り出せるか判定
-                        return fluidTank.drain(requiredAmount, IFluidHandler.FluidAction.SIMULATE).getAmount() == requiredAmount;
+                        return fluidTank.drain(requiredAmount, IFluidHandler.FluidAction.SIMULATE).getAmount() >= requiredAmount;
                     });
             if (canProcessFluid) {
                 // 時間を進める
