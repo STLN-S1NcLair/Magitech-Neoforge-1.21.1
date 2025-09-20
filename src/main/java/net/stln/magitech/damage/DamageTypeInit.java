@@ -9,6 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.item.tool.toolitem.PartToolItem;
+import net.stln.magitech.util.DataMapHelper;
 
 public class DamageTypeInit {
 
@@ -26,7 +27,8 @@ public class DamageTypeInit {
 
     public static float getElementDamage(Player player, Entity target, ItemStack stack) {
         ToolStats stats = ((PartToolItem) stack.getItem()).getSumStats(player, player.level(), stack);
-        return stats.getStats().get(ToolStats.ELM_ATK_STAT) * EntityElementRegister.getElementAffinity(target, stats.getElement()).getMultiplier();
+        float multiplier = DataMapHelper.getElementMultiplier(target, stats.getElement());
+        return stats.getStats().get(ToolStats.ELM_ATK_STAT) * multiplier;
     }
     
     private static ResourceKey<DamageType> create(String path) {

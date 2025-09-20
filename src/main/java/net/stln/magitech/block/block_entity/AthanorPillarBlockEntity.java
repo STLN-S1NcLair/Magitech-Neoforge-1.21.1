@@ -33,7 +33,7 @@ import net.stln.magitech.particle.particle_option.ManaZapParticleEffect;
 import net.stln.magitech.particle.particle_option.SquareParticleEffect;
 import net.stln.magitech.particle.particle_option.UnstableSquareParticleEffect;
 import net.stln.magitech.recipe.AthanorPillarInfusionRecipe;
-import net.stln.magitech.recipe.GroupedMultiStackRecipeInput;
+import net.stln.magitech.recipe.input.GroupedMultiStackRecipeInput;
 import net.stln.magitech.recipe.RecipeInit;
 import net.stln.magitech.sound.SoundInit;
 import net.stln.magitech.util.EffectUtil;
@@ -45,7 +45,6 @@ import vazkii.patchouli.api.PatchouliAPI;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 public class AthanorPillarBlockEntity extends BlockEntity {

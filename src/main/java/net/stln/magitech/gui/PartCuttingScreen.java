@@ -172,7 +172,7 @@ public class PartCuttingScreen extends AbstractContainerScreen<PartCuttingMenu> 
             int l = j / 4;
             int i1 = y + l * 18 + 2;
             PartCuttingRecipe recipe = list.get(i).value();
-            int count = recipe.getCount();
+            int count = recipe.inputCount();
             ItemStack assembled = recipe.assemble(new SingleRecipeInput(this.menu.inputSlot.getItem()), this.minecraft.level.registryAccess());
             guiGraphics.drawString(Minecraft.getInstance().font, String.valueOf(count), k, i1, 0x999999, false);
             guiGraphics.renderItem(assembled, k, i1);

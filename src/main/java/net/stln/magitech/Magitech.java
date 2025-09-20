@@ -20,6 +20,7 @@ import net.stln.magitech.advancement.CriterionInit;
 import net.stln.magitech.biome.BiomeInit;
 import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.compat.curios.ValidatorInit;
+import net.stln.magitech.data.DataMapTypeInit;
 import net.stln.magitech.entity.EntityInit;
 import net.stln.magitech.entity.mobeffect.MobEffectInit;
 import net.stln.magitech.entity.status.AttributeInit;
@@ -29,7 +30,9 @@ import net.stln.magitech.item.ItemInit;
 import net.stln.magitech.item.ItemPropertyInit;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.creative_tab.CreativeTabInit;
+import net.stln.magitech.element.Element;
 import net.stln.magitech.item.tool.material.MaterialInit;
+import net.stln.magitech.item.tool.register.ToolMaterialRegister;
 import net.stln.magitech.item.tool.upgrade.UpgradeInit;
 import net.stln.magitech.loot.LootFunctionInit;
 import net.stln.magitech.magic.spell.SpellInit;
@@ -64,26 +67,30 @@ public class Magitech {
         modEventBus.addListener(this::commonSetup);
 
         // Register the Deferred Register to the mod event bus so blocks get registered
+        ComponentInit.registerComponents(modEventBus);
+        
         BlockInit.registerBlocks(modEventBus);
         ItemInit.registerItems(modEventBus);
-        ComponentInit.registerComponents(modEventBus);
-        CreativeTabInit.registerCreativeTabs(modEventBus);
-        EntityInit.registerModEntities(modEventBus);
+
         AttributeInit.registerEntityAttributes(modEventBus);
-        ParticleInit.registerParticleClient(modEventBus);
-        SoundInit.registerSoundEvents(modEventBus);
-        MobEffectInit.registerMobEffects(modEventBus);
-        RecipeInit.registerRecipes(modEventBus);
-        WorldGenInit.registerFeatures(modEventBus);
-        LootFunctionInit.registerFunctions(modEventBus);
-        TreeGrowerInit.registerTrunkPlacerTypes(modEventBus);
-        GuiInit.registerMenus(modEventBus);
+        CreativeTabInit.registerCreativeTabs(modEventBus);
         CriterionInit.registerCriteria(modEventBus);
-        MaterialInit.registerElements();
-        MaterialInit.registerMaterials();
+        Element.registerElements();
+        DataMapTypeInit.registerDataMapTypes(modEventBus);
+        EntityInit.registerModEntities(modEventBus);
+        GuiInit.registerMenus(modEventBus);
+        LootFunctionInit.registerFunctions(modEventBus);
+        MaterialInit.registerMaterials(modEventBus);
+        MobEffectInit.registerMobEffects(modEventBus);
+        ParticleInit.registerParticleClient(modEventBus);
+        RecipeInit.registerRecipes(modEventBus);
+        SoundInit.registerSoundEvents(modEventBus);
         SpellInit.registerSpells(modEventBus);
+        ToolMaterialRegister.init();
+        TreeGrowerInit.registerTrunkPlacerTypes(modEventBus);
         UpgradeInit.registerUpgrades();
         ValidatorInit.registerValidators();
+        WorldGenInit.registerFeatures(modEventBus);
 
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (ExampleMod) to respond directly to events.

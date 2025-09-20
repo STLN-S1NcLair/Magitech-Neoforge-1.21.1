@@ -9,7 +9,10 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.PartMaterialComponent;
@@ -19,6 +22,7 @@ import net.stln.magitech.item.tool.material.ToolMaterial;
 import net.stln.magitech.item.tool.partitem.PartItem;
 import net.stln.magitech.item.tool.register.ToolMaterialRegister;
 import net.stln.magitech.item.tool.toolitem.PartToolItem;
+import net.stln.magitech.recipe.input.MultiStackRecipeInput;
 import net.stln.magitech.util.ComponentHelper;
 import org.jetbrains.annotations.NotNull;
 
@@ -30,19 +34,15 @@ public class ToolAssemblyRecipe implements Recipe<MultiStackRecipeInput> {
     protected final List<Ingredient> ingredients;
     protected final ItemStack result;
     protected final String group;
-    private final RecipeType<?> type;
-    private final RecipeSerializer<?> serializer;
 
     public ToolAssemblyRecipe(String group, List<Ingredient> ingredients, ItemStack result) {
-        this.type = RecipeInit.TOOL_ASSEMBLY_TYPE.get();
-        this.serializer = RecipeInit.TOOL_ASSEMBLY_SERIALIZER.get();
         this.ingredients = ingredients;
         this.group = group;
         this.result = result;
     }
 
     @Override
-    public boolean matches(MultiStackRecipeInput input, Level level) {
+    public boolean matches(@NotNull MultiStackRecipeInput input, @NotNull Level level) {
         if (!(result.getItem() instanceof PartToolItem)) {
             throw new IllegalArgumentException("the result item expected to be a PartToolItem");
         }
@@ -117,22 +117,22 @@ public class ToolAssemblyRecipe implements Recipe<MultiStackRecipeInput> {
     }
 
     @Override
-    public NonNullList<Ingredient> getIngredients() {
+    public @NotNull NonNullList<Ingredient> getIngredients() {
         return NonNullList.copyOf(ingredients);
     }
 
     @Override
-    public ItemStack getResultItem(HolderLookup.Provider registries) {
+    public @NotNull ItemStack getResultItem(HolderLookup.@NotNull Provider registries) {
         return result.copy();
     }
 
     @Override
-    public RecipeType<?> getType() {
+    public @NotNull RecipeType<?> getType() {
         return RecipeInit.TOOL_ASSEMBLY_TYPE.get();
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public @NotNull RecipeSerializer<?> getSerializer() {
         return RecipeInit.TOOL_ASSEMBLY_SERIALIZER.get();
     }
 
@@ -167,12 +167,12 @@ public class ToolAssemblyRecipe implements Recipe<MultiStackRecipeInput> {
         }
 
         @Override
-        public MapCodec<T> codec() {
+        public @NotNull MapCodec<T> codec() {
             return this.codec;
         }
 
         @Override
-        public StreamCodec<RegistryFriendlyByteBuf, T> streamCodec() {
+        public @NotNull StreamCodec<RegistryFriendlyByteBuf, T> streamCodec() {
             return this.streamCodec;
         }
     }

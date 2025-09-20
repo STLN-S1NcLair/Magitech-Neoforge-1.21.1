@@ -119,7 +119,7 @@ public class PartCuttingMenu extends AbstractContainerMenu {
     }
 
     private @NotNull ItemStack removeCount() {
-        return this.inputSlot.remove(recipes.get(selectedRecipeIndex.get()).value().getCount());
+        return this.inputSlot.remove(recipes.get(selectedRecipeIndex.get()).value().inputCount());
     }
 
     public int getSelectedRecipeIndex() {

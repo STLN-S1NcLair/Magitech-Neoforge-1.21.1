@@ -21,7 +21,6 @@ import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.MaterialComponent;
 import net.stln.magitech.item.component.PartMaterialComponent;
 import net.stln.magitech.item.tool.material.ToolMaterial;
-import net.stln.magitech.item.tool.register.ToolMaterialRegister;
 import net.stln.magitech.recipe.RecipeInit;
 import net.stln.magitech.recipe.ToolAssemblyRecipe;
 import net.stln.magitech.recipe.ToolMaterialRecipe;
@@ -108,7 +107,7 @@ public class ToolAssemblyRecipeCategory extends AbstractMagitechRecipeCategory<T
     protected void setRecipe(@NotNull IRecipeLayoutBuilder builder, @NotNull ToolAssemblyRecipe recipe, @NotNull IFocusGroup focuses, @NotNull RecipeManager recipeManager, @NotNull RegistryAccess access) {
         List<ToolMaterialRecipe> materialRecipes = ClientHelper.getAllRecipes(RecipeInit.TOOL_MATERIAL_TYPE);
         List<ToolMaterial> materials = materialRecipes.stream()
-                .map(m -> ToolMaterialRegister.getMaterial(m.getResultId()))
+                .map(ToolMaterialRecipe::getToolMaterial)
                 .toList();
 
         List<Ingredient> ingredients = recipe.getIngredients();

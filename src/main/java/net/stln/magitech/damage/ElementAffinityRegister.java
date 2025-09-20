@@ -2,7 +2,7 @@ package net.stln.magitech.damage;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
-import net.stln.magitech.util.Element;
+import net.stln.magitech.element.Element;
 import net.stln.magitech.util.TableHelper;
 import org.jetbrains.annotations.NotNull;
 

@@ -19,8 +19,7 @@ import net.neoforged.fml.ModList;
 import net.stln.magitech.item.component.SpellComponent;
 import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.util.ComponentHelper;
-import net.stln.magitech.util.Element;
-import net.stln.magitech.util.RegistryHelper;
+import net.stln.magitech.element.Element;
 import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
@@ -70,21 +69,17 @@ public class ThreadBoundItem extends TooltipTextItem implements ICurioItem {
     public void appendHoverText(ItemStack stack, @NotNull TooltipContext context, List<Component> tooltipComponents, @NotNull TooltipFlag tooltipFlag) {
         int i = 0;
         @NotNull SpellComponent spells = ComponentHelper.getSpells(stack);
-        for (Holder<Spell> holder : spells.spells()) {
-            ResourceLocation location = RegistryHelper.getIdOrNull(holder);
-            if (location != null) {
-                int abs = Math.abs(spells.selected() - i);
-                if (abs <= 2 || Screen.hasShiftDown()) {
-                    Element element = holder.value().getElement();
-                    String key = location.toLanguageKey("spell");
-                    if (spells.selected() == i) {
-                        tooltipComponents.add(Component.literal("> ").append(Component.translatable(key)).withColor(element.getSpellColor()));
-                    } else {
-                        tooltipComponents.add(Component.translatable(key).withColor(element.getSpellDark()));
-                    }
-                } else if (abs == 3) {
-                    tooltipComponents.add(Component.literal("...").withColor(0x405060));
+        for (Spell spell : spells.spells()) {
+            int abs = Math.abs(spells.selected() - i);
+            if (abs <= 2 || Screen.hasShiftDown()) {
+                Element element = spell.getElement();
+                if (spells.selected() == i) {
+                    tooltipComponents.add(Component.literal("> ").append(spell.getDescription()).withColor(element.getSpellColor()));
+                } else {
+                    tooltipComponents.add(spell.getDescription().withColor(element.getSpellDark()));
                 }
+            } else if (abs == 3) {
+                tooltipComponents.add(Component.literal("...").withColor(0x405060));
             }
             i++;
         }

@@ -16,7 +16,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.stln.magitech.block.BlockInit;
-import net.stln.magitech.recipe.MultiStackRecipeInput;
+import net.stln.magitech.recipe.input.MultiStackRecipeInput;
 import net.stln.magitech.recipe.ToolAssemblyRecipe;
 import net.stln.magitech.recipe.RecipeInit;
 

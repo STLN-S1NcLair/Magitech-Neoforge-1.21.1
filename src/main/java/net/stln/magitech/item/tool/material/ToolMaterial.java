@@ -1,42 +1,36 @@
 package net.stln.magitech.item.tool.material;
 
+import com.mojang.serialization.Codec;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
+import net.stln.magitech.MagitechRegistries;
 import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.item.tool.trait.Trait;
 import org.jetbrains.annotations.NotNull;
 
-public class ToolMaterial {
-    protected ToolStats statsMap = ToolStats.DEFAULT;
-    protected ToolStats spellCasterStatsMap = ToolStats.DEFAULT;
-    protected final ResourceLocation id;
-    protected final Trait materialTrait;
+import java.util.Objects;
 
-    public ToolMaterial(@NotNull Trait materialTrait, ResourceLocation id) {
-        this.materialTrait = materialTrait;
-        this.id = id;
-    }
-
-    public void addStats(@NotNull ToolStats stats) {
-        statsMap = stats;
-    }
-
-    public void addSpellCasterStats(@NotNull ToolStats stats) {
-        spellCasterStatsMap = stats;
-    }
-
-    public @NotNull ToolStats getStats() {
-        return statsMap;
-    }
-
-    public @NotNull ToolStats getSpellCasterStats() {
-        return spellCasterStatsMap;
-    }
-
-    public @NotNull Trait getTrait() {
-        return this.materialTrait;
-    }
+public record ToolMaterial(ToolStats stats, ToolStats spellCasterStats, Trait trait) implements ToolMaterialLike {
+    public static final Codec<ToolMaterial> CODEC = MagitechRegistries.TOOL_MATERIAL.byNameCodec();
+    public static final StreamCodec<RegistryFriendlyByteBuf, ToolMaterial> STREAM_CODEC = ByteBufCodecs.registry(MagitechRegistries.Keys.TOOL_MATERIAL);
 
     public @NotNull ResourceLocation getId() {
-        return id;
+        return Objects.requireNonNull(MagitechRegistries.TOOL_MATERIAL.getKey(this));
+    }
+
+    public @NotNull String getDescriptionId() {
+        return getId().toLanguageKey("material");
+    }
+
+    public @NotNull Component getDescription() {
+        return Component.translatable(getDescriptionId());
+    }
+
+    @Override
+    public @NotNull ToolMaterial asToolMaterial() {
+        return this;
     }
 }

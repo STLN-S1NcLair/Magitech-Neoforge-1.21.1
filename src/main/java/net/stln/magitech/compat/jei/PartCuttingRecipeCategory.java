@@ -19,7 +19,6 @@ import net.stln.magitech.Magitech;
 import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.MaterialComponent;
-import net.stln.magitech.item.tool.register.ToolMaterialRegister;
 import net.stln.magitech.recipe.PartCuttingRecipe;
 import net.stln.magitech.recipe.RecipeInit;
 import net.stln.magitech.recipe.ToolMaterialRecipe;
@@ -80,10 +79,10 @@ public class PartCuttingRecipeCategory extends AbstractMagitechRecipeCategory<Pa
             Ingredient ingredient = materialRecipe.getIngredients().getFirst();
             for (ItemStack itemStack : ingredient.getItems()) {
                 if (itemStack.isEmpty()) continue;
-                inputs.add(itemStack.copyWithCount(recipe.getCount()));
+                inputs.add(itemStack.copyWithCount(recipe.inputCount()));
             }
             ItemStack resultStack = recipe.getResultItem(access).copy();
-            resultStack.set(ComponentInit.MATERIAL_COMPONENT, new MaterialComponent(ToolMaterialRegister.getMaterial(materialRecipe.getResultId())));
+            resultStack.set(ComponentInit.MATERIAL_COMPONENT, new MaterialComponent(materialRecipe.getToolMaterial()));
             results.add(resultStack);
         }
         builder.addSlot(RecipeIngredientRole.INPUT, 19, 5).addItemStacks(inputs);
