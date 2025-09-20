@@ -39,20 +39,32 @@ public class CooldownData {
 
     public static void addCurrentCooldown(@NotNull Player player, @NotNull Spell spell, @NotNull Cooldown cooldown) {
         if (player.level().isClientSide) {
-            prevCooldownMapClient.put(player, spell, cooldownMapClient.get(player, spell));
+            var cooldownOld = cooldownMapClient.get(player, spell);
+            if (cooldownOld != null) {
+                prevCooldownMapClient.put(player, spell, cooldownOld);
+            }
             cooldownMapClient.put(player, spell, cooldown);
         } else {
-            prevCooldownMapServer.put(player, spell, cooldownMapServer.get(player, spell));
+            var cooldownOld = cooldownMapServer.get(player, spell);
+            if (cooldownOld != null) {
+                prevCooldownMapServer.put(player, spell, cooldownOld);
+            }
             CooldownData.cooldownMapServer.put(player, spell, cooldown);
         }
     }
 
     public static void removeCooldown(@NotNull Player player, @NotNull Spell spell) {
         if (player.level().isClientSide) {
-            prevCooldownMapClient.put(player, spell, cooldownMapClient.get(player, spell));
+            var cooldownOld = cooldownMapClient.get(player, spell);
+            if (cooldownOld != null) {
+                prevCooldownMapClient.put(player, spell, cooldownOld);
+            }
             CooldownData.cooldownMapClient.remove(player, spell);
         } else {
-            prevCooldownMapServer.put(player, spell, cooldownMapServer.get(player, spell));
+            var cooldownOld = cooldownMapServer.get(player, spell);
+            if (cooldownOld != null) {
+                prevCooldownMapServer.put(player, spell, cooldownOld);
+            }
             CooldownData.cooldownMapServer.remove(player, spell);
         }
     }
