@@ -19,13 +19,13 @@ import net.minecraft.world.item.crafting.RecipeManager;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.item.tool.material.ToolMaterial;
-import net.stln.magitech.item.tool.register.ToolMaterialRegister;
 import net.stln.magitech.recipe.RecipeInit;
 import net.stln.magitech.recipe.ToolMaterialRecipe;
 import net.stln.magitech.recipe.ZardiusCrucibleRecipe;
 import net.stln.magitech.util.ClientHelper;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class ZardiusCrucibleRecipeCategory extends AbstractMagitechRecipeCategory<ZardiusCrucibleRecipe> {
@@ -97,7 +97,7 @@ public class ZardiusCrucibleRecipeCategory extends AbstractMagitechRecipeCategor
         if (!recipe.getResultItem(access).isEmpty()) {
             guiGraphics.blit(TEXTURE, 120, 13, 36, 0, 18, 18);
         }
-        if (!recipe.getOutputFluid().isEmpty()) {
+        if (recipe.resultFluid().isPresent()) {
             guiGraphics.blit(TEXTURE, 138, 13, 54, 0, 18, 18);
         }
     }
@@ -116,7 +116,7 @@ public class ZardiusCrucibleRecipeCategory extends AbstractMagitechRecipeCategor
     protected void setRecipe(@NotNull IRecipeLayoutBuilder builder, @NotNull ZardiusCrucibleRecipe recipe, @NotNull IFocusGroup focuses, @NotNull RecipeManager recipeManager, @NotNull RegistryAccess access) {
         List<ToolMaterialRecipe> materialRecipes = ClientHelper.getAllRecipes(RecipeInit.TOOL_MATERIAL_TYPE);
         List<ToolMaterial> materials = materialRecipes.stream()
-                .map(m -> ToolMaterialRegister.getMaterial(m.getResultId()))
+                .map(ToolMaterialRecipe::getToolMaterial)
                 .toList();
 
         List<Ingredient> ingredients = recipe.getIngredients();
@@ -156,7 +156,7 @@ public class ZardiusCrucibleRecipeCategory extends AbstractMagitechRecipeCategor
                     .addIngredients(ingredients.get(i));
         }
         builder.addSlot(RecipeIngredientRole.INPUT, 74, 14)
-                .addIngredient(NeoForgeTypes.FLUID_STACK, recipe.getInputFluid()).addRichTooltipCallback((recipeSlotView, tooltip) -> {
+                .addIngredients(NeoForgeTypes.FLUID_STACK, Arrays.stream(recipe.fluidIngredient().getFluids()).toList()).addRichTooltipCallback((recipeSlotView, tooltip) -> {
                     recipeSlotView.getDisplayedIngredient(NeoForgeTypes.FLUID_STACK).ifPresent(fluid -> {
                         int amount = fluid.getAmount();
                         // mB単位で表示
@@ -167,15 +167,13 @@ public class ZardiusCrucibleRecipeCategory extends AbstractMagitechRecipeCategor
             builder.addSlot(RecipeIngredientRole.OUTPUT, 121, 14)
                     .addItemStack(recipe.getResultItem(access));
         }
-        if (!recipe.getOutputFluid().isEmpty()) {
-            builder.addSlot(RecipeIngredientRole.INPUT, 139, 14)
-                    .addIngredient(NeoForgeTypes.FLUID_STACK, recipe.getOutputFluid()).addRichTooltipCallback((recipeSlotView, tooltip) -> {
-                        recipeSlotView.getDisplayedIngredient(NeoForgeTypes.FLUID_STACK).ifPresent(fluid -> {
-                            int amount = fluid.getAmount();
-                            // mB単位で表示
-                            tooltip.add(Component.literal(amount + " mB").withColor(0x808080));
-                        });
+        recipe.resultFluid().ifPresent(fluidStack -> builder.addSlot(RecipeIngredientRole.INPUT, 139, 14)
+                .addIngredient(NeoForgeTypes.FLUID_STACK, fluidStack).addRichTooltipCallback((recipeSlotView, tooltip) -> {
+                    recipeSlotView.getDisplayedIngredient(NeoForgeTypes.FLUID_STACK).ifPresent(fluid -> {
+                        int amount = fluid.getAmount();
+                        // mB単位で表示
+                        tooltip.add(Component.literal(amount + " mB").withColor(0x808080));
                     });
-        }
+                }));
     }
 }

@@ -30,7 +30,6 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -50,7 +49,7 @@ import net.stln.magitech.magic.mana.UsedHandData;
 import net.stln.magitech.network.ReleaseUsingSpellPayload;
 import net.stln.magitech.network.UseSpellPayload;
 import net.stln.magitech.recipe.RecipeInit;
-import net.stln.magitech.recipe.SpellConversionRecipe;
+import net.stln.magitech.recipe.input.SpellRecipeInput;
 import net.stln.magitech.util.DataMapHelper;
 import net.stln.magitech.util.MathUtil;
 import net.stln.magitech.util.SpellShape;
@@ -320,23 +319,20 @@ public abstract class Spell implements SpellLike {
 
     protected void applyEffectToItem(Level level, Player user, Entity target) {
         if (target instanceof ItemEntity item) {
-            Optional<RecipeHolder<SpellConversionRecipe>> recipeHolder = level.getRecipeManager().getRecipeFor(RecipeInit.SPELL_CONVERSION_TYPE.get(), new SingleRecipeInput(item.getItem()), level);
-            if (recipeHolder.isPresent()) {
-                SpellConversionRecipe recipe = recipeHolder.get().value();
-                if (Objects.equals(recipe.getSpell(), this)) {
-                    ItemStack stack = recipe.assemble(new SingleRecipeInput(item.getItem()), level.registryAccess());
-                    int count = item.getItem().getCount() * stack.getCount();
-                    while (count > 0) {
-                        int spawnCount = Math.min(stack.getMaxStackSize(), count);
-                        ItemStack result = stack.copy();
-                        result.setCount(spawnCount);
-                        ItemEntity newItem = new ItemEntity(level, item.getX(), item.getY(), item.getZ(), result, Mth.nextFloat(item.getRandom(), -0.3F, 0.3F), 0.3, Mth.nextFloat(item.getRandom(), -0.3F, 0.3F));
-                        level.addFreshEntity(newItem);
-                        count -= spawnCount;
-                    }
-                    item.discard();
+            var recipeInput = new SpellRecipeInput(item.getItem(), this);
+            level.getRecipeManager().getRecipeFor(RecipeInit.SPELL_CONVERSION_TYPE.get(), recipeInput, level).map(RecipeHolder::value).ifPresent(recipe -> {
+                ItemStack stack = recipe.assemble(recipeInput, level.registryAccess());
+                int count = item.getItem().getCount() * stack.getCount();
+                while (count > 0) {
+                    int spawnCount = Math.min(stack.getMaxStackSize(), count);
+                    ItemStack result = stack.copy();
+                    result.setCount(spawnCount);
+                    ItemEntity newItem = new ItemEntity(level, item.getX(), item.getY(), item.getZ(), result, Mth.nextFloat(item.getRandom(), -0.3F, 0.3F), 0.3, Mth.nextFloat(item.getRandom(), -0.3F, 0.3F));
+                    level.addFreshEntity(newItem);
+                    count -= spawnCount;
                 }
-            }
+                item.discard();
+            });
         }
     }
 

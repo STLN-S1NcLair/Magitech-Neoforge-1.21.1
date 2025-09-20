@@ -1,4 +1,4 @@
-package net.stln.magitech.recipe;
+package net.stln.magitech.recipe.input;
 
 import com.ibm.icu.impl.Pair;
 import net.minecraft.world.entity.player.StackedContents;

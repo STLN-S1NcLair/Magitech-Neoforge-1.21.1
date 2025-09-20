@@ -11,7 +11,6 @@ import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.MaterialComponent;
 import net.stln.magitech.item.component.PartMaterialComponent;
 import net.stln.magitech.item.tool.material.ToolMaterial;
-import net.stln.magitech.item.tool.register.ToolMaterialRegister;
 import net.stln.magitech.recipe.RecipeInit;
 import net.stln.magitech.recipe.ToolAssemblyRecipe;
 import net.stln.magitech.recipe.ToolMaterialRecipe;
@@ -65,7 +64,7 @@ public class ToolAssemblyRecipeProcessor implements IComponentProcessor {
         }
         RecipeManager recipeManager = level.getRecipeManager();
         List<ToolMaterialRecipe> materialRecipes = recipeManager.getAllRecipesFor(RecipeInit.TOOL_MATERIAL_TYPE.get()).stream().map(RecipeHolder::value).toList();
-        List<ToolMaterial> materials = materialRecipes.stream().map(m -> ToolMaterialRegister.getMaterial(m.getResultId())).toList();
+        List<ToolMaterial> materials = materialRecipes.stream().map(ToolMaterialRecipe::getToolMaterial).toList();
         int size = inputs.size();
         int indexSize = (int) Math.pow(materials.size(), size);
         List<ItemStack> stacks = new ArrayList<>();

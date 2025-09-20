@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
@@ -24,6 +25,12 @@ public class ClientHelper {
         return Optional.ofNullable(getPlayer());
     }
 
+    // Level
+    public static @Nullable Level getLevel() {
+        var player = getPlayer();
+        return player == null ? null : player.level();
+    }
+    
     // Recipe Manager
     public static @Nullable RecipeManager getRecipeManager() {
         var clientLevel = Minecraft.getInstance().level;
