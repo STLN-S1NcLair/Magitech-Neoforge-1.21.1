@@ -126,7 +126,7 @@ public class ToolUpgradeMenu extends AbstractContainerMenu {
         if (isValidUpgrade(id)) {
             ItemStack stack = container.getItem(0);
             stack.update(ComponentInit.UPGRADE_COMPONENT, UpgradeComponent.EMPTY, upgradeComponent -> upgradeComponent.addUpgrade(new UpgradeInstance(1, upgrades.get(id))));
-            stack.set(ComponentInit.UPGRADE_SEED_COMPONENT, new Random().nextInt(Integer.MAX_VALUE));
+            stack.set(ComponentInit.UPGRADE_SEED_COMPONENT, player.getRandom().nextInt(Integer.MAX_VALUE));
             ComponentHelper.updateUpgradePoint(stack, value -> value - 1);
             this.container.setItem(0, stack);
             ItemStack material = this.container.getItem(1).copy();

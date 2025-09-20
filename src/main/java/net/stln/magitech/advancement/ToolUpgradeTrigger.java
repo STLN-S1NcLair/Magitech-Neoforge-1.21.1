@@ -8,7 +8,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.Optional;
 
 public class ToolUpgradeTrigger extends SimpleCriterionTrigger<ToolUpgradeTrigger.TriggerInstance> {
     @Override

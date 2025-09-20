@@ -18,18 +18,16 @@ import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.item.ItemTagKeys;
 import net.stln.magitech.item.tool.material.ToolMaterial;
 import net.stln.magitech.item.tool.toolitem.PartToolItem;
-import net.stln.magitech.recipe.MultiStackRecipeInput;
 import net.stln.magitech.recipe.RecipeInit;
-import net.stln.magitech.recipe.ToolAssemblyRecipe;
 import net.stln.magitech.recipe.ToolMaterialRecipe;
+import net.stln.magitech.recipe.input.MultiStackRecipeInput;
 import net.stln.magitech.util.ComponentHelper;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
 
 public class ToolRepairingMenu extends AbstractContainerMenu {
@@ -111,45 +109,39 @@ public class ToolRepairingMenu extends AbstractContainerMenu {
         inputSlots.removeItem(2, repairCount);
     }
 
-    protected static void slotChangedCraftingGrid(
-        AbstractContainerMenu menu,
-        Level level,
-        Player player,
-        Container craftSlots,
-        ResultContainer resultSlots,
-        @Nullable RecipeHolder<ToolAssemblyRecipe> recipe
-    ) {
-        if (!level.isClientSide) {
+    protected static void slotChangedCraftingGrid(AbstractContainerMenu menu, Level level, Player player, Container craftSlots, ResultContainer resultSlots) {
+        if (!level.isClientSide && player instanceof ServerPlayer serverPlayer) {
             MultiStackRecipeInput recipeInput = createRecipeInput(craftSlots);
-            ServerPlayer serverplayer = (ServerPlayer)player;
-            ItemStack itemstack = recipeInput.getItem(0).copy();
+            ItemStack stack = recipeInput.getItem(0).copy();
             SingleRecipeInput input = new SingleRecipeInput(recipeInput.getItem(1));
-            Optional<RecipeHolder<ToolMaterialRecipe>> optional = level.getRecipeManager().getRecipeFor(RecipeInit.TOOL_MATERIAL_TYPE.get(), input, level);
-            boolean isRepairable = false;
-            if (!itemstack.isEmpty() && optional.isPresent() && recipeInput.getItem(2).getTags().anyMatch(Predicate.isEqual(ItemTagKeys.REPAIR_COMPONENT))) {
-                RecipeHolder<ToolMaterialRecipe> recipeholder = optional.get();
-                ToolMaterialRecipe toolMaterialRecipe = recipeholder.value();
-                if (resultSlots.setRecipeUsed(level, serverplayer, recipeholder)) {
-                    ToolMaterial toolMaterial = toolMaterialRecipe.getToolMaterial();
-                    if (ComponentHelper.getPartMaterials(itemstack).contains(toolMaterial)) {
-                        for (int i = 0; i < Math.min(recipeInput.getItem(1).getCount(), recipeInput.getItem(2).getCount()); i++) {
-                            if (itemstack.getDamageValue() > 0) {
-                                itemstack.setDamageValue(itemstack.getDamageValue() - itemstack.getMaxDamage() / 5);
-                                ((PartToolItem) itemstack.getItem()).callTestRepair(level, player, itemstack.getMaxDamage() / 5, itemstack);
-                                ((PartToolItem) itemstack.getItem()).reloadComponent(player, level, itemstack);
-                                isRepairable = true;
+            AtomicBoolean isRepairable = new AtomicBoolean(false);
+            ItemStack stack1 = stack;
+            level.getRecipeManager()
+                    .getRecipeFor(RecipeInit.TOOL_MATERIAL_TYPE.get(), input, level)
+                    .ifPresent(holder -> {
+                        if (!recipeInput.getItem(2).is(ItemTagKeys.REPAIR_COMPONENT)) {
+                            var recipe = holder.value();
+                            if (resultSlots.setRecipeUsed(level, serverPlayer, holder)) {
+                                ToolMaterial toolMaterial = recipe.getToolMaterial();
+                                if (ComponentHelper.getPartMaterials(stack1).contains(toolMaterial)) {
+                                    for (int i = 0; i < Math.min(recipeInput.getItem(1).getCount(), recipeInput.getItem(2).getCount()); i++) {
+                                        if (stack1.getDamageValue() > 0 && (stack1.getItem() instanceof PartToolItem partToolItem)) {
+                                            stack1.setDamageValue(stack1.getDamageValue() - stack1.getMaxDamage() / 5);
+                                            partToolItem.callTestRepair(level, player, stack1.getMaxDamage() / 5, stack1);
+                                            partToolItem.reloadComponent(player, level, stack1);
+                                            isRepairable.set(true);
+                                        }
+                                    }
+                                }
                             }
                         }
-                    }
-                }
+                    });
+            if (!isRepairable.get()) {
+                stack = ItemStack.EMPTY;
             }
-            if (!isRepairable) {
-                itemstack = ItemStack.EMPTY;
-            }
-
-            resultSlots.setItem(0, itemstack);
-            menu.setRemoteSlot(0, itemstack);
-            serverplayer.connection.send(new ClientboundContainerSetSlotPacket(menu.containerId, menu.incrementStateId(), 0, itemstack));
+            resultSlots.setItem(0, stack);
+            menu.setRemoteSlot(0, stack);
+            serverPlayer.connection.send(new ClientboundContainerSetSlotPacket(menu.containerId, menu.incrementStateId(), 0, stack));
         }
     }
 
@@ -167,7 +159,7 @@ public class ToolRepairingMenu extends AbstractContainerMenu {
     @Override
     public void slotsChanged(@NotNull Container inventory) {
         if (!this.placingRecipe) {
-            this.access.execute((p_344363_, p_344364_) -> slotChangedCraftingGrid(this, p_344363_, this.player, this.inputSlots, this.resultSlots, null));
+            this.access.execute((p_344363_, p_344364_) -> slotChangedCraftingGrid(this, p_344363_, this.player, this.inputSlots, this.resultSlots));
         }
     }
 

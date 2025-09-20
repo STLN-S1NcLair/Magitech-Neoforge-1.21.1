@@ -16,6 +16,8 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.util.RecipeMatcher;
+import net.stln.magitech.recipe.input.GroupedMultiStackRecipeInput;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,23 +26,19 @@ public class AthanorPillarInfusionRecipe implements Recipe<GroupedMultiStackReci
     protected final List<List<Ingredient>> ingredients;
     protected final ItemStack result;
     protected final String group;
-    private final RecipeType<?> type;
-    private final RecipeSerializer<?> serializer;
     protected final ItemStack base;
     protected final int mana;
 
     public AthanorPillarInfusionRecipe(String group, ItemStack base, List<List<Ingredient>> ingredients, int mana, ItemStack result) {
         this.base = base;
         this.mana = mana;
-        this.type = RecipeInit.ATHANOR_PILLAR_INFUSION_TYPE.get();
-        this.serializer = RecipeInit.ATHANOR_PILLAR_INFUSION_SERIALIZER.get();
         this.ingredients = ingredients;
         this.group = group;
         this.result = result;
     }
 
     @Override
-    public boolean matches(GroupedMultiStackRecipeInput input, Level level) {
+    public boolean matches(GroupedMultiStackRecipeInput input, @NotNull Level level) {
         if (input.outerSize() != this.ingredients.size()) {
             return false;
         } else {
@@ -69,7 +67,7 @@ public class AthanorPillarInfusionRecipe implements Recipe<GroupedMultiStackReci
         }
     }
 
-    public ItemStack assemble(GroupedMultiStackRecipeInput input, HolderLookup.Provider registries) {
+    public @NotNull ItemStack assemble(@NotNull GroupedMultiStackRecipeInput input, HolderLookup.@NotNull Provider registries) {
         return this.result.copy();
     }
 
@@ -79,7 +77,7 @@ public class AthanorPillarInfusionRecipe implements Recipe<GroupedMultiStackReci
     }
 
     @Override
-    public NonNullList<Ingredient> getIngredients() {
+    public @NotNull NonNullList<Ingredient> getIngredients() {
         NonNullList<Ingredient> flatList = NonNullList.create();
         for (List<Ingredient> group : ingredients) {
             flatList.addAll(group);
@@ -92,17 +90,17 @@ public class AthanorPillarInfusionRecipe implements Recipe<GroupedMultiStackReci
     }
 
     @Override
-    public ItemStack getResultItem(HolderLookup.Provider registries) {
+    public @NotNull ItemStack getResultItem(HolderLookup.@NotNull Provider registries) {
         return result.copy();
     }
 
     @Override
-    public RecipeType<?> getType() {
+    public @NotNull RecipeType<?> getType() {
         return RecipeInit.ATHANOR_PILLAR_INFUSION_TYPE.get();
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public @NotNull RecipeSerializer<?> getSerializer() {
         return RecipeInit.ATHANOR_PILLAR_INFUSION_SERIALIZER.get();
     }
 
@@ -151,12 +149,12 @@ public class AthanorPillarInfusionRecipe implements Recipe<GroupedMultiStackReci
         }
 
         @Override
-        public MapCodec<T> codec() {
+        public @NotNull MapCodec<T> codec() {
             return this.codec;
         }
 
         @Override
-        public StreamCodec<RegistryFriendlyByteBuf, T> streamCodec() {
+        public @NotNull StreamCodec<RegistryFriendlyByteBuf, T> streamCodec() {
             return this.streamCodec;
         }
     }

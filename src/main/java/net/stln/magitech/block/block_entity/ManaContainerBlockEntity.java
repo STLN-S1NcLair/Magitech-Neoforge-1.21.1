@@ -10,7 +10,7 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.stln.magitech.util.Element;
+import net.stln.magitech.element.Element;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
