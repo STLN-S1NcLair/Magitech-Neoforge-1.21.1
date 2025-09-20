@@ -53,7 +53,7 @@ public class EffectUtil {
             endDeg *= -1;
         }
 
-        density *= (int) (radius * Math.abs(endDeg - startDeg) / 200);
+        density *= radius * Math.abs(endDeg - startDeg) / 200;
 
         Vec3 lookVec = Vec3.directionFromRotation(player.getRotationVector()); // プレイヤーの視線方向
         double yawRad = Math.toRadians(player.getRotationVector().y);

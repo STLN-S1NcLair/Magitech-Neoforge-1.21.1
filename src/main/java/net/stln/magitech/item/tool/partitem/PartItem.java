@@ -12,6 +12,7 @@ import net.stln.magitech.item.tool.ToolPart;
 import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.item.tool.material.ToolMaterial;
 import net.stln.magitech.item.tool.trait.Trait;
+import net.stln.magitech.util.ColorHelper;
 import net.stln.magitech.util.ComponentHelper;
 import net.stln.magitech.util.MathUtil;
 import org.jetbrains.annotations.NotNull;
@@ -63,7 +64,7 @@ public abstract class PartItem extends Item {
             setTier(stack, finalStats);
             var tier = ComponentHelper.getTier(stack);
             tooltipComponents.add(Component.empty());
-            tooltipComponents.add(Component.translatable("attribute.magitech.tier").append(" ").append(String.valueOf(tier)).withColor(tier));
+            tooltipComponents.add(Component.translatable("attribute.magitech.tier").append(" ").append(String.valueOf(tier)).withColor(ColorHelper.getTierColor(tier) * 5));
 
             if (shiftDown) {
                 tooltipComponents.add(Component.translatable("attribute.magitech.attack_damage").append(": ").withColor(0xa0a0a0)
