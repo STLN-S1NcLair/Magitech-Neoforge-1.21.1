@@ -1,0 +1,41 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "minecraft:book"
+    },
+    "S": {
+      "type": "neoforge:components",
+      "items": "magitech:reinforced_stick",
+      "components": {
+        "magitech:material_component": {
+          "material": "magitech:iron"
+        }
+      },
+      "strict": true
+    },
+    "P": {
+      "type": "neoforge:components",
+      "items": "magitech:plate",
+      "components": {
+        "magitech:material_component": {
+          "material": "magitech:stone"
+        }
+      },
+      "strict": true
+    },
+    "L": {
+      "tag": "c:stripped_logs"
+    }
+  },
+  "pattern": [
+    "PLP",
+    "SBS",
+    "PLP"
+  ],
+  "result": {
+    "count": 1,
+    "id": "magitech:materials_and_toolcraft_design"
+  }
+}

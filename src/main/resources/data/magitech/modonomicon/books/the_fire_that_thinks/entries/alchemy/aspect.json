@@ -1,0 +1,82 @@
+{
+  "name": "book.magitech.the_fire_that_thinks.alchemy.aspect.name",
+  "icon": {
+    "id": "magitech:ember_crystal"
+  },
+  "category": "magitech:alchemy",
+  "x": -4,
+  "y": -2,
+  "background_u_index": 1,
+  "background_v_index": 2,
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "title": "book.magitech.the_fire_that_thinks.alchemy.aspect.0.title",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.aspect.0.text"
+    },
+    {
+      "type": "modonomicon:spotlight",
+      "title": "book.magitech.the_fire_that_thinks.alchemy.aspect.ember.title",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.aspect.ember.text",
+      "item": {
+        "item": "magitech:ember_crystal"
+      }
+    },
+    {
+      "type": "modonomicon:spotlight",
+      "title": "book.magitech.the_fire_that_thinks.alchemy.aspect.glace.title",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.aspect.glace.text",
+      "item": {
+        "item": "magitech:glace_crystal"
+      }
+    },
+    {
+      "type": "modonomicon:spotlight",
+      "title": "book.magitech.the_fire_that_thinks.alchemy.aspect.surge.title",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.aspect.surge.text",
+      "item": {
+        "item": "magitech:surge_crystal"
+      }
+    },
+    {
+      "type": "modonomicon:spotlight",
+      "title": "book.magitech.the_fire_that_thinks.alchemy.aspect.phantom.title",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.aspect.phantom.text",
+      "item": {
+        "item": "magitech:phantom_crystal"
+      }
+    },
+    {
+      "type": "modonomicon:spotlight",
+      "title": "book.magitech.the_fire_that_thinks.alchemy.aspect.tremor.title",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.aspect.tremor.text",
+      "item": {
+        "item": "magitech:tremor_crystal"
+      }
+    },
+    {
+      "type": "modonomicon:spotlight",
+      "title": "book.magitech.the_fire_that_thinks.alchemy.aspect.magic.title",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.aspect.magic.text",
+      "item": {
+        "item": "magitech:magic_crystal"
+      }
+    },
+    {
+      "type": "modonomicon:spotlight",
+      "title": "book.magitech.the_fire_that_thinks.alchemy.aspect.flow.title",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.aspect.flow.text",
+      "item": {
+        "item": "magitech:flow_crystal"
+      }
+    },
+    {
+      "type": "modonomicon:spotlight",
+      "title": "book.magitech.the_fire_that_thinks.alchemy.aspect.hollow.title",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.aspect.hollow.text",
+      "item": {
+        "item": "magitech:hollow_crystal"
+      }
+    }
+  ]
+}

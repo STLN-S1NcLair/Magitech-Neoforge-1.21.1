@@ -1,0 +1,22 @@
+{
+  "name": "book.magitech.the_fire_that_thinks.alchemy.root.name",
+  "icon": {
+    "id": "magitech:the_fire_that_thinks"
+  },
+  "category": "magitech:alchemy",
+  "x": 0,
+  "y": 0,
+  "background_u_index": 0,
+  "background_v_index": 1,
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "title": "book.magitech.the_fire_that_thinks.alchemy.root.0.title",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.root.0.text"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.root.1.text"
+    }
+  ]
+}

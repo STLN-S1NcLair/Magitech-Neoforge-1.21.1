@@ -1,0 +1,66 @@
+{
+  "name": "book.magitech.the_fire_that_thinks.alchemy.aspect_crystal.name",
+  "icon": {
+    "id": "magitech:glace_crystal"
+  },
+  "category": "magitech:alchemy",
+  "x": -6,
+  "y": 0,
+  "background_u_index": 1,
+  "background_v_index": 0,
+  "parents": [
+    {
+      "entry": "magitech:alchemy/zardius_alchemy"
+    },
+    {
+      "entry": "magitech:alchemy/aspect"
+    }
+  ],
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "title": "book.magitech.the_fire_that_thinks.alchemy.aspect_crystal.0.title",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.aspect_crystal.0.text"
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "recipe_id_1": "magitech:ember_crystal",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.aspect_crystal.ember.text"
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "recipe_id_1": "magitech:glace_crystal",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.aspect_crystal.glace.text"
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "recipe_id_1": "magitech:surge_crystal",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.aspect_crystal.surge.text"
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "recipe_id_1": "magitech:phantom_crystal",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.aspect_crystal.phantom.text"
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "recipe_id_1": "magitech:tremor_crystal",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.aspect_crystal.tremor.text"
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "recipe_id_1": "magitech:magic_crystal",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.aspect_crystal.magic.text"
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "recipe_id_1": "magitech:flow_crystal",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.aspect_crystal.flow.text"
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "recipe_id_1": "magitech:hollow_crystal",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.aspect_crystal.hollow.text"
+    }
+  ]
+}

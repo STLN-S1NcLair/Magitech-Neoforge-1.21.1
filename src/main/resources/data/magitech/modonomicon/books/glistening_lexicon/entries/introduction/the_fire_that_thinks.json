@@ -1,0 +1,32 @@
+{
+  "name": "book.magitech.glistening_lexicon.introduction.materials_and_toolcraft_design.name",
+  "icon": {
+    "id": "magitech:materials_and_toolcraft_design"
+  },
+  "category": "magitech:introduction",
+  "x": 6,
+  "y": -4,
+  "background_u_index": 0,
+  "background_v_index": 0,
+  "parents": [
+    {
+      "entry": "magitech:introduction/tool_assemble"
+    }
+  ],
+  "pages": [
+    {
+      "type": "modonomicon:spotlight",
+      "title": "book.magitech.glistening_lexicon.introduction.materials_and_toolcraft_design.0.title",
+      "text": "book.magitech.glistening_lexicon.introduction.materials_and_toolcraft_design.0.text",
+      "item": {
+        "item": "magitech:materials_and_toolcraft_design"
+      }
+    },
+    {
+      "type": "modonomicon:crafting_recipe",
+      "text": "book.magitech.glistening_lexicon.introduction.materials_and_toolcraft_design.1.text",
+      "recipe_id_1": "magitech:materials_and_toolcraft_design",
+      "link_recipe" : "true"
+    }
+  ]
+}

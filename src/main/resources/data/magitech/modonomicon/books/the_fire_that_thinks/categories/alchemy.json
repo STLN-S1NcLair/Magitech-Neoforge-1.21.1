@@ -1,0 +1,9 @@
+{
+  "background": "magitech:textures/gui/the_fire_that_thinks/background.png",
+  "entry_textures": "magitech:textures/gui/the_fire_that_thinks/entry_textures.png",
+  "icon": {
+  "id": "magitech:fluorite"
+},
+  "name": "book.magitech.the_fire_that_thinks.alchemy.name",
+  "sort_number": 0
+}

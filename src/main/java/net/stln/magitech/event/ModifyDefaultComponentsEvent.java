@@ -46,8 +46,11 @@ public class ModifyDefaultComponentsEvent {
             event.modify(ItemInit.GLISTENING_LEXICON, builder -> builder.set(ComponentInit.SPELL_COMPONENT.get(),
                             new SpellComponent(List.of(), 0)).set(DataComponentRegistry.BOOK_ID.get(), ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "glistening_lexicon"))
                     .set(PatchouliDataComponents.BOOK, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "glistening_lexicon")).build());
-            event.modify(ItemInit.THE_FIRE_THAT_THINKS, builder -> builder.set(ComponentInit.SPELL_COMPONENT.get(),
+            event.modify(ItemInit.MATERIALS_AND_TOOLCRAFT_DESIGN, builder -> builder.set(ComponentInit.SPELL_COMPONENT.get(),
                             new SpellComponent(List.of(), 0))
+                    .set(PatchouliDataComponents.BOOK, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "the_fire_that_thinks")).build());
+            event.modify(ItemInit.THE_FIRE_THAT_THINKS, builder -> builder.set(ComponentInit.SPELL_COMPONENT.get(),
+                            new SpellComponent(List.of(), 0)).set(DataComponentRegistry.BOOK_ID.get(), ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "the_fire_that_thinks"))
                     .set(PatchouliDataComponents.BOOK, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "the_fire_that_thinks")).build());
             event.modify(ItemInit.ARCANE_ENGINEERING_COMPENDIUM, builder -> builder.set(ComponentInit.SPELL_COMPONENT.get(),
                     new SpellComponent(List.of(), 0)).build());
@@ -55,6 +58,8 @@ public class ModifyDefaultComponentsEvent {
             event.modify(ItemInit.GLISTENING_LEXICON, builder -> builder.set(ComponentInit.SPELL_COMPONENT.get(),
                     new SpellComponent(List.of(), 0)).build());
             event.modify(ItemInit.THE_FIRE_THAT_THINKS, builder -> builder.set(ComponentInit.SPELL_COMPONENT.get(),
+                    new SpellComponent(List.of(), 0)).build());
+            event.modify(ItemInit.MATERIALS_AND_TOOLCRAFT_DESIGN, builder -> builder.set(ComponentInit.SPELL_COMPONENT.get(),
                     new SpellComponent(List.of(), 0)).build());
             event.modify(ItemInit.ARCANE_ENGINEERING_COMPENDIUM, builder -> builder.set(ComponentInit.SPELL_COMPONENT.get(),
                     new SpellComponent(List.of(), 0)).build());

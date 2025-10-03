@@ -1,0 +1,32 @@
+{
+  "name": "book.magitech.glistening_lexicon.introduction.the_fire_that_thinks.name",
+  "icon": {
+    "id": "magitech:the_fire_that_thinks"
+  },
+  "category": "magitech:introduction",
+  "x": -12,
+  "y": 0,
+  "background_u_index": 0,
+  "background_v_index": 0,
+  "parents": [
+    {
+      "entry": "magitech:introduction/alchecrysite"
+    }
+  ],
+  "pages": [
+    {
+      "type": "modonomicon:spotlight",
+      "title": "book.magitech.glistening_lexicon.introduction.the_fire_that_thinks.0.title",
+      "text": "book.magitech.glistening_lexicon.introduction.the_fire_that_thinks.0.text",
+      "item": {
+        "item": "magitech:the_fire_that_thinks"
+      }
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "text": "book.magitech.glistening_lexicon.introduction.the_fire_that_thinks.1.text",
+      "recipe_id_1": "magitech:the_fire_that_thinks",
+      "link_recipe" : "true"
+    }
+  ]
+}

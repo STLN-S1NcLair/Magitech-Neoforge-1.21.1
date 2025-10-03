@@ -1,0 +1,32 @@
+{
+  "name": "book.magitech.glistening_lexicon.introduction.alchecrysite.name",
+  "icon": {
+    "id": "magitech:alchecrysite"
+  },
+  "category": "magitech:introduction",
+  "x": -10,
+  "y": 0,
+  "background_u_index": 1,
+  "background_v_index": 0,
+  "parents": [
+    {
+      "entry": "magitech:introduction/magic_crystal"
+    }
+  ],
+  "pages": [
+    {
+      "type": "modonomicon:spotlight",
+      "title": "book.magitech.glistening_lexicon.introduction.alchecrysite.0.title",
+      "text": "book.magitech.glistening_lexicon.introduction.alchecrysite.0.text",
+      "item": {
+        "item": "magitech:alchecrysite"
+      }
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "text": "book.magitech.glistening_lexicon.introduction.alchecrysite.1.text",
+      "recipe_id_1": "magitech:alchecrysite",
+      "link_recipe" : "true"
+    }
+  ]
+}

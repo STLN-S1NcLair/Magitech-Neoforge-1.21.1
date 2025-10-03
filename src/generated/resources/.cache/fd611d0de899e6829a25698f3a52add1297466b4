@@ -1,4 +1,4 @@
-// 1.21.1	2025-09-12T18:31:24.9778997	Item Models: magitech
+// 1.21.1	2025-09-21T22:43:11.523928	Item Models: magitech
 b6e580466ba37335919256eafa6aebae2f80e029 assets/magitech/models/item/abyssite.json
 f8398c633fbbc637417f3dfe317b25ee85a8ac1f assets/magitech/models/item/abyssite_axe_heavy_handle.json
 ba7e38ad119bd2731692671964773b889925fc5c assets/magitech/models/item/abyssite_axe_light_blade.json
@@ -832,6 +832,7 @@ a4eb262981514e64121967e4cf98ed9a9af90048 assets/magitech/models/item/mana_charge
 d0392a2314934b78d703aa5909e2d2a944991a38 assets/magitech/models/item/mana_deexciter_core.json
 11cba26ffb258eaabe01e6fd2f42b76b4d629f2b assets/magitech/models/item/mana_pie.json
 68cebe46cb739b3442f6e599bbbc31b56826e93c assets/magitech/models/item/mana_ring.json
+e1508256aedd7ef9d4c10825338bfda53aa6e407 assets/magitech/models/item/materials_and_toolcraft_design.json
 c71fb3b28bc845e9cfe2221e8e0881946bf61182 assets/magitech/models/item/mistalia_petals.json
 58d3bbd4db1edba75803bc97c48d3956b976e9b0 assets/magitech/models/item/moss_axe_heavy_handle.json
 6624d151491b4d64d8499623944a870cec7abca2 assets/magitech/models/item/moss_axe_light_blade.json

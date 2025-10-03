@@ -20,6 +20,7 @@ public class ModItemModelProvider extends ItemModelProvider {
     @Override
     protected void registerModels() {
         basicItem(ItemInit.GLISTENING_LEXICON.get());
+        basicItem(ItemInit.MATERIALS_AND_TOOLCRAFT_DESIGN.get());
         basicItem(ItemInit.THE_FIRE_THAT_THINKS.get());
         basicItem(ItemInit.ARCANE_ENGINEERING_COMPENDIUM.get());
         basicItem(ItemInit.MANA_RING.get());

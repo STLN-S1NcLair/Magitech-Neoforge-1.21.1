@@ -30,100 +30,119 @@ public class ItemInit {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Magitech.MOD_ID);
 
     public static final DeferredItem<ThreadBoundItem> GLISTENING_LEXICON = ITEMS.registerItem("glistening_lexicon",
-            (properties) -> new ThreadBoundItem(properties).attributeModifier(Map.of(
-                    AttributeInit.MAX_MANA, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 20, AttributeModifier.Operation.ADD_VALUE),
-                    AttributeInit.MANA_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.2, AttributeModifier.Operation.ADD_VALUE),
+            (properties) -> new ThreadBoundItem(properties).attributeModifier(Map.ofEntries(
+                    Map.entry(AttributeInit.MAX_MANA, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 20, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.MANA_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.2, AttributeModifier.Operation.ADD_VALUE)),
 
-                    AttributeInit.NOCTIS_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.2, AttributeModifier.Operation.ADD_VALUE),
-                    AttributeInit.LUMINIS_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.2, AttributeModifier.Operation.ADD_VALUE),
-                    AttributeInit.FLUXIA_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.2, AttributeModifier.Operation.ADD_VALUE),
-                    AttributeInit.MAX_NOCTIS, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 10, AttributeModifier.Operation.ADD_VALUE),
-                    AttributeInit.MAX_LUMINIS, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 10, AttributeModifier.Operation.ADD_VALUE),
-                    AttributeInit.MAX_FLUXIA, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 10, AttributeModifier.Operation.ADD_VALUE)
+                    Map.entry(AttributeInit.NOCTIS_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.2, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.LUMINIS_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.2, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.FLUXIA_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.2, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.MAX_NOCTIS, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 10, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.MAX_LUMINIS, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 10, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.MAX_FLUXIA, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 10, AttributeModifier.Operation.ADD_VALUE))
+            )),
+            new Item.Properties().stacksTo(1));
+
+    public static final DeferredItem<ThreadBoundItem> MATERIALS_AND_TOOLCRAFT_DESIGN = ITEMS.registerItem("materials_and_toolcraft_design",
+            (properties) -> new ThreadBoundItem(properties).attributeModifier(Map.ofEntries(
+                    Map.entry(AttributeInit.MAX_MANA, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 200, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.MANA_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.8, AttributeModifier.Operation.ADD_VALUE)),
+
+                    Map.entry(AttributeInit.NOCTIS_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.2, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.LUMINIS_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.2, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.FLUXIA_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.2, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.MAX_NOCTIS, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 15, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.MAX_LUMINIS, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 15, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.MAX_FLUXIA, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 15, AttributeModifier.Operation.ADD_VALUE)),
+
+                    Map.entry(AttributeInit.COOLDOWN_SPEED, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.2, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.CASTING_SPEED, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.2, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.MANA_EFFICIENCY, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.1, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.SPELL_POWER, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), -0.2, AttributeModifier.Operation.ADD_VALUE))
             )),
             new Item.Properties().stacksTo(1));
 
     public static final DeferredItem<ThreadBoundItem> THE_FIRE_THAT_THINKS = ITEMS.registerItem("the_fire_that_thinks",
-            (properties) -> new ThreadBoundItem(properties).attributeModifier(Map.of(
-                    AttributeInit.MAX_MANA, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 100, AttributeModifier.Operation.ADD_VALUE),
-                    AttributeInit.MANA_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 1, AttributeModifier.Operation.ADD_VALUE),
+            (properties) -> new ThreadBoundItem(properties).attributeModifier(Map.ofEntries(
+                    Map.entry(AttributeInit.MAX_MANA, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 100, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.MANA_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 1, AttributeModifier.Operation.ADD_VALUE)),
 
-                    AttributeInit.NOCTIS_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.2, AttributeModifier.Operation.ADD_VALUE),
-                    AttributeInit.LUMINIS_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.2, AttributeModifier.Operation.ADD_VALUE),
-                    AttributeInit.FLUXIA_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.2, AttributeModifier.Operation.ADD_VALUE),
-                    AttributeInit.MAX_NOCTIS, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 15, AttributeModifier.Operation.ADD_VALUE),
-                    AttributeInit.MAX_LUMINIS, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 15, AttributeModifier.Operation.ADD_VALUE),
-                    AttributeInit.MAX_FLUXIA, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 15, AttributeModifier.Operation.ADD_VALUE),
+                    Map.entry(AttributeInit.NOCTIS_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.2, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.LUMINIS_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.2, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.FLUXIA_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.2, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.MAX_NOCTIS, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 15, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.MAX_LUMINIS, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 15, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.MAX_FLUXIA, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 15, AttributeModifier.Operation.ADD_VALUE)),
 
-                    AttributeInit.SPELL_POWER, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.2, AttributeModifier.Operation.ADD_VALUE),
-                    AttributeInit.MANA_EFFICIENCY, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), -0.1, AttributeModifier.Operation.ADD_VALUE)
+                    Map.entry(AttributeInit.SPELL_POWER, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.2, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.MANA_EFFICIENCY, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), -0.1, AttributeModifier.Operation.ADD_VALUE))
             )),
             new Item.Properties().stacksTo(1));
 
     public static final DeferredItem<ThreadBoundItem> ARCANE_ENGINEERING_COMPENDIUM = ITEMS.registerItem("arcane_engineering_compendium",
-            (properties) -> new ThreadBoundItem(properties).attributeModifier(Map.of(
-                    AttributeInit.MAX_MANA, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 300, AttributeModifier.Operation.ADD_VALUE),
-                    AttributeInit.MANA_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 4, AttributeModifier.Operation.ADD_VALUE),
+            (properties) -> new ThreadBoundItem(properties).attributeModifier(Map.ofEntries(
+                    Map.entry(AttributeInit.MAX_MANA, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 300, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.MANA_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 4, AttributeModifier.Operation.ADD_VALUE)),
 
-                    AttributeInit.NOCTIS_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.3, AttributeModifier.Operation.ADD_VALUE),
-                    AttributeInit.LUMINIS_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.3, AttributeModifier.Operation.ADD_VALUE),
-                    AttributeInit.FLUXIA_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.3, AttributeModifier.Operation.ADD_VALUE),
-                    AttributeInit.MAX_NOCTIS, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 30, AttributeModifier.Operation.ADD_VALUE),
-                    AttributeInit.MAX_LUMINIS, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 30, AttributeModifier.Operation.ADD_VALUE),
-                    AttributeInit.MAX_FLUXIA, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 30, AttributeModifier.Operation.ADD_VALUE)
+                    Map.entry(AttributeInit.NOCTIS_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.3, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.LUMINIS_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.3, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.FLUXIA_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.3, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.MAX_NOCTIS, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 30, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.MAX_LUMINIS, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 30, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.MAX_FLUXIA, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 30, AttributeModifier.Operation.ADD_VALUE))
             )),
             new Item.Properties().stacksTo(1));
 
     public static final DeferredItem<RingItem> MANA_RING = ITEMS.registerItem("mana_ring",
-            (properties) -> new RingItem(properties).attributeModifier(Map.of(
-                    AttributeInit.MAX_MANA, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 50, AttributeModifier.Operation.ADD_VALUE),
-                    AttributeInit.MANA_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 1, AttributeModifier.Operation.ADD_VALUE)
+            (properties) -> new RingItem(properties).attributeModifier(Map.ofEntries(
+                    Map.entry(AttributeInit.MAX_MANA, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 50, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.MANA_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 1, AttributeModifier.Operation.ADD_VALUE))
             )),
             new Item.Properties().stacksTo(1));
 
     public static final DeferredItem<RingItem> GALEVENT_RING = ITEMS.registerItem("galevent_ring",
-            (properties) -> new RingItem(properties).attributeModifier(Map.of(
-                    AttributeInit.COOLDOWN_SPEED, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.3, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+            (properties) -> new RingItem(properties).attributeModifier(Map.ofEntries(
+                    Map.entry(AttributeInit.COOLDOWN_SPEED, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.3, AttributeModifier.Operation.ADD_MULTIPLIED_BASE))
             )),
             new Item.Properties().stacksTo(1));
 
     public static final DeferredItem<RingItem> CHARGEBIND_RING = ITEMS.registerItem("chargebind_ring",
-            (properties) -> new RingItem(properties).attributeModifier(Map.of(
-                    AttributeInit.CASTING_SPEED, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.25, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+            (properties) -> new RingItem(properties).attributeModifier(Map.ofEntries(
+                    Map.entry(AttributeInit.CASTING_SPEED, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.25, AttributeModifier.Operation.ADD_MULTIPLIED_BASE))
             )),
             new Item.Properties().stacksTo(1));
 
     public static final DeferredItem<RingItem> TORSION_RING = ITEMS.registerItem("torsion_ring",
-            (properties) -> new RingItem(properties).attributeModifier(Map.of(
-                    AttributeInit.PROJECTILE_SPEED, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.6, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+            (properties) -> new RingItem(properties).attributeModifier(Map.ofEntries(
+                    Map.entry(AttributeInit.PROJECTILE_SPEED, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.6, AttributeModifier.Operation.ADD_MULTIPLIED_BASE))
             )),
             new Item.Properties().stacksTo(1));
 
     public static final DeferredItem<RingItem> UMBRAL_RING = ITEMS.registerItem("umbral_ring",
-            (properties) -> new RingItem(properties).attributeModifier(Map.of(
-                    AttributeInit.GLACE_SPELL_POWER, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.1, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
-                    AttributeInit.SURGE_SPELL_POWER, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.1, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
-                    AttributeInit.TREMOR_SPELL_POWER, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
-                    AttributeInit.HOLLOW_SPELL_POWER, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
-                    AttributeInit.MANA_EFFICIENCY, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), -0.15, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+            (properties) -> new RingItem(properties).attributeModifier(Map.ofEntries(
+                    Map.entry(AttributeInit.GLACE_SPELL_POWER, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.1, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)),
+                    Map.entry(AttributeInit.SURGE_SPELL_POWER, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.1, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)),
+                    Map.entry(AttributeInit.TREMOR_SPELL_POWER, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)),
+                    Map.entry(AttributeInit.HOLLOW_SPELL_POWER, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)),
+                    Map.entry(AttributeInit.MANA_EFFICIENCY, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), -0.15, AttributeModifier.Operation.ADD_MULTIPLIED_BASE))
             )),
             new Item.Properties().stacksTo(1));
 
     public static final DeferredItem<RingItem> DAWN_RING = ITEMS.registerItem("dawn_ring",
-            (properties) -> new RingItem(properties).attributeModifier(Map.of(
-                    AttributeInit.SURGE_SPELL_POWER, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
-                    AttributeInit.PHANTOM_SPELL_POWER, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
-                    AttributeInit.FLOW_SPELL_POWER, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
-                    AttributeInit.MANA_EFFICIENCY, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), -0.15, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+            (properties) -> new RingItem(properties).attributeModifier(Map.ofEntries(
+                    Map.entry(AttributeInit.SURGE_SPELL_POWER, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)),
+                    Map.entry(AttributeInit.PHANTOM_SPELL_POWER, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)),
+                    Map.entry(AttributeInit.FLOW_SPELL_POWER, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)),
+                    Map.entry(AttributeInit.MANA_EFFICIENCY, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), -0.15, AttributeModifier.Operation.ADD_MULTIPLIED_BASE))
             )),
             new Item.Properties().stacksTo(1));
 
     public static final DeferredItem<RingItem> FLUXBOUND_RING = ITEMS.registerItem("fluxbound_ring",
-            (properties) -> new RingItem(properties).attributeModifier(Map.of(
-                    AttributeInit.EMBER_SPELL_POWER, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
-                    AttributeInit.GLACE_SPELL_POWER, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
-                    AttributeInit.MAGIC_SPELL_POWER, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
-                    AttributeInit.MANA_EFFICIENCY, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), -0.15, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+            (properties) -> new RingItem(properties).attributeModifier(Map.ofEntries(
+                    Map.entry(AttributeInit.EMBER_SPELL_POWER, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)),
+                    Map.entry(AttributeInit.GLACE_SPELL_POWER, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)),
+                    Map.entry(AttributeInit.MAGIC_SPELL_POWER, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)),
+                    Map.entry(AttributeInit.MANA_EFFICIENCY, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "ring"), -0.15, AttributeModifier.Operation.ADD_MULTIPLIED_BASE))
             )),
             new Item.Properties().stacksTo(1));
 
