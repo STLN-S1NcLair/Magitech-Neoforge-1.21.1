@@ -1,0 +1,27 @@
+{
+  "name": "book.magitech.the_fire_that_thinks.alchemy.aether_lifter.name",
+  "icon": {
+    "id": "magitech:aether_lifter"
+  },
+  "category": "magitech:alchemy",
+  "x": 6,
+  "y": 0,
+  "background_u_index": 1,
+  "background_v_index": 0,
+  "parents": [
+    {
+      "entry": "magitech:alchemy/alchemical_equipment"
+    }
+  ],
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "title": "book.magitech.the_fire_that_thinks.alchemy.aether_lifter.0.title",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.aether_lifter.0.text"
+    },
+    {
+      "type": "magitech:athanor_pillar_infusion_recipe",
+      "recipe_id_1": "magitech:aether_lifter"
+    }
+  ]
+}

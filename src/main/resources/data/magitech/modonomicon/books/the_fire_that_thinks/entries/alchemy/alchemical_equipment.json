@@ -1,0 +1,35 @@
+{
+  "name": "book.magitech.the_fire_that_thinks.alchemy.alchemical_equipment.name",
+  "icon": {
+    "id": "magitech:aegis_weave"
+  },
+  "category": "magitech:alchemy",
+  "x": 4,
+  "y": 0,
+  "background_u_index": 1,
+  "background_v_index": 0,
+  "parents": [
+    {
+      "entry": "magitech:alchemy/root"
+    }
+  ],
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "title": "book.magitech.the_fire_that_thinks.alchemy.alchemical_equipment.0.title",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.alchemical_equipment.0.text"
+    },
+    {
+      "type": "modonomicon:spotlight",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.alchemical_equipment.1.text",
+      "item": {
+        "item": "magitech:alchaefabric"
+      }
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.alchemical_equipment.2.text",
+      "recipe_id_1": "magitech:aegis_weave"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "name": "book.magitech.the_fire_that_thinks.alchemy.flamglide_strider.name",
+  "icon": {
+    "id": "magitech:flamglide_strider"
+  },
+  "category": "magitech:alchemy",
+  "x": 6,
+  "y": 1,
+  "background_u_index": 1,
+  "background_v_index": 0,
+  "parents": [
+    {
+      "entry": "magitech:alchemy/alchemical_equipment",
+      "line_reversed": true
+    }
+  ],
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "title": "book.magitech.the_fire_that_thinks.alchemy.flamglide_strider.0.title",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.flamglide_strider.0.text"
+    },
+    {
+      "type": "magitech:athanor_pillar_infusion_recipe",
+      "recipe_id_1": "magitech:flamglide_strider"
+    }
+  ]
+}

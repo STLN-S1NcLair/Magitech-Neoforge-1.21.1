@@ -1,0 +1,55 @@
+{
+  "name": "book.magitech.the_fire_that_thinks.alchemy.mana_device.name",
+  "icon": {
+    "id": "magitech:mana_deexciter_core"
+  },
+  "category": "magitech:alchemy",
+  "x": 0,
+  "y": 4,
+  "background_u_index": 1,
+  "background_v_index": 0,
+  "parents": [
+    {
+      "entry": "magitech:alchemy/root"
+    },
+    {
+      "entry": "magitech:alchemy/aspect",
+      "line_reversed": true
+    },
+    {
+      "entry": "magitech:alchemy/alchecrysite",
+      "line_reversed": true
+    }
+  ],
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "title": "book.magitech.the_fire_that_thinks.alchemy.mana_device.0.title",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.mana_device.0.text"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.mana_device.1.text"
+    },
+    {
+      "type": "modonomicon:crafting_recipe",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.mana_device.2.text",
+      "recipe_id_1": "magitech:mana_vessel"
+    },
+    {
+      "type": "modonomicon:crafting_recipe",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.mana_device.3.text",
+      "recipe_id_1": "magitech:mana_node"
+    },
+    {
+      "type": "modonomicon:crafting_recipe",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.mana_device.4.text",
+      "recipe_id_1": "magitech:mana_deexciter_core"
+    },
+    {
+      "type": "modonomicon:crafting_recipe",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.mana_device.5.text",
+      "recipe_id_1": "magitech:aspect_collector"
+    }
+  ]
+}

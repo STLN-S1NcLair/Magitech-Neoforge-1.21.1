@@ -1,0 +1,39 @@
+{
+  "name": "book.magitech.the_fire_that_thinks.alchemy.athanor_pillar.name",
+  "icon": {
+    "id": "magitech:athanor_pillar"
+  },
+  "category": "magitech:alchemy",
+  "x": 0,
+  "y": 6,
+  "background_u_index": 1,
+  "background_v_index": 0,
+  "parents": [
+    {
+      "entry": "magitech:alchemy/mana_device"
+    }
+  ],
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "title": "book.magitech.the_fire_that_thinks.alchemy.athanor_pillar.0.title",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.athanor_pillar.0.text"
+    },
+    {
+      "type": "modonomicon:crafting_recipe",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.athanor_pillar.1.text",
+      "recipe_id_1": "magitech:alchemetric_pylon"
+    },
+    {
+      "type": "modonomicon:crafting_recipe",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.athanor_pillar.2.text",
+      "recipe_id_1": "magitech:athanor_pillar"
+    },
+    {
+      "type": "modonomicon:multiblock",
+      "multiblock_name": "book.magitech.the_fire_that_thinks.alchemy.athanor_pillar.3.title",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.athanor_pillar.3.text",
+      "multiblock_id": "magitech:athanor_pillar_altar"
+    }
+  ]
+}

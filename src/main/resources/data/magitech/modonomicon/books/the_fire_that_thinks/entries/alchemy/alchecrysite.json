@@ -1,0 +1,28 @@
+{
+  "name": "book.magitech.the_fire_that_thinks.alchemy.alchecrysite.name",
+  "icon": {
+    "id": "magitech:alchecrysite"
+  },
+  "category": "magitech:alchemy",
+  "x": -8,
+  "y": 0,
+  "background_u_index": 1,
+  "background_v_index": 0,
+  "parents": [
+    {
+      "entry": "magitech:alchemy/aspect_crystal"
+    }
+  ],
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "title": "book.magitech.the_fire_that_thinks.alchemy.alchecrysite.0.title",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.alchecrysite.0.text"
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "recipe_id_1": "magitech:alchecrysite",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.alchecrysite.1.text"
+    }
+  ]
+}

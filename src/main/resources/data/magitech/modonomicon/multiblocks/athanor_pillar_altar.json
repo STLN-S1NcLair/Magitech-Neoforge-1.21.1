@@ -1,0 +1,156 @@
+{
+  "type": "modonomicon:dense",
+  "pattern": [
+    [
+      "    B    ",
+      "    A    ",
+      "    A    ",
+      "    A    ",
+      "BAAAVAAAB",
+      "    A    ",
+      "    A    ",
+      "    A    ",
+      "    B    "
+    ],
+    [
+      "    L    ",
+      "         ",
+      "         ",
+      "         ",
+      "L   D   L",
+      "         ",
+      "         ",
+      "         ",
+      "    L    "
+    ],
+    [
+      "M   L   M",
+      "         ",
+      "         ",
+      "         ",
+      "L       L",
+      "         ",
+      "         ",
+      "         ",
+      "M   L   M"
+    ],
+    [
+      "P   L   P",
+      "    M    ",
+      "         ",
+      "         ",
+      "LM     ML",
+      "         ",
+      "         ",
+      "    M    ",
+      "P   L   P"
+    ],
+    [
+      "L   P   L",
+      " U  T  U ",
+      "         ",
+      "         ",
+      "PT     TP",
+      "         ",
+      "         ",
+      " U  T  U ",
+      "L   P   L"
+    ],
+    [
+      "L   L   L",
+      " V     V ",
+      "  M   M  ",
+      "         ",
+      "L   I   L",
+      "         ",
+      "  M   M  ",
+      " V     V ",
+      "L   L   L"
+    ],
+    [
+      "PPEEPEEPP",
+      "PFPOOOPFP",
+      "SPPBBBPPN",
+      "SOBCCCBON",
+      "POBC0CBOP",
+      "SOBCCCBON",
+      "SPPBBBPPN",
+      "PFPOOOPFP",
+      "PPWWPWWPP"
+    ]
+  ],
+  "mapping": {
+    "0": {
+      "type": "modonomicon:block",
+      "block": "magitech:alchecrysite"
+    },
+    "C": {
+      "type": "modonomicon:block",
+      "block": "magitech:alchecrysite"
+    },
+    "W": {
+      "type": "modonomicon:blockstateproperty",
+      "block": "magitech:alchecrysite_stairs[facing=west]"
+    },
+    "N": {
+      "type": "modonomicon:blockstateproperty",
+      "block": "magitech:alchecrysite_stairs[facing=north]"
+    },
+    "S": {
+      "type": "modonomicon:blockstateproperty",
+      "block": "magitech:alchecrysite_stairs[facing=south]"
+    },
+    "E": {
+      "type": "modonomicon:blockstateproperty",
+      "block": "magitech:alchecrysite_stairs[facing=east]"
+    },
+    "P": {
+      "type": "modonomicon:block",
+      "block": "magitech:polished_alchecrysite"
+    },
+    "T": {
+      "type": "modonomicon:blockstateproperty",
+      "block": "magitech:polished_alchecrysite_slab[type=top]"
+    },
+    "B": {
+      "type": "modonomicon:block",
+      "block": "magitech:alchecrysite_bricks"
+    },
+    "L": {
+      "type": "modonomicon:block",
+      "block": "magitech:alchecrysite_brick_wall"
+    },
+    "A": {
+      "type": "modonomicon:blockstateproperty",
+      "block": "magitech:alchecrysite_brick_slab[type=top]"
+    },
+    "F": {
+      "type": "modonomicon:block",
+      "block": "magitech:fluorite_block"
+    },
+    "O": {
+      "type": "modonomicon:block",
+      "block": "magitech:fluorite_bricks"
+    },
+    "M": {
+      "type": "modonomicon:block",
+      "block": "magitech:alchemetric_pylon"
+    },
+    "V": {
+      "type": "modonomicon:block",
+      "block": "magitech:mana_vessel"
+    },
+    "U": {
+      "type": "modonomicon:blockstateproperty",
+      "block": "magitech:mana_node[facing=up]"
+    },
+    "D": {
+      "type": "modonomicon:blockstateproperty",
+      "block": "magitech:mana_node[facing=down]"
+    },
+    "I": {
+      "type": "modonomicon:block",
+      "block": "magitech:athanor_pillar"
+    }
+  }
+}

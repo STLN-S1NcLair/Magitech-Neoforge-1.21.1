@@ -29,8 +29,8 @@ public class BiomeInit {
     public static void registerBiomeRegions(FMLCommonSetupEvent event) {
         event.enqueueWork(() ->
         {
-            Regions.register(new MistjadeForestRegion(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "mistjade_forest"), 2));
-            Regions.register(new ScorchedPlainsRegion(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "scorched_plains"), 2));
+            Regions.register(new MistjadeForestRegion(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "mistjade_forest"), 1));
+            Regions.register(new ScorchedPlainsRegion(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "scorched_plains"), 1));
 
             SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, Magitech.MOD_ID, ScorchedSoilSurfaceRule.makeRule());
         });
