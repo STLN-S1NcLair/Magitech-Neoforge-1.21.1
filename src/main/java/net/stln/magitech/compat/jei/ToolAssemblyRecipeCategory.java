@@ -105,10 +105,7 @@ public class ToolAssemblyRecipeCategory extends AbstractMagitechRecipeCategory<T
 
     @Override
     protected void setRecipe(@NotNull IRecipeLayoutBuilder builder, @NotNull ToolAssemblyRecipe recipe, @NotNull IFocusGroup focuses, @NotNull RecipeManager recipeManager, @NotNull RegistryAccess access) {
-        List<ToolMaterialRecipe> materialRecipes = ClientHelper.getAllRecipes(RecipeInit.TOOL_MATERIAL_TYPE);
-        List<ToolMaterial> materials = materialRecipes.stream()
-                .map(ToolMaterialRecipe::getToolMaterial)
-                .toList();
+        List<ToolMaterial> materials = ClientHelper.getAllCraftableMaterials();
 
         List<Ingredient> ingredients = recipe.getIngredients();
 

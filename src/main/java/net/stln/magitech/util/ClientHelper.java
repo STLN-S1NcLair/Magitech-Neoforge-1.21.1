@@ -7,6 +7,9 @@ import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import net.stln.magitech.item.tool.material.ToolMaterial;
+import net.stln.magitech.recipe.RecipeInit;
+import net.stln.magitech.recipe.ToolMaterialRecipe;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -47,5 +50,13 @@ public class ClientHelper {
     public static @Nullable RegistryAccess getRegistryAccess() {
         var clientLevel = Minecraft.getInstance().level;
         return clientLevel != null ? clientLevel.registryAccess() : null;
+    }
+
+    // Tool Material
+    public static List<ToolMaterial> getAllCraftableMaterials() {
+        List<ToolMaterialRecipe> materialRecipes = ClientHelper.getAllRecipes(RecipeInit.TOOL_MATERIAL_TYPE);
+        return materialRecipes.stream()
+                .map(ToolMaterialRecipe::getToolMaterial)
+                .toList();
     }
 }

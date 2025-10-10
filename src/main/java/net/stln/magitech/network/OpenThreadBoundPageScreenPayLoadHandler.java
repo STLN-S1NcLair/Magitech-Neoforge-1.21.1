@@ -1,5 +1,6 @@
 package net.stln.magitech.network;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
@@ -23,12 +24,12 @@ public class OpenThreadBoundPageScreenPayLoadHandler {
         if (player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof ThreadBoundItem) {
             player.openMenu(new SimpleMenuProvider(
                     (containerId, playerInventory, player2) -> new ThreadboundMenuType(containerId, playerInventory),
-                    player.getItemInHand(InteractionHand.MAIN_HAND).getDisplayName()
+                    Component.literal(player.getItemInHand(InteractionHand.MAIN_HAND).getHoverName().getString())
             ));
         } else {
             CuriosHelper.getThreadBoundStack(player).ifPresent(stack -> player.openMenu(new SimpleMenuProvider(
                     (containerId, playerInventory, player2) -> new ThreadboundMenuType(containerId, playerInventory),
-                    stack.getDisplayName()
+                    Component.literal(stack.getHoverName().getString())
             )));
         }
     }

@@ -45,6 +45,25 @@ public class ItemInit {
             )),
             new Item.Properties().stacksTo(1));
 
+    public static final DeferredItem<ThreadBoundItem> MATERIALS_AND_TOOLCRAFT_DESIGN = ITEMS.registerItem("materials_and_toolcraft_design",
+            (properties) -> new ThreadBoundItem(properties).attributeModifier(Map.ofEntries(
+                    Map.entry(AttributeInit.MAX_MANA, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 200, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.MANA_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.8, AttributeModifier.Operation.ADD_VALUE)),
+
+                    Map.entry(AttributeInit.NOCTIS_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.2, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.LUMINIS_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.2, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.FLUXIA_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.2, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.MAX_NOCTIS, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 15, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.MAX_LUMINIS, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 15, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.MAX_FLUXIA, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 15, AttributeModifier.Operation.ADD_VALUE)),
+
+                    Map.entry(AttributeInit.COOLDOWN_SPEED, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.2, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.CASTING_SPEED, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.2, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.MANA_EFFICIENCY, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.1, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.SPELL_POWER, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), -0.2, AttributeModifier.Operation.ADD_VALUE))
+            )),
+            new Item.Properties().stacksTo(1));
+
     public static final DeferredItem<ThreadBoundItem> THE_FIRE_THAT_THINKS = ITEMS.registerItem("the_fire_that_thinks",
             (properties) -> new ThreadBoundItem(properties).attributeModifier(Map.of(
                     AttributeInit.MAX_MANA, new AttributeModifier(THREADBOUND_ID, 100, AttributeModifier.Operation.ADD_VALUE),

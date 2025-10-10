@@ -20,6 +20,7 @@ import net.stln.magitech.advancement.CriterionInit;
 import net.stln.magitech.biome.BiomeInit;
 import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.compat.curios.ValidatorInit;
+import net.stln.magitech.compat.modonomicon.PageInit;
 import net.stln.magitech.data.DataMapTypeInit;
 import net.stln.magitech.entity.EntityInit;
 import net.stln.magitech.entity.mobeffect.MobEffectInit;
@@ -106,6 +107,7 @@ public class Magitech {
 //        WorldGenInit.registerBiomeModifiers();
         BlockInit.registerStrippableBlocks();
         BiomeInit.registerBiomeRegions(event);
+        PageInit.registerPages();
     }
 
     // Add the example block item to the building blocks tab
@@ -129,6 +131,7 @@ public class Magitech {
             EntityInit.registerModEntitiesRenderer();
             EventInit.registerClientEvent();
             ItemPropertyInit.registerItemProperties();
+            PageInit.registerRenderers();
         }
 
         @SubscribeEvent

@@ -34,6 +34,7 @@ public class CreativeTabInit {
                 List<SpellLike> allSpells = spellLookup.listElements().map(Holder::value).map(spell -> (SpellLike) spell).toList();
 
                 output.accept(ThreadboundGenerator.generateThreadbound(ItemInit.GLISTENING_LEXICON.get(), allSpells));
+                output.accept(ThreadboundGenerator.generateThreadbound(ItemInit.MATERIALS_AND_TOOLCRAFT_DESIGN.get(), allSpells));
                 output.accept(ThreadboundGenerator.generateThreadbound(ItemInit.THE_FIRE_THAT_THINKS.get(), allSpells));
                 output.accept(ThreadboundGenerator.generateThreadbound(ItemInit.ARCANE_ENGINEERING_COMPENDIUM.get(), allSpells));
                 output.accept(ItemInit.AETHER_LIFTER.get());

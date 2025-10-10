@@ -2,8 +2,12 @@ package net.stln.magitech.util;
 
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.stln.magitech.item.ItemTagKeys;
 import net.stln.magitech.item.tool.material.ToolMaterial;
+import net.stln.magitech.recipe.RecipeInit;
+import net.stln.magitech.recipe.ToolMaterialRecipe;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;

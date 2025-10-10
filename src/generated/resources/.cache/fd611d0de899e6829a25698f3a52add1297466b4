@@ -1,4 +1,4 @@
-// 1.21.1	2025-09-21T22:43:11.523928	Item Models: magitech
+// 1.21.1	2025-10-10T18:06:11.4317321	Item Models: magitech
 b6e580466ba37335919256eafa6aebae2f80e029 assets/magitech/models/item/abyssite.json
 f8398c633fbbc637417f3dfe317b25ee85a8ac1f assets/magitech/models/item/abyssite_axe_heavy_handle.json
 ba7e38ad119bd2731692671964773b889925fc5c assets/magitech/models/item/abyssite_axe_light_blade.json
@@ -52,6 +52,7 @@ cad688c75659b5b6fd8b036274e31ffaa27cf17c assets/magitech/models/item/aether_lift
 4cc7df59e95575fe81144852840ddbef21911268 assets/magitech/models/item/aggregated_luminis.json
 74069621e19e8413ceed7544bf9e197d3e802af4 assets/magitech/models/item/aggregated_noctis.json
 176e2bbcc2f616e8065f6508b848675adc73978b assets/magitech/models/item/alchaefabric.json
+6e9a810fd9aa54de89b8a98175a6b432751389c7 assets/magitech/models/item/alchemical_flask.json
 65b2c3558a3c389674b1261cd27e5e5615346707 assets/magitech/models/item/amethyst_axe_heavy_handle.json
 174a9d2e52eafb1f81fa23f44337994396b9124b assets/magitech/models/item/amethyst_axe_light_blade.json
 a604f2eb68e2ddb5117b754c0737b4ab2c00b148 assets/magitech/models/item/amethyst_axe_strike_head.json
@@ -1174,6 +1175,7 @@ e576bef091038f6e7226c4e35e83b2917e1cd47f assets/magitech/models/item/stone_shove
 0ee6b0924497c559b0c502925f1400ba8cfc69bc assets/magitech/models/item/stone_wand_tool_binding.json
 b1ba86a57760f60dac0387ecb0d1282d6329a5c8 assets/magitech/models/item/strike_head.json
 b836147c36cd40ea5e44304a92051f39ca84907e assets/magitech/models/item/sulfur.json
+3714fb5791922beadedd11cdb04ca88b55ef77f0 assets/magitech/models/item/sulfuric_acid_flask.json
 353a3449907ac748e5358b9b401cbbfceb0dd3bb assets/magitech/models/item/surge_crystal.json
 762ee7528d47862f3186e1f64d86996ffc9f3c07 assets/magitech/models/item/the_fire_that_thinks.json
 645380594aa5eb396bdf1d3a0614826796e49809 assets/magitech/models/item/tool_binding.json

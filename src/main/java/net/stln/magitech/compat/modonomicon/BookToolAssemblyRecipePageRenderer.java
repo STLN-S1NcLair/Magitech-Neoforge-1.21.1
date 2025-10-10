@@ -21,6 +21,7 @@ import net.stln.magitech.item.tool.register.ToolMaterialRegister;
 import net.stln.magitech.recipe.RecipeInit;
 import net.stln.magitech.recipe.ToolAssemblyRecipe;
 import net.stln.magitech.recipe.ToolMaterialRecipe;
+import net.stln.magitech.util.ClientHelper;
 import net.stln.magitech.util.ToolMaterialUtil;
 import oshi.util.tuples.Pair;
 
@@ -93,8 +94,7 @@ public class BookToolAssemblyRecipePageRenderer extends BookRecipePageRenderer<T
         if (recipeManager == null) {
             return;
         }
-        List<ToolMaterialRecipe> materialRecipes = recipeManager.getAllRecipesFor(RecipeInit.TOOL_MATERIAL_TYPE.get()).stream().map(RecipeHolder::value).toList();
-        List<ToolMaterial> materials = materialRecipes.stream().map(m -> ToolMaterialRegister.getMaterial(m.getResultId())).toList();
+        List<ToolMaterial> materials = ClientHelper.getAllCraftableMaterials();
         int size = inputs.size();
         int indexSize = (int) Math.pow(materials.size(), size);
         List<List<ItemStack>> inputList = new ArrayList<>();

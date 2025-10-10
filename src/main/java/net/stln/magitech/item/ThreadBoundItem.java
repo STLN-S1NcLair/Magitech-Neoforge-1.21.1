@@ -2,6 +2,7 @@ package net.stln.magitech.item;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import com.klikli_dev.modonomicon.item.ModonomiconItem;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
@@ -32,7 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ThreadBoundItem extends TooltipTextItem implements ICurioItem {
+public class ThreadBoundItem extends TooltipTextModonomiconItem implements ICurioItem {
 
     Map<Holder<Attribute>, AttributeModifier> attributeModifiers = new HashMap<>();
 
@@ -54,16 +55,16 @@ public class ThreadBoundItem extends TooltipTextItem implements ICurioItem {
         return this;
     }
 
-    @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand usedHand) {
-        if (level.isClientSide && ModList.get().isLoaded("patchouli")) {
-            Book book = BookRegistry.INSTANCE.books.get(player.getItemInHand(usedHand).get(PatchouliDataComponents.BOOK));
-            if (book != null) {
-                PatchouliAPI.get().openBookGUI(book.id);
-            }
-        }
-        return new InteractionResultHolder<>(InteractionResult.SUCCESS, player.getItemInHand(usedHand));
-    }
+//    @Override
+//    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand usedHand) {
+//        if (level.isClientSide && ModList.get().isLoaded("patchouli")) {
+//            Book book = BookRegistry.INSTANCE.books.get(player.getItemInHand(usedHand).get(PatchouliDataComponents.BOOK));
+//            if (book != null) {
+//                PatchouliAPI.get().openBookGUI(book.id);
+//            }
+//        }
+//        return new InteractionResultHolder<>(InteractionResult.SUCCESS, player.getItemInHand(usedHand));
+//    }
 
     @Override
     public void appendHoverText(ItemStack stack, @NotNull TooltipContext context, List<Component> tooltipComponents, @NotNull TooltipFlag tooltipFlag) {
