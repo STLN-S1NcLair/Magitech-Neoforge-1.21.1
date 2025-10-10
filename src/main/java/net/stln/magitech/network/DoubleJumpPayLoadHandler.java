@@ -13,7 +13,6 @@ import net.stln.magitech.item.ItemInit;
 import net.stln.magitech.item.armor.AetherLifterItem;
 
 import java.util.Objects;
-import java.util.UUID;
 
 public class DoubleJumpPayLoadHandler {
 
@@ -21,7 +20,7 @@ public class DoubleJumpPayLoadHandler {
         Player player = null;
         Level level = context.player().level();
         for (Player search : level.players()) {
-            if (search.getUUID().toString().equals(payload.uuid())) {
+            if (Objects.equals(search.getUUID(), payload.uuid())) {
                 player = search;
                 break;
             }
@@ -36,7 +35,7 @@ public class DoubleJumpPayLoadHandler {
     }
 
     public static void handleDataOnMainC2S(final DoubleJumpPayload payload, final IPayloadContext context) {
-        Player player = context.player().level().getPlayerByUUID(UUID.fromString(payload.uuid()));
+        Player player = context.player().level().getPlayerByUUID(payload.uuid());
         if (player == null) {
             return;
         }

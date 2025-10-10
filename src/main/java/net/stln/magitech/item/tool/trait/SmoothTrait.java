@@ -10,11 +10,11 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.item.tool.material.ToolMaterial;
 import net.stln.magitech.item.tool.toolitem.PartToolItem;
 import net.stln.magitech.particle.particle_option.PowerupParticleEffect;
+import net.stln.magitech.util.ComponentHelper;
 import net.stln.magitech.util.EffectUtil;
 import org.joml.Vector3f;
 
@@ -28,7 +28,7 @@ public class SmoothTrait extends Trait {
     @Override
     public ToolStats modifyStatsConditional1(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
         if (!level.canSeeSkyFromBelowWater(player.blockPosition())) {
-            List<ToolMaterial> materials = stack.getComponents().get(ComponentInit.PART_MATERIAL_COMPONENT.get()).materials();
+            List<ToolMaterial> materials = ComponentHelper.getPartMaterials(stack);
             Set<ToolMaterial> materialSet = PartToolItem.getMaterialSet(materials);
             ToolStats defaultStats = ToolStats.DEFAULT;
             Map<String, Float> statsMap = stats.getStats();
@@ -42,7 +42,7 @@ public class SmoothTrait extends Trait {
     @Override
     public ToolStats modifySpellCasterStatsConditional1(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
         if (!level.canSeeSkyFromBelowWater(player.blockPosition())) {
-            List<ToolMaterial> materials = stack.getComponents().get(ComponentInit.PART_MATERIAL_COMPONENT.get()).materials();
+            List<ToolMaterial> materials = ComponentHelper.getPartMaterials(stack);
             Set<ToolMaterial> materialSet = PartToolItem.getMaterialSet(materials);
             ToolStats defaultStats = ToolStats.DEFAULT;
             Map<String, Float> statsMap = stats.getStats();

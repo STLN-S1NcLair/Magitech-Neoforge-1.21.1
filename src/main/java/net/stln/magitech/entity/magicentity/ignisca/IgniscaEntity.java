@@ -13,12 +13,12 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
-import net.stln.magitech.damage.EntityElementRegister;
+import net.stln.magitech.element.Element;
 import net.stln.magitech.entity.EntityInit;
 import net.stln.magitech.entity.SpellProjectileEntity;
 import net.stln.magitech.particle.particle_option.FlameParticleEffect;
 import net.stln.magitech.sound.SoundInit;
-import net.stln.magitech.util.Element;
+import net.stln.magitech.util.DataMapHelper;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -84,7 +84,7 @@ public class IgniscaEntity extends SpellProjectileEntity implements GeoEntity {
         ResourceKey<DamageType> damageType = this.getElement().getDamageType();
         DamageSource elementalDamageSource = getElementalDamageSource(owner, damageType);
 
-        float finalDamage = this.damage * EntityElementRegister.getElementAffinity(entity, this.getElement()).getMultiplier();
+        float finalDamage = this.damage * DataMapHelper.getElementMultiplier(entity, this.getElement());
         applyDamage(entity, elementalDamageSource, finalDamage);
         if (entity instanceof LivingEntity livingEntity) {
             livingEntity.setRemainingFireTicks(Math.min(livingEntity.getRemainingFireTicks() + 80, 200));

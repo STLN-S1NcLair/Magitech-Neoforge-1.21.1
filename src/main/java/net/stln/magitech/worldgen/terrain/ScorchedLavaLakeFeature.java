@@ -74,7 +74,7 @@ public class ScorchedLavaLakeFeature extends Feature<NoneFeatureConfiguration> {
             level.setBlock(blockpos1, Blocks.LAVA.defaultBlockState(), 2);
 
             Predicate<BlockState> predicate = p_204782_ -> p_204782_.is(BlockInit.SCORCHED_GRASS_SOIL.get()) || p_204782_.is(BlockInit.SCORCHED_SOIL.get()) || p_204782_.is(Blocks.STONE);
-            List<Direction> directions = new java.util.ArrayList<>(Arrays.stream(Direction.values().clone()).toList());
+            List<Direction> directions = Arrays.asList(Direction.values().clone());
             directions.remove(Direction.UP);
             for (Direction direction : directions) {
                 BlockPos pos1 = blockpos1.relative(direction);

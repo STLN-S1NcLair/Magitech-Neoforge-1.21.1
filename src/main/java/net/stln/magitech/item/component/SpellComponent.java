@@ -1,57 +1,39 @@
 package net.stln.magitech.item.component;
 
-
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import io.netty.buffer.ByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
 import net.stln.magitech.magic.spell.Spell;
-import net.stln.magitech.magic.spell.SpellRegister;
+import net.stln.magitech.magic.spell.SpellLike;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public record SpellComponent(List<Spell> spells, int selected) {
-
-    public static final Codec<SpellComponent> CODEC = RecordCodecBuilder.create(spellComponentInstance ->
-            spellComponentInstance.group(
-                    Codec.STRING.listOf().fieldOf("spells").forGetter(SpellComponent::getStringSpellIds),
-                    Codec.INT.fieldOf("selected").forGetter(SpellComponent::selected)
-            ).apply(spellComponentInstance, SpellComponentUtil::generateFromId)
-    );
-    public static final StreamCodec<ByteBuf, SpellComponent> STREAM_CODEC = StreamCodec.composite(
-            ByteBufCodecs.STRING_UTF8.map(SpellRegister::getSpellFromString, SpellRegister::getStringId).apply(ByteBufCodecs.list()),
+    public static final Codec<SpellComponent> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+            Spell.CODEC.listOf().fieldOf("spells").forGetter(SpellComponent::spells),
+            Codec.INT.fieldOf("selected").forGetter(SpellComponent::selected)
+    ).apply(instance, SpellComponent::new));
+    public static final StreamCodec<RegistryFriendlyByteBuf, SpellComponent> STREAM_CODEC = StreamCodec.composite(
+            Spell.STREAM_CODEC.apply(ByteBufCodecs.list()),
             SpellComponent::spells,
             ByteBufCodecs.INT,
             SpellComponent::selected,
             SpellComponent::new
     );
 
-
-    public List<ResourceLocation> getSpellIds() {
-        List<ResourceLocation> ids = new ArrayList<>();
-        for (Spell spell : spells) {
-            if (spell != null) {
-                ids.add(SpellRegister.getId(spell));
-            }
-        }
-        return ids;
+    public static final SpellComponent EMPTY = new SpellComponent(List.of(), 0);
+    
+    public Spell getSelectedSpell() {
+        return spells.get(selected);
     }
 
-    public List<String> getStringSpellIds() {
-        List<String> ids = new ArrayList<>();
-        for (Spell spell : spells) {
-            if (spell != null) {
-                ids.add(SpellRegister.getId(spell).toString());
-            }
-        }
-        return ids;
+    public SpellComponent(List<SpellLike> spells) {
+        this(spells.stream().map(SpellLike::asSpell).toList(), 0);
     }
 
-    public List<Spell> getSpells() {
-        return spells;
+    public SpellComponent setSelected(int selected) {
+        return new SpellComponent(this.spells, selected);
     }
 }
-

@@ -1,5 +1,6 @@
 package net.stln.magitech.magic.spell;
 
+import com.mojang.serialization.Codec;
 import dev.kosmx.playerAnim.api.firstPerson.FirstPersonConfiguration;
 import dev.kosmx.playerAnim.api.firstPerson.FirstPersonMode;
 import dev.kosmx.playerAnim.api.layered.IAnimation;
@@ -9,7 +10,11 @@ import dev.kosmx.playerAnim.core.data.KeyframeAnimation;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
 import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.stats.Stats;
@@ -25,14 +30,14 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.damage.EntityElementRegister;
+import net.stln.magitech.MagitechRegistries;
+import net.stln.magitech.element.Element;
 import net.stln.magitech.entity.status.AttributeInit;
 import net.stln.magitech.item.tool.toolitem.SpellCasterItem;
 import net.stln.magitech.magic.charge.Charge;
@@ -44,15 +49,18 @@ import net.stln.magitech.magic.mana.UsedHandData;
 import net.stln.magitech.network.ReleaseUsingSpellPayload;
 import net.stln.magitech.network.UseSpellPayload;
 import net.stln.magitech.recipe.RecipeInit;
-import net.stln.magitech.recipe.SpellConversionRecipe;
-import net.stln.magitech.util.Element;
+import net.stln.magitech.recipe.input.SpellRecipeInput;
+import net.stln.magitech.util.DataMapHelper;
 import net.stln.magitech.util.MathUtil;
 import net.stln.magitech.util.SpellShape;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-public abstract class Spell {
-
+public abstract class Spell implements SpellLike {
+    public static final Codec<Spell> CODEC = MagitechRegistries.SPELL.byNameCodec();
+    public static final StreamCodec<RegistryFriendlyByteBuf, Spell> STREAM_CODEC = ByteBufCodecs.registry(MagitechRegistries.Keys.SPELL);
+    
     public float baseDamage = 0;
     public float baseEffectStrength = 0;
     public float baseDuration = 0;
@@ -62,7 +70,7 @@ public abstract class Spell {
 
     @OnlyIn(Dist.CLIENT)
     private static void stopAnim(Player player) {
-        var playerAnimationData = (ModifierLayer<IAnimation>) PlayerAnimationAccess.getPlayerAssociatedData((AbstractClientPlayer) player).get(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "animation"));
+        var playerAnimationData = (ModifierLayer<IAnimation>) PlayerAnimationAccess.getPlayerAssociatedData((AbstractClientPlayer) player).get(Magitech.id("animation"));
         if (playerAnimationData != null && playerAnimationData.getAnimation() instanceof KeyframeAnimationPlayer keyframeAnimationPlayer) {
 
             keyframeAnimationPlayer.stop();
@@ -137,7 +145,7 @@ public abstract class Spell {
         if (level.isClientSide) {
             playAnimation(user);
             if (isHost) {
-                PacketDistributor.sendToServer(new UseSpellPayload(hand == InteractionHand.MAIN_HAND, user.getUUID().toString()));
+                PacketDistributor.sendToServer(new UseSpellPayload(hand == InteractionHand.MAIN_HAND, user.getUUID()));
             }
         }
         if (canHoldUsing()) {
@@ -157,11 +165,11 @@ public abstract class Spell {
 
     @OnlyIn(Dist.CLIENT)
     protected void playAnimation(Player user) {
-        var playerAnimationData = (ModifierLayer<IAnimation>) PlayerAnimationAccess.getPlayerAssociatedData((AbstractClientPlayer) user).get(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "animation"));
+        var playerAnimationData = (ModifierLayer<IAnimation>) PlayerAnimationAccess.getPlayerAssociatedData((AbstractClientPlayer) user).get(Magitech.id("animation"));
         if (playerAnimationData != null) {
 
             user.yBodyRot = user.yHeadRot;
-            playerAnimationData.setAnimation(new KeyframeAnimationPlayer((KeyframeAnimation) PlayerAnimationRegistry.getAnimation(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "swing_wand")))
+            playerAnimationData.setAnimation(new KeyframeAnimationPlayer((KeyframeAnimation) PlayerAnimationRegistry.getAnimation(Magitech.id("swing_wand")))
                     .setFirstPersonMode(FirstPersonMode.THIRD_PERSON_MODEL).setFirstPersonConfiguration(new FirstPersonConfiguration(true, true, true, true)));
         }
     }
@@ -200,7 +208,7 @@ public abstract class Spell {
         }
         if (isHost) {
             if (level.isClientSide) {
-                PacketDistributor.sendToServer(new ReleaseUsingSpellPayload(stack, timeCharged, livingEntity.getUUID().toString()));
+                PacketDistributor.sendToServer(new ReleaseUsingSpellPayload(stack, timeCharged, livingEntity.getUUID()));
             }
         }
         if (level.isClientSide) {
@@ -257,7 +265,7 @@ public abstract class Spell {
 
         DamageSource elementalDamageSource = user.damageSources().source(damageType, user);
         if (target.isAttackable()) {
-            damage *= EntityElementRegister.getElementAffinity(target, element).getMultiplier();
+            damage *= DataMapHelper.getElementMultiplier(target, element);
 
             if (target instanceof LivingEntity livingTarget && livingTarget.invulnerableTime < 10) {
                 if (stack.getItem() instanceof SpellCasterItem spellCasterItem) {
@@ -268,9 +276,9 @@ public abstract class Spell {
                     livingTarget.setLastHurtByMob(user);
                     user.awardStat(Stats.DAMAGE_DEALT, Math.round((targetHealth - livingTarget.getHealth()) * 10));
                 }
+                target.hurt(elementalDamageSource, damage);
             }
             user.setLastHurtMob(target);
-            target.hurt(elementalDamageSource, damage);
         }
     }
 
@@ -287,10 +295,10 @@ public abstract class Spell {
             list.add(Component.translatable("tooltip.magitech.spell.projectile_speed").append(": " + MathUtil.round(this.getProjectileSpeed(user, this.baseSpeed), 2)));
         }
         if (this.baseEffectStrength != 0) {
-            list.add(Component.translatable("tooltip.magitech.spell.effect_strength").append(": " + MathUtil.round(this.getDamage(user, new HashMap<>(), (float) this.baseEffectStrength, this.getElement()), 2)));
+            list.add(Component.translatable("tooltip.magitech.spell.effect_strength").append(": " + MathUtil.round(this.getDamage(user, new HashMap<>(), this.baseEffectStrength, this.getElement()), 2)));
         }
         if (this.baseDuration != 0) {
-            list.add(Component.translatable("tooltip.magitech.spell.duration").append(": " + MathUtil.round(this.getDamage(user, new HashMap<>(), (float) this.baseDuration, this.getElement()), 2)));
+            list.add(Component.translatable("tooltip.magitech.spell.duration").append(": " + MathUtil.round(this.getDamage(user, new HashMap<>(), this.baseDuration, this.getElement()), 2)));
         }
         if (this.baseMaxRange != 0) {
             list.add(Component.translatable("tooltip.magitech.spell.max_range").append(": " + MathUtil.round(this.getDamage(user, new HashMap<>(), (float) this.baseMaxRange, this.getElement()), 2)));
@@ -311,23 +319,41 @@ public abstract class Spell {
 
     protected void applyEffectToItem(Level level, Player user, Entity target) {
         if (target instanceof ItemEntity item) {
-            Optional<RecipeHolder<SpellConversionRecipe>> recipeHolder = level.getRecipeManager().getRecipeFor(RecipeInit.SPELL_CONVERSION_TYPE.get(), new SingleRecipeInput(item.getItem()), level);
-            if (recipeHolder.isPresent()) {
-                SpellConversionRecipe recipe = recipeHolder.get().value();
-                if (recipe.getSpell().equals(SpellRegister.getId(this))) {
-                    ItemStack stack = recipe.assemble(new SingleRecipeInput(item.getItem()), null);
-                    int count = item.getItem().getCount() * stack.getCount();
-                    while (count > 0) {
-                        int spawnCount = Math.min(stack.getMaxStackSize(), count);
-                        ItemStack result = stack.copy();
-                        result.setCount(spawnCount);
-                        ItemEntity newItem = new ItemEntity(level, item.getX(), item.getY(), item.getZ(), result, Mth.nextFloat(item.getRandom(), -0.3F, 0.3F), 0.3, Mth.nextFloat(item.getRandom(), -0.3F, 0.3F));
-                        level.addFreshEntity(newItem);
-                        count -= spawnCount;
-                    }
-                    item.discard();
+            var recipeInput = new SpellRecipeInput(item.getItem(), this);
+            level.getRecipeManager().getRecipeFor(RecipeInit.SPELL_CONVERSION_TYPE.get(), recipeInput, level).map(RecipeHolder::value).ifPresent(recipe -> {
+                ItemStack stack = recipe.assemble(recipeInput, level.registryAccess());
+                int count = item.getItem().getCount() * stack.getCount();
+                while (count > 0) {
+                    int spawnCount = Math.min(stack.getMaxStackSize(), count);
+                    ItemStack result = stack.copy();
+                    result.setCount(spawnCount);
+                    ItemEntity newItem = new ItemEntity(level, item.getX(), item.getY(), item.getZ(), result, Mth.nextFloat(item.getRandom(), -0.3F, 0.3F), 0.3, Mth.nextFloat(item.getRandom(), -0.3F, 0.3F));
+                    level.addFreshEntity(newItem);
+                    count -= spawnCount;
                 }
-            }
+                item.discard();
+            });
         }
+    }
+
+    @Override
+    public @NotNull Spell asSpell() {
+        return this;
+    }
+
+    public @NotNull ResourceLocation getId() {
+        return Objects.requireNonNull(MagitechRegistries.SPELL.getKey(this));
+    }
+
+    public @NotNull String getDescriptionId() {
+        return getId().toLanguageKey("spell");
+    }
+
+    public @NotNull MutableComponent getDescription() {
+        return Component.translatable(getDescriptionId());
+    }
+
+    public @NotNull ResourceLocation getIconId() {
+        return getId().withPrefix("textures/spell/").withSuffix(".png");
     }
 }

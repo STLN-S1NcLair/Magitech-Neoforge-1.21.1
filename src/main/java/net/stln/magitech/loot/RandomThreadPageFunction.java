@@ -1,73 +1,69 @@
 package net.stln.magitech.loot;
 
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.RegistryFixedCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunction;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunction;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
-import net.stln.magitech.item.component.ComponentInit;
-import net.stln.magitech.item.component.ThreadPageComponent;
-import net.stln.magitech.magic.spell.SpellRegister;
+import net.stln.magitech.MagitechRegistries;
+import net.stln.magitech.magic.spell.Spell;
+import net.stln.magitech.util.ComponentHelper;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class RandomThreadPageFunction extends LootItemConditionalFunction {
 
     public static final MapCodec<RandomThreadPageFunction> CODEC = RecordCodecBuilder.mapCodec(
             p_340803_ -> commonFields(p_340803_)
-                    .and(Codec.STRING.listOf().fieldOf("spells").forGetter(RandomThreadPageFunction::getSpells))
+                    .and(RegistryFixedCodec.create(MagitechRegistries.Keys.SPELL).listOf().fieldOf("spells").forGetter(RandomThreadPageFunction::getSpells))
                     .apply(p_340803_, RandomThreadPageFunction::new)
     );
 
-    protected final List<String> spells;
+    protected final List<Holder<Spell>> spells;
 
+    private static @NotNull List<Holder<Spell>> getAllSpells() {
+        return MagitechRegistries.SPELL.holders().map(holder -> (Holder<Spell>) holder).toList();
+    }
+    
     public RandomThreadPageFunction(List<LootItemCondition> lootItemConditions) {
-        this(lootItemConditions, getIds());
+        this(lootItemConditions, getAllSpells());
     }
 
-    protected RandomThreadPageFunction(List<LootItemCondition> conditions, List<String> spells) {
+    protected RandomThreadPageFunction(List<LootItemCondition> conditions, List<Holder<Spell>> spells) {
         super(conditions);
         if (spells.isEmpty()) {
-            this.spells = getIds();
+            this.spells = getAllSpells();
         } else {
             this.spells = spells;
         }
     }
 
-    private static @NotNull List<String> getIds() {
-        List<String> ids = new ArrayList<>();
-        SpellRegister.getRegister().keySet().stream().toList().forEach((resourceLocation -> {
-            ids.add(resourceLocation.toString());
-        }));
-        return ids;
+    public List<Holder<Spell>> getSpells() {
+        return spells;
+    }
+
+    @Override
+    protected @NotNull ItemStack run(@NotNull ItemStack stack, @NotNull LootContext context) {
+        return spells.stream().findAny().map(holder -> {
+            if (holder.isBound()) {
+                ComponentHelper.setThreadPage(stack, holder.value());
+            }
+            return stack;
+        }).orElse(stack);
     }
 
     public static LootItemFunction.Builder builder() {
         return simpleBuilder(RandomThreadPageFunction::new);
     }
 
-    public List<String> getSpells() {
-        return spells;
-    }
-
     @Override
-    protected ItemStack run(ItemStack stack, LootContext context) {
-        Collections.shuffle(spells);
-        String spellId = spells.getFirst();
-        stack.set(ComponentInit.THREAD_PAGE_COMPONENT, new ThreadPageComponent(SpellRegister.getSpell(ResourceLocation.parse(spellId))));
-        return stack;
-    }
-
-    @Override
-    public LootItemFunctionType getType() {
+    public @NotNull LootItemFunctionType<? extends LootItemConditionalFunction> getType() {
         return LootFunctionInit.RANDOM_THREAD_PAGE.get();  // 登録済みである必要あり
     }
 }

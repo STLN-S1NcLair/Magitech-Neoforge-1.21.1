@@ -13,29 +13,9 @@ public class BlockEntityCapabilityInit {
 
     @SubscribeEvent
     public static void registerCapabilities(RegisterCapabilitiesEvent event) {
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockInit.ALCHEMETRIC_PYLON_ENTITY.get(), (blockEntity, direction) -> {
-            if (blockEntity instanceof AlchemetricPylonBlockEntity alchemetricPylonBlockEntity) {
-                return alchemetricPylonBlockEntity.inventory;
-            }
-            return null;
-        });
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockInit.ATHANOR_PILLAR_ENTITY.get(), (blockEntity, direction) -> {
-            if (blockEntity instanceof AthanorPillarBlockEntity athanorPillarBlockEntity) {
-                return athanorPillarBlockEntity.inventory;
-            }
-            return null;
-        });
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockInit.ZARDIUS_CRUCIBLE_ENTITY.get(), (blockEntity, direction) -> {
-            if (blockEntity instanceof ZardiusCrucibleBlockEntity zardiusCrucibleBlockEntity) {
-                return zardiusCrucibleBlockEntity.inventory;
-            }
-            return null;
-        });
-        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, BlockInit.ZARDIUS_CRUCIBLE_ENTITY.get(), (blockEntity, direction) -> {
-            if (blockEntity instanceof ZardiusCrucibleBlockEntity zardiusCrucibleBlockEntity) {
-                return zardiusCrucibleBlockEntity.fluidTank;
-            }
-            return null;
-        });
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockInit.ALCHEMETRIC_PYLON_ENTITY.get(), (blockEntity, direction) -> blockEntity.inventory);
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockInit.ATHANOR_PILLAR_ENTITY.get(), (blockEntity, direction) -> blockEntity.inventory);
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockInit.ZARDIUS_CRUCIBLE_ENTITY.get(), (blockEntity, direction) -> blockEntity.inventory);
+        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, BlockInit.ZARDIUS_CRUCIBLE_ENTITY.get(), (blockEntity, direction) -> blockEntity.fluidTank);
     }
 }

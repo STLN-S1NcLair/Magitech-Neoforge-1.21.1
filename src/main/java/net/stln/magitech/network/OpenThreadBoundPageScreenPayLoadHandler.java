@@ -1,45 +1,35 @@
 package net.stln.magitech.network;
 
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
-import net.stln.magitech.gui.ThreadboudMenuType;
+import net.stln.magitech.gui.ThreadboundMenuType;
 import net.stln.magitech.item.ThreadBoundItem;
-import top.theillusivec4.curios.api.CuriosApi;
-import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
+import net.stln.magitech.util.CuriosHelper;
+
+import java.util.Objects;
 
 public class OpenThreadBoundPageScreenPayLoadHandler {
 
     public static void handleDataOnMainC2S(final OpenThreadBoundPageScreenPayload payload, final IPayloadContext context) {
-        Player player = null;
+        Player player;
         Level level = context.player().level();
-        for (Player search : level.players()) {
-            if (search.getUUID().toString().equals(payload.uuid())) {
-                player = search;
-                break;
-            }
-        }
+        player = level.players().stream().filter(search -> Objects.equals(search.getUUID(), payload.uuid())).findFirst().orElse(null);
         if (player == null) {
             return;
         }
         if (player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof ThreadBoundItem) {
             player.openMenu(new SimpleMenuProvider(
-                    (containerId, playerInventory, player2) -> new ThreadboudMenuType(containerId, playerInventory),
-                    Component.literal(player.getItemInHand(InteractionHand.MAIN_HAND).getHoverName().getString())
+                    (containerId, playerInventory, player2) -> new ThreadboundMenuType(containerId, playerInventory),
+                    player.getItemInHand(InteractionHand.MAIN_HAND).getDisplayName()
             ));
         } else {
-            ICuriosItemHandler curiosInventory = CuriosApi.getCuriosInventory(player).get();
-            ItemStack threadbound = curiosInventory.getCurios().get("threadbound").getStacks().getStackInSlot(0);
-            if (threadbound.getItem() instanceof ThreadBoundItem) {
-                player.openMenu(new SimpleMenuProvider(
-                        (containerId, playerInventory, player2) -> new ThreadboudMenuType(containerId, playerInventory),
-                        Component.literal(player.getItemInHand(InteractionHand.MAIN_HAND).getHoverName().getString())
-                ));
-            }
+            CuriosHelper.getThreadBoundStack(player).ifPresent(stack -> player.openMenu(new SimpleMenuProvider(
+                    (containerId, playerInventory, player2) -> new ThreadboundMenuType(containerId, playerInventory),
+                    stack.getDisplayName()
+            )));
         }
     }
 }

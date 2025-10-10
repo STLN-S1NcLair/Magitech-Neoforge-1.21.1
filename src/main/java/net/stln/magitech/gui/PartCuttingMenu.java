@@ -1,6 +1,7 @@
 package net.stln.magitech.gui;
 
 import com.google.common.collect.Lists;
+import com.google.common.util.concurrent.Runnables;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
@@ -46,8 +47,7 @@ public class PartCuttingMenu extends AbstractContainerMenu {
      * Stores the game time of the last time the player took items from the the crafting result slot. This is used to prevent the sound from being played multiple times on the same tick.
      */
     long lastSoundTime;
-    Runnable slotUpdateListener = () -> {
-    };
+    Runnable slotUpdateListener = Runnables.doNothing();
     private List<RecipeHolder<PartCuttingRecipe>> recipes = Lists.newArrayList();
     /**
      * The {@linkplain net.minecraft.world.item.ItemStack} set in the input slot by the player.
@@ -119,7 +119,7 @@ public class PartCuttingMenu extends AbstractContainerMenu {
     }
 
     private @NotNull ItemStack removeCount() {
-        return this.inputSlot.remove(recipes.get(selectedRecipeIndex.get()).value().getCount());
+        return this.inputSlot.remove(recipes.get(selectedRecipeIndex.get()).value().inputCount());
     }
 
     public int getSelectedRecipeIndex() {

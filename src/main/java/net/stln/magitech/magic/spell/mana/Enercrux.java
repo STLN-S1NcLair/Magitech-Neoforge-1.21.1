@@ -11,6 +11,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.block.block_entity.ManaContainerBlockEntity;
+import net.stln.magitech.element.Element;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.BeamSpell;
 import net.stln.magitech.particle.particle_option.BeamParticleEffect;
@@ -18,7 +19,6 @@ import net.stln.magitech.particle.particle_option.ManaZapParticleEffect;
 import net.stln.magitech.particle.particle_option.UnstableSquareParticleEffect;
 import net.stln.magitech.sound.SoundInit;
 import net.stln.magitech.util.EffectUtil;
-import net.stln.magitech.util.Element;
 import net.stln.magitech.util.SpellShape;
 import org.joml.Vector3f;
 

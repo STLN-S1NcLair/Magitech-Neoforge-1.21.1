@@ -116,10 +116,8 @@ public class ZardiusCrucibleBlock extends BaseEntityBlock {
                 } else {
                     pLevel.addParticle(ParticleTypes.BUBBLE, d0, d1, d2,
                             pRandom.nextGaussian() * 0.005D, pRandom.nextGaussian() * 0.005D, pRandom.nextGaussian() * 0.005D);
-                    TickScheduler.schedule(1, () -> {
-                        pLevel.addParticle(ParticleTypes.BUBBLE_POP, d0, d1, d2,
-                                pRandom.nextGaussian() * 0.005D, pRandom.nextGaussian() * 0.005D, pRandom.nextGaussian() * 0.005D);
-                    }, pLevel.isClientSide);
+                    TickScheduler.schedule(1, () -> pLevel.addParticle(ParticleTypes.BUBBLE_POP, d0, d1, d2,
+                            pRandom.nextGaussian() * 0.005D, pRandom.nextGaussian() * 0.005D, pRandom.nextGaussian() * 0.005D), pLevel.isClientSide);
                 }
             }
         }

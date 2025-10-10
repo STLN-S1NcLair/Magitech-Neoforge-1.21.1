@@ -22,9 +22,10 @@ import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
 public class ToolAssemblyScreen extends AbstractContainerScreen<ToolAssemblyMenu> {
-    private static final ResourceLocation CRAFTING_TABLE_LOCATION = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "textures/gui/tool_assembly.png");
-    ItemStack stack = null;
+    private static final ResourceLocation CRAFTING_TABLE_LOCATION = Magitech.id("textures/gui/tool_assembly.png");
     private OwoUIAdapter<FlowLayout> uiAdapter;
+    ItemStack stack = null;
+
     private int bgWidth = 176;
     private int panelWidth = 160;
 
@@ -34,13 +35,6 @@ public class ToolAssemblyScreen extends AbstractContainerScreen<ToolAssemblyMenu
         this.imageHeight = 199;
         this.titleLabelY = 4;
         this.inventoryLabelY = 106;
-    }
-
-    private static List<Component> getPanelText() {
-        List<Component> components = new ArrayList<>();
-        components.add(Component.translatable("recipe.magitech.tool_assembly.panel.title").withStyle(Style.EMPTY.withUnderlined(true)));
-        components.add(Component.translatable("recipe.magitech.tool_assembly.panel.text"));
-        return components;
     }
 
     @Override
@@ -64,6 +58,13 @@ public class ToolAssemblyScreen extends AbstractContainerScreen<ToolAssemblyMenu
         root.clearChildren();
         ToolStatsPanel.addPanel(root, Positioning.absolute(leftPos + bgWidth, topPos), menu.getResultSlots().getItem(0), Component.translatable("recipe.magitech.tool_stats_panel"), getPanelText());
         this.uiAdapter.inflateAndMount();
+    }
+
+    private static List<Component> getPanelText() {
+        List<Component> components = new ArrayList<>();
+        components.add(Component.translatable("recipe.magitech.tool_assembly.panel.title").withStyle(Style.EMPTY.withUnderlined(true)));
+        components.add(Component.translatable("recipe.magitech.tool_assembly.panel.text"));
+        return components;
     }
 
     /**

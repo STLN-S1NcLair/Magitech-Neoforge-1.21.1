@@ -2,7 +2,7 @@ package net.stln.magitech.block;
 
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
 import net.minecraft.core.Direction;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -56,7 +56,7 @@ public class BlockInit {
 
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(Magitech.MOD_ID);
 
-    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENITIES = DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, Magitech.MOD_ID);
+    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENITIES = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, Magitech.MOD_ID);
 
     public static final DeferredBlock<EnginneringWorkbenchBlock> ENGINEERING_WORKBENCH = BLOCKS.registerBlock("engineering_workbench",
             EnginneringWorkbenchBlock::new,

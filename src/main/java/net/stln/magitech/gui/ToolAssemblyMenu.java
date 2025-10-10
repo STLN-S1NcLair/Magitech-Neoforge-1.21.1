@@ -1,5 +1,10 @@
 package net.stln.magitech.gui;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import javax.annotation.Nullable;
+
 import net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
@@ -8,17 +13,12 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.stln.magitech.block.BlockInit;
-import net.stln.magitech.recipe.MultiStackRecipeInput;
-import net.stln.magitech.recipe.RecipeInit;
+import net.stln.magitech.recipe.input.MultiStackRecipeInput;
 import net.stln.magitech.recipe.ToolAssemblyRecipe;
-
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import net.stln.magitech.recipe.RecipeInit;
 
 public class ToolAssemblyMenu extends AbstractContainerMenu {
     public static final int RESULT_SLOT = 0;
@@ -28,43 +28,49 @@ public class ToolAssemblyMenu extends AbstractContainerMenu {
     private static final int INV_SLOT_END = 37;
     private static final int USE_ROW_SLOT_START = 37;
     private static final int USE_ROW_SLOT_END = 46;
-    private final ResultContainer resultSlots = new ResultContainer();    private final Container inputSlots = new SimpleContainer(6) {
+    private final Container inputSlots = new SimpleContainer(6) {
         @Override
         public void setChanged() {
             super.setChanged();
             ToolAssemblyMenu.this.slotsChanged(this);
         }
     };
+
+    public ResultContainer getResultSlots() {
+        return resultSlots;
+    }
+
+    private final ResultContainer resultSlots = new ResultContainer();
     private final ContainerLevelAccess access;
     private final Player player;
     private boolean placingRecipe;
+
     public ToolAssemblyMenu(int containerId, Inventory playerInventory) {
         this(containerId, playerInventory, ContainerLevelAccess.NULL);
     }
+
     public ToolAssemblyMenu(int containerId, Inventory playerInventory, ContainerLevelAccess access) {
         super(GuiInit.TOOL_ASSEMBLY_MENU.get(), containerId);
         this.access = access;
         this.player = playerInventory.player;
         this.addSlot(new Slot(this.resultSlots, 0, 134, 49) {
-            @Override
-            public boolean mayPlace(ItemStack p_40362_) {
-                return false;
-            }
+        @Override
+        public boolean mayPlace(ItemStack p_40362_) {
+            return false;
+        }
 
-            @Override
-            public void onTake(Player p_150672_, ItemStack p_150673_) {
-                p_150673_.onCraftedBy(p_150672_.level(), p_150672_, p_150673_.getCount());
-                ToolAssemblyMenu.this.resultSlots.awardUsedRecipes(p_150672_, this.getRelevantItems());
-                removeCount();
-                super.onTake(p_150672_, p_150673_);
-                ToolAssemblyMenu.this.slotsChanged(inputSlots);
-            }
+        @Override
+        public void onTake(Player p_150672_, ItemStack p_150673_) {
+            p_150673_.onCraftedBy(p_150672_.level(), p_150672_, p_150673_.getCount());
+            ToolAssemblyMenu.this.resultSlots.awardUsedRecipes(p_150672_, this.getRelevantItems());
+            removeCount();
+            super.onTake(p_150672_, p_150673_);
+            ToolAssemblyMenu.this.slotsChanged(inputSlots);
+        }
 
-            private List<ItemStack> getRelevantItems() {
-                return createRecipeInput(inputSlots).stacks();
-            }
-
-            ;
+        private List<ItemStack> getRelevantItems() {
+            return createRecipeInput(inputSlots).stacks();
+        };
         });
 
         for (int i = 0; i < 2; i++) {
@@ -83,22 +89,27 @@ public class ToolAssemblyMenu extends AbstractContainerMenu {
             this.addSlot(new Slot(playerInventory, l, 8 + l * 18, 175));
         }
     }
+    private void removeCount() {
+        for (int i = 0; i < inputSlots.getContainerSize(); i++) {
+            inputSlots.removeItem(i, 1);
+        }
+    }
 
     protected static void slotChangedCraftingGrid(
-            AbstractContainerMenu menu,
-            Level level,
-            Player player,
-            Container craftSlots,
-            ResultContainer resultSlots,
-            @Nullable RecipeHolder<ToolAssemblyRecipe> recipe
+        AbstractContainerMenu menu,
+        Level level,
+        Player player,
+        Container craftSlots,
+        ResultContainer resultSlots,
+        @Nullable RecipeHolder<ToolAssemblyRecipe> recipe
     ) {
         if (!level.isClientSide) {
             MultiStackRecipeInput craftinginput = createRecipeInput(craftSlots);
-            ServerPlayer serverplayer = (ServerPlayer) player;
+            ServerPlayer serverplayer = (ServerPlayer)player;
             ItemStack itemstack = ItemStack.EMPTY;
             Optional<RecipeHolder<ToolAssemblyRecipe>> optional = level.getServer()
-                    .getRecipeManager()
-                    .getRecipeFor(RecipeInit.TOOL_ASSEMBLY_TYPE.get(), craftinginput, level);
+                .getRecipeManager()
+                .getRecipeFor(RecipeInit.TOOL_ASSEMBLY_TYPE.get(), craftinginput, level);
             if (optional.isPresent()) {
                 RecipeHolder<ToolAssemblyRecipe> recipeholder = optional.get();
                 ToolAssemblyRecipe craftingrecipe = recipeholder.value();
@@ -124,16 +135,6 @@ public class ToolAssemblyMenu extends AbstractContainerMenu {
             }
         }
         return new MultiStackRecipeInput(stacks);
-    }
-
-    public ResultContainer getResultSlots() {
-        return resultSlots;
-    }
-
-    private void removeCount() {
-        for (int i = 0; i < inputSlots.getContainerSize(); i++) {
-            inputSlots.removeItem(i, 1);
-        }
     }
 
     /**
@@ -225,6 +226,4 @@ public class ToolAssemblyMenu extends AbstractContainerMenu {
     public boolean canTakeItemForPickAll(ItemStack stack, Slot slot) {
         return slot.container != this.resultSlots && super.canTakeItemForPickAll(stack, slot);
     }
-
-
 }

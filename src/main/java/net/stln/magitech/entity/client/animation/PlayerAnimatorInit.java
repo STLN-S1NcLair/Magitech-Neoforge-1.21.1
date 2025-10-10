@@ -11,7 +11,6 @@ import dev.kosmx.playerAnim.api.layered.modifier.SpeedModifier;
 import dev.kosmx.playerAnim.core.util.Vec3f;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationFactory;
 import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.stln.magitech.Magitech;
@@ -31,7 +30,7 @@ public class PlayerAnimatorInit {
     public static void onClientSetup(net.neoforged.fml.event.lifecycle.FMLClientSetupEvent event) {
         //Set the player construct callback. It can be a lambda function.
         PlayerAnimationFactory.ANIMATION_DATA_FACTORY.registerFactory(
-                ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "animation"),
+                Magitech.id("animation"),
                 42,
                 (abstractClientPlayer -> {
                     UsedHandData.setUsedHand(abstractClientPlayer, false);

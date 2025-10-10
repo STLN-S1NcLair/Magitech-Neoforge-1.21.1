@@ -1,6 +1,6 @@
 package net.stln.magitech.compat.patchouli;
 
-import net.minecraft.client.Minecraft;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
@@ -11,11 +11,11 @@ import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.MaterialComponent;
 import net.stln.magitech.item.component.PartMaterialComponent;
 import net.stln.magitech.item.tool.material.ToolMaterial;
-import net.stln.magitech.item.tool.register.ToolMaterialRegister;
 import net.stln.magitech.recipe.RecipeInit;
 import net.stln.magitech.recipe.ToolAssemblyRecipe;
 import net.stln.magitech.recipe.ToolMaterialRecipe;
 import net.stln.magitech.util.ToolMaterialUtil;
+import org.jetbrains.annotations.NotNull;
 import vazkii.patchouli.api.IComponentProcessor;
 import vazkii.patchouli.api.IVariable;
 import vazkii.patchouli.api.IVariableProvider;
@@ -25,46 +25,46 @@ import java.util.Collections;
 import java.util.List;
 
 public class ToolAssemblyRecipeProcessor implements IComponentProcessor {
+    private final List<ItemStack> inputs = new ArrayList<>();
+    private ItemStack output = ItemStack.EMPTY;
     Recipe<?> recipe;
     String title;
     String text;
-    private List<ItemStack> inputs = new ArrayList<>();
-    private ItemStack output = ItemStack.EMPTY;
 
     @Override
     public void setup(Level level, IVariableProvider vars) {
+        RegistryAccess access = level.registryAccess();
         // "recipe" 変数を渡しても良い
-        String recipeId = vars.get("recipe", level.registryAccess()).asString();
+        String recipeId = vars.get("recipe", access).asString();
         if (vars.has("title")) {
-            title = vars.get("title", level.registryAccess()).asString();
+            title = vars.get("title", access).asString();
         }
         if (vars.has("text")) {
-            text = vars.get("text", level.registryAccess()).asString();
+            text = vars.get("text", access).asString();
         }
-        recipe = Minecraft.getInstance().level.getRecipeManager()
-                .byKey(ResourceLocation.tryParse(recipeId)).orElseThrow(IllegalArgumentException::new).value();
+        recipe = level.getRecipeManager().byKey(ResourceLocation.parse(recipeId)).orElseThrow(IllegalArgumentException::new).value();
 
         if (recipe instanceof ToolAssemblyRecipe r) {
             // 入力 ItemStack を取得・セット
             r.getIngredients().forEach(ing -> {
                 if (ing.getItems().length > 0) inputs.add(ing.getItems()[0]);
             });
-            output = r.getResultItem(null);
+            output = r.getResultItem(access);
         }
     }
 
     @Override
-    public IVariable process(Level level, String key) {
-
+    public @NotNull IVariable process(Level level, String key) {
+        RegistryAccess access = level.registryAccess();
         if (key.equals("title")) {
-            return IVariable.wrap(title == null ? "block.magitech.assembly_workbench" : title, level.registryAccess());
+            return IVariable.wrap(title == null ? "block.magitech.assembly_workbench" : title, access);
         }
         if (key.equals("text")) {
-            return IVariable.wrap(text, level.registryAccess());
+            return IVariable.wrap(text, access);
         }
-        RecipeManager recipeManager = Minecraft.getInstance().level.getRecipeManager();
+        RecipeManager recipeManager = level.getRecipeManager();
         List<ToolMaterialRecipe> materialRecipes = recipeManager.getAllRecipesFor(RecipeInit.TOOL_MATERIAL_TYPE.get()).stream().map(RecipeHolder::value).toList();
-        List<ToolMaterial> materials = materialRecipes.stream().map(m -> ToolMaterialRegister.getMaterial(m.getResultId())).toList();
+        List<ToolMaterial> materials = materialRecipes.stream().map(ToolMaterialRecipe::getToolMaterial).toList();
         int size = inputs.size();
         int indexSize = (int) Math.pow(materials.size(), size);
         List<ItemStack> stacks = new ArrayList<>();
@@ -84,7 +84,7 @@ public class ToolAssemblyRecipeProcessor implements IComponentProcessor {
             stacks.add(returnStack);
         }
         Collections.shuffle(stacks);
-        return IVariable.wrapList(stacks.stream().map((stack) -> IVariable.from(stack, level.registryAccess())).toList(), level.registryAccess());
+        return IVariable.wrapList(stacks.stream().map((stack) -> IVariable.from(stack, access)).toList(), access);
     }
 
 }

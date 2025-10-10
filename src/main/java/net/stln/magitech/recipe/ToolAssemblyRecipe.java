@@ -22,6 +22,9 @@ import net.stln.magitech.item.tool.material.ToolMaterial;
 import net.stln.magitech.item.tool.partitem.PartItem;
 import net.stln.magitech.item.tool.register.ToolMaterialRegister;
 import net.stln.magitech.item.tool.toolitem.PartToolItem;
+import net.stln.magitech.recipe.input.MultiStackRecipeInput;
+import net.stln.magitech.util.ComponentHelper;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,19 +34,15 @@ public class ToolAssemblyRecipe implements Recipe<MultiStackRecipeInput> {
     protected final List<Ingredient> ingredients;
     protected final ItemStack result;
     protected final String group;
-    private final RecipeType<?> type;
-    private final RecipeSerializer<?> serializer;
 
     public ToolAssemblyRecipe(String group, List<Ingredient> ingredients, ItemStack result) {
-        this.type = RecipeInit.TOOL_ASSEMBLY_TYPE.get();
-        this.serializer = RecipeInit.TOOL_ASSEMBLY_SERIALIZER.get();
         this.ingredients = ingredients;
         this.group = group;
         this.result = result;
     }
 
     @Override
-    public boolean matches(MultiStackRecipeInput input, Level level) {
+    public boolean matches(@NotNull MultiStackRecipeInput input, @NotNull Level level) {
         if (!(result.getItem() instanceof PartToolItem)) {
             throw new IllegalArgumentException("the result item expected to be a PartToolItem");
         }
@@ -67,7 +66,7 @@ public class ToolAssemblyRecipe implements Recipe<MultiStackRecipeInput> {
     }
 
     @Override
-    public ItemStack assemble(MultiStackRecipeInput input, HolderLookup.Provider registries) {
+    public @NotNull ItemStack assemble(@NotNull MultiStackRecipeInput input, HolderLookup.@NotNull Provider registries) {
         if (!(result.getItem() instanceof PartToolItem)) {
             throw new IllegalArgumentException("the result item expected to be a PartToolItem");
         }
@@ -97,9 +96,10 @@ public class ToolAssemblyRecipe implements Recipe<MultiStackRecipeInput> {
                     boolean found = partList.contains(partItem.getPart());
                     int index = partList.indexOf(partItem.getPart());
                     if (found) {
-                        ToolMaterial material = input.getItem(i).get(ComponentInit.MATERIAL_COMPONENT.get()).getMaterial();
-                        result.set(index, material);
-                        partList.set(index, null);
+                        ComponentHelper.getMaterial(input.getItem(i)).ifPresent(material -> {
+                            result.set(index, material);
+                            partList.set(index, null);
+                        });
                     }
                     flag &= found;
                 }
@@ -117,22 +117,22 @@ public class ToolAssemblyRecipe implements Recipe<MultiStackRecipeInput> {
     }
 
     @Override
-    public NonNullList<Ingredient> getIngredients() {
+    public @NotNull NonNullList<Ingredient> getIngredients() {
         return NonNullList.copyOf(ingredients);
     }
 
     @Override
-    public ItemStack getResultItem(HolderLookup.Provider registries) {
+    public @NotNull ItemStack getResultItem(HolderLookup.@NotNull Provider registries) {
         return result.copy();
     }
 
     @Override
-    public RecipeType<?> getType() {
+    public @NotNull RecipeType<?> getType() {
         return RecipeInit.TOOL_ASSEMBLY_TYPE.get();
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public @NotNull RecipeSerializer<?> getSerializer() {
         return RecipeInit.TOOL_ASSEMBLY_SERIALIZER.get();
     }
 
@@ -167,12 +167,12 @@ public class ToolAssemblyRecipe implements Recipe<MultiStackRecipeInput> {
         }
 
         @Override
-        public MapCodec<T> codec() {
+        public @NotNull MapCodec<T> codec() {
             return this.codec;
         }
 
         @Override
-        public StreamCodec<RegistryFriendlyByteBuf, T> streamCodec() {
+        public @NotNull StreamCodec<RegistryFriendlyByteBuf, T> streamCodec() {
             return this.streamCodec;
         }
     }

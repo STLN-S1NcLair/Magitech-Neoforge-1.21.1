@@ -1,6 +1,6 @@
 package net.stln.magitech.compat.patchouli;
 
-import net.minecraft.client.Minecraft;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -8,6 +8,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
 import net.stln.magitech.recipe.AthanorPillarInfusionRecipe;
+import org.jetbrains.annotations.NotNull;
 import vazkii.patchouli.api.IComponentProcessor;
 import vazkii.patchouli.api.IVariable;
 import vazkii.patchouli.api.IVariableProvider;
@@ -17,26 +18,26 @@ import java.util.Collections;
 import java.util.List;
 
 public class AthanorPillarInfusionRecipeProcessor implements IComponentProcessor {
-    Recipe<?> recipe;
-    private List<List<Ingredient>> inputs = new ArrayList<>();
+    private final List<List<Ingredient>> inputs = new ArrayList<>();
     private ItemStack base = ItemStack.EMPTY;
     private ItemStack output = ItemStack.EMPTY;
     private int mana = 0;
+    Recipe<?> recipe;
     private String title;
     private String text;
 
     @Override
     public void setup(Level level, IVariableProvider vars) {
+        RegistryAccess access = level.registryAccess();
         // "recipe" 変数を渡しても良い
-        String recipeId = vars.get("recipe", level.registryAccess()).asString();
+        String recipeId = vars.get("recipe", access).asString();
         if (vars.has("title")) {
-            title = vars.get("title", level.registryAccess()).asString();
+            title = vars.get("title", access).asString();
         }
         if (vars.has("text")) {
-            text = vars.get("text", level.registryAccess()).asString();
+            text = vars.get("text", access).asString();
         }
-        recipe = Minecraft.getInstance().level.getRecipeManager()
-                .byKey(ResourceLocation.tryParse(recipeId)).orElseThrow(IllegalArgumentException::new).value();
+        recipe = level.getRecipeManager().byKey(ResourceLocation.parse(recipeId)).orElseThrow(IllegalArgumentException::new).value();
 
         if (recipe instanceof AthanorPillarInfusionRecipe r) {
             // 入力 ItemStack を取得・セット
@@ -45,21 +46,23 @@ public class AthanorPillarInfusionRecipeProcessor implements IComponentProcessor
             }
             mana = r.getMana();
             base = r.getBase();
-            output = r.getResultItem(null);
+            output = r.getResultItem(access);
         }
     }
 
     @Override
-    public IVariable process(Level level, String key) {
-
-        if (key.equals("title")) {
-            return IVariable.wrap(title == null ? "block.magitech.zardius_crucible" : title, level.registryAccess());
-        }
-        if (key.equals("text")) {
-            return IVariable.wrap(text, level.registryAccess());
-        }
-        if (key.equals("mana")) {
-            return IVariable.wrap(Component.translatable("book.magitech.athanor_pillar_infusion.mana", mana).getString(), level.registryAccess());
+    public @NotNull IVariable process(Level level, String key) {
+        RegistryAccess access = level.registryAccess();
+        switch (key) {
+            case "title" -> {
+                return IVariable.wrap(title == null ? "block.magitech.zardius_crucible" : title, access);
+            }
+            case "text" -> {
+                return IVariable.wrap(text, access);
+            }
+            case "mana" -> {
+                return IVariable.wrap(Component.translatable("book.magitech.athanor_pillar_infusion.mana", mana).getString(), access);
+            }
         }
         int size = 0;
         for (List<Ingredient> input : inputs) {
@@ -84,7 +87,7 @@ public class AthanorPillarInfusionRecipeProcessor implements IComponentProcessor
         }
         stacks.addAll(List.of(returnStack.getItems()));
         Collections.shuffle(stacks);
-        return IVariable.wrapList(stacks.stream().map((stack) -> IVariable.from(stack, level.registryAccess())).toList(), level.registryAccess());
+        return IVariable.wrapList(stacks.stream().map((stack) -> IVariable.from(stack, access)).toList(), access);
     }
 
 }

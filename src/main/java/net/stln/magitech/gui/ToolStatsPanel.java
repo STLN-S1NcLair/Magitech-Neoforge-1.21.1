@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ToolStatsPanel {
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "textures/gui/tool_stats_panel.png");
+    private static final ResourceLocation TEXTURE = Magitech.id("textures/gui/tool_stats_panel.png");
 
     public static void addPanel(FlowLayout root, Positioning positioning, ItemStack stack, net.minecraft.network.chat.Component title, List<Component> whenEmpty) {
         List<net.minecraft.network.chat.Component> components = new ArrayList<>();

@@ -17,19 +17,22 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.tool.toolitem.PartToolItem;
 import net.stln.magitech.item.tool.toolitem.SpellCasterItem;
 import net.stln.magitech.item.tool.upgrade.Upgrade;
 import net.stln.magitech.item.tool.upgrade.UpgradeInstance;
 import net.stln.magitech.item.tool.upgrade.UpgradeRegister;
+import net.stln.magitech.util.ClientHelper;
+import net.stln.magitech.util.ComponentHelper;
 import net.stln.magitech.util.RenderHelper;
 import net.stln.magitech.util.ToolMaterialUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,12 +40,12 @@ import java.util.Optional;
 
 @OnlyIn(Dist.CLIENT)
 public class ToolUpgradeScreen extends AbstractContainerScreen<ToolUpgradeMenu> {
-    private static final ResourceLocation BG_LOCATION = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "textures/gui/tool_upgrade.png");
+    private static final ResourceLocation BG_LOCATION = Magitech.id("textures/gui/tool_upgrade.png");
     private static final int SWITCH_INTERVAL = 20; // 20tick = 1秒
-    List<Item> tagItems = new ArrayList<>();
-    ItemStack stack = null;
     private int tickCounter = 0;
     private int currentIndex = 0;
+    List<Item> tagItems = new ArrayList<>();
+    ItemStack stack = null;
     private OwoUIAdapter<FlowLayout> uiAdapter;
 
     private int bgWidth = 176;
@@ -54,13 +57,6 @@ public class ToolUpgradeScreen extends AbstractContainerScreen<ToolUpgradeMenu> 
         this.imageHeight = 199;
         this.titleLabelY = 4;
         this.inventoryLabelY = 106;
-    }
-
-    private static List<Component> getPanelText() {
-        List<Component> components = new ArrayList<>();
-        components.add(Component.translatable("recipe.magitech.tool_upgrade.panel.title").withStyle(Style.EMPTY.withUnderlined(true)));
-        components.add(Component.translatable("recipe.magitech.tool_upgrade.panel.text"));
-        return components;
     }
 
     @Override
@@ -97,11 +93,11 @@ public class ToolUpgradeScreen extends AbstractContainerScreen<ToolUpgradeMenu> 
         } else {
             ItemStack itemStack = menu.container.getItem(0);
             if (itemStack.getItem() instanceof PartToolItem) {
-                if (menu.hasUpgradePoint(itemStack) && !ToolMaterialUtil.isCorrectMaterialForUpgrade(itemStack.get(ComponentInit.TIER_COMPONENT), itemStack.get(ComponentInit.UPGRADE_POINT_COMPONENT), menu.container.getItem(1).getItem())) {
+                if (menu.hasUpgradePoint(itemStack) && !ToolMaterialUtil.isCorrectMaterialForUpgrade(ComponentHelper.getTier(itemStack), ComponentHelper.getUpgradePoint(itemStack), menu.container.getItem(1).getItem())) {
                     MutableComponent text = Component.translatable("recipe.magitech.tool_upgrade.incorrect_material");
                     guiGraphics.drawString(this.font, text.withColor(0xF0D080), l - font.width(text) / 2 + 58, i1 + 15, 0xFFFFFF, false);
 
-                    tagItems = BuiltInRegistries.ITEM.getTag(ToolMaterialUtil.getUpgradeMaterialTag(itemStack.get(ComponentInit.TIER_COMPONENT), itemStack.get(ComponentInit.UPGRADE_POINT_COMPONENT))).stream().flatMap(HolderSet.ListBacked::stream).map(Holder::value).toList();
+                    tagItems = BuiltInRegistries.ITEM.getTag(ToolMaterialUtil.getUpgradeMaterialTag(ComponentHelper.getTier(itemStack), ComponentHelper.getUpgradePoint(itemStack))).stream().flatMap(HolderSet.ListBacked::stream).map(Holder::value).toList();
                     currentIndex = Math.min(currentIndex, tagItems.size() - 1);
                     guiGraphics.renderItem(new ItemStack(tagItems.get(currentIndex)), l - 8 + 58, i1 + 31);
 
@@ -139,8 +135,15 @@ public class ToolUpgradeScreen extends AbstractContainerScreen<ToolUpgradeMenu> 
         this.uiAdapter.inflateAndMount();
     }
 
+    private static List<Component> getPanelText() {
+        List<Component> components = new ArrayList<>();
+        components.add(Component.translatable("recipe.magitech.tool_upgrade.panel.title").withStyle(Style.EMPTY.withUnderlined(true)));
+        components.add(Component.translatable("recipe.magitech.tool_upgrade.panel.text"));
+        return components;
+    }
+
     @Override
-    protected void renderTooltip(GuiGraphics guiGraphics, int x, int y) {
+    protected void renderTooltip(@NotNull GuiGraphics guiGraphics, int x, int y) {
         super.renderTooltip(guiGraphics, x, y);
         ItemStack itemStack = menu.container.getItem(0);
         int i = this.leftPos + 44;
@@ -157,7 +160,7 @@ public class ToolUpgradeScreen extends AbstractContainerScreen<ToolUpgradeMenu> 
                 }
             }
         }
-        if (!menu.canUpgrade() && menu.hasUpgradePoint(itemStack) && itemStack.getItem() instanceof PartToolItem && !ToolMaterialUtil.isCorrectMaterialForUpgrade(itemStack.get(ComponentInit.TIER_COMPONENT), itemStack.get(ComponentInit.UPGRADE_POINT_COMPONENT), menu.container.getItem(1).getItem())) {
+        if (!menu.canUpgrade() && menu.hasUpgradePoint(itemStack) && itemStack.getItem() instanceof PartToolItem && !ToolMaterialUtil.isCorrectMaterialForUpgrade(ComponentHelper.getTier(itemStack), ComponentHelper.getUpgradePoint(itemStack), menu.container.getItem(1).getItem())) {
             if (x >= i + 50 && x < i + 66 && y >= j + 31 && y < j + 47) {
                 guiGraphics.renderTooltip(font, new ItemStack(tagItems.get(currentIndex)), x, y);
             }
@@ -167,26 +170,26 @@ public class ToolUpgradeScreen extends AbstractContainerScreen<ToolUpgradeMenu> 
     private void renderButtons(GuiGraphics guiGraphics, int mouseX, int mouseY, int x, int y, int lastVisibleElementIndex) {
         ItemStack stack = this.menu.container.getItem(0);
         if (stack.getItem() instanceof PartToolItem) {
-            List<UpgradeInstance> upgrades = stack.has(ComponentInit.UPGRADE_COMPONENT) ? stack.get(ComponentInit.UPGRADE_COMPONENT).upgrades() : List.of();
-            List<Upgrade> currentUpgrades = ((ToolUpgradeMenu) menu).upgrades;
-            for (int i = 0; i < lastVisibleElementIndex; i++) {
-                int i1 = y + i * 18;
-                int level = 0;
+            List<UpgradeInstance> upgrades = ComponentHelper.getUpgrades(stack);
+                List<Upgrade> currentUpgrades = menu.upgrades;
+                for (int i = 0; i < lastVisibleElementIndex; i++) {
+                    int i1 = y + i * 18;
+                    int level = 0;
 
-                for (int j = 0; j < upgrades.size(); j++) {
-                    if (currentUpgrades.get(i).equals(upgrades.get(j).upgrade)) {
-                        level = upgrades.get(j).level;
-                        break;
+                    for (UpgradeInstance upgrade : upgrades) {
+                        if (currentUpgrades.get(i).equals(upgrade.upgrade())) {
+                            level = upgrade.level();
+                            break;
+                        }
                     }
+                    int yOffset = 200;
+                    if (mouseX >= x && mouseX < x + 117 && mouseY >= i1 && mouseY < i1 + 18) {
+                        yOffset += 24;
+                    }
+                    ResourceLocation id = UpgradeRegister.getId(currentUpgrades.get(i));
+                    guiGraphics.blit(BG_LOCATION, x, i1, 0, yOffset, 117, 18);
+                    guiGraphics.drawString(this.font, Component.translatable("upgrade." + id.getNamespace() + "." + id.getPath()).withColor(0xE0E0E0).append(Component.literal(" Lv." + level).withColor(0xF0D080)), x + 5, i1 + 5, 0xFFFFFF, false);
                 }
-                int yOffset = 200;
-                if (mouseX >= x && mouseX < x + 117 && mouseY >= i1 && mouseY < i1 + 18) {
-                    yOffset += 24;
-                }
-                ResourceLocation id = UpgradeRegister.getId(currentUpgrades.get(i));
-                guiGraphics.blit(BG_LOCATION, x, i1, 0, yOffset, 117, 18);
-                guiGraphics.drawString(this.font, Component.translatable("upgrade." + id.getNamespace() + "." + id.getPath()).withColor(0xE0E0E0).append(Component.literal(" Lv." + level).withColor(0xF0D080)), x + 5, i1 + 5, 0xFFFFFF, false);
-            }
         }
     }
 
@@ -201,18 +204,20 @@ public class ToolUpgradeScreen extends AbstractContainerScreen<ToolUpgradeMenu> 
      */
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        int i = this.leftPos + 44;
-        int j = this.topPos + 31;
-        int k = 3;
+            int i = this.leftPos + 44;
+            int j = this.topPos + 31;
+            int k = 3;
 
-        for (int l = 0; l < k; l++) {
-            double d0 = mouseX - (double) (i);
-            double d1 = mouseY - (double) (j + l * 18);
-            if (d0 >= 0.0 && d1 >= 0.0 && d0 < 117.0 && d1 < 18.0 && this.menu.clickMenuButton(this.minecraft.player, l)) {
-                Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_STONECUTTER_SELECT_RECIPE, 1.0F));
-                this.minecraft.gameMode.handleInventoryButtonClick(this.menu.containerId, l);
-                return true;
-            }
+            for (int l = 0; l < k; l++) {
+                double d0 = mouseX - (double) (i);
+                double d1 = mouseY - (double) (j + l * 18);
+                Player player = ClientHelper.getPlayer();
+                if (player == null) return false;
+                if (d0 >= 0.0 && d1 >= 0.0 && d0 < 117.0 && d1 < 18.0 && this.menu.clickMenuButton(player, l)) {
+                    Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_STONECUTTER_SELECT_RECIPE, 1.0F));
+                    this.minecraft.gameMode.handleInventoryButtonClick(this.menu.containerId, l);
+                    return true;
+                }
         }
 
         return super.mouseClicked(mouseX, mouseY, button);

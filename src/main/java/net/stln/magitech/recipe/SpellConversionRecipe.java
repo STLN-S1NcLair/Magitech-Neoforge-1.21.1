@@ -7,120 +7,75 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.stln.magitech.item.ItemInit;
+import net.stln.magitech.magic.spell.Spell;
+import net.stln.magitech.recipe.input.SpellRecipeInput;
+import org.jetbrains.annotations.NotNull;
 
-public class SpellConversionRecipe implements Recipe<SingleRecipeInput> {
-    protected final Ingredient ingredient;
-    protected final ResourceLocation spell;
-    protected final ItemStack result;
-    protected final String group;
-    private final RecipeType<?> type;
-    private final RecipeSerializer<?> serializer;
+import java.util.Objects;
 
-    public SpellConversionRecipe(String group, Ingredient ingredient, ResourceLocation spell, ItemStack result) {
-        this.type = RecipeInit.SPELL_CONVERSION_TYPE.get();
-        this.serializer = RecipeInit.SPELL_CONVERSION_SERIALIZER.get();
-        this.group = group;
-        this.ingredient = ingredient;
-        this.spell = spell;
-        this.result = result;
+public record SpellConversionRecipe(String group, Ingredient ingredient, Spell spell, ItemStack result) implements Recipe<SpellRecipeInput> {
+    public static final MapCodec<SpellConversionRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            Codec.STRING.optionalFieldOf("group", "").forGetter(SpellConversionRecipe::group),
+            Ingredient.CODEC_NONEMPTY.fieldOf("ingredient").forGetter(SpellConversionRecipe::ingredient),
+            Spell.CODEC.fieldOf("spell").forGetter(SpellConversionRecipe::spell),
+            ItemStack.STRICT_CODEC.fieldOf("result").forGetter(SpellConversionRecipe::result)
+    ).apply(instance, SpellConversionRecipe::new));
+    public static final StreamCodec<RegistryFriendlyByteBuf, SpellConversionRecipe> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.STRING_UTF8,
+            SpellConversionRecipe::group,
+            Ingredient.CONTENTS_STREAM_CODEC,
+            SpellConversionRecipe::ingredient,
+            Spell.STREAM_CODEC,
+            SpellConversionRecipe::spell,
+            ItemStack.STREAM_CODEC,
+            SpellConversionRecipe::result,
+            SpellConversionRecipe::new
+    );
+
+    @Override
+    public boolean matches(@NotNull SpellRecipeInput input, @NotNull Level level) {
+        return ingredient.test(input.item()) && Objects.equals(this.spell, input.spell());
     }
 
     @Override
-    public RecipeType<?> getType() {
-        return this.type;
+    public @NotNull ItemStack assemble(@NotNull SpellRecipeInput input, HolderLookup.@NotNull Provider registries) {
+        return getResultItem(registries);
     }
 
-    @Override
-    public RecipeSerializer<?> getSerializer() {
-        return this.serializer;
-    }
-
-    @Override
-    public String getGroup() {
-        return this.group;
-    }
-
-    public Ingredient getIngredient() {
-        return ingredient;
-    }
-
-    public ResourceLocation getSpell() {
-        return spell;
-    }
-
-    @Override
-    public ItemStack getResultItem(HolderLookup.Provider registries) {
-        return this.result;
-    }
-
-
-    public boolean matches(SingleRecipeInput input, Level level) {
-        return this.ingredient.test(input.item());
-    }
-
-    @Override
-    public ItemStack getToastSymbol() {
-        return new ItemStack(ItemInit.FLUORITE.get());
-    }
-
-    /**
-     * Used to determine if this recipe can fit in a grid of the given width/height
-     */
     @Override
     public boolean canCraftInDimensions(int width, int height) {
         return true;
     }
 
-    public ItemStack assemble(SingleRecipeInput input, HolderLookup.Provider registries) {
-        return this.result.copy();
+    @Override
+    public @NotNull ItemStack getResultItem(HolderLookup.@NotNull Provider registries) {
+        return result().copy();
     }
 
-    public interface Factory<T extends SpellConversionRecipe> {
-        T create(String group, Ingredient ingredient, ResourceLocation spell, ItemStack result);
+    @Override
+    public @NotNull String getGroup() {
+        return group;
     }
 
-    public static class Serializer<T extends SpellConversionRecipe> implements RecipeSerializer<T> {
-        final Factory<T> factory;
-        private final MapCodec<T> codec;
-        private final StreamCodec<RegistryFriendlyByteBuf, T> streamCodec;
+    @Override
+    public @NotNull ItemStack getToastSymbol() {
+        return ItemInit.FLUORITE.toStack();
+    }
 
-        protected Serializer(Factory<T> factory) {
-            this.factory = factory;
-            this.codec = RecordCodecBuilder.mapCodec(
-                    p_340781_ -> p_340781_.group(
-                                    Codec.STRING.optionalFieldOf("group", "").forGetter(p_300947_ -> p_300947_.group),
-                                    Ingredient.CODEC_NONEMPTY.fieldOf("ingredient").forGetter(p_301068_ -> p_301068_.ingredient),
-                                    ResourceLocation.CODEC.fieldOf("spell").forGetter(p_301068_ -> p_301068_.spell),
-                                    ItemStack.STRICT_CODEC.fieldOf("result").forGetter(p_302316_ -> p_302316_.result)
-                            )
-                            .apply(p_340781_, factory::create)
-            );
-            this.streamCodec = StreamCodec.composite(
-                    ByteBufCodecs.STRING_UTF8,
-                    p_319737_ -> p_319737_.group,
-                    Ingredient.CONTENTS_STREAM_CODEC,
-                    p_319737_ -> p_319737_.ingredient,
-                    ResourceLocation.STREAM_CODEC,
-                    p_319737_ -> p_319737_.spell,
-                    ItemStack.STREAM_CODEC,
-                    p_319736_ -> p_319736_.result,
-                    factory::create
-            );
-        }
+    @Override
+    public @NotNull RecipeSerializer<?> getSerializer() {
+        return RecipeInit.SPELL_CONVERSION_SERIALIZER.get();
+    }
 
-        @Override
-        public MapCodec<T> codec() {
-            return this.codec;
-        }
-
-        @Override
-        public StreamCodec<RegistryFriendlyByteBuf, T> streamCodec() {
-            return this.streamCodec;
-        }
+    @Override
+    public @NotNull RecipeType<?> getType() {
+        return RecipeInit.SPELL_CONVERSION_TYPE.get();
     }
 }

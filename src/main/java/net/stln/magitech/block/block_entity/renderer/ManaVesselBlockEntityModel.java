@@ -7,9 +7,9 @@ import software.bernie.geckolib.model.GeoModel;
 
 public class ManaVesselBlockEntityModel extends GeoModel<ManaVesselBlockEntity> {
     // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "textures/block/mana_vessel_crystal.png");
-    public static final ResourceLocation GEO = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "geo/block/mana_vessel.geo.json");
-    public static final ResourceLocation ANIM = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "animations/armor/mana_vessel.animation.json");
+    public static final ResourceLocation TEXTURE = Magitech.id("textures/block/mana_vessel_crystal.png");
+    public static final ResourceLocation GEO = Magitech.id("geo/block/mana_vessel.geo.json");
+    public static final ResourceLocation ANIM = Magitech.id("animations/armor/mana_vessel.animation.json");
 
     @Override
     public ResourceLocation getModelResource(ManaVesselBlockEntity animatable) {

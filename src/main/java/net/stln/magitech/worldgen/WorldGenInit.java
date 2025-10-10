@@ -9,7 +9,6 @@ import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.random.SimpleWeightedRandomList;
@@ -54,120 +53,50 @@ public class WorldGenInit {
     public static final Supplier<Feature<NoneFeatureConfiguration>> REDSTONE_CRYSTAL_SURFACE_FEATURE =
             FEATURES.register("redstone_crystal_surface", () -> new OreSurfaceFeature(BlockInit.REDSTONE_CRYSTAL_CLUSTER.get().defaultBlockState(), List.of(Blocks.REDSTONE_ORE, Blocks.DEEPSLATE_REDSTONE_ORE), 0.25));
 
-    public static final ResourceKey<ConfiguredFeature<?, ?>> REDSTONE_CRYSTAL_SURFACE_CONFIGURED_KEY =
-            ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "redstone_crystal_surface"));
+    public static final ResourceKey<ConfiguredFeature<?, ?>> REDSTONE_CRYSTAL_SURFACE_CONFIGURED_KEY = ResourceKey.create(Registries.CONFIGURED_FEATURE, Magitech.id("redstone_crystal_surface"));
+    public static final ResourceKey<PlacedFeature> REDSTONE_CRYSTAL_SURFACE_PLACED_KEY = ResourceKey.create(Registries.PLACED_FEATURE, Magitech.id("redstone_crystal_surface"));
+    public static final ResourceKey<BiomeModifier> REDSTONE_CRYSTAL_SURFACE_BIOME_MODIFIER_KEY = ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, Magitech.id("redstone_crystal_surface"));
 
-    public static final ResourceKey<PlacedFeature> REDSTONE_CRYSTAL_SURFACE_PLACED_KEY =
-            ResourceKey.create(Registries.PLACED_FEATURE, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "redstone_crystal_surface"));
+    public static final Supplier<Feature<NoneFeatureConfiguration>> FLUORITE_CRYSTAL_SURFACE_FEATURE = FEATURES.register("fluorite_crystal_surface", () -> new OreSurfaceFeature(BlockInit.FLUORITE_CRYSTAL_CLUSTER.get().defaultBlockState(), List.of(BlockInit.FLUORITE_ORE.get(), BlockInit.DEEPSLATE_FLUORITE_ORE.get()), 0.25));
+    public static final ResourceKey<ConfiguredFeature<?, ?>> FLUORITE_CRYSTAL_SURFACE_CONFIGURED_KEY = ResourceKey.create(Registries.CONFIGURED_FEATURE, Magitech.id("fluorite_crystal_surface"));
+    public static final ResourceKey<PlacedFeature> FLUORITE_CRYSTAL_SURFACE_PLACED_KEY = ResourceKey.create(Registries.PLACED_FEATURE, Magitech.id("fluorite_crystal_surface"));
+    public static final ResourceKey<BiomeModifier> FLUORITE_CRYSTAL_SURFACE_BIOME_MODIFIER_KEY = ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, Magitech.id("fluorite_crystal_surface"));
 
-    public static final ResourceKey<BiomeModifier> REDSTONE_CRYSTAL_SURFACE_BIOME_MODIFIER_KEY =
-            ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "redstone_crystal_surface"));
+    public static final Supplier<Feature<OreConfiguration>> FLUORITE_ORE_FEATURE = FEATURES.register("fluorite_ore", () -> new OreFeature(OreConfiguration.CODEC));
+    public static final ResourceKey<ConfiguredFeature<?, ?>> FLUORITE_ORE_CONFIGURED_KEY = ResourceKey.create(Registries.CONFIGURED_FEATURE, Magitech.id("fluorite_ore"));
+    public static final ResourceKey<PlacedFeature> FLUORITE_ORE_PLACED_KEY = ResourceKey.create(Registries.PLACED_FEATURE, Magitech.id("fluorite_ore"));
+    public static final ResourceKey<BiomeModifier> FLUORITE_ORE_BIOME_MODIFIER_KEY = ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, Magitech.id("fluorite_ore"));
 
+    public static final Supplier<Feature<OreConfiguration>> TOURMALINE_ORE_FEATURE = FEATURES.register("tourmaline_ore", () -> new OreFeature(OreConfiguration.CODEC));
+    public static final ResourceKey<ConfiguredFeature<?, ?>> TOURMALINE_ORE_CONFIGURED_KEY = ResourceKey.create(Registries.CONFIGURED_FEATURE, Magitech.id("tourmaline_ore"));
+    public static final ResourceKey<PlacedFeature> TOURMALINE_ORE_PLACED_KEY = ResourceKey.create(Registries.PLACED_FEATURE, Magitech.id("tourmaline_ore"));
+    public static final ResourceKey<BiomeModifier> TOURMALINE_ORE_BIOME_MODIFIER_KEY = ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, Magitech.id("tourmaline_ore"));
 
-    public static final Supplier<Feature<NoneFeatureConfiguration>> FLUORITE_CRYSTAL_SURFACE_FEATURE =
-            FEATURES.register("fluorite_crystal_surface", () -> new OreSurfaceFeature(BlockInit.FLUORITE_CRYSTAL_CLUSTER.get().defaultBlockState(), List.of(BlockInit.FLUORITE_ORE.get(), BlockInit.DEEPSLATE_FLUORITE_ORE.get()), 0.25));
+    public static final ResourceKey<ConfiguredFeature<?, ?>> CELIFERN_CONFIGURED_KEY = ResourceKey.create(Registries.CONFIGURED_FEATURE, Magitech.id("celifern"));
+    public static final ResourceKey<PlacedFeature> CELIFERN_PLACED_KEY = ResourceKey.create(Registries.PLACED_FEATURE, Magitech.id("celifern"));
+    public static final ResourceKey<BiomeModifier> CELIFERN_BIOME_MODIFIER_KEY = ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, Magitech.id("celifern"));
 
-    public static final ResourceKey<ConfiguredFeature<?, ?>> FLUORITE_CRYSTAL_SURFACE_CONFIGURED_KEY =
-            ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "fluorite_crystal_surface"));
+    public static final ResourceKey<ConfiguredFeature<?, ?>> CHARCOAL_BIRCH_CONFIGURED_KEY = ResourceKey.create(Registries.CONFIGURED_FEATURE, Magitech.id("charcoal_birch"));
+    public static final ResourceKey<PlacedFeature> CHARCOAL_BIRCH_PLACED_KEY = ResourceKey.create(Registries.PLACED_FEATURE, Magitech.id("charcoal_birch"));
+    public static final ResourceKey<BiomeModifier> CHARCOAL_BIRCH_BIOME_MODIFIER_KEY = ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, Magitech.id("charcoal_birch"));
 
-    public static final ResourceKey<PlacedFeature> FLUORITE_CRYSTAL_SURFACE_PLACED_KEY =
-            ResourceKey.create(Registries.PLACED_FEATURE, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "fluorite_crystal_surface"));
+    public static final ResourceKey<ConfiguredFeature<?, ?>> MANA_BERRY_BUSH_CONFIGURED_KEY = ResourceKey.create(Registries.CONFIGURED_FEATURE, Magitech.id("mana_berry_bush"));
+    public static final ResourceKey<PlacedFeature> MANA_BERRY_BUSH_PLACED_KEY = ResourceKey.create(Registries.PLACED_FEATURE, Magitech.id("mana_berry_bush"));
+    public static final ResourceKey<BiomeModifier> MANA_BERRY_BUSH_BIOME_MODIFIER_KEY = ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, Magitech.id("mana_berry_bush"));
 
-    public static final ResourceKey<BiomeModifier> FLUORITE_CRYSTAL_SURFACE_BIOME_MODIFIER_KEY =
-            ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "fluorite_crystal_surface"));
+    public static final ResourceKey<ConfiguredFeature<?, ?>> MISTALIA_PETALS_CONFIGURED_KEY = ResourceKey.create(Registries.CONFIGURED_FEATURE, Magitech.id("mistalia_petals"));
+    public static final ResourceKey<PlacedFeature> MISTALIA_PETALS_PLACED_KEY = ResourceKey.create(Registries.PLACED_FEATURE, Magitech.id("mistalia_petals"));
+    public static final ResourceKey<BiomeModifier> MISTALIA_PETALS_BIOME_MODIFIER_KEY = ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, Magitech.id("mistalia_petals"));
 
+    public static final Supplier<Feature<NoneFeatureConfiguration>> SCORCHED_GEYSER_FEATURE = FEATURES.register("scorched_geyser", () -> new ScorchedGeyserFeature());
+    public static final ResourceKey<ConfiguredFeature<?, ?>> SCORCHED_GEYSER_CONFIGURED_KEY = ResourceKey.create(Registries.CONFIGURED_FEATURE, Magitech.id("scorched_geyser"));
+    public static final ResourceKey<PlacedFeature> SCORCHED_GEYSER_PLACED_KEY = ResourceKey.create(Registries.PLACED_FEATURE, Magitech.id("scorched_geyser"));
+    public static final ResourceKey<BiomeModifier> SCORCHED_GEYSER_BIOME_MODIFIER_KEY = ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, Magitech.id("scorched_geyser"));
 
-    public static final Supplier<Feature<OreConfiguration>> FLUORITE_ORE_FEATURE =
-            FEATURES.register("fluorite_ore", () -> new OreFeature(OreConfiguration.CODEC));
-
-    public static final ResourceKey<ConfiguredFeature<?, ?>> FLUORITE_ORE_CONFIGURED_KEY =
-            ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "fluorite_ore"));
-
-    public static final ResourceKey<PlacedFeature> FLUORITE_ORE_PLACED_KEY =
-            ResourceKey.create(Registries.PLACED_FEATURE, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "fluorite_ore"));
-
-    public static final ResourceKey<BiomeModifier> FLUORITE_ORE_BIOME_MODIFIER_KEY =
-            ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "fluorite_ore"));
-
-
-    public static final Supplier<Feature<OreConfiguration>> TOURMALINE_ORE_FEATURE =
-            FEATURES.register("tourmaline_ore", () -> new OreFeature(OreConfiguration.CODEC));
-
-    public static final ResourceKey<ConfiguredFeature<?, ?>> TOURMALINE_ORE_CONFIGURED_KEY =
-            ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "tourmaline_ore"));
-
-    public static final ResourceKey<PlacedFeature> TOURMALINE_ORE_PLACED_KEY =
-            ResourceKey.create(Registries.PLACED_FEATURE, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "tourmaline_ore"));
-
-    public static final ResourceKey<BiomeModifier> TOURMALINE_ORE_BIOME_MODIFIER_KEY =
-            ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "tourmaline_ore"));
-
-
-    public static final ResourceKey<ConfiguredFeature<?, ?>> CELIFERN_CONFIGURED_KEY =
-            ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "celifern"));
-
-    public static final ResourceKey<PlacedFeature> CELIFERN_PLACED_KEY =
-            ResourceKey.create(Registries.PLACED_FEATURE, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "celifern"));
-
-    public static final ResourceKey<BiomeModifier> CELIFERN_BIOME_MODIFIER_KEY =
-            ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "celifern"));
-
-
-    public static final ResourceKey<ConfiguredFeature<?, ?>> CHARCOAL_BIRCH_CONFIGURED_KEY =
-            ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "charcoal_birch"));
-
-    public static final ResourceKey<PlacedFeature> CHARCOAL_BIRCH_PLACED_KEY =
-            ResourceKey.create(Registries.PLACED_FEATURE, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "charcoal_birch"));
-
-    public static final ResourceKey<BiomeModifier> CHARCOAL_BIRCH_BIOME_MODIFIER_KEY =
-            ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "charcoal_birch"));
-
-
-    public static final ResourceKey<ConfiguredFeature<?, ?>> MANA_BERRY_BUSH_CONFIGURED_KEY =
-            ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "mana_berry_bush"));
-
-    public static final ResourceKey<PlacedFeature> MANA_BERRY_BUSH_PLACED_KEY =
-            ResourceKey.create(Registries.PLACED_FEATURE, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "mana_berry_bush"));
-
-    public static final ResourceKey<BiomeModifier> MANA_BERRY_BUSH_BIOME_MODIFIER_KEY =
-            ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "mana_berry_bush"));
-
-
-    public static final ResourceKey<ConfiguredFeature<?, ?>> MISTALIA_PETALS_CONFIGURED_KEY =
-            ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "mistalia_petals"));
-
-    public static final ResourceKey<PlacedFeature> MISTALIA_PETALS_PLACED_KEY =
-            ResourceKey.create(Registries.PLACED_FEATURE, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "mistalia_petals"));
-
-    public static final ResourceKey<BiomeModifier> MISTALIA_PETALS_BIOME_MODIFIER_KEY =
-            ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "mistalia_petals"));
-
-
-    public static final Supplier<Feature<NoneFeatureConfiguration>> SCORCHED_GEYSER_FEATURE =
-            FEATURES.register("scorched_geyser", () -> new ScorchedGeyserFeature());
-
-    public static final ResourceKey<ConfiguredFeature<?, ?>> SCORCHED_GEYSER_CONFIGURED_KEY =
-            ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "scorched_geyser"));
-
-    public static final ResourceKey<PlacedFeature> SCORCHED_GEYSER_PLACED_KEY =
-            ResourceKey.create(Registries.PLACED_FEATURE, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "scorched_geyser"));
-
-    public static final ResourceKey<BiomeModifier> SCORCHED_GEYSER_BIOME_MODIFIER_KEY =
-            ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "scorched_geyser"));
-
-
-    public static final Supplier<Feature<NoneFeatureConfiguration>> SCORCHED_LAVA_LAKE_FEATURE =
-            FEATURES.register("scorched_lava_lake", () -> new ScorchedLavaLakeFeature());
-
-    public static final ResourceKey<ConfiguredFeature<?, ?>> SCORCHED_LAVA_LAKE_CONFIGURED_KEY =
-            ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "scorched_lava_lake"));
-
-    public static final ResourceKey<PlacedFeature> SCORCHED_LAVA_LAKE_PLACED_KEY =
-            ResourceKey.create(Registries.PLACED_FEATURE, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "scorched_lava_lake"));
-
-    public static final ResourceKey<BiomeModifier> SCORCHED_LAVA_LAKE_BIOME_MODIFIER_KEY =
-            ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "scorched_lava_lake"));
-
+    public static final Supplier<Feature<NoneFeatureConfiguration>> SCORCHED_LAVA_LAKE_FEATURE = FEATURES.register("scorched_lava_lake", () -> new ScorchedLavaLakeFeature());
+    public static final ResourceKey<ConfiguredFeature<?, ?>> SCORCHED_LAVA_LAKE_CONFIGURED_KEY = ResourceKey.create(Registries.CONFIGURED_FEATURE, Magitech.id("scorched_lava_lake"));
+    public static final ResourceKey<PlacedFeature> SCORCHED_LAVA_LAKE_PLACED_KEY = ResourceKey.create(Registries.PLACED_FEATURE, Magitech.id("scorched_lava_lake"));
+    public static final ResourceKey<BiomeModifier> SCORCHED_LAVA_LAKE_BIOME_MODIFIER_KEY = ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, Magitech.id("scorched_lava_lake"));
 
     public static void Configured(BootstrapContext<ConfiguredFeature<?, ?>> context) {
         RuleTest ruletestStone = new TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES);
@@ -230,7 +159,7 @@ public class WorldGenInit {
 
         context.register(
                 MISTALIA_PETALS_CONFIGURED_KEY, new ConfiguredFeature<>(Feature.FLOWER,
-                        new RandomPatchConfiguration(96, 6, 2, PlacementUtils.onlyWhenEmpty(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(new WeightedStateProvider(builder))))));
+                new RandomPatchConfiguration(96, 6, 2, PlacementUtils.onlyWhenEmpty(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(new WeightedStateProvider(builder))))));
 
 
         context.register(SCORCHED_GEYSER_CONFIGURED_KEY,
@@ -263,10 +192,10 @@ public class WorldGenInit {
                 List.of(CountPlacement.of(8), InSquarePlacement.spread(), HeightRangePlacement.triangle(VerticalAnchor.aboveBottom(0), VerticalAnchor.aboveBottom(128))))
         );
         context.register(CELIFERN_PLACED_KEY, new PlacedFeature(configured.getOrThrow(CELIFERN_CONFIGURED_KEY),
-                VegetationPlacements.treePlacement(PlacementUtils.countExtra(3, 0.5f, 7),
+               VegetationPlacements.treePlacement(PlacementUtils.countExtra(3, 0.5f, 7),
                         BlockInit.CELIFERN_SAPLING.get())));
         context.register(CHARCOAL_BIRCH_PLACED_KEY, new PlacedFeature(configured.getOrThrow(CHARCOAL_BIRCH_CONFIGURED_KEY),
-                VegetationPlacements.treePlacement(PlacementUtils.countExtra(0, 0.2f, 3),
+               VegetationPlacements.treePlacement(PlacementUtils.countExtra(0, 0.2f, 3),
                         BlockInit.CHARCOAL_BIRCH_SAPLING.get())));
 
         context.register(MANA_BERRY_BUSH_PLACED_KEY, new PlacedFeature(configured.getOrThrow(MANA_BERRY_BUSH_CONFIGURED_KEY),

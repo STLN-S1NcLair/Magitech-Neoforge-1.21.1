@@ -6,8 +6,8 @@ import software.bernie.geckolib.model.GeoModel;
 
 public class FrigalaModel extends GeoModel<FrigalaEntity> {
     // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "textures/entity/frigala.png");
-    public static final ResourceLocation GEO = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "geo/entity/frigala.geo.json");
+    public static final ResourceLocation TEXTURE = Magitech.id("textures/entity/frigala.png");
+    public static final ResourceLocation GEO = Magitech.id("geo/entity/frigala.geo.json");
 
     @Override
     public ResourceLocation getModelResource(FrigalaEntity animatable) {

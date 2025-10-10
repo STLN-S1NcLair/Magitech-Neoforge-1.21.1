@@ -3,143 +3,91 @@ package net.stln.magitech.recipe;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.item.crafting.SingleRecipeInput;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.MaterialComponent;
-import net.stln.magitech.item.tool.material.ToolMaterial;
-import net.stln.magitech.item.tool.register.ToolMaterialRegister;
+import net.stln.magitech.util.ClientHelper;
+import org.jetbrains.annotations.NotNull;
 
-public class PartCuttingRecipe implements Recipe<SingleRecipeInput> {
-    protected final int count;
-    protected final ItemStack result;
-    protected final String group;
-    private final RecipeType<?> type;
-    private final RecipeSerializer<?> serializer;
+import java.util.Optional;
 
-    public PartCuttingRecipe(String group, int count, ItemStack result) {
-        this.type = RecipeInit.PART_CUTTING_TYPE.get();
-        this.serializer = RecipeInit.PART_CUTTING_SERIALIZER.get();
-        this.group = group;
-        this.count = count;
-        this.result = result;
+public record PartCuttingRecipe(String group, int inputCount, ItemStack result) implements Recipe<SingleRecipeInput> {
+    public static final MapCodec<PartCuttingRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            Codec.STRING.optionalFieldOf("group", "").forGetter(PartCuttingRecipe::group),
+            ExtraCodecs.POSITIVE_INT.optionalFieldOf("input_count", 1).forGetter(PartCuttingRecipe::inputCount),
+            ItemStack.STRICT_CODEC.fieldOf("result").forGetter(PartCuttingRecipe::result)
+    ).apply(instance, PartCuttingRecipe::new));
+    public static final StreamCodec<RegistryFriendlyByteBuf, PartCuttingRecipe> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.STRING_UTF8,
+            PartCuttingRecipe::group,
+            ByteBufCodecs.VAR_INT,
+            PartCuttingRecipe::inputCount,
+            ItemStack.STREAM_CODEC,
+            PartCuttingRecipe::result,
+            PartCuttingRecipe::new
+    );
+
+    @Override
+    public boolean matches(@NotNull SingleRecipeInput input, @NotNull Level level) {
+        return input.item().getCount() >= inputCount;
     }
 
     @Override
-    public RecipeType<?> getType() {
-        return this.type;
+    public @NotNull ItemStack assemble(@NotNull SingleRecipeInput input, HolderLookup.@NotNull Provider registries) {
+        ItemStack itemStack = this.result.copy();
+        var level = Optional.ofNullable(ServerLifecycleHooks.getCurrentServer())
+                .map(MinecraftServer::overworld)
+                .map(serverLevel -> (Level) serverLevel)
+                .orElseGet(ClientHelper::getLevel);
+        if (level != null) {
+            level.getRecipeManager()
+                    .getRecipesFor(RecipeInit.TOOL_MATERIAL_TYPE.get(), input, level)
+                    .stream()
+                    .findFirst()
+                    .map(RecipeHolder::value)
+                    .map(ToolMaterialRecipe::getToolMaterial)
+                    .ifPresent(toolMaterial -> itemStack.set(ComponentInit.MATERIAL_COMPONENT, new MaterialComponent(toolMaterial)));
+        }
+        return itemStack;
     }
 
-    @Override
-    public RecipeSerializer<?> getSerializer() {
-        return this.serializer;
-    }
-
-    @Override
-    public String getGroup() {
-        return this.group;
-    }
-
-    public int getCount() {
-        return this.count;
-    }
-
-    @Override
-    public ItemStack getResultItem(HolderLookup.Provider registries) {
-        return this.result;
-    }
-
-
-    public boolean matches(SingleRecipeInput input, Level level) {
-        return !level.getRecipeManager().getRecipesFor(RecipeInit.TOOL_MATERIAL_TYPE.get(), input, level).isEmpty() && input.item().getCount() >= count;
-    }
-
-    @Override
-    public ItemStack getToastSymbol() {
-        return new ItemStack(BlockInit.ENGINEERING_WORKBENCH.get());
-    }
-
-    /**
-     * Used to determine if this recipe can fit in a grid of the given width/height
-     */
     @Override
     public boolean canCraftInDimensions(int width, int height) {
         return true;
     }
 
-    public ItemStack assemble(SingleRecipeInput input, HolderLookup.Provider registries) {
-        ItemStack itemStack = this.result.copy();
-        MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
-        Level level;
-        if (server != null) {
-            level = server.getLevel(Level.OVERWORLD);
-        } else {
-            level = getClientLevel();
-        }
-        ToolMaterial material = level != null ? ToolMaterialRegister.getMaterial(level.getRecipeManager().getRecipesFor(RecipeInit.TOOL_MATERIAL_TYPE.get(), input, level).getFirst().value().getResultId()) : null;
-        if (material != null) {
-            itemStack.set(ComponentInit.MATERIAL_COMPONENT, new MaterialComponent(material));
-        }
-        return itemStack;
+    @Override
+    public @NotNull ItemStack getResultItem(HolderLookup.@NotNull Provider registries) {
+        return result().copy();
     }
 
-    @OnlyIn(Dist.CLIENT)
-    private Level getClientLevel() {
-        return Minecraft.getInstance().level;
+    @Override
+    public @NotNull String getGroup() {
+        return group;
     }
 
-    public interface Factory<T extends PartCuttingRecipe> {
-        T create(String group, int count, ItemStack result);
+    @Override
+    public @NotNull ItemStack getToastSymbol() {
+        return BlockInit.ENGINEERING_WORKBENCH.toStack();
     }
 
-    public static class Serializer<T extends PartCuttingRecipe> implements RecipeSerializer<T> {
-        final Factory<T> factory;
-        private final MapCodec<T> codec;
-        private final StreamCodec<RegistryFriendlyByteBuf, T> streamCodec;
+    @Override
+    public @NotNull RecipeSerializer<?> getSerializer() {
+        return RecipeInit.PART_CUTTING_SERIALIZER.get();
+    }
 
-        protected Serializer(Factory<T> factory) {
-            this.factory = factory;
-            this.codec = RecordCodecBuilder.mapCodec(
-                    p_340781_ -> p_340781_.group(
-                                    Codec.STRING.optionalFieldOf("group", "").forGetter(p_300947_ -> p_300947_.group),
-                                    Codec.INT.optionalFieldOf("input_count", 1).forGetter(p_300947_ -> p_300947_.count),
-                                    ItemStack.STRICT_CODEC.fieldOf("result").forGetter(p_302316_ -> p_302316_.result)
-                            )
-                            .apply(p_340781_, factory::create)
-            );
-            this.streamCodec = StreamCodec.composite(
-                    ByteBufCodecs.STRING_UTF8,
-                    p_319737_ -> p_319737_.group,
-                    ByteBufCodecs.INT,
-                    p_319737_ -> p_319737_.count,
-                    ItemStack.STREAM_CODEC,
-                    p_319736_ -> p_319736_.result,
-                    factory::create
-            );
-        }
-
-        @Override
-        public MapCodec<T> codec() {
-            return this.codec;
-        }
-
-        @Override
-        public StreamCodec<RegistryFriendlyByteBuf, T> streamCodec() {
-            return this.streamCodec;
-        }
+    @Override
+    public @NotNull RecipeType<?> getType() {
+        return RecipeInit.PART_CUTTING_TYPE.get();
     }
 }

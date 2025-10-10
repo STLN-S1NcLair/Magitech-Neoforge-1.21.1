@@ -1,65 +1,75 @@
 package net.stln.magitech.magic.cooldown;
 
+import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.Table;
 import net.minecraft.world.entity.player.Player;
 import net.stln.magitech.magic.spell.Spell;
-import net.stln.magitech.util.Map2d;
+import net.stln.magitech.util.TableHelper;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class CooldownData {
-    private static Map2d<Player, Spell, Cooldown> cooldownMapClient = new Map2d<>();
-    private static Map2d<Player, Spell, Cooldown> cooldownMapServer = new Map2d<>();
-    private static Map2d<Player, Spell, Cooldown> prevCooldownMapClient = new Map2d<>();
-    private static Map2d<Player, Spell, Cooldown> prevCooldownMapServer = new Map2d<>();
+    private static final Table<Player, Spell, Cooldown> cooldownMapClient = HashBasedTable.create();
+    private static final Table<Player, Spell, Cooldown> cooldownMapServer = HashBasedTable.create();
+    private static final Table<Player, Spell, Cooldown> prevCooldownMapClient = HashBasedTable.create();
+    private static final Table<Player, Spell, Cooldown> prevCooldownMapServer = HashBasedTable.create();
 
-    public static Map2d<Player, Spell, Cooldown> getCooldownMapClient() {
+    public static @NotNull Table<Player, Spell, Cooldown> getCooldownMapClient() {
         return cooldownMapClient;
     }
 
-    public static Map2d<Player, Spell, Cooldown> getCooldownMapServer() {
+    public static @NotNull Table<Player, Spell, Cooldown> getCooldownMapServer() {
         return cooldownMapServer;
     }
 
-    public static Map2d<Player, Spell, Cooldown> getCooldownMap(boolean isClient) {
-        if (isClient) {
-            return cooldownMapClient;
-        }
-        return cooldownMapServer;
+    public static @NotNull Table<Player, Spell, Cooldown> getCooldownMap(boolean isClient) {
+        return isClient ? cooldownMapClient : cooldownMapServer;
     }
 
-    public static Map2d<Player, Spell, Cooldown> getPrevCooldownMap(boolean isClient) {
-        if (isClient) {
-            return prevCooldownMapClient;
-        }
-        return prevCooldownMapServer;
+    public static @NotNull Table<Player, Spell, Cooldown> getPrevCooldownMap(boolean isClient) {
+        return isClient ? prevCooldownMapClient : prevCooldownMapServer;
     }
 
     public static void cleanUp(Player player) {
-        cooldownMapClient.remove(player);
-        cooldownMapServer.remove(player);
-        prevCooldownMapClient.remove(player);
-        prevCooldownMapServer.remove(player);
+        TableHelper.removeByRow(cooldownMapClient, player);
+        TableHelper.removeByRow(cooldownMapServer, player);
+        TableHelper.removeByRow(prevCooldownMapClient, player);
+        TableHelper.removeByRow(prevCooldownMapServer, player);
     }
 
-    public static void addCurrentCooldown(Player player, Spell spell, Cooldown cooldown) {
+    public static void addCurrentCooldown(@NotNull Player player, @NotNull Spell spell, @NotNull Cooldown cooldown) {
         if (player.level().isClientSide) {
-            prevCooldownMapClient.put(player, spell, cooldownMapClient.get(player, spell));
+            var cooldownOld = cooldownMapClient.get(player, spell);
+            if (cooldownOld != null) {
+                prevCooldownMapClient.put(player, spell, cooldownOld);
+            }
             cooldownMapClient.put(player, spell, cooldown);
         } else {
-            prevCooldownMapServer.put(player, spell, cooldownMapServer.get(player, spell));
+            var cooldownOld = cooldownMapServer.get(player, spell);
+            if (cooldownOld != null) {
+                prevCooldownMapServer.put(player, spell, cooldownOld);
+            }
             CooldownData.cooldownMapServer.put(player, spell, cooldown);
         }
     }
 
-    public static void removeCooldown(Player player, Spell spell) {
+    public static void removeCooldown(@NotNull Player player, @NotNull Spell spell) {
         if (player.level().isClientSide) {
-            prevCooldownMapClient.put(player, spell, cooldownMapClient.get(player, spell));
+            var cooldownOld = cooldownMapClient.get(player, spell);
+            if (cooldownOld != null) {
+                prevCooldownMapClient.put(player, spell, cooldownOld);
+            }
             CooldownData.cooldownMapClient.remove(player, spell);
         } else {
-            prevCooldownMapServer.put(player, spell, cooldownMapServer.get(player, spell));
+            var cooldownOld = cooldownMapServer.get(player, spell);
+            if (cooldownOld != null) {
+                prevCooldownMapServer.put(player, spell, cooldownOld);
+            }
             CooldownData.cooldownMapServer.remove(player, spell);
         }
     }
 
-    public static void removePrevCooldown(Player player, Spell spell) {
+    public static void removePrevCooldown(@NotNull Player player, @NotNull Spell spell) {
         if (player.level().isClientSide) {
             CooldownData.prevCooldownMapClient.remove(player, spell);
         } else {
@@ -67,17 +77,13 @@ public class CooldownData {
         }
     }
 
-    public static Cooldown getCurrentCooldown(Player player, Spell spell) {
-        if (player.level().isClientSide) {
-            return CooldownData.cooldownMapClient.getOrDefault(player, spell, null);
-        }
-        return CooldownData.cooldownMapServer.getOrDefault(player, spell, null);
+    public static @Nullable Cooldown getCurrentCooldown(@NotNull Player player, @NotNull Spell spell) {
+        Table<Player, Spell, Cooldown> table = player.level().isClientSide ? CooldownData.cooldownMapClient : CooldownData.cooldownMapServer;
+        return table.get(player, spell);
     }
 
-    public static Cooldown getPrevCooldown(Player player, Spell spell) {
-        if (player.level().isClientSide) {
-            return CooldownData.prevCooldownMapClient.getOrDefault(player, spell, null);
-        }
-        return CooldownData.prevCooldownMapServer.getOrDefault(player, spell, null);
+    public static @Nullable Cooldown getPrevCooldown(@NotNull Player player, @NotNull Spell spell) {
+        Table<Player, Spell, Cooldown> table = player.level().isClientSide ? CooldownData.prevCooldownMapClient : CooldownData.prevCooldownMapServer;
+        return table.get(player, spell);
     }
 }

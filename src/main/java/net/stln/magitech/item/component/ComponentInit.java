@@ -3,59 +3,38 @@ package net.stln.magitech.item.component;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.ExtraCodecs;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.stln.magitech.Magitech;
 
-import java.util.function.UnaryOperator;
+import java.util.function.Supplier;
 
 public class ComponentInit {
 
-    public static final DeferredRegister<DataComponentType<?>> COMPONENT_TYPES = DeferredRegister.create(Registries.DATA_COMPONENT_TYPE, Magitech.MOD_ID);
+    public static final DeferredRegister.DataComponents COMPONENT_TYPES = DeferredRegister.createDataComponents(Registries.DATA_COMPONENT_TYPE, Magitech.MOD_ID);
 
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<PartMaterialComponent>> PART_MATERIAL_COMPONENT = register("part_material_component",
-            builder -> builder.persistent(PartMaterialComponent.CODEC).networkSynchronized(PartMaterialComponent.STREAM_CODEC).cacheEncoding());
-
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<MaterialComponent>> MATERIAL_COMPONENT = register("material_component",
-            builder -> builder.persistent(MaterialComponent.CODEC).networkSynchronized(MaterialComponent.STREAM_CODEC).cacheEncoding());
-
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<SpellComponent>> SPELL_COMPONENT = register("spell_component",
-            builder -> builder.persistent(SpellComponent.CODEC).networkSynchronized(SpellComponent.STREAM_CODEC).cacheEncoding());
-
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<ThreadPageComponent>> THREAD_PAGE_COMPONENT = register("thread_page_component",
-            builder -> builder.persistent(ThreadPageComponent.CODEC).networkSynchronized(ThreadPageComponent.STREAM_CODEC).cacheEncoding());
-
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> TIER_COMPONENT = register("tier_component",
-            builder -> builder.persistent(ExtraCodecs.NON_NEGATIVE_INT).networkSynchronized(ByteBufCodecs.VAR_INT));
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> PROGRESSION_COMPONENT = register("progression_component",
-            builder -> builder.persistent(ExtraCodecs.NON_NEGATIVE_INT).networkSynchronized(ByteBufCodecs.VAR_INT));
-
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> MAX_PROGRESSION_COMPONENT = register("max_progression_component",
-            builder -> builder.persistent(ExtraCodecs.NON_NEGATIVE_INT).networkSynchronized(ByteBufCodecs.VAR_INT));
-
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> UPGRADE_SEED_COMPONENT = register("upgrade_seed",
-            builder -> builder.persistent(ExtraCodecs.NON_NEGATIVE_INT).networkSynchronized(ByteBufCodecs.VAR_INT));
-
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<UpgradeComponent>> UPGRADE_COMPONENT = register("upgrade_component",
-            builder -> builder.persistent(UpgradeComponent.CODEC).networkSynchronized(UpgradeComponent.STREAM_CODEC).cacheEncoding());
-
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> UPGRADE_POINT_COMPONENT = register("upgrade_point_component",
-            builder -> builder.persistent(ExtraCodecs.NON_NEGATIVE_INT).networkSynchronized(ByteBufCodecs.VAR_INT));
-
-
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> BROKEN_COMPONENT = register("broken_component",
-            builder -> builder.persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL));
-
+    public static final Supplier<DataComponentType<PartMaterialComponent>> PART_MATERIAL_COMPONENT = register("part_material_component", PartMaterialComponent.CODEC, PartMaterialComponent.STREAM_CODEC);
+    public static final Supplier<DataComponentType<MaterialComponent>> MATERIAL_COMPONENT = register("material_component", MaterialComponent.CODEC, MaterialComponent.STREAM_CODEC);
+    public static final Supplier<DataComponentType<SpellComponent>> SPELL_COMPONENT = register("spell_component", SpellComponent.CODEC, SpellComponent.STREAM_CODEC);
+    public static final Supplier<DataComponentType<ThreadPageComponent>> THREAD_PAGE_COMPONENT = register("thread_page_component", ThreadPageComponent.CODEC, ThreadPageComponent.STREAM_CODEC);
+    public static final Supplier<DataComponentType<Integer>> TIER_COMPONENT = register("tier_component", ExtraCodecs.NON_NEGATIVE_INT, ByteBufCodecs.VAR_INT);
+    public static final Supplier<DataComponentType<Integer>> PROGRESSION_COMPONENT = register("progression_component", ExtraCodecs.NON_NEGATIVE_INT, ByteBufCodecs.VAR_INT);
+    public static final Supplier<DataComponentType<Integer>> MAX_PROGRESSION_COMPONENT = register("max_progression_component", ExtraCodecs.NON_NEGATIVE_INT, ByteBufCodecs.VAR_INT);
+    public static final Supplier<DataComponentType<Integer>> UPGRADE_SEED_COMPONENT = register("upgrade_seed", ExtraCodecs.NON_NEGATIVE_INT, ByteBufCodecs.VAR_INT);
+    public static final Supplier<DataComponentType<UpgradeComponent>> UPGRADE_COMPONENT = register("upgrade_component", UpgradeComponent.CODEC, UpgradeComponent.STREAM_CODEC);
+    public static final Supplier<DataComponentType<Integer>> UPGRADE_POINT_COMPONENT = register("upgrade_point_component", ExtraCodecs.NON_NEGATIVE_INT, ByteBufCodecs.VAR_INT);
+    public static final Supplier<DataComponentType<Boolean>> BROKEN_COMPONENT = register("broken_component", Codec.BOOL, ByteBufCodecs.BOOL);
 
     public static void registerComponents(IEventBus eventBus) {
         Magitech.LOGGER.info("Registering Data Components for" + Magitech.MOD_ID);
         COMPONENT_TYPES.register(eventBus);
     }
 
-    private static <T> DeferredHolder<DataComponentType<?>, DataComponentType<T>> register(String name, UnaryOperator<DataComponentType.Builder<T>> builder) {
-        return COMPONENT_TYPES.register(name, () -> builder.apply(DataComponentType.builder()).build());
+    private static <T> Supplier<DataComponentType<T>> register(String name, Codec<T> codec, StreamCodec<? super RegistryFriendlyByteBuf, T> streamCodec) {
+        return COMPONENT_TYPES.registerComponentType(name, builder -> builder.persistent(codec).networkSynchronized(streamCodec).cacheEncoding());
     }
 }

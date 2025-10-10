@@ -19,6 +19,7 @@ import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.particle.particle_option.PowerupParticleEffect;
 import net.stln.magitech.sound.SoundInit;
 import net.stln.magitech.util.EffectUtil;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
 import java.util.List;
@@ -71,7 +72,7 @@ public class AggregatedFluxiaItem extends TooltipTextItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
+    public void appendHoverText(ItemStack stack, @NotNull TooltipContext context, List<Component> tooltipComponents, @NotNull TooltipFlag tooltipFlag) {
         tooltipComponents.add(Component.translatable("tooltip.hint.item.magitech.aggregated_fluxia").withColor(0xC0F0FF));
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
     }

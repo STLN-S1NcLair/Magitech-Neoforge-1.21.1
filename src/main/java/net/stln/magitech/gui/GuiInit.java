@@ -1,8 +1,8 @@
 package net.stln.magitech.gui;
 
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.flag.FeatureFlags;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -21,15 +21,24 @@ import java.util.function.Supplier;
 
 @EventBusSubscriber(modid = Magitech.MOD_ID, value = Dist.CLIENT)
 public class GuiInit {
-    public static final DeferredRegister<MenuType<?>> MENU_TYPES = DeferredRegister.create(Registries.MENU, Magitech.MOD_ID);
+    public static final DeferredRegister<MenuType<?>> REGISTER = DeferredRegister.create(Registries.MENU, Magitech.MOD_ID);
+    public static final Supplier<MenuType<PartCuttingMenu>> PART_CUTTING_MENU = register("part_cutting_menu", PartCuttingMenu::new);
+    public static final Supplier<MenuType<ToolAssemblyMenu>> TOOL_ASSEMBLY_MENU = register("tool_assembly_menu", ToolAssemblyMenu::new);
+    public static final Supplier<MenuType<ToolRepairingMenu>> TOOL_REPAIRING_MENU = register("tool_repairing_menu", ToolRepairingMenu::new);
+    public static final Supplier<MenuType<ToolUpgradeMenu>> TOOL_UPGRADE_MENU = register("tool_upgrade_menu", ToolUpgradeMenu::new);
+    public static final Supplier<MenuType<ThreadboundMenuType>> THREADBOUND_MENU = register("threadbound_menu", ThreadboundMenuType::new);
 
+    private static <T extends AbstractContainerMenu> Supplier<MenuType<T>> register(String name, MenuType.MenuSupplier<T> supplier) {
+        return REGISTER.register(name, () -> new MenuType<>(supplier, FeatureFlags.VANILLA_SET));
+    }
+    
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
     public static void onRegisterOverlays(RegisterGuiLayersEvent event) {
-        event.registerAboveAll(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "mana_gauge"), new ManaGaugeOverlay());
-        event.registerAboveAll(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "spell_gauge"), new SpellGaugeOverlay());
-        event.registerAboveAll(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "mana_container_info"), new ManaContainerInfoOverlay());
-    }    public static final Supplier<MenuType<PartCuttingMenu>> PART_CUTTING_MENU = MENU_TYPES.register("part_cutting_menu", () -> new MenuType(PartCuttingMenu::new, FeatureFlags.DEFAULT_FLAGS));
+        event.registerAboveAll(Magitech.id("mana_gauge"), new ManaGaugeOverlay());
+        event.registerAboveAll(Magitech.id("spell_gauge"), new SpellGaugeOverlay());
+        event.registerAboveAll(Magitech.id("mana_container_info"), new ManaContainerInfoOverlay());
+    }
 
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
@@ -39,19 +48,11 @@ public class GuiInit {
         event.register(TOOL_REPAIRING_MENU.get(), ToolRepairingScreen::new);
         event.register(TOOL_UPGRADE_MENU.get(), ToolUpgradeScreen::new);
         event.register(THREADBOUND_MENU.get(), ThreadboundScreen::new);
-    }    public static final Supplier<MenuType<ToolAssemblyMenu>> TOOL_ASSEMBLY_MENU = MENU_TYPES.register("tool_assembly_menu", () -> new MenuType(ToolAssemblyMenu::new, FeatureFlags.DEFAULT_FLAGS));
+    }
 
     public static void registerMenus(IEventBus eventBus) {
-        MENU_TYPES.register(eventBus);
-    }    public static final Supplier<MenuType<ToolRepairingMenu>> TOOL_REPAIRING_MENU = MENU_TYPES.register("tool_repairing_menu", () -> new MenuType(ToolRepairingMenu::new, FeatureFlags.DEFAULT_FLAGS));
-    public static final Supplier<MenuType<ToolUpgradeMenu>> TOOL_UPGRADE_MENU = MENU_TYPES.register("tool_upgrade_menu", () -> new MenuType(ToolUpgradeMenu::new, FeatureFlags.DEFAULT_FLAGS));
-    public static final Supplier<MenuType<ThreadboudMenuType>> THREADBOUND_MENU = MENU_TYPES.register("threadbound_menu", () -> new MenuType(ThreadboudMenuType::new, FeatureFlags.DEFAULT_FLAGS));
-
-
-
-
-
-
+        REGISTER.register(eventBus);
+    }
 
 
 }

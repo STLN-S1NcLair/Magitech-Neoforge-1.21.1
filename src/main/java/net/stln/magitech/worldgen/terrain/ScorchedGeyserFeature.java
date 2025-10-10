@@ -13,6 +13,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.block.CrystalClusterBlock;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -166,7 +167,7 @@ public class ScorchedGeyserFeature extends Feature<NoneFeatureConfiguration> {
                         } else {
                             setBlock(level, pos, Blocks.AIR.defaultBlockState());
                         }
-                        List<Direction> directions = new java.util.ArrayList<>(Arrays.stream(Direction.values().clone()).toList());
+                        List<Direction> directions = new ArrayList<>(Arrays.stream(Direction.values().clone()).toList());
                         directions.remove(Direction.UP);
                         for (Direction direction : directions) {
                             BlockPos pos1 = pos.relative(direction);

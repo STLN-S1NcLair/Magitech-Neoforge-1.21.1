@@ -1,9 +1,10 @@
 package net.stln.magitech.item.tool;
 
 import net.stln.magitech.item.tool.material.MiningLevel;
-import net.stln.magitech.util.Element;
+import net.stln.magitech.element.Element;
 import oshi.annotation.concurrent.Immutable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -105,7 +106,7 @@ public class ToolStats {
             }
 
         }
-        List<Element> elementList = new java.util.ArrayList<>(List.of(Element.EMBER, Element.GLACE, Element.SURGE, Element.PHANTOM, Element.TREMOR, Element.MAGIC, Element.FLOW, Element.HOLLOW));
+        List<Element> elementList = new ArrayList<>(List.of(Element.EMBER, Element.GLACE, Element.SURGE, Element.PHANTOM, Element.TREMOR, Element.MAGIC, Element.FLOW, Element.HOLLOW));
         for (Element element1 : elementList) {
             if (elementMap.getOrDefault(element1, 0.0F) > elmAtk) {
                 elm = element1;
@@ -117,7 +118,7 @@ public class ToolStats {
         }
         for (Element element2 : elementList) {
             if (elm != element2) {
-                elmAtk += elementMap.getOrDefault(element2, 0.0F) * 0.75;
+                elmAtk += (float) (elementMap.getOrDefault(element2, 0.0F) * 0.75);
             }
         }
         elementList.add(Element.NONE);
@@ -181,7 +182,7 @@ public class ToolStats {
             }
 
         }
-        List<Element> elementList = new java.util.ArrayList<>(List.of(Element.NONE, Element.EMBER, Element.GLACE, Element.SURGE, Element.PHANTOM, Element.TREMOR, Element.MAGIC, Element.FLOW, Element.HOLLOW));
+        List<Element> elementList = new ArrayList<>(List.of(Element.NONE, Element.EMBER, Element.GLACE, Element.SURGE, Element.PHANTOM, Element.TREMOR, Element.MAGIC, Element.FLOW, Element.HOLLOW));
         for (Element element1 : elementList) {
             if (elementMap.getOrDefault(element1, 0.0F) > elmAtk) {
                 elm = element1;
@@ -192,7 +193,7 @@ public class ToolStats {
         }
         for (Element element2 : elementList) {
             if (elm != element2) {
-                elmAtk += elementMap.getOrDefault(element2, 0.0F) * 0.75;
+                elmAtk += (float) (elementMap.getOrDefault(element2, 0.0F) * 0.75);
             }
         }
         for (Element element1 : elementList) {

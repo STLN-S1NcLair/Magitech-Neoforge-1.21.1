@@ -4,15 +4,13 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Camera;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.particle.particle_option.BeamParticleEffect;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
@@ -23,15 +21,14 @@ public class BeamParticle extends GlowingParticle {
     private final Vector3f endColor;
     private final Vector3f endPos;
 
-    public BeamParticle(ClientLevel clientWorld, double x, double y, double z, double vx, double vy, double vz,
-                        BeamParticleEffect parameters, SpriteSet spriteProvider) {
+    public BeamParticle(ClientLevel clientWorld, double x, double y, double z, double vx, double vy, double vz, BeamParticleEffect parameters, SpriteSet spriteProvider) {
         super(clientWorld, x, y, z, vx, vy, vz);
         this.xd = vx;
         this.yd = vy;
         this.zd = vz;
         this.lifetime = 5;
         this.alpha = 1.0F;
-        this.scale = 1F * parameters.getScale();
+        this.scale = parameters.getScale();
         this.gravity = 0.0F;
         this.friction = 1.0F;
         this.spriteProvider = spriteProvider;
@@ -44,10 +41,8 @@ public class BeamParticle extends GlowingParticle {
     }
 
     @Override
-    public void render(VertexConsumer vertexConsumer, Camera camera, float tickDelta) {
+    public void render(@NotNull VertexConsumer vertexConsumer, @NotNull Camera camera, float tickDelta) {
         this.updateColor(tickDelta);
-
-        RandomSource random = Minecraft.getInstance().level.getRandom();
         float width = 0.2F * this.scale;
         if (this.age >= this.lifetime * 0.8F) {
             this.alpha = (this.lifetime - this.age) / (this.lifetime * 0.2F) * 0.6F + 0.2F;
@@ -62,8 +57,7 @@ public class BeamParticle extends GlowingParticle {
         drawBeam(vertexConsumer, camera, this.getPos(), new Vec3(this.endPos), width, 1, 1, 1, 1);
     }
 
-    public void drawBeam(VertexConsumer vc, Camera camera, Vec3 start, Vec3 end, float width,
-                         int r, int g, int b, int a) {
+    public void drawBeam(VertexConsumer vc, Camera camera, Vec3 start, Vec3 end, float width, int r, int g, int b, int a) {
         Vec3 cameraPos = camera.getPosition();
         Vec3 from = start.subtract(cameraPos);
         Vec3 to = end.subtract(cameraPos);
@@ -201,7 +195,7 @@ public class BeamParticle extends GlowingParticle {
     }
 
     @Override
-    public FacingCameraMode getFacingCameraMode() {
+    public @NotNull FacingCameraMode getFacingCameraMode() {
         return FacingCameraMode.LOOKAT_Y;
     }
 
@@ -240,15 +234,10 @@ public class BeamParticle extends GlowingParticle {
     }
 
     @Environment(EnvType.CLIENT)
-    public static class Provider implements ParticleProvider<BeamParticleEffect> {
-        private final SpriteSet spriteProvider;
-
-        public Provider(SpriteSet spriteProvider) {
-            this.spriteProvider = spriteProvider;
-        }
+    public record Provider(SpriteSet spriteProvider) implements ParticleProvider<BeamParticleEffect> {
 
         @Override
-        public @Nullable Particle createParticle(BeamParticleEffect parameters, ClientLevel world, double x, double y, double z, double xd, double yd, double zd) {
+        public @NotNull Particle createParticle(@NotNull BeamParticleEffect parameters, @NotNull ClientLevel world, double x, double y, double z, double xd, double yd, double zd) {
             return new BeamParticle(world, x, y, z, xd, yd, zd, parameters, this.spriteProvider);
         }
     }

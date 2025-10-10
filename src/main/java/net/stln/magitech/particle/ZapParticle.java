@@ -4,15 +4,13 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Camera;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.particle.particle_option.ZapParticleEffect;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
 import java.util.ArrayList;
@@ -24,17 +22,16 @@ public class ZapParticle extends GlowingParticle {
     private final Vector3f startColor;
     private final Vector3f endColor;
     private final Vector3f endPos;
-    private List<Vec3> segmentList = new ArrayList<>();
+    private final List<Vec3> segmentList = new ArrayList<>();
 
-    public ZapParticle(ClientLevel clientWorld, double x, double y, double z, double vx, double vy, double vz,
-                       ZapParticleEffect parameters, SpriteSet spriteProvider) {
+    public ZapParticle(ClientLevel clientWorld, double x, double y, double z, double vx, double vy, double vz, ZapParticleEffect parameters, SpriteSet spriteProvider) {
         super(clientWorld, x, y, z, vx, vy, vz);
         this.xd = vx;
         this.yd = vy;
         this.zd = vz;
         this.lifetime = 2 + clientWorld.random.nextInt(0, 3);
         this.alpha = 1.0F;
-        this.scale = 1F * parameters.getScale();
+        this.scale = parameters.getScale();
         this.gravity = 0.0F;
         this.friction = 1.0F;
         this.spriteProvider = spriteProvider;
@@ -47,11 +44,8 @@ public class ZapParticle extends GlowingParticle {
     }
 
     @Override
-    public void render(VertexConsumer vertexConsumer, Camera camera, float tickDelta) {
+    public void render(@NotNull VertexConsumer vertexConsumer, @NotNull Camera camera, float tickDelta) {
         this.updateColor(tickDelta);
-
-        RandomSource random = Minecraft.getInstance().level.getRandom();
-
         if (this.age >= this.lifetime * 0.8F) {
             this.alpha = (this.lifetime - this.age) / (this.lifetime * 0.2F) * 0.6F + 0.2F;
         }
@@ -68,8 +62,7 @@ public class ZapParticle extends GlowingParticle {
         }
     }
 
-    public void drawBeam(VertexConsumer vc, Camera camera, Vec3 start, Vec3 end, float width,
-                         int r, int g, int b, int a) {
+    public void drawBeam(VertexConsumer vc, Camera camera, Vec3 start, Vec3 end, float width, int r, int g, int b, int a) {
         Vec3 cameraPos = camera.getPosition();
         Vec3 from = start.subtract(cameraPos);
         Vec3 to = end.subtract(cameraPos);
@@ -125,7 +118,7 @@ public class ZapParticle extends GlowingParticle {
     }
 
     @Override
-    public FacingCameraMode getFacingCameraMode() {
+    public @NotNull FacingCameraMode getFacingCameraMode() {
         return FacingCameraMode.LOOKAT_Y;
     }
 
@@ -178,15 +171,10 @@ public class ZapParticle extends GlowingParticle {
     }
 
     @Environment(EnvType.CLIENT)
-    public static class Provider implements ParticleProvider<ZapParticleEffect> {
-        private final SpriteSet spriteProvider;
-
-        public Provider(SpriteSet spriteProvider) {
-            this.spriteProvider = spriteProvider;
-        }
+    public record Provider(SpriteSet spriteProvider) implements ParticleProvider<ZapParticleEffect> {
 
         @Override
-        public @Nullable Particle createParticle(ZapParticleEffect parameters, ClientLevel world, double x, double y, double z, double xd, double yd, double zd) {
+        public @NotNull Particle createParticle(@NotNull ZapParticleEffect parameters, @NotNull ClientLevel world, double x, double y, double z, double xd, double yd, double zd) {
             return new ZapParticle(world, x, y, z, xd, yd, zd, parameters, this.spriteProvider);
         }
     }

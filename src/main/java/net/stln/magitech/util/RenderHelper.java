@@ -11,6 +11,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.item.tool.ToolType;
+import net.stln.magitech.element.Element;
 import net.stln.magitech.item.tool.register.ToolMaterialRegister;
 import net.stln.magitech.item.tool.upgrade.UpgradeInstance;
 
@@ -95,64 +96,50 @@ public class RenderHelper {
     }
 
     public static List<Component> getUpgradeTooltips(List<UpgradeInstance> instances, ToolType type, boolean isSpellCaster) {
-        List<ToolStats> statsList = instances.stream().map(i -> ToolStats.mulWithoutElementCode(i.upgrade.getUpgradeStats(i.level), ToolMaterialRegister.getBaseStats(type))).toList();
+        List<ToolStats> statsList = instances.stream().map(i -> ToolStats.mulWithoutElementCode(i.upgrade().getUpgradeStats(i.level()), ToolMaterialRegister.getBaseStats(type))).toList();
         ToolStats finalStats = ToolStats.addWithoutElementCode(statsList);
         List<Component> tooltipComponents = new java.util.ArrayList<>();
         if (finalStats.getStats().get(ToolStats.ATK_STAT) > 0) {
-            tooltipComponents.add(Component.translatable(isSpellCaster ? "attribute.magitech.spell_power" : "attribute.magitech.attack_damage").withColor(0xa0a0a0)
-                    .append(Component.literal(" +" + String.valueOf(
-                            MathUtil.round(finalStats.getStats().get(ToolStats.ATK_STAT), 2)
-                    )).withColor(0xFF4040)));
+        tooltipComponents.add(Component.translatable(isSpellCaster ? "attribute.magitech.spell_power" : "attribute.magitech.attack_damage").withColor(0xa0a0a0)
+                .append(Component.literal(" +" + MathUtil.round(finalStats.getStats().get(ToolStats.ATK_STAT), 2)).withColor(0xFF4040)));
         }
 
         if (finalStats.getStats().get(ToolStats.ELM_ATK_STAT) > 0) {
             tooltipComponents.add(Component.translatable(isSpellCaster ? "attribute.magitech.elemental_spell_power" : "attribute.magitech.elemental_damage").withColor(0xa0a0a0)
-                    .append(Component.literal(" +" + String.valueOf(
-                            MathUtil.round(finalStats.getStats().get(ToolStats.ELM_ATK_STAT), 2)
-                    )).withColor(0x80FF80)));
+                    .append(Component.literal(" +" + MathUtil.round(finalStats.getStats().get(ToolStats.ELM_ATK_STAT), 2)).withColor(0x80FF80)));
         }
 
-        if (finalStats.getStats().get(ToolStats.SPD_STAT) > 0) {
-            tooltipComponents.add(Component.translatable(isSpellCaster ? "attribute.magitech.casting_speed" : "attribute.magitech.attack_speed").withColor(0xa0a0a0)
-                    .append(Component.literal(" +" + String.valueOf(
-                            MathUtil.round(finalStats.getStats().get(ToolStats.SPD_STAT), 2)
-                    )).withColor(0x40FFC0)));
-        }
+            if (finalStats.getStats().get(ToolStats.SPD_STAT) > 0) {
+                tooltipComponents.add(Component.translatable(isSpellCaster ? "attribute.magitech.casting_speed" : "attribute.magitech.attack_speed").withColor(0xa0a0a0)
+                        .append(Component.literal(" +" + MathUtil.round(finalStats.getStats().get(ToolStats.SPD_STAT), 2)).withColor(0x40FFC0)));
+            }
 
-        if (finalStats.getStats().get(ToolStats.MIN_STAT) > 0) {
-            tooltipComponents.add(Component.translatable(isSpellCaster ? "attribute.magitech.cooldown_speed" : "attribute.magitech.mining_speed").withColor(0xa0a0a0)
-                    .append(Component.literal(" +" + String.valueOf(
-                            MathUtil.round(finalStats.getStats().get(ToolStats.MIN_STAT), 2)
-                    )).withColor(0x4080C0)));
-        }
+                if (finalStats.getStats().get(ToolStats.MIN_STAT) > 0) {
+                    tooltipComponents.add(Component.translatable(isSpellCaster ? "attribute.magitech.cooldown_speed" : "attribute.magitech.mining_speed").withColor(0xa0a0a0)
+                            .append(Component.literal(" +" + MathUtil.round(finalStats.getStats().get(ToolStats.MIN_STAT), 2)).withColor(0x4080C0)));
+                }
 
-        if (finalStats.getStats().get(ToolStats.DEF_STAT) > 0) {
-            tooltipComponents.add(Component.translatable("attribute.magitech.defense").withColor(0xa0a0a0)
-                    .append(Component.literal(" +" + String.valueOf(
-                            MathUtil.round(finalStats.getStats().get(ToolStats.DEF_STAT), 2)
-                    )).withColor(0xA0C0C0)));
-        }
+                    if (finalStats.getStats().get(ToolStats.DEF_STAT) > 0) {
+                        tooltipComponents.add(Component.translatable("attribute.magitech.defense").withColor(0xa0a0a0)
+                                .append(Component.literal(" +" + MathUtil.round(finalStats.getStats().get(ToolStats.DEF_STAT), 2)).withColor(0xA0C0C0)));
+                    }
 
-        if (finalStats.getStats().get(ToolStats.RNG_STAT) > 0) {
-            tooltipComponents.add(Component.translatable(isSpellCaster ? "attribute.magitech.projectile_speed" : "attribute.magitech.attack_range").withColor(0xa0a0a0)
-                    .append(Component.literal(" +" + String.valueOf(
-                            MathUtil.round(finalStats.getStats().get(ToolStats.RNG_STAT), 2)
-                    )).withColor(0x80c0FF)));
-        }
+                        if (finalStats.getStats().get(ToolStats.RNG_STAT) > 0) {
+                            tooltipComponents.add(Component.translatable(isSpellCaster ? "attribute.magitech.projectile_speed" : "attribute.magitech.attack_range").withColor(0xa0a0a0)
+                                    .append(Component.literal(" +" + MathUtil.round(finalStats.getStats().get(ToolStats.RNG_STAT), 2)).withColor(0x80c0FF)));
+                        }
 
-        if (finalStats.getStats().get(ToolStats.SWP_STAT) > 0) {
-            tooltipComponents.add(Component.translatable(isSpellCaster ? "attribute.magitech.mana_efficiency" : "attribute.magitech.sweep_range").withColor(0xa0a0a0)
-                    .append(Component.literal(" +" + String.valueOf(
-                            MathUtil.round(finalStats.getStats().get(ToolStats.SWP_STAT), 2)
-                    )).withColor(0xFFFF80)));
-        }
+                            if (finalStats.getStats().get(ToolStats.SWP_STAT) > 0) {
+                                tooltipComponents.add(Component.translatable(isSpellCaster ? "attribute.magitech.mana_efficiency" : "attribute.magitech.sweep_range").withColor(0xa0a0a0)
+                                        .append(Component.literal(" +" + MathUtil.round(finalStats.getStats().get(ToolStats.SWP_STAT), 2)).withColor(0xFFFF80)));
+                            }
 
-        if (finalStats.getStats().get(ToolStats.DUR_STAT) > 0) {
-            tooltipComponents.add(Component.translatable("attribute.magitech.durability").withColor(0xa0a0a0)
-                    .append(Component.literal(" +" +
-                            (Math.round(finalStats.getStats().get(ToolStats.DUR_STAT)))
-                    ).withColor(0xFFFFFF)));
-        }
+                                if (finalStats.getStats().get(ToolStats.DUR_STAT) > 0) {
+                                    tooltipComponents.add(Component.translatable("attribute.magitech.durability").withColor(0xa0a0a0)
+                                            .append(Component.literal(" +" +
+                                                    (Math.round(finalStats.getStats().get(ToolStats.DUR_STAT)))
+                                            ).withColor(0xFFFFFF)));
+                                }
 
         return tooltipComponents;
     }

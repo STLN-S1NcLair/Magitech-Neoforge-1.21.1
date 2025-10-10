@@ -6,12 +6,13 @@ import net.minecraft.advancements.Criterion;
 import net.minecraft.advancements.critereon.*;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
 public class ToolUpgradeTrigger extends SimpleCriterionTrigger<ToolUpgradeTrigger.TriggerInstance> {
     @Override
-    public Codec<ToolUpgradeTrigger.TriggerInstance> codec() {
+    public @NotNull Codec<ToolUpgradeTrigger.TriggerInstance> codec() {
         return ToolUpgradeTrigger.TriggerInstance.CODEC;
     }
 
@@ -19,8 +20,7 @@ public class ToolUpgradeTrigger extends SimpleCriterionTrigger<ToolUpgradeTrigge
         this.trigger(player, p_27675_ -> p_27675_.matches(item, tier));
     }
 
-    public record TriggerInstance(Optional<ContextAwarePredicate> player, Optional<ItemPredicate> item,
-                                  MinMaxBounds.Ints tier)
+    public record TriggerInstance(Optional<ContextAwarePredicate> player, Optional<ItemPredicate> item, MinMaxBounds.Ints tier)
             implements SimpleCriterionTrigger.SimpleInstance {
         public static final Codec<ToolUpgradeTrigger.TriggerInstance> CODEC = RecordCodecBuilder.create(
                 p_337356_ -> p_337356_.group(
@@ -36,7 +36,7 @@ public class ToolUpgradeTrigger extends SimpleCriterionTrigger<ToolUpgradeTrigge
         }
 
         public boolean matches(ItemStack stack, int tier) {
-            return (!item.isPresent() || item.get().test(stack)) && this.tier.matches(tier);
+            return (item.isEmpty() || item.get().test(stack)) && this.tier.matches(tier);
         }
     }
 }

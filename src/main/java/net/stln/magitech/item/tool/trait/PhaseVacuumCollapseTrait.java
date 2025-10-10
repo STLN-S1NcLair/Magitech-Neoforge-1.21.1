@@ -37,17 +37,17 @@ public class PhaseVacuumCollapseTrait extends Trait {
     @Override
     public void modifyAttribute(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, List<ItemAttributeModifiers.Entry> entries) {
         super.modifyAttribute(player, level, stack, traitLevel, stats, entries);
-        entries.add(new ItemAttributeModifiers.Entry(Attributes.GRAVITY, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "phase_vacuum_collapse"), -0.15 * traitLevel, AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.MAINHAND));
-        entries.add(new ItemAttributeModifiers.Entry(Attributes.SAFE_FALL_DISTANCE, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "phase_vacuum_collapse"), 0.3 * traitLevel, AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.MAINHAND));
-        entries.add(new ItemAttributeModifiers.Entry(Attributes.FALL_DAMAGE_MULTIPLIER, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "phase_vacuum_collapse"), -0.15 * traitLevel, AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.MAINHAND));
+        entries.add(new ItemAttributeModifiers.Entry(Attributes.GRAVITY, new AttributeModifier(Magitech.id("phase_vacuum_collapse"), -0.15 * traitLevel, AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.MAINHAND));
+        entries.add(new ItemAttributeModifiers.Entry(Attributes.SAFE_FALL_DISTANCE, new AttributeModifier(Magitech.id("phase_vacuum_collapse"), 0.3 * traitLevel, AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.MAINHAND));
+        entries.add(new ItemAttributeModifiers.Entry(Attributes.FALL_DAMAGE_MULTIPLIER, new AttributeModifier(Magitech.id("phase_vacuum_collapse"), -0.15 * traitLevel, AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.MAINHAND));
     }
 
     @Override
     public void modifySpellCasterAttribute(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, List<ItemAttributeModifiers.Entry> entries) {
         super.modifySpellCasterAttribute(player, level, stack, traitLevel, stats, entries);
-        entries.add(new ItemAttributeModifiers.Entry(Attributes.GRAVITY, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "phase_vacuum_collapse"), -0.15 * traitLevel, AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.MAINHAND));
-        entries.add(new ItemAttributeModifiers.Entry(Attributes.SAFE_FALL_DISTANCE, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "phase_vacuum_collapse"), 0.3 * traitLevel, AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.MAINHAND));
-        entries.add(new ItemAttributeModifiers.Entry(Attributes.FALL_DAMAGE_MULTIPLIER, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "phase_vacuum_collapse"), -0.15 * traitLevel, AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.MAINHAND));
+        entries.add(new ItemAttributeModifiers.Entry(Attributes.GRAVITY, new AttributeModifier(Magitech.id("phase_vacuum_collapse"), -0.15 * traitLevel, AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.MAINHAND));
+        entries.add(new ItemAttributeModifiers.Entry(Attributes.SAFE_FALL_DISTANCE, new AttributeModifier(Magitech.id("phase_vacuum_collapse"), 0.3 * traitLevel, AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.MAINHAND));
+        entries.add(new ItemAttributeModifiers.Entry(Attributes.FALL_DAMAGE_MULTIPLIER, new AttributeModifier(Magitech.id("phase_vacuum_collapse"), -0.15 * traitLevel, AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.MAINHAND));
     }
 
     @Override

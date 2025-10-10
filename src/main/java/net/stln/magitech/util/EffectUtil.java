@@ -53,7 +53,7 @@ public class EffectUtil {
             endDeg *= -1;
         }
 
-        density *= (radius * Math.abs(endDeg - startDeg) / 200);
+        density *= radius * Math.abs(endDeg - startDeg) / 200;
 
         Vec3 lookVec = Vec3.directionFromRotation(player.getRotationVector()); // プレイヤーの視線方向
         double yawRad = Math.toRadians(player.getRotationVector().y);
@@ -91,9 +91,7 @@ public class EffectUtil {
             if (delay < 0) {
                 displayParticle(world, particleEffect, alwaysVisible, x, y, z, xOffset, yOffset, zOffset);
             } else {
-                TickScheduler.schedule(delay, () -> {
-                    displayParticle(world, particleEffect, alwaysVisible, x, y, z, xOffset, yOffset, zOffset);
-                }, true);
+                TickScheduler.schedule(delay, () -> displayParticle(world, particleEffect, alwaysVisible, x, y, z, xOffset, yOffset, zOffset), true);
             }
         }
     }

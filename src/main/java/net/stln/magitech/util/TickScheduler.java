@@ -1,5 +1,6 @@
 package net.stln.magitech.util;
 
+import net.minecraft.server.TickTask;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -8,55 +9,39 @@ import java.util.List;
 
 // 遅延実行マネージャー（サーバー用）
 public class TickScheduler {
-    private static final List<DelayedTask> scheduledTasksServer = new ArrayList<>();
-    private static final List<DelayedTask> scheduledTasksClient = new ArrayList<>();
+    private static final List<TickTask> scheduledTasksServer = new ArrayList<>();
+    private static final List<TickTask> scheduledTasksClient = new ArrayList<>();
 
     public static void schedule(int delayTicks, Runnable task, @Nullable Boolean isClient) {
         if (isClient == null) {
-            scheduledTasksServer.add(new DelayedTask(delayTicks, task));
-            scheduledTasksClient.add(new DelayedTask(delayTicks, task));
+            scheduledTasksServer.add(new TickTask(delayTicks, task));
+            scheduledTasksClient.add(new TickTask(delayTicks, task));
         } else if (isClient) {
-            scheduledTasksClient.add(new DelayedTask(delayTicks, task));
+            scheduledTasksClient.add(new TickTask(delayTicks, task));
         } else {
-            scheduledTasksServer.add(new DelayedTask(delayTicks, task));
+            scheduledTasksServer.add(new TickTask(delayTicks, task));
         }
     }
 
     public static void tick(boolean isClient) {
-        if (!isClient) {
-            Iterator<DelayedTask> iteratorServer = scheduledTasksServer.iterator();
-            List<DelayedTask> nextServer = new ArrayList<>();
+        tick(!isClient ? scheduledTasksServer : scheduledTasksClient);
+    }
+    
+    private static void tick(List<TickTask> tasks) {
+        Iterator<TickTask> iterator = tasks.iterator();
+        List<TickTask> nextTask = new ArrayList<>();
 
-            while (iteratorServer.hasNext()) {
-                DelayedTask task = iteratorServer.next();
-                int newDelay = task.tick();
-                if (newDelay < 0) {
-                    task.getTask().run();
-                    iteratorServer.remove();
-                } else {
-                    nextServer.add(new DelayedTask(newDelay, task.getTask()));
-                    iteratorServer.remove();
-                }
+        while (iterator.hasNext()) {
+            TickTask task = iterator.next();
+            int newDelay = task.getTick() - 1;
+            if (newDelay <= 0) {
+                task.run();
+            } else {
+                nextTask.add(new TickTask(newDelay, task));
             }
-
-            scheduledTasksServer.addAll(nextServer);
-        } else {
-            Iterator<DelayedTask> iteratorClient = scheduledTasksClient.iterator();
-            List<DelayedTask> nextClient = new ArrayList<>();
-
-            while (iteratorClient.hasNext()) {
-                DelayedTask task = iteratorClient.next();
-                int newDelay = task.tick();
-                if (newDelay < 0) {
-                    task.getTask().run();
-                    iteratorClient.remove();
-                } else {
-                    nextClient.add(new DelayedTask(newDelay, task.getTask()));
-                    iteratorClient.remove();
-                }
-            }
-
-            scheduledTasksClient.addAll(nextClient);
+            iterator.remove();
         }
+
+        tasks.addAll(nextTask);
     }
 }

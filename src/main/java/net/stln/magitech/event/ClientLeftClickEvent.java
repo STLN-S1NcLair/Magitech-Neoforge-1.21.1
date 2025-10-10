@@ -12,7 +12,7 @@ public class ClientLeftClickEvent {
 
     public static void register() {
         ClientPreAttackCallback.EVENT.register(((client, player, clickCount) -> {
-            LeftClickPayload payload = new LeftClickPayload(clickCount, player.getUUID().toString());
+            LeftClickPayload payload = new LeftClickPayload(clickCount, player.getUUID());
             PacketDistributor.sendToServer(payload);
             return callOnLeftClick(player, clickCount) != InteractionResult.PASS;
         }));
