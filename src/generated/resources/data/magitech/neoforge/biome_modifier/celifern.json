@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#magitech:has_celifern_forest",
+  "features": "magitech:celifern",
+  "step": "vegetal_decoration"
+}

@@ -1,0 +1,120 @@
+{
+  "type": "minecraft:entity",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:time_check",
+          "period": 24000,
+          "value": {
+            "max": 10000.0,
+            "min": 2000.0
+          }
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "magitech:aggregated_luminis"
+        }
+      ],
+      "functions": [
+        {
+          "count": {
+            "type": "minecraft:uniform",
+            "max": 1.0,
+            "min": 0.0
+          },
+          "enchantment": "minecraft:looting",
+          "function": "minecraft:enchanted_count_increase"
+        }
+      ],
+      "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:any_of",
+          "terms": [
+            {
+              "condition": "minecraft:time_check",
+              "period": 24000,
+              "value": {
+                "max": 14000.0,
+                "min": 10000.0
+              }
+            },
+            {
+              "condition": "minecraft:time_check",
+              "period": 24000,
+              "value": {
+                "max": 24000.0,
+                "min": 22000.0
+              }
+            },
+            {
+              "condition": "minecraft:time_check",
+              "period": 24000,
+              "value": {
+                "max": 2000.0,
+                "min": 0.0
+              }
+            }
+          ]
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "magitech:aggregated_fluxia"
+        }
+      ],
+      "functions": [
+        {
+          "count": {
+            "type": "minecraft:uniform",
+            "max": 1.0,
+            "min": 0.0
+          },
+          "enchantment": "minecraft:looting",
+          "function": "minecraft:enchanted_count_increase"
+        }
+      ],
+      "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:time_check",
+          "period": 24000,
+          "value": {
+            "max": 22000.0,
+            "min": 14000.0
+          }
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "magitech:aggregated_noctis"
+        }
+      ],
+      "functions": [
+        {
+          "count": {
+            "type": "minecraft:uniform",
+            "max": 1.0,
+            "min": 0.0
+          },
+          "enchantment": "minecraft:looting",
+          "function": "minecraft:enchanted_count_increase"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "magitech:entities/weaver"
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "magitech:item/tool/pickaxe/quartz_spike_head"
+  }
+}

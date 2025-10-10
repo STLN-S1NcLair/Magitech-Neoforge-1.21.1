@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "magitech:block/engineering_workbench_bottom",
+    "side": "magitech:block/engineering_workbench_side",
+    "top": "magitech:block/engineering_workbench_top"
+  }
+}

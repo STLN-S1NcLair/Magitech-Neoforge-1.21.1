@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "magitech:item/tool/shovel/dripstone_tool_binding"
+  }
+}

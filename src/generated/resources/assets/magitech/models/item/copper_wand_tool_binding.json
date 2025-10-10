@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "magitech:item/tool/wand/copper_tool_binding"
+  }
+}

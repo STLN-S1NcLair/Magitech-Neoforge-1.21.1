@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/fence_side",
+  "textures": {
+    "texture": "magitech:block/charcoal_birch_planks"
+  }
+}

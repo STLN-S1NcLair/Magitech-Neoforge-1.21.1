@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "magitech:block/alchecrysite_brick_slab"
+    },
+    "type=double": {
+      "model": "magitech:block/alchecrysite_bricks"
+    },
+    "type=top": {
+      "model": "magitech:block/alchecrysite_brick_slab_top"
+    }
+  }
+}

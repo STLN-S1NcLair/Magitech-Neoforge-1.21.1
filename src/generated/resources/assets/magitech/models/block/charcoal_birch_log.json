@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "magitech:block/charcoal_birch_log_top",
+    "side": "magitech:block/charcoal_birch_log"
+  }
+}

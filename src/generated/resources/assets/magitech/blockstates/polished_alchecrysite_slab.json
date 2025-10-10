@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "magitech:block/polished_alchecrysite_slab"
+    },
+    "type=double": {
+      "model": "magitech:block/polished_alchecrysite"
+    },
+    "type=top": {
+      "model": "magitech:block/polished_alchecrysite_slab_top"
+    }
+  }
+}

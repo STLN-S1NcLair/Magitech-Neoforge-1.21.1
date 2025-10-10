@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "magitech:block/scorched_soil",
+    "side": "magitech:block/scorched_grass_soil_side",
+    "top": "magitech:block/scorched_grass_soil_top"
+  }
+}
