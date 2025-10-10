@@ -82,6 +82,8 @@ public class CreativeTabInit {
                 output.accept(ItemInit.BOOTS_FRAME.get());
                 output.accept(ItemInit.MANA_BERRIES.get());
                 output.accept(ItemInit.MANA_PIE.get());
+                output.accept(ItemInit.ALCHEMICAL_FLASK.get());
+                output.accept(ItemInit.SULFURIC_ACID_FLASK.get());
                 output.accept(ItemInit.WEAVER_SPAWN_EGG.get());
             }).build());
 

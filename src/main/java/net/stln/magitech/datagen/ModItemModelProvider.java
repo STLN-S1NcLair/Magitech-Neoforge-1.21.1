@@ -88,6 +88,8 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ItemInit.BOOTS_FRAME.get());
         basicItem(ItemInit.MANA_BERRIES.get());
         basicItem(ItemInit.MANA_PIE.get());
+        basicItem(ItemInit.ALCHEMICAL_FLASK.get());
+        basicItem(ItemInit.SULFURIC_ACID_FLASK.get());
 
         basicItem(BlockInit.CELIFERN_DOOR_ITEM.get());
         getBuilder(BlockInit.CELIFERN_SAPLING_ITEM.get().toString())
