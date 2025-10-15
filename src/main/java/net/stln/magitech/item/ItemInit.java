@@ -20,6 +20,7 @@ import net.stln.magitech.entity.status.AttributeInit;
 import net.stln.magitech.item.armor.AetherLifterItem;
 import net.stln.magitech.item.armor.FlamglideStriderItem;
 import net.stln.magitech.item.component.TooltipTextPlaceableItem;
+import net.stln.magitech.item.fluid.AlchemicalFlaskItem;
 import net.stln.magitech.item.tool.partitem.*;
 import net.stln.magitech.item.tool.toolitem.*;
 
@@ -271,7 +272,9 @@ public class ItemInit {
 
     public static final DeferredItem<Item> MANA_PIE = ITEMS.registerItem("mana_pie", TooltipTextItem::new, new Item.Properties().food(FoodInit.MANA_PIE));
 
-    public static final DeferredItem<Item> ALCHEMICAL_FLASK = ITEMS.registerItem("alchemical_flask", TooltipTextItem::new);
+    public static final DeferredItem<Item> ALCHEMICAL_FLASK = ITEMS.registerItem("alchemical_flask", AlchemicalFlaskItem::new);
+
+    public static final DeferredItem<Item> WATER_FLASK = ITEMS.registerItem("water_flask", AlchemicalFlaskItem::new);
 
     public static final DeferredItem<Item> SULFURIC_ACID_FLASK = ITEMS.registerItem("sulfuric_acid_flask", TooltipTextItem::new);
 

@@ -14,7 +14,7 @@
     "item": "minecraft:calcite"
     }
   ],
-  "input_fluid": {
+  "fluid_ingredient": {
     "fluid": "minecraft:water",
     "amount": 250
   },

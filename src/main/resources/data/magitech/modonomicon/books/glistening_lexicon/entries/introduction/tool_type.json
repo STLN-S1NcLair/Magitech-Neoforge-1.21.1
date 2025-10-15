@@ -1,17 +1,7 @@
 {
   "name": "book.magitech.glistening_lexicon.introduction.tool_type.name",
   "icon": {
-    "id": "magitech:heavy_sword",
-    "components": {
-      "magitech:part_material_component": {
-        "materials": [
-          "magitech:iron",
-          "magitech:iron",
-          "magitech:iron",
-          "magitech:iron"
-        ]
-      }
-    }
+    "id": "magitech:heavy_sword"
   },
   "category": "magitech:introduction",
   "x": 0,

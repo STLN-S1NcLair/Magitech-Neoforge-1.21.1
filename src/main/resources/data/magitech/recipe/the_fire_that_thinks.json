@@ -23,7 +23,7 @@
       "tag": "c:gems/tourmaline"
     }
   ],
-  "input_fluid": {
+  "fluid_ingredient": {
     "fluid": "minecraft:water",
     "amount": 2000
   },

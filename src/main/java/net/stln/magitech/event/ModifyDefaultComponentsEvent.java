@@ -3,9 +3,12 @@ package net.stln.magitech.event;
 import com.klikli_dev.modonomicon.registry.DataComponentRegistry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.material.Fluids;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.SimpleFluidContent;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.item.ItemInit;
@@ -48,6 +51,9 @@ public class ModifyDefaultComponentsEvent {
         setComponentsForThreadbound(event, ItemInit.ARCANE_ENGINEERING_COMPENDIUM, Magitech.id("arcane_engineering_compendium"));
 
         event.modify(ItemInit.THREAD_PAGE, builder -> builder.set(ComponentInit.THREAD_PAGE_COMPONENT.get(), new ThreadPageComponent(SpellInit.ENERCRUX)).build());
+
+        event.modify(ItemInit.ALCHEMICAL_FLASK, builder -> builder.set(ComponentInit.FLUID_CONTENT_COMPONENT.get(), SimpleFluidContent.EMPTY).build());
+        event.modify(ItemInit.WATER_FLASK, builder -> builder.set(ComponentInit.FLUID_CONTENT_COMPONENT.get(), SimpleFluidContent.copyOf(new FluidStack(Fluids.WATER, 250))).build());
     }
 
     private static void setComponentsForThreadbound(net.neoforged.neoforge.event.ModifyDefaultComponentsEvent event, DeferredItem<?> item, ResourceLocation bookId) {

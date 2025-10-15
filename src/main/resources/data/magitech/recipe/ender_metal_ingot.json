@@ -20,7 +20,7 @@
       "item": "magitech:hollow_crystal"
     }
   ],
-  "input_fluid": {
+  "fluid_ingredient": {
     "fluid": "minecraft:water",
     "amount": 500
   },

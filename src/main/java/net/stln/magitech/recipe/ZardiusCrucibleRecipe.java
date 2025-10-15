@@ -4,10 +4,12 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.NonNullList;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -16,10 +18,13 @@ import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.util.RecipeMatcher;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
+import net.stln.magitech.Magitech;
+import net.stln.magitech.MagitechRegistries;
 import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.recipe.input.CrucibleRecipeInput;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,7 +54,8 @@ public record ZardiusCrucibleRecipe(String group, List<Ingredient> ingredients, 
 
     @Override
     public boolean matches(@NotNull CrucibleRecipeInput input, @NotNull Level level) {
-        int[] matchedSlots = RecipeMatcher.findMatches(input.items(), ingredients);
+        List<ItemStack> inputItems = input.items().stream().filter(stack -> !stack.isEmpty() && !(stack.getItem() == Items.AIR)).toList();
+        int[] matchedSlots = RecipeMatcher.findMatches(inputItems, ingredients);
         //noinspection ConstantValue
         if (matchedSlots != null) {
             return fluidIngredient.test(input.fluid());
@@ -65,6 +71,11 @@ public record ZardiusCrucibleRecipe(String group, List<Ingredient> ingredients, 
     @Override
     public boolean canCraftInDimensions(int width, int height) {
         return true;
+    }
+
+    @Override
+    public @NotNull NonNullList<Ingredient> getIngredients() {
+        return NonNullList.copyOf(this.ingredients.stream().filter(ing -> !ing.isEmpty()).toList());
     }
 
     @Override

@@ -8,6 +8,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.ExtraCodecs;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.fluids.SimpleFluidContent;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.stln.magitech.Magitech;
 
@@ -28,6 +29,7 @@ public class ComponentInit {
     public static final Supplier<DataComponentType<UpgradeComponent>> UPGRADE_COMPONENT = register("upgrade_component", UpgradeComponent.CODEC, UpgradeComponent.STREAM_CODEC);
     public static final Supplier<DataComponentType<Integer>> UPGRADE_POINT_COMPONENT = register("upgrade_point_component", ExtraCodecs.NON_NEGATIVE_INT, ByteBufCodecs.VAR_INT);
     public static final Supplier<DataComponentType<Boolean>> BROKEN_COMPONENT = register("broken_component", Codec.BOOL, ByteBufCodecs.BOOL);
+    public static final Supplier<DataComponentType<SimpleFluidContent>> FLUID_CONTENT_COMPONENT = register("fluid_content_component", SimpleFluidContent.CODEC, SimpleFluidContent.STREAM_CODEC);
 
     public static void registerComponents(IEventBus eventBus) {
         Magitech.LOGGER.info("Registering Data Components for" + Magitech.MOD_ID);

@@ -17,7 +17,7 @@
       "item": "magitech:tremor_crystal"
     }
   ],
-  "input_fluid": {
+  "fluid_ingredient": {
     "fluid": "minecraft:lava",
     "amount": 2000
   },

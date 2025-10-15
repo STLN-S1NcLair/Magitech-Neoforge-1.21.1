@@ -1,16 +1,7 @@
 {
   "name": "book.magitech.glistening_lexicon.introduction.part_tool.name",
   "icon": {
-    "id": "magitech:pickaxe",
-    "components": {
-      "magitech:part_material_component": {
-        "materials": [
-            "magitech:iron",
-            "magitech:iron",
-            "magitech:iron"
-          ]
-      }
-    }
+    "id": "magitech:pickaxe"
   },
   "category": "magitech:introduction",
   "x": 0,

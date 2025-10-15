@@ -90,6 +90,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ItemInit.MANA_BERRIES.get());
         basicItem(ItemInit.MANA_PIE.get());
         basicItem(ItemInit.ALCHEMICAL_FLASK.get());
+        basicItem(ItemInit.WATER_FLASK.get());
         basicItem(ItemInit.SULFURIC_ACID_FLASK.get());
 
         basicItem(BlockInit.CELIFERN_DOOR_ITEM.get());

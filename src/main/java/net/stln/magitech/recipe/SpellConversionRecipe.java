@@ -23,7 +23,7 @@ import java.util.Objects;
 public record SpellConversionRecipe(String group, Ingredient ingredient, Spell spell, ItemStack result) implements Recipe<SpellRecipeInput> {
     public static final MapCodec<SpellConversionRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             Codec.STRING.optionalFieldOf("group", "").forGetter(SpellConversionRecipe::group),
-            Ingredient.CODEC_NONEMPTY.fieldOf("ingredient").forGetter(SpellConversionRecipe::ingredient),
+            Ingredient.CODEC_NONEMPTY.fieldOf("fluidIngredient").forGetter(SpellConversionRecipe::ingredient),
             Spell.CODEC.fieldOf("spell").forGetter(SpellConversionRecipe::spell),
             ItemStack.STRICT_CODEC.fieldOf("result").forGetter(SpellConversionRecipe::result)
     ).apply(instance, SpellConversionRecipe::new));

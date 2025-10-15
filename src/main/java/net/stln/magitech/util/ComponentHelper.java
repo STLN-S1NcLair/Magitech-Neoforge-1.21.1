@@ -2,6 +2,7 @@ package net.stln.magitech.util;
 
 import net.minecraft.core.component.DataComponentHolder;
 import net.neoforged.neoforge.common.MutableDataComponentHolder;
+import net.neoforged.neoforge.fluids.SimpleFluidContent;
 import net.stln.magitech.item.component.*;
 import net.stln.magitech.item.tool.material.ToolMaterial;
 import net.stln.magitech.item.tool.upgrade.UpgradeInstance;
@@ -47,9 +48,17 @@ public class ComponentHelper {
         return holder.getOrDefault(ComponentInit.BROKEN_COMPONENT, false);
     }
 
+    public static SimpleFluidContent getFluidContent(@NotNull DataComponentHolder holder) {
+        return holder.getOrDefault(ComponentInit.FLUID_CONTENT_COMPONENT, SimpleFluidContent.EMPTY);
+    }
+
     // Setter
     public static void setThreadPage(@NotNull MutableDataComponentHolder holder, @NotNull SpellLike spell) {
         holder.set(ComponentInit.THREAD_PAGE_COMPONENT, new ThreadPageComponent(spell));
+    }
+
+    public static void setFluidContent(@NotNull MutableDataComponentHolder holder, @NotNull SimpleFluidContent fluidContent) {
+        holder.set(ComponentInit.FLUID_CONTENT_COMPONENT, fluidContent);
     }
 
     public static void updateSpells(@NotNull MutableDataComponentHolder holder, @NotNull UnaryOperator<SpellComponent> operator) {

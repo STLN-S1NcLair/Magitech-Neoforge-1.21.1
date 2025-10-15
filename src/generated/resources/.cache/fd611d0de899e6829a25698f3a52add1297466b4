@@ -1,4 +1,4 @@
-// 1.21.1	2025-10-10T18:06:11.4317321	Item Models: magitech
+// 1.21.1	2025-10-12T22:34:51.6480068	Item Models: magitech
 b6e580466ba37335919256eafa6aebae2f80e029 assets/magitech/models/item/abyssite.json
 f8398c633fbbc637417f3dfe317b25ee85a8ac1f assets/magitech/models/item/abyssite_axe_heavy_handle.json
 ba7e38ad119bd2731692671964773b889925fc5c assets/magitech/models/item/abyssite_axe_light_blade.json
@@ -1231,6 +1231,7 @@ ae21bff53e40149dea38e83f1d66557b7282c8e0 assets/magitech/models/item/translucium
 3656acf53c796f8a3c5745262dbf188f0adf13f4 assets/magitech/models/item/tremor_crystal.json
 f70b913bfd70c996e09c2850397ee83976d75e2b assets/magitech/models/item/umbral_ring.json
 2d3fcc52a410e14121563efbeb84aff1ada184da assets/magitech/models/item/wand.json
+8871fdb445767d40bdb9f3bbad6be4271550e39b assets/magitech/models/item/water_flask.json
 f91d96d21b633763bd12a34e4069eb50b5d1540e assets/magitech/models/item/wood_axe_heavy_handle.json
 e60facdf0f748189f2df4767ba49adc2836ebcf0 assets/magitech/models/item/wood_axe_light_blade.json
 909be14e31d20aafb2612db6ec6714ce4b6bebb9 assets/magitech/models/item/wood_axe_strike_head.json

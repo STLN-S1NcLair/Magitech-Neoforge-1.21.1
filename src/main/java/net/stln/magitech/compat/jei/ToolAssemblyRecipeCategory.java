@@ -135,7 +135,7 @@ public class ToolAssemblyRecipeCategory extends AbstractMagitechRecipeCategory<T
         for (Ingredient ingredient : recipe.getIngredients()) {
             List<ItemStack> variants = new ArrayList<>();
             for (ToolMaterial material : materials) {
-                // 複数アイテムに対応する場合は ingredient.getItems() をループすることも可能
+                // 複数アイテムに対応する場合は fluidIngredient.getItems() をループすることも可能
                 ItemStack base = ingredient.getItems()[0].copy();
                 base.set(ComponentInit.MATERIAL_COMPONENT, new MaterialComponent(material));
                 variants.add(base);

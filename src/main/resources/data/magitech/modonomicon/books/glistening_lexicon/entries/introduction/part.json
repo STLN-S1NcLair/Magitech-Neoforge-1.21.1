@@ -1,12 +1,7 @@
 {
   "name": "book.magitech.glistening_lexicon.introduction.part.name",
   "icon": {
-    "id": "magitech:light_blade",
-    "components": {
-      "magitech:material_component": {
-        "material": "magitech:iron"
-      }
-    }
+    "id": "magitech:light_blade"
   },
   "category": "magitech:introduction",
   "x": 2,

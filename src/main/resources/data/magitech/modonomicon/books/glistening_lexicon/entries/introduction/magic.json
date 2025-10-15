@@ -1,17 +1,7 @@
 {
   "name": "book.magitech.glistening_lexicon.introduction.magic.name",
   "icon": {
-    "id": "magitech:wand",
-    "components": {
-      "magitech:part_material_component": {
-        "materials": [
-          "magitech:iron",
-          "magitech:iron",
-          "magitech:iron",
-          "magitech:iron"
-        ]
-      }
-    }
+    "id": "magitech:wand"
   },
   "category": "magitech:introduction",
   "x": 0,

@@ -14,7 +14,7 @@
       "tag": "minecraft:saplings"
     }
   ],
-  "input_fluid": {
+  "fluid_ingredient": {
     "fluid": "minecraft:water",
     "amount": 250
   },

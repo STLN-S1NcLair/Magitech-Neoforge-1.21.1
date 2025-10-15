@@ -32,6 +32,7 @@ import net.stln.magitech.item.ItemPropertyInit;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.creative_tab.CreativeTabInit;
 import net.stln.magitech.element.Element;
+import net.stln.magitech.item.fluid.FluidContainerMatcherInit;
 import net.stln.magitech.item.tool.material.MaterialInit;
 import net.stln.magitech.item.tool.register.ToolMaterialRegister;
 import net.stln.magitech.item.tool.upgrade.UpgradeInit;
@@ -87,6 +88,7 @@ public class Magitech {
         RecipeInit.registerRecipes(modEventBus);
         SoundInit.registerSoundEvents(modEventBus);
         SpellInit.registerSpells(modEventBus);
+        FluidContainerMatcherInit.registerFluidContainerMatchers(modEventBus);
         ToolMaterialRegister.init();
         TreeGrowerInit.registerTrunkPlacerTypes(modEventBus);
         UpgradeInit.registerUpgrades();

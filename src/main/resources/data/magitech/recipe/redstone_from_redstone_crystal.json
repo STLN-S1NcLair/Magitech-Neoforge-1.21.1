@@ -17,7 +17,7 @@
       "item": "magitech:mana_charged_fluorite"
     }
   ],
-  "input_fluid": {
+  "fluid_ingredient": {
     "fluid": "minecraft:water",
     "amount": 100
   },

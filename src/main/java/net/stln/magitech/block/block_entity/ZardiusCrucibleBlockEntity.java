@@ -22,10 +22,13 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
@@ -266,24 +269,25 @@ public class ZardiusCrucibleBlockEntity extends BlockEntity {
                     isEmpty = false;
                 }
             }
-            if (isEmpty && getItemFluidEmptySlot(iFluidHandlerItem) != null && iFluidHandlerItem.isFluidValid(getItemFluidEmptySlot(iFluidHandlerItem), this.fluidTank.getFluid())) {
-                if (!player.getAbilities().instabuild) {
-                    playFluidDrainSound(this.fluidTank, iFluidHandlerItem);
-                    FluidStack stack = this.fluidTank.drain(1000, IFluidHandler.FluidAction.EXECUTE);
-                    iFluidHandlerItem.fill(new FluidStack(stack.getFluid(), stack.getAmount()), IFluidHandler.FluidAction.EXECUTE);
-                } else {
-                    playFluidDrainSound(this.fluidTank, iFluidHandlerItem);
-                    this.fluidTank.drain(1000, IFluidHandler.FluidAction.EXECUTE);
-                }
+            Integer emptyOrSameSlot = getItemFluidEmptyOrSameSlot(iFluidHandlerItem, this.fluidTank.getFluid().getFluid());
+            if (!fluidTank.isEmpty() && isEmpty && emptyOrSameSlot != null && iFluidHandlerItem.isFluidValid(emptyOrSameSlot, this.fluidTank.getFluid())) {
+                // 大釜からアイテムに液体を移す
+                playFluidDrainSound(this.fluidTank, iFluidHandlerItem);
+                FluidStack stack;
+                stack = this.fluidTank.drain(Math.min(iFluidHandlerItem.getTankCapacity(emptyOrSameSlot) - iFluidHandlerItem.getFluidInTank(emptyOrSameSlot).getAmount(), 1000), IFluidHandler.FluidAction.EXECUTE);
+                iFluidHandlerItem.fill(new FluidStack(stack.getFluid(), stack.getAmount()), IFluidHandler.FluidAction.EXECUTE);
             } else if (hasSameFluidOrEmpty(fluidTank, iFluidHandlerItem)) {
-                if (!player.getAbilities().instabuild) {
-                    playFluidFillSound(this.fluidTank, iFluidHandlerItem);
-                    int drainAmount = Math.min(getItemFluidStack(iFluidHandlerItem).getAmount(), 1000);
-                    FluidStack stack = iFluidHandlerItem.drain(drainAmount, IFluidHandler.FluidAction.EXECUTE);
+                // アイテムから大釜に液体を移す
+                playFluidFillSound(this.fluidTank, iFluidHandlerItem);
+                int drainAmount = Math.min(getItemFluidStack(iFluidHandlerItem).getAmount(), 1000);
+                if (fluidTank.getFluidAmount() + drainAmount <= fluidTank.getCapacity()) { // 液体を入れる容量があれば
+                    FluidStack stack;
+                    if (!player.getAbilities().instabuild) {
+                        stack = iFluidHandlerItem.drain(drainAmount, IFluidHandler.FluidAction.EXECUTE);
+                    } else {
+                        stack = iFluidHandlerItem.drain(drainAmount, IFluidHandler.FluidAction.SIMULATE);
+                    }
                     this.fluidTank.fill(new FluidStack(stack.getFluid(), stack.getAmount()), IFluidHandler.FluidAction.EXECUTE);
-                } else {
-                    playFluidFillSound(this.fluidTank, iFluidHandlerItem);
-                    this.fluidTank.fill(new FluidStack(iFluidHandlerItem.getFluidInTank(0).getFluidHolder(), 1000), IFluidHandler.FluidAction.EXECUTE);
                 }
             }
             if (pItemStack.isEmpty()) {
@@ -332,7 +336,7 @@ public class ZardiusCrucibleBlockEntity extends BlockEntity {
 
     private boolean hasSameFluidOrEmpty(FluidTank fluidTank, IFluidHandlerItem iFluidHandlerItem) {
         FluidStack itemFluid = getItemFluidStack(iFluidHandlerItem);
-        if (fluidTank.isEmpty()) {
+        if (fluidTank.isEmpty() || itemFluid.isEmpty()) {
             return true;
         }
         return FluidStack.isSameFluid(fluidTank.getFluid(), itemFluid);
@@ -349,10 +353,10 @@ public class ZardiusCrucibleBlockEntity extends BlockEntity {
         return itemFluid;
     }
 
-    private Integer getItemFluidEmptySlot(IFluidHandlerItem iFluidHandlerItem) {
+    private Integer getItemFluidEmptyOrSameSlot(IFluidHandlerItem iFluidHandlerItem, Fluid fluid) {
         Integer slot = null;
         for (int i = 0; i < iFluidHandlerItem.getTanks(); i++) {
-            if (iFluidHandlerItem.getFluidInTank(i).isEmpty()) {
+            if (iFluidHandlerItem.getFluidInTank(i).isEmpty() || iFluidHandlerItem.getFluidInTank(i).is(fluid)) {
                 slot = i;
                 break;
             }
