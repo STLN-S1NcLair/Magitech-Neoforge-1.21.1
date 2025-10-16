@@ -1,8 +1,14 @@
 package net.stln.magitech.fluid;
 
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
+import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -11,6 +17,7 @@ import net.stln.magitech.Magitech;
 
 import java.util.function.Supplier;
 
+@EventBusSubscriber
 public class FluidInit {
 
     public static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(NeoForgeRegistries.FLUID_TYPES, Magitech.MOD_ID);
@@ -36,4 +43,22 @@ public class FluidInit {
         FLUID_TYPES.register(eventBus);
         FLUIDS.register(eventBus);
     }
+
+    @SubscribeEvent
+    public static void registerIClientFluidExtensions(RegisterClientExtensionsEvent event) {
+        Magitech.LOGGER.info("Registering IClientFluidExtensions for" + Magitech.MOD_ID);
+        registerIClientFluidExtension(event, "block/sulfuric_acid_still", SULFURIC_ACID_TYPE);
+    }
+
+    private static void registerIClientFluidExtension(RegisterClientExtensionsEvent event, String s, DeferredHolder<FluidType, FluidType> sulfuricAcidType) {
+        event.registerFluidType(new IClientFluidTypeExtensions() {
+            private final ResourceLocation stillTexture = Magitech.id(s);
+
+            @Override
+            public ResourceLocation getStillTexture() {
+                return stillTexture;
+            }
+        }, sulfuricAcidType);
+    }
+
 }

@@ -62,4 +62,9 @@ public class AlchemicalFlaskFluidHandler extends FluidHandlerItemStackSimple {
     public boolean isFluidValid(int tank, FluidStack stack) {
         return stack.is(FluidTagKeys.ALCHEMICAL_FLASK_CONTAINABLE);
     }
+
+    @Override
+    public int getTankCapacity(int tank) {
+        return super.getTankCapacity(tank);
+    }
 }

@@ -11,6 +11,7 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.SimpleFluidContent;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.stln.magitech.Magitech;
+import net.stln.magitech.fluid.FluidInit;
 import net.stln.magitech.item.ItemInit;
 import net.stln.magitech.item.component.*;
 import net.stln.magitech.item.tool.material.MaterialInit;
@@ -54,6 +55,7 @@ public class ModifyDefaultComponentsEvent {
 
         event.modify(ItemInit.ALCHEMICAL_FLASK, builder -> builder.set(ComponentInit.FLUID_CONTENT_COMPONENT.get(), SimpleFluidContent.EMPTY).build());
         event.modify(ItemInit.WATER_FLASK, builder -> builder.set(ComponentInit.FLUID_CONTENT_COMPONENT.get(), SimpleFluidContent.copyOf(new FluidStack(Fluids.WATER, 250))).build());
+        event.modify(ItemInit.SULFURIC_ACID_FLASK, builder -> builder.set(ComponentInit.FLUID_CONTENT_COMPONENT.get(), SimpleFluidContent.copyOf(new FluidStack(FluidInit.SULFURIC_ACID, 250))).build());
     }
 
     private static void setComponentsForThreadbound(net.neoforged.neoforge.event.ModifyDefaultComponentsEvent event, DeferredItem<?> item, ResourceLocation bookId) {
