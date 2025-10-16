@@ -26,6 +26,7 @@ import net.stln.magitech.entity.EntityInit;
 import net.stln.magitech.entity.mobeffect.MobEffectInit;
 import net.stln.magitech.entity.status.AttributeInit;
 import net.stln.magitech.event.EventInit;
+import net.stln.magitech.fluid.FluidInit;
 import net.stln.magitech.gui.GuiInit;
 import net.stln.magitech.item.ItemInit;
 import net.stln.magitech.item.ItemPropertyInit;
@@ -73,6 +74,7 @@ public class Magitech {
         
         BlockInit.registerBlocks(modEventBus);
         ItemInit.registerItems(modEventBus);
+        FluidInit.registerFluids(modEventBus);
 
         AttributeInit.registerEntityAttributes(modEventBus);
         CreativeTabInit.registerCreativeTabs(modEventBus);
