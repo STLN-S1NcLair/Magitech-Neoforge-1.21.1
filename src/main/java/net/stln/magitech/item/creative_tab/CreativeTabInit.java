@@ -85,7 +85,10 @@ public class CreativeTabInit {
                 output.accept(ItemInit.MANA_PIE.get());
                 output.accept(ItemInit.ALCHEMICAL_FLASK.get());
                 output.accept(ItemInit.WATER_FLASK.get());
+                output.accept(ItemInit.LAVA_FLASK.get());
                 output.accept(ItemInit.SULFURIC_ACID_FLASK.get());
+                output.accept(ItemInit.MANA_POTION_FLASK.get());
+                output.accept(ItemInit.HEALING_POTION_FLASK.get());
                 output.accept(ItemInit.WEAVER_SPAWN_EGG.get());
             }).build());
 

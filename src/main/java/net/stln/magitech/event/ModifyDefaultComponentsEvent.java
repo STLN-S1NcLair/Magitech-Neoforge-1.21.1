@@ -54,8 +54,11 @@ public class ModifyDefaultComponentsEvent {
         event.modify(ItemInit.THREAD_PAGE, builder -> builder.set(ComponentInit.THREAD_PAGE_COMPONENT.get(), new ThreadPageComponent(SpellInit.ENERCRUX)).build());
 
         event.modify(ItemInit.ALCHEMICAL_FLASK, builder -> builder.set(ComponentInit.FLUID_CONTENT_COMPONENT.get(), SimpleFluidContent.EMPTY).build());
-        event.modify(ItemInit.WATER_FLASK, builder -> builder.set(ComponentInit.FLUID_CONTENT_COMPONENT.get(), SimpleFluidContent.copyOf(new FluidStack(Fluids.WATER, 250))).build());
-        event.modify(ItemInit.SULFURIC_ACID_FLASK, builder -> builder.set(ComponentInit.FLUID_CONTENT_COMPONENT.get(), SimpleFluidContent.copyOf(new FluidStack(FluidInit.SULFURIC_ACID, 250))).build());
+        setFluidContentComponent(event, ItemInit.WATER_FLASK, new FluidStack(Fluids.WATER, 250));
+        setFluidContentComponent(event, ItemInit.LAVA_FLASK, new FluidStack(Fluids.LAVA, 250));
+        setFluidContentComponent(event, ItemInit.SULFURIC_ACID_FLASK, new FluidStack(FluidInit.SULFURIC_ACID, 250));
+        setFluidContentComponent(event, ItemInit.MANA_POTION_FLASK, new FluidStack(FluidInit.MANA_POTION, 250));
+        setFluidContentComponent(event, ItemInit.HEALING_POTION_FLASK, new FluidStack(FluidInit.HEALING_POTION, 250));
     }
 
     private static void setComponentsForThreadbound(net.neoforged.neoforge.event.ModifyDefaultComponentsEvent event, DeferredItem<?> item, ResourceLocation bookId) {
@@ -64,5 +67,9 @@ public class ModifyDefaultComponentsEvent {
         } else {
             event.modify(item, builder -> builder.set(ComponentInit.SPELL_COMPONENT.get(), SpellComponent.EMPTY).set(DataComponentRegistry.BOOK_ID.get(), bookId).build());
         }
+    }
+
+    private static void setFluidContentComponent(net.neoforged.neoforge.event.ModifyDefaultComponentsEvent event, DeferredItem<?> item, FluidStack fluidStack) {
+        event.modify(item, builder -> builder.set(ComponentInit.FLUID_CONTENT_COMPONENT.get(), SimpleFluidContent.copyOf(fluidStack)).build());
     }
 }

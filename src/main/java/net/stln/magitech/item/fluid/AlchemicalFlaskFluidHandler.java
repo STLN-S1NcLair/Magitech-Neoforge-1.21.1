@@ -1,11 +1,9 @@
 package net.stln.magitech.item.fluid;
 
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeManager;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.templates.FluidHandlerItemStackSimple;
 import net.stln.magitech.MagitechRegistries;
-import net.stln.magitech.fluid.FluidTagKeys;
 import net.stln.magitech.item.component.ComponentInit;
 
 public class AlchemicalFlaskFluidHandler extends FluidHandlerItemStackSimple {
@@ -16,7 +14,7 @@ public class AlchemicalFlaskFluidHandler extends FluidHandlerItemStackSimple {
 
     @Override
     public int fill(FluidStack resource, FluidAction action) {
-        if (container.getCount() != 1 || resource.isEmpty() || !canFillFluidType(resource)) {
+        if (container.getCount() < 1 || resource.isEmpty() || !canFillFluidType(resource)) {
             return 0;
         }
 
@@ -60,7 +58,8 @@ public class AlchemicalFlaskFluidHandler extends FluidHandlerItemStackSimple {
 
     @Override
     public boolean isFluidValid(int tank, FluidStack stack) {
-        return stack.is(FluidTagKeys.ALCHEMICAL_FLASK_CONTAINABLE);
+        return MagitechRegistries.FLUID_CONTAINER_MATCHER.stream()
+                .anyMatch(matcher -> matcher.fillingMatches(container, stack));
     }
 
     @Override

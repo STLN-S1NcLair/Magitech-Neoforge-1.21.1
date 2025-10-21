@@ -1,6 +1,7 @@
 package net.stln.magitech.item.fluid;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -19,6 +20,7 @@ import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.neoforged.neoforge.fluids.SimpleFluidContent;
@@ -48,7 +50,8 @@ public class AlchemicalFlaskItem extends TooltipTextItem {
                         return InteractionResultHolder.pass(itemstack);
                     }
 
-                    if (level.getFluidState(blockpos).is(FluidTags.WATER)) { // 水なら
+                    FluidState fluidState = level.getFluidState(blockpos);
+                    if (fluidState.is(FluidTags.WATER)) { // 水なら
                         level.playSound(
                                 player, player.getX(), player.getY(), player.getZ(), SoundEvents.BOTTLE_FILL, SoundSource.NEUTRAL, 1.0F, 1.0F
                         );
@@ -56,6 +59,8 @@ public class AlchemicalFlaskItem extends TooltipTextItem {
                         return InteractionResultHolder.sidedSuccess(
                                 this.turnBottleIntoItem(itemstack, player, ItemInit.WATER_FLASK.toStack()), level.isClientSide()
                         );
+                    } else if (!fluidState.isEmpty()) { // 水以外は液体ブロックから汲むことができない
+                        player.displayClientMessage(Component.translatable("item.magitech.hint.cant_pickup_fluid_from_fluid_block").withColor(0xFF8080), true);
                     }
                 }
 

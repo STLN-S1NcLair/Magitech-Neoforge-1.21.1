@@ -509,7 +509,7 @@ public class AthanorPillarBlockEntity extends BlockEntity {
                 Vec3 v6 = v1.add(1, 1, 0);
                 Vec3 v7 = v1.add(1, 1, 1);
                 Vec3 v8 = v1.add(0, 1, 1);
-                SquareParticleEffect effect = new SquareParticleEffect(new Vector3f(1.0F, 0.2F, 0.2F), new Vector3f(1.0F, 0.2F, 0.2F), 1.0F, 1, 0);
+                SquareParticleEffect effect = new SquareParticleEffect(new Vector3f(1.0F, 0.0F, 0.0F), new Vector3f(1.0F, 0.0F, 0.0F), 1.0F, 1, 0);
                 EffectUtil.lineEffect(level, effect, new Vec3(x, y, z), pos.getCenter(), 5, true);
 
                 EffectUtil.lineEffect(level, effect, v1, v2, 7, true);

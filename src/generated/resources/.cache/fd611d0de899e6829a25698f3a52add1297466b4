@@ -1,4 +1,4 @@
-// 1.21.1	2025-10-12T22:34:51.6480068	Item Models: magitech
+// 1.21.1	2025-10-19T15:25:45.106782	Item Models: magitech
 b6e580466ba37335919256eafa6aebae2f80e029 assets/magitech/models/item/abyssite.json
 f8398c633fbbc637417f3dfe317b25ee85a8ac1f assets/magitech/models/item/abyssite_axe_heavy_handle.json
 ba7e38ad119bd2731692671964773b889925fc5c assets/magitech/models/item/abyssite_axe_light_blade.json
@@ -728,6 +728,7 @@ fbee2513140abb5c8852c91c82181ba36b165dac assets/magitech/models/item/gold_spike_
 2ec9a3ab14c55d2dcc301b55eeb869fe5d682994 assets/magitech/models/item/gold_wand_tool_binding.json
 dfaf0c1433c7303a4862d6a421005e36a52b025b assets/magitech/models/item/hammer.json
 9516352f6d9b9fc6521f30bb02dcca0edb7f053f assets/magitech/models/item/handguard.json
+a02276b1d706e4dae89dfe573d702b1a85265da0 assets/magitech/models/item/healing_potion_flask.json
 71f603cba1d07721fd7a0d3387f01832bde834ab assets/magitech/models/item/heavy_blade.json
 a93679b0b4dfb6240f616064ec03f52b84b2f057 assets/magitech/models/item/heavy_handle.json
 e680d4f533c78b2d6ec635f50c47cabdf7812c4e assets/magitech/models/item/heavy_sword.json
@@ -824,6 +825,7 @@ ec920cc40d74126f42b7547a6824d27c5b4a41a5 assets/magitech/models/item/lapis_tool_
 59fca4f00a3549e5c18aafa96bf37ec7c096373b assets/magitech/models/item/lapis_wand_conductor.json
 5693a7d9735ea69c2da77b5e68957acd3849747f assets/magitech/models/item/lapis_wand_light_handle.json
 910907717d12d8334a4fe8d71e392b31a63e8605 assets/magitech/models/item/lapis_wand_tool_binding.json
+374722139ca16ed22e47711464c535424615876e assets/magitech/models/item/lava_flask.json
 b4c433a902015bcc443f660ff94c2283edf1ece2 assets/magitech/models/item/light_blade.json
 13d2b38a99ee951ccf679ae1a4297060c8c108ee assets/magitech/models/item/light_handle.json
 bfcc7eee2f1c127af996ce81c2c1e8d465c3f85d assets/magitech/models/item/light_sword.json
@@ -832,6 +834,7 @@ bfcc7eee2f1c127af996ce81c2c1e8d465c3f85d assets/magitech/models/item/light_sword
 a4eb262981514e64121967e4cf98ed9a9af90048 assets/magitech/models/item/mana_charged_fluorite.json
 d0392a2314934b78d703aa5909e2d2a944991a38 assets/magitech/models/item/mana_deexciter_core.json
 11cba26ffb258eaabe01e6fd2f42b76b4d629f2b assets/magitech/models/item/mana_pie.json
+02bc5ab1c6c07a96c7b78358216eb2956845873b assets/magitech/models/item/mana_potion_flask.json
 68cebe46cb739b3442f6e599bbbc31b56826e93c assets/magitech/models/item/mana_ring.json
 e1508256aedd7ef9d4c10825338bfda53aa6e407 assets/magitech/models/item/materials_and_toolcraft_design.json
 c71fb3b28bc845e9cfe2221e8e0881946bf61182 assets/magitech/models/item/mistalia_petals.json

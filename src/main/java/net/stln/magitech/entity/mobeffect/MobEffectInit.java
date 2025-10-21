@@ -19,6 +19,9 @@ public class MobEffectInit {
             .addAttributeModifier(AttributeInit.MANA_REGEN, id, 2, AttributeModifier.Operation.ADD_VALUE)
             .addAttributeModifier(AttributeInit.MAX_MANA, id, -50, AttributeModifier.Operation.ADD_VALUE));
 
+    public static final DeferredHolder<MobEffect, MobEffect> MANA_REGENERATION = STATUS_EFFECTS.register("mana_regeneration", id -> new CustomMobEffect(MobEffectCategory.NEUTRAL, 0x80FFC0)
+            .addAttributeModifier(AttributeInit.MANA_REGEN, id, 2, AttributeModifier.Operation.ADD_VALUE));
+
     public static final DeferredHolder<MobEffect, MobEffect> LEAP_STEP = STATUS_EFFECTS.register("leap_step", id -> new CustomMobEffect(MobEffectCategory.BENEFICIAL, 0xF0F0FF)
             .addAttributeModifier(Attributes.MOVEMENT_SPEED, id, 0.5, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
             .addAttributeModifier(Attributes.STEP_HEIGHT, id, 0.5, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));

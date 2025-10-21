@@ -52,6 +52,7 @@
   "item.magitech.mana_berries": "マナベリー",
   "item.magitech.mana_pie": "マナのパイ",
   "item.magitech.weaver_spawn_egg": "ウィーバーのスポーンエッグ",
+  "item.magitech.hint.cant_pickup_fluid_from_fluid_block": "この液体ブロックから汲むことはできない！",
   "block.magitech.engineering_workbench": "工学作業台",
   "block.magitech.assembly_workbench": "工学組み立て台",
   "block.magitech.repairing_workbench": "工学修理台",

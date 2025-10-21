@@ -13,7 +13,7 @@ public class FluidCapabilitiesInit {
     @SubscribeEvent
     public static void registerFluidCapabilities(RegisterCapabilitiesEvent event) {
         // Fluid Capabilities登録
-        registerAlchemicalFlaskCapability(event, ItemInit.ALCHEMICAL_FLASK, ItemInit.WATER_FLASK, ItemInit.SULFURIC_ACID_FLASK);
+        registerAlchemicalFlaskCapability(event, ItemInit.ALCHEMICAL_FLASK, ItemInit.WATER_FLASK, ItemInit.LAVA_FLASK, ItemInit.SULFURIC_ACID_FLASK, ItemInit.MANA_POTION_FLASK, ItemInit.HEALING_POTION_FLASK);
     }
 
     private static void registerAlchemicalFlaskCapability(RegisterCapabilitiesEvent event, ItemLike... item) {

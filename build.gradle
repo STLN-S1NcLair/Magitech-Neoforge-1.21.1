@@ -188,6 +188,7 @@ dependencies {
     runtimeOnly "maven.modrinth:owo-lib:NMCHU6DZ"
     runtimeOnly "maven.modrinth:cloth-config:izKINKFg"
     runtimeOnly "maven.modrinth:create:tS7ygzAE"
+    runtimeOnly "maven.modrinth:mekanism:JpDlMCsB"
 
 //    runtimeOnly("curse.maven:supplementaries-412082:6854370")
 //    runtimeOnly("curse.maven:selene-499980:6818413")

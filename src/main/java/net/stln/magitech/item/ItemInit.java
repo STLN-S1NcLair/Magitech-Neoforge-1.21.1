@@ -21,8 +21,12 @@ import net.stln.magitech.item.armor.AetherLifterItem;
 import net.stln.magitech.item.armor.FlamglideStriderItem;
 import net.stln.magitech.item.component.TooltipTextPlaceableItem;
 import net.stln.magitech.item.fluid.AlchemicalFlaskItem;
+import net.stln.magitech.item.fluid.potion.HealingPotionFlaskItem;
+import net.stln.magitech.item.fluid.potion.ManaPotionFlaskItem;
+import net.stln.magitech.item.fluid.potion.WaterFlaskItem;
 import net.stln.magitech.item.tool.partitem.*;
 import net.stln.magitech.item.tool.toolitem.*;
+import org.lwjgl.openal.AL;
 
 import java.util.Map;
 
@@ -274,9 +278,15 @@ public class ItemInit {
 
     public static final DeferredItem<Item> ALCHEMICAL_FLASK = ITEMS.registerItem("alchemical_flask", AlchemicalFlaskItem::new);
 
-    public static final DeferredItem<Item> WATER_FLASK = ITEMS.registerItem("water_flask", AlchemicalFlaskItem::new);
+    public static final DeferredItem<Item> WATER_FLASK = ITEMS.registerItem("water_flask", WaterFlaskItem::new);
 
-    public static final DeferredItem<Item> SULFURIC_ACID_FLASK = ITEMS.registerItem("sulfuric_acid_flask", AlchemicalFlaskItem::new);
+    public static final DeferredItem<Item> LAVA_FLASK = ITEMS.registerItem("lava_flask", Item::new);
+
+    public static final DeferredItem<Item> SULFURIC_ACID_FLASK = ITEMS.registerItem("sulfuric_acid_flask", Item::new);
+
+    public static final DeferredItem<Item> MANA_POTION_FLASK = ITEMS.registerItem("mana_potion_flask", ManaPotionFlaskItem::new);
+
+    public static final DeferredItem<Item> HEALING_POTION_FLASK = ITEMS.registerItem("healing_potion_flask", HealingPotionFlaskItem::new);
 
     public static final DeferredItem<Item> WEAVER_SPAWN_EGG = ITEMS.registerItem("weaver_spawn_egg", (properties) -> new DeferredSpawnEggItem(EntityInit.WEAVER_ENTITY, 0x2F2E30, 0xB1F3CC, properties));
 
