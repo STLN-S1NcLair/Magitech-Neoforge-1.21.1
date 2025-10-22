@@ -1,4 +1,4 @@
-package net.stln.magitech.entity.mobeffect;
+package net.stln.magitech.entity.mob_effect;
 
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;

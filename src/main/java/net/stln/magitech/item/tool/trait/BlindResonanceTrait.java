@@ -21,7 +21,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.damage.DamageTypeInit;
-import net.stln.magitech.entity.mobeffect.MobEffectInit;
+import net.stln.magitech.entity.mob_effect.MobEffectInit;
 import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.item.tool.material.ToolMaterial;
 import net.stln.magitech.item.tool.toolitem.PartToolItem;

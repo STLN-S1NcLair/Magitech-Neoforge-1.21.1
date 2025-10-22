@@ -21,6 +21,7 @@ public class ComponentInit {
     public static final Supplier<DataComponentType<PartMaterialComponent>> PART_MATERIAL_COMPONENT = register("part_material_component", PartMaterialComponent.CODEC, PartMaterialComponent.STREAM_CODEC);
     public static final Supplier<DataComponentType<MaterialComponent>> MATERIAL_COMPONENT = register("material_component", MaterialComponent.CODEC, MaterialComponent.STREAM_CODEC);
     public static final Supplier<DataComponentType<SpellComponent>> SPELL_COMPONENT = register("spell_component", SpellComponent.CODEC, SpellComponent.STREAM_CODEC);
+    public static final Supplier<DataComponentType<ToolBeltComponent>> TOOLBELT_COMPONENT = register("toolbelt_component", ToolBeltComponent.CODEC, ToolBeltComponent.STREAM_CODEC);
     public static final Supplier<DataComponentType<ThreadPageComponent>> THREAD_PAGE_COMPONENT = register("thread_page_component", ThreadPageComponent.CODEC, ThreadPageComponent.STREAM_CODEC);
     public static final Supplier<DataComponentType<Integer>> TIER_COMPONENT = register("tier_component", ExtraCodecs.NON_NEGATIVE_INT, ByteBufCodecs.VAR_INT);
     public static final Supplier<DataComponentType<Integer>> PROGRESSION_COMPONENT = register("progression_component", ExtraCodecs.NON_NEGATIVE_INT, ByteBufCodecs.VAR_INT);

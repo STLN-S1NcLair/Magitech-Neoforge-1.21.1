@@ -19,14 +19,12 @@ import net.stln.magitech.entity.EntityInit;
 import net.stln.magitech.entity.status.AttributeInit;
 import net.stln.magitech.item.armor.AetherLifterItem;
 import net.stln.magitech.item.armor.FlamglideStriderItem;
-import net.stln.magitech.item.component.TooltipTextPlaceableItem;
 import net.stln.magitech.item.fluid.AlchemicalFlaskItem;
 import net.stln.magitech.item.fluid.potion.HealingPotionFlaskItem;
 import net.stln.magitech.item.fluid.potion.ManaPotionFlaskItem;
 import net.stln.magitech.item.fluid.potion.WaterFlaskItem;
 import net.stln.magitech.item.tool.partitem.*;
 import net.stln.magitech.item.tool.toolitem.*;
-import org.lwjgl.openal.AL;
 
 import java.util.Map;
 

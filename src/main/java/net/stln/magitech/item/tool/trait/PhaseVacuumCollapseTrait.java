@@ -1,7 +1,6 @@
 package net.stln.magitech.item.tool.trait;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlotGroup;
@@ -13,7 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.entity.mobeffect.MobEffectInit;
+import net.stln.magitech.entity.mob_effect.MobEffectInit;
 import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.particle.particle_option.VoidGlowParticleEffect;
 import net.stln.magitech.util.EffectUtil;

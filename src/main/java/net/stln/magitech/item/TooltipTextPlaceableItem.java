@@ -1,4 +1,4 @@
-package net.stln.magitech.item.component;
+package net.stln.magitech.item;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;

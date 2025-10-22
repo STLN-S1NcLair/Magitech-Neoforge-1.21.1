@@ -23,7 +23,7 @@ import net.stln.magitech.compat.curios.ValidatorInit;
 import net.stln.magitech.compat.modonomicon.PageInit;
 import net.stln.magitech.data.DataMapTypeInit;
 import net.stln.magitech.entity.EntityInit;
-import net.stln.magitech.entity.mobeffect.MobEffectInit;
+import net.stln.magitech.entity.mob_effect.MobEffectInit;
 import net.stln.magitech.entity.status.AttributeInit;
 import net.stln.magitech.event.EventInit;
 import net.stln.magitech.fluid.FluidInit;

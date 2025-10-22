@@ -19,7 +19,7 @@ import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.element.Element;
 import net.stln.magitech.entity.EntityInit;
 import net.stln.magitech.entity.SpellProjectileEntity;
-import net.stln.magitech.entity.mobeffect.MobEffectInit;
+import net.stln.magitech.entity.mob_effect.MobEffectInit;
 import net.stln.magitech.particle.particle_option.UnstableSquareParticleEffect;
 import net.stln.magitech.sound.SoundInit;
 import net.stln.magitech.util.DataMapHelper;

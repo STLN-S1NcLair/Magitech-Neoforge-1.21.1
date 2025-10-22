@@ -1,4 +1,4 @@
-package net.stln.magitech.entity.mobeffect;
+package net.stln.magitech.entity.mob_effect;
 
 
 import net.minecraft.core.BlockPos;

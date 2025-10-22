@@ -2,7 +2,7 @@ package net.stln.magitech.item;
 
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.food.FoodProperties;
-import net.stln.magitech.entity.mobeffect.MobEffectInit;
+import net.stln.magitech.entity.mob_effect.MobEffectInit;
 
 public class FoodInit {
 
