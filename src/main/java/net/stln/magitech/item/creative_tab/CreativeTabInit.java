@@ -63,6 +63,7 @@ public class CreativeTabInit {
                 output.accept(ItemInit.AGGREGATED_LUMINIS.get());
                 output.accept(ItemInit.AGGREGATED_FLUXIA.get());
                 output.accept(ItemInit.CITRINE.get());
+                output.accept(ItemInit.ZINC_INGOT.get());
                 output.accept(ItemInit.CHROMIUM_INGOT.get());
                 output.accept(ItemInit.REDSTONE_CRYSTAL.get());
                 output.accept(ItemInit.POLISHED_REDSTONE_CRYSTAL.get());

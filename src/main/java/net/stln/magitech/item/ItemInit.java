@@ -240,6 +240,8 @@ public class ItemInit {
 
     public static final DeferredItem<Item> SULFUR = ITEMS.registerItem("sulfur", TooltipTextItem::new);
 
+    public static final DeferredItem<Item> ZINC_INGOT = ITEMS.registerItem("zinc_ingot", TooltipTextItem::new);
+
     public static final DeferredItem<Item> CHROMIUM_INGOT = ITEMS.registerItem("chromium_ingot", TooltipTextItem::new);
 
     public static final DeferredItem<Item> ENDER_METAL_INGOT = ITEMS.registerItem("ender_metal_ingot", TooltipTextItem::new);

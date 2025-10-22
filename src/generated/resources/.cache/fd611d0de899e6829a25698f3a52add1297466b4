@@ -1,4 +1,4 @@
-// 1.21.1	2025-10-19T15:25:45.106782	Item Models: magitech
+// 1.21.1	2025-10-22T20:31:02.2279396	Item Models: magitech
 b6e580466ba37335919256eafa6aebae2f80e029 assets/magitech/models/item/abyssite.json
 f8398c633fbbc637417f3dfe317b25ee85a8ac1f assets/magitech/models/item/abyssite_axe_heavy_handle.json
 ba7e38ad119bd2731692671964773b889925fc5c assets/magitech/models/item/abyssite_axe_light_blade.json
@@ -1281,3 +1281,4 @@ b886df74ec6d6f74bb8283f8f71982031f3b3077 assets/magitech/models/item/wood_wand_c
 c3967f4a9efae8875ff5c8f4ea3bbd7f30bd0b9f assets/magitech/models/item/wood_wand_conductor.json
 b88305dc8bafb42fb66b58b4049b3b7e0160011e assets/magitech/models/item/wood_wand_light_handle.json
 742c221190d27b62f62067705b680b84f0ab0d5b assets/magitech/models/item/wood_wand_tool_binding.json
+d9f81b6c486726ae9c4d78364e43070556cb6c23 assets/magitech/models/item/zinc_ingot.json
