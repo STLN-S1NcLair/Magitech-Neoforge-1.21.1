@@ -59,6 +59,7 @@ public class ModifyDefaultComponentsEvent {
         setFluidContentComponent(event, ItemInit.SULFURIC_ACID_FLASK, new FluidStack(FluidInit.SULFURIC_ACID, 250));
         setFluidContentComponent(event, ItemInit.MANA_POTION_FLASK, new FluidStack(FluidInit.MANA_POTION, 250));
         setFluidContentComponent(event, ItemInit.HEALING_POTION_FLASK, new FluidStack(FluidInit.HEALING_POTION, 250));
+        setFluidContentComponent(event, ItemInit.EMBER_POTION_FLASK, new FluidStack(FluidInit.EMBER_POTION, 250));
     }
 
     private static void setComponentsForThreadbound(net.neoforged.neoforge.event.ModifyDefaultComponentsEvent event, DeferredItem<?> item, ResourceLocation bookId) {

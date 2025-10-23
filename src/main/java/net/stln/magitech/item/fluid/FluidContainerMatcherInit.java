@@ -30,6 +30,8 @@ public class FluidContainerMatcherInit {
 
      public static final DeferredFluidContainerMatcher<FluidContainerMatcher> HEALING_POTION_FLASK = register("healing_potion_flask", makeSimpleMatcher(ItemInit.ALCHEMICAL_FLASK, FluidInit.HEALING_POTION, ItemInit.HEALING_POTION_FLASK));
 
+     public static final DeferredFluidContainerMatcher<FluidContainerMatcher> EMBER_POTION_FLASK = register("ember_potion_flask", makeSimpleMatcher(ItemInit.ALCHEMICAL_FLASK, FluidInit.EMBER_POTION, ItemInit.EMBER_POTION_FLASK));
+
     public static FluidContainerMatcher makeSimpleMatcher(ItemLike emptyContainer, Supplier<Fluid> fluid, ItemLike filledContainer) {
         return new FluidContainerMatcher(emptyContainer, () -> Ingredient.of(emptyContainer), fluid, () -> FluidIngredient.of(fluid.get()), filledContainer);
     }

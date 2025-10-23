@@ -1,4 +1,4 @@
-// 1.21.1	2025-10-22T20:31:02.2279396	Item Models: magitech
+// 1.21.1	2025-10-23T10:33:36.9422501	Item Models: magitech
 b6e580466ba37335919256eafa6aebae2f80e029 assets/magitech/models/item/abyssite.json
 f8398c633fbbc637417f3dfe317b25ee85a8ac1f assets/magitech/models/item/abyssite_axe_heavy_handle.json
 ba7e38ad119bd2731692671964773b889925fc5c assets/magitech/models/item/abyssite_axe_light_blade.json
@@ -441,6 +441,7 @@ e5195fca2f84f13bb064f051b28beb86cf72cc6a assets/magitech/models/item/dripstone_s
 4fb03b4ce285015189240786c8939d73c981e947 assets/magitech/models/item/dripstone_wand_light_handle.json
 262fc54e711fdaa24d2bbdcfd2d79146ec6a59b9 assets/magitech/models/item/dripstone_wand_tool_binding.json
 d97a38c10db90db716e630c0ae8f3db29e79165b assets/magitech/models/item/ember_crystal.json
+b2d57bf1f5bf3b84c1e95dd9c9cbdc5c28ab30a6 assets/magitech/models/item/ember_potion_flask.json
 a237257210d0d725150091e22cfb71ceaed4d4fc assets/magitech/models/item/emerald_axe_heavy_handle.json
 1258a049e05f66214d883e28dff933bc8e96ff3e assets/magitech/models/item/emerald_axe_light_blade.json
 55f57f56f871c4929f72071bd430939ed9d32c75 assets/magitech/models/item/emerald_axe_strike_head.json

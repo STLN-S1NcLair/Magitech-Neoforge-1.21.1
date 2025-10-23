@@ -37,11 +37,17 @@ public class FluidInit {
             FluidType.Properties.create()
     ));
 
+    public static final DeferredHolder<FluidType, FluidType> EMBER_POTION_TYPE = registerFluidType("ember_potion", new FluidType(
+            FluidType.Properties.create()
+    ));
+
     public static final DeferredHolder<Fluid, Fluid> SULFURIC_ACID = registerFluid("sulfuric_acid", SulfuricAcidFluid::new);
 
     public static final DeferredHolder<Fluid, Fluid> MANA_POTION = registerFluid("mana_potion", ManaPotionFluid::new);
 
     public static final DeferredHolder<Fluid, Fluid> HEALING_POTION = registerFluid("healing_potion", HealingPotionFluid::new);
+
+    public static final DeferredHolder<Fluid, Fluid> EMBER_POTION = registerFluid("ember_potion", EmberPotionFluid::new);
 
     private static <S extends FluidType> DeferredHolder<FluidType, S> registerFluidType(String name, S type) {
         return FLUID_TYPES.register(name, () -> type);
@@ -63,6 +69,7 @@ public class FluidInit {
         registerIClientFluidExtension(event, "block/sulfuric_acid_still", SULFURIC_ACID_TYPE);
         registerIClientFluidExtension(event, "block/mana_potion_still", MANA_POTION_TYPE);
         registerIClientFluidExtension(event, "block/healing_potion_still", HEALING_POTION_TYPE);
+        registerIClientFluidExtension(event, "block/ember_potion_still", EMBER_POTION_TYPE);
     }
 
     private static void registerIClientFluidExtension(RegisterClientExtensionsEvent event, String s, DeferredHolder<FluidType, FluidType> sulfuricAcidType) {
@@ -82,6 +89,7 @@ public class FluidInit {
         setRenderLayerTranslucent(SULFURIC_ACID);
         setRenderLayerTranslucent(MANA_POTION);
         setRenderLayerTranslucent(HEALING_POTION);
+        setRenderLayerTranslucent(EMBER_POTION);
     }
 
     private static void setRenderLayerTranslucent(DeferredHolder<Fluid, Fluid> fluid) {

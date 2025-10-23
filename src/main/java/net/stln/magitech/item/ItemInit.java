@@ -20,6 +20,7 @@ import net.stln.magitech.entity.status.AttributeInit;
 import net.stln.magitech.item.armor.AetherLifterItem;
 import net.stln.magitech.item.armor.FlamglideStriderItem;
 import net.stln.magitech.item.fluid.AlchemicalFlaskItem;
+import net.stln.magitech.item.fluid.potion.EmberPotionFlaskItem;
 import net.stln.magitech.item.fluid.potion.HealingPotionFlaskItem;
 import net.stln.magitech.item.fluid.potion.ManaPotionFlaskItem;
 import net.stln.magitech.item.fluid.potion.WaterFlaskItem;
@@ -287,6 +288,8 @@ public class ItemInit {
     public static final DeferredItem<Item> MANA_POTION_FLASK = ITEMS.registerItem("mana_potion_flask", ManaPotionFlaskItem::new);
 
     public static final DeferredItem<Item> HEALING_POTION_FLASK = ITEMS.registerItem("healing_potion_flask", HealingPotionFlaskItem::new);
+
+    public static final DeferredItem<Item> EMBER_POTION_FLASK = ITEMS.registerItem("ember_potion_flask", EmberPotionFlaskItem::new);
 
     public static final DeferredItem<Item> WEAVER_SPAWN_EGG = ITEMS.registerItem("weaver_spawn_egg", (properties) -> new DeferredSpawnEggItem(EntityInit.WEAVER_ENTITY, 0x2F2E30, 0xB1F3CC, properties));
 
