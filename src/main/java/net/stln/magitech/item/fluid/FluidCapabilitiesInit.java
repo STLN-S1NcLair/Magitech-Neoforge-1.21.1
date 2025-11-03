@@ -20,7 +20,14 @@ public class FluidCapabilitiesInit {
                 ItemInit.SULFURIC_ACID_FLASK,
                 ItemInit.MANA_POTION_FLASK,
                 ItemInit.HEALING_POTION_FLASK,
-                ItemInit.EMBER_POTION_FLASK
+                ItemInit.EMBER_POTION_FLASK,
+                ItemInit.GLACE_POTION_FLASK,
+                ItemInit.SURGE_POTION_FLASK,
+                ItemInit.PHANTOM_POTION_FLASK,
+                ItemInit.TREMOR_POTION_FLASK,
+                ItemInit.MAGIC_POTION_FLASK,
+                ItemInit.FLOW_POTION_FLASK,
+                ItemInit.HOLLOW_POTION_FLASK
         );
     }
 

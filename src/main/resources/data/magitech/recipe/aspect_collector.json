@@ -12,9 +12,7 @@
       "type": "neoforge:components",
       "items": "magitech:catalyst",
       "components": {
-        "magitech:material_component": {
-          "material": "magitech:diamond"
-        }
+        "magitech:material_component": "magitech:diamond"
       },
       "strict": true
     },
@@ -22,9 +20,7 @@
       "type": "neoforge:components",
       "items": "magitech:plate",
       "components": {
-        "magitech:material_component": {
-          "material": "magitech:gold"
-        }
+        "magitech:material_component": "magitech:gold"
       },
       "strict": true
     },

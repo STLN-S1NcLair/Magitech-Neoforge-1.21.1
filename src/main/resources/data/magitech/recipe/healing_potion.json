@@ -1,0 +1,25 @@
+{
+  "type": "magitech:zardius_crucible",
+  "ingredients": [
+    {
+      "item": "magitech:aggregated_fluxia"
+    },
+    {
+      "tag": "c:gems/mana_charged_fluorite"
+    },
+    {
+      "tag": "c:foods/raw_meats"
+    },
+    {
+      "item": "magitech:mana_berries"
+    }
+  ],
+  "fluid_ingredient": {
+    "fluid": "minecraft:water",
+    "amount": 1000
+  },
+  "fluid_result": {
+    "id": "magitech:healing_potion",
+    "amount": 1000
+  }
+}

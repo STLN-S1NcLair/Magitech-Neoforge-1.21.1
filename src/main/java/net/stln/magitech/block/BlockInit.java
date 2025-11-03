@@ -24,6 +24,7 @@ import net.stln.magitech.block.block_entity.AlchemetricPylonBlockEntity;
 import net.stln.magitech.block.block_entity.AthanorPillarBlockEntity;
 import net.stln.magitech.block.block_entity.ManaVesselBlockEntity;
 import net.stln.magitech.block.block_entity.ZardiusCrucibleBlockEntity;
+import net.stln.magitech.block.block_entity.ToolHangerBlockEntity;
 import net.stln.magitech.item.ItemInit;
 import net.stln.magitech.item.TooltipTextBlockItem;
 import net.stln.magitech.item.TooltipTextSignItem;
@@ -86,32 +87,52 @@ public class BlockInit {
 
     public static final DeferredItem<BlockItem> UPGRADE_WORKBENCH_ITEM = ItemInit.ITEMS.register("upgrade_workbench", key -> new TooltipTextBlockItem(UPGRADE_WORKBENCH.get(), new Item.Properties()));
 
+    public static final DeferredBlock<ToolHangerBlock> TOOL_HANGER = BLOCKS.registerBlock("tool_hanger",
+            ToolHangerBlock::new,
+            BlockBehaviour.Properties.of().mapColor(MapColor.STONE)
+                    .strength(2F, 5.0F));
+    public static final Supplier<BlockEntityType<ToolHangerBlockEntity>> TOOL_HANGER_ENTITY =
+            BLOCK_ENITIES.register("tool_hanger", () -> BlockEntityType.Builder.of(
+                    ToolHangerBlockEntity::new, BlockInit.TOOL_HANGER.get()).build(null));
+    public static final DeferredItem<BlockItem> TOOL_HANGER_ITEM = ItemInit.ITEMS.register("tool_hanger", key -> new TooltipTextBlockItem(TOOL_HANGER.get(), new Item.Properties()));
+
     public static final DeferredBlock<ZardiusCrucibleBlock> ZARDIUS_CRUCIBLE = BLOCKS.registerBlock("zardius_crucible",
             ZardiusCrucibleBlock::new,
-            BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(SoundType.NETHERITE_BLOCK).lightLevel((blockState) -> 5).noOcclusion());
-    public static final DeferredItem<BlockItem> ZARDIUS_CRUCIBLE_ITEM = ItemInit.ITEMS.register("zardius_crucible", key -> new TooltipTextBlockItem(ZARDIUS_CRUCIBLE.get(), new Item.Properties()));    public static final Supplier<BlockEntityType<ZardiusCrucibleBlockEntity>> ZARDIUS_CRUCIBLE_ENTITY =
+            BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(SoundType.NETHERITE_BLOCK).noOcclusion());
+    public static final Supplier<BlockEntityType<ZardiusCrucibleBlockEntity>> ZARDIUS_CRUCIBLE_ENTITY =
             BLOCK_ENITIES.register("zardius_crucible", () -> BlockEntityType.Builder.of(
                     ZardiusCrucibleBlockEntity::new, BlockInit.ZARDIUS_CRUCIBLE.get()).build(null));
+    public static final DeferredItem<BlockItem> ZARDIUS_CRUCIBLE_ITEM = ItemInit.ITEMS.register("zardius_crucible", key -> new TooltipTextBlockItem(ZARDIUS_CRUCIBLE.get(), new Item.Properties()));
+
     public static final DeferredBlock<AlchemetricPylonBlock> ALCHEMETRIC_PYLON = BLOCKS.registerBlock("alchemetric_pylon",
             AlchemetricPylonBlock::new,
             BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(ALCHECRYSITE_SOUND));
-    public static final DeferredItem<BlockItem> ALCHEMETRIC_PYLON_ITEM = ItemInit.ITEMS.register("alchemetric_pylon", key -> new TooltipTextBlockItem(ALCHEMETRIC_PYLON.get(), new Item.Properties()));
-    public static final DeferredBlock<AthanorPillarBlock> ATHANOR_PILLAR = BLOCKS.registerBlock("athanor_pillar",
-            AthanorPillarBlock::new,
-            BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(ALCHECRYSITE_SOUND));    public static final Supplier<BlockEntityType<AlchemetricPylonBlockEntity>> ALCHEMETRIC_PYLON_ENTITY =
+    public static final Supplier<BlockEntityType<AlchemetricPylonBlockEntity>> ALCHEMETRIC_PYLON_ENTITY =
             BLOCK_ENITIES.register("alchemetric_pylon", () -> BlockEntityType.Builder.of(
                     AlchemetricPylonBlockEntity::new, BlockInit.ALCHEMETRIC_PYLON.get()).build(null));
+    public static final DeferredItem<BlockItem> ALCHEMETRIC_PYLON_ITEM = ItemInit.ITEMS.register("alchemetric_pylon", key -> new TooltipTextBlockItem(ALCHEMETRIC_PYLON.get(), new Item.Properties()));
+
+    public static final DeferredBlock<AthanorPillarBlock> ATHANOR_PILLAR = BLOCKS.registerBlock("athanor_pillar",
+            AthanorPillarBlock::new,
+            BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(ALCHECRYSITE_SOUND));
+    public static final Supplier<BlockEntityType<AthanorPillarBlockEntity>> ATHANOR_PILLAR_ENTITY =
+            BLOCK_ENITIES.register("athanor_pillar", () -> BlockEntityType.Builder.of(
+                    AthanorPillarBlockEntity::new, BlockInit.ATHANOR_PILLAR.get()).build(null));
     public static final DeferredItem<BlockItem> ATHANOR_PILLAR_ITEM = ItemInit.ITEMS.register("athanor_pillar", key -> new TooltipTextBlockItem(ATHANOR_PILLAR.get(), new Item.Properties()));
+
     public static final DeferredBlock<ManaNodeBlock> MANA_NODE = BLOCKS.registerBlock("mana_node",
             ManaNodeBlock::new,
             BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(CRYSTAL_SOUND).lightLevel((blockState) -> 10));
-    public static final DeferredItem<BlockItem> MANA_NODE_ITEM = ItemInit.ITEMS.register("mana_node", key -> new TooltipTextBlockItem(MANA_NODE.get(), new Item.Properties()));    public static final Supplier<BlockEntityType<AthanorPillarBlockEntity>> ATHANOR_PILLAR_ENTITY =
-            BLOCK_ENITIES.register("athanor_pillar", () -> BlockEntityType.Builder.of(
-                    AthanorPillarBlockEntity::new, BlockInit.ATHANOR_PILLAR.get()).build(null));
+    public static final DeferredItem<BlockItem> MANA_NODE_ITEM = ItemInit.ITEMS.register("mana_node", key -> new TooltipTextBlockItem(MANA_NODE.get(), new Item.Properties()));
+
     public static final DeferredBlock<ManaVesselBlock> MANA_VESSEL = BLOCKS.registerBlock("mana_vessel",
             ManaVesselBlock::new,
             BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(SoundType.NETHERITE_BLOCK).lightLevel((blockState) -> 5).noOcclusion());
+    public static final Supplier<BlockEntityType<ManaVesselBlockEntity>> MANA_VESSEL_ENTITY =
+            BLOCK_ENITIES.register("mana_vessel", () -> BlockEntityType.Builder.of(
+                    ManaVesselBlockEntity::new, BlockInit.MANA_VESSEL.get()).build(null));
     public static final DeferredItem<BlockItem> MANA_VESSEL_ITEM = ItemInit.ITEMS.register("mana_vessel", key -> new TooltipTextBlockItem(MANA_VESSEL.get(), new Item.Properties()));
+
     public static final DeferredBlock<DropExperienceBlock> FLUORITE_ORE = BLOCKS.registerBlock("fluorite_ore",
             (properties) -> new DropExperienceBlock(UniformInt.of(1, 4),
                     BlockBehaviour.Properties.of().mapColor(MapColor.STONE)
@@ -120,16 +141,16 @@ public class BlockInit {
                             .strength(3.0F, 3.0F)
             ));
     public static final DeferredItem<BlockItem> FLUORITE_ORE_ITEM = ItemInit.ITEMS.register("fluorite_ore", key -> new TooltipTextBlockItem(FLUORITE_ORE.get(), new Item.Properties()));
+
     public static final DeferredBlock<DropExperienceBlock> DEEPSLATE_FLUORITE_ORE = BLOCKS.registerBlock("deepslate_fluorite_ore",
             (properties) -> new DropExperienceBlock(UniformInt.of(1, 4),
                     BlockBehaviour.Properties.ofFullCopy(FLUORITE_ORE.get())
                             .mapColor(MapColor.DEEPSLATE)
                             .strength(4.5F, 3.0F)
                             .sound(SoundType.DEEPSLATE)
-            ));    public static final Supplier<BlockEntityType<ManaVesselBlockEntity>> MANA_VESSEL_ENTITY =
-            BLOCK_ENITIES.register("mana_vessel", () -> BlockEntityType.Builder.of(
-                    ManaVesselBlockEntity::new, BlockInit.MANA_VESSEL.get()).build(null));
+            ));
     public static final DeferredItem<BlockItem> DEEPSLATE_FLUORITE_ORE_ITEM = ItemInit.ITEMS.register("deepslate_fluorite_ore", key -> new TooltipTextBlockItem(DEEPSLATE_FLUORITE_ORE.get(), new Item.Properties()));
+
     public static final DeferredBlock<DropExperienceBlock> TOURMALINE_ORE = BLOCKS.registerBlock("tourmaline_ore",
             (properties) -> new DropExperienceBlock(UniformInt.of(1, 4),
                     BlockBehaviour.Properties.of().mapColor(MapColor.STONE)
@@ -138,6 +159,7 @@ public class BlockInit {
                             .strength(3.0F, 3.0F)
             ));
     public static final DeferredItem<BlockItem> TOURMALINE_ORE_ITEM = ItemInit.ITEMS.register("tourmaline_ore", key -> new TooltipTextBlockItem(TOURMALINE_ORE.get(), new Item.Properties()));
+
     public static final DeferredBlock<DropExperienceBlock> DEEPSLATE_TOURMALINE_ORE = BLOCKS.registerBlock("deepslate_tourmaline_ore",
             (properties) -> new DropExperienceBlock(UniformInt.of(1, 4),
                     BlockBehaviour.Properties.ofFullCopy(TOURMALINE_ORE.get())
@@ -146,6 +168,7 @@ public class BlockInit {
                             .sound(SoundType.DEEPSLATE)
             ));
     public static final DeferredItem<BlockItem> DEEPSLATE_TOURMALINE_ORE_ITEM = ItemInit.ITEMS.register("deepslate_tourmaline_ore", key -> new TooltipTextBlockItem(DEEPSLATE_TOURMALINE_ORE.get(), new Item.Properties()));
+
     public static final DeferredBlock<FluoriteCrystalClusterBlock> FLUORITE_CRYSTAL_CLUSTER = BLOCKS.registerBlock("fluorite_crystal_cluster",
             (properties) -> new FluoriteCrystalClusterBlock(UniformInt.of(0, 2), properties),
             BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_CYAN)
@@ -157,6 +180,7 @@ public class BlockInit {
                     .requiresCorrectToolForDrops()
                     .pushReaction(PushReaction.DESTROY));
     public static final DeferredItem<BlockItem> FLUORITE_CRYSTAL_CLUSTER_ITEM = ItemInit.ITEMS.register("fluorite_crystal_cluster", key -> new TooltipTextBlockItem(FLUORITE_CRYSTAL_CLUSTER.get(), new Item.Properties()));
+
     public static final DeferredBlock<RedstoneCrystalClusterBlock> REDSTONE_CRYSTAL_CLUSTER = BLOCKS.registerBlock("redstone_crystal_cluster",
             (properties) -> new RedstoneCrystalClusterBlock(UniformInt.of(1, 3), properties),
             BlockBehaviour.Properties.of()

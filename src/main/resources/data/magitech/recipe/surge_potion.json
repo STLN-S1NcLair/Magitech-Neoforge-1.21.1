@@ -1,0 +1,25 @@
+{
+  "type": "magitech:zardius_crucible",
+  "ingredients": [
+    {
+      "item": "magitech:aggregated_luminis"
+    },
+    {
+      "item": "magitech:surge_crystal"
+    },
+    {
+      "tag": "c:ingots/copper"
+    },
+    {
+      "tag": "c:gems/redstone_crystal"
+    }
+  ],
+  "fluid_ingredient": {
+    "fluid": "magitech:mana_potion",
+    "amount": 1000
+  },
+  "fluid_result": {
+    "id": "magitech:surge_potion",
+    "amount": 1000
+  }
+}

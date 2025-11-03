@@ -14,13 +14,22 @@ import java.util.List;
 
 public record ToolBeltComponent(List<ItemStack> stacks) {
     public static final Codec<ToolBeltComponent> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            ItemStack.CODEC.listOf().fieldOf("stacks").forGetter(ToolBeltComponent::stacks)
+            ItemStack.OPTIONAL_CODEC.listOf(8, 8).fieldOf("stacks").forGetter(ToolBeltComponent::stacks)
     ).apply(instance, ToolBeltComponent::new));
     public static final StreamCodec<RegistryFriendlyByteBuf, ToolBeltComponent> STREAM_CODEC = StreamCodec.composite(
-            ItemStack.STREAM_CODEC.apply(ByteBufCodecs.list()),
+            ItemStack.OPTIONAL_STREAM_CODEC.apply(ByteBufCodecs.list(8)),
             ToolBeltComponent::stacks,
             ToolBeltComponent::new
     );
 
-    public static final ToolBeltComponent EMPTY = new ToolBeltComponent(List.of());
+    public static final ToolBeltComponent EMPTY = new ToolBeltComponent(List.of(ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY));
+
+    public ToolBeltComponent changeStack(ItemStack newStack, int index) {
+        List<ItemStack> newStacks = new java.util.ArrayList<>(List.copyOf(this.stacks));
+        if (index < 0 || index >= newStacks.size()) {
+            return this;
+        }
+        newStacks.set(index, newStack);
+        return new ToolBeltComponent(newStacks);
+    }
 }

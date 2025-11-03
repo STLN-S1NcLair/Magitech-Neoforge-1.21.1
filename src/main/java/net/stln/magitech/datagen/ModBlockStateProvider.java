@@ -21,6 +21,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         sideBottomTopBlockWithItem(BlockInit.ASSEMBLY_WORKBENCH.get());
         sideBottomTopBlockWithItem(BlockInit.REPAIRING_WORKBENCH.get());
         sideBottomTopBlockWithItem(BlockInit.UPGRADE_WORKBENCH.get());
+        horizontalHandModeledBlockWithItem(BlockInit.TOOL_HANGER.get());
         handModeledBlockWithItem(BlockInit.ALCHEMETRIC_PYLON.get());
         handModeledBlockWithItem(BlockInit.ATHANOR_PILLAR.get());
         handModeledBlockWithItem(BlockInit.ZARDIUS_CRUCIBLE.get());
@@ -117,6 +118,11 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
     private void directionalHandModeledBlockWithItem(Block block) {
         directionalBlock(block, new ModelFile.ExistingModelFile(blockTexture(block), this.models().existingFileHelper));
+        blockItem(block);
+    }
+
+    private void horizontalHandModeledBlockWithItem(Block block) {
+        horizontalBlock(block, new ModelFile.ExistingModelFile(blockTexture(block), this.models().existingFileHelper));
         blockItem(block);
     }
 

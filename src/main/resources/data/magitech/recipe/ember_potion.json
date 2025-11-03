@@ -1,0 +1,25 @@
+{
+  "type": "magitech:zardius_crucible",
+  "ingredients": [
+    {
+      "item": "magitech:aggregated_fluxia"
+    },
+    {
+      "item": "magitech:ember_crystal"
+    },
+    {
+      "tag": "c:coal"
+    },
+    {
+      "tag": "c:gems/citrine"
+    }
+  ],
+  "fluid_ingredient": {
+    "fluid": "magitech:mana_potion",
+    "amount": 1000
+  },
+  "fluid_result": {
+    "id": "magitech:ember_potion",
+    "amount": 1000
+  }
+}

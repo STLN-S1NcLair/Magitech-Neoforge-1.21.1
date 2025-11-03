@@ -100,15 +100,18 @@ public class ZardiusCrucibleBlockEntity extends BlockEntity {
                 .getRecipeFor(RecipeInit.ZARDIUS_CRUCIBLE_TYPE.get(), input, level)
                 .map(RecipeHolder::value)
                 .ifPresent(recipe -> processRecipe(level, pos, state, recipe, input));
+
+        if (state.getBlock() instanceof ZardiusCrucibleBlock crucibleBlock && crucibleBlock.isOnFire(state, level, pos)) {
+            // 沸騰する音を鳴らす
+            playBoilSound(level, pos, state);
+        }
     }
 
     private void processRecipe(Level level, BlockPos pos, BlockState state, ZardiusCrucibleRecipe recipe, CrucibleRecipeInput input) {
         BlockState newState;
         // 火がついているか判定
         if (state.getBlock() instanceof ZardiusCrucibleBlock crucibleBlock && crucibleBlock.isOnFire(state, level, pos)) {
-            // 沸騰する音を鳴らす
-            playBoilSound(level, pos, state);
-            // ???
+            // 完成品が残っていないか確認
             if (inventory.getStackInSlot(0).getCount() >= 2) return;
             var requiredAmount = recipe.fluidIngredient().amount();
             // 液体を処理できるか判定する
@@ -127,6 +130,7 @@ public class ZardiusCrucibleBlockEntity extends BlockEntity {
                 // 時間を進める
                 if (this.craftingTime < this.maxCraftingTime) {
                     this.craftingTime++;
+                    newState = state.setValue(ZardiusCrucibleBlock.LIT, true);
                 } else {
                     ItemStack result = recipe.assemble(input, level.registryAccess());
                     this.fluidTank.drain(requiredAmount, IFluidHandler.FluidAction.EXECUTE);
@@ -135,8 +139,8 @@ public class ZardiusCrucibleBlockEntity extends BlockEntity {
                     this.addItemStack(result, result.getCount());
                     this.craftingTime = 0;
                     level.playSound(null, pos, SoundEvents.BREWING_STAND_BREW, SoundSource.BLOCKS, 1.0f, 0.6f + (level.random.nextFloat() * 0.8f));
+                    newState = state.setValue(ZardiusCrucibleBlock.LIT, false);
                 }
-                newState = state.setValue(ZardiusCrucibleBlock.LIT, true);
             } else {
                 this.craftingTime = 0;
                 newState = state.setValue(ZardiusCrucibleBlock.LIT, false);

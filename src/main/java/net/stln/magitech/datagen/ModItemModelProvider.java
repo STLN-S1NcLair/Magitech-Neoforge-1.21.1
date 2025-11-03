@@ -29,6 +29,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ItemInit.UMBRAL_RING.get());
         basicItem(ItemInit.DAWN_RING.get());
         basicItem(ItemInit.FLUXBOUND_RING.get());
+        basicItem(ItemInit.TOOL_BELT.get());
         basicItem(ItemInit.LIGHT_BLADE.get());
         basicItem(ItemInit.HEAVY_BLADE.get());
         basicItem(ItemInit.LIGHT_HANDLE.get());
@@ -85,6 +86,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ItemInit.POLISHED_RESONITE.get());
         basicItem(ItemInit.ABYSSITE.get());
         basicItem(ItemInit.POLISHED_ABYSSITE.get());
+        basicItem(ItemInit.MANA_INSULATING_GLASS.get());
         basicItem(ItemInit.MANA_DEEXCITER_CORE.get());
         basicItem(ItemInit.ASPECT_COLLECTOR.get());
         basicItem(ItemInit.BOOTS_FRAME.get());
@@ -97,6 +99,13 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ItemInit.MANA_POTION_FLASK.get());
         basicItem(ItemInit.HEALING_POTION_FLASK.get());
         basicItem(ItemInit.EMBER_POTION_FLASK.get());
+        basicItem(ItemInit.GLACE_POTION_FLASK.get());
+        basicItem(ItemInit.SURGE_POTION_FLASK.get());
+        basicItem(ItemInit.PHANTOM_POTION_FLASK.get());
+        basicItem(ItemInit.TREMOR_POTION_FLASK.get());
+        basicItem(ItemInit.MAGIC_POTION_FLASK.get());
+        basicItem(ItemInit.FLOW_POTION_FLASK.get());
+        basicItem(ItemInit.HOLLOW_POTION_FLASK.get());
 
         basicItem(BlockInit.CELIFERN_DOOR_ITEM.get());
         getBuilder(BlockInit.CELIFERN_SAPLING_ITEM.get().toString())

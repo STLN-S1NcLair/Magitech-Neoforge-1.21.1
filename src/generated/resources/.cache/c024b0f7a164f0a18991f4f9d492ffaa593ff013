@@ -1,4 +1,4 @@
-// 1.21.1	2025-09-10T22:38:28.224504	Block States: magitech
+// 1.21.1	2025-10-29T20:27:03.4381912	Block States: magitech
 90f039d3c8040909582f040c2be7f09eca62a0a8 assets/magitech/blockstates/alchecrysite.json
 e2e47f25d85025ef83b8b30154421755d7d8c139 assets/magitech/blockstates/alchecrysite_bricks.json
 36896c4c599cbeeb6b3e9441de7d2de5fa12cb4d assets/magitech/blockstates/alchecrysite_brick_slab.json
@@ -68,6 +68,7 @@ cd93879603b88ccdb9e8d7bb0550fa10cd12c164 assets/magitech/blockstates/stripped_ce
 287cf9efda8e71f309d2dd3d8eadd0eec3b96754 assets/magitech/blockstates/stripped_charcoal_birch_log.json
 94221c3c23373048c2368bd3ca4765211ac12fb7 assets/magitech/blockstates/stripped_charcoal_birch_wood.json
 90d759a4b9d5958275737455eb8bdf1564bb02b5 assets/magitech/blockstates/sulfur_block.json
+24e17706a6611beb3a07d5f8eef10e0851e98418 assets/magitech/blockstates/tool_hanger.json
 5c3c37a5de72442d162efa29923168ea68cceb42 assets/magitech/blockstates/tourmaline_ore.json
 8d56439822e4b1b890f61afbcb3d41ca028ba1fb assets/magitech/blockstates/upgrade_workbench.json
 0756cf9ff0c820d58cddd40a471465145d351b0a assets/magitech/blockstates/zardius_crucible.json
@@ -263,6 +264,7 @@ e260db49fa75a9c79646b4f8a6c5878a5f753c50 assets/magitech/models/item/scorched_so
 9514d00de56d61a24a63e5b197c4a23cbf7f8ba5 assets/magitech/models/item/stripped_charcoal_birch_log.json
 16150b8fbc8a29090475f3d959508f167cbff71d assets/magitech/models/item/stripped_charcoal_birch_wood.json
 7a8697e1a7facb7513c504f5ad0f095fff87c4d3 assets/magitech/models/item/sulfur_block.json
+d3b5eca4dcaf7ba678c013453a5e486da9e425b3 assets/magitech/models/item/tool_hanger.json
 59536df90d389f762d3d00d7343afaa8f1c506d1 assets/magitech/models/item/tourmaline_ore.json
 a33aa48b9987a3fabf9fcbf31cd7113ff9976853 assets/magitech/models/item/upgrade_workbench.json
 cd2273a5560fcfedc6591068401212f26eb48a5d assets/magitech/models/item/zardius_crucible.json

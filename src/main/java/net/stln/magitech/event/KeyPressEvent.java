@@ -17,7 +17,7 @@ import net.stln.magitech.item.tool.toolitem.PartToolItem;
 import net.stln.magitech.network.DoubleJumpPayload;
 import net.stln.magitech.network.LongJumpPayload;
 import net.stln.magitech.network.OpenThreadBoundPageScreenPayload;
-import net.stln.magitech.network.ThreadBoundSelectPayload;
+import net.stln.magitech.network.ThreadboundSelectPayload;
 import net.stln.magitech.util.ClientHelper;
 import net.stln.magitech.util.ComponentHelper;
 import net.stln.magitech.util.CuriosHelper;
@@ -67,7 +67,7 @@ public class KeyPressEvent {
                     int selected = component.selected();
                     int select = selected < 0 || selected >= component.spells().size() - 1 ? 0 : selected + 1;
 
-                    PacketDistributor.sendToServer(new ThreadBoundSelectPayload(select, player.getUUID()));
+                    PacketDistributor.sendToServer(new ThreadboundSelectPayload(select, player.getUUID()));
                     return component.setSelected(selected);
                 });
             });
@@ -77,7 +77,7 @@ public class KeyPressEvent {
                 ComponentHelper.updateSpells(stack, component -> {
                     int selected = component.selected();
                     int select = selected < 1 || selected >= component.spells().size() ? component.spells().size() - 1 : selected - 1;
-                    PacketDistributor.sendToServer(new ThreadBoundSelectPayload(select, player.getUUID()));
+                    PacketDistributor.sendToServer(new ThreadboundSelectPayload(select, player.getUUID()));
                     return component.setSelected(selected);
                 });
             });

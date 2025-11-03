@@ -22,9 +22,7 @@
     "count": 1,
     "id": "magitech:thread_page",
     "components": {
-      "magitech:thread_page_component": {
-        "spell": "magitech:enercrux"
-      }
+      "magitech:thread_page_component": "magitech:enercrux"
     }
   }
 }

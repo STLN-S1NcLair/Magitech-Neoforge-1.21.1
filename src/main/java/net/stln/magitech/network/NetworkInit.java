@@ -83,11 +83,19 @@ public class NetworkInit {
                 )
         );
         registrar.playBidirectional(
-                ThreadBoundSelectPayload.TYPE,
-                ThreadBoundSelectPayload.STREAM_CODEC,
+                ThreadboundSelectPayload.TYPE,
+                ThreadboundSelectPayload.STREAM_CODEC,
                 new DirectionalPayloadHandler<>(
                         ThreadboundSelectPayLoadHandler::handleDataOnMainS2C,
                         ThreadboundSelectPayLoadHandler::handleDataOnMainC2S
+                )
+        );
+        registrar.playBidirectional(
+                SwapToolFromBeltPayload.TYPE,
+                SwapToolFromBeltPayload.STREAM_CODEC,
+                new DirectionalPayloadHandler<>(
+                        SwapToolFromBeltPayLoadHandler::handleDataOnMainS2C,
+                        SwapToolFromBeltPayLoadHandler::handleDataOnMainC2S
                 )
         );
         registrar.playToServer(

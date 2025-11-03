@@ -14,7 +14,7 @@
     "item": "minecraft:sugar"
     },
     {
-      "item": "magitech:mana_charged_fluorite"
+      "tag": "c:gems/mana_charged_fluorite"
     }
   ],
   "fluid_ingredient": {

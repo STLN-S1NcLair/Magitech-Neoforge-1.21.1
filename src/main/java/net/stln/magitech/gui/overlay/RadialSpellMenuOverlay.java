@@ -18,7 +18,7 @@ import net.stln.magitech.item.tool.toolitem.SpellCasterItem;
 import net.stln.magitech.magic.cooldown.Cooldown;
 import net.stln.magitech.magic.cooldown.CooldownData;
 import net.stln.magitech.magic.spell.Spell;
-import net.stln.magitech.network.ThreadBoundSelectPayload;
+import net.stln.magitech.network.ThreadboundSelectPayload;
 import net.stln.magitech.util.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -32,8 +32,8 @@ public class RadialSpellMenuOverlay extends Screen {
     private int select = -1;
     private int ticks = 0;
 
-    public RadialSpellMenuOverlay(Component title) {
-        super(title);
+    public RadialSpellMenuOverlay() {
+        super(Component.empty());
     }
 
     @Override
@@ -95,7 +95,7 @@ public class RadialSpellMenuOverlay extends Screen {
                             i++;
                             int tooltipx = (x - font.width(component.getString()) / 2);
                             int color = component.getStyle().getColor() != null ? component.getStyle().getColor().getValue() : 0xFFFFFF;
-                            RenderHelper.renderFramedText(guiGraphics, font, component.getString(), tooltipx, rendery + i * 10, color, color == spell.getElement().getSpellColor() ? spell.getElement().getSpellDark() : ColorHelper.Argb.mul(color, 0x404040));
+                            RenderHelper.renderFramedText(guiGraphics, font, component.getString(), tooltipx, rendery + i * 10, color, color == spell.getElement().getSpellColor() ? spell.getElement().getSpellDark() : ColorHelper.Argb.mul(color, 0x404060));
                         }
                     }
                 } else if (distance <= 10) {
@@ -152,7 +152,7 @@ public class RadialSpellMenuOverlay extends Screen {
         if (player == null) return;
         CuriosHelper.getThreadBoundStack(player).ifPresent(stack -> {
             if (stack.has(ComponentInit.SPELL_COMPONENT) && select >= 0) {
-                PacketDistributor.sendToServer(new ThreadBoundSelectPayload(select, player.getUUID()));
+                PacketDistributor.sendToServer(new ThreadboundSelectPayload(select, player.getUUID()));
                 ComponentHelper.updateSpells(stack, spellComponent -> spellComponent.setSelected(select));
             }
         });

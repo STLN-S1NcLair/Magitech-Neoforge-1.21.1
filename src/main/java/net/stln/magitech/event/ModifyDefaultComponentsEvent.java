@@ -53,6 +53,8 @@ public class ModifyDefaultComponentsEvent {
 
         event.modify(ItemInit.THREAD_PAGE, builder -> builder.set(ComponentInit.THREAD_PAGE_COMPONENT.get(), new ThreadPageComponent(SpellInit.ENERCRUX)).build());
 
+        event.modify(ItemInit.TOOL_BELT, builder -> builder.set(ComponentInit.TOOLBELT_COMPONENT.get(), ToolBeltComponent.EMPTY).build());
+
         event.modify(ItemInit.ALCHEMICAL_FLASK, builder -> builder.set(ComponentInit.FLUID_CONTENT_COMPONENT.get(), SimpleFluidContent.EMPTY).build());
         setFluidContentComponent(event, ItemInit.WATER_FLASK, new FluidStack(Fluids.WATER, 250));
         setFluidContentComponent(event, ItemInit.LAVA_FLASK, new FluidStack(Fluids.LAVA, 250));
@@ -60,6 +62,13 @@ public class ModifyDefaultComponentsEvent {
         setFluidContentComponent(event, ItemInit.MANA_POTION_FLASK, new FluidStack(FluidInit.MANA_POTION, 250));
         setFluidContentComponent(event, ItemInit.HEALING_POTION_FLASK, new FluidStack(FluidInit.HEALING_POTION, 250));
         setFluidContentComponent(event, ItemInit.EMBER_POTION_FLASK, new FluidStack(FluidInit.EMBER_POTION, 250));
+        setFluidContentComponent(event, ItemInit.GLACE_POTION_FLASK, new FluidStack(FluidInit.GLACE_POTION, 250));
+        setFluidContentComponent(event, ItemInit.SURGE_POTION_FLASK, new FluidStack(FluidInit.SURGE_POTION, 250));
+        setFluidContentComponent(event, ItemInit.PHANTOM_POTION_FLASK, new FluidStack(FluidInit.PHANTOM_POTION, 250));
+        setFluidContentComponent(event, ItemInit.TREMOR_POTION_FLASK, new FluidStack(FluidInit.TREMOR_POTION, 250));
+        setFluidContentComponent(event, ItemInit.MAGIC_POTION_FLASK, new FluidStack(FluidInit.MAGIC_POTION, 250));
+        setFluidContentComponent(event, ItemInit.FLOW_POTION_FLASK, new FluidStack(FluidInit.FLOW_POTION, 250));
+        setFluidContentComponent(event, ItemInit.HOLLOW_POTION_FLASK, new FluidStack(FluidInit.HOLLOW_POTION, 250));
     }
 
     private static void setComponentsForThreadbound(net.neoforged.neoforge.event.ModifyDefaultComponentsEvent event, DeferredItem<?> item, ResourceLocation bookId) {

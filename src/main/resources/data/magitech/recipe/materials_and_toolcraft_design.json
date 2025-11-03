@@ -9,9 +9,7 @@
       "type": "neoforge:components",
       "items": "magitech:reinforced_stick",
       "components": {
-        "magitech:material_component": {
-          "material": "magitech:iron"
-        }
+        "magitech:material_component": "magitech:iron"
       },
       "strict": true
     },
@@ -19,9 +17,7 @@
       "type": "neoforge:components",
       "items": "magitech:plate",
       "components": {
-        "magitech:material_component": {
-          "material": "magitech:stone"
-        }
+        "magitech:material_component": "magitech:stone"
       },
       "strict": true
     },

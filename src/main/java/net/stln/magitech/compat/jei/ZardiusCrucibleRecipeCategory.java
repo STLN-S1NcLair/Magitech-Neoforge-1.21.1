@@ -57,7 +57,7 @@ public class ZardiusCrucibleRecipeCategory extends AbstractMagitechRecipeCategor
         super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
         int size = recipe.getIngredients().size();
 
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < (size == 0 ? 8 : size); i++) {
             int x, y;
 
             if (size <= 3) {
@@ -94,12 +94,8 @@ public class ZardiusCrucibleRecipeCategory extends AbstractMagitechRecipeCategor
         guiGraphics.blit(TEXTURE, 95, 17, 0, 18, 21, 10);
         var access = ClientHelper.getRegistryAccess();
         if (access == null) return;
-        if (!recipe.getResultItem(access).isEmpty()) {
-            guiGraphics.blit(TEXTURE, 120, 13, 36, 0, 18, 18);
-        }
-        if (recipe.resultFluid().isPresent()) {
-            guiGraphics.blit(TEXTURE, 138, 13, 54, 0, 18, 18);
-        }
+        guiGraphics.blit(TEXTURE, 120, 13, 36, 0, 18, 18);
+        guiGraphics.blit(TEXTURE, 138, 13, 54, 0, 18, 18);
     }
 
     @Override
@@ -167,7 +163,7 @@ public class ZardiusCrucibleRecipeCategory extends AbstractMagitechRecipeCategor
             builder.addSlot(RecipeIngredientRole.OUTPUT, 121, 14)
                     .addItemStack(recipe.getResultItem(access));
         }
-        recipe.resultFluid().ifPresent(fluidStack -> builder.addSlot(RecipeIngredientRole.INPUT, 139, 14)
+        recipe.resultFluid().ifPresent(fluidStack -> builder.addSlot(RecipeIngredientRole.OUTPUT, 139, 14)
                 .addIngredient(NeoForgeTypes.FLUID_STACK, fluidStack).addRichTooltipCallback((recipeSlotView, tooltip) -> {
                     recipeSlotView.getDisplayedIngredient(NeoForgeTypes.FLUID_STACK).ifPresent(fluid -> {
                         int amount = fluid.getAmount();

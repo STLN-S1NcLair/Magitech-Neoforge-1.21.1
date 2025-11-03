@@ -20,6 +20,13 @@ public class KeyMappingEvent {
             GLFW.GLFW_KEY_R,
             "key.categories.magitech.category"
     ));
+    public static final Lazy<KeyMapping> TOOL_BELT = Lazy.of(() -> new KeyMapping(
+            "key.magitech.tool_belt",
+            KeyConflictContext.UNIVERSAL,
+            InputConstants.Type.KEYSYM,
+            GLFW.GLFW_KEY_LEFT_ALT,
+            "key.categories.magitech.category"
+    ));
     public static final Lazy<KeyMapping> TRAIT_ACTION = Lazy.of(() -> new KeyMapping(
             "key.magitech.trait_action",
             KeyConflictContext.IN_GAME,
@@ -73,6 +80,7 @@ public class KeyMappingEvent {
     @SubscribeEvent
     public static void registerBindings(RegisterKeyMappingsEvent event) {
         event.register(RADIAL_SPELL_MENU.get());
+        event.register(TOOL_BELT.get());
         event.register(TRAIT_ACTION.get());
         event.register(DOUBLE_JUMP.get());
         event.register(LONG_JUMP.get());

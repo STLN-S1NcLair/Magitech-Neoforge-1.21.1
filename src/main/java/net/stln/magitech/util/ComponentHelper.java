@@ -28,6 +28,10 @@ public class ComponentHelper {
         return holder.getOrDefault(ComponentInit.SPELL_COMPONENT, SpellComponent.EMPTY);
     }
 
+    public static @NotNull ToolBeltComponent getToolsInBelt(@NotNull DataComponentHolder holder) {
+        return holder.getOrDefault(ComponentInit.TOOLBELT_COMPONENT, ToolBeltComponent.EMPTY);
+    }
+
     public static @NotNull Optional<Spell> getThreadPageSpell(@NotNull DataComponentHolder holder) {
         return Optional.ofNullable(holder.get(ComponentInit.THREAD_PAGE_COMPONENT)).map(ThreadPageComponent::spell);
     }
@@ -57,12 +61,12 @@ public class ComponentHelper {
         holder.set(ComponentInit.THREAD_PAGE_COMPONENT, new ThreadPageComponent(spell));
     }
 
-    public static void setFluidContent(@NotNull MutableDataComponentHolder holder, @NotNull SimpleFluidContent fluidContent) {
-        holder.set(ComponentInit.FLUID_CONTENT_COMPONENT, fluidContent);
-    }
-
     public static void updateSpells(@NotNull MutableDataComponentHolder holder, @NotNull UnaryOperator<SpellComponent> operator) {
         holder.update(ComponentInit.SPELL_COMPONENT, SpellComponent.EMPTY, operator);
+    }
+
+    public static void updateToolBelt(@NotNull MutableDataComponentHolder holder, @NotNull UnaryOperator<ToolBeltComponent> operator) {
+        holder.update(ComponentInit.TOOLBELT_COMPONENT, ToolBeltComponent.EMPTY, operator);
     }
 
     public static void updateUpgradePoint(@NotNull MutableDataComponentHolder holder, UnaryOperator<Integer> operator) {

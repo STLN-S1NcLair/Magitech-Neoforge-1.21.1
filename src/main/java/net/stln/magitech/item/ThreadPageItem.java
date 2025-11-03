@@ -44,5 +44,6 @@ public class ThreadPageItem extends TooltipTextItem {
             }
             tooltipComponents.addAll(componentList);
         });
+        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
     }
 }

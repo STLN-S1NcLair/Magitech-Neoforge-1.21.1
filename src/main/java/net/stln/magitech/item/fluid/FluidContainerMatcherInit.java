@@ -32,6 +32,20 @@ public class FluidContainerMatcherInit {
 
      public static final DeferredFluidContainerMatcher<FluidContainerMatcher> EMBER_POTION_FLASK = register("ember_potion_flask", makeSimpleMatcher(ItemInit.ALCHEMICAL_FLASK, FluidInit.EMBER_POTION, ItemInit.EMBER_POTION_FLASK));
 
+     public static final DeferredFluidContainerMatcher<FluidContainerMatcher> GLACE_POTION_FLASK = register("glace_potion_flask", makeSimpleMatcher(ItemInit.ALCHEMICAL_FLASK, FluidInit.GLACE_POTION, ItemInit.GLACE_POTION_FLASK));
+
+     public static final DeferredFluidContainerMatcher<FluidContainerMatcher> SURGE_POTION_FLASK = register("surge_potion_flask", makeSimpleMatcher(ItemInit.ALCHEMICAL_FLASK, FluidInit.SURGE_POTION, ItemInit.SURGE_POTION_FLASK));
+
+     public static final DeferredFluidContainerMatcher<FluidContainerMatcher> PHANTOM_POTION_FLASK = register("phantom_potion_flask", makeSimpleMatcher(ItemInit.ALCHEMICAL_FLASK, FluidInit.PHANTOM_POTION, ItemInit.PHANTOM_POTION_FLASK));
+
+     public static final DeferredFluidContainerMatcher<FluidContainerMatcher> TREMOR_POTION_FLASK = register("tremor_potion_flask", makeSimpleMatcher(ItemInit.ALCHEMICAL_FLASK, FluidInit.TREMOR_POTION, ItemInit.TREMOR_POTION_FLASK));
+
+     public static final DeferredFluidContainerMatcher<FluidContainerMatcher> MAGIC_POTION_FLASK = register("magic_potion_flask", makeSimpleMatcher(ItemInit.ALCHEMICAL_FLASK, FluidInit.MAGIC_POTION, ItemInit.MAGIC_POTION_FLASK));
+
+     public static final DeferredFluidContainerMatcher<FluidContainerMatcher> FLOW_POTION_FLASK = register("flow_potion_flask", makeSimpleMatcher(ItemInit.ALCHEMICAL_FLASK, FluidInit.FLOW_POTION, ItemInit.FLOW_POTION_FLASK));
+
+     public static final DeferredFluidContainerMatcher<FluidContainerMatcher> HOLLOW_POTION_FLASK = register("hollow_potion_flask", makeSimpleMatcher(ItemInit.ALCHEMICAL_FLASK, FluidInit.HOLLOW_POTION, ItemInit.HOLLOW_POTION_FLASK));
+
     public static FluidContainerMatcher makeSimpleMatcher(ItemLike emptyContainer, Supplier<Fluid> fluid, ItemLike filledContainer) {
         return new FluidContainerMatcher(emptyContainer, () -> Ingredient.of(emptyContainer), fluid, () -> FluidIngredient.of(fluid.get()), filledContainer);
     }

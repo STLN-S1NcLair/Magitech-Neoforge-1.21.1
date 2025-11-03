@@ -1,4 +1,4 @@
-// 1.21.1	2025-09-13T16:11:27.3105594	Loot Tables
+// 1.21.1	2025-10-29T20:27:03.4436956	Loot Tables
 d5c7ba896003b8f86835f7808a6a42840e7bb806 data/magitech/loot_table/blocks/alchecrysite.json
 0ec67ee2f0a83abcc8fc58cd95f43106109fca3e data/magitech/loot_table/blocks/alchecrysite_bricks.json
 f0dfbc1457dc98d193c135916b33deca6e65c407 data/magitech/loot_table/blocks/alchecrysite_brick_slab.json
@@ -73,6 +73,7 @@ ff4f386e2881ffa643ba7321637cac8e70e0dbc1 data/magitech/loot_table/blocks/strippe
 c611984baa1aaa982f3efe2fdfb636955d795e94 data/magitech/loot_table/blocks/stripped_charcoal_birch_wood.json
 23bfbb7c3f3fe181ec6a44a33fc836c1c58fbb7f data/magitech/loot_table/blocks/sulfur_block.json
 3c7a2c67d8ae048f563799ed5b8811fc2d8665e3 data/magitech/loot_table/blocks/sulfur_crystal_cluster.json
+09bda6905b76d6f568380832546a4144fbd4a3d0 data/magitech/loot_table/blocks/tool_hanger.json
 862dd084d0d8682a746abff7fd9e5073aaa581e2 data/magitech/loot_table/blocks/tourmaline_ore.json
 a8e206916edfa491763366e3d3ae1a948c7c8536 data/magitech/loot_table/blocks/upgrade_workbench.json
 ecaa5a057a4f74638d467635af23e62f127a6fb9 data/magitech/loot_table/blocks/zardius_crucible.json

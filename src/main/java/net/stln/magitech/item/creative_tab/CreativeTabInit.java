@@ -46,6 +46,7 @@ public class CreativeTabInit {
                 output.accept(ItemInit.UMBRAL_RING.get());
                 output.accept(ItemInit.DAWN_RING.get());
                 output.accept(ItemInit.FLUXBOUND_RING.get());
+                output.accept(ItemInit.TOOL_BELT.get());
                 output.accept(ItemInit.ALCHAEFABRIC.get());
                 output.accept(ItemInit.AEGIS_WEAVE.get());
                 output.accept(ItemInit.FLUORITE.get());
@@ -79,6 +80,7 @@ public class CreativeTabInit {
                 output.accept(ItemInit.POLISHED_RESONITE.get());
                 output.accept(ItemInit.ABYSSITE.get());
                 output.accept(ItemInit.POLISHED_ABYSSITE.get());
+                output.accept(ItemInit.MANA_INSULATING_GLASS.get());
                 output.accept(ItemInit.MANA_DEEXCITER_CORE.get());
                 output.accept(ItemInit.ASPECT_COLLECTOR.get());
                 output.accept(ItemInit.BOOTS_FRAME.get());
@@ -91,6 +93,13 @@ public class CreativeTabInit {
                 output.accept(ItemInit.MANA_POTION_FLASK.get());
                 output.accept(ItemInit.HEALING_POTION_FLASK.get());
                 output.accept(ItemInit.EMBER_POTION_FLASK.get());
+                output.accept(ItemInit.GLACE_POTION_FLASK.get());
+                output.accept(ItemInit.SURGE_POTION_FLASK.get());
+                output.accept(ItemInit.PHANTOM_POTION_FLASK.get());
+                output.accept(ItemInit.TREMOR_POTION_FLASK.get());
+                output.accept(ItemInit.MAGIC_POTION_FLASK.get());
+                output.accept(ItemInit.FLOW_POTION_FLASK.get());
+                output.accept(ItemInit.HOLLOW_POTION_FLASK.get());
                 output.accept(ItemInit.WEAVER_SPAWN_EGG.get());
             }).build());
 
@@ -103,6 +112,7 @@ public class CreativeTabInit {
                 output.accept(BlockInit.ASSEMBLY_WORKBENCH_ITEM.get());
                 output.accept(BlockInit.REPAIRING_WORKBENCH_ITEM.get());
                 output.accept(BlockInit.UPGRADE_WORKBENCH_ITEM.get());
+                output.accept(BlockInit.TOOL_HANGER_ITEM.get());
                 output.accept(BlockInit.ZARDIUS_CRUCIBLE_ITEM.get());
                 output.accept(BlockInit.ALCHEMETRIC_PYLON_ITEM.get());
                 output.accept(BlockInit.ATHANOR_PILLAR_ITEM.get());

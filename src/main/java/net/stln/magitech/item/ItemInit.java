@@ -20,10 +20,8 @@ import net.stln.magitech.entity.status.AttributeInit;
 import net.stln.magitech.item.armor.AetherLifterItem;
 import net.stln.magitech.item.armor.FlamglideStriderItem;
 import net.stln.magitech.item.fluid.AlchemicalFlaskItem;
-import net.stln.magitech.item.fluid.potion.EmberPotionFlaskItem;
-import net.stln.magitech.item.fluid.potion.HealingPotionFlaskItem;
-import net.stln.magitech.item.fluid.potion.ManaPotionFlaskItem;
-import net.stln.magitech.item.fluid.potion.WaterFlaskItem;
+import net.stln.magitech.item.fluid.potion.*;
+import net.stln.magitech.item.tool.ToolBeltItem;
 import net.stln.magitech.item.tool.partitem.*;
 import net.stln.magitech.item.tool.toolitem.*;
 
@@ -152,6 +150,8 @@ public class ItemInit {
             )),
             new Item.Properties().stacksTo(1));
 
+    public static final DeferredItem<Item> TOOL_BELT = ITEMS.registerItem("tool_belt", ToolBeltItem::new);
+
     public static final DeferredItem<Item> LIGHT_BLADE = ITEMS.registerItem("light_blade", LightBladeItem::new);
 
     public static final DeferredItem<Item> HEAVY_BLADE = ITEMS.registerItem("heavy_blade", HeavyBladeItem::new);
@@ -267,6 +267,8 @@ public class ItemInit {
 
     public static final DeferredItem<Item> POLISHED_ABYSSITE = ITEMS.registerItem("polished_abyssite", TooltipTextItem::new);
 
+    public static final DeferredItem<Item> MANA_INSULATING_GLASS = ITEMS.registerItem("mana_insulating_glass", TooltipTextItem::new);
+
     public static final DeferredItem<Item> MANA_DEEXCITER_CORE = ITEMS.registerItem("mana_deexciter_core", TooltipTextItem::new);
 
     public static final DeferredItem<Item> ASPECT_COLLECTOR = ITEMS.registerItem("aspect_collector", TooltipTextItem::new);
@@ -281,15 +283,29 @@ public class ItemInit {
 
     public static final DeferredItem<Item> WATER_FLASK = ITEMS.registerItem("water_flask", WaterFlaskItem::new);
 
-    public static final DeferredItem<Item> LAVA_FLASK = ITEMS.registerItem("lava_flask", Item::new);
+    public static final DeferredItem<Item> LAVA_FLASK = ITEMS.registerItem("lava_flask", TooltipTextItem::new);
 
-    public static final DeferredItem<Item> SULFURIC_ACID_FLASK = ITEMS.registerItem("sulfuric_acid_flask", Item::new);
+    public static final DeferredItem<Item> SULFURIC_ACID_FLASK = ITEMS.registerItem("sulfuric_acid_flask", TooltipTextItem::new);
 
     public static final DeferredItem<Item> MANA_POTION_FLASK = ITEMS.registerItem("mana_potion_flask", ManaPotionFlaskItem::new);
 
     public static final DeferredItem<Item> HEALING_POTION_FLASK = ITEMS.registerItem("healing_potion_flask", HealingPotionFlaskItem::new);
 
     public static final DeferredItem<Item> EMBER_POTION_FLASK = ITEMS.registerItem("ember_potion_flask", EmberPotionFlaskItem::new);
+
+    public static final DeferredItem<Item> GLACE_POTION_FLASK = ITEMS.registerItem("glace_potion_flask", GlacePotionFlaskItem::new);
+
+    public static final DeferredItem<Item> SURGE_POTION_FLASK = ITEMS.registerItem("surge_potion_flask", SurgePotionFlaskItem::new);
+
+    public static final DeferredItem<Item> PHANTOM_POTION_FLASK = ITEMS.registerItem("phantom_potion_flask", PhantomPotionFlaskItem::new);
+
+    public static final DeferredItem<Item> TREMOR_POTION_FLASK = ITEMS.registerItem("tremor_potion_flask", TremorPotionFlaskItem::new);
+
+    public static final DeferredItem<Item> MAGIC_POTION_FLASK = ITEMS.registerItem("magic_potion_flask", MagicPotionFlaskItem::new);
+
+    public static final DeferredItem<Item> FLOW_POTION_FLASK = ITEMS.registerItem("flow_potion_flask", FlowPotionFlaskItem::new);
+
+    public static final DeferredItem<Item> HOLLOW_POTION_FLASK = ITEMS.registerItem("hollow_potion_flask", HollowPotionFlaskItem::new);
 
     public static final DeferredItem<Item> WEAVER_SPAWN_EGG = ITEMS.registerItem("weaver_spawn_egg", (properties) -> new DeferredSpawnEggItem(EntityInit.WEAVER_ENTITY, 0x2F2E30, 0xB1F3CC, properties));
 

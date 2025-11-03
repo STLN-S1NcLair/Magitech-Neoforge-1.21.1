@@ -1,6 +1,7 @@
 package net.stln.magitech.util;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 
@@ -26,12 +27,35 @@ public class BlockUtil {
                 result.add(current);
             }
 
-            // 3x3x3の近傍をチェック
-            for (int dx = -1; dx <= 1; dx++) {
-                for (int dy = -1; dy <= 1; dy++) {
-                    for (int dz = -1; dz <= 1; dz++) {
-                        if (dx == 0 && dy == 0 && dz == 0) continue;
-                        BlockPos neighbor = current.offset(dx, dy, dz);
+            // センターチェック
+            for (Direction direction : Direction.values()) {
+                BlockPos neighbor = current.relative(direction);
+                if (!visited.contains(neighbor) && level.getBlockState(neighbor).getBlock() == targetBlock) {
+                    visited.add(neighbor);
+                    queue.add(neighbor);
+                }
+            }
+
+            // エッジチェック
+            for (Direction direction : Direction.values()) {
+                for (Direction direction2 : Direction.values()) {
+                    if (direction2.getAxis() == direction.getAxis()) continue;
+                    BlockPos neighbor = current.relative(direction).relative(direction2);
+                    if (!visited.contains(neighbor) && level.getBlockState(neighbor).getBlock() == targetBlock) {
+                        visited.add(neighbor);
+                        queue.add(neighbor);
+                    }
+                }
+            }
+
+            // コーナーチェック
+            for (Direction direction : Direction.values()) {
+                for (Direction direction2 : Direction.values()) {
+                    for (Direction direction3 : Direction.values()) {
+                        if (direction2.getAxis() == direction.getAxis()
+                            || direction3.getAxis() == direction.getAxis()
+                            || direction3.getAxis() == direction2.getAxis()) continue;
+                        BlockPos neighbor = current.relative(direction);
                         if (!visited.contains(neighbor) && level.getBlockState(neighbor).getBlock() == targetBlock) {
                             visited.add(neighbor);
                             queue.add(neighbor);
