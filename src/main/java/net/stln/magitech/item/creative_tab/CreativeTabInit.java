@@ -64,6 +64,7 @@ public class CreativeTabInit {
                 output.accept(ItemInit.AGGREGATED_LUMINIS.get());
                 output.accept(ItemInit.AGGREGATED_FLUXIA.get());
                 output.accept(ItemInit.CITRINE.get());
+                output.accept(ItemInit.RAW_ZINC.get());
                 output.accept(ItemInit.ZINC_INGOT.get());
                 output.accept(ItemInit.CHROMIUM_INGOT.get());
                 output.accept(ItemInit.REDSTONE_CRYSTAL.get());
@@ -81,6 +82,7 @@ public class CreativeTabInit {
                 output.accept(ItemInit.ABYSSITE.get());
                 output.accept(ItemInit.POLISHED_ABYSSITE.get());
                 output.accept(ItemInit.MANA_INSULATING_GLASS.get());
+                output.accept(ItemInit.SULFURIC_ACID_BATTERY.get());
                 output.accept(ItemInit.MANA_DEEXCITER_CORE.get());
                 output.accept(ItemInit.ASPECT_COLLECTOR.get());
                 output.accept(ItemInit.BOOTS_FRAME.get());

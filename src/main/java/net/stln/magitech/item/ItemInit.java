@@ -241,6 +241,8 @@ public class ItemInit {
 
     public static final DeferredItem<Item> SULFUR = ITEMS.registerItem("sulfur", TooltipTextItem::new);
 
+    public static final DeferredItem<Item> RAW_ZINC = ITEMS.registerItem("raw_zinc", TooltipTextItem::new);
+
     public static final DeferredItem<Item> ZINC_INGOT = ITEMS.registerItem("zinc_ingot", TooltipTextItem::new);
 
     public static final DeferredItem<Item> CHROMIUM_INGOT = ITEMS.registerItem("chromium_ingot", TooltipTextItem::new);
@@ -268,6 +270,8 @@ public class ItemInit {
     public static final DeferredItem<Item> POLISHED_ABYSSITE = ITEMS.registerItem("polished_abyssite", TooltipTextItem::new);
 
     public static final DeferredItem<Item> MANA_INSULATING_GLASS = ITEMS.registerItem("mana_insulating_glass", TooltipTextItem::new);
+
+    public static final DeferredItem<Item> SULFURIC_ACID_BATTERY = ITEMS.registerItem("sulfuric_acid_battery", TooltipTextItem::new);
 
     public static final DeferredItem<Item> MANA_DEEXCITER_CORE = ITEMS.registerItem("mana_deexciter_core", TooltipTextItem::new);
 

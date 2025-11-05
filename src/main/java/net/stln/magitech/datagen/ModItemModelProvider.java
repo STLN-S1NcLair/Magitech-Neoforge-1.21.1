@@ -73,6 +73,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ItemInit.REDSTONE_CRYSTAL.get());
         basicItem(ItemInit.POLISHED_REDSTONE_CRYSTAL.get());
         basicItem(ItemInit.SULFUR.get());
+        basicItem(ItemInit.RAW_ZINC.get());
         basicItem(ItemInit.ZINC_INGOT.get());
         basicItem(ItemInit.CHROMIUM_INGOT.get());
         basicItem(ItemInit.ENDER_METAL_INGOT.get());
@@ -87,6 +88,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ItemInit.ABYSSITE.get());
         basicItem(ItemInit.POLISHED_ABYSSITE.get());
         basicItem(ItemInit.MANA_INSULATING_GLASS.get());
+        basicItem(ItemInit.SULFURIC_ACID_BATTERY.get());
         basicItem(ItemInit.MANA_DEEXCITER_CORE.get());
         basicItem(ItemInit.ASPECT_COLLECTOR.get());
         basicItem(ItemInit.BOOTS_FRAME.get());

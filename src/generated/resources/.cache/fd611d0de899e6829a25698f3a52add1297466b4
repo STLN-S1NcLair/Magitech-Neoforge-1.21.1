@@ -1,4 +1,4 @@
-// 1.21.1	2025-11-01T19:39:08.7715556	Item Models: magitech
+// 1.21.1	2025-11-05T07:51:15.1938324	Item Models: magitech
 b6e580466ba37335919256eafa6aebae2f80e029 assets/magitech/models/item/abyssite.json
 f8398c633fbbc637417f3dfe317b25ee85a8ac1f assets/magitech/models/item/abyssite_axe_heavy_handle.json
 ba7e38ad119bd2731692671964773b889925fc5c assets/magitech/models/item/abyssite_axe_light_blade.json
@@ -1039,6 +1039,7 @@ f50eb0f7dc8b1beafed7988ba857b5d2f81ed5c3 assets/magitech/models/item/radiant_ste
 f8d39741020577aebf0e0bad500ae56205c73184 assets/magitech/models/item/radiant_steel_wand_conductor.json
 8f2aff3426cea486be638f1ac07332cef99b0e70 assets/magitech/models/item/radiant_steel_wand_light_handle.json
 4199ed2258766445ad1ba4bf99ca630e2d9871f8 assets/magitech/models/item/radiant_steel_wand_tool_binding.json
+42c971c4c8997e9e360237441a1c65485ef82533 assets/magitech/models/item/raw_zinc.json
 3e59e028999303223fdc5593cf6a398d7a3f4f37 assets/magitech/models/item/redstone_axe_heavy_handle.json
 e5222e70e919a72628e00b15eecd2ef86d03e47f assets/magitech/models/item/redstone_axe_light_blade.json
 9ac216614790251eb4eb0bf3d38a2b7e5cc487ff assets/magitech/models/item/redstone_axe_strike_head.json
@@ -1185,6 +1186,7 @@ e576bef091038f6e7226c4e35e83b2917e1cd47f assets/magitech/models/item/stone_shove
 0ee6b0924497c559b0c502925f1400ba8cfc69bc assets/magitech/models/item/stone_wand_tool_binding.json
 b1ba86a57760f60dac0387ecb0d1282d6329a5c8 assets/magitech/models/item/strike_head.json
 b836147c36cd40ea5e44304a92051f39ca84907e assets/magitech/models/item/sulfur.json
+77db99642116ad0c2ccb48c9d07519deb44046df assets/magitech/models/item/sulfuric_acid_battery.json
 3714fb5791922beadedd11cdb04ca88b55ef77f0 assets/magitech/models/item/sulfuric_acid_flask.json
 353a3449907ac748e5358b9b401cbbfceb0dd3bb assets/magitech/models/item/surge_crystal.json
 45ce79873cfe34068dd61ee6068418e321f82c5f assets/magitech/models/item/surge_potion_flask.json
