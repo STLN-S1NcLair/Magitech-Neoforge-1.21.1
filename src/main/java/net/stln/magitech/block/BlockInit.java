@@ -169,6 +169,30 @@ public class BlockInit {
             ));
     public static final DeferredItem<BlockItem> DEEPSLATE_TOURMALINE_ORE_ITEM = ItemInit.ITEMS.register("deepslate_tourmaline_ore", key -> new TooltipTextBlockItem(DEEPSLATE_TOURMALINE_ORE.get(), new Item.Properties()));
 
+    public static final DeferredBlock<DropExperienceBlock> ZINC_ORE = BLOCKS.registerBlock("zinc_ore",
+            (properties) -> new DropExperienceBlock(UniformInt.of(1, 4),
+                    BlockBehaviour.Properties.of().mapColor(MapColor.STONE)
+                            .instrument(NoteBlockInstrument.BASEDRUM)
+                            .requiresCorrectToolForDrops()
+                            .strength(3.0F, 3.0F)
+            ));
+    public static final DeferredItem<BlockItem> ZINC_ORE_ITEM = ItemInit.ITEMS.register("zinc_ore", key -> new TooltipTextBlockItem(ZINC_ORE.get(), new Item.Properties()));
+
+    public static final DeferredBlock<DropExperienceBlock> DEEPSLATE_ZINC_ORE = BLOCKS.registerBlock("deepslate_zinc_ore",
+            (properties) -> new DropExperienceBlock(UniformInt.of(1, 4),
+                    BlockBehaviour.Properties.ofFullCopy(ZINC_ORE.get())
+                            .mapColor(MapColor.DEEPSLATE)
+                            .strength(4.5F, 3.0F)
+                            .sound(SoundType.DEEPSLATE)
+            ));
+    public static final DeferredItem<BlockItem> DEEPSLATE_ZINC_ORE_ITEM = ItemInit.ITEMS.register("deepslate_zinc_ore", key -> new TooltipTextBlockItem(DEEPSLATE_ZINC_ORE.get(), new Item.Properties()));
+
+    public static final DeferredBlock<Block> RAW_ZINC_BLOCK = BLOCKS.registerBlock("raw_zinc_block",
+            (properties) -> new Block(
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.RAW_COPPER_BLOCK).mapColor(MapColor.TERRACOTTA_GREEN)
+            ));
+    public static final DeferredItem<BlockItem> RAW_ZINC_BLOCK_ITEM = ItemInit.ITEMS.register("raw_zinc_block", key -> new TooltipTextBlockItem(RAW_ZINC_BLOCK.get(), new Item.Properties()));
+
     public static final DeferredBlock<FluoriteCrystalClusterBlock> FLUORITE_CRYSTAL_CLUSTER = BLOCKS.registerBlock("fluorite_crystal_cluster",
             (properties) -> new FluoriteCrystalClusterBlock(UniformInt.of(0, 2), properties),
             BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_CYAN)

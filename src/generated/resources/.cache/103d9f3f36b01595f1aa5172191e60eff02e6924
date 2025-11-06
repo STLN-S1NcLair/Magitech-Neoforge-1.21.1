@@ -1,4 +1,4 @@
-// 1.21.1	2025-09-12T18:31:24.9939295	Registries
+// 1.21.1	2025-11-06T22:04:03.8584007	Registries
 a32f03396569c3f9375cf436d8894980b7aba31b data/magitech/neoforge/biome_modifier/celifern.json
 97a90410e06b74875aa238ca7ecd17df5ffb84b1 data/magitech/neoforge/biome_modifier/charcoal_birch.json
 6e2c15477ad618b55b543cc10301740b4f96aec2 data/magitech/neoforge/biome_modifier/fluorite_crystal_surface.json
@@ -9,6 +9,7 @@ cd7df576b302c388849869a452c425ab8ebd8203 data/magitech/neoforge/biome_modifier/m
 d9df06ca646b6cbeedd8eebda69dcad371129b7a data/magitech/neoforge/biome_modifier/scorched_geyser.json
 345a6eee510de849862771574da25d7c5921f8dd data/magitech/neoforge/biome_modifier/scorched_lava_lake.json
 0c5bbed8055679e1ba06829dc15d0451c31a0790 data/magitech/neoforge/biome_modifier/tourmaline_ore.json
+3485e1290d478ea0ae35a0e2c1a1bfca1d44b1bc data/magitech/neoforge/biome_modifier/zinc_ore.json
 f58881cc32d47bdc901adba8f827084f6dd92ac1 data/magitech/worldgen/configured_feature/celifern.json
 fa88c911c8492cd1c8c3779d105a5bb328f5ca0a data/magitech/worldgen/configured_feature/charcoal_birch.json
 2c9679fce21684d1b455baa21c995a969e60fb55 data/magitech/worldgen/configured_feature/fluorite_crystal_surface.json
@@ -19,6 +20,7 @@ cd667bbcc4c58c5c14ad9a63c689f8a226ac9071 data/magitech/worldgen/configured_featu
 d7d382a1c64604e2b86e848e03196aca4933dae2 data/magitech/worldgen/configured_feature/scorched_geyser.json
 8989d5a2001c6638c63e5cff546d8440e2d536c5 data/magitech/worldgen/configured_feature/scorched_lava_lake.json
 0c9449dcd96dc918421ef85dbb30849e0f12ea4c data/magitech/worldgen/configured_feature/tourmaline_ore.json
+6e64ad403dd97dcc3514c7ea2e062e4cbd68ac0f data/magitech/worldgen/configured_feature/zinc_ore.json
 601767b49583e33175345751608b43cf0e2e50e5 data/magitech/worldgen/placed_feature/celifern.json
 c2b2691777d283a62cfe6be39e4cf700dd033aa6 data/magitech/worldgen/placed_feature/charcoal_birch.json
 e2733d80e24baa60e65b882ab80770c2a348b098 data/magitech/worldgen/placed_feature/fluorite_crystal_surface.json
@@ -29,3 +31,4 @@ afbfa3951018afa6fd204104cb453f9f6648af3d data/magitech/worldgen/placed_feature/m
 56f608a909843f9dba6d05f2bc04cbb09bb0c8aa data/magitech/worldgen/placed_feature/scorched_geyser.json
 9a25a4e913d72865b1162ee14de309c2b3638a91 data/magitech/worldgen/placed_feature/scorched_lava_lake.json
 9fcc55332943974777c2bccb938d6a3de3a170a7 data/magitech/worldgen/placed_feature/tourmaline_ore.json
+70afc0c343e4e5ee4bb3333d0612ac3d994d9726 data/magitech/worldgen/placed_feature/zinc_ore.json

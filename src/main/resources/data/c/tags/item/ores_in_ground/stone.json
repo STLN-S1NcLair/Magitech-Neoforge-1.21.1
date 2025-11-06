@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "magitech:fluorite_ore",
+    "magitech:tourmaline_ore",
+    "magitech:zinc_ore"
+  ]
+}

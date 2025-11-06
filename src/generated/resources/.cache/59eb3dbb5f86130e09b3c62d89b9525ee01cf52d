@@ -1,4 +1,4 @@
-// 1.21.1	2025-10-29T20:27:03.4436956	Loot Tables
+// 1.21.1	2025-11-06T22:04:03.8574005	Loot Tables
 d5c7ba896003b8f86835f7808a6a42840e7bb806 data/magitech/loot_table/blocks/alchecrysite.json
 0ec67ee2f0a83abcc8fc58cd95f43106109fca3e data/magitech/loot_table/blocks/alchecrysite_bricks.json
 f0dfbc1457dc98d193c135916b33deca6e65c407 data/magitech/loot_table/blocks/alchecrysite_brick_slab.json
@@ -47,6 +47,7 @@ ef22bdc049fa97d6290d048e29d022cef8848a3b data/magitech/loot_table/blocks/charcoa
 c2b33a08155add6016052dc6b88af1a0894c0fac data/magitech/loot_table/blocks/charcoal_birch_wood.json
 00930429f4d75a1826d368b1228bbfd65e499322 data/magitech/loot_table/blocks/deepslate_fluorite_ore.json
 7b3d941575a96aad56356ebaae5e510caa6a3a53 data/magitech/loot_table/blocks/deepslate_tourmaline_ore.json
+33d981bb0107949ceb47f987b945974f7fb07c48 data/magitech/loot_table/blocks/deepslate_zinc_ore.json
 2ebef7308961521dc7cc283868e86f8749fd4d4b data/magitech/loot_table/blocks/engineering_workbench.json
 2f9c6e37274a1243ffdaea06d4d97c9d148fc09f data/magitech/loot_table/blocks/fluorite_block.json
 f6be072e5e5e55d03366c79a66c806d4c53157b0 data/magitech/loot_table/blocks/fluorite_bricks.json
@@ -63,6 +64,7 @@ f3c70539a26f1f9722a781541ce459730b24626f data/magitech/loot_table/blocks/mistali
 d46ac21898599ff408d7852759d25bb8fe9b4f4b data/magitech/loot_table/blocks/polished_alchecrysite_slab.json
 24b4999a753dc5a4581f823d0f684b97797153e9 data/magitech/loot_table/blocks/polished_alchecrysite_stairs.json
 cf90021140fd37e659e1fff4773f516a7a8158fc data/magitech/loot_table/blocks/polished_alchecrysite_wall.json
+5652abcd64bec1c42727cef2d2fce0552b372c63 data/magitech/loot_table/blocks/raw_zinc_block.json
 0ab3109763df048b6192c4182091f43a987c0774 data/magitech/loot_table/blocks/redstone_crystal_cluster.json
 ee4d27cc09724133c7a23d0375fb913676a0c365 data/magitech/loot_table/blocks/repairing_workbench.json
 394dd456be10676b248ac750b91be1a22d1cd091 data/magitech/loot_table/blocks/scorched_grass_soil.json
@@ -77,4 +79,5 @@ c611984baa1aaa982f3efe2fdfb636955d795e94 data/magitech/loot_table/blocks/strippe
 862dd084d0d8682a746abff7fd9e5073aaa581e2 data/magitech/loot_table/blocks/tourmaline_ore.json
 a8e206916edfa491763366e3d3ae1a948c7c8536 data/magitech/loot_table/blocks/upgrade_workbench.json
 ecaa5a057a4f74638d467635af23e62f127a6fb9 data/magitech/loot_table/blocks/zardius_crucible.json
+088052d24a41a18b3070011d5add8d871eb32988 data/magitech/loot_table/blocks/zinc_ore.json
 17f705bf740c6eefbde3a72401926a7663046d38 data/magitech/loot_table/entities/weaver.json

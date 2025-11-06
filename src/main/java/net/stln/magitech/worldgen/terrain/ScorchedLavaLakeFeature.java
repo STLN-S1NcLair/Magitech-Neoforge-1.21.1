@@ -13,10 +13,7 @@ import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.stln.magitech.block.BlockInit;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Predicate;
 
 public class ScorchedLavaLakeFeature extends Feature<NoneFeatureConfiguration> {
@@ -74,7 +71,7 @@ public class ScorchedLavaLakeFeature extends Feature<NoneFeatureConfiguration> {
             level.setBlock(blockpos1, Blocks.LAVA.defaultBlockState(), 2);
 
             Predicate<BlockState> predicate = p_204782_ -> p_204782_.is(BlockInit.SCORCHED_GRASS_SOIL.get()) || p_204782_.is(BlockInit.SCORCHED_SOIL.get()) || p_204782_.is(Blocks.STONE);
-            List<Direction> directions = Arrays.asList(Direction.values().clone());
+            List<Direction> directions = new ArrayList<>(Arrays.asList(Direction.values()));
             directions.remove(Direction.UP);
             for (Direction direction : directions) {
                 BlockPos pos1 = blockpos1.relative(direction);

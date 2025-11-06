@@ -31,6 +31,9 @@ public class ModBlockStateProvider extends BlockStateProvider {
         blockWithItem(BlockInit.DEEPSLATE_FLUORITE_ORE.get());
         blockWithItem(BlockInit.TOURMALINE_ORE.get());
         blockWithItem(BlockInit.DEEPSLATE_TOURMALINE_ORE.get());
+        blockWithItem(BlockInit.ZINC_ORE.get());
+        blockWithItem(BlockInit.DEEPSLATE_ZINC_ORE.get());
+        blockWithItem(BlockInit.RAW_ZINC_BLOCK.get());
         blockWithItem(BlockInit.SULFUR_BLOCK.get());
         blockWithItem(BlockInit.ALCHECRYSITE.get());
         stairsBlockWithItem(BlockInit.ALCHECRYSITE_STAIRS.get(), BlockInit.ALCHECRYSITE.get());

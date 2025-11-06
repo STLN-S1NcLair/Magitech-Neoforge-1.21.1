@@ -122,6 +122,9 @@ public class CreativeTabInit {
                 output.accept(BlockInit.MANA_VESSEL_ITEM.get());
                 output.accept(BlockInit.FLUORITE_ORE_ITEM.get());
                 output.accept(BlockInit.DEEPSLATE_FLUORITE_ORE_ITEM.get());
+                output.accept(BlockInit.ZINC_ORE_ITEM.get());
+                output.accept(BlockInit.DEEPSLATE_ZINC_ORE_ITEM.get());
+                output.accept(BlockInit.RAW_ZINC_BLOCK_ITEM.get());
                 output.accept(BlockInit.TOURMALINE_ORE_ITEM.get());
                 output.accept(BlockInit.DEEPSLATE_TOURMALINE_ORE_ITEM.get());
                 output.accept(BlockInit.FLUORITE_CRYSTAL_CLUSTER_ITEM.get());

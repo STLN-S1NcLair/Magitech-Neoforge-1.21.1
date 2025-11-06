@@ -72,6 +72,11 @@ public class WorldGenInit {
     public static final ResourceKey<PlacedFeature> TOURMALINE_ORE_PLACED_KEY = ResourceKey.create(Registries.PLACED_FEATURE, Magitech.id("tourmaline_ore"));
     public static final ResourceKey<BiomeModifier> TOURMALINE_ORE_BIOME_MODIFIER_KEY = ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, Magitech.id("tourmaline_ore"));
 
+    public static final Supplier<Feature<OreConfiguration>> ZINC_ORE_FEATURE = FEATURES.register("zinc_ore", () -> new OreFeature(OreConfiguration.CODEC));
+    public static final ResourceKey<ConfiguredFeature<?, ?>> ZINC_ORE_CONFIGURED_KEY = ResourceKey.create(Registries.CONFIGURED_FEATURE, Magitech.id("zinc_ore"));
+    public static final ResourceKey<PlacedFeature> ZINC_ORE_PLACED_KEY = ResourceKey.create(Registries.PLACED_FEATURE, Magitech.id("zinc_ore"));
+    public static final ResourceKey<BiomeModifier> ZINC_ORE_BIOME_MODIFIER_KEY = ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, Magitech.id("zinc_ore"));
+
     public static final ResourceKey<ConfiguredFeature<?, ?>> CELIFERN_CONFIGURED_KEY = ResourceKey.create(Registries.CONFIGURED_FEATURE, Magitech.id("celifern"));
     public static final ResourceKey<PlacedFeature> CELIFERN_PLACED_KEY = ResourceKey.create(Registries.PLACED_FEATURE, Magitech.id("celifern"));
     public static final ResourceKey<BiomeModifier> CELIFERN_BIOME_MODIFIER_KEY = ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, Magitech.id("celifern"));
@@ -120,6 +125,11 @@ public class WorldGenInit {
                 OreConfiguration.target(ruletestDeepslate, BlockInit.DEEPSLATE_TOURMALINE_ORE.get().defaultBlockState())
         );
         context.register(TOURMALINE_ORE_CONFIGURED_KEY, new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(tourmalineList, 8)));
+        List<OreConfiguration.TargetBlockState> zincList = List.of(
+                OreConfiguration.target(ruletestStone, BlockInit.ZINC_ORE.get().defaultBlockState()),
+                OreConfiguration.target(ruletestDeepslate, BlockInit.DEEPSLATE_ZINC_ORE.get().defaultBlockState())
+        );
+        context.register(ZINC_ORE_CONFIGURED_KEY, new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(zincList, 8)));
 
         HolderGetter<Block> holdergetter = context.lookup(Registries.BLOCK);
 
@@ -191,6 +201,10 @@ public class WorldGenInit {
                 configured.getOrThrow(TOURMALINE_ORE_CONFIGURED_KEY),
                 List.of(CountPlacement.of(8), InSquarePlacement.spread(), HeightRangePlacement.triangle(VerticalAnchor.aboveBottom(0), VerticalAnchor.aboveBottom(128))))
         );
+        context.register(ZINC_ORE_PLACED_KEY, new PlacedFeature(
+                configured.getOrThrow(ZINC_ORE_CONFIGURED_KEY),
+                List.of(CountPlacement.of(8), InSquarePlacement.spread(), HeightRangePlacement.triangle(VerticalAnchor.aboveBottom(0), VerticalAnchor.aboveBottom(128))))
+        );
         context.register(CELIFERN_PLACED_KEY, new PlacedFeature(configured.getOrThrow(CELIFERN_CONFIGURED_KEY),
                VegetationPlacements.treePlacement(PlacementUtils.countExtra(3, 0.5f, 7),
                         BlockInit.CELIFERN_SAPLING.get())));
@@ -235,6 +249,11 @@ public class WorldGenInit {
         context.register(TOURMALINE_ORE_BIOME_MODIFIER_KEY, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
                 HolderSet.direct(placedFeatures.getOrThrow(TOURMALINE_ORE_PLACED_KEY)),
+                GenerationStep.Decoration.UNDERGROUND_ORES));
+
+        context.register(ZINC_ORE_BIOME_MODIFIER_KEY, new BiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
+                HolderSet.direct(placedFeatures.getOrThrow(ZINC_ORE_PLACED_KEY)),
                 GenerationStep.Decoration.UNDERGROUND_ORES));
 
         context.register(CELIFERN_BIOME_MODIFIER_KEY, new BiomeModifiers.AddFeaturesBiomeModifier(
