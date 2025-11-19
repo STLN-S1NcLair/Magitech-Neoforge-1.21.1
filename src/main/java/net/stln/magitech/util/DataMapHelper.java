@@ -20,7 +20,7 @@ public class DataMapHelper {
         }
         return Optional.empty();
     }
-    
+
     public static float getElementMultiplier(@NotNull Entity target, @NotNull Element element) {
         return getElementAffinity(target, element).map(ElementAffinity::getMultiplier).orElse(1f);
     }

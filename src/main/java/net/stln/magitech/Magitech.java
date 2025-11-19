@@ -22,6 +22,7 @@ import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.compat.curios.ValidatorInit;
 import net.stln.magitech.compat.modonomicon.PageInit;
 import net.stln.magitech.data.DataMapTypeInit;
+import net.stln.magitech.element.Element;
 import net.stln.magitech.entity.EntityInit;
 import net.stln.magitech.entity.mob_effect.MobEffectInit;
 import net.stln.magitech.entity.status.AttributeInit;
@@ -32,7 +33,6 @@ import net.stln.magitech.item.ItemInit;
 import net.stln.magitech.item.ItemPropertyInit;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.creative_tab.CreativeTabInit;
-import net.stln.magitech.element.Element;
 import net.stln.magitech.item.fluid.FluidContainerMatcherInit;
 import net.stln.magitech.item.tool.material.MaterialInit;
 import net.stln.magitech.item.tool.register.ToolMaterialRegister;
@@ -54,15 +54,11 @@ public class Magitech {
     // Directly reference a slf4j logger
     public static final Logger LOGGER = LogUtils.getLogger();
 
-    public static ResourceLocation id(String path) {
-        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
-    }
-    
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
     public Magitech(IEventBus modEventBus, ModContainer modContainer) {
         MagitechRegistries.register(modEventBus);
-        
+
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
 
@@ -71,7 +67,7 @@ public class Magitech {
 
         // Register the Deferred Register to the mod event bus so blocks get registered
         ComponentInit.registerComponents(modEventBus);
-        
+
         BlockInit.registerBlocks(modEventBus);
         ItemInit.registerItems(modEventBus);
         FluidInit.registerFluids(modEventBus);
@@ -104,6 +100,10 @@ public class Magitech {
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
+    }
+
+    public static ResourceLocation id(String path) {
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {

@@ -20,7 +20,8 @@ public class ToolUpgradeTrigger extends SimpleCriterionTrigger<ToolUpgradeTrigge
         this.trigger(player, p_27675_ -> p_27675_.matches(item, tier));
     }
 
-    public record TriggerInstance(Optional<ContextAwarePredicate> player, Optional<ItemPredicate> item, MinMaxBounds.Ints tier)
+    public record TriggerInstance(Optional<ContextAwarePredicate> player, Optional<ItemPredicate> item,
+                                  MinMaxBounds.Ints tier)
             implements SimpleCriterionTrigger.SimpleInstance {
         public static final Codec<ToolUpgradeTrigger.TriggerInstance> CODEC = RecordCodecBuilder.create(
                 p_337356_ -> p_337356_.group(

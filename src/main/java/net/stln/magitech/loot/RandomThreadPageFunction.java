@@ -27,10 +27,6 @@ public class RandomThreadPageFunction extends LootItemConditionalFunction {
 
     protected final List<Holder<Spell>> spells;
 
-    private static @NotNull List<Holder<Spell>> getAllSpells() {
-        return MagitechRegistries.SPELL.holders().map(holder -> (Holder<Spell>) holder).toList();
-    }
-    
     public RandomThreadPageFunction(List<LootItemCondition> lootItemConditions) {
         this(lootItemConditions, getAllSpells());
     }
@@ -42,6 +38,14 @@ public class RandomThreadPageFunction extends LootItemConditionalFunction {
         } else {
             this.spells = spells;
         }
+    }
+
+    private static @NotNull List<Holder<Spell>> getAllSpells() {
+        return MagitechRegistries.SPELL.holders().map(holder -> (Holder<Spell>) holder).toList();
+    }
+
+    public static LootItemFunction.Builder builder() {
+        return simpleBuilder(RandomThreadPageFunction::new);
     }
 
     public List<Holder<Spell>> getSpells() {
@@ -56,10 +60,6 @@ public class RandomThreadPageFunction extends LootItemConditionalFunction {
             }
             return stack;
         }).orElse(stack);
-    }
-
-    public static LootItemFunction.Builder builder() {
-        return simpleBuilder(RandomThreadPageFunction::new);
     }
 
     @Override

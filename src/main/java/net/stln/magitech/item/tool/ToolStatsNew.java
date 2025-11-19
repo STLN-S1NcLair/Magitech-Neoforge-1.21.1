@@ -2,8 +2,8 @@ package net.stln.magitech.item.tool;
 
 import com.google.common.collect.ImmutableList;
 import net.minecraft.util.StringRepresentable;
-import net.stln.magitech.item.tool.material.MiningLevel;
 import net.stln.magitech.element.Element;
+import net.stln.magitech.item.tool.material.MiningLevel;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -13,6 +13,17 @@ import java.util.Map;
 
 public class ToolStatsNew {
     public static final ToolStatsNew DEFAULT = new ToolStatsNew(Map.of(), Element.NONE, MiningLevel.NONE, 0);
+    private final Map<StatsType, Float> statsMap;
+    private final Element element;
+    private final MiningLevel miningLevel;
+    private final int tier;
+
+    private ToolStatsNew(@NotNull Map<StatsType, Float> statsMap, @NotNull Element element, @NotNull MiningLevel miningLevel, int tier) {
+        this.statsMap = statsMap;
+        this.element = element;
+        this.miningLevel = miningLevel;
+        this.tier = tier;
+    }
 
     public static Builder builder() {
         return new Builder();
@@ -80,18 +91,6 @@ public class ToolStatsNew {
         return builder;
     }
 
-    private final Map<StatsType, Float> statsMap;
-    private final Element element;
-    private final MiningLevel miningLevel;
-    private final int tier;
-
-    private ToolStatsNew(@NotNull Map<StatsType, Float> statsMap, @NotNull Element element, @NotNull MiningLevel miningLevel, int tier) {
-        this.statsMap = statsMap;
-        this.element = element;
-        this.miningLevel = miningLevel;
-        this.tier = tier;
-    }
-
     public float getStat(@NotNull StatsType statsType) {
         return statsMap.getOrDefault(statsType, 0f);
     }
@@ -106,6 +105,23 @@ public class ToolStatsNew {
 
     public int getTier() {
         return tier;
+    }
+
+    public enum StatsType implements StringRepresentable {
+        ATTACK,
+        ELEMENT_ATTACK,
+        ATTACK_SPEED,
+        MINING_SPEED,
+        DEFENCE,
+        ATTACK_RANGE,
+        SWEEP_RANGE,
+        DURABILITY,
+        ;
+
+        @Override
+        public @NotNull String getSerializedName() {
+            return name().toLowerCase(Locale.ROOT);
+        }
     }
 
     public static class Builder {
@@ -157,23 +173,6 @@ public class ToolStatsNew {
 
         public ToolStatsNew build() {
             return new ToolStatsNew(Map.copyOf(builder), element, miningLevel, tier);
-        }
-    }
-
-    public enum StatsType implements StringRepresentable {
-        ATTACK,
-        ELEMENT_ATTACK,
-        ATTACK_SPEED,
-        MINING_SPEED,
-        DEFENCE,
-        ATTACK_RANGE,
-        SWEEP_RANGE,
-        DURABILITY,
-        ;
-
-        @Override
-        public @NotNull String getSerializedName() {
-            return name().toLowerCase(Locale.ROOT);
         }
     }
 }

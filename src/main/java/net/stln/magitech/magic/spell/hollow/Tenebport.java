@@ -30,7 +30,9 @@ import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.particle.particle_option.BeamParticleEffect;
 import net.stln.magitech.particle.particle_option.VoidGlowParticleEffect;
 import net.stln.magitech.sound.SoundInit;
-import net.stln.magitech.util.*;
+import net.stln.magitech.util.EffectUtil;
+import net.stln.magitech.util.SpellShape;
+import net.stln.magitech.util.TickScheduler;
 import org.joml.Vector3f;
 
 import java.util.HashMap;
@@ -41,14 +43,6 @@ public class Tenebport extends Spell {
     public Tenebport() {
     }
 
-    public Element getElement() {
-        return Element.HOLLOW;
-    }
-
-    public SpellShape getSpellShape() {
-        return SpellShape.UTILITY;
-    }
-
     protected static void playShootAnimation(Player user) {
         var playerAnimationData = (ModifierLayer<IAnimation>) PlayerAnimationAccess.getPlayerAssociatedData((AbstractClientPlayer) user).get(Magitech.id("animation"));
         if (playerAnimationData != null) {
@@ -57,6 +51,14 @@ public class Tenebport extends Spell {
             playerAnimationData.setAnimation(new KeyframeAnimationPlayer((KeyframeAnimation) PlayerAnimationRegistry.getAnimation(Magitech.id("wand_shoot")))
                     .setFirstPersonMode(FirstPersonMode.THIRD_PERSON_MODEL).setFirstPersonConfiguration(new FirstPersonConfiguration(true, true, true, true)));
         }
+    }
+
+    public Element getElement() {
+        return Element.HOLLOW;
+    }
+
+    public SpellShape getSpellShape() {
+        return SpellShape.UTILITY;
     }
 
     @Override

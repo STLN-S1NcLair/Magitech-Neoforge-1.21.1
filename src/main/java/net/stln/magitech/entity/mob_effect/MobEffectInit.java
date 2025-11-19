@@ -60,6 +60,12 @@ public class MobEffectInit {
 
     public static final DeferredHolder<MobEffect, MobEffect> PHASELOCK = STATUS_EFFECTS.register("phase_lock", id -> new PhaseLockMobEffect(MobEffectCategory.HARMFUL, 0x200040));
 
+    // 特性用効果
+
+    public static final DeferredHolder<MobEffect, MobEffect> CHARGE = STATUS_EFFECTS.register("charge", id -> new CustomMobEffect(MobEffectCategory.NEUTRAL, Element.SURGE.getColor()));
+
+    public static final DeferredHolder<MobEffect, MobEffect> COOLDOWN = STATUS_EFFECTS.register("cooldown", id -> new CustomMobEffect(MobEffectCategory.NEUTRAL, 0x808080));
+
     public static void registerMobEffects(IEventBus eventBus) {
         Magitech.LOGGER.info("Registering Mob Effect for " + Magitech.MOD_ID);
         STATUS_EFFECTS.register(eventBus);

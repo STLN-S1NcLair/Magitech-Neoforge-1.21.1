@@ -1,13 +1,13 @@
 package net.stln.magitech.block.block_entity;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -18,14 +18,11 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Rotation;
-import net.minecraft.world.level.block.SlabBlock;
-import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.items.ItemStackHandler;
+import net.stln.magitech.Magitech;
 import net.stln.magitech.block.AthanorPillarBlock;
 import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.block.ManaNodeBlock;
@@ -33,15 +30,13 @@ import net.stln.magitech.particle.particle_option.ManaZapParticleEffect;
 import net.stln.magitech.particle.particle_option.SquareParticleEffect;
 import net.stln.magitech.particle.particle_option.UnstableSquareParticleEffect;
 import net.stln.magitech.recipe.AthanorPillarInfusionRecipe;
-import net.stln.magitech.recipe.input.GroupedMultiStackRecipeInput;
 import net.stln.magitech.recipe.RecipeInit;
+import net.stln.magitech.recipe.input.GroupedMultiStackRecipeInput;
 import net.stln.magitech.sound.SoundInit;
 import net.stln.magitech.util.EffectUtil;
 import net.stln.magitech.util.StructureHelper;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
-import vazkii.patchouli.api.IMultiblock;
-import vazkii.patchouli.api.PatchouliAPI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,105 +44,8 @@ import java.util.Optional;
 
 public class AthanorPillarBlockEntity extends BlockEntity {
 
-    private static final IMultiblock STRUCTURE = PatchouliAPI.get().makeMultiblock(
-            new String[][]
-                    {
-                            {
-                                    "    B    ",
-                                    "    A    ",
-                                    "    A    ",
-                                    "    A    ",
-                                    "BAAAVAAAB",
-                                    "    A    ",
-                                    "    A    ",
-                                    "    A    ",
-                                    "    B    "
-                            },
-                            {
-                                    "    L    ",
-                                    "         ",
-                                    "         ",
-                                    "         ",
-                                    "L   D   L",
-                                    "         ",
-                                    "         ",
-                                    "         ",
-                                    "    L    "
-                            },
-                            {
-                                    "M   L   M",
-                                    "         ",
-                                    "         ",
-                                    "         ",
-                                    "L       L",
-                                    "         ",
-                                    "         ",
-                                    "         ",
-                                    "M   L   M"
-                            },
-                            {
-                                    "P   L   P",
-                                    "    M    ",
-                                    "         ",
-                                    "         ",
-                                    "LM     ML",
-                                    "         ",
-                                    "         ",
-                                    "    M    ",
-                                    "P   L   P"
-                            },
-                            {
-                                    "L   P   L",
-                                    " U  T  U ",
-                                    "         ",
-                                    "         ",
-                                    "PT     TP",
-                                    "         ",
-                                    "         ",
-                                    " U  T  U ",
-                                    "L   P   L"
-                            },
-                            {
-                                    "L   L   L",
-                                    " V     V ",
-                                    "  M   M  ",
-                                    "         ",
-                                    "L   I   L",
-                                    "         ",
-                                    "  M   M  ",
-                                    " V     V ",
-                                    "L   L   L"
-                            },
-                            {
-                                    "PPEEPEEPP",
-                                    "PFPOOOPFP",
-                                    "SPPBBBPPN",
-                                    "SOBCCCBON",
-                                    "POBC0CBOP",
-                                    "SOBCCCBON",
-                                    "SPPBBBPPN",
-                                    "PFPOOOPFP",
-                                    "PPWWPWWPP"
-                            }
-                    },
-            '0', BlockInit.ALCHECRYSITE.get(),
-            'C', BlockInit.ALCHECRYSITE.get(),
-            'W', PatchouliAPI.get().stateMatcher(BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.WEST)),
-            'N', PatchouliAPI.get().stateMatcher(BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.NORTH)),
-            'S', PatchouliAPI.get().stateMatcher(BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.SOUTH)),
-            'E', PatchouliAPI.get().stateMatcher(BlockInit.ALCHECRYSITE_STAIRS.get().defaultBlockState().setValue(StairBlock.FACING, Direction.EAST)),
-            'P', BlockInit.POLISHED_ALCHECRYSITE.get(),
-            'T', PatchouliAPI.get().stateMatcher(BlockInit.POLISHED_ALCHECRYSITE_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)),
-            'B', BlockInit.ALCHECRYSITE_BRICKS.get(),
-            'L', BlockInit.ALCHECRYSITE_BRICK_WALL.get(),
-            'A', PatchouliAPI.get().stateMatcher(BlockInit.ALCHECRYSITE_BRICK_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)),
-            'F', BlockInit.FLUORITE_BLOCK.get(),
-            'O', BlockInit.FLUORITE_BRICKS.get(),
-            'M', BlockInit.ALCHEMETRIC_PYLON.get(),
-            'V', BlockInit.MANA_VESSEL.get(),
-            'U', PatchouliAPI.get().stateMatcher(BlockInit.MANA_NODE.get().defaultBlockState().setValue(ManaNodeBlock.FACING, Direction.UP)),
-            'D', PatchouliAPI.get().stateMatcher(BlockInit.MANA_NODE.get().defaultBlockState().setValue(BlockStateProperties.FACING, Direction.DOWN)),
-            'I', BlockInit.ATHANOR_PILLAR.get());
+    private static final ResourceLocation STRUCTURE = Magitech.id("athanor_pillar_altar");
+
     public final ItemStackHandler inventory = new ItemStackHandler(1) {
         @Override
         protected int getStackLimit(int slot, ItemStack stack) {

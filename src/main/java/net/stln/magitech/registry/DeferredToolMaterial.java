@@ -12,7 +12,7 @@ public class DeferredToolMaterial<T extends ToolMaterial> extends DeferredHolder
     public DeferredToolMaterial(ResourceKey<ToolMaterial> key) {
         super(key);
     }
-    
+
     public DeferredToolMaterial(ResourceLocation id) {
         this(ResourceKey.create(MagitechRegistries.Keys.TOOL_MATERIAL, id));
     }

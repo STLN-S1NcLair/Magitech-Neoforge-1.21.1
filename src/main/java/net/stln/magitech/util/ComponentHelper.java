@@ -39,11 +39,11 @@ public class ComponentHelper {
     public static int getTier(@NotNull DataComponentHolder holder) {
         return holder.getOrDefault(ComponentInit.TIER_COMPONENT, 0);
     }
-    
+
     public static @NotNull List<UpgradeInstance> getUpgrades(@NotNull DataComponentHolder holder) {
         return holder.getOrDefault(ComponentInit.UPGRADE_COMPONENT, UpgradeComponent.EMPTY).upgrades();
     }
-    
+
     public static int getUpgradePoint(@NotNull DataComponentHolder holder) {
         return holder.getOrDefault(ComponentInit.UPGRADE_POINT_COMPONENT, 0);
     }

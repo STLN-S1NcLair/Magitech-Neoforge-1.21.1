@@ -83,7 +83,7 @@ public class SpellInit {
     private static @NotNull DeferredSpell<Spell> register(@NotNull String path, @NotNull Spell spell) {
         return REGISTER.register(path, () -> spell);
     }
-    
+
     public static void registerSpells(IEventBus bus) {
         Magitech.LOGGER.info("Registering Spells for" + Magitech.MOD_ID);
         REGISTER.register(bus);

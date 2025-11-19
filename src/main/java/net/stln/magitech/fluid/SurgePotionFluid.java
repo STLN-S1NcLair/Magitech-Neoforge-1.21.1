@@ -7,7 +7,7 @@ public class SurgePotionFluid extends VirtualFluid {
 
     @Override
     public Fluid getFlowing() {
-    return FluidInit.SURGE_POTION.get();
+        return FluidInit.SURGE_POTION.get();
     }
 
     @Override

@@ -2,10 +2,8 @@ package net.stln.magitech.event;
 
 import com.klikli_dev.modonomicon.registry.DataComponentRegistry;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.SimpleFluidContent;
@@ -16,7 +14,6 @@ import net.stln.magitech.item.ItemInit;
 import net.stln.magitech.item.component.*;
 import net.stln.magitech.item.tool.material.MaterialInit;
 import net.stln.magitech.magic.spell.SpellInit;
-import vazkii.patchouli.common.item.PatchouliDataComponents;
 
 @EventBusSubscriber(modid = Magitech.MOD_ID)
 public class ModifyDefaultComponentsEvent {
@@ -49,6 +46,7 @@ public class ModifyDefaultComponentsEvent {
         setComponentsForThreadbound(event, ItemInit.GLISTENING_LEXICON, Magitech.id("glistening_lexicon"));
         setComponentsForThreadbound(event, ItemInit.MATERIALS_AND_TOOLCRAFT_DESIGN, Magitech.id("materials_and_toolcraft_design"));
         setComponentsForThreadbound(event, ItemInit.THE_FIRE_THAT_THINKS, Magitech.id("the_fire_that_thinks"));
+        setComponentsForThreadbound(event, ItemInit.APPLIED_ARCANE_CIRCUITRY, Magitech.id("applied_arcane_circuitry"));
         setComponentsForThreadbound(event, ItemInit.ARCANE_ENGINEERING_COMPENDIUM, Magitech.id("arcane_engineering_compendium"));
 
         event.modify(ItemInit.THREAD_PAGE, builder -> builder.set(ComponentInit.THREAD_PAGE_COMPONENT.get(), new ThreadPageComponent(SpellInit.ENERCRUX)).build());
@@ -72,11 +70,7 @@ public class ModifyDefaultComponentsEvent {
     }
 
     private static void setComponentsForThreadbound(net.neoforged.neoforge.event.ModifyDefaultComponentsEvent event, DeferredItem<?> item, ResourceLocation bookId) {
-        if (ModList.get().isLoaded("patchouli")) {
-            event.modify(item, builder -> builder.set(ComponentInit.SPELL_COMPONENT.get(), SpellComponent.EMPTY).set(PatchouliDataComponents.BOOK, bookId).set(DataComponentRegistry.BOOK_ID.get(), bookId).build());
-        } else {
-            event.modify(item, builder -> builder.set(ComponentInit.SPELL_COMPONENT.get(), SpellComponent.EMPTY).set(DataComponentRegistry.BOOK_ID.get(), bookId).build());
-        }
+        event.modify(item, builder -> builder.set(ComponentInit.SPELL_COMPONENT.get(), SpellComponent.EMPTY).set(DataComponentRegistry.BOOK_ID.get(), bookId).build());
     }
 
     private static void setFluidContentComponent(net.neoforged.neoforge.event.ModifyDefaultComponentsEvent event, DeferredItem<?> item, FluidStack fluidStack) {

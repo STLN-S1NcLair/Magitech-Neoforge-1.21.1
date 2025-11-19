@@ -18,13 +18,10 @@ import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.util.RecipeMatcher;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
-import net.stln.magitech.Magitech;
-import net.stln.magitech.MagitechRegistries;
 import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.recipe.input.CrucibleRecipeInput;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 

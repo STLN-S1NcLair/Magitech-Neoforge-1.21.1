@@ -37,7 +37,7 @@ public class ZardiusCrucibleRecipeCategory extends AbstractMagitechRecipeCategor
     public ZardiusCrucibleRecipeCategory(IDrawable icon) {
         super(icon);
     }
-    
+
     public ZardiusCrucibleRecipeCategory(IGuiHelper helper) {
         this(helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(BlockInit.ZARDIUS_CRUCIBLE)));
     }

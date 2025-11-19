@@ -15,17 +15,15 @@ import net.stln.magitech.event.KeyMappingEvent;
 import net.stln.magitech.item.ItemTagKeys;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.ToolBeltComponent;
-import net.stln.magitech.network.SwapToolFromBeltPayLoadHandler;
 import net.stln.magitech.network.SwapToolFromBeltPayload;
-import net.stln.magitech.network.ThreadboundSelectPayload;
 import net.stln.magitech.util.*;
 import org.jetbrains.annotations.NotNull;
 
 public class ToolBeltOverlay extends Screen {
     private static final ResourceLocation TEXTURE = Magitech.id("textures/gui/tool_belt.png");
+    static int ANIM_LENGTH = 10;
     private int ticks = 0;
     private int select = -1;
-    static int ANIM_LENGTH = 10;
 
     public ToolBeltOverlay() {
         super(Component.empty());

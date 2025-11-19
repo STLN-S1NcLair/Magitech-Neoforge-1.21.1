@@ -7,7 +7,7 @@ public class ManaSolutionFluid extends VirtualFluid {
 
     @Override
     public Fluid getFlowing() {
-    return FluidInit.MANA_SOLUTION.get();
+        return FluidInit.MANA_SOLUTION.get();
     }
 
     @Override

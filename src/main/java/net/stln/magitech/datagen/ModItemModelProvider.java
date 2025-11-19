@@ -21,6 +21,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ItemInit.GLISTENING_LEXICON.get());
         basicItem(ItemInit.MATERIALS_AND_TOOLCRAFT_DESIGN.get());
         basicItem(ItemInit.THE_FIRE_THAT_THINKS.get());
+        basicItem(ItemInit.APPLIED_ARCANE_CIRCUITRY.get());
         basicItem(ItemInit.ARCANE_ENGINEERING_COMPENDIUM.get());
         basicItem(ItemInit.MANA_RING.get());
         basicItem(ItemInit.GALEVENT_RING.get());

@@ -16,6 +16,11 @@ public class ModDataMapProvider extends DataMapProvider {
         super(packOutput, lookupProvider);
     }
 
+    @SuppressWarnings("deprecation")
+    private static void addElement(Builder<EntityElementData, EntityType<?>> builder, EntityType<?> entityType, Element element) {
+        builder.add(entityType.builtInRegistryHolder(), new EntityElementData(element), false);
+    }
+
     @Override
     protected void gather(HolderLookup.@NotNull Provider provider) {
         gatherEntityElement();
@@ -39,10 +44,5 @@ public class ModDataMapProvider extends DataMapProvider {
         addElement(builder, EntityType.VEX, Element.PHANTOM);
         addElement(builder, EntityType.WARDEN, Element.TREMOR);
         addElement(builder, EntityType.WITCH, Element.MAGIC);
-    }
-
-    @SuppressWarnings("deprecation")
-    private static void addElement(Builder<EntityElementData, EntityType<?>> builder, EntityType<?> entityType, Element element) {
-        builder.add(entityType.builtInRegistryHolder(), new EntityElementData(element), false);
     }
 }

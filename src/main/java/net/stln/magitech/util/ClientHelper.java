@@ -33,13 +33,13 @@ public class ClientHelper {
         var player = getPlayer();
         return player == null ? null : player.level();
     }
-    
+
     // Recipe Manager
     public static @Nullable RecipeManager getRecipeManager() {
         var clientLevel = Minecraft.getInstance().level;
         return clientLevel != null ? clientLevel.getRecipeManager() : null;
     }
-    
+
     public static <I extends RecipeInput, R extends Recipe<I>> @NotNull List<@NotNull R> getAllRecipes(@NotNull Supplier<? extends RecipeType<R>> supplier) {
         RecipeManager recipeManager = getRecipeManager();
         if (recipeManager == null) return List.of();

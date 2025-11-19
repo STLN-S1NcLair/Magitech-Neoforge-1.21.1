@@ -3,9 +3,6 @@ package net.stln.magitech.block;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -15,18 +12,12 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -34,7 +25,6 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.stln.magitech.block.block_entity.ToolHangerBlockEntity;
 import net.stln.magitech.item.ItemTagKeys;
-import net.stln.magitech.util.TickScheduler;
 import net.stln.magitech.util.VoxelShapeUtil;
 
 import javax.annotation.Nullable;
@@ -55,6 +45,15 @@ public class ToolHangerBlock extends BaseEntityBlock {
         this.registerDefaultState(
                 this.stateDefinition.any().setValue(FACING, Direction.NORTH)
         );
+    }
+
+    public static Vec3 getToolRenderPos(int slot, BlockState blockState) { // ツールの描画位置を取得(ブロックの中心が原点)
+        Vec3 offset = new Vec3(-0.3, 0.0, -0.3);
+        offset = offset.add(0.3 * slot, 0.0, 0.15 * slot);
+
+        Direction direction = blockState.getValue(FACING);
+        double rotation = Math.toRadians(direction.toYRot());
+        return offset.yRot((float) -rotation);
     }
 
     @Override
@@ -78,12 +77,12 @@ public class ToolHangerBlock extends BaseEntityBlock {
         return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
+    /* BLOCK ENTITY */
+
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING);
     }
-
-    /* BLOCK ENTITY */
 
     @Override
     protected RenderShape getRenderShape(BlockState state) {
@@ -137,14 +136,5 @@ public class ToolHangerBlock extends BaseEntityBlock {
         } else {
             return 2;
         }
-    }
-
-    public static Vec3 getToolRenderPos(int slot, BlockState blockState) { // ツールの描画位置を取得(ブロックの中心が原点)
-        Vec3 offset = new Vec3(-0.3, 0.0, -0.3);
-        offset = offset.add(0.3 * slot, 0.0, 0.15 * slot);
-
-        Direction direction = blockState.getValue(FACING);
-        double rotation = Math.toRadians(direction.toYRot());
-        return offset.yRot((float) -rotation);
     }
 }

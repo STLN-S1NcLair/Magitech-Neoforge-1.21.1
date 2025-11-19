@@ -19,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 @JeiPlugin
 public class MagitechJeiPlugin implements IModPlugin {
     public static final ResourceLocation PLUGIN_UID = Magitech.id("jei_plugin");
-    
+
     @Override
     public @NotNull ResourceLocation getPluginUid() {
         return PLUGIN_UID;

@@ -26,7 +26,21 @@ public enum Element implements StringRepresentable {
     HOLLOW("hollow", 0x8020C0, 0x200040, 0x8020C0, 0x200040, DamageTypeInit.HOLLOW_DAMAGE);
 
     public static final Codec<Element> CODEC = StringRepresentable.fromEnum(Element::values);
-    
+    private final String id;
+    private final int color;
+    private final int dark;
+    private final int spellColor;
+    private final int spellDark;
+    private final ResourceKey<DamageType> damageType;
+    Element(String id, int color, int dark, int spellColor, int spellDark, ResourceKey<DamageType> damageType) {
+        this.id = id;
+        this.color = color;
+        this.dark = dark;
+        this.spellColor = spellColor;
+        this.spellDark = spellDark;
+        this.damageType = damageType;
+    }
+
     public static void registerElements() {
         Magitech.LOGGER.info("Registering Elements for" + Magitech.MOD_ID);
         ElementAffinityRegister.registerAffinity(Element.EMBER, ElementAffinityRegister.INEFFICIENT, Element.EMBER);
@@ -72,22 +86,6 @@ public enum Element implements StringRepresentable {
         // EntityElementRegister.registerEntityElement(EnderDragon.class, Element.HOLLOW);
         // EntityElementRegister.registerEntityElement(Endermite.class, Element.HOLLOW);
         // EntityElementRegister.registerEntityElement(Shulker.class, Element.HOLLOW);
-    }
-    
-    private final String id;
-    private final int color;
-    private final int dark;
-    private final int spellColor;
-    private final int spellDark;
-    private final ResourceKey<DamageType> damageType;
-
-    Element(String id, int color, int dark, int spellColor, int spellDark, ResourceKey<DamageType> damageType) {
-        this.id = id;
-        this.color = color;
-        this.dark = dark;
-        this.spellColor = spellColor;
-        this.spellDark = spellDark;
-        this.damageType = damageType;
     }
 
     public String get() {

@@ -26,7 +26,7 @@ public class TickScheduler {
     public static void tick(boolean isClient) {
         tick(!isClient ? scheduledTasksServer : scheduledTasksClient);
     }
-    
+
     private static void tick(List<TickTask> tasks) {
         Iterator<TickTask> iterator = tasks.iterator();
         List<TickTask> nextTask = new ArrayList<>();

@@ -64,7 +64,7 @@ public abstract class PartItem extends Item {
             setTier(stack, finalStats);
             var tier = ComponentHelper.getTier(stack);
             tooltipComponents.add(Component.empty());
-            tooltipComponents.add(Component.translatable("attribute.magitech.tier").append(" ").append(String.valueOf(tier)).withColor(ColorHelper.getTierColor(tier) * 5));
+            tooltipComponents.add(Component.translatable("attribute.magitech.tier").append(" ").append(String.valueOf(tier)).withColor(ColorHelper.getTierColor(tier * 5)));
 
             if (shiftDown) {
                 tooltipComponents.add(Component.translatable("attribute.magitech.attack_damage").append(": ").withColor(0xa0a0a0)

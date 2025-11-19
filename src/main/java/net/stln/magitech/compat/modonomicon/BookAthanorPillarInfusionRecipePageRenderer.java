@@ -2,7 +2,6 @@ package net.stln.magitech.compat.modonomicon;
 
 import com.klikli_dev.modonomicon.client.gui.book.entry.BookEntryScreen;
 import com.klikli_dev.modonomicon.client.render.page.BookRecipePageRenderer;
-import com.klikli_dev.modonomicon.fluid.NeoFluidHolder;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -11,16 +10,13 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
-import net.neoforged.neoforge.fluids.FluidStack;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.recipe.AthanorPillarInfusionRecipe;
-import oshi.util.tuples.Pair;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class BookAthanorPillarInfusionRecipePageRenderer extends BookRecipePageRenderer<AthanorPillarInfusionRecipe, BookAthanorPillarInfusionRecipePage> {
 
@@ -72,24 +68,60 @@ public class BookAthanorPillarInfusionRecipePageRenderer extends BookRecipePageR
             int x = 0;
             int y = 0;
             switch (i) {
-                case 0 -> {x = -8; y = 9;}
-                case 1 -> {x = 68; y = 85;}
-                case 2 -> {x = -8; y = 85;}
-                case 3 -> {x = 68; y = 9;}
-                case 4 -> {x = 30; y = 20;}
-                case 5 -> {x = 30; y = 74;}
-                case 6 -> {x = 3; y = 47;}
-                case 7 -> {x = 57; y = 47;}
-                case 8 -> {x = 11; y = 28;}
-                case 9 -> {x = 49; y = 66;}
-                case 10 -> {x = 11; y = 66;}
-                case 11 -> {x = 49; y = 28;}
+                case 0 -> {
+                    x = -8;
+                    y = 9;
+                }
+                case 1 -> {
+                    x = 68;
+                    y = 85;
+                }
+                case 2 -> {
+                    x = -8;
+                    y = 85;
+                }
+                case 3 -> {
+                    x = 68;
+                    y = 9;
+                }
+                case 4 -> {
+                    x = 30;
+                    y = 20;
+                }
+                case 5 -> {
+                    x = 30;
+                    y = 74;
+                }
+                case 6 -> {
+                    x = 3;
+                    y = 47;
+                }
+                case 7 -> {
+                    x = 57;
+                    y = 47;
+                }
+                case 8 -> {
+                    x = 11;
+                    y = 28;
+                }
+                case 9 -> {
+                    x = 49;
+                    y = 66;
+                }
+                case 10 -> {
+                    x = 11;
+                    y = 66;
+                }
+                case 11 -> {
+                    x = 49;
+                    y = 28;
+                }
             }
             this.parentScreen.renderItemStacks(guiGraphics, recipeX + x, recipeY + y, mouseX, mouseY, inputs.get(i));
         }
         this.parentScreen.renderItemStacks(guiGraphics, recipeX + 30, recipeY + 47, mouseX, mouseY, base);
         this.parentScreen.renderItemStack(guiGraphics, recipeX + 87, recipeY + 62, mouseX, mouseY, output);
-        guiGraphics.drawString(Minecraft.getInstance().font, Component.translatable("recipe.magitech.required_mana").append(": " + value.getMana()),  recipeX - 8, recipeY + 104, 0x004040, false);
+        guiGraphics.drawString(Minecraft.getInstance().font, Component.translatable("recipe.magitech.required_mana").append(": " + value.getMana()), recipeX - 8, recipeY + 104, 0x004040, false);
         this.parentScreen.renderItemStack(guiGraphics, recipeX + 87, recipeY + 81, mouseX, mouseY, BlockInit.ATHANOR_PILLAR.toStack());
     }
 }

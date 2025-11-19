@@ -19,8 +19,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.entity.magicentity.frigala.FrigalaEntity;
 import net.stln.magitech.element.Element;
+import net.stln.magitech.entity.magicentity.frigala.FrigalaEntity;
 import net.stln.magitech.magic.charge.ChargeData;
 import net.stln.magitech.magic.cooldown.CooldownData;
 import net.stln.magitech.magic.mana.ManaUtil;
@@ -38,14 +38,6 @@ public class Frigala extends Spell {
         baseSpeed = 1.5;
     }
 
-    public Element getElement() {
-        return Element.GLACE;
-    }
-
-    public SpellShape getSpellShape() {
-        return SpellShape.SHOT;
-    }
-
     private static void playShootAnimation(Player user) {
         var playerAnimationData = (ModifierLayer<IAnimation>) PlayerAnimationAccess.getPlayerAssociatedData((AbstractClientPlayer) user).get(Magitech.id("animation"));
         if (playerAnimationData != null) {
@@ -54,6 +46,14 @@ public class Frigala extends Spell {
             playerAnimationData.replaceAnimationWithFade(AbstractFadeModifier.standardFadeIn(1, Ease.INSINE), new KeyframeAnimationPlayer((KeyframeAnimation) PlayerAnimationRegistry.getAnimation(Magitech.id("swing_wand")))
                     .setFirstPersonMode(FirstPersonMode.THIRD_PERSON_MODEL).setFirstPersonConfiguration(new FirstPersonConfiguration(true, true, true, true)));
         }
+    }
+
+    public Element getElement() {
+        return Element.GLACE;
+    }
+
+    public SpellShape getSpellShape() {
+        return SpellShape.SHOT;
     }
 
     @Override

@@ -8,7 +8,6 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.stln.magitech.Magitech;
@@ -17,10 +16,7 @@ import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.MaterialComponent;
 import net.stln.magitech.item.component.PartMaterialComponent;
 import net.stln.magitech.item.tool.material.ToolMaterial;
-import net.stln.magitech.item.tool.register.ToolMaterialRegister;
-import net.stln.magitech.recipe.RecipeInit;
 import net.stln.magitech.recipe.ToolAssemblyRecipe;
-import net.stln.magitech.recipe.ToolMaterialRecipe;
 import net.stln.magitech.util.ClientHelper;
 import net.stln.magitech.util.ToolMaterialUtil;
 import oshi.util.tuples.Pair;
@@ -30,11 +26,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class BookToolAssemblyRecipePageRenderer extends BookRecipePageRenderer<ToolAssemblyRecipe, BookToolAssemblyRecipePage> {
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "textures/gui/book_tool_assembly.png");
     private final List<ItemStack> inputs = new ArrayList<>();
     List<Pair<List<ItemStack>, ItemStack>> displayList = new ArrayList<>();
     private ItemStack output = ItemStack.EMPTY;
-
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "textures/gui/book_tool_assembly.png");
 
     public BookToolAssemblyRecipePageRenderer(BookToolAssemblyRecipePage page) {
         super(page);

@@ -7,7 +7,7 @@ public class PhantomPotionFluid extends VirtualFluid {
 
     @Override
     public Fluid getFlowing() {
-    return FluidInit.PHANTOM_POTION.get();
+        return FluidInit.PHANTOM_POTION.get();
     }
 
     @Override

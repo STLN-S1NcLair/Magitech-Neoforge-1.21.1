@@ -60,7 +60,7 @@ import java.util.*;
 public abstract class Spell implements SpellLike {
     public static final Codec<Spell> CODEC = MagitechRegistries.SPELL.byNameCodec();
     public static final StreamCodec<RegistryFriendlyByteBuf, Spell> STREAM_CODEC = ByteBufCodecs.registry(MagitechRegistries.Keys.SPELL);
-    
+
     public float baseDamage = 0;
     public float baseEffectStrength = 0;
     public float baseDuration = 0;

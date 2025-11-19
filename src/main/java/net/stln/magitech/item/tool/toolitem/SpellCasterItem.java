@@ -24,18 +24,21 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.stln.magitech.Magitech;
+import net.stln.magitech.element.Element;
 import net.stln.magitech.entity.status.AttributeInit;
 import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.SpellComponent;
 import net.stln.magitech.item.tool.ToolStats;
-import net.stln.magitech.element.Element;
 import net.stln.magitech.item.tool.register.ToolMaterialRegister;
 import net.stln.magitech.item.tool.trait.Trait;
 import net.stln.magitech.magic.cooldown.CooldownData;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.network.TraitTickPayload;
-import net.stln.magitech.util.*;
+import net.stln.magitech.util.ComponentHelper;
+import net.stln.magitech.util.CuriosHelper;
+import net.stln.magitech.util.MathUtil;
+import net.stln.magitech.util.TextUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -178,7 +181,7 @@ public abstract class SpellCasterItem extends PartToolItem {
     @Override
     public void reloadComponent(Player player, Level level, ItemStack stack) {
         List<ItemAttributeModifiers.Entry> entries = new ArrayList<>();
-        
+
         ToolStats finalStats = getSumStats(player, level, stack);
         Map<String, Float> map = finalStats.getStats();
 

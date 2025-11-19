@@ -1,5 +1,7 @@
 package net.stln.magitech.util;
 
+import com.klikli_dev.modonomicon.api.multiblock.Multiblock;
+import com.klikli_dev.modonomicon.data.MultiblockDataManager;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
@@ -8,11 +10,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.levelgen.structure.templatesystem.*;
-import vazkii.patchouli.api.IMultiblock;
-import vazkii.patchouli.api.PatchouliAPI;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 
 public class StructureHelper {
@@ -52,11 +53,11 @@ public class StructureHelper {
     }
 
     public static boolean checkMultiblock(Level level, ResourceLocation resourceLocation, BlockPos origin) {
-        IMultiblock multiblock = PatchouliAPI.get().getMultiblock(resourceLocation);
+        Multiblock multiblock = MultiblockDataManager.get().getMultiblock(resourceLocation);
         return checkMultiblock(level, multiblock, origin);
     }
 
-    public static boolean checkMultiblock(Level level, IMultiblock multiblock, BlockPos origin) {
+    public static boolean checkMultiblock(Level level, Multiblock multiblock, BlockPos origin) {
 
         if (multiblock == null) {
             return false; // 定義が見つからない
@@ -67,23 +68,23 @@ public class StructureHelper {
     }
 
     public static BlockPos detectMultiblockError(Level level, ResourceLocation resourceLocation, BlockPos origin, Rotation rotation, boolean mirror) {
-        IMultiblock multiblock = PatchouliAPI.get().getMultiblock(resourceLocation);
+        Multiblock multiblock = MultiblockDataManager.get().getMultiblock(resourceLocation);
 
         return detectMultiblockError(level, multiblock, origin, rotation, mirror);
     }
 
-    public static BlockPos detectMultiblockError(Level level, IMultiblock multiblock, BlockPos origin, Rotation rotation, boolean mirror) {
+    public static BlockPos detectMultiblockError(Level level, Multiblock multiblock, BlockPos origin, Rotation rotation, boolean mirror) {
 
         if (multiblock == null) {
             return null; // 定義が見つからない
         }
 
-        Pair<BlockPos, Collection<IMultiblock.SimulateResult>> result = multiblock.simulate(level, origin, rotation, mirror);
+        Pair<BlockPos, Collection<Multiblock.SimulateResult>> result = multiblock.simulate(level, origin, rotation, mirror, false);
 
 // 不適合な座標だけ抽出
         List<BlockPos> mismatchedPositions = result.getSecond().stream()
                 .filter(r -> !r.test(level, rotation))
-                .map(IMultiblock.SimulateResult::getWorldPosition)
+                .map(Multiblock.SimulateResult::getWorldPosition)
                 .toList();
         return mismatchedPositions.stream()
                 .findFirst()

@@ -1,5 +1,9 @@
 package net.stln.magitech.event;
 
+import com.klikli_dev.modonomicon.Modonomicon;
+import com.klikli_dev.modonomicon.client.gui.BookGuiManager;
+import com.klikli_dev.modonomicon.client.gui.book.BookAddress;
+import com.klikli_dev.modonomicon.registry.DataComponentRegistry;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
@@ -21,10 +25,6 @@ import net.stln.magitech.network.ThreadboundSelectPayload;
 import net.stln.magitech.util.ClientHelper;
 import net.stln.magitech.util.ComponentHelper;
 import net.stln.magitech.util.CuriosHelper;
-import vazkii.patchouli.api.PatchouliAPI;
-import vazkii.patchouli.common.book.Book;
-import vazkii.patchouli.common.book.BookRegistry;
-import vazkii.patchouli.common.item.PatchouliDataComponents;
 
 @EventBusSubscriber(modid = Magitech.MOD_ID, value = Dist.CLIENT)
 public class KeyPressEvent {
@@ -35,7 +35,7 @@ public class KeyPressEvent {
     public static void onClientTick(ClientTickEvent.Post event) {
         Player player = ClientHelper.getPlayer();
         if (player == null) return;
-        
+
         while (KeyMappingEvent.TRAIT_ACTION.get().consumeClick()) {
             if (player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof PartToolItem || player.getItemInHand(InteractionHand.OFF_HAND).getItem() instanceof PartToolItem) {
                 InteractionHand hand = player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof PartToolItem ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
@@ -86,16 +86,18 @@ public class KeyPressEvent {
             PacketDistributor.sendToServer(new OpenThreadBoundPageScreenPayload(player.getUUID()));
         }
         while (KeyMappingEvent.OPEN_SPELLBOUND_AS_GUIDEBOOK.get().consumeClick()) {
-            if (player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof ThreadBoundItem) {
-                Book book = BookRegistry.INSTANCE.books.get(player.getItemInHand(InteractionHand.MAIN_HAND).get(PatchouliDataComponents.BOOK));
-                if (book != null) {
-                    PatchouliAPI.get().openBookGUI(book.id);
-                }
+            if (player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof ThreadBoundItem threadBoundItem) {
+                threadBoundItem.use(player.level(), player, InteractionHand.MAIN_HAND);
             } else {
                 CuriosHelper.getThreadBoundStack(player).ifPresent(stack -> {
-                    Book book = BookRegistry.INSTANCE.books.get(stack.get(PatchouliDataComponents.BOOK));
-                    if (book != null) {
-                        PatchouliAPI.get().openBookGUI(book.id);
+                    if (player.level().isClientSide) {
+                        if (stack.get(DataComponentRegistry.BOOK_ID.get()) != null) {
+                            var book = ThreadBoundItem.getBook(stack);
+
+                            BookGuiManager.get().openBook(BookAddress.defaultFor(book));
+                        } else {
+                            Modonomicon.LOG.error("ModonomiconItem: ItemStack has no tag!");
+                        }
                     }
                 });
             }

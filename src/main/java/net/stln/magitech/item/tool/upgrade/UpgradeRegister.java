@@ -11,12 +11,11 @@ import java.util.Optional;
 
 public class UpgradeRegister {
     private static final Map<ResourceLocation, Upgrade> dictId = new LinkedHashMap<>();
+    private static final Map<ResourceLocation, Upgrade> dictSpellCasterId = new LinkedHashMap<>();
 
     public static void registerId(ResourceLocation id, Upgrade upgrade) {
         dictId.put(id, upgrade);
     }
-
-    private static final Map<ResourceLocation, Upgrade> dictSpellCasterId = new LinkedHashMap<>();
 
     public static void registerSpellCasterId(ResourceLocation id, Upgrade upgrade) {
         dictSpellCasterId.put(id, upgrade);
@@ -69,7 +68,7 @@ public class UpgradeRegister {
         }
         return null;
     }
-    
+
     public static @NotNull Optional<ResourceLocation> getOptionalId(@Nullable Upgrade upgrade) {
         return Optional.ofNullable(getId(upgrade));
     }

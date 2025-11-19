@@ -20,7 +20,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public record SpellConversionRecipe(String group, Ingredient ingredient, Spell spell, ItemStack result) implements Recipe<SpellRecipeInput> {
+public record SpellConversionRecipe(String group, Ingredient ingredient, Spell spell,
+                                    ItemStack result) implements Recipe<SpellRecipeInput> {
     public static final MapCodec<SpellConversionRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             Codec.STRING.optionalFieldOf("group", "").forGetter(SpellConversionRecipe::group),
             Ingredient.CODEC_NONEMPTY.fieldOf("ingredient").forGetter(SpellConversionRecipe::ingredient),

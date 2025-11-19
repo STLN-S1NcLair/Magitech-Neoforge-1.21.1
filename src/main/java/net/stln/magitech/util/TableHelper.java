@@ -17,7 +17,7 @@ public class TableHelper {
         var value = table.get(row, column);
         return value == null ? function.apply(row, column) : value;
     }
-    
+
     public static <R, C, V> @NotNull V computeIfAbsent(@NotNull Table<R, C, V> table, @NotNull R row, @NotNull C column, @NotNull BiFunction<R, C, V> function) {
         V value = table.get(row, column);
         if (value == null) {

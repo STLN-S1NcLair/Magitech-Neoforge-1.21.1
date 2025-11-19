@@ -13,7 +13,6 @@ import net.stln.magitech.item.ItemInit;
 import net.stln.magitech.item.armor.FlamglideStriderItem;
 
 import java.util.Objects;
-import java.util.UUID;
 
 public class LongJumpPayLoadHandler {
 

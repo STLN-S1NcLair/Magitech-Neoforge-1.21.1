@@ -7,7 +7,6 @@ import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
-import net.stln.magitech.util.ComponentHelper;
 import net.stln.magitech.util.CuriosHelper;
 import net.stln.magitech.util.ToolBeltHelper;
 

@@ -24,13 +24,13 @@ public record SpellComponent(List<Spell> spells, int selected) {
     );
 
     public static final SpellComponent EMPTY = new SpellComponent(List.of(), 0);
-    
-    public Spell getSelectedSpell() {
-        return spells.get(selected);
-    }
 
     public SpellComponent(List<SpellLike> spells) {
         this(spells.stream().map(SpellLike::asSpell).toList(), 0);
+    }
+
+    public Spell getSelectedSpell() {
+        return spells.get(selected);
     }
 
     public SpellComponent setSelected(int selected) {

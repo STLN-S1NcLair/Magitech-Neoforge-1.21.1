@@ -13,11 +13,11 @@ import net.stln.magitech.util.ClientHelper;
 @EventBusSubscriber(modid = Magitech.MOD_ID)
 public class RenderFogEvent {
 
+    public static final float LERP_SPEED = 0.002f;
     public static float currentNearPlane = 256.0f;
     public static float targetNearPlane = 256.0f;
     public static float currentFarPlane = 256.0f;
     public static float targetFarPlane = 256.0f;
-    public static final float LERP_SPEED = 0.002f;
 
     @SubscribeEvent
     public static void onRenderFog(ViewportEvent.RenderFog event) {

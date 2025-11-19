@@ -50,16 +50,10 @@ public class ToolUpgradeMenu extends AbstractContainerMenu {
      * The {@linkplain ItemStack} set in the input slot by the player.
      */
     private ItemStack input = ItemStack.EMPTY;
+
     public ToolUpgradeMenu(int containerId, Inventory playerInventory) {
         this(containerId, playerInventory, ContainerLevelAccess.NULL);
-    }    public final Container container = new SimpleContainer(2) {
-        @Override
-        public void setChanged() {
-            super.setChanged();
-            ToolUpgradeMenu.this.slotsChanged(this);
-            ToolUpgradeMenu.this.slotUpdateListener.run();
-        }
-    };
+    }
 
     public ToolUpgradeMenu(int containerId, Inventory playerInventory, final ContainerLevelAccess access) {
         super(GuiInit.TOOL_UPGRADE_MENU.get(), containerId);
@@ -106,7 +100,14 @@ public class ToolUpgradeMenu extends AbstractContainerMenu {
             this.addSlot(new Slot(playerInventory, k, 8 + k * 18, 175));
         }
 
-    }
+    }    public final Container container = new SimpleContainer(2) {
+        @Override
+        public void setChanged() {
+            super.setChanged();
+            ToolUpgradeMenu.this.slotsChanged(this);
+            ToolUpgradeMenu.this.slotUpdateListener.run();
+        }
+    };
 
     /**
      * Determines whether supplied player can use this container
@@ -255,6 +256,8 @@ public class ToolUpgradeMenu extends AbstractContainerMenu {
         super.removed(player);
         this.access.execute((p_40313_, p_40314_) -> this.clearContainer(player, this.container));
     }
+
+
 
 
 }

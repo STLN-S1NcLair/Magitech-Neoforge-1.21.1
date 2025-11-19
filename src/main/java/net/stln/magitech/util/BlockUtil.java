@@ -53,8 +53,8 @@ public class BlockUtil {
                 for (Direction direction2 : Direction.values()) {
                     for (Direction direction3 : Direction.values()) {
                         if (direction2.getAxis() == direction.getAxis()
-                            || direction3.getAxis() == direction.getAxis()
-                            || direction3.getAxis() == direction2.getAxis()) continue;
+                                || direction3.getAxis() == direction.getAxis()
+                                || direction3.getAxis() == direction2.getAxis()) continue;
                         BlockPos neighbor = current.relative(direction);
                         if (!visited.contains(neighbor) && level.getBlockState(neighbor).getBlock() == targetBlock) {
                             visited.add(neighbor);

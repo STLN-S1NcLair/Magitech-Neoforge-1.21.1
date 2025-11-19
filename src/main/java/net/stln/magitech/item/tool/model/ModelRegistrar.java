@@ -14,7 +14,7 @@ import java.util.List;
 
 @EventBusSubscriber(modid = Magitech.MOD_ID)
 public class ModelRegistrar {
-    
+
     public static final List<String> toolTypes = List.of("dagger", "light_sword", "heavy_sword", "pickaxe", "hammer", "axe", "shovel", "scythe", "spear", "wand", "staff", "wandrel");
     public static final List<String> partTypes = List.of("light_blade", "heavy_blade", "light_handle", "heavy_handle", "tool_binding", "handguard", "strike_head", "spike_head", "reinforced_stick", "plate", "catalyst", "conductor");
 

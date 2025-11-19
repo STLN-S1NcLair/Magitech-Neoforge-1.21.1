@@ -19,13 +19,15 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.Magitech;
+import net.stln.magitech.element.Element;
 import net.stln.magitech.magic.charge.ChargeData;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.Spell;
-import net.stln.magitech.particle.particle_option.*;
+import net.stln.magitech.particle.particle_option.BlowParticleEffect;
+import net.stln.magitech.particle.particle_option.SquareFieldParticleEffect;
+import net.stln.magitech.particle.particle_option.SquareParticleEffect;
 import net.stln.magitech.sound.SoundInit;
 import net.stln.magitech.util.EffectUtil;
-import net.stln.magitech.element.Element;
 import net.stln.magitech.util.SpellShape;
 import org.joml.Vector3f;
 
@@ -38,14 +40,6 @@ public class Nymphora extends Spell {
         this.baseEffectStrength = 4.0F;
     }
 
-    public Element getElement() {
-        return Element.FLOW;
-    }
-
-    public SpellShape getSpellShape() {
-        return SpellShape.RESILIENCE;
-    }
-
     protected static void playShootAnimation(Player user) {
         var playerAnimationData = (ModifierLayer<IAnimation>) PlayerAnimationAccess.getPlayerAssociatedData((AbstractClientPlayer) user).get(Magitech.id("animation"));
         if (playerAnimationData != null) {
@@ -54,6 +48,14 @@ public class Nymphora extends Spell {
             playerAnimationData.replaceAnimationWithFade(AbstractFadeModifier.standardFadeIn(1, Ease.OUTSINE), new KeyframeAnimationPlayer((KeyframeAnimation) PlayerAnimationRegistry.getAnimation(Magitech.id("wand_shoot")))
                     .setFirstPersonMode(FirstPersonMode.THIRD_PERSON_MODEL).setFirstPersonConfiguration(new FirstPersonConfiguration(true, true, true, true)));
         }
+    }
+
+    public Element getElement() {
+        return Element.FLOW;
+    }
+
+    public SpellShape getSpellShape() {
+        return SpellShape.RESILIENCE;
     }
 
     @Override

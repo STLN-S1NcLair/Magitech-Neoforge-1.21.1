@@ -169,7 +169,7 @@ public class WorldGenInit {
 
         context.register(
                 MISTALIA_PETALS_CONFIGURED_KEY, new ConfiguredFeature<>(Feature.FLOWER,
-                new RandomPatchConfiguration(96, 6, 2, PlacementUtils.onlyWhenEmpty(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(new WeightedStateProvider(builder))))));
+                        new RandomPatchConfiguration(96, 6, 2, PlacementUtils.onlyWhenEmpty(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(new WeightedStateProvider(builder))))));
 
 
         context.register(SCORCHED_GEYSER_CONFIGURED_KEY,
@@ -206,10 +206,10 @@ public class WorldGenInit {
                 List.of(CountPlacement.of(8), InSquarePlacement.spread(), HeightRangePlacement.triangle(VerticalAnchor.aboveBottom(0), VerticalAnchor.aboveBottom(128))))
         );
         context.register(CELIFERN_PLACED_KEY, new PlacedFeature(configured.getOrThrow(CELIFERN_CONFIGURED_KEY),
-               VegetationPlacements.treePlacement(PlacementUtils.countExtra(3, 0.5f, 7),
+                VegetationPlacements.treePlacement(PlacementUtils.countExtra(3, 0.5f, 7),
                         BlockInit.CELIFERN_SAPLING.get())));
         context.register(CHARCOAL_BIRCH_PLACED_KEY, new PlacedFeature(configured.getOrThrow(CHARCOAL_BIRCH_CONFIGURED_KEY),
-               VegetationPlacements.treePlacement(PlacementUtils.countExtra(0, 0.2f, 3),
+                VegetationPlacements.treePlacement(PlacementUtils.countExtra(0, 0.2f, 3),
                         BlockInit.CHARCOAL_BIRCH_SAPLING.get())));
 
         context.register(MANA_BERRY_BUSH_PLACED_KEY, new PlacedFeature(configured.getOrThrow(MANA_BERRY_BUSH_CONFIGURED_KEY),

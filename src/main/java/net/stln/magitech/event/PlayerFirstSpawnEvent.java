@@ -43,10 +43,10 @@ public class PlayerFirstSpawnEvent {
                     .map(Holder::value)
                     .ifPresent(spell -> {
                         ComponentHelper.updateSpells(stack, spellComponent -> new SpellComponent(List.of(SpellInit.ENERCRUX, spell)));
-                player.getInventory().add(stack);
+                        player.getInventory().add(stack);
 
-                persisted.putBoolean("hasReceivedInitialItems", true);
-            });
+                        persisted.putBoolean("hasReceivedInitialItems", true);
+                    });
         }
     }
 }

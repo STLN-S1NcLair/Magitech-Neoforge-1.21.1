@@ -32,7 +32,7 @@ public class ItemInit {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Magitech.MOD_ID);
 
     public static final ResourceLocation THREADBOUND_ID = Magitech.id("threadbound");
-    
+
     public static final DeferredItem<ThreadBoundItem> GLISTENING_LEXICON = ITEMS.registerItem("glistening_lexicon",
             (properties) -> new ThreadBoundItem(properties).attributeModifier(Map.of(
                     AttributeInit.MAX_MANA, new AttributeModifier(THREADBOUND_ID, 20, AttributeModifier.Operation.ADD_VALUE),
@@ -49,20 +49,20 @@ public class ItemInit {
 
     public static final DeferredItem<ThreadBoundItem> MATERIALS_AND_TOOLCRAFT_DESIGN = ITEMS.registerItem("materials_and_toolcraft_design",
             (properties) -> new ThreadBoundItem(properties).attributeModifier(Map.ofEntries(
-                    Map.entry(AttributeInit.MAX_MANA, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 200, AttributeModifier.Operation.ADD_VALUE)),
-                    Map.entry(AttributeInit.MANA_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.8, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.MAX_MANA, new AttributeModifier(THREADBOUND_ID, 200, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.MANA_REGEN, new AttributeModifier(THREADBOUND_ID, 0.8, AttributeModifier.Operation.ADD_VALUE)),
 
-                    Map.entry(AttributeInit.NOCTIS_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.2, AttributeModifier.Operation.ADD_VALUE)),
-                    Map.entry(AttributeInit.LUMINIS_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.2, AttributeModifier.Operation.ADD_VALUE)),
-                    Map.entry(AttributeInit.FLUXIA_REGEN, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.2, AttributeModifier.Operation.ADD_VALUE)),
-                    Map.entry(AttributeInit.MAX_NOCTIS, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 15, AttributeModifier.Operation.ADD_VALUE)),
-                    Map.entry(AttributeInit.MAX_LUMINIS, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 15, AttributeModifier.Operation.ADD_VALUE)),
-                    Map.entry(AttributeInit.MAX_FLUXIA, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 15, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.NOCTIS_REGEN, new AttributeModifier(THREADBOUND_ID, 0.2, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.LUMINIS_REGEN, new AttributeModifier(THREADBOUND_ID, 0.2, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.FLUXIA_REGEN, new AttributeModifier(THREADBOUND_ID, 0.2, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.MAX_NOCTIS, new AttributeModifier(THREADBOUND_ID, 15, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.MAX_LUMINIS, new AttributeModifier(THREADBOUND_ID, 15, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.MAX_FLUXIA, new AttributeModifier(THREADBOUND_ID, 15, AttributeModifier.Operation.ADD_VALUE)),
 
-                    Map.entry(AttributeInit.COOLDOWN_SPEED, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.2, AttributeModifier.Operation.ADD_VALUE)),
-                    Map.entry(AttributeInit.CASTING_SPEED, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.2, AttributeModifier.Operation.ADD_VALUE)),
-                    Map.entry(AttributeInit.MANA_EFFICIENCY, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), 0.1, AttributeModifier.Operation.ADD_VALUE)),
-                    Map.entry(AttributeInit.SPELL_POWER, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "threadbound"), -0.2, AttributeModifier.Operation.ADD_VALUE))
+                    Map.entry(AttributeInit.COOLDOWN_SPEED, new AttributeModifier(THREADBOUND_ID, 0.2, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.CASTING_SPEED, new AttributeModifier(THREADBOUND_ID, 0.2, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.MANA_EFFICIENCY, new AttributeModifier(THREADBOUND_ID, 0.1, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.SPELL_POWER, new AttributeModifier(THREADBOUND_ID, -0.2, AttributeModifier.Operation.ADD_VALUE))
             )),
             new Item.Properties().stacksTo(1));
 
@@ -80,6 +80,27 @@ public class ItemInit {
 
                     AttributeInit.SPELL_POWER, new AttributeModifier(THREADBOUND_ID, 0.2, AttributeModifier.Operation.ADD_VALUE),
                     AttributeInit.MANA_EFFICIENCY, new AttributeModifier(THREADBOUND_ID, -0.1, AttributeModifier.Operation.ADD_VALUE)
+            )),
+            new Item.Properties().stacksTo(1));
+
+    public static final DeferredItem<ThreadBoundItem> APPLIED_ARCANE_CIRCUITRY = ITEMS.registerItem("applied_arcane_circuitry",
+            (properties) -> new ThreadBoundItem(properties).attributeModifier(Map.ofEntries(
+                    Map.entry(AttributeInit.MAX_MANA, new AttributeModifier(THREADBOUND_ID, 400, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.MANA_REGEN, new AttributeModifier(THREADBOUND_ID, 1.2, AttributeModifier.Operation.ADD_VALUE)),
+
+                    Map.entry(AttributeInit.NOCTIS_REGEN, new AttributeModifier(THREADBOUND_ID, 0.1, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.LUMINIS_REGEN, new AttributeModifier(THREADBOUND_ID, 0.1, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.FLUXIA_REGEN, new AttributeModifier(THREADBOUND_ID, 0.1, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.MAX_NOCTIS, new AttributeModifier(THREADBOUND_ID, 5, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.MAX_LUMINIS, new AttributeModifier(THREADBOUND_ID, 5, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.MAX_FLUXIA, new AttributeModifier(THREADBOUND_ID, 5, AttributeModifier.Operation.ADD_VALUE)),
+
+
+                    Map.entry(AttributeInit.COOLDOWN_SPEED, new AttributeModifier(THREADBOUND_ID, -0.4, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.CASTING_SPEED, new AttributeModifier(THREADBOUND_ID, -0.4, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.PROJECTILE_SPEED, new AttributeModifier(THREADBOUND_ID, 0.7, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.SPELL_POWER, new AttributeModifier(THREADBOUND_ID, 0.3, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.MANA_EFFICIENCY, new AttributeModifier(THREADBOUND_ID, -0.2, AttributeModifier.Operation.ADD_VALUE))
             )),
             new Item.Properties().stacksTo(1));
 
@@ -175,7 +196,73 @@ public class ItemInit {
     public static final DeferredItem<Item> CATALYST = ITEMS.registerItem("catalyst", CatalystItem::new);
 
     public static final DeferredItem<Item> CONDUCTOR = ITEMS.registerItem("conductor", ConductorItem::new);
-
+    public static final DeferredItem<Item> AETHER_LIFTER = ITEMS.registerItem(
+            "aether_lifter",
+            (properties) -> new AetherLifterItem(ArmorMaterials.IRON, ArmorItem.Type.BOOTS, properties),
+            new Item.Properties().durability(314).attributes(ItemAttributeModifiers.builder().add(Attributes.SAFE_FALL_DISTANCE, new AttributeModifier(Magitech.id("aether_lifter"), 5, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.FEET).build())
+    );
+    public static final DeferredItem<Item> FLAMGLIDE_STRIDER = ITEMS.registerItem(
+            "flamglide_strider",
+            (properties) -> new FlamglideStriderItem(ArmorMaterials.IRON, ArmorItem.Type.BOOTS, properties),
+            new Item.Properties().durability(314).attributes(ItemAttributeModifiers.builder().add(Attributes.SAFE_FALL_DISTANCE, new AttributeModifier(Magitech.id("flamglide_strider"), 3, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.FEET).build())
+    );
+    public static final DeferredItem<Item> THREAD_PAGE = ITEMS.registerItem("thread_page", ThreadPageItem::new, new Item.Properties().component(DataComponents.MAX_STACK_SIZE, 1));
+    public static final DeferredItem<Item> ALCHAEFABRIC = ITEMS.registerItem("alchaefabric", TooltipTextItem::new);
+    public static final DeferredItem<Item> AEGIS_WEAVE = ITEMS.registerItem("aegis_weave", TooltipTextItem::new);
+    public static final DeferredItem<Item> FLUORITE = ITEMS.registerItem("fluorite", TooltipTextItem::new);
+    public static final DeferredItem<Item> MANA_CHARGED_FLUORITE = ITEMS.registerItem("mana_charged_fluorite", ManaChargedFluoriteItem::new);
+    public static final DeferredItem<Item> TOURMALINE = ITEMS.registerItem("tourmaline", TooltipTextItem::new);
+    public static final DeferredItem<Item> EMBER_CRYSTAL = ITEMS.registerItem("ember_crystal", TooltipTextItem::new);
+    public static final DeferredItem<Item> GLACE_CRYSTAL = ITEMS.registerItem("glace_crystal", TooltipTextItem::new);
+    public static final DeferredItem<Item> SURGE_CRYSTAL = ITEMS.registerItem("surge_crystal", TooltipTextItem::new);
+    public static final DeferredItem<Item> PHANTOM_CRYSTAL = ITEMS.registerItem("phantom_crystal", TooltipTextItem::new);
+    public static final DeferredItem<Item> TREMOR_CRYSTAL = ITEMS.registerItem("tremor_crystal", TooltipTextItem::new);
+    public static final DeferredItem<Item> MAGIC_CRYSTAL = ITEMS.registerItem("magic_crystal", TooltipTextItem::new);
+    public static final DeferredItem<Item> FLOW_CRYSTAL = ITEMS.registerItem("flow_crystal", TooltipTextItem::new);
+    public static final DeferredItem<Item> HOLLOW_CRYSTAL = ITEMS.registerItem("hollow_crystal", TooltipTextItem::new);
+    public static final DeferredItem<Item> AGGREGATED_NOCTIS = ITEMS.registerItem("aggregated_noctis", AggregatedNoctisItem::new);
+    public static final DeferredItem<Item> AGGREGATED_LUMINIS = ITEMS.registerItem("aggregated_luminis", AggregatedLuminisItem::new);
+    public static final DeferredItem<Item> AGGREGATED_FLUXIA = ITEMS.registerItem("aggregated_fluxia", AggregatedFluxiaItem::new);
+    public static final DeferredItem<Item> CITRINE = ITEMS.registerItem("citrine", TooltipTextItem::new);
+    public static final DeferredItem<Item> REDSTONE_CRYSTAL = ITEMS.registerItem("redstone_crystal", TooltipTextItem::new);
+    public static final DeferredItem<Item> POLISHED_REDSTONE_CRYSTAL = ITEMS.registerItem("polished_redstone_crystal", TooltipTextItem::new);
+    public static final DeferredItem<Item> SULFUR = ITEMS.registerItem("sulfur", TooltipTextItem::new);
+    public static final DeferredItem<Item> RAW_ZINC = ITEMS.registerItem("raw_zinc", TooltipTextItem::new);
+    public static final DeferredItem<Item> ZINC_INGOT = ITEMS.registerItem("zinc_ingot", TooltipTextItem::new);
+    public static final DeferredItem<Item> CHROMIUM_INGOT = ITEMS.registerItem("chromium_ingot", TooltipTextItem::new);
+    public static final DeferredItem<Item> ENDER_METAL_INGOT = ITEMS.registerItem("ender_metal_ingot", TooltipTextItem::new);
+    public static final DeferredItem<Item> NETHER_STAR_BRILLIANCE = ITEMS.registerItem("nether_star_brilliance", TooltipTextItem::new);
+    public static final DeferredItem<Item> RADIANT_STEEL_INGOT = ITEMS.registerItem("radiant_steel_ingot", TooltipTextItem::new);
+    public static final DeferredItem<Item> FRIGIDITE = ITEMS.registerItem("frigidite", TooltipTextItem::new);
+    public static final DeferredItem<Item> POLISHED_FRIGIDITE = ITEMS.registerItem("polished_frigidite", TooltipTextItem::new);
+    public static final DeferredItem<Item> TRANSLUCIUM = ITEMS.registerItem("translucium", TooltipTextItem::new);
+    public static final DeferredItem<Item> POLISHED_TRANSLUCIUM = ITEMS.registerItem("polished_translucium", TooltipTextItem::new);
+    public static final DeferredItem<Item> RESONITE = ITEMS.registerItem("resonite", TooltipTextItem::new);
+    public static final DeferredItem<Item> POLISHED_RESONITE = ITEMS.registerItem("polished_resonite", TooltipTextItem::new);
+    public static final DeferredItem<Item> ABYSSITE = ITEMS.registerItem("abyssite", TooltipTextItem::new);
+    public static final DeferredItem<Item> POLISHED_ABYSSITE = ITEMS.registerItem("polished_abyssite", TooltipTextItem::new);
+    public static final DeferredItem<Item> MANA_INSULATING_GLASS = ITEMS.registerItem("mana_insulating_glass", TooltipTextItem::new);
+    public static final DeferredItem<Item> SULFURIC_ACID_BATTERY = ITEMS.registerItem("sulfuric_acid_battery", TooltipTextItem::new);
+    public static final DeferredItem<Item> MANA_DEEXCITER_CORE = ITEMS.registerItem("mana_deexciter_core", TooltipTextItem::new);
+    public static final DeferredItem<Item> ASPECT_COLLECTOR = ITEMS.registerItem("aspect_collector", TooltipTextItem::new);
+    public static final DeferredItem<Item> BOOTS_FRAME = ITEMS.registerItem("boots_frame", TooltipTextItem::new);
+    public static final DeferredItem<Item> MANA_BERRIES = ITEMS.registerItem("mana_berries", (properties) -> new TooltipTextPlaceableItem(BlockInit.MANA_BERRY_BUSH.get(), properties.food(FoodInit.MANA_BERRIES)));
+    public static final DeferredItem<Item> MANA_PIE = ITEMS.registerItem("mana_pie", TooltipTextItem::new, new Item.Properties().food(FoodInit.MANA_PIE));
+    public static final DeferredItem<Item> ALCHEMICAL_FLASK = ITEMS.registerItem("alchemical_flask", AlchemicalFlaskItem::new);
+    public static final DeferredItem<Item> WATER_FLASK = ITEMS.registerItem("water_flask", WaterFlaskItem::new);
+    public static final DeferredItem<Item> LAVA_FLASK = ITEMS.registerItem("lava_flask", TooltipTextItem::new);
+    public static final DeferredItem<Item> SULFURIC_ACID_FLASK = ITEMS.registerItem("sulfuric_acid_flask", TooltipTextItem::new);
+    public static final DeferredItem<Item> MANA_POTION_FLASK = ITEMS.registerItem("mana_potion_flask", ManaPotionFlaskItem::new);
+    public static final DeferredItem<Item> HEALING_POTION_FLASK = ITEMS.registerItem("healing_potion_flask", HealingPotionFlaskItem::new);
+    public static final DeferredItem<Item> EMBER_POTION_FLASK = ITEMS.registerItem("ember_potion_flask", EmberPotionFlaskItem::new);
+    public static final DeferredItem<Item> GLACE_POTION_FLASK = ITEMS.registerItem("glace_potion_flask", GlacePotionFlaskItem::new);
+    public static final DeferredItem<Item> SURGE_POTION_FLASK = ITEMS.registerItem("surge_potion_flask", SurgePotionFlaskItem::new);
+    public static final DeferredItem<Item> PHANTOM_POTION_FLASK = ITEMS.registerItem("phantom_potion_flask", PhantomPotionFlaskItem::new);
+    public static final DeferredItem<Item> TREMOR_POTION_FLASK = ITEMS.registerItem("tremor_potion_flask", TremorPotionFlaskItem::new);
+    public static final DeferredItem<Item> MAGIC_POTION_FLASK = ITEMS.registerItem("magic_potion_flask", MagicPotionFlaskItem::new);
+    public static final DeferredItem<Item> FLOW_POTION_FLASK = ITEMS.registerItem("flow_potion_flask", FlowPotionFlaskItem::new);
+    public static final DeferredItem<Item> HOLLOW_POTION_FLASK = ITEMS.registerItem("hollow_potion_flask", HollowPotionFlaskItem::new);
+    public static final DeferredItem<Item> WEAVER_SPAWN_EGG = ITEMS.registerItem("weaver_spawn_egg", (properties) -> new DeferredSpawnEggItem(EntityInit.WEAVER_ENTITY, 0x2F2E30, 0xB1F3CC, properties));
     private static final Item.Properties TOOL_PROPERTIES = new Item.Properties().setNoRepair().stacksTo(1);
     public static final DeferredItem<Item> DAGGER = ITEMS.registerItem("dagger", DaggerItem::new, TOOL_PROPERTIES);
     public static final DeferredItem<Item> LIGHT_SWORD = ITEMS.registerItem("light_sword", LightSwordItem::new, TOOL_PROPERTIES);
@@ -186,132 +273,6 @@ public class ItemInit {
     public static final DeferredItem<Item> SHOVEL = ITEMS.registerItem("shovel", ShovelItem::new, TOOL_PROPERTIES);
     public static final DeferredItem<Item> SCYTHE = ITEMS.registerItem("scythe", ScytheItem::new, TOOL_PROPERTIES);
     public static final DeferredItem<Item> WAND = ITEMS.registerItem("wand", WandItem::new, TOOL_PROPERTIES);
-
-    public static final DeferredItem<Item> AETHER_LIFTER = ITEMS.registerItem(
-            "aether_lifter",
-            (properties) -> new AetherLifterItem(ArmorMaterials.IRON, ArmorItem.Type.BOOTS, properties),
-            new Item.Properties().durability(314).attributes(ItemAttributeModifiers.builder().add(Attributes.SAFE_FALL_DISTANCE, new AttributeModifier(Magitech.id("aether_lifter"), 5, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.FEET).build())
-    );
-
-    public static final DeferredItem<Item> FLAMGLIDE_STRIDER = ITEMS.registerItem(
-            "flamglide_strider",
-            (properties) -> new FlamglideStriderItem(ArmorMaterials.IRON, ArmorItem.Type.BOOTS, properties),
-            new Item.Properties().durability(314).attributes(ItemAttributeModifiers.builder().add(Attributes.SAFE_FALL_DISTANCE, new AttributeModifier(Magitech.id("flamglide_strider"), 3, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.FEET).build())
-    );
-
-    public static final DeferredItem<Item> THREAD_PAGE = ITEMS.registerItem("thread_page", ThreadPageItem::new, new Item.Properties().component(DataComponents.MAX_STACK_SIZE, 1));
-
-    public static final DeferredItem<Item> ALCHAEFABRIC = ITEMS.registerItem("alchaefabric", TooltipTextItem::new);
-
-    public static final DeferredItem<Item> AEGIS_WEAVE = ITEMS.registerItem("aegis_weave", TooltipTextItem::new);
-
-    public static final DeferredItem<Item> FLUORITE = ITEMS.registerItem("fluorite", TooltipTextItem::new);
-
-    public static final DeferredItem<Item> MANA_CHARGED_FLUORITE = ITEMS.registerItem("mana_charged_fluorite", ManaChargedFluoriteItem::new);
-
-    public static final DeferredItem<Item> TOURMALINE = ITEMS.registerItem("tourmaline", TooltipTextItem::new);
-
-    public static final DeferredItem<Item> EMBER_CRYSTAL = ITEMS.registerItem("ember_crystal", TooltipTextItem::new);
-
-    public static final DeferredItem<Item> GLACE_CRYSTAL = ITEMS.registerItem("glace_crystal", TooltipTextItem::new);
-
-    public static final DeferredItem<Item> SURGE_CRYSTAL = ITEMS.registerItem("surge_crystal", TooltipTextItem::new);
-
-    public static final DeferredItem<Item> PHANTOM_CRYSTAL = ITEMS.registerItem("phantom_crystal", TooltipTextItem::new);
-
-    public static final DeferredItem<Item> TREMOR_CRYSTAL = ITEMS.registerItem("tremor_crystal", TooltipTextItem::new);
-
-    public static final DeferredItem<Item> MAGIC_CRYSTAL = ITEMS.registerItem("magic_crystal", TooltipTextItem::new);
-
-    public static final DeferredItem<Item> FLOW_CRYSTAL = ITEMS.registerItem("flow_crystal", TooltipTextItem::new);
-
-    public static final DeferredItem<Item> HOLLOW_CRYSTAL = ITEMS.registerItem("hollow_crystal", TooltipTextItem::new);
-
-    public static final DeferredItem<Item> AGGREGATED_NOCTIS = ITEMS.registerItem("aggregated_noctis", AggregatedNoctisItem::new);
-
-    public static final DeferredItem<Item> AGGREGATED_LUMINIS = ITEMS.registerItem("aggregated_luminis", AggregatedLuminisItem::new);
-
-    public static final DeferredItem<Item> AGGREGATED_FLUXIA = ITEMS.registerItem("aggregated_fluxia", AggregatedFluxiaItem::new);
-
-    public static final DeferredItem<Item> CITRINE = ITEMS.registerItem("citrine", TooltipTextItem::new);
-
-    public static final DeferredItem<Item> REDSTONE_CRYSTAL = ITEMS.registerItem("redstone_crystal", TooltipTextItem::new);
-
-    public static final DeferredItem<Item> POLISHED_REDSTONE_CRYSTAL = ITEMS.registerItem("polished_redstone_crystal", TooltipTextItem::new);
-
-    public static final DeferredItem<Item> SULFUR = ITEMS.registerItem("sulfur", TooltipTextItem::new);
-
-    public static final DeferredItem<Item> RAW_ZINC = ITEMS.registerItem("raw_zinc", TooltipTextItem::new);
-
-    public static final DeferredItem<Item> ZINC_INGOT = ITEMS.registerItem("zinc_ingot", TooltipTextItem::new);
-
-    public static final DeferredItem<Item> CHROMIUM_INGOT = ITEMS.registerItem("chromium_ingot", TooltipTextItem::new);
-
-    public static final DeferredItem<Item> ENDER_METAL_INGOT = ITEMS.registerItem("ender_metal_ingot", TooltipTextItem::new);
-
-    public static final DeferredItem<Item> NETHER_STAR_BRILLIANCE = ITEMS.registerItem("nether_star_brilliance", TooltipTextItem::new);
-
-    public static final DeferredItem<Item> RADIANT_STEEL_INGOT = ITEMS.registerItem("radiant_steel_ingot", TooltipTextItem::new);
-
-    public static final DeferredItem<Item> FRIGIDITE = ITEMS.registerItem("frigidite", TooltipTextItem::new);
-
-    public static final DeferredItem<Item> POLISHED_FRIGIDITE = ITEMS.registerItem("polished_frigidite", TooltipTextItem::new);
-
-    public static final DeferredItem<Item> TRANSLUCIUM = ITEMS.registerItem("translucium", TooltipTextItem::new);
-
-    public static final DeferredItem<Item> POLISHED_TRANSLUCIUM = ITEMS.registerItem("polished_translucium", TooltipTextItem::new);
-
-    public static final DeferredItem<Item> RESONITE = ITEMS.registerItem("resonite", TooltipTextItem::new);
-
-    public static final DeferredItem<Item> POLISHED_RESONITE = ITEMS.registerItem("polished_resonite", TooltipTextItem::new);
-
-    public static final DeferredItem<Item> ABYSSITE = ITEMS.registerItem("abyssite", TooltipTextItem::new);
-
-    public static final DeferredItem<Item> POLISHED_ABYSSITE = ITEMS.registerItem("polished_abyssite", TooltipTextItem::new);
-
-    public static final DeferredItem<Item> MANA_INSULATING_GLASS = ITEMS.registerItem("mana_insulating_glass", TooltipTextItem::new);
-
-    public static final DeferredItem<Item> SULFURIC_ACID_BATTERY = ITEMS.registerItem("sulfuric_acid_battery", TooltipTextItem::new);
-
-    public static final DeferredItem<Item> MANA_DEEXCITER_CORE = ITEMS.registerItem("mana_deexciter_core", TooltipTextItem::new);
-
-    public static final DeferredItem<Item> ASPECT_COLLECTOR = ITEMS.registerItem("aspect_collector", TooltipTextItem::new);
-
-    public static final DeferredItem<Item> BOOTS_FRAME = ITEMS.registerItem("boots_frame", TooltipTextItem::new);
-
-    public static final DeferredItem<Item> MANA_BERRIES = ITEMS.registerItem("mana_berries", (properties) -> new TooltipTextPlaceableItem(BlockInit.MANA_BERRY_BUSH.get(), properties.food(FoodInit.MANA_BERRIES)));
-
-    public static final DeferredItem<Item> MANA_PIE = ITEMS.registerItem("mana_pie", TooltipTextItem::new, new Item.Properties().food(FoodInit.MANA_PIE));
-
-    public static final DeferredItem<Item> ALCHEMICAL_FLASK = ITEMS.registerItem("alchemical_flask", AlchemicalFlaskItem::new);
-
-    public static final DeferredItem<Item> WATER_FLASK = ITEMS.registerItem("water_flask", WaterFlaskItem::new);
-
-    public static final DeferredItem<Item> LAVA_FLASK = ITEMS.registerItem("lava_flask", TooltipTextItem::new);
-
-    public static final DeferredItem<Item> SULFURIC_ACID_FLASK = ITEMS.registerItem("sulfuric_acid_flask", TooltipTextItem::new);
-
-    public static final DeferredItem<Item> MANA_POTION_FLASK = ITEMS.registerItem("mana_potion_flask", ManaPotionFlaskItem::new);
-
-    public static final DeferredItem<Item> HEALING_POTION_FLASK = ITEMS.registerItem("healing_potion_flask", HealingPotionFlaskItem::new);
-
-    public static final DeferredItem<Item> EMBER_POTION_FLASK = ITEMS.registerItem("ember_potion_flask", EmberPotionFlaskItem::new);
-
-    public static final DeferredItem<Item> GLACE_POTION_FLASK = ITEMS.registerItem("glace_potion_flask", GlacePotionFlaskItem::new);
-
-    public static final DeferredItem<Item> SURGE_POTION_FLASK = ITEMS.registerItem("surge_potion_flask", SurgePotionFlaskItem::new);
-
-    public static final DeferredItem<Item> PHANTOM_POTION_FLASK = ITEMS.registerItem("phantom_potion_flask", PhantomPotionFlaskItem::new);
-
-    public static final DeferredItem<Item> TREMOR_POTION_FLASK = ITEMS.registerItem("tremor_potion_flask", TremorPotionFlaskItem::new);
-
-    public static final DeferredItem<Item> MAGIC_POTION_FLASK = ITEMS.registerItem("magic_potion_flask", MagicPotionFlaskItem::new);
-
-    public static final DeferredItem<Item> FLOW_POTION_FLASK = ITEMS.registerItem("flow_potion_flask", FlowPotionFlaskItem::new);
-
-    public static final DeferredItem<Item> HOLLOW_POTION_FLASK = ITEMS.registerItem("hollow_potion_flask", HollowPotionFlaskItem::new);
-
-    public static final DeferredItem<Item> WEAVER_SPAWN_EGG = ITEMS.registerItem("weaver_spawn_egg", (properties) -> new DeferredSpawnEggItem(EntityInit.WEAVER_ENTITY, 0x2F2E30, 0xB1F3CC, properties));
 
     public static void registerItems(IEventBus eventBus) {
         Magitech.LOGGER.info("Registering Items for" + Magitech.MOD_ID);

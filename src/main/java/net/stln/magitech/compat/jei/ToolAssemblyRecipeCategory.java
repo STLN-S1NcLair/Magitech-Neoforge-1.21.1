@@ -21,9 +21,7 @@ import net.stln.magitech.item.component.ComponentInit;
 import net.stln.magitech.item.component.MaterialComponent;
 import net.stln.magitech.item.component.PartMaterialComponent;
 import net.stln.magitech.item.tool.material.ToolMaterial;
-import net.stln.magitech.recipe.RecipeInit;
 import net.stln.magitech.recipe.ToolAssemblyRecipe;
-import net.stln.magitech.recipe.ToolMaterialRecipe;
 import net.stln.magitech.util.ClientHelper;
 import org.jetbrains.annotations.NotNull;
 
@@ -35,10 +33,8 @@ import java.util.Random;
 public class ToolAssemblyRecipeCategory extends AbstractMagitechRecipeCategory<ToolAssemblyRecipe> {
     public static final ResourceLocation UID = Magitech.id("tool_assembly");
     public static final ResourceLocation TEXTURE = Magitech.id("textures/gui/jei_widgets.png");
-    
-    private static final Random RANDOM = new Random();
-
     public static final RecipeType<ToolAssemblyRecipe> TOOL_ASSEMBLY_RECIPE_TYPE = new RecipeType<>(UID, ToolAssemblyRecipe.class);
+    private static final Random RANDOM = new Random();
 
     public ToolAssemblyRecipeCategory(IDrawable icon) {
         super(icon);

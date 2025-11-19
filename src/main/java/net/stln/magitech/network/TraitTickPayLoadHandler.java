@@ -31,9 +31,9 @@ public class TraitTickPayLoadHandler {
         if (payload.isInventory() && stack.getItem() instanceof PartToolItem partToolItem) {
             PartToolItem.getTraitLevel(PartToolItem.getTraits(stack)).forEach((trait, integer) -> trait.inventoryTick(player1, player1.level(), stack, integer, ((PartToolItem) stack.getItem()).getSumStats(player1, player1.level(), stack), false));
         } else if (stack.getItem() instanceof PartToolItem partToolItem) {
-                PartToolItem.getTraitLevel(PartToolItem.getTraits(stack)).forEach((trait, integer) -> trait.tick(player1, player1.level(), stack, integer, ((PartToolItem) stack.getItem()).getSumStats(player1, player1.level(), stack), false));
-            }
+            PartToolItem.getTraitLevel(PartToolItem.getTraits(stack)).forEach((trait, integer) -> trait.tick(player1, player1.level(), stack, integer, ((PartToolItem) stack.getItem()).getSumStats(player1, player1.level(), stack), false));
         }
+    }
 
     public static void handleDataOnMainC2S(final TraitTickPayload payload, final IPayloadContext context) {
         Player player = context.player().level().getPlayerByUUID(payload.uuid());

@@ -7,7 +7,7 @@ public class EmberPotionFluid extends VirtualFluid {
 
     @Override
     public Fluid getFlowing() {
-    return FluidInit.EMBER_POTION.get();
+        return FluidInit.EMBER_POTION.get();
     }
 
     @Override

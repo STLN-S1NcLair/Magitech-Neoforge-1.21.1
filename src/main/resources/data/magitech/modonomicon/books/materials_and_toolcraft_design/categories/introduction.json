@@ -1,0 +1,9 @@
+{
+  "background": "magitech:textures/gui/materials_and_toolcraft_design/background.png",
+  "entry_textures": "magitech:textures/gui/materials_and_toolcraft_design/entry_textures.png",
+  "icon": {
+      "id": "magitech:light_sword"
+},
+  "name": "book.magitech.materials_and_toolcraft_design.toolcraft.name",
+  "sort_number": 0
+}

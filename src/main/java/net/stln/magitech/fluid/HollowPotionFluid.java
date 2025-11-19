@@ -7,7 +7,7 @@ public class HollowPotionFluid extends VirtualFluid {
 
     @Override
     public Fluid getFlowing() {
-    return FluidInit.HOLLOW_POTION.get();
+        return FluidInit.HOLLOW_POTION.get();
     }
 
     @Override

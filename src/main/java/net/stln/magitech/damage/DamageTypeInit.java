@@ -30,7 +30,7 @@ public class DamageTypeInit {
         float multiplier = DataMapHelper.getElementMultiplier(target, stats.getElement());
         return stats.getStats().get(ToolStats.ELM_ATK_STAT) * multiplier;
     }
-    
+
     private static ResourceKey<DamageType> create(String path) {
         return ResourceKey.create(Registries.DAMAGE_TYPE, Magitech.id(path));
     }

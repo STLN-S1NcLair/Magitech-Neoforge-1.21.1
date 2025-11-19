@@ -6,9 +6,6 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
-import net.stln.magitech.event.ItemSwitchDetector;
-import net.stln.magitech.magic.spell.Spell;
-import net.stln.magitech.magic.spell.SpellLike;
 
 import java.util.List;
 

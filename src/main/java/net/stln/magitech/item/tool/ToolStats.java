@@ -1,7 +1,7 @@
 package net.stln.magitech.item.tool;
 
-import net.stln.magitech.item.tool.material.MiningLevel;
 import net.stln.magitech.element.Element;
+import net.stln.magitech.item.tool.material.MiningLevel;
 import oshi.annotation.concurrent.Immutable;
 
 import java.util.ArrayList;

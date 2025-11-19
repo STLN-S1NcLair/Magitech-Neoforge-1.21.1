@@ -18,6 +18,7 @@ public enum SpellShape {
     private final String id;
     private final int color;
     private final int dark;
+
     SpellShape(String id, int color, int dark) {
         this.id = id;
         this.color = color;

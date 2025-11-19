@@ -2,7 +2,6 @@ package net.stln.magitech.item;
 
 import com.klikli_dev.modonomicon.item.ModonomiconItem;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import org.jetbrains.annotations.NotNull;

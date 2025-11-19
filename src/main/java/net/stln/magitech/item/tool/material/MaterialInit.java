@@ -14,7 +14,10 @@ public class MaterialInit {
     public static final DeferredToolMaterial<ToolMaterial> STONE = register("stone", ToolStatsInit.STONE, SpellToolStatsInit.STONE, new GeoMendingTrait());
     public static final DeferredToolMaterial<ToolMaterial> DEEPSLATE = register("deepslate", ToolStatsInit.DEEPSLATE, SpellToolStatsInit.DEEPSLATE, new HardmineTrait());
     public static final DeferredToolMaterial<ToolMaterial> COPPER = register("copper", ToolStatsInit.COPPER, SpellToolStatsInit.COPPER, new ConductanceTrait());
+    public static final DeferredToolMaterial<ToolMaterial> ZINC = register("zinc", ToolStatsInit.ZINC, SpellToolStatsInit.ZINC, new ElectrostaticChargeTrait());
     public static final DeferredToolMaterial<ToolMaterial> BONE = register("bone", ToolStatsInit.BONE, SpellToolStatsInit.BONE, new FossilizationTrait());
+    public static final DeferredToolMaterial<ToolMaterial> GLASS = register("glass", ToolStatsInit.GLASS, SpellToolStatsInit.GLASS, new FragileTrait());
+    public static final DeferredToolMaterial<ToolMaterial> SANDSTONE = register("sandstone", ToolStatsInit.SANDSTONE, SpellToolStatsInit.SANDSTONE, new TemperatureDifferenceTrait());
     public static final DeferredToolMaterial<ToolMaterial> MOSS = register("moss", ToolStatsInit.MOSS, SpellToolStatsInit.MOSS, new GrowthTrait());
     public static final DeferredToolMaterial<ToolMaterial> IRON = register("iron", ToolStatsInit.IRON, SpellToolStatsInit.IRON, new DuranceTrait());
     public static final DeferredToolMaterial<ToolMaterial> GOLD = register("gold", ToolStatsInit.GOLD, SpellToolStatsInit.GOLD, new CatalysisTrait());
@@ -25,11 +28,13 @@ public class MaterialInit {
     public static final DeferredToolMaterial<ToolMaterial> CALCITE = register("calcite", ToolStatsInit.CALCITE, SpellToolStatsInit.CALCITE, new BirefringenceTrait());
     public static final DeferredToolMaterial<ToolMaterial> DRIPSTONE = register("dripstone", ToolStatsInit.DRIPSTONE, SpellToolStatsInit.DRIPSTONE, new PrecipitationTrait());
     public static final DeferredToolMaterial<ToolMaterial> FLUORITE = register("fluorite", ToolStatsInit.FLUORITE, SpellToolStatsInit.FLUORITE, new OverchargedTrait());
+    public static final DeferredToolMaterial<ToolMaterial> TOURMALINE = register("tourmaline", ToolStatsInit.TOURMALINE, SpellToolStatsInit.TOURMALINE, new ElectricalBoostTrait());
     public static final DeferredToolMaterial<ToolMaterial> DIAMOND = register("diamond", ToolStatsInit.DIAMOND, SpellToolStatsInit.DIAMOND, new LightweightTrait());
     public static final DeferredToolMaterial<ToolMaterial> EMERALD = register("emerald", ToolStatsInit.EMERALD, SpellToolStatsInit.EMERALD, new ConcentrationTrait());
     public static final DeferredToolMaterial<ToolMaterial> ENDER_METAL = register("ender_metal", ToolStatsInit.ENDER_METAL, SpellToolStatsInit.ENDER_METAL, new EnderDrawTrait());
     public static final DeferredToolMaterial<ToolMaterial> QUARTZ = register("quartz", ToolStatsInit.QUARTZ, SpellToolStatsInit.QUARTZ, new SmoothTrait());
     public static final DeferredToolMaterial<ToolMaterial> GLOWSTONE = register("glowstone", ToolStatsInit.GLOWSTONE, SpellToolStatsInit.GLOWSTONE, new IlluminationTrait());
+    public static final DeferredToolMaterial<ToolMaterial> SULFURIC_ACID_BATTERY = register("sulfuric_acid_battery", ToolStatsInit.SULFURIC_ACID_BATTERY, SpellToolStatsInit.SULFURIC_ACID_BATTERY, new SparkTrait());
     public static final DeferredToolMaterial<ToolMaterial> NETHERITE = register("netherite", ToolStatsInit.NETHERITE, SpellToolStatsInit.NETHERITE, new LavaforgedTrait());
     public static final DeferredToolMaterial<ToolMaterial> RADIANT_STEEL = register("radiant_steel", ToolStatsInit.RADIANT_STEEL, SpellToolStatsInit.RADIANT_STEEL, new BrillianceTrait());
     public static final DeferredToolMaterial<ToolMaterial> FRIGIDITE = register("frigidite", ToolStatsInit.FRIGIDITE, SpellToolStatsInit.FRIGIDITE, new ShatterpiercerTrait());

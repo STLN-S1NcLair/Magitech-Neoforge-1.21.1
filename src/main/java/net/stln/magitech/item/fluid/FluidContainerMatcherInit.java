@@ -5,9 +5,7 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.crafting.FluidIngredient;
-import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.fluid.FluidInit;
 import net.stln.magitech.item.ItemInit;
@@ -20,31 +18,31 @@ import java.util.function.Supplier;
 public class FluidContainerMatcherInit {
     public static final DeferredFluidContainerMatcherRegister REGISTER = new DeferredFluidContainerMatcherRegister(Magitech.MOD_ID);
 
-     public static final DeferredFluidContainerMatcher<FluidContainerMatcher> WATER_FLASK = register("water_flask", makeSimpleMatcher(ItemInit.ALCHEMICAL_FLASK, () -> Fluids.WATER, ItemInit.WATER_FLASK));
+    public static final DeferredFluidContainerMatcher<FluidContainerMatcher> WATER_FLASK = register("water_flask", makeSimpleMatcher(ItemInit.ALCHEMICAL_FLASK, () -> Fluids.WATER, ItemInit.WATER_FLASK));
 
-     public static final DeferredFluidContainerMatcher<FluidContainerMatcher> LAVA_FLASK = register("lava_flask", makeSimpleMatcher(ItemInit.ALCHEMICAL_FLASK, () -> Fluids.LAVA, ItemInit.LAVA_FLASK));
+    public static final DeferredFluidContainerMatcher<FluidContainerMatcher> LAVA_FLASK = register("lava_flask", makeSimpleMatcher(ItemInit.ALCHEMICAL_FLASK, () -> Fluids.LAVA, ItemInit.LAVA_FLASK));
 
-     public static final DeferredFluidContainerMatcher<FluidContainerMatcher> SULFURIC_ACID_FLASK = register("sulfuric_acid_flask", makeSimpleMatcher(ItemInit.ALCHEMICAL_FLASK, FluidInit.SULFURIC_ACID, ItemInit.SULFURIC_ACID_FLASK));
+    public static final DeferredFluidContainerMatcher<FluidContainerMatcher> SULFURIC_ACID_FLASK = register("sulfuric_acid_flask", makeSimpleMatcher(ItemInit.ALCHEMICAL_FLASK, FluidInit.SULFURIC_ACID, ItemInit.SULFURIC_ACID_FLASK));
 
-     public static final DeferredFluidContainerMatcher<FluidContainerMatcher> MANA_POTION_FLASK = register("mana_potion_flask", makeSimpleMatcher(ItemInit.ALCHEMICAL_FLASK, FluidInit.MANA_POTION, ItemInit.MANA_POTION_FLASK));
+    public static final DeferredFluidContainerMatcher<FluidContainerMatcher> MANA_POTION_FLASK = register("mana_potion_flask", makeSimpleMatcher(ItemInit.ALCHEMICAL_FLASK, FluidInit.MANA_POTION, ItemInit.MANA_POTION_FLASK));
 
-     public static final DeferredFluidContainerMatcher<FluidContainerMatcher> HEALING_POTION_FLASK = register("healing_potion_flask", makeSimpleMatcher(ItemInit.ALCHEMICAL_FLASK, FluidInit.HEALING_POTION, ItemInit.HEALING_POTION_FLASK));
+    public static final DeferredFluidContainerMatcher<FluidContainerMatcher> HEALING_POTION_FLASK = register("healing_potion_flask", makeSimpleMatcher(ItemInit.ALCHEMICAL_FLASK, FluidInit.HEALING_POTION, ItemInit.HEALING_POTION_FLASK));
 
-     public static final DeferredFluidContainerMatcher<FluidContainerMatcher> EMBER_POTION_FLASK = register("ember_potion_flask", makeSimpleMatcher(ItemInit.ALCHEMICAL_FLASK, FluidInit.EMBER_POTION, ItemInit.EMBER_POTION_FLASK));
+    public static final DeferredFluidContainerMatcher<FluidContainerMatcher> EMBER_POTION_FLASK = register("ember_potion_flask", makeSimpleMatcher(ItemInit.ALCHEMICAL_FLASK, FluidInit.EMBER_POTION, ItemInit.EMBER_POTION_FLASK));
 
-     public static final DeferredFluidContainerMatcher<FluidContainerMatcher> GLACE_POTION_FLASK = register("glace_potion_flask", makeSimpleMatcher(ItemInit.ALCHEMICAL_FLASK, FluidInit.GLACE_POTION, ItemInit.GLACE_POTION_FLASK));
+    public static final DeferredFluidContainerMatcher<FluidContainerMatcher> GLACE_POTION_FLASK = register("glace_potion_flask", makeSimpleMatcher(ItemInit.ALCHEMICAL_FLASK, FluidInit.GLACE_POTION, ItemInit.GLACE_POTION_FLASK));
 
-     public static final DeferredFluidContainerMatcher<FluidContainerMatcher> SURGE_POTION_FLASK = register("surge_potion_flask", makeSimpleMatcher(ItemInit.ALCHEMICAL_FLASK, FluidInit.SURGE_POTION, ItemInit.SURGE_POTION_FLASK));
+    public static final DeferredFluidContainerMatcher<FluidContainerMatcher> SURGE_POTION_FLASK = register("surge_potion_flask", makeSimpleMatcher(ItemInit.ALCHEMICAL_FLASK, FluidInit.SURGE_POTION, ItemInit.SURGE_POTION_FLASK));
 
-     public static final DeferredFluidContainerMatcher<FluidContainerMatcher> PHANTOM_POTION_FLASK = register("phantom_potion_flask", makeSimpleMatcher(ItemInit.ALCHEMICAL_FLASK, FluidInit.PHANTOM_POTION, ItemInit.PHANTOM_POTION_FLASK));
+    public static final DeferredFluidContainerMatcher<FluidContainerMatcher> PHANTOM_POTION_FLASK = register("phantom_potion_flask", makeSimpleMatcher(ItemInit.ALCHEMICAL_FLASK, FluidInit.PHANTOM_POTION, ItemInit.PHANTOM_POTION_FLASK));
 
-     public static final DeferredFluidContainerMatcher<FluidContainerMatcher> TREMOR_POTION_FLASK = register("tremor_potion_flask", makeSimpleMatcher(ItemInit.ALCHEMICAL_FLASK, FluidInit.TREMOR_POTION, ItemInit.TREMOR_POTION_FLASK));
+    public static final DeferredFluidContainerMatcher<FluidContainerMatcher> TREMOR_POTION_FLASK = register("tremor_potion_flask", makeSimpleMatcher(ItemInit.ALCHEMICAL_FLASK, FluidInit.TREMOR_POTION, ItemInit.TREMOR_POTION_FLASK));
 
-     public static final DeferredFluidContainerMatcher<FluidContainerMatcher> MAGIC_POTION_FLASK = register("magic_potion_flask", makeSimpleMatcher(ItemInit.ALCHEMICAL_FLASK, FluidInit.MAGIC_POTION, ItemInit.MAGIC_POTION_FLASK));
+    public static final DeferredFluidContainerMatcher<FluidContainerMatcher> MAGIC_POTION_FLASK = register("magic_potion_flask", makeSimpleMatcher(ItemInit.ALCHEMICAL_FLASK, FluidInit.MAGIC_POTION, ItemInit.MAGIC_POTION_FLASK));
 
-     public static final DeferredFluidContainerMatcher<FluidContainerMatcher> FLOW_POTION_FLASK = register("flow_potion_flask", makeSimpleMatcher(ItemInit.ALCHEMICAL_FLASK, FluidInit.FLOW_POTION, ItemInit.FLOW_POTION_FLASK));
+    public static final DeferredFluidContainerMatcher<FluidContainerMatcher> FLOW_POTION_FLASK = register("flow_potion_flask", makeSimpleMatcher(ItemInit.ALCHEMICAL_FLASK, FluidInit.FLOW_POTION, ItemInit.FLOW_POTION_FLASK));
 
-     public static final DeferredFluidContainerMatcher<FluidContainerMatcher> HOLLOW_POTION_FLASK = register("hollow_potion_flask", makeSimpleMatcher(ItemInit.ALCHEMICAL_FLASK, FluidInit.HOLLOW_POTION, ItemInit.HOLLOW_POTION_FLASK));
+    public static final DeferredFluidContainerMatcher<FluidContainerMatcher> HOLLOW_POTION_FLASK = register("hollow_potion_flask", makeSimpleMatcher(ItemInit.ALCHEMICAL_FLASK, FluidInit.HOLLOW_POTION, ItemInit.HOLLOW_POTION_FLASK));
 
     public static FluidContainerMatcher makeSimpleMatcher(ItemLike emptyContainer, Supplier<Fluid> fluid, ItemLike filledContainer) {
         return new FluidContainerMatcher(emptyContainer, () -> Ingredient.of(emptyContainer), fluid, () -> FluidIngredient.of(fluid.get()), filledContainer);
@@ -53,7 +51,7 @@ public class FluidContainerMatcherInit {
     private static @NotNull DeferredFluidContainerMatcher<FluidContainerMatcher> register(@NotNull String path, @NotNull FluidContainerMatcher fluidContainerMatcher) {
         return REGISTER.register(path, () -> fluidContainerMatcher);
     }
-    
+
     public static void registerFluidContainerMatchers(IEventBus bus) {
         Magitech.LOGGER.info("Registering Fluid Container Matcher for" + Magitech.MOD_ID);
         REGISTER.register(bus);

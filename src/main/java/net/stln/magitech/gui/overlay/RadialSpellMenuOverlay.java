@@ -54,7 +54,7 @@ public class RadialSpellMenuOverlay extends Screen {
             Player player = ClientHelper.getPlayer();
             if (player == null) return;
             SpellComponent spellComponent = CuriosHelper.getThreadBoundStack(player).map(ComponentHelper::getSpells).orElse(SpellComponent.EMPTY);
-            
+
             int index = 0;
             for (Spell spell : spellComponent.spells()) {
                 int animLength = 3;

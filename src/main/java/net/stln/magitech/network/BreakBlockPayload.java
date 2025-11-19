@@ -12,7 +12,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
-public record BreakBlockPayload(BlockPos pos, BlockPos initialPos, UUID uuid, boolean effect, boolean callBreakBlock) implements CustomPacketPayload {
+public record BreakBlockPayload(BlockPos pos, BlockPos initialPos, UUID uuid, boolean effect,
+                                boolean callBreakBlock) implements CustomPacketPayload {
     public static final ResourceLocation BREAK_BLOCK_PAYLOAD_ID = Magitech.id("break_block");
     public static final Type<BreakBlockPayload> TYPE = new Type<>(BREAK_BLOCK_PAYLOAD_ID);
     public static final StreamCodec<ByteBuf, BreakBlockPayload> STREAM_CODEC = StreamCodec.composite(

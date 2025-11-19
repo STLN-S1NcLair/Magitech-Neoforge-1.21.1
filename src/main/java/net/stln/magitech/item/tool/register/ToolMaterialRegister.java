@@ -3,10 +3,10 @@ package net.stln.magitech.item.tool.register;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Table;
+import net.stln.magitech.element.Element;
 import net.stln.magitech.item.tool.ToolPart;
 import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.item.tool.ToolType;
-import net.stln.magitech.element.Element;
 import net.stln.magitech.item.tool.material.MiningLevel;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -18,20 +18,6 @@ public class ToolMaterialRegister {
     private static final @NotNull Table<ToolType, Integer, ToolPart> componentPartTable;
     private static final @NotNull Map<ToolType, ToolStats> baseStats;
     private static final @NotNull Map<ToolType, ToolStats> modStats;
-
-    public static @Nullable ToolPart getToolPartFromIndex(@NotNull ToolType toolType, int index) {
-        return componentPartTable.get(toolType, index);
-    }
-
-    public static @Nullable ToolStats getBaseStats(@NotNull ToolType toolType) {
-        return baseStats.get(toolType);
-    }
-
-    public static @Nullable ToolStats getModStats(@NotNull ToolType toolType) {
-        return modStats.get(toolType);
-    }
-
-    public static void init() {}
 
     static {
         var builder = ImmutableTable.<ToolType, Integer, ToolPart>builder();
@@ -94,5 +80,20 @@ public class ToolMaterialRegister {
         ImmutableMap.Builder<ToolType, ToolStats> modStatsBuilder = ImmutableMap.builder();
         modStatsBuilder.put(ToolType.WAND, new ToolStats(1F, 1F, 1F, 1F, 1F, 1F, 0.2F, 378, Element.NONE, MiningLevel.NONE, 0));
         modStats = modStatsBuilder.build();
+    }
+
+    public static @Nullable ToolPart getToolPartFromIndex(@NotNull ToolType toolType, int index) {
+        return componentPartTable.get(toolType, index);
+    }
+
+    public static @Nullable ToolStats getBaseStats(@NotNull ToolType toolType) {
+        return baseStats.get(toolType);
+    }
+
+    public static @Nullable ToolStats getModStats(@NotNull ToolType toolType) {
+        return modStats.get(toolType);
+    }
+
+    public static void init() {
     }
 }

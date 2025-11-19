@@ -28,7 +28,7 @@ public class BiomeInit {
     private static TagKey<Biome> createTagKey(String path) {
         return TagKey.create(Registries.BIOME, Magitech.id(path));
     }
-    
+
     public static void registerBiomeRegions(FMLCommonSetupEvent event) {
         event.enqueueWork(() ->
         {

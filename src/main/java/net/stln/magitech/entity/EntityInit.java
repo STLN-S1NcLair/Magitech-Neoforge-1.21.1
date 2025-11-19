@@ -6,6 +6,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.SpawnPlacementTypes;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -87,7 +88,7 @@ public class EntityInit {
                 WEAVER_ENTITY.get(),
                 SpawnPlacementTypes.ON_GROUND,              // 湧く場所のタイプ
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,   // 高さ判定
-                ((entityType, serverLevel, spawnType, pos, random) -> true),             // 条件 (ここは独自関数でもOK)
+                Monster::checkMonsterSpawnRules,             // 条件 (ここは独自関数でもOK)
                 RegisterSpawnPlacementsEvent.Operation.REPLACE
         );
     }
