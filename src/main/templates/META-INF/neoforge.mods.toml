@@ -81,8 +81,8 @@ side = "BOTH"
 # Here's another dependencyp
 
 [[dependencies.magitech]]
-modId = "patchouli"
-type = "optional"
+modId = "modonomicon"
+type = "required"
 ordering = "AFTER"
 side = "BOTH"
 
