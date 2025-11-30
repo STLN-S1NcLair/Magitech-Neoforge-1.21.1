@@ -1,9 +1,14 @@
 package net.stln.magitech.gui.overlay;
 
+import dev.kosmx.playerAnim.api.layered.IAnimation;
+import dev.kosmx.playerAnim.api.layered.KeyframeAnimationPlayer;
+import dev.kosmx.playerAnim.api.layered.ModifierLayer;
+import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
@@ -157,7 +162,12 @@ public class RadialSpellMenuOverlay extends Screen {
         CuriosHelper.getThreadBoundStack(player).ifPresent(stack -> {
             if (stack.has(ComponentInit.SPELL_COMPONENT) && select >= 0) {
                 PacketDistributor.sendToServer(new ThreadboundSelectPayload(select, player.getUUID()));
+                player.releaseUsingItem();
                 ComponentHelper.updateSpells(stack, spellComponent -> spellComponent.setSelected(select));
+                var playerAnimationData = (ModifierLayer<IAnimation>) PlayerAnimationAccess.getPlayerAssociatedData((AbstractClientPlayer) player).get(Magitech.id("animation"));
+                if (playerAnimationData != null && playerAnimationData.getAnimation() instanceof KeyframeAnimationPlayer keyframeAnimationPlayer) {
+                    keyframeAnimationPlayer.stop();
+                }
             }
         });
     }

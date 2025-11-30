@@ -1,5 +1,16 @@
 package net.stln.magitech.network;
 
+import dev.kosmx.playerAnim.api.firstPerson.FirstPersonConfiguration;
+import dev.kosmx.playerAnim.api.firstPerson.FirstPersonMode;
+import dev.kosmx.playerAnim.api.layered.IAnimation;
+import dev.kosmx.playerAnim.api.layered.KeyframeAnimationPlayer;
+import dev.kosmx.playerAnim.api.layered.ModifierLayer;
+import dev.kosmx.playerAnim.api.layered.modifier.AbstractFadeModifier;
+import dev.kosmx.playerAnim.core.data.KeyframeAnimation;
+import dev.kosmx.playerAnim.core.util.Ease;
+import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
+import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
+import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -7,6 +18,7 @@ import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
+import net.stln.magitech.Magitech;
 import net.stln.magitech.util.ComponentHelper;
 import net.stln.magitech.util.CuriosHelper;
 
@@ -27,6 +39,14 @@ public class ThreadboundSelectPayLoadHandler {
             return;
         }
         CuriosHelper.getThreadBoundStack(player).ifPresent(stack -> ComponentHelper.updateSpells(stack, spellComponent -> spellComponent.setSelected(payload.select())));
+        player.releaseUsingItem();
+        if (level.isClientSide) {
+            var playerAnimationData = (ModifierLayer<IAnimation>) PlayerAnimationAccess.getPlayerAssociatedData((AbstractClientPlayer) player).get(Magitech.id("animation"));
+            if (playerAnimationData != null && playerAnimationData.getAnimation() instanceof KeyframeAnimationPlayer keyframeAnimationPlayer) {
+
+                keyframeAnimationPlayer.stop();
+            }
+        }
     }
 
     public static void handleDataOnMainC2S(final ThreadboundSelectPayload payload, final IPayloadContext context) {
@@ -40,5 +60,6 @@ public class ThreadboundSelectPayLoadHandler {
             }
         }
         CuriosHelper.getThreadBoundStack(player).ifPresent(stack -> ComponentHelper.updateSpells(stack, spellComponent -> spellComponent.setSelected(payload.select())));
+        player.releaseUsingItem();
     }
 }

@@ -17,29 +17,32 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-@OnlyIn(Dist.CLIENT)
 public class ClientHelper {
     // Player
+    @OnlyIn(Dist.CLIENT)
     public static @Nullable Player getPlayer() {
         return Minecraft.getInstance().player;
     }
 
+    @OnlyIn(Dist.CLIENT)
     public static @NotNull Optional<Player> getOptionalPlayer() {
         return Optional.ofNullable(getPlayer());
     }
 
-    // Level
+    // Level Only on Client Side
     public static @Nullable Level getLevel() {
         var player = getPlayer();
         return player == null ? null : player.level();
     }
 
     // Recipe Manager
+    @OnlyIn(Dist.CLIENT)
     public static @Nullable RecipeManager getRecipeManager() {
         var clientLevel = Minecraft.getInstance().level;
         return clientLevel != null ? clientLevel.getRecipeManager() : null;
     }
 
+    @OnlyIn(Dist.CLIENT)
     public static <I extends RecipeInput, R extends Recipe<I>> @NotNull List<@NotNull R> getAllRecipes(@NotNull Supplier<? extends RecipeType<R>> supplier) {
         RecipeManager recipeManager = getRecipeManager();
         if (recipeManager == null) return List.of();
@@ -47,12 +50,14 @@ public class ClientHelper {
     }
 
     // Registry Access
+    @OnlyIn(Dist.CLIENT)
     public static @Nullable RegistryAccess getRegistryAccess() {
         var clientLevel = Minecraft.getInstance().level;
         return clientLevel != null ? clientLevel.registryAccess() : null;
     }
 
     // Tool Material
+    @OnlyIn(Dist.CLIENT)
     public static List<ToolMaterial> getAllCraftableMaterials() {
         List<ToolMaterialRecipe> materialRecipes = ClientHelper.getAllRecipes(RecipeInit.TOOL_MATERIAL_TYPE);
         return materialRecipes.stream()

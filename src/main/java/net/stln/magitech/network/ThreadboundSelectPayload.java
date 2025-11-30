@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
-public record ThreadboundSelectPayload(int select, UUID uuid) implements CustomPacketPayload {
+public record  ThreadboundSelectPayload(int select, UUID uuid) implements CustomPacketPayload {
     public static final ResourceLocation THREADBOUND_SELECT_PAYLOAD_ID = Magitech.id("threadbound_select");
     public static final Type<ThreadboundSelectPayload> TYPE = new Type<>(THREADBOUND_SELECT_PAYLOAD_ID);
     public static final StreamCodec<ByteBuf, ThreadboundSelectPayload> STREAM_CODEC = StreamCodec.composite(
