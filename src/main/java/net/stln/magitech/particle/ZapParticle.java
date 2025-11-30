@@ -8,6 +8,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.particle.particle_option.ZapParticleEffect;
 import org.jetbrains.annotations.NotNull;
@@ -41,6 +42,11 @@ public class ZapParticle extends GlowingParticle {
         this.endPos = parameters.getToPos();
         this.twinkle = parameters.getTwinkle();
         this.rotSpeed = parameters.getRotSpeed();
+    }
+
+    @Override
+    public AABB getRenderBoundingBox(float partialTicks) {
+        return new AABB(this.getPos(), new Vec3(this.endPos));
     }
 
     @Override

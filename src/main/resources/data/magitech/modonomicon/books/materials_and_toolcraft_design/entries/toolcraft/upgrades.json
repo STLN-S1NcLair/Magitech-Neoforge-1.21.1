@@ -1,0 +1,31 @@
+{
+  "name": "book.magitech.materials_and_toolcraft_design.toolcraft.upgrades.name",
+  "icon": {
+    "id": "magitech:upgrade_workbench"
+  },
+  "category": "magitech:toolcraft",
+  "x": -8,
+  "y": 0,
+  "background_u_index": 1,
+  "background_v_index": 1,
+  "parents": [
+    {
+      "entry": "magitech:toolcraft/tools"
+    }
+  ],
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "title": "book.magitech.materials_and_toolcraft_design.toolcraft.upgrades.0.title",
+      "text": "book.magitech.materials_and_toolcraft_design.toolcraft.upgrades.0.text"
+    },
+    {
+      "type": "modonomicon:crafting_recipe",
+      "recipe_id_1": "magitech:upgrade_workbench"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.materials_and_toolcraft_design.toolcraft.upgrades.1.text"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "name": "book.magitech.materials_and_toolcraft_design.toolcraft.heavy_sword.name",
+  "icon": {
+    "id": "magitech:heavy_sword"
+  },
+  "category": "magitech:toolcraft",
+  "x": -10,
+  "y": 6,
+  "background_u_index": 1,
+  "background_v_index": 0,
+  "parents": [
+    {
+      "entry": "magitech:toolcraft/normal_tools"
+    }
+  ],
+  "pages": [
+    {
+      "type": "magitech:tool_assembly_recipe",
+      "title1": "book.magitech.materials_and_toolcraft_design.toolcraft.heavy_sword.0.title",
+      "text": "book.magitech.materials_and_toolcraft_design.toolcraft.heavy_sword.0.text",
+      "recipe_id_1": "magitech:heavy_sword_tool_assemble"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.materials_and_toolcraft_design.toolcraft.heavy_sword.1.text"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.materials_and_toolcraft_design.toolcraft.heavy_sword.2.text"
+    }
+  ]
+}

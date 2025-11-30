@@ -1,0 +1,32 @@
+{
+  "name": "book.magitech.materials_and_toolcraft_design.toolcraft.dripstone.name",
+  "icon": {
+    "id": "minecraft:dripstone_block"
+  },
+  "category": "magitech:toolcraft",
+  "x": 16,
+  "y": 4,
+  "background_u_index": 1,
+  "background_v_index": 2,
+  "pages": [
+    {
+      "type": "modonomicon:spotlight",
+      "title": "book.magitech.materials_and_toolcraft_design.toolcraft.dripstone.0.title",
+      "text": "book.magitech.materials_and_toolcraft_design.toolcraft.dripstone.0.text",
+      "item": {
+        "id": "minecraft:dripstone_block"
+      }
+    },
+    {
+      "type": "modonomicon:spotlight",
+      "title": "book.magitech.materials_and_toolcraft_design.toolcraft.dripstone.1.title",
+      "text": "book.magitech.materials_and_toolcraft_design.toolcraft.dripstone.1.text",
+        "item": {
+          "item": "magitech:light_blade",
+          "components": {
+            "magitech:material_component": "magitech:dripstone"
+          }
+        }
+    }
+  ]
+}

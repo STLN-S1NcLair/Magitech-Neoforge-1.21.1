@@ -15,7 +15,7 @@ public class BreakBlockPayLoadHandler {
         Player player = null;
         Level level = context.player().level();
         for (Player search : level.players()) {
-            if (search.getUUID().toString().equals(payload.uuid())) {
+            if (search.getUUID().equals(payload.uuid())) {
                 player = search;
                 break;
             }

@@ -1,0 +1,32 @@
+{
+  "name": "book.magitech.materials_and_toolcraft_design.toolcraft.sulfuric_acid_battery.name",
+  "icon": {
+    "id": "magitech:sulfuric_acid_battery"
+  },
+  "category": "magitech:toolcraft",
+  "x": 14,
+  "y": 6,
+  "background_u_index": 1,
+  "background_v_index": 2,
+  "pages": [
+    {
+      "type": "modonomicon:spotlight",
+      "title": "book.magitech.materials_and_toolcraft_design.toolcraft.sulfuric_acid_battery.0.title",
+      "text": "book.magitech.materials_and_toolcraft_design.toolcraft.sulfuric_acid_battery.0.text",
+      "item": {
+        "id": "magitech:sulfuric_acid_battery"
+      }
+    },
+    {
+      "type": "modonomicon:spotlight",
+      "title": "book.magitech.materials_and_toolcraft_design.toolcraft.sulfuric_acid_battery.1.title",
+      "text": "book.magitech.materials_and_toolcraft_design.toolcraft.sulfuric_acid_battery.1.text",
+        "item": {
+          "item": "magitech:light_blade",
+          "components": {
+            "magitech:material_component": "magitech:sulfuric_acid_battery"
+          }
+        }
+    }
+  ]
+}

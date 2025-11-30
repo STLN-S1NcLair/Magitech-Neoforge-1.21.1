@@ -11,9 +11,9 @@ public enum SpellShape {
     CHARGE("charge", 0xFFFFFF, 0x808080),
     ENHANCE("enhance", 0xFFFFFF, 0x808080),
     WEAKEN("weaken", 0xFFFFFF, 0x808080),
-    INFUSE("infuse", 0xFFFFFF, 0x808080),
     RESILIENCE("resilience", 0xFFFFFF, 0x808080),
-    UTILITY("utility", 0xFFFFFF, 0x808080);
+    UTILITY("utility", 0xFFFFFF, 0x808080),
+    INFUSE("infuse", 0xFFFFFF, 0x808080);
 
     private final String id;
     private final int color;

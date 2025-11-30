@@ -20,15 +20,15 @@ public class ModifyDefaultComponentsEvent {
 
     @SubscribeEvent
     public static void modifyDefault(net.neoforged.neoforge.event.ModifyDefaultComponentsEvent event) {
-        event.modify(ItemInit.DAGGER, builder -> builder.set(ComponentInit.PART_MATERIAL_COMPONENT.get(), new PartMaterialComponent(MaterialInit.IRON, MaterialInit.IRON, MaterialInit.IRON)).build());
-        event.modify(ItemInit.LIGHT_SWORD, builder -> builder.set(ComponentInit.PART_MATERIAL_COMPONENT.get(), new PartMaterialComponent(MaterialInit.IRON, MaterialInit.IRON, MaterialInit.IRON, MaterialInit.IRON)).build());
-        event.modify(ItemInit.HEAVY_SWORD, builder -> builder.set(ComponentInit.PART_MATERIAL_COMPONENT.get(), new PartMaterialComponent(MaterialInit.IRON, MaterialInit.IRON, MaterialInit.IRON, MaterialInit.IRON)).build());
-        event.modify(ItemInit.PICKAXE, builder -> builder.set(ComponentInit.PART_MATERIAL_COMPONENT.get(), new PartMaterialComponent(MaterialInit.IRON, MaterialInit.IRON, MaterialInit.IRON)).build());
-        event.modify(ItemInit.HAMMER, builder -> builder.set(ComponentInit.PART_MATERIAL_COMPONENT.get(), new PartMaterialComponent(MaterialInit.IRON, MaterialInit.IRON, MaterialInit.IRON, MaterialInit.IRON)).build());
-        event.modify(ItemInit.AXE, builder -> builder.set(ComponentInit.PART_MATERIAL_COMPONENT.get(), new PartMaterialComponent(MaterialInit.IRON, MaterialInit.IRON, MaterialInit.IRON, MaterialInit.IRON)).build());
-        event.modify(ItemInit.SHOVEL, builder -> builder.set(ComponentInit.PART_MATERIAL_COMPONENT.get(), new PartMaterialComponent(MaterialInit.IRON, MaterialInit.IRON, MaterialInit.IRON, MaterialInit.IRON)).build());
-        event.modify(ItemInit.SCYTHE, builder -> builder.set(ComponentInit.PART_MATERIAL_COMPONENT.get(), new PartMaterialComponent(MaterialInit.IRON, MaterialInit.IRON, MaterialInit.IRON, MaterialInit.IRON)).build());
-        event.modify(ItemInit.WAND, builder -> builder.set(ComponentInit.PART_MATERIAL_COMPONENT.get(), new PartMaterialComponent(MaterialInit.IRON, MaterialInit.IRON, MaterialInit.IRON, MaterialInit.IRON)).build());
+        event.modify(ItemInit.DAGGER, builder -> builder.set(ComponentInit.PART_MATERIAL_COMPONENT.get(), new PartMaterialComponent(MaterialInit.WOOD, MaterialInit.IRON, MaterialInit.DEEPSLATE)).build());
+        event.modify(ItemInit.LIGHT_SWORD, builder -> builder.set(ComponentInit.PART_MATERIAL_COMPONENT.get(), new PartMaterialComponent(MaterialInit.WOOD, MaterialInit.IRON, MaterialInit.DEEPSLATE, MaterialInit.TOURMALINE)).build());
+        event.modify(ItemInit.HEAVY_SWORD, builder -> builder.set(ComponentInit.PART_MATERIAL_COMPONENT.get(), new PartMaterialComponent(MaterialInit.WOOD, MaterialInit.IRON, MaterialInit.TOURMALINE, MaterialInit.DEEPSLATE)).build());
+        event.modify(ItemInit.PICKAXE, builder -> builder.set(ComponentInit.PART_MATERIAL_COMPONENT.get(), new PartMaterialComponent(MaterialInit.WOOD, MaterialInit.IRON, MaterialInit.TOURMALINE)).build());
+        event.modify(ItemInit.HAMMER, builder -> builder.set(ComponentInit.PART_MATERIAL_COMPONENT.get(), new PartMaterialComponent(MaterialInit.WOOD, MaterialInit.DEEPSLATE, MaterialInit.IRON, MaterialInit.TOURMALINE)).build());
+        event.modify(ItemInit.AXE, builder -> builder.set(ComponentInit.PART_MATERIAL_COMPONENT.get(), new PartMaterialComponent(MaterialInit.WOOD, MaterialInit.IRON, MaterialInit.DEEPSLATE, MaterialInit.TOURMALINE)).build());
+        event.modify(ItemInit.SHOVEL, builder -> builder.set(ComponentInit.PART_MATERIAL_COMPONENT.get(), new PartMaterialComponent(MaterialInit.WOOD, MaterialInit.IRON, MaterialInit.DEEPSLATE, MaterialInit.TOURMALINE)).build());
+        event.modify(ItemInit.SCYTHE, builder -> builder.set(ComponentInit.PART_MATERIAL_COMPONENT.get(), new PartMaterialComponent(MaterialInit.DEEPSLATE, MaterialInit.WOOD, MaterialInit.IRON, MaterialInit.TOURMALINE)).build());
+        event.modify(ItemInit.WAND, builder -> builder.set(ComponentInit.PART_MATERIAL_COMPONENT.get(), new PartMaterialComponent(MaterialInit.IRON, MaterialInit.WOOD, MaterialInit.DEEPSLATE, MaterialInit.TOURMALINE)).build());
 
         event.modify(ItemInit.LIGHT_BLADE, builder -> builder.set(ComponentInit.MATERIAL_COMPONENT.get(), new MaterialComponent(MaterialInit.IRON)).set(ComponentInit.UPGRADE_COMPONENT.get(), UpgradeComponent.EMPTY).build());
         event.modify(ItemInit.HEAVY_BLADE, builder -> builder.set(ComponentInit.MATERIAL_COMPONENT.get(), new MaterialComponent(MaterialInit.IRON)).set(ComponentInit.UPGRADE_COMPONENT.get(), UpgradeComponent.EMPTY).build());

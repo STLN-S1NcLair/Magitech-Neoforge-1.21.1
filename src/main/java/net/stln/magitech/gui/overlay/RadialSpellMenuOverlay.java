@@ -56,6 +56,7 @@ public class RadialSpellMenuOverlay extends Screen {
             SpellComponent spellComponent = CuriosHelper.getThreadBoundStack(player).map(ComponentHelper::getSpells).orElse(SpellComponent.EMPTY);
 
             int index = 0;
+            Spell selectSpell = null;
             for (Spell spell : spellComponent.spells()) {
                 int animLength = 3;
                 float animTick = Math.min(ticks + partialTicks, animLength);
@@ -75,7 +76,6 @@ public class RadialSpellMenuOverlay extends Screen {
                     }
                 }
                 double distance = Math.sqrt(dx * dx + dy * dy);
-                float squareEase = Math.min(selectTick * selectTick / 4, 4) * 2;
                 if (mouseAngle >= min && mouseAngle <= max && distance > 10) {
                     if (select != index) {
                         select = index;
@@ -85,18 +85,7 @@ public class RadialSpellMenuOverlay extends Screen {
                     size *= (float) (Math.clamp(selectTick / 5, 0.0, 0.5) + 1.0);
 
                     if (distance > 20) {
-                        String text = spell.getDescription().getString();
-                        List<Component> componentList = spell.getTooltip(player.level(), player, player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof SpellCasterItem ? player.getItemInHand(InteractionHand.MAIN_HAND) : player.getItemInHand(InteractionHand.OFF_HAND));
-                        int renderx = (x - font.width(text) / 2);
-                        int rendery = (int) (y - 4 + 8 - squareEase - componentList.size() * 4);
-                        RenderHelper.renderFramedText(guiGraphics, font, text, renderx, rendery, spell.getElement());
-                        int i = 1;
-                        for (Component component : componentList) {
-                            i++;
-                            int tooltipx = (x - font.width(component.getString()) / 2);
-                            int color = component.getStyle().getColor() != null ? component.getStyle().getColor().getValue() : 0xFFFFFF;
-                            RenderHelper.renderFramedText(guiGraphics, font, component.getString(), tooltipx, rendery + i * 10, color, color == spell.getElement().getSpellColor() ? spell.getElement().getSpellDark() : ColorHelper.Argb.mul(color, 0x404060));
-                        }
+                        selectSpell = spell;
                     }
                 } else if (distance <= 10) {
                     select = -1;
@@ -135,6 +124,21 @@ public class RadialSpellMenuOverlay extends Screen {
                     }
                 }
                 index++;
+            }
+            if (selectSpell != null) {
+                float squareEase = Math.min(selectTick * selectTick / 4, 4) * 2;
+                String text = selectSpell.getDescription().getString();
+                List<Component> componentList = selectSpell.getTooltip(player.level(), player, player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof SpellCasterItem ? player.getItemInHand(InteractionHand.MAIN_HAND) : player.getItemInHand(InteractionHand.OFF_HAND));
+                int renderx = (x - font.width(text) / 2);
+                int rendery = (int) (y - 4 + 8 - squareEase - componentList.size() * 5);
+                RenderHelper.renderFramedText(guiGraphics, font, text, renderx, rendery, selectSpell.getElement());
+                int i = 1;
+                for (Component component : componentList) {
+                    i++;
+                    int tooltipx = (x - font.width(component.getString()) / 2);
+                    int color = component.getStyle().getColor() != null ? component.getStyle().getColor().getValue() : 0xFFFFFF;
+                    RenderHelper.renderFramedText(guiGraphics, font, component.getString(), tooltipx, rendery + i * 10, color, color == selectSpell.getElement().getSpellColor() ? selectSpell.getElement().getSpellDark() : ColorHelper.Argb.mul(color, 0x404060));
+                }
             }
         }
     }

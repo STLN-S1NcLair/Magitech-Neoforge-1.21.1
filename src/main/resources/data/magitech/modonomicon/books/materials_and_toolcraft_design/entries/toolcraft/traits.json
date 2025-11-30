@@ -1,0 +1,27 @@
+{
+  "name": "book.magitech.materials_and_toolcraft_design.toolcraft.traits.name",
+  "icon": {
+    "id": "magitech:zinc_ingot"
+  },
+  "category": "magitech:toolcraft",
+  "x": 4,
+  "y": -4,
+  "background_u_index": 1,
+  "background_v_index": 0,
+  "parents": [
+    {
+      "entry": "magitech:toolcraft/materials"
+    }
+  ],
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "title": "book.magitech.materials_and_toolcraft_design.toolcraft.traits.0.title",
+      "text": "book.magitech.materials_and_toolcraft_design.toolcraft.traits.0.text"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.materials_and_toolcraft_design.toolcraft.traits.1.text"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "P": {
+      "type": "neoforge:components",
+      "items": "magitech:plate",
+      "components": {
+        "magitech:material_component": "magitech:iron"
+      },
+      "strict": true
+    },
+    "L": {
+      "item": "minecraft:leather"
+    }
+  },
+  "pattern": [
+    " LP",
+    "L L",
+    "PL "
+  ],
+  "result": {
+    "count": 1,
+    "id": "magitech:tool_belt"
+  }
+}

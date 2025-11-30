@@ -127,7 +127,7 @@ public class Nivalune extends Spell {
                         continue;
                     }
                     if (target instanceof LivingEntity livingTarget) {
-                        livingTarget.setTicksFrozen(Math.min(livingTarget.getTicksFrozen() + 10, 300));
+                        livingTarget.setTicksFrozen(Math.min(livingTarget.getTicksFrozen() + 100, 300));
                     }
                     if (livingEntity instanceof Player user) {
                         this.applyDamage(tickBaseDamage, this.getTickCost(level, user, stack), this.getElement(), stack, user, target);

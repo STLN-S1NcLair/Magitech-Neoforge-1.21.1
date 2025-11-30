@@ -25,8 +25,6 @@ public class LavaforgedTrait extends Trait {
             float mul = traitLevel * 0.35F;
             Float atk = stats.getStats().get(ToolStats.ATK_STAT);
             modified.put(ToolStats.ATK_STAT, atk * mul);
-            Float min = stats.getStats().get(ToolStats.MIN_STAT);
-            modified.put(ToolStats.MIN_STAT, min * mul);
             return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
         }
         return super.modifyStatsConditional1(player, level, stack, traitLevel, stats);

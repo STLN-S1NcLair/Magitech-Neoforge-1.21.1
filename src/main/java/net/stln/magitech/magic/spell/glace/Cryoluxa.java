@@ -64,7 +64,7 @@ public class Cryoluxa extends BeamSpell {
     @Override
     protected void applyEffectToLivingTarget(Level level, Player user, LivingEntity target) {
         super.applyEffectToLivingTarget(level, user, target);
-        target.setTicksFrozen(Math.min(target.getTicksFrozen() + 160, 320));
+        target.setTicksFrozen(Math.min(target.getTicksFrozen() + 160, 300));
     }
 
     @Override

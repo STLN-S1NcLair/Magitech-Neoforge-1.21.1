@@ -22,7 +22,7 @@ public class PrecipitationTrait extends Trait {
 
     @Override
     public ToolStats modifyStatsConditional1(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
-        if (player.isInWater()) {
+        if (player.isInWater() || level.isRainingAt(player.blockPosition())) {
             ToolStats aDefault = ToolStats.DEFAULT;
             Map<String, Float> modified = new HashMap<>(aDefault.getStats());
             float mul = traitLevel * 0.45F;
@@ -35,7 +35,7 @@ public class PrecipitationTrait extends Trait {
 
     @Override
     public ToolStats modifySpellCasterStatsConditional1(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
-        if (player.isInWater()) {
+        if (player.isInWater() || level.isRainingAt(player.blockPosition())) {
             ToolStats aDefault = ToolStats.DEFAULT;
             Map<String, Float> modified = new HashMap<>(aDefault.getStats());
             float mul = traitLevel * 0.45F;

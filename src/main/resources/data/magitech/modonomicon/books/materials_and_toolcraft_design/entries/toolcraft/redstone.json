@@ -1,0 +1,32 @@
+{
+  "name": "book.magitech.materials_and_toolcraft_design.toolcraft.redstone.name",
+  "icon": {
+    "id": "magitech:redstone_crystal"
+  },
+  "category": "magitech:toolcraft",
+  "x": 10,
+  "y": 4,
+  "background_u_index": 1,
+  "background_v_index": 2,
+  "pages": [
+    {
+      "type": "modonomicon:spotlight",
+      "title": "book.magitech.materials_and_toolcraft_design.toolcraft.redstone.0.title",
+      "text": "book.magitech.materials_and_toolcraft_design.toolcraft.redstone.0.text",
+      "item": {
+        "id": "magitech:redstone_crystal"
+      }
+    },
+    {
+      "type": "modonomicon:spotlight",
+      "title": "book.magitech.materials_and_toolcraft_design.toolcraft.redstone.1.title",
+      "text": "book.magitech.materials_and_toolcraft_design.toolcraft.redstone.1.text",
+        "item": {
+          "item": "magitech:light_blade",
+          "components": {
+            "magitech:material_component": "magitech:redstone"
+          }
+        }
+    }
+  ]
+}

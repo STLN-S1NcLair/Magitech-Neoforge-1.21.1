@@ -11,6 +11,7 @@ import dev.kosmx.playerAnim.core.util.Ease;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
 import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.core.BlockPos;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -20,6 +21,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BedBlock;
 import net.minecraft.world.level.portal.DimensionTransition;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.Magitech;
@@ -37,6 +39,7 @@ import org.joml.Vector3f;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class Tenebport extends Spell {
 
@@ -118,12 +121,8 @@ public class Tenebport extends Spell {
 
                 if (!level.isClientSide) {
                     ServerPlayer serverPlayer = (ServerPlayer) user;
-                    boolean missingRespawnBlock = serverPlayer.getRespawnPosition() == null;
-                    Vec3 respawnPos = Vec3.atCenterOf(missingRespawnBlock ? level.getSharedSpawnPos() : serverPlayer.getRespawnPosition());
-                    MinecraftServer server = serverPlayer.server;
-                    ServerLevel newLevel = server.getLevel(serverPlayer.getRespawnDimension());
-                    float respawnAngle = serverPlayer.getRespawnAngle();
-                    serverPlayer.changeDimension(new DimensionTransition(newLevel, respawnPos, Vec3.ZERO, 0, respawnAngle, missingRespawnBlock, DimensionTransition.DO_NOTHING));
+                    DimensionTransition respawnPos = serverPlayer.findRespawnPositionAndUseSpawnBlock(true, DimensionTransition.DO_NOTHING);
+                    serverPlayer.changeDimension(respawnPos);
                 }
 
                 addCooldown(level, user, stack);

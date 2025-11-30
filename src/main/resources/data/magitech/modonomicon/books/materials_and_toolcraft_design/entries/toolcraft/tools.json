@@ -1,0 +1,27 @@
+{
+  "name": "book.magitech.materials_and_toolcraft_design.toolcraft.tools.name",
+  "icon": {
+    "id": "magitech:light_sword"
+  },
+  "category": "magitech:toolcraft",
+  "x": -4,
+  "y": 0,
+  "background_u_index": 1,
+  "background_v_index": 1,
+  "parents": [
+    {
+      "entry": "magitech:toolcraft/root"
+    }
+  ],
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "title": "book.magitech.materials_and_toolcraft_design.toolcraft.tools.0.title",
+      "text": "book.magitech.materials_and_toolcraft_design.toolcraft.tools.0.text"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.materials_and_toolcraft_design.toolcraft.tools.1.text"
+    }
+  ]
+}

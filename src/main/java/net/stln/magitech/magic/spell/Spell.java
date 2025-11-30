@@ -305,14 +305,41 @@ public abstract class Spell implements SpellLike {
         }
         list.add(Component.translatable("tooltip.magitech.spell.cooldown").append(": " + MathUtil.round((double) this.getModifiedCooldown(level, user, stack) / 20, 2) + "s"));
         list.add(Component.empty());
-        if (!Objects.equals(this.getBaseRequiredMana().get(ManaUtil.ManaType.MANA), this.getBaseCost().get(ManaUtil.ManaType.MANA))) {
+        if (this.getBaseRequiredMana().containsKey(ManaUtil.ManaType.MANA) && !Objects.equals(this.getBaseRequiredMana().get(ManaUtil.ManaType.MANA), this.getBaseCost().get(ManaUtil.ManaType.MANA))) {
             list.add(Component.translatable("tooltip.magitech.spell.required_mana").append(": " + MathUtil.round(this.getRequiredMana(level, user, stack).get(ManaUtil.ManaType.MANA), 2)).withColor(0x40FFF0));
         }
         if (this.needsUseCost(level, user, stack) && this.getBaseCost().containsKey(ManaUtil.ManaType.MANA)) {
-            list.add(Component.translatable("tooltip.magitech.spell.use_cost").append(": " + MathUtil.round(this.getCost(level, user, stack).get(ManaUtil.ManaType.MANA), 2)).withColor(0x40FFF0));
+            list.add(Component.translatable("tooltip.magitech.spell.use_cost_mana").append(": " + MathUtil.round(this.getCost(level, user, stack).get(ManaUtil.ManaType.MANA), 2)).withColor(0x40FFF0));
         }
         if (this.needsTickCost(level, user, stack) && this.canHoldUsing() && this.getBaseTickCost().containsKey(ManaUtil.ManaType.MANA)) {
-            list.add(Component.translatable("tooltip.magitech.spell.tick_cost").append(": " + MathUtil.round(this.getTickCost(level, user, stack).get(ManaUtil.ManaType.MANA), 2) + "/tick").withColor(0x40FFF0));
+            list.add(Component.translatable("tooltip.magitech.spell.tick_cost_mana").append(": " + MathUtil.round(this.getTickCost(level, user, stack).get(ManaUtil.ManaType.MANA), 2) + "/tick").withColor(0x40FFF0));
+        }
+        if (this.getBaseRequiredMana().containsKey(ManaUtil.ManaType.NOCTIS) && !Objects.equals(this.getBaseRequiredMana().get(ManaUtil.ManaType.NOCTIS), this.getBaseCost().get(ManaUtil.ManaType.NOCTIS))) {
+            list.add(Component.translatable("tooltip.magitech.spell.required_noctis").append(": " + MathUtil.round(this.getRequiredMana(level, user, stack).get(ManaUtil.ManaType.NOCTIS), 2)).withColor(0x603080));
+        }
+        if (this.needsUseCost(level, user, stack) && this.getBaseCost().containsKey(ManaUtil.ManaType.NOCTIS)) {
+            list.add(Component.translatable("tooltip.magitech.spell.use_cost_noctis").append(": " + MathUtil.round(this.getCost(level, user, stack).get(ManaUtil.ManaType.NOCTIS), 2)).withColor(0x603080));
+        }
+        if (this.needsTickCost(level, user, stack) && this.canHoldUsing() && this.getBaseTickCost().containsKey(ManaUtil.ManaType.NOCTIS)) {
+            list.add(Component.translatable("tooltip.magitech.spell.tick_cost_noctis").append(": " + MathUtil.round(this.getTickCost(level, user, stack).get(ManaUtil.ManaType.NOCTIS), 2) + "/tick").withColor(0x603080));
+        }
+        if (this.getBaseRequiredMana().containsKey(ManaUtil.ManaType.LUMINIS) && !Objects.equals(this.getBaseRequiredMana().get(ManaUtil.ManaType.LUMINIS), this.getBaseCost().get(ManaUtil.ManaType.LUMINIS))) {
+            list.add(Component.translatable("tooltip.magitech.spell.required_luminis").append(": " + MathUtil.round(this.getRequiredMana(level, user, stack).get(ManaUtil.ManaType.LUMINIS), 2)).withColor(0xFFFFC0));
+        }
+        if (this.needsUseCost(level, user, stack) && this.getBaseCost().containsKey(ManaUtil.ManaType.LUMINIS)) {
+            list.add(Component.translatable("tooltip.magitech.spell.use_cost_luminis").append(": " + MathUtil.round(this.getCost(level, user, stack).get(ManaUtil.ManaType.LUMINIS), 2)).withColor(0xFFFFC0));
+        }
+        if (this.needsTickCost(level, user, stack) && this.canHoldUsing() && this.getBaseTickCost().containsKey(ManaUtil.ManaType.LUMINIS)) {
+            list.add(Component.translatable("tooltip.magitech.spell.tick_cost_luminis").append(": " + MathUtil.round(this.getTickCost(level, user, stack).get(ManaUtil.ManaType.LUMINIS), 2) + "/tick").withColor(0xFFFFC0));
+        }
+        if (this.getBaseRequiredMana().containsKey(ManaUtil.ManaType.FLUXIA) && !Objects.equals(this.getBaseRequiredMana().get(ManaUtil.ManaType.FLUXIA), this.getBaseCost().get(ManaUtil.ManaType.FLUXIA))) {
+            list.add(Component.translatable("tooltip.magitech.spell.required_fluxia").append(": " + MathUtil.round(this.getRequiredMana(level, user, stack).get(ManaUtil.ManaType.FLUXIA), 2)).withColor(0xC0E0FF));
+        }
+        if (this.needsUseCost(level, user, stack) && this.getBaseCost().containsKey(ManaUtil.ManaType.FLUXIA)) {
+            list.add(Component.translatable("tooltip.magitech.spell.use_cost_fluxia").append(": " + MathUtil.round(this.getCost(level, user, stack).get(ManaUtil.ManaType.FLUXIA), 2)).withColor(0xC0E0FF));
+        }
+        if (this.needsTickCost(level, user, stack) && this.canHoldUsing() && this.getBaseTickCost().containsKey(ManaUtil.ManaType.FLUXIA)) {
+            list.add(Component.translatable("tooltip.magitech.spell.tick_cost_fluxia").append(": " + MathUtil.round(this.getTickCost(level, user, stack).get(ManaUtil.ManaType.FLUXIA), 2) + "/tick").withColor(0xC0E0FF));
         }
         return list;
     }

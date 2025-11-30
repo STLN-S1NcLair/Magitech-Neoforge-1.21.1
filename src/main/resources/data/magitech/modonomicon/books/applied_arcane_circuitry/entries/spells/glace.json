@@ -1,0 +1,21 @@
+{
+  "name": "book.magitech.applied_arcane_circuitry.spells.glace.name",
+  "icon": {
+    "id": "magitech:glace_crystal"
+  },
+  "category": "magitech:spells",
+  "x": -4,
+  "y": -10,
+  "background_u_index": 1,
+  "background_v_index": 0,
+  "pages": [
+    {
+      "type": "modonomicon:spotlight",
+      "title": "book.magitech.applied_arcane_circuitry.spells.glace.0.title",
+      "text": "book.magitech.applied_arcane_circuitry.spells.glace.0.text",
+        "item": {
+          "item": "magitech:glace_crystal"
+        }
+    }
+  ]
+}

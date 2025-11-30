@@ -1,0 +1,21 @@
+{
+  "name": "book.magitech.applied_arcane_circuitry.spells.hollow.name",
+  "icon": {
+    "id": "magitech:hollow_crystal"
+  },
+  "category": "magitech:spells",
+  "x": 8,
+  "y": -10,
+  "background_u_index": 1,
+  "background_v_index": 0,
+  "pages": [
+    {
+      "type": "modonomicon:spotlight",
+      "title": "book.magitech.applied_arcane_circuitry.spells.hollow.0.title",
+      "text": "book.magitech.applied_arcane_circuitry.spells.hollow.0.text",
+        "item": {
+          "item": "magitech:hollow_crystal"
+        }
+    }
+  ]
+}

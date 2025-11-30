@@ -1,0 +1,32 @@
+{
+  "name": "book.magitech.materials_and_toolcraft_design.toolcraft.lapis.name",
+  "icon": {
+    "id": "minecraft:lapis_lazuli"
+  },
+  "category": "magitech:toolcraft",
+  "x": 12,
+  "y": 4,
+  "background_u_index": 1,
+  "background_v_index": 2,
+  "pages": [
+    {
+      "type": "modonomicon:spotlight",
+      "title": "book.magitech.materials_and_toolcraft_design.toolcraft.lapis.0.title",
+      "text": "book.magitech.materials_and_toolcraft_design.toolcraft.lapis.0.text",
+      "item": {
+        "id": "minecraft:lapis_lazuli"
+      }
+    },
+    {
+      "type": "modonomicon:spotlight",
+      "title": "book.magitech.materials_and_toolcraft_design.toolcraft.lapis.1.title",
+      "text": "book.magitech.materials_and_toolcraft_design.toolcraft.lapis.1.text",
+        "item": {
+          "item": "magitech:light_blade",
+          "components": {
+            "magitech:material_component": "magitech:lapis"
+          }
+        }
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "name": "book.magitech.the_fire_that_thinks.alchemy.sulfuric_acid.name",
+  "icon": {
+    "id": "magitech:sulfuric_acid_flask"
+  },
+  "category": "magitech:alchemy",
+  "x": -4,
+  "y": -8,
+  "background_u_index": 1,
+  "background_v_index": 0,
+  "parents": [
+    {
+      "entry": "magitech:alchemy/alchemical_flask"
+    }
+  ],
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "title": "book.magitech.the_fire_that_thinks.alchemy.sulfuric_acid.0.title",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.sulfuric_acid.0.text"
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "title1": "fluid_type.magitech.sulfuric_acid",
+      "recipe_id_1": "magitech:sulfuric_acid",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.sulfuric_acid.1.text"
+    }
+  ]
+}

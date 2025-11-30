@@ -1,0 +1,33 @@
+{
+  "name": "book.magitech.materials_and_toolcraft_design.toolcraft.equipments.name",
+  "icon": {
+    "id": "minecraft:iron_ingot"
+  },
+  "category": "magitech:toolcraft",
+  "x": 0,
+  "y": -4,
+  "background_u_index": 1,
+  "background_v_index": 1,
+  "parents": [
+    {
+      "entry": "magitech:toolcraft/root"
+    }
+  ],
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "title": "book.magitech.materials_and_toolcraft_design.toolcraft.equipments.0.title",
+      "text": "book.magitech.materials_and_toolcraft_design.toolcraft.equipments.0.text"
+    },
+    {
+      "type": "modonomicon:crafting_recipe",
+      "recipe_id_1": "magitech:tool_belt",
+      "text": "book.magitech.materials_and_toolcraft_design.toolcraft.equipments.1.text"
+    },
+    {
+      "type": "modonomicon:crafting_recipe",
+      "recipe_id_1": "magitech:tool_hanger",
+      "text": "book.magitech.materials_and_toolcraft_design.toolcraft.equipments.2.text"
+    }
+  ]
+}

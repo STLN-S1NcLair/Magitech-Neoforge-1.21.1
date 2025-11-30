@@ -1,0 +1,32 @@
+{
+  "name": "book.magitech.glistening_lexicon.introduction.applied_arcane_circuitry.name",
+  "icon": {
+    "id": "magitech:applied_arcane_circuitry"
+  },
+  "category": "magitech:introduction",
+  "x": 8,
+  "y": 4,
+  "background_u_index": 0,
+  "background_v_index": 0,
+  "parents": [
+    {
+      "entry": "magitech:introduction/spell_conversion"
+    }
+  ],
+  "pages": [
+    {
+      "type": "modonomicon:spotlight",
+      "title": "book.magitech.glistening_lexicon.introduction.applied_arcane_circuitry.0.title",
+      "text": "book.magitech.glistening_lexicon.introduction.applied_arcane_circuitry.0.text",
+      "item": {
+        "item": "magitech:applied_arcane_circuitry"
+      }
+    },
+    {
+      "type": "modonomicon:crafting_recipe",
+      "text": "book.magitech.glistening_lexicon.introduction.applied_arcane_circuitry.1.text",
+      "recipe_id_1": "magitech:applied_arcane_circuitry",
+      "link_recipe" : "true"
+    }
+  ]
+}

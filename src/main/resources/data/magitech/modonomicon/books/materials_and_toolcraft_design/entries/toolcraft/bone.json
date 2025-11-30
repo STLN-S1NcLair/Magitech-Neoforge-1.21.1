@@ -1,0 +1,32 @@
+{
+  "name": "book.magitech.materials_and_toolcraft_design.toolcraft.bone.name",
+  "icon": {
+    "id": "minecraft:bone"
+  },
+  "category": "magitech:toolcraft",
+  "x": 14,
+  "y": 2,
+  "background_u_index": 1,
+  "background_v_index": 2,
+  "pages": [
+    {
+      "type": "modonomicon:spotlight",
+      "title": "book.magitech.materials_and_toolcraft_design.toolcraft.bone.0.title",
+      "text": "book.magitech.materials_and_toolcraft_design.toolcraft.bone.0.text",
+      "item": {
+        "id": "minecraft:bone"
+      }
+    },
+    {
+      "type": "modonomicon:spotlight",
+      "title": "book.magitech.materials_and_toolcraft_design.toolcraft.bone.1.title",
+      "text": "book.magitech.materials_and_toolcraft_design.toolcraft.bone.1.text",
+        "item": {
+          "item": "magitech:light_blade",
+          "components": {
+            "magitech:material_component": "magitech:bone"
+          }
+        }
+    }
+  ]
+}

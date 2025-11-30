@@ -57,7 +57,7 @@ public class ElectrostaticChargeTrait extends Trait {
     public void onDamageEntity(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, Entity target) {
         super.onDamageEntity(player, level, stack, traitLevel, stats, target);
         if (!level.isClientSide) {
-            TraitMobEffectHelper.applyTraitMobEffect(player, MobEffectInit.CHARGE, 20 + traitLevel * 20, 0);
+            TraitMobEffectHelper.updateTraitMobEffectDuration(player, MobEffectInit.CHARGE, 40 + traitLevel * 60);
         }
     }
 
@@ -65,7 +65,7 @@ public class ElectrostaticChargeTrait extends Trait {
     public void onBreakBlock(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos, int damageAmount, boolean isInitial) {
         super.onBreakBlock(player, level, stack, traitLevel, stats, blockState, pos, damageAmount, isInitial);
         if (!level.isClientSide) {
-            TraitMobEffectHelper.applyTraitMobEffect(player, MobEffectInit.CHARGE, 20 + traitLevel * 20, 0);
+            TraitMobEffectHelper.updateTraitMobEffectDuration(player, MobEffectInit.CHARGE, 40 + traitLevel * 60);
         }
     }
 

@@ -1,0 +1,32 @@
+{
+  "name": "book.magitech.materials_and_toolcraft_design.toolcraft.fluorite.name",
+  "icon": {
+    "id": "magitech:fluorite"
+  },
+  "category": "magitech:toolcraft",
+  "x": 18,
+  "y": 4,
+  "background_u_index": 1,
+  "background_v_index": 2,
+  "pages": [
+    {
+      "type": "modonomicon:spotlight",
+      "title": "book.magitech.materials_and_toolcraft_design.toolcraft.fluorite.0.title",
+      "text": "book.magitech.materials_and_toolcraft_design.toolcraft.fluorite.0.text",
+      "item": {
+        "id": "magitech:fluorite"
+      }
+    },
+    {
+      "type": "modonomicon:spotlight",
+      "title": "book.magitech.materials_and_toolcraft_design.toolcraft.fluorite.1.title",
+      "text": "book.magitech.materials_and_toolcraft_design.toolcraft.fluorite.1.text",
+        "item": {
+          "item": "magitech:light_blade",
+          "components": {
+            "magitech:material_component": "magitech:fluorite"
+          }
+        }
+    }
+  ]
+}

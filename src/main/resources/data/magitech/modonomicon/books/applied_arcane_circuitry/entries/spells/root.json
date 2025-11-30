@@ -1,0 +1,22 @@
+{
+  "name": "book.magitech.applied_arcane_circuitry.spells.root.name",
+  "icon": {
+    "id": "magitech:applied_arcane_circuitry"
+  },
+  "category": "magitech:spells",
+  "x": -8,
+  "y": -10,
+  "background_u_index": 0,
+  "background_v_index": 1,
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "title": "book.magitech.applied_arcane_circuitry.spells.root.0.title",
+      "text": "book.magitech.applied_arcane_circuitry.spells.root.0.text"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.applied_arcane_circuitry.spells.root.1.text"
+    }
+  ]
+}

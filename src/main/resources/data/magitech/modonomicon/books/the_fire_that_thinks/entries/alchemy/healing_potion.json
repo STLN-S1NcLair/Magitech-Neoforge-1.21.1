@@ -1,0 +1,29 @@
+{
+  "name": "book.magitech.the_fire_that_thinks.alchemy.healing_potion.name",
+  "icon": {
+    "id": "magitech:healing_potion_flask"
+  },
+  "category": "magitech:alchemy",
+  "x": -8,
+  "y": -8,
+  "background_u_index": 1,
+  "background_v_index": 0,
+  "parents": [
+    {
+      "entry": "magitech:alchemy/alchemical_flask"
+    }
+  ],
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "title": "book.magitech.the_fire_that_thinks.alchemy.healing_potion.0.title",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.healing_potion.0.text"
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "title1": "fluid_type.magitech.healing_potion",
+      "recipe_id_1": "magitech:healing_potion",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.healing_potion.1.text"
+    }
+  ]
+}

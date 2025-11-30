@@ -10,11 +10,6 @@
   "background_v_index": 2,
   "pages": [
     {
-      "type": "modonomicon:text",
-      "title": "book.magitech.the_fire_that_thinks.alchemy.aspect.0.title",
-      "text": "book.magitech.the_fire_that_thinks.alchemy.aspect.0.text"
-    },
-    {
       "type": "modonomicon:spotlight",
       "title": "book.magitech.the_fire_that_thinks.alchemy.aspect.ember.title",
       "text": "book.magitech.the_fire_that_thinks.alchemy.aspect.ember.text",
@@ -77,6 +72,10 @@
       "item": {
         "item": "magitech:hollow_crystal"
       }
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.aspect.1.text"
     }
   ]
 }

@@ -1,0 +1,28 @@
+{
+  "name": "book.magitech.materials_and_toolcraft_design.toolcraft.pickaxe.name",
+  "icon": {
+    "id": "magitech:pickaxe"
+  },
+  "category": "magitech:toolcraft",
+  "x": -12,
+  "y": 6,
+  "background_u_index": 1,
+  "background_v_index": 0,
+  "parents": [
+    {
+      "entry": "magitech:toolcraft/normal_tools"
+    }
+  ],
+  "pages": [
+    {
+      "type": "magitech:tool_assembly_recipe",
+      "title1": "book.magitech.materials_and_toolcraft_design.toolcraft.pickaxe.0.title",
+      "text": "book.magitech.materials_and_toolcraft_design.toolcraft.pickaxe.0.text",
+      "recipe_id_1": "magitech:pickaxe_tool_assemble"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.materials_and_toolcraft_design.toolcraft.pickaxe.1.text"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "name": "book.magitech.the_fire_that_thinks.alchemy.sulfuric_acid_battery.name",
+  "icon": {
+    "id": "magitech:sulfuric_acid_battery"
+  },
+  "category": "magitech:alchemy",
+  "x": -4,
+  "y": -10,
+  "background_u_index": 1,
+  "background_v_index": 0,
+  "parents": [
+    {
+      "entry": "magitech:alchemy/sulfuric_acid"
+    }
+  ],
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "title": "book.magitech.the_fire_that_thinks.alchemy.sulfuric_acid_battery.0.title",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.sulfuric_acid_battery.0.text"
+    },
+    {
+      "type": "modonomicon:crafting_recipe",
+      "recipe_id_1": "magitech:sulfuric_acid_battery",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.sulfuric_acid_battery.1.text"
+    }
+  ]
+}

@@ -29,6 +29,7 @@ public class BlockUtil {
 
             // センターチェック
             for (Direction direction : Direction.values()) {
+                if (!isInLimit(visited, limit)) continue;
                 BlockPos neighbor = current.relative(direction);
                 if (!visited.contains(neighbor) && level.getBlockState(neighbor).getBlock() == targetBlock) {
                     visited.add(neighbor);
@@ -36,9 +37,11 @@ public class BlockUtil {
                 }
             }
 
+
             // エッジチェック
             for (Direction direction : Direction.values()) {
                 for (Direction direction2 : Direction.values()) {
+                    if (!isInLimit(visited, limit)) continue;
                     if (direction2.getAxis() == direction.getAxis()) continue;
                     BlockPos neighbor = current.relative(direction).relative(direction2);
                     if (!visited.contains(neighbor) && level.getBlockState(neighbor).getBlock() == targetBlock) {
@@ -48,10 +51,12 @@ public class BlockUtil {
                 }
             }
 
+
             // コーナーチェック
             for (Direction direction : Direction.values()) {
                 for (Direction direction2 : Direction.values()) {
                     for (Direction direction3 : Direction.values()) {
+                        if (!isInLimit(visited, limit)) continue;
                         if (direction2.getAxis() == direction.getAxis()
                                 || direction3.getAxis() == direction.getAxis()
                                 || direction3.getAxis() == direction2.getAxis()) continue;
@@ -66,5 +71,9 @@ public class BlockUtil {
         }
 
         return result;
+    }
+
+    private static boolean isInLimit(Set<BlockPos> posSet, int limit) {
+        return posSet.size() < limit;
     }
 }

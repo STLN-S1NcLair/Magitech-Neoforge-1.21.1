@@ -45,7 +45,7 @@ public class ElectricalBoostTrait extends Trait {
     public void onDamageEntity(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, Entity target) {
         super.onDamageEntity(player, level, stack, traitLevel, stats, target);
         if (!level.isClientSide) {
-            TraitMobEffectHelper.extendTraitMobEffectAmplifier(player, MobEffectInit.CHARGE, 1, traitLevel * 2, 60);
+            TraitMobEffectHelper.extendTraitMobEffectAmplifier(player, MobEffectInit.CHARGE, 1, traitLevel * 2 + 1, 60);
         }
     }
 
@@ -53,7 +53,7 @@ public class ElectricalBoostTrait extends Trait {
     public void onBreakBlock(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos, int damageAmount, boolean isInitial) {
         super.onBreakBlock(player, level, stack, traitLevel, stats, blockState, pos, damageAmount, isInitial);
         if (!level.isClientSide) {
-            TraitMobEffectHelper.extendTraitMobEffectAmplifier(player, MobEffectInit.CHARGE, 1, traitLevel * 2, 60);
+            TraitMobEffectHelper.extendTraitMobEffectAmplifier(player, MobEffectInit.CHARGE, 1, traitLevel * 2 + 1, 60);
         }
     }
 

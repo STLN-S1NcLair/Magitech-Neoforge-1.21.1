@@ -1,0 +1,22 @@
+{
+  "name": "book.magitech.materials_and_toolcraft_design.toolcraft.root.name",
+  "icon": {
+    "id": "magitech:materials_and_toolcraft_design"
+  },
+  "category": "magitech:toolcraft",
+  "x": 0,
+  "y": 0,
+  "background_u_index": 0,
+  "background_v_index": 1,
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "title": "book.magitech.materials_and_toolcraft_design.toolcraft.root.0.title",
+      "text": "book.magitech.materials_and_toolcraft_design.toolcraft.root.0.text"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.materials_and_toolcraft_design.toolcraft.root.1.text"
+    }
+  ]
+}

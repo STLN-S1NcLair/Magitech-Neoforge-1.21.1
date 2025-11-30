@@ -51,15 +51,15 @@ public class SpellInit {
     public static final DeferredSpell<Spell> SPARKION = register("sparkion", new Sparkion());
     public static final DeferredSpell<Spell> ARCLUME = register("arclume", new Arclume());
 
-    public static final DeferredSpell<Spell> TREMIVOX = register("tremivox", new Tremivox());
-    public static final DeferredSpell<Spell> OSCILBEAM = register("oscilbeam", new Oscilbeam());
-    public static final DeferredSpell<Spell> SONISTORM = register("sonistorm", new Sonistorm());
-    public static final DeferredSpell<Spell> QUAVERIS = register("quaveris", new Quaveris());
-
     public static final DeferredSpell<Spell> MIRAZIEN = register("mirazien", new Mirazien());
     public static final DeferredSpell<Spell> PHANTASTRA = register("phantastra", new Phantastra());
     public static final DeferredSpell<Spell> VEILMIST = register("veilmist", new Veilmist());
     public static final DeferredSpell<Spell> FADANCEA = register("fadancea", new Fadancea());
+
+    public static final DeferredSpell<Spell> TREMIVOX = register("tremivox", new Tremivox());
+    public static final DeferredSpell<Spell> OSCILBEAM = register("oscilbeam", new Oscilbeam());
+    public static final DeferredSpell<Spell> SONISTORM = register("sonistorm", new Sonistorm());
+    public static final DeferredSpell<Spell> QUAVERIS = register("quaveris", new Quaveris());
 
     public static final DeferredSpell<Spell> ARCALETH = register("arcaleth", new Arcaleth());
     public static final DeferredSpell<Spell> MYSTAVEN = register("mystaven", new Mystaven());

@@ -113,5 +113,10 @@ public class NetworkInit {
                 RangedEntityAttackPayload.STREAM_CODEC,
                 RangedEntityAttackPayLoadHandler::handleDataOnMainS2C
         );
+        registrar.playToClient(
+                SparkTraitBeamPayload.TYPE,
+                SparkTraitBeamPayload.STREAM_CODEC,
+                SparkTraitBeamPayloadHandler::handleDataOnMainS2C
+        );
     }
 }

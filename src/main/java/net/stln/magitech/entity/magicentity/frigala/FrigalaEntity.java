@@ -88,7 +88,7 @@ public class FrigalaEntity extends SpellProjectileEntity implements GeoEntity {
         float finalDamage = this.damage * DataMapHelper.getElementMultiplier(entity, this.getElement());
         applyDamage(entity, elementalDamageSource, finalDamage);
         if (entity instanceof LivingEntity livingEntity) {
-            livingEntity.setTicksFrozen(Math.min(livingEntity.getTicksFrozen() + 120, 180));
+            livingEntity.setTicksFrozen(Math.min(livingEntity.getTicksFrozen() + 200, 300));
         }
         hitParticle();
 

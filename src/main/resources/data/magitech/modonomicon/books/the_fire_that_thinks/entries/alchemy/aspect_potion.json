@@ -1,0 +1,71 @@
+{
+  "name": "book.magitech.the_fire_that_thinks.alchemy.aspect_potion.name",
+  "icon": {
+    "id": "magitech:ember_potion_flask"
+  },
+  "category": "magitech:alchemy",
+  "x": -6,
+  "y": -8,
+  "background_u_index": 1,
+  "background_v_index": 0,
+  "parents": [
+    {
+      "entry": "magitech:alchemy/alchemical_flask"
+    }
+  ],
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "title": "book.magitech.the_fire_that_thinks.alchemy.aspect_potion.0.title",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.aspect_potion.0.text"
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "title1": "fluid_type.magitech.ember_potion",
+      "recipe_id_1": "magitech:ember_potion",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.aspect_potion.ember.text"
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "title1": "fluid_type.magitech.glace_potion",
+      "recipe_id_1": "magitech:glace_potion",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.aspect_potion.glace.text"
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "title1": "fluid_type.magitech.surge_potion",
+      "recipe_id_1": "magitech:surge_potion",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.aspect_potion.surge.text"
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "title1": "fluid_type.magitech.phantom_potion",
+      "recipe_id_1": "magitech:phantom_potion",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.aspect_potion.phantom.text"
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "title1": "fluid_type.magitech.tremor_potion",
+      "recipe_id_1": "magitech:tremor_potion",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.aspect_potion.tremor.text"
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "title1": "fluid_type.magitech.magic_potion",
+      "recipe_id_1": "magitech:magic_potion",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.aspect_potion.magic.text"
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "title1": "fluid_type.magitech.flow_potion",
+      "recipe_id_1": "magitech:flow_potion",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.aspect_potion.flow.text"
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "title1": "fluid_type.magitech.hollow_potion",
+      "recipe_id_1": "magitech:hollow_potion",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.aspect_potion.hollow.text"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "background": "magitech:textures/gui/applied_arcane_circuitry/background.png",
+  "entry_textures": "magitech:textures/gui/applied_arcane_circuitry/entry_textures.png",
+  "icon": {
+      "id": "magitech:thread_page"
+},
+  "name": "book.magitech.applied_arcane_circuitry.spells.name",
+  "sort_number": 0
+}

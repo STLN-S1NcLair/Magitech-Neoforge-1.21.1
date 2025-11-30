@@ -1,12 +1,7 @@
 {
   "display": {
     "icon": {
-      "id": "magitech:light_blade",
-      "components": {
-        "magitech:material_component": {
-          "material": "magitech:iron"
-        }
-      }
+      "id": "magitech:light_blade"
     },
     "title": {
       "translate": "advancement.magitech.arcane_engineering.make_part.title"

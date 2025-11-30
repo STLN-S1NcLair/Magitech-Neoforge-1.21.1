@@ -82,7 +82,7 @@ public class Mistrelune extends Spell {
     @Override
     public void use(Level level, Player user, InteractionHand hand, boolean isHost) {
         super.use(level, user, hand, isHost);
-        addCharge(user, 20, this.getElement());
+        addCharge(user, 10, this.getElement());
     }
 
     @Override
@@ -140,7 +140,7 @@ public class Mistrelune extends Spell {
                     if (livingEntity instanceof Player user) {
                         this.applyDamage(tickBaseDamage, this.getTickCost(level, user, stack), this.getElement(), stack, user, target);
                     }
-                    target.addDeltaMovement(player.position().subtract(target.position()).add(0, 1, 0).scale(0.005));
+                    target.addDeltaMovement(player.position().subtract(target.position()).add(0, 1, 0).scale(0.01));
                 }
             }
         }

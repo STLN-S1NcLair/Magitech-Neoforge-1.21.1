@@ -3,13 +3,11 @@
       "icon": {
         "id": "magitech:pickaxe",
         "components": {
-          "magitech:part_material_component": {
-            "materials": [
+          "magitech:part_material_component": [
               "magitech:resonite",
               "magitech:resonite",
               "magitech:resonite"
             ]
-          }
         }
     },
     "title": {

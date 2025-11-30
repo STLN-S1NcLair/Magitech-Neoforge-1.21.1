@@ -1,16 +1,7 @@
 {
   "display": {
     "icon": {
-      "id": "magitech:pickaxe",
-      "components": {
-        "magitech:part_material_component": {
-          "materials": [
-            "magitech:iron",
-            "magitech:iron",
-            "magitech:iron"
-          ]
-        }
-      }
+      "id": "magitech:pickaxe"
     },
     "title": {
       "translate": "advancement.magitech.arcane_engineering.make_part_tool.title"

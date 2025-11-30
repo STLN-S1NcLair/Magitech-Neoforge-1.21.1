@@ -23,6 +23,10 @@
       "text": "book.magitech.the_fire_that_thinks.alchemy.aspect_crystal.0.text"
     },
     {
+      "type": "modonomicon:text",
+      "text": "book.magitech.the_fire_that_thinks.alchemy.aspect_crystal.1.text"
+    },
+    {
       "type": "magitech:zardius_crucible_recipe",
       "recipe_id_1": "magitech:ember_crystal",
       "text": "book.magitech.the_fire_that_thinks.alchemy.aspect_crystal.ember.text"

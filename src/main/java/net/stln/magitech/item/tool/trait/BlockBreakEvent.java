@@ -9,6 +9,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootParams;
@@ -23,6 +24,7 @@ import net.stln.magitech.Magitech;
 import net.stln.magitech.item.tool.ToolType;
 import net.stln.magitech.item.tool.toolitem.PartToolItem;
 import net.stln.magitech.network.BreakBlockPayload;
+import net.stln.magitech.util.BlockUtil;
 import net.stln.magitech.util.ComponentHelper;
 
 import java.util.*;
@@ -40,9 +42,10 @@ public class BlockBreakEvent {
             BROKEN_BLOCKS.remove(pos);
             return;
         }
-        ItemStack tool = event.getPlayer().getItemInHand(InteractionHand.MAIN_HAND).copy();
+        BlockState state = event.getState();
+        ItemStack tool = event.getPlayer().getItemInHand(InteractionHand.MAIN_HAND);
         Player player = event.getPlayer();
-        if (tool.getItem() instanceof PartToolItem partToolItem && player instanceof ServerPlayer serverPlayer && !ComponentHelper.isBroken(tool)) {
+        if (tool.getItem() instanceof PartToolItem partToolItem && !ComponentHelper.isBroken(tool)) {
 
             Map<Trait, Integer> traitMap = PartToolItem.getTraitLevel(PartToolItem.getTraits(tool));
             Set<BlockPos> blockList = new HashSet<>();
@@ -51,6 +54,14 @@ public class BlockBreakEvent {
             Direction breakDirection = PartToolItem.getBreakDirection(player.blockInteractionRange(), pos, player);
             if (((PartToolItem) tool.getItem()).getToolType().equals(ToolType.HAMMER)) {
                 addHammerMine(player, tool, pos, blockList, breakDirection);
+            } else if (((PartToolItem) tool.getItem()).getToolType().equals(ToolType.SCYTHE)) {
+                boolean noCollision = state.getCollisionShape(event.getLevel(), pos).isEmpty();
+                boolean instantBreak = state.getBlock().defaultDestroyTime() == 0.0f;
+                if (noCollision || instantBreak) {
+                    addScytheMine(player, tool, pos, blockList, state.getBlock());
+                } else {
+                    blockList.add(pos);
+                }
             } else {
                 blockList.add(pos);
             }
@@ -67,20 +78,23 @@ public class BlockBreakEvent {
             finalBlockList.forEach(pos1 -> {
                 final boolean[] flag = {true};
                 traitMap.forEach((trait, value) -> {
+                    Magitech.LOGGER.debug("Trait : " + trait.getName() + " breaking block at " + pos1);
                     if (pos1 != pos) {
-                        BreakBlockPayload payload = new BreakBlockPayload(pos1, pos, player.getUUID(), trait.emitEffect(player, event.getPlayer().level(), tool, value, partToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getState(), pos1, 1, false), flag[0]);
+                        BreakBlockPayload payload = new BreakBlockPayload(pos1, pos, player.getUUID(), trait.emitEffect(player, event.getPlayer().level(), tool, value, partToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getLevel().getBlockState(pos1), pos1, 1, false), flag[0]);
                         PacketDistributor.sendToAllPlayers(payload);
                         if (flag[0]) {
                             trait.onBreakBlock(player, event.getPlayer().level(), tool, value, partToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getLevel().getBlockState(pos1), pos1, 1, false);
 
-                            serverPlayer.gameMode.destroyBlock(pos1);
+                            if (player instanceof ServerPlayer serverPlayer) {
+                                serverPlayer.gameMode.destroyBlock(pos1);
+                            }
                             flag[0] = false;
                         }
                     } else {
-                        BreakBlockPayload payload = new BreakBlockPayload(pos1, pos, player.getUUID(), trait.emitEffect(player, event.getPlayer().level(), tool, value, partToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getState(), pos1, 1, true), flag[0]);
+                        BreakBlockPayload payload = new BreakBlockPayload(pos1, pos, player.getUUID(), trait.emitEffect(player, event.getPlayer().level(), tool, value, partToolItem.getSumStats(player, event.getPlayer().level(), tool), state, pos1, 1, true), flag[0]);
                         PacketDistributor.sendToAllPlayers(payload);
                         if (flag[0]) {
-                            trait.onBreakBlock(player, event.getPlayer().level(), tool, value, partToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getState(), pos1, 1, true);
+                            trait.onBreakBlock(player, event.getPlayer().level(), tool, value, partToolItem.getSumStats(player, event.getPlayer().level(), tool), state, pos1, 1, true);
                             flag[0] = false;
                         }
                     }
@@ -116,6 +130,10 @@ public class BlockBreakEvent {
                 }
             }
         }
+    }
+
+    private static void addScytheMine(Player player, ItemStack stack, BlockPos pos, Set<BlockPos> blockPosList, Block targetBlock) {
+        blockPosList.addAll(BlockUtil.getConnectedBlocks(player.level(), pos, targetBlock, 20));
     }
 
     @SubscribeEvent

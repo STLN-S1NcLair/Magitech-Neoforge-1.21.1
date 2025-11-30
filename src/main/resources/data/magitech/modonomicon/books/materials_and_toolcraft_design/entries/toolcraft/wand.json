@@ -1,0 +1,32 @@
+{
+  "name": "book.magitech.materials_and_toolcraft_design.toolcraft.wand.name",
+  "icon": {
+    "id": "magitech:wand"
+  },
+  "category": "magitech:toolcraft",
+  "x": -6,
+  "y": -6,
+  "background_u_index": 1,
+  "background_v_index": 0,
+  "parents": [
+    {
+      "entry": "magitech:toolcraft/arcane_tools"
+    }
+  ],
+  "pages": [
+    {
+      "type": "magitech:tool_assembly_recipe",
+      "title1": "book.magitech.materials_and_toolcraft_design.toolcraft.wand.0.title",
+      "text": "book.magitech.materials_and_toolcraft_design.toolcraft.wand.0.text",
+      "recipe_id_1": "magitech:wand_tool_assemble"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.materials_and_toolcraft_design.toolcraft.wand.1.text"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.materials_and_toolcraft_design.toolcraft.wand.2.text"
+    }
+  ]
+}

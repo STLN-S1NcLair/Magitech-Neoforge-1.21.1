@@ -1,0 +1,32 @@
+{
+  "name": "book.magitech.materials_and_toolcraft_design.toolcraft.radiant_steel.name",
+  "icon": {
+    "id": "magitech:radiant_steel_ingot"
+  },
+  "category": "magitech:toolcraft",
+  "x": 6,
+  "y": 8,
+  "background_u_index": 1,
+  "background_v_index": 2,
+  "pages": [
+    {
+      "type": "modonomicon:spotlight",
+      "title": "book.magitech.materials_and_toolcraft_design.toolcraft.radiant_steel.0.title",
+      "text": "book.magitech.materials_and_toolcraft_design.toolcraft.radiant_steel.0.text",
+      "item": {
+        "id": "magitech:radiant_steel_ingot"
+      }
+    },
+    {
+      "type": "modonomicon:spotlight",
+      "title": "book.magitech.materials_and_toolcraft_design.toolcraft.radiant_steel.1.title",
+      "text": "book.magitech.materials_and_toolcraft_design.toolcraft.radiant_steel.1.text",
+        "item": {
+          "item": "magitech:light_blade",
+          "components": {
+            "magitech:material_component": "magitech:radiant_steel"
+          }
+        }
+    }
+  ]
+}

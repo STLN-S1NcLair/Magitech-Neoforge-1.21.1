@@ -19,37 +19,39 @@ import java.util.Map;
 public class SignalRushTrait extends Trait {
 
     @Override
-    public ToolStats modifyStatsConditional1(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
+    public ToolStats modifyStatsConditional3(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
         if (player.getFoodData().getSaturationLevel() > 0) {
             ToolStats aDefault = ToolStats.DEFAULT;
             Map<String, Float> modified = new HashMap<>(aDefault.getStats());
             float mul = traitLevel * 0.3F;
             int signal = Math.max(level.getBestNeighborSignal(player.getOnPos()), level.getSignal(player.getOnPos(), Direction.UP));
             if (signal > 0) {
-                mul *= signal * 0.08F + 1;
+                mul *= signal * 0.8F + 1;
             }
             Float spd = stats.getStats().get(ToolStats.SPD_STAT);
             modified.put(ToolStats.SPD_STAT, spd * mul);
             return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
         }
-        return super.modifyStatsConditional1(player, level, stack, traitLevel, stats);
+        return super.modifyStatsConditional3(player, level, stack, traitLevel, stats);
     }
 
     @Override
-    public ToolStats modifySpellCasterStatsConditional1(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
+    public ToolStats modifySpellCasterStatsConditional3(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
         if (player.getFoodData().getSaturationLevel() > 0) {
             ToolStats aDefault = ToolStats.DEFAULT;
             Map<String, Float> modified = new HashMap<>(aDefault.getStats());
             float mul = traitLevel * 0.3F;
             int signal = Math.max(level.getBestNeighborSignal(player.getOnPos()), level.getSignal(player.getOnPos(), Direction.UP));
             if (signal > 0) {
-                mul *= signal * 0.08F + 1;
+                mul *= signal * 0.8F + 1;
             }
             Float spd = stats.getStats().get(ToolStats.SPD_STAT);
             modified.put(ToolStats.SPD_STAT, spd * mul);
+            Float min = stats.getStats().get(ToolStats.MIN_STAT);
+            modified.put(ToolStats.MIN_STAT, min * mul);
             return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
         }
-        return super.modifySpellCasterStatsConditional1(player, level, stack, traitLevel, stats);
+        return super.modifySpellCasterStatsConditional3(player, level, stack, traitLevel, stats);
     }
 
     @Override
@@ -58,7 +60,7 @@ public class SignalRushTrait extends Trait {
             float mul = traitLevel * 0.4F;
             int signal = Math.max(level.getBestNeighborSignal(player.getOnPos()), level.getSignal(player.getOnPos(), Direction.UP));
             if (signal > 0) {
-                mul *= signal * 0.08F + 1;
+                mul *= signal * 0.8F + 1;
             }
             Float min = stats.getStats().get(ToolStats.MIN_STAT);
             return min * mul;
@@ -72,8 +74,6 @@ public class SignalRushTrait extends Trait {
         int signal = Math.max(level.getBestNeighborSignal(player.getOnPos()), level.getSignal(player.getOnPos(), Direction.UP));
         if (signal == 0) {
             player.getFoodData().addExhaustion(1F);
-        } else {
-            player.getFoodData().addExhaustion((float) (1F / Math.sqrt(signal)));
         }
     }
 
@@ -83,8 +83,6 @@ public class SignalRushTrait extends Trait {
         int signal = Math.max(level.getBestNeighborSignal(player.getOnPos()), level.getSignal(player.getOnPos(), Direction.UP));
         if (signal == 0) {
             player.getFoodData().addExhaustion(1F);
-        } else {
-            player.getFoodData().addExhaustion((float) (1F / Math.sqrt(signal)));
         }
     }
 
@@ -94,8 +92,6 @@ public class SignalRushTrait extends Trait {
         int signal = Math.max(level.getBestNeighborSignal(player.getOnPos()), level.getSignal(player.getOnPos(), Direction.UP));
         if (signal == 0 && isInitial) {
             player.getFoodData().addExhaustion(0.5F);
-        } else {
-            player.getFoodData().addExhaustion((float) (0.5F / Math.sqrt(signal)));
         }
     }
 

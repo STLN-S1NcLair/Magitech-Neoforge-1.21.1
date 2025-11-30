@@ -20,7 +20,7 @@ import java.util.Set;
 public class BirefringenceTrait extends Trait {
 
     @Override
-    public Set<BlockPos> addAdditionalBlockBreakSecond(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos, int damageAmount, Direction direction) {
+    public Set<BlockPos> addAdditionalBlockBreakFirst(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos, int damageAmount, Direction direction) {
         return BlockUtil.getConnectedBlocks(level, pos, blockState.getBlock(), traitLevel);
     }
 

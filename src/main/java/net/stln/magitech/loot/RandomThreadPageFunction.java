@@ -15,6 +15,8 @@ import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.util.ComponentHelper;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class RandomThreadPageFunction extends LootItemConditionalFunction {
@@ -25,7 +27,7 @@ public class RandomThreadPageFunction extends LootItemConditionalFunction {
                     .apply(p_340803_, RandomThreadPageFunction::new)
     );
 
-    protected final List<Holder<Spell>> spells;
+    protected final ArrayList<Holder<Spell>> spells;
 
     public RandomThreadPageFunction(List<LootItemCondition> lootItemConditions) {
         this(lootItemConditions, getAllSpells());
@@ -34,9 +36,9 @@ public class RandomThreadPageFunction extends LootItemConditionalFunction {
     protected RandomThreadPageFunction(List<LootItemCondition> conditions, List<Holder<Spell>> spells) {
         super(conditions);
         if (spells.isEmpty()) {
-            this.spells = getAllSpells();
+            this.spells = new ArrayList<>(getAllSpells());
         } else {
-            this.spells = spells;
+            this.spells = new ArrayList<>(spells);
         }
     }
 
@@ -54,6 +56,7 @@ public class RandomThreadPageFunction extends LootItemConditionalFunction {
 
     @Override
     protected @NotNull ItemStack run(@NotNull ItemStack stack, @NotNull LootContext context) {
+        Collections.shuffle(this.spells);
         return spells.stream().findAny().map(holder -> {
             if (holder.isBound()) {
                 ComponentHelper.setThreadPage(stack, holder.value());

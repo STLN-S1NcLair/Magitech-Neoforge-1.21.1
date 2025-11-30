@@ -88,7 +88,7 @@ public class TremivoxEntity extends SpellProjectileEntity implements GeoEntity {
                 target = world.getNearestEntity(LivingEntity.class, TargetingConditions.forCombat(), null, this.getX(), this.getY(), this.getZ(), new AABB(center.subtract(10, 10, 10), center.add(10, 10, 10)));
             }
             if (target != null) {
-                this.setDeltaMovement(target.position().add(0, target.getBbHeight() * 0.5, 0).subtract(this.position()).normalize().scale(0.07).add(deltaMovement).normalize().scale(deltaMovement.length()));
+                this.setDeltaMovement(target.position().add(0, target.getBbHeight() * 0.5, 0).subtract(this.position()).normalize().scale(0.15).add(deltaMovement).normalize().scale(deltaMovement.length()));
             }
         }
     }

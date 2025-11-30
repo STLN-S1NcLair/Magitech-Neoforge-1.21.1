@@ -1,17 +1,7 @@
 {
   "display": {
     "icon": {
-      "id": "magitech:wand",
-      "components": {
-        "magitech:part_material_component": {
-          "materials": [
-            "magitech:iron",
-            "magitech:iron",
-            "magitech:iron",
-            "magitech:iron"
-          ]
-        }
-      }
+      "id": "magitech:wand"
     },
     "title": {
       "translate": "advancement.magitech.arcane_engineering.make_wand.title"

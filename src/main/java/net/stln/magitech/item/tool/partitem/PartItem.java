@@ -125,9 +125,15 @@ public abstract class PartItem extends Item {
                         .append(Component.literal("x" +
                                 MathUtil.round(finalStats.getStats().get(ToolStats.DUR_STAT), 2)
                         ).withColor(0xFFFFFF)));
+
+                tooltipComponents.add(Component.empty());
+
+                tooltipComponents.add(Component.translatable("attribute.magitech.mining_level").append(": ").withColor(0xa0a0a0)
+                        .append(Component.translatable("attribute.magitech.mining_level." + finalStats.getMiningLevel().get()).withColor(finalStats.getMiningLevel().getColor())));
             } else {
                 tooltipComponents.add(Component.translatable("tooltip.magitech.shift").withColor(0x404040));
             }
+
             tooltipComponents.add(Component.empty());
 
             getTrait(stack).ifPresent(trait -> {

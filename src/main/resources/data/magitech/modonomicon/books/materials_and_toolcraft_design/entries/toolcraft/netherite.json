@@ -1,0 +1,32 @@
+{
+  "name": "book.magitech.materials_and_toolcraft_design.toolcraft.netherite.name",
+  "icon": {
+    "id": "minecraft:netherite_ingot"
+  },
+  "category": "magitech:toolcraft",
+  "x": 4,
+  "y": 8,
+  "background_u_index": 1,
+  "background_v_index": 2,
+  "pages": [
+    {
+      "type": "modonomicon:spotlight",
+      "title": "book.magitech.materials_and_toolcraft_design.toolcraft.netherite.0.title",
+      "text": "book.magitech.materials_and_toolcraft_design.toolcraft.netherite.0.text",
+      "item": {
+        "id": "minecraft:netherite_ingot"
+      }
+    },
+    {
+      "type": "modonomicon:spotlight",
+      "title": "book.magitech.materials_and_toolcraft_design.toolcraft.netherite.1.title",
+      "text": "book.magitech.materials_and_toolcraft_design.toolcraft.netherite.1.text",
+        "item": {
+          "item": "magitech:light_blade",
+          "components": {
+            "magitech:material_component": "magitech:netherite"
+          }
+        }
+    }
+  ]
+}

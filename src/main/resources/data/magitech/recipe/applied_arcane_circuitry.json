@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "Z": {
+      "type": "neoforge:components",
+      "items": "magitech:reinforced_stick",
+      "components": {
+        "magitech:material_component": "magitech:zinc"
+      },
+      "strict": true
+    },
+    "B": {
+      "item": "minecraft:book"
+    },
+    "N": {
+      "item": "magitech:aggregated_noctis"
+    },
+    "L": {
+      "item": "magitech:aggregated_luminis"
+    },
+    "F": {
+      "item": "magitech:aggregated_fluxia"
+    }
+  },
+  "pattern": [
+    "ZN ",
+    "LBZ",
+    " FZ"
+  ],
+  "result": {
+    "count": 1,
+    "id": "magitech:applied_arcane_circuitry"
+  }
+}

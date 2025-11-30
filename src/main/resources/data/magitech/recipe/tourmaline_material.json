@@ -1,0 +1,7 @@
+{
+  "type": "magitech:tool_material",
+  "ingredient": {
+    "tag": "c:gems/tourmaline"
+  },
+  "result": "magitech:tourmaline"
+}
