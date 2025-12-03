@@ -1,11 +1,9 @@
 package net.stln.magitech.item.tool.trait;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
 import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.particle.particle_option.PowerupParticleEffect;
 import net.stln.magitech.util.EffectUtil;
@@ -22,7 +20,9 @@ public class ShatterforceTrait extends Trait {
         Map<String, Float> modified = new HashMap<>(aDefault.getStats());
         float mul = traitLevel * 0.35F * stack.getDamageValue() / stack.getMaxDamage();
         Float swp = stats.getStats().get(ToolStats.SWP_STAT);
+        Float min = stats.getStats().get(ToolStats.MIN_STAT);
         modified.put(ToolStats.SWP_STAT, swp * mul);
+        modified.put(ToolStats.MIN_STAT, min * mul);
         return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
     }
 
@@ -34,13 +34,6 @@ public class ShatterforceTrait extends Trait {
         Float swp = stats.getStats().get(ToolStats.SWP_STAT);
         modified.put(ToolStats.SWP_STAT, swp * mul);
         return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
-    }
-
-    @Override
-    public float modifyMiningSpeed(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos) {
-        float mul = traitLevel * 0.35F * stack.getDamageValue() / stack.getMaxDamage();
-        Float min = stats.getStats().get(ToolStats.MIN_STAT);
-        return min * mul;
     }
 
     @Override

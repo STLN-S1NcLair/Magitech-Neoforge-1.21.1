@@ -19,9 +19,7 @@ import net.stln.magitech.util.EffectUtil;
 import net.stln.magitech.util.TraitMobEffectHelper;
 import org.joml.Vector3f;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ElectricalBoostTrait extends Trait {
 

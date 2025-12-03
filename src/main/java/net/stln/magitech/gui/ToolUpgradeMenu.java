@@ -100,14 +100,7 @@ public class ToolUpgradeMenu extends AbstractContainerMenu {
             this.addSlot(new Slot(playerInventory, k, 8 + k * 18, 175));
         }
 
-    }    public final Container container = new SimpleContainer(2) {
-        @Override
-        public void setChanged() {
-            super.setChanged();
-            ToolUpgradeMenu.this.slotsChanged(this);
-            ToolUpgradeMenu.this.slotUpdateListener.run();
-        }
-    };
+    }
 
     /**
      * Determines whether supplied player can use this container
@@ -138,7 +131,14 @@ public class ToolUpgradeMenu extends AbstractContainerMenu {
             }
         }
         return true;
-    }
+    }    public final Container container = new SimpleContainer(2) {
+        @Override
+        public void setChanged() {
+            super.setChanged();
+            ToolUpgradeMenu.this.slotsChanged(this);
+            ToolUpgradeMenu.this.slotUpdateListener.run();
+        }
+    };
 
     private boolean isValidUpgrade(int upgradeIndex) {
         return upgradeIndex >= 0 && upgradeIndex < this.upgradeSize && canUpgrade();

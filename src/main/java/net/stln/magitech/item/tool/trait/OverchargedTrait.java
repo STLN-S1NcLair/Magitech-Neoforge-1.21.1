@@ -1,11 +1,9 @@
 package net.stln.magitech.item.tool.trait;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
 import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.item.tool.toolitem.SpellCasterItem;
 import net.stln.magitech.magic.mana.ManaData;
@@ -28,7 +26,10 @@ public class OverchargedTrait extends Trait {
             Map<String, Float> modified = new HashMap<>(aDefault.getStats());
             float mul = traitLevel * 0.25F;
             Float elmAtk = stats.getStats().get(ToolStats.ELM_ATK_STAT);
+            float mul2 = traitLevel * 0.35F;
+            Float min = stats.getStats().get(ToolStats.MIN_STAT);
             modified.put(ToolStats.ELM_ATK_STAT, elmAtk * mul);
+            modified.put(ToolStats.MIN_STAT, min * mul2);
             return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
         }
         return super.modifyStatsConditional1(player, level, stack, traitLevel, stats);
@@ -49,18 +50,6 @@ public class OverchargedTrait extends Trait {
             return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
         }
         return super.modifySpellCasterStatsConditional1(player, level, stack, traitLevel, stats);
-    }
-
-    @Override
-    public float modifyMiningSpeed(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos) {
-        double currentMana = ManaData.getCurrentMana(player, ManaUtil.ManaType.MANA);
-        double maxMana = ManaUtil.getMaxMana(player, ManaUtil.ManaType.MANA);
-        if (currentMana >= maxMana) {
-            float mul = traitLevel * 0.35F;
-            Float min = stats.getStats().get(ToolStats.MIN_STAT);
-            return min * mul;
-        }
-        return super.modifyMiningSpeed(player, level, stack, traitLevel, stats, blockState, pos);
     }
 
     @Override

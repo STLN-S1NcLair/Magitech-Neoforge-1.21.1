@@ -201,6 +201,7 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
                 int tier = ComponentHelper.getTier(stack);
                 stack.set(ComponentInit.TIER_COMPONENT, tier + 1);
                 ComponentHelper.updateUpgradePoint(stack, value -> value + 1);
+                Magitech.LOGGER.debug("Upgrade Point increased to " + ComponentHelper.getUpgradePoint(stack));
                 stack.set(ComponentInit.PROGRESSION_COMPONENT, 0);
                 stack.set(ComponentInit.MAX_PROGRESSION_COMPONENT, getMaxProgression(tier + 1));
                 if (entity instanceof Player player) {
@@ -440,7 +441,7 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
 
     protected void setTier(ItemStack stack, ToolStats finalStats) {
         stack.update(ComponentInit.TIER_COMPONENT, finalStats.getTier() * 5 / this.getToolType().getSize(), UnaryOperator.identity());
-        ComponentHelper.updateUpgradePoint(stack, value -> Math.max(0, value - finalStats.getTier() * 5 / this.getToolType().getSize()));
+        ComponentHelper.updateUpgradePoint(stack, Math.max(0, ComponentHelper.getTier(stack) - finalStats.getTier() * 5 / this.getToolType().getSize()), UnaryOperator.identity());
         stack.update(ComponentInit.PROGRESSION_COMPONENT, 0, UnaryOperator.identity());
         stack.update(ComponentInit.MAX_PROGRESSION_COMPONENT, getMaxProgression(ComponentHelper.getTier(stack)), UnaryOperator.identity());
     }
@@ -486,7 +487,9 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
     }
 
     public void addStatsHoverText(@NotNull ItemStack stack, List<Component> tooltipComponents) {
-        ToolStats finalStats = getSumStatsWithoutConditional(stack);
+        Player player = ClientHelper.getPlayer();
+        if (player == null) return;
+        ToolStats finalStats = getSumStats(player, player.level(), stack);
         setTier(stack, finalStats);
 
         addDefaultComponents(stack, tooltipComponents);

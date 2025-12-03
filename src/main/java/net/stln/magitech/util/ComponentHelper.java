@@ -72,4 +72,8 @@ public class ComponentHelper {
     public static void updateUpgradePoint(@NotNull MutableDataComponentHolder holder, UnaryOperator<Integer> operator) {
         holder.update(ComponentInit.UPGRADE_POINT_COMPONENT, 0, operator);
     }
+
+    public static void updateUpgradePoint(@NotNull MutableDataComponentHolder holder, int whenNull, UnaryOperator<Integer> operator) {
+        holder.update(ComponentInit.UPGRADE_POINT_COMPONENT, whenNull, operator);
+    }
 }

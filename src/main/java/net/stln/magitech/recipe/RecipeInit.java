@@ -21,10 +21,10 @@ public class RecipeInit {
     public static final Supplier<RecipeSerializer<PartCuttingRecipe>> PART_CUTTING_SERIALIZER = registerSerializer("part_cutting", PartCuttingRecipe.CODEC, PartCuttingRecipe.STREAM_CODEC);
     public static final Supplier<RecipeSerializer<SpellConversionRecipe>> SPELL_CONVERSION_SERIALIZER = registerSerializer("spell_conversion", SpellConversionRecipe.CODEC, SpellConversionRecipe.STREAM_CODEC);
     public static final Supplier<ToolAssemblyRecipe.Serializer<ToolAssemblyRecipe>> TOOL_ASSEMBLY_SERIALIZER = registerSerializer("tool_assembly", () -> new ToolAssemblyRecipe.Serializer<>(ToolAssemblyRecipe::new));
-    public static final Supplier<RecipeSerializer<ZardiusCrucibleRecipe>> ZARDIUS_CRUCIBLE_SERIALIZER = registerSerializer("zardius_crucible", ZardiusCrucibleRecipe.CODEC, ZardiusCrucibleRecipe.STREAM_CODEC);    public static final Supplier<ToolMaterialRecipe.Serializer<ToolMaterialRecipe>> TOOL_MATERIAL_SERIALIZER = registerSerializer("tool_material", () -> new ToolMaterialRecipe.Serializer<>(ToolMaterialRecipe::new));
+    public static final Supplier<RecipeSerializer<ZardiusCrucibleRecipe>> ZARDIUS_CRUCIBLE_SERIALIZER = registerSerializer("zardius_crucible", ZardiusCrucibleRecipe.CODEC, ZardiusCrucibleRecipe.STREAM_CODEC);
     // Types
     public static final DeferredRegister<RecipeType<?>> TYPES = DeferredRegister.create(Registries.RECIPE_TYPE, Magitech.MOD_ID);
-    public static final Supplier<RecipeType<AthanorPillarInfusionRecipe>> ATHANOR_PILLAR_INFUSION_TYPE = registerType("athanor_pillar_infusion");
+    public static final Supplier<RecipeType<AthanorPillarInfusionRecipe>> ATHANOR_PILLAR_INFUSION_TYPE = registerType("athanor_pillar_infusion");    public static final Supplier<ToolMaterialRecipe.Serializer<ToolMaterialRecipe>> TOOL_MATERIAL_SERIALIZER = registerSerializer("tool_material", () -> new ToolMaterialRecipe.Serializer<>(ToolMaterialRecipe::new));
     public static final Supplier<RecipeType<PartCuttingRecipe>> PART_CUTTING_TYPE = registerType("part_cutting");
     public static final Supplier<RecipeType<SpellConversionRecipe>> SPELL_CONVERSION_TYPE = registerType("spell_conversion");
     public static final Supplier<RecipeType<ToolAssemblyRecipe>> TOOL_ASSEMBLY_TYPE = registerType("tool_assembly");
@@ -58,6 +58,8 @@ public class RecipeInit {
         SERIALIZERS.register(eventBus);
         TYPES.register(eventBus);
     }
+
+
 
 
 }

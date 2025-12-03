@@ -29,7 +29,10 @@ public class SignalRushTrait extends Trait {
                 mul *= signal * 0.8F + 1;
             }
             Float spd = stats.getStats().get(ToolStats.SPD_STAT);
+            float mul2 = traitLevel * 0.4F;
+            Float min = stats.getStats().get(ToolStats.MIN_STAT);
             modified.put(ToolStats.SPD_STAT, spd * mul);
+            modified.put(ToolStats.MIN_STAT, min * mul2);
             return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
         }
         return super.modifyStatsConditional3(player, level, stack, traitLevel, stats);
@@ -52,20 +55,6 @@ public class SignalRushTrait extends Trait {
             return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
         }
         return super.modifySpellCasterStatsConditional3(player, level, stack, traitLevel, stats);
-    }
-
-    @Override
-    public float modifyMiningSpeed(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos) {
-        if (player.getFoodData().getSaturationLevel() > 0) {
-            float mul = traitLevel * 0.4F;
-            int signal = Math.max(level.getBestNeighborSignal(player.getOnPos()), level.getSignal(player.getOnPos(), Direction.UP));
-            if (signal > 0) {
-                mul *= signal * 0.8F + 1;
-            }
-            Float min = stats.getStats().get(ToolStats.MIN_STAT);
-            return min * mul;
-        }
-        return super.modifyMiningSpeed(player, level, stack, traitLevel, stats, blockState, pos);
     }
 
     @Override

@@ -32,6 +32,7 @@ public enum Element implements StringRepresentable {
     private final int spellColor;
     private final int spellDark;
     private final ResourceKey<DamageType> damageType;
+
     Element(String id, int color, int dark, int spellColor, int spellDark, ResourceKey<DamageType> damageType) {
         this.id = id;
         this.color = color;

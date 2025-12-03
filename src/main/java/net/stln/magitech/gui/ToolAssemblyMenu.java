@@ -28,19 +28,20 @@ public class ToolAssemblyMenu extends AbstractContainerMenu {
     private static final int INV_SLOT_END = 37;
     private static final int USE_ROW_SLOT_START = 37;
     private static final int USE_ROW_SLOT_END = 46;
-    private final ResultContainer resultSlots = new ResultContainer();    private final Container inputSlots = new SimpleContainer(6) {
+    private final ResultContainer resultSlots = new ResultContainer();
+    private final ContainerLevelAccess access;
+    private final Player player;    private final Container inputSlots = new SimpleContainer(6) {
         @Override
         public void setChanged() {
             super.setChanged();
             ToolAssemblyMenu.this.slotsChanged(this);
         }
     };
-    private final ContainerLevelAccess access;
-    private final Player player;
     private boolean placingRecipe;
     public ToolAssemblyMenu(int containerId, Inventory playerInventory) {
         this(containerId, playerInventory, ContainerLevelAccess.NULL);
     }
+
     public ToolAssemblyMenu(int containerId, Inventory playerInventory, ContainerLevelAccess access) {
         super(GuiInit.TOOL_ASSEMBLY_MENU.get(), containerId);
         this.access = access;
@@ -225,6 +226,8 @@ public class ToolAssemblyMenu extends AbstractContainerMenu {
     public boolean canTakeItemForPickAll(ItemStack stack, Slot slot) {
         return slot.container != this.resultSlots && super.canTakeItemForPickAll(stack, slot);
     }
+
+
 
 
 }

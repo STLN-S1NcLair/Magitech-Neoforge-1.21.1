@@ -31,7 +31,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
@@ -41,17 +40,36 @@ import net.stln.magitech.entity.mob_effect.MobEffectInit;
 import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.network.SparkTraitBeamPayload;
 import net.stln.magitech.particle.particle_option.BeamParticleEffect;
-import net.stln.magitech.particle.particle_option.PowerupParticleEffect;
 import net.stln.magitech.particle.particle_option.SparkParticleEffect;
 import net.stln.magitech.particle.particle_option.ZapParticleEffect;
 import net.stln.magitech.sound.SoundInit;
 import net.stln.magitech.util.*;
 import org.joml.Vector3f;
-import software.bernie.geckolib.animation.EasingType;
 
-import java.util.*;
+import java.util.Objects;
+import java.util.Set;
 
 public class SparkTrait extends Trait {
+
+    public static void playAnim(Player player, Level level) {
+        if (level.isClientSide) {
+            var playerAnimationData = (ModifierLayer<IAnimation>) PlayerAnimationAccess.getPlayerAssociatedData((AbstractClientPlayer) player).get(Magitech.id("animation"));
+            if (playerAnimationData != null) {
+
+                player.yBodyRot = player.yHeadRot;
+                playerAnimationData.replaceAnimationWithFade(AbstractFadeModifier.standardFadeIn(0, Ease.CONSTANT), new KeyframeAnimationPlayer((KeyframeAnimation) PlayerAnimationRegistry.getAnimation(Magitech.id("spark_beam")))
+                        .setFirstPersonMode(FirstPersonMode.THIRD_PERSON_MODEL).setFirstPersonConfiguration(new FirstPersonConfiguration(true, true, true, true)));
+            }
+        }
+    }
+
+    public static void addVisualEffect(Level level, Player user, Vec3 start, Vec3 hitPos) {
+        EffectUtil.lineEffect(level, new SparkParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 0.5F, 3, 0), start, hitPos, 2, false);
+        level.addParticle(new ZapParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F),
+                        start.toVector3f(), 1.0F, 1, 0),
+                hitPos.x, hitPos.y, hitPos.z, 0, 0, 0);
+        level.addParticle(new BeamParticleEffect(new Vector3f(0.15F, 0.15F, 0.2F), new Vector3f(0.1F, 0.1F, 0.2F), start.toVector3f(), 0.5F, 1, 1), hitPos.x, hitPos.y, hitPos.z, 0, 0, 0);
+    }
 
     @Override
     public void onDamageEntity(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, Entity target) {
@@ -134,28 +152,8 @@ public class SparkTrait extends Trait {
         }
     }
 
-    public static void playAnim(Player player, Level level) {
-        if (level.isClientSide) {
-            var playerAnimationData = (ModifierLayer<IAnimation>) PlayerAnimationAccess.getPlayerAssociatedData((AbstractClientPlayer) player).get(Magitech.id("animation"));
-            if (playerAnimationData != null) {
-
-                player.yBodyRot = player.yHeadRot;
-                playerAnimationData.replaceAnimationWithFade(AbstractFadeModifier.standardFadeIn(0, Ease.CONSTANT), new KeyframeAnimationPlayer((KeyframeAnimation) PlayerAnimationRegistry.getAnimation(Magitech.id("spark_beam")))
-                        .setFirstPersonMode(FirstPersonMode.THIRD_PERSON_MODEL).setFirstPersonConfiguration(new FirstPersonConfiguration(true, true, true, true)));
-            }
-        }
-    }
-
     public void playBeamSound(Level level, Player user) {
         level.playSound(user, user.getX(), user.getY(), user.getZ(), SoundInit.ARCLUME.get(), SoundSource.PLAYERS, 0.5F, 0.9F + (user.getRandom().nextFloat() * 0.9F));
-    }
-
-    public static void addVisualEffect(Level level, Player user, Vec3 start, Vec3 hitPos) {
-        EffectUtil.lineEffect(level, new SparkParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 0.5F, 3, 0), start, hitPos, 2, false);
-            level.addParticle(new ZapParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F),
-                            start.toVector3f(), 1.0F, 1, 0),
-                    hitPos.x, hitPos.y, hitPos.z, 0, 0, 0);
-        level.addParticle(new BeamParticleEffect(new Vector3f(0.15F, 0.15F, 0.2F), new Vector3f(0.1F, 0.1F, 0.2F), start.toVector3f(), 0.5F, 1, 1), hitPos.x, hitPos.y, hitPos.z, 0, 0, 0);
     }
 
     @Override

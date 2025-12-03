@@ -35,10 +35,7 @@ import net.stln.magitech.magic.cooldown.CooldownData;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.network.TraitTickPayload;
-import net.stln.magitech.util.ComponentHelper;
-import net.stln.magitech.util.CuriosHelper;
-import net.stln.magitech.util.MathUtil;
-import net.stln.magitech.util.TextUtil;
+import net.stln.magitech.util.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -248,7 +245,9 @@ public abstract class SpellCasterItem extends PartToolItem {
 
     @Override
     public void addStatsHoverText(@NotNull ItemStack stack, List<Component> tooltipComponents) {
-        ToolStats finalStats = getSumStatsWithoutConditional(stack);
+        Player player = ClientHelper.getPlayer();
+        if (player == null) return;
+        ToolStats finalStats = getSumStats(player, player.level(), stack);
         setTier(stack, finalStats);
         Map<String, Float> mod = ToolMaterialRegister.getModStats(this.getToolType()).getStats();
 

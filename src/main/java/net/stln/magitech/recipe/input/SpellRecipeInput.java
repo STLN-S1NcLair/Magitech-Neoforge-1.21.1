@@ -12,6 +12,11 @@ public record SpellRecipeInput(ItemStack item, Spell spell) implements RecipeInp
     }
 
     @Override
+    public boolean isEmpty() {
+        return item.isEmpty();
+    }
+
+    @Override
     public int size() {
         return 0;
     }

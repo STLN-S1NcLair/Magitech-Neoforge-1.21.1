@@ -4,7 +4,6 @@ import net.minecraft.core.Holder;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
-import net.stln.magitech.Magitech;
 import net.stln.magitech.entity.mob_effect.MobEffectInit;
 
 public class TraitMobEffectHelper {
@@ -92,7 +91,6 @@ public class TraitMobEffectHelper {
             amplifier -= 1;
         }
         amplifier = Math.min(amplifier, maxAmplifier);
-        Magitech.LOGGER.debug("Extending effect {} to amplifier {} for duration {}", effectHolder.value().getDescriptionId(), amplifier, duration);
         entity.addEffect(new MobEffectInstance(effectHolder, duration, amplifier));
     }
 

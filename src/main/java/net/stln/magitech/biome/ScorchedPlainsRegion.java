@@ -7,7 +7,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.biome.Climate;
-import terrablender.api.*;
+import terrablender.api.ModifiedVanillaOverworldBuilder;
+import terrablender.api.Region;
+import terrablender.api.RegionType;
 
 import java.util.function.Consumer;
 

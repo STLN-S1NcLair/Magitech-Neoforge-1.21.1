@@ -38,17 +38,16 @@ public class ToolRepairingMenu extends AbstractContainerMenu {
     private static final int INV_SLOT_END = 37;
     private static final int USE_ROW_SLOT_START = 37;
     private static final int USE_ROW_SLOT_END = 46;
-    private final ResultContainer resultSlots = new ResultContainer();    private final Container inputSlots = new SimpleContainer(3) {
+    private final ResultContainer resultSlots = new ResultContainer();
+    private final ContainerLevelAccess access;
+    private final Player player;    private final Container inputSlots = new SimpleContainer(3) {
         @Override
         public void setChanged() {
             super.setChanged();
             ToolRepairingMenu.this.slotsChanged(this);
         }
     };
-    private final ContainerLevelAccess access;
-    private final Player player;
     private final Level level;
-    private boolean placingRecipe;
     public ToolRepairingMenu(int containerId, Inventory playerInventory) {
         this(containerId, playerInventory, ContainerLevelAccess.NULL);
     }
@@ -101,10 +100,20 @@ public class ToolRepairingMenu extends AbstractContainerMenu {
             SingleRecipeInput input = new SingleRecipeInput(recipeInput.getItem(1));
             AtomicBoolean isRepairable = new AtomicBoolean(false);
             ItemStack stack1 = stack;
+
+//            Magitech.LOGGER.debug("Attempting to find tool material recipe for input: " + input.getItem(0));
+//            Magitech.LOGGER.debug("With tool to repair: " + stack1);
+//            Magitech.LOGGER.debug("And repair component: " + recipeInput.getItem(2));
+//            Magitech.LOGGER.debug("Input: " + input);
+//            Optional<RecipeHolder<ToolMaterialRecipe>> recipeFor = level.getRecipeManager().getRecipeFor(RecipeInit.TOOL_MATERIAL_TYPE.get(), input, level);
+//            Magitech.LOGGER.debug("Recipe: " + recipeFor);
+//            Magitech.LOGGER.debug("IsMatch: " + recipeFor.map(holder -> holder.value().matches(input, level)).orElse(false));
+//            Magitech.LOGGER.debug("IsEmpty: " + input.isEmpty());
+
             level.getRecipeManager()
                     .getRecipeFor(RecipeInit.TOOL_MATERIAL_TYPE.get(), input, level)
                     .ifPresent(holder -> {
-                        if (!recipeInput.getItem(2).is(ItemTagKeys.REPAIR_COMPONENT)) {
+                        if (recipeInput.getItem(2).is(ItemTagKeys.REPAIR_COMPONENT)) {
                             var recipe = holder.value();
                             if (resultSlots.setRecipeUsed(level, serverPlayer, holder)) {
                                 ToolMaterial toolMaterial = recipe.getToolMaterial();
@@ -158,9 +167,7 @@ public class ToolRepairingMenu extends AbstractContainerMenu {
      */
     @Override
     public void slotsChanged(@NotNull Container inventory) {
-        if (!this.placingRecipe) {
-            this.access.execute((p_344363_, p_344364_) -> slotChangedCraftingGrid(this, p_344363_, this.player, this.inputSlots, this.resultSlots));
-        }
+        this.access.execute((p_344363_, p_344364_) -> slotChangedCraftingGrid(this, p_344363_, this.player, this.inputSlots, this.resultSlots));
     }
 
     /**
@@ -253,6 +260,8 @@ public class ToolRepairingMenu extends AbstractContainerMenu {
     public boolean canTakeItemForPickAll(@NotNull ItemStack stack, Slot slot) {
         return slot.container != this.resultSlots && super.canTakeItemForPickAll(stack, slot);
     }
+
+
 
 
 }

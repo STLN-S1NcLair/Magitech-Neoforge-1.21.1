@@ -11,9 +11,6 @@ import dev.kosmx.playerAnim.core.util.Ease;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
 import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.core.BlockPos;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -21,7 +18,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.BedBlock;
 import net.minecraft.world.level.portal.DimensionTransition;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.Magitech;
@@ -39,7 +35,6 @@ import org.joml.Vector3f;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 public class Tenebport extends Spell {
 
@@ -101,7 +96,7 @@ public class Tenebport extends Spell {
                 }
 
                 level.playSound(user, userPos.x, userPos.y, userPos.z, SoundInit.TENEBPORT.get(), SoundSource.PLAYERS, 1.0F, 0.7F + (user.getRandom().nextFloat() * 0.6F));
-                TickScheduler.schedule(1, () -> {
+                TickScheduler.schedule(2, () -> {
                     Vec3 newPos = user.position();
                     Vec3 newAbove = newPos.add(0, 10, 0);
                     EffectUtil.lineEffect(level, new VoidGlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0), newPos, newAbove, 4, false);

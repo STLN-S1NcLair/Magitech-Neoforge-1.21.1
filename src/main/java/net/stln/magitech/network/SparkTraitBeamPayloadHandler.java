@@ -1,15 +1,9 @@
 package net.stln.magitech.network;
 
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
-import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import net.stln.magitech.item.tool.trait.SparkTrait;
-import net.stln.magitech.util.CuriosHelper;
-import net.stln.magitech.util.ToolBeltHelper;
 
 import java.util.Objects;
 

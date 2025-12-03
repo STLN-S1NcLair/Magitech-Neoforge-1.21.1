@@ -78,7 +78,6 @@ public class BlockBreakEvent {
             finalBlockList.forEach(pos1 -> {
                 final boolean[] flag = {true};
                 traitMap.forEach((trait, value) -> {
-                    Magitech.LOGGER.debug("Trait : " + trait.getName() + " breaking block at " + pos1);
                     if (pos1 != pos) {
                         BreakBlockPayload payload = new BreakBlockPayload(pos1, pos, player.getUUID(), trait.emitEffect(player, event.getPlayer().level(), tool, value, partToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getLevel().getBlockState(pos1), pos1, 1, false), flag[0]);
                         PacketDistributor.sendToAllPlayers(payload);

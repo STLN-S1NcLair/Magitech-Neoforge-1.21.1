@@ -13,6 +13,7 @@ public final class MagitechRegistries {
     public static final Registry<Spell> SPELL = new RegistryBuilder<>(Keys.SPELL).sync(true).create();
     public static final Registry<ToolMaterial> TOOL_MATERIAL = new RegistryBuilder<>(Keys.TOOL_MATERIAL).sync(true).create();
     public static final Registry<FluidContainerMatcher> FLUID_CONTAINER_MATCHER = new RegistryBuilder<>(Keys.FLUID_CONTAINER_MATCHER).sync(true).create();
+
     private MagitechRegistries() {
     }
 
@@ -29,6 +30,7 @@ public final class MagitechRegistries {
         public static final ResourceKey<? extends Registry<Spell>> SPELL = ResourceKey.createRegistryKey(Magitech.id("spell"));
         public static final ResourceKey<? extends Registry<ToolMaterial>> TOOL_MATERIAL = ResourceKey.createRegistryKey(Magitech.id("tool_material"));
         public static final ResourceKey<? extends Registry<FluidContainerMatcher>> FLUID_CONTAINER_MATCHER = ResourceKey.createRegistryKey(Magitech.id("alchemical_flask_containable"));
+
         private Keys() {
         }
     }

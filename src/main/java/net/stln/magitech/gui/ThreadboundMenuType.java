@@ -93,7 +93,7 @@ public class ThreadboundMenuType extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(@NotNull Player player) {
-        return CuriosHelper.getThreadBoundStack(player).isPresent();
+        return CuriosHelper.getThreadBoundStack(player).isPresent() || player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof ThreadBoundItem || player.getItemInHand(InteractionHand.OFF_HAND).getItem() instanceof ThreadBoundItem;
     }
 
     private void addInventory(Inventory playerInventory) {

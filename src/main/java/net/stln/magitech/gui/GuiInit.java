@@ -25,7 +25,7 @@ public class GuiInit {
 
     private static <T extends AbstractContainerMenu> Supplier<MenuType<T>> register(String name, MenuType.MenuSupplier<T> supplier) {
         return REGISTER.register(name, () -> new MenuType<>(supplier, FeatureFlags.VANILLA_SET));
-    }    public static final Supplier<MenuType<PartCuttingMenu>> PART_CUTTING_MENU = register("part_cutting_menu", PartCuttingMenu::new);
+    }
 
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
@@ -33,7 +33,7 @@ public class GuiInit {
         event.registerAboveAll(Magitech.id("mana_gauge"), new ManaGaugeOverlay());
         event.registerAboveAll(Magitech.id("spell_gauge"), new SpellGaugeOverlay());
         event.registerAboveAll(Magitech.id("mana_container_info"), new ManaContainerInfoOverlay());
-    }    public static final Supplier<MenuType<ToolAssemblyMenu>> TOOL_ASSEMBLY_MENU = register("tool_assembly_menu", ToolAssemblyMenu::new);
+    }
 
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
@@ -43,20 +43,22 @@ public class GuiInit {
         event.register(TOOL_REPAIRING_MENU.get(), ToolRepairingScreen::new);
         event.register(TOOL_UPGRADE_MENU.get(), ToolUpgradeScreen::new);
         event.register(THREADBOUND_MENU.get(), ThreadboundScreen::new);
-    }    public static final Supplier<MenuType<ToolRepairingMenu>> TOOL_REPAIRING_MENU = register("tool_repairing_menu", ToolRepairingMenu::new);
+    }    public static final Supplier<MenuType<PartCuttingMenu>> PART_CUTTING_MENU = register("part_cutting_menu", PartCuttingMenu::new);
 
     public static void registerMenus(IEventBus eventBus) {
         REGISTER.register(eventBus);
-    }    public static final Supplier<MenuType<ToolUpgradeMenu>> TOOL_UPGRADE_MENU = register("tool_upgrade_menu", ToolUpgradeMenu::new);
+    }
+
+
+
+    public static final Supplier<MenuType<ToolAssemblyMenu>> TOOL_ASSEMBLY_MENU = register("tool_assembly_menu", ToolAssemblyMenu::new);
+
+
+    public static final Supplier<MenuType<ToolRepairingMenu>> TOOL_REPAIRING_MENU = register("tool_repairing_menu", ToolRepairingMenu::new);
+
+
+    public static final Supplier<MenuType<ToolUpgradeMenu>> TOOL_UPGRADE_MENU = register("tool_upgrade_menu", ToolUpgradeMenu::new);
     public static final Supplier<MenuType<ThreadboundMenuType>> THREADBOUND_MENU = register("threadbound_menu", ThreadboundMenuType::new);
-
-
-
-
-
-
-
-
 
 
 }

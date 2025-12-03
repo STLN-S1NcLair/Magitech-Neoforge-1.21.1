@@ -1,13 +1,11 @@
 package net.stln.magitech.item.tool.trait;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
 import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.particle.particle_option.PowerupParticleEffect;
 import net.stln.magitech.util.EffectUtil;
@@ -27,7 +25,9 @@ public class BrillianceTrait extends Trait {
             Map<String, Float> modified = new HashMap<>(aDefault.getStats());
             float mul = traitLevel * 0.25F;
             Float swp = stats.getStats().get(ToolStats.SWP_STAT);
+            Float min = stats.getStats().get(ToolStats.MIN_STAT);
             modified.put(ToolStats.SWP_STAT, swp * mul);
+            modified.put(ToolStats.MIN_STAT, min * mul);
             return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
         }
         return super.modifyStatsConditional1(player, level, stack, traitLevel, stats);
@@ -48,18 +48,6 @@ public class BrillianceTrait extends Trait {
             return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
         }
         return super.modifySpellCasterStatsConditional1(player, level, stack, traitLevel, stats);
-    }
-
-    @Override
-    public float modifyMiningSpeed(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos) {
-        level.updateSkyBrightness();
-        int light = level.getMaxLocalRawBrightness(player.blockPosition());
-        if (light >= 10) {
-            float mul = traitLevel * 0.25F;
-            Float min = stats.getStats().get(ToolStats.MIN_STAT);
-            return min * mul;
-        }
-        return super.modifyMiningSpeed(player, level, stack, traitLevel, stats, blockState, pos);
     }
 
     @Override

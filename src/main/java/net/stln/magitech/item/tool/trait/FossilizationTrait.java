@@ -1,11 +1,9 @@
 package net.stln.magitech.item.tool.trait;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
 import net.stln.magitech.item.tool.ToolStats;
 import net.stln.magitech.particle.particle_option.PowerupParticleEffect;
 import net.stln.magitech.util.EffectUtil;
@@ -24,6 +22,8 @@ public class FossilizationTrait extends Trait {
             float mul = traitLevel * 0.8F;
             Float atk = stats.getStats().get(ToolStats.ATK_STAT);
             modified.put(ToolStats.ATK_STAT, atk * mul);
+            Float min = stats.getStats().get(ToolStats.MIN_STAT);
+            modified.put(ToolStats.MIN_STAT, min * mul);
             return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
         }
         return super.modifyStatsConditional1(player, level, stack, traitLevel, stats);
@@ -42,16 +42,6 @@ public class FossilizationTrait extends Trait {
             return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
         }
         return super.modifySpellCasterStatsConditional1(player, level, stack, traitLevel, stats);
-    }
-
-    @Override
-    public float modifyMiningSpeed(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos) {
-        if (player.getHealth() < player.getMaxHealth() / 2) {
-            float mul = traitLevel * 1.0F;
-            Float min = stats.getStats().get(ToolStats.MIN_STAT);
-            return min * mul;
-        }
-        return super.modifyMiningSpeed(player, level, stack, traitLevel, stats, blockState, pos);
     }
 
     @Override
