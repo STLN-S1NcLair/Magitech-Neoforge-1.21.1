@@ -62,7 +62,7 @@ public record ZardiusCrucibleRecipe(String group, List<Ingredient> ingredients, 
 
     @Override
     public @NotNull ItemStack assemble(@NotNull CrucibleRecipeInput input, HolderLookup.@NotNull Provider registries) {
-        return getResultItem(registries);
+        return getResultItem(registries).copy();
     }
 
     @Override
@@ -77,7 +77,7 @@ public record ZardiusCrucibleRecipe(String group, List<Ingredient> ingredients, 
 
     @Override
     public @NotNull ItemStack getResultItem(HolderLookup.@NotNull Provider registries) {
-        return result.orElse(ItemStack.EMPTY);
+        return result.orElse(ItemStack.EMPTY).copy();
     }
 
     @Override

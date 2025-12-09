@@ -132,7 +132,7 @@ public class ZardiusCrucibleBlockEntity extends BlockEntity {
                 } else {
                     ItemStack result = recipe.assemble(input, level.registryAccess());
                     this.fluidTank.drain(requiredAmount, IFluidHandler.FluidAction.EXECUTE);
-                    recipe.resultFluid().ifPresent(fluidStack -> this.fluidTank.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE));
+                    recipe.resultFluid().ifPresent(fluidStack -> this.fluidTank.fill(fluidStack.copy(), IFluidHandler.FluidAction.EXECUTE));
                     this.clearContents();
                     this.addItemStack(result, result.getCount());
                     this.craftingTime = 0;
