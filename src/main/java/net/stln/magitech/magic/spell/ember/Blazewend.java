@@ -85,11 +85,11 @@ public class Blazewend extends Spell {
                 level.playSound(user, user.getX(), user.getY(), user.getZ(), SoundInit.BLAZEWEND.get(), SoundSource.PLAYERS, 1.0F, 0.7F + (user.getRandom().nextFloat() * 0.6F));
                 for (int j = 0; j < 10; j++) {
                     level.addParticle(new FlameParticleEffect(new Vector3f(1), new Vector3f(1),
-                                    5F, 1, 0.3F), offset.x + (user.getRandom().nextFloat() - 0.5) / 4, offset.y + (user.getRandom().nextFloat() - 0.5) / 4, offset.z + (user.getRandom().nextFloat() - 0.5) / 4,
+                                    5F, 1, 0.3F, level.random.nextInt(5, 8), 0.9F), offset.x + (user.getRandom().nextFloat() - 0.5) / 4, offset.y + (user.getRandom().nextFloat() - 0.5) / 4, offset.z + (user.getRandom().nextFloat() - 0.5) / 4,
                             back.x * 0.75 + (user.getRandom().nextFloat() - 0.5) / 2, back.y * 0.75 + (user.getRandom().nextFloat() - 0.5) / 2, back.z * 0.75 + (user.getRandom().nextFloat() - 0.5) / 2);
                 }
                 for (Entity entity : nearbyEntities) {
-                    EffectUtil.entityEffect(level, new FlameParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0), entity, 30);
+                    EffectUtil.entityEffect(level, new FlameParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0, level.random.nextInt(5, 8), 0.9F), entity, 30);
                     if (entity instanceof LivingEntity && entity.isAlive()) {
                         this.applyDamage(baseDamage, this.getRequiredMana(level, user, stack), this.getElement(), stack, user, entity);
                         entity.setRemainingFireTicks(Math.min(200, entity.getRemainingFireTicks() + 100));

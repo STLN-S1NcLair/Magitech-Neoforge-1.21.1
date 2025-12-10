@@ -83,16 +83,16 @@ public class Nymphora extends Spell {
         if (livingEntity instanceof Player user) {
             if (ChargeData.getCurrentCharge(user) == null && timeCharged > 1 && ManaUtil.useManaServerOnly(user, this.getRequiredMana(level, user, stack))) {
                 Vec3 userPos = user.position();
-                level.addParticle(new SquareFieldParticleEffect(new Vector3f(0.7F, 1.0F, 0.0F), new Vector3f(0.9F, 1.0F, 0.0F), 1.0F, 1, 0), user.getX(), user.getY() + 0.1, user.getZ(), 0, 0, 0);
+                level.addParticle(new SquareFieldParticleEffect(new Vector3f(0.7F, 1.0F, 0.0F), new Vector3f(0.9F, 1.0F, 0.0F), 1.0F, 1, 0, 15, 1.0F), user.getX(), user.getY() + 0.1, user.getZ(), 0, 0, 0);
                 for (int i = 0; i < 20; i++) {
-                    level.addParticle(new BlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0),
+                    level.addParticle(new BlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0, level.random.nextInt(10, 30), 0.87F),
                             userPos.x, userPos.y, userPos.z, (user.getRandom().nextFloat() - 0.5) / 6, (user.getRandom().nextFloat() - 0.5) / 6 + 0.1, (user.getRandom().nextFloat() - 0.5) / 6);
-                    level.addParticle(new SquareParticleEffect(new Vector3f(0.7F, 1.0F, 0.0F), new Vector3f(0.9F, 1.0F, 0.0F), 1.0F, user.getRandom().nextInt(5, 7), (float) ((user.getRandom().nextFloat() - 0.5) / 10)),
+                    level.addParticle(new SquareParticleEffect(new Vector3f(0.7F, 1.0F, 0.0F), new Vector3f(0.9F, 1.0F, 0.0F), 1.0F, user.getRandom().nextInt(5, 7), (float) ((user.getRandom().nextFloat() - 0.5) / 10), 15, 1.0F),
                             userPos.x, userPos.y, userPos.z, (user.getRandom().nextFloat() - 0.5) / 6, (user.getRandom().nextFloat() - 0.5) / 6 + 0.1, (user.getRandom().nextFloat() - 0.5) / 6);
                 }
-                EffectUtil.entityEffect(level, () -> new SquareParticleEffect(new Vector3f(0.7F, 1.0F, 0.0F), new Vector3f(0.9F, 1.0F, 0.0F), 0.75F, user.getRandom().nextInt(5, 7), (float) ((user.getRandom().nextFloat() - 0.5) / 10)),
+                EffectUtil.entityEffect(level, () -> new SquareParticleEffect(new Vector3f(0.7F, 1.0F, 0.0F), new Vector3f(0.9F, 1.0F, 0.0F), 0.75F, user.getRandom().nextInt(5, 7), (float) ((user.getRandom().nextFloat() - 0.5) / 10), 15, 1.0F),
                         () -> new Vec3(0, user.getRandom().nextFloat() / 8, 0), user, 10);
-                EffectUtil.entityEffect(level, () -> new BlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 0, 0),
+                EffectUtil.entityEffect(level, () -> new BlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 0, 0, level.random.nextInt(10, 30), 0.87F),
                         () -> new Vec3(0, user.getRandom().nextFloat() / 8, 0), user, 10);
 
                 level.playSound(user, userPos.x, userPos.y, userPos.z, SoundInit.NYMPHORA.get(), SoundSource.PLAYERS, 1.0F, 0.7F + (user.getRandom().nextFloat() * 0.6F));

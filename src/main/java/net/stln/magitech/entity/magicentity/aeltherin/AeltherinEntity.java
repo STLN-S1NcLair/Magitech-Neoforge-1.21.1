@@ -73,7 +73,7 @@ public class AeltherinEntity extends SpellProjectileEntity {
                 double vx = deltaMovement.x / 4;
                 double vy = deltaMovement.y / 4;
                 double vz = deltaMovement.z / 4;
-                world.addParticle(new BlowParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed), x, y, z, vx, vy, vz);
+                world.addParticle(new BlowParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed, level().random.nextInt(10, 30), 0.87F), x, y, z, vx, vy, vz);
             }
         } else {
             this.addDeltaMovement(this.getDeltaMovement().scale(0.3));
@@ -156,7 +156,7 @@ public class AeltherinEntity extends SpellProjectileEntity {
                 double vz = (random.nextFloat() - 0.5) / 6;
                 Vector3f endPos = this.position().add(new Vec3(this.random.nextFloat() * 4 - 2, this.random.nextFloat() * 4 - 2, this.random.nextFloat() * 4 - 2)).toVector3f();
 
-                world.addParticle(new BlowParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed), x, y, z, vx, vy, vz);
+                world.addParticle(new BlowParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed, level().random.nextInt(10, 30), 0.87F), x, y, z, vx, vy, vz);
             }
         }
     }

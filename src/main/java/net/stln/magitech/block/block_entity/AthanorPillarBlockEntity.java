@@ -142,74 +142,74 @@ public class AthanorPillarBlockEntity extends BlockEntity {
         boolean topFlag3 = hasItemInInventory(level, posTop3);
         boolean topFlag4 = hasItemInInventory(level, posTop4);
         if (bottomFlag1) {
-            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, bottom1, 1.0F, 1, 0), vessel1.x, vessel1.y, vessel1.z, 0, 0, 0), 0.3F);
-            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, bottom1, 1.0F, 1, 0), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, bottom1, 1.0F, 1, 0, level.random.nextInt(2, 5), 1F), vessel1.x, vessel1.y, vessel1.z, 0, 0, 0), 0.3F);
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, bottom1, 1.0F, 1, 0, level.random.nextInt(2, 5), 1F), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
             itemParticle(level, random, posBottom1);
         } else {
-            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, vessel1, 1.0F, 1, 0), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, vessel1, 1.0F, 1, 0, level.random.nextInt(2, 5), 1F), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
         }
         if (bottomFlag2) {
-            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, bottom2, 1.0F, 1, 0), vessel2.x, vessel2.y, vessel2.z, 0, 0, 0), 0.3F);
-            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, bottom2, 1.0F, 1, 0), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, bottom2, 1.0F, 1, 0, level.random.nextInt(2, 5), 1F), vessel2.x, vessel2.y, vessel2.z, 0, 0, 0), 0.3F);
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, bottom2, 1.0F, 1, 0, level.random.nextInt(2, 5), 1F), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
             itemParticle(level, random, posBottom2);
         } else {
-            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, vessel2, 1.0F, 1, 0), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, vessel2, 1.0F, 1, 0, level.random.nextInt(2, 5), 1F), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
         }
         if (bottomFlag3) {
-            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, bottom3, 1.0F, 1, 0), vessel3.x, vessel3.y, vessel3.z, 0, 0, 0), 0.3F);
-            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, bottom3, 1.0F, 1, 0), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, bottom3, 1.0F, 1, 0, level.random.nextInt(2, 5), 1F), vessel3.x, vessel3.y, vessel3.z, 0, 0, 0), 0.3F);
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, bottom3, 1.0F, 1, 0, level.random.nextInt(2, 5), 1F), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
             itemParticle(level, random, posBottom3);
         } else {
-            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, vessel3, 1.0F, 1, 0), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, vessel3, 1.0F, 1, 0, level.random.nextInt(2, 5), 1F), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
         }
         if (bottomFlag4) {
-            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, bottom4, 1.0F, 1, 0), vessel4.x, vessel4.y, vessel4.z, 0, 0, 0), 0.3F);
-            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, bottom4, 1.0F, 1, 0), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, bottom4, 1.0F, 1, 0, level.random.nextInt(2, 5), 1F), vessel4.x, vessel4.y, vessel4.z, 0, 0, 0), 0.3F);
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, bottom4, 1.0F, 1, 0, level.random.nextInt(2, 5), 1F), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
             itemParticle(level, random, posBottom4);
         } else {
-            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, vessel4, 1.0F, 1, 0), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, vessel4, 1.0F, 1, 0, level.random.nextInt(2, 5), 1F), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
         }
         if (midFlag1) {
-            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, mid1, 1.0F, 1, 0), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
-            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, mid1, 1.0F, 1, 0), vessel5.x, vessel5.y, vessel5.z, 0, 0, 0), 0.3F);
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, mid1, 1.0F, 1, 0, level.random.nextInt(2, 5), 1F), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, mid1, 1.0F, 1, 0, level.random.nextInt(2, 5), 1F), vessel5.x, vessel5.y, vessel5.z, 0, 0, 0), 0.3F);
             itemParticle(level, random, posMid1);
         }
         if (midFlag2) {
-            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, mid2, 1.0F, 1, 0), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
-            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, mid2, 1.0F, 1, 0), vessel5.x, vessel5.y, vessel5.z, 0, 0, 0), 0.3F);
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, mid2, 1.0F, 1, 0, level.random.nextInt(2, 5), 1F), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, mid2, 1.0F, 1, 0, level.random.nextInt(2, 5), 1F), vessel5.x, vessel5.y, vessel5.z, 0, 0, 0), 0.3F);
             itemParticle(level, random, posMid2);
         }
         if (midFlag3) {
-            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, mid3, 1.0F, 1, 0), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
-            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, mid3, 1.0F, 1, 0), vessel5.x, vessel5.y, vessel5.z, 0, 0, 0), 0.3F);
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, mid3, 1.0F, 1, 0, level.random.nextInt(2, 5), 1F), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, mid3, 1.0F, 1, 0, level.random.nextInt(2, 5), 1F), vessel5.x, vessel5.y, vessel5.z, 0, 0, 0), 0.3F);
             itemParticle(level, random, posMid3);
         }
         if (midFlag4) {
-            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, mid4, 1.0F, 1, 0), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
-            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, mid4, 1.0F, 1, 0), vessel5.x, vessel5.y, vessel5.z, 0, 0, 0), 0.3F);
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, mid4, 1.0F, 1, 0, level.random.nextInt(2, 5), 1F), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, mid4, 1.0F, 1, 0, level.random.nextInt(2, 5), 1F), vessel5.x, vessel5.y, vessel5.z, 0, 0, 0), 0.3F);
             itemParticle(level, random, posMid4);
         }
         if (topFlag1) {
-            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, top1, 1.0F, 1, 0), vessel1.x, vessel1.y, vessel1.z, 0, 0, 0), 0.3F);
-            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, top1, 1.0F, 1, 0), vessel5.x, vessel5.y, vessel5.z, 0, 0, 0), 0.3F);
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, top1, 1.0F, 1, 0, level.random.nextInt(2, 5), 1F), vessel1.x, vessel1.y, vessel1.z, 0, 0, 0), 0.3F);
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, top1, 1.0F, 1, 0, level.random.nextInt(2, 5), 1F), vessel5.x, vessel5.y, vessel5.z, 0, 0, 0), 0.3F);
             itemParticle(level, random, posTop1);
         }
         if (topFlag2) {
-            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, top2, 1.0F, 1, 0), vessel2.x, vessel2.y, vessel2.z, 0, 0, 0), 0.3F);
-            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, top2, 1.0F, 1, 0), vessel5.x, vessel5.y, vessel5.z, 0, 0, 0), 0.3F);
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, top2, 1.0F, 1, 0, level.random.nextInt(2, 5), 1F), vessel2.x, vessel2.y, vessel2.z, 0, 0, 0), 0.3F);
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, top2, 1.0F, 1, 0, level.random.nextInt(2, 5), 1F), vessel5.x, vessel5.y, vessel5.z, 0, 0, 0), 0.3F);
             itemParticle(level, random, posTop2);
         }
         if (topFlag3) {
-            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, top3, 1.0F, 1, 0), vessel3.x, vessel3.y, vessel3.z, 0, 0, 0), 0.3F);
-            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, top3, 1.0F, 1, 0), vessel5.x, vessel5.y, vessel5.z, 0, 0, 0), 0.3F);
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, top3, 1.0F, 1, 0, level.random.nextInt(2, 5), 1F), vessel3.x, vessel3.y, vessel3.z, 0, 0, 0), 0.3F);
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, top3, 1.0F, 1, 0, level.random.nextInt(2, 5), 1F), vessel5.x, vessel5.y, vessel5.z, 0, 0, 0), 0.3F);
             itemParticle(level, random, posTop3);
         }
         if (topFlag4) {
-            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, top4, 1.0F, 1, 0), vessel4.x, vessel4.y, vessel4.z, 0, 0, 0), 0.3F);
-            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, top4, 1.0F, 1, 0), vessel5.x, vessel5.y, vessel5.z, 0, 0, 0), 0.3F);
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, top4, 1.0F, 1, 0, level.random.nextInt(2, 5), 1F), vessel4.x, vessel4.y, vessel4.z, 0, 0, 0), 0.3F);
+            randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, top4, 1.0F, 1, 0, level.random.nextInt(2, 5), 1F), vessel5.x, vessel5.y, vessel5.z, 0, 0, 0), 0.3F);
             itemParticle(level, random, posTop4);
         }
-        randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, vessel5, 1.0F, 1, 0), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
+        randomParticle(random, () -> level.addAlwaysVisibleParticle(new ManaZapParticleEffect(color, color, vessel5, 1.0F, 1, 0, level.random.nextInt(2, 5), 1F), vec3.x, vec3.y + 1, vec3.z, 0, 0, 0), 0.3F);
         itemParticle(level, random, pillar);
         nodeParticle(level, random, vessel1);
         nodeParticle(level, random, vessel2);
@@ -234,14 +234,14 @@ public class AthanorPillarBlockEntity extends BlockEntity {
             double x = center.x + Mth.nextDouble(random, -0.4, 0.4);
             double y = center.y + 0.3;
             double z = center.z + Mth.nextDouble(random, -0.4, 0.4);
-            level.addParticle(new SquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 0.5F, 2, Mth.nextFloat(random, -0.1F, 0.1F)),
+            level.addParticle(new SquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 0.5F, 2, Mth.nextFloat(random, -0.1F, 0.1F), 15, 1.0F),
                     x, y, z, (x - center.x) / 40, Mth.nextDouble(random, 0, 0.075), (z - center.z) / 40);
         }
         for (int i = 0; i < 3; i++) {
             double x = center.x + Mth.nextDouble(random, -0.2, 0.2);
             double y = center.y + 0.4 + Mth.nextDouble(random, -0.2, 0.2);
             double z = center.z + Mth.nextDouble(random, -0.2, 0.2);
-            level.addParticle(new SquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 1F, 3, 0),
+            level.addParticle(new SquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 1F, 3, 0, 15, 1.0F),
                     x, y, z, 0, 0, 0);
         }
     }
@@ -252,14 +252,14 @@ public class AthanorPillarBlockEntity extends BlockEntity {
             double y = blockPos.y;
             double z = blockPos.z + Mth.nextDouble(random, -0.2, 0.2);
             BlockState blockState = level.getBlockState(BlockPos.containing(blockPos.x, blockPos.y, blockPos.z));
-            level.addParticle(new SquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 0.5F, 2, Mth.nextFloat(random, -0.1F, 0.1F)),
+            level.addParticle(new SquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 0.5F, 2, Mth.nextFloat(random, -0.1F, 0.1F), 15, 1.0F),
                     x, y, z, (x - blockPos.x) / 40, Mth.nextDouble(random, 0, 0.075) * (blockState.hasProperty(ManaNodeBlock.FACING) ? blockState.getValue(ManaNodeBlock.FACING).getStepY() : 1), (z - blockPos.z) / 40);
         }
         for (int i = 0; i < 3; i++) {
             double x = blockPos.x + Mth.nextDouble(random, -0.2, 0.2);
             double y = blockPos.y + Mth.nextDouble(random, -0.2, 0.2);
             double z = blockPos.z + Mth.nextDouble(random, -0.2, 0.2);
-            level.addParticle(new SquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 1F, 3, 0),
+            level.addParticle(new SquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 1F, 3, 0, 15, 1.0F),
                     x, y, z, 0, 0, 0);
         }
     }
@@ -359,19 +359,19 @@ public class AthanorPillarBlockEntity extends BlockEntity {
                 double x = center.x + Mth.nextDouble(random, -0.6, 0.6);
                 double y = center.y + Mth.nextDouble(random, -0.6, 0.6);
                 double z = center.z + Mth.nextDouble(random, -0.6, 0.6);
-                level.addParticle(new SquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 1.0F, 3, 0), x, y, z, 0, 0, 0);
+                level.addParticle(new SquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 1.0F, 3, 0, 15, 1.0F), x, y, z, 0, 0, 0);
             }
             for (int i = 0; i < 3; i++) {
                 double x = center.x + Mth.nextDouble(random, -0.2, 0.2);
                 double y = center.y + 0.5;
                 double z = center.z + Mth.nextDouble(random, -0.2, 0.2);
-                level.addParticle(new SquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 0.5F, 1, Mth.nextFloat(random, -0.1F, 0.1F)), x, y, z, 0, Mth.nextDouble(random, 0, 0.05), 0);
+                level.addParticle(new SquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 0.5F, 1, Mth.nextFloat(random, -0.1F, 0.1F), 15, 1.0F), x, y, z, 0, Mth.nextDouble(random, 0, 0.05), 0);
             }
             for (int i = 0; i < 3; i++) {
                 double x2 = center.x + Mth.nextDouble(random, -0.5, 0.5);
                 double y2 = center.y + Mth.nextDouble(random, -0.5, 0.5);
                 double z2 = center.z + Mth.nextDouble(random, -0.5, 0.5);
-                level.addParticle(new SquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 0.5F, 1, Mth.nextFloat(random, -0.1F, 0.1F)), x2, y2, z2, 0, 0.03, 0);
+                level.addParticle(new SquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 0.5F, 1, Mth.nextFloat(random, -0.1F, 0.1F), 15, 1.0F), x2, y2, z2, 0, 0.03, 0);
             }
             Vector3f color = new Vector3f(1.0F, 1.0F, 1.0F);
             if ((long) level.random.nextInt(100) <= level.getGameTime() % 100L) {
@@ -382,11 +382,11 @@ public class AthanorPillarBlockEntity extends BlockEntity {
                 double d3 = Mth.nextDouble(level.random, -0.2, 0.2);
                 double d4 = Mth.nextDouble(level.random, -0.2, 0.2);
                 double d5 = Mth.nextDouble(level.random, -0.2, 0.2);
-                level.addParticle(new UnstableSquareParticleEffect(new Vector3f(0.7F, 1.0F, 0.5F), new Vector3f(0.0F, 1.0F, 0.8F), 1.0F, 1, 0), d0, d1, d2, d3, d4, d5);
+                level.addParticle(new UnstableSquareParticleEffect(new Vector3f(0.7F, 1.0F, 0.5F), new Vector3f(0.0F, 1.0F, 0.8F), 1.0F, 1, 0, 15, 1.0F), d0, d1, d2, d3, d4, d5);
                 if (random.nextFloat() < 0.2) {
                     level.addParticle(new ManaZapParticleEffect(color, color,
                             new Vector3f((float) (Mth.nextFloat(level.random, -2F, 2F) + vec3.x), (float) (Mth.nextFloat(level.random, -2F, 2F) + vec3.y), (float) (Mth.nextFloat(level.random, -2F, 2F) + vec3.z)),
-                            1.0F, 2, 0), vec3.x, vec3.y, vec3.z, 0, 0, 0);
+                            1.0F, 2, 0, level.random.nextInt(2, 5), 1F), vec3.x, vec3.y, vec3.z, 0, 0, 0);
                 }
             }
             if (hasItemInInventory(level, pos) && state.getValue(AthanorPillarBlock.LIT) && random.nextBoolean()) {
@@ -407,7 +407,7 @@ public class AthanorPillarBlockEntity extends BlockEntity {
                 Vec3 v6 = v1.add(1, 1, 0);
                 Vec3 v7 = v1.add(1, 1, 1);
                 Vec3 v8 = v1.add(0, 1, 1);
-                SquareParticleEffect effect = new SquareParticleEffect(new Vector3f(1.0F, 0.0F, 0.0F), new Vector3f(1.0F, 0.0F, 0.0F), 1.0F, 1, 0);
+                SquareParticleEffect effect = new SquareParticleEffect(new Vector3f(1.0F, 0.0F, 0.0F), new Vector3f(1.0F, 0.0F, 0.0F), 1.0F, 1, 0, 15, 1.0F);
                 EffectUtil.lineEffect(level, effect, new Vec3(x, y, z), pos.getCenter(), 5, true);
 
                 EffectUtil.lineEffect(level, effect, v1, v2, 7, true);
@@ -443,8 +443,8 @@ public class AthanorPillarBlockEntity extends BlockEntity {
                 double d3 = Mth.nextDouble(level.random, -0.05, 0.05);
                 double d4 = Mth.nextDouble(level.random, -0.05, 0.05);
                 double d5 = Mth.nextDouble(level.random, -0.05, 0.05);
-                level.addParticle(new SquareParticleEffect(new Vector3f(0.7F, 1.0F, 0.5F), new Vector3f(0.0F, 1.0F, 0.8F), 1.0F, 2, 0), d0, d1, d2, d3, d4, d5);
-                level.addParticle(new SquareParticleEffect(new Vector3f(0.0F, 1.0F, 0.8F), new Vector3f(0.3F, 0.6F, 1.0F), 1.0F, 2, 0), d0, d1, d2, d3, d4, d5);
+                level.addParticle(new SquareParticleEffect(new Vector3f(0.7F, 1.0F, 0.5F), new Vector3f(0.0F, 1.0F, 0.8F), 1.0F, 2, 0, 15, 1.0F), d0, d1, d2, d3, d4, d5);
+                level.addParticle(new SquareParticleEffect(new Vector3f(0.0F, 1.0F, 0.8F), new Vector3f(0.3F, 0.6F, 1.0F), 1.0F, 2, 0, 15, 1.0F), d0, d1, d2, d3, d4, d5);
             }
         }
     }

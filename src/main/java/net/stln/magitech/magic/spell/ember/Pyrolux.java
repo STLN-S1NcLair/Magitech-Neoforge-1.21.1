@@ -73,10 +73,10 @@ public class Pyrolux extends BeamSpell {
 
     @Override
     protected void addVisualEffect(Level level, Player user, Vec3 start, Vec3 hitPos) {
-        EffectUtil.lineEffect(level, new FlameParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0), start, hitPos, 2, false);
-        level.addParticle(new BeamParticleEffect(new Vector3f(1.0F, 0.5F, 0.3F), new Vector3f(0.7F, 0.2F, 0.0F), hitPos.toVector3f(), 0.8F, 1, 1), start.x, start.y, start.z, 0, 0, 0);
+        EffectUtil.lineEffect(level, new FlameParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0, level.random.nextInt(5, 8), 0.9F), start, hitPos, 2, false);
+        level.addParticle(new BeamParticleEffect(new Vector3f(1.0F, 0.5F, 0.3F), new Vector3f(0.7F, 0.2F, 0.0F), hitPos.toVector3f(), 0.8F, 1, 1, 5, 1), start.x, start.y, start.z, 0, 0, 0);
         for (int i = 0; i < 20; i++) {
-            level.addParticle(new FlameParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0),
+            level.addParticle(new FlameParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0, level.random.nextInt(5, 8), 0.9F),
                     hitPos.x, hitPos.y, hitPos.z, (user.getRandom().nextFloat() - 0.5) / 3, (user.getRandom().nextFloat() - 0.5) / 3, (user.getRandom().nextFloat() - 0.5) / 3);
         }
     }

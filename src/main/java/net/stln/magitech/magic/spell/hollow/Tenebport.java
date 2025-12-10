@@ -88,10 +88,10 @@ public class Tenebport extends Spell {
                 Vec3 above = userPos.add(0, 10, 0);
 
 
-                EffectUtil.lineEffect(level, new VoidGlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0), userPos, above, 4, false);
-                level.addParticle(new BeamParticleEffect(new Vector3f(0.3F, 0.0F, 1.0F), new Vector3f(0.5F, 0.0F, 1.0F), above.toVector3f(), 5F, 1, 1), userPos.x, userPos.y - 0.5, userPos.z, 0, 0, 0);
+                EffectUtil.lineEffect(level, new VoidGlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0, level.random.nextInt(1, 21), 1.0F), userPos, above, 4, false);
+                level.addParticle(new BeamParticleEffect(new Vector3f(0.3F, 0.0F, 1.0F), new Vector3f(0.5F, 0.0F, 1.0F), above.toVector3f(), 5F, 1, 1, 5, 1), userPos.x, userPos.y - 0.5, userPos.z, 0, 0, 0);
                 for (int i = 0; i < 20; i++) {
-                    level.addParticle(new VoidGlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0),
+                    level.addParticle(new VoidGlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0, level.random.nextInt(1, 21), 1.0F),
                             userPos.x, userPos.y, userPos.z, (user.getRandom().nextFloat() - 0.5) / 3, (user.getRandom().nextFloat() - 0.5) / 3, (user.getRandom().nextFloat() - 0.5) / 3);
                 }
 
@@ -99,10 +99,10 @@ public class Tenebport extends Spell {
                 TickScheduler.schedule(2, () -> {
                     Vec3 newPos = user.position();
                     Vec3 newAbove = newPos.add(0, 10, 0);
-                    EffectUtil.lineEffect(level, new VoidGlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0), newPos, newAbove, 4, false);
-                    level.addParticle(new BeamParticleEffect(new Vector3f(0.3F, 0.0F, 1.0F), new Vector3f(0.5F, 0.0F, 1.0F), newAbove.toVector3f(), 5F, 1, 1), newPos.x, newPos.y - 0.5, newPos.z, 0, 0, 0);
+                    EffectUtil.lineEffect(level, new VoidGlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0, level.random.nextInt(1, 21), 1.0F), newPos, newAbove, 4, false);
+                    level.addParticle(new BeamParticleEffect(new Vector3f(0.3F, 0.0F, 1.0F), new Vector3f(0.5F, 0.0F, 1.0F), newAbove.toVector3f(), 5F, 1, 1, 5, 1), newPos.x, newPos.y - 0.5, newPos.z, 0, 0, 0);
                     for (int i = 0; i < 20; i++) {
-                        level.addParticle(new VoidGlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0),
+                        level.addParticle(new VoidGlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0, level.random.nextInt(1, 21), 1.0F),
                                 newPos.x, newPos.y, newPos.z, (user.getRandom().nextFloat() - 0.5) / 3, (user.getRandom().nextFloat() - 0.5) / 3, (user.getRandom().nextFloat() - 0.5) / 3);
                     }
 

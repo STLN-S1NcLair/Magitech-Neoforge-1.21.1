@@ -74,7 +74,7 @@ public class VoltarisEntity extends SpellProjectileEntity {
                 double vx = deltaMovement.x / 4;
                 double vy = deltaMovement.y / 4;
                 double vz = deltaMovement.z / 4;
-                world.addParticle(new SparkParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed), x, y, z, vx, vy, vz);
+                world.addParticle(new SparkParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed, level().random.nextInt(5, 15), 0.99F), x, y, z, vx, vy, vz);
             }
             Vec3 deltaMovement = this.getDeltaMovement();
             double x = this.getX();
@@ -84,7 +84,7 @@ public class VoltarisEntity extends SpellProjectileEntity {
             double vy = deltaMovement.y;
             double vz = deltaMovement.z;
             Vector3f endPos = this.position().add(0, this.getBbHeight() * 0.5, 0).add(new Vec3(this.random.nextFloat() * 2 - 1, this.random.nextFloat() * 2 - 1, this.random.nextFloat() * 2 - 1)).toVector3f();
-            world.addParticle(new ZapParticleEffect(fromColor, toColor, endPos, scale, twinkle, rotSpeed), x, y, z, vx, vy, vz);
+            world.addParticle(new ZapParticleEffect(fromColor, toColor, endPos, scale, twinkle, rotSpeed, level().random.nextInt(2, 5), 1.0F), x, y, z, vx, vy, vz);
         }
     }
 
@@ -153,8 +153,8 @@ public class VoltarisEntity extends SpellProjectileEntity {
                 double vz = (random.nextFloat() - 0.5) / 6;
                 Vector3f endPos = this.position().add(new Vec3(this.random.nextFloat() * 4 - 2, this.random.nextFloat() * 4 - 2, this.random.nextFloat() * 4 - 2)).toVector3f();
 
-                world.addParticle(new SparkParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed), x, y, z, vx, vy, vz);
-                world.addParticle(new ZapParticleEffect(fromColor, toColor, endPos, scale, twinkle, rotSpeed), x, y, z, vx, vy, vz);
+                world.addParticle(new SparkParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed, level().random.nextInt(5, 15), 0.99F), x, y, z, vx, vy, vz);
+                world.addParticle(new ZapParticleEffect(fromColor, toColor, endPos, scale, twinkle, rotSpeed, level().random.nextInt(2, 5), 1.0F), x, y, z, vx, vy, vz);
             }
         }
     }

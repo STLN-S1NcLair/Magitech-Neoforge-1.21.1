@@ -631,23 +631,23 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
         float blue2 = blue * blue;
 
         if (stats.getElement() == Element.EMBER) {
-            EffectUtil.sweepEffect(user, world, new FlameParticleEffect(new Vector3f(1, 1, 1), new Vector3f(1, 1, 1), 2F, 1, 0), 0, effectCenter, -45.0, 45.0, 50, swp * 0.7F, (user.getRandom().nextFloat() - 0.5) * 45.0, false);
+            EffectUtil.sweepEffect(user, world, () -> new FlameParticleEffect(new Vector3f(1, 1, 1), new Vector3f(1, 1, 1), 2F, 1, 0, world.random.nextInt(5, 8), 0.9F), 0, effectCenter, -45.0, 45.0, 50, swp * 0.7F, (user.getRandom().nextFloat() - 0.5) * 45.0, false);
         } else if (stats.getElement() == Element.GLACE) {
-            EffectUtil.sweepEffect(user, world, new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, 0), 0, effectCenter, -45.0, 45.0, 50, swp * 0.7F, (user.getRandom().nextFloat() - 0.5) * 45.0, false);
+            EffectUtil.sweepEffect(user, world, () -> new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, 0, world.random.nextInt(50, 60), 0.99F), 0, effectCenter, -45.0, 45.0, 50, swp * 0.7F, (user.getRandom().nextFloat() - 0.5) * 45.0, false);
         } else if (stats.getElement() == Element.SURGE) {
-            EffectUtil.sweepEffect(user, world, new SparkParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 3, 0), 0, effectCenter, -45.0, 45.0, 50, swp * 0.7F, (user.getRandom().nextFloat() - 0.5) * 45.0, false);
+            EffectUtil.sweepEffect(user, world, () -> new SparkParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 3, 0, world.random.nextInt(5, 15), 0.99F), 0, effectCenter, -45.0, 45.0, 50, swp * 0.7F, (user.getRandom().nextFloat() - 0.5) * 45.0, false);
         } else if (stats.getElement() == Element.PHANTOM) {
-            EffectUtil.sweepEffect(user, world, new MembraneParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, 0), 0, effectCenter, -45.0, 45.0, 50, swp * 0.7F, (user.getRandom().nextFloat() - 0.5) * 45.0, false);
+            EffectUtil.sweepEffect(user, world, () -> new MembraneParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, 0, world.random.nextInt(10, 40), 0.85F), 0, effectCenter, -45.0, 45.0, 50, swp * 0.7F, (user.getRandom().nextFloat() - 0.5) * 45.0, false);
         } else if (stats.getElement() == Element.TREMOR) {
-            EffectUtil.sweepEffect(user, world, new WaveParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, 0), 0, effectCenter, -45.0, 45.0, 50, swp * 0.7F, (user.getRandom().nextFloat() - 0.5) * 45.0, false);
+            EffectUtil.sweepEffect(user, world, () -> new WaveParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, 0, world.random.nextInt(5, 10), 0.9F), 0, effectCenter, -45.0, 45.0, 50, swp * 0.7F, (user.getRandom().nextFloat() - 0.5) * 45.0, false);
         } else if (stats.getElement() == Element.MAGIC) {
-            EffectUtil.sweepEffect(user, world, new RuneParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, 0), 0, effectCenter, -45.0, 45.0, 50, swp * 0.7F, (user.getRandom().nextFloat() - 0.5) * 45.0, false);
+            EffectUtil.sweepEffect(user, world, () -> new RuneParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, 0, world.random.nextInt(5, 20), 0.9F), 0, effectCenter, -45.0, 45.0, 50, swp * 0.7F, (user.getRandom().nextFloat() - 0.5) * 45.0, false);
         } else if (stats.getElement() == Element.FLOW) {
-            EffectUtil.sweepEffect(user, world, new BlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, 0), 0, effectCenter, -45.0, 45.0, 50, swp * 0.7F, (user.getRandom().nextFloat() - 0.5) * 45.0, false);
+            EffectUtil.sweepEffect(user, world, () -> new BlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, 0, world.random.nextInt(10, 30), 0.87F), 0, effectCenter, -45.0, 45.0, 50, swp * 0.7F, (user.getRandom().nextFloat() - 0.5) * 45.0, false);
         } else if (stats.getElement() == Element.HOLLOW) {
-            EffectUtil.sweepEffect(user, world, new VoidGlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, 0), 0, effectCenter, -45.0, 45.0, 50, swp * 0.7F, (user.getRandom().nextFloat() - 0.5) * 45.0, false);
+            EffectUtil.sweepEffect(user, world, () -> new VoidGlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, 0, world.random.nextInt(1, 21), 1.0F), 0, effectCenter, -45.0, 45.0, 50, swp * 0.7F, (user.getRandom().nextFloat() - 0.5) * 45.0, false);
         } else {
-            EffectUtil.sweepEffect(user, world, new SquareParticleEffect(new Vector3f(red, green, blue), new Vector3f(red2, green2, blue2), 1F, 1, 0), 0.01, effectCenter, -45.0, 45.0, 100, swp * 0.7F, (user.getRandom().nextFloat() - 0.5) * 45.0, false);
+            EffectUtil.sweepEffect(user, world, () -> new SquareParticleEffect(new Vector3f(red, green, blue), new Vector3f(red2, green2, blue2), 1F, 1, 0, 15, 1.0F), 0.01, effectCenter, -45.0, 45.0, 100, swp * 0.7F, (user.getRandom().nextFloat() - 0.5) * 45.0, false);
         }
 
         Vec3 center = EntityUtil.getAttackTargetPosition(user, user.entityInteractionRange(), 2, 0.0);

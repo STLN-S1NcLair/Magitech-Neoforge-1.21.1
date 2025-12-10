@@ -83,13 +83,13 @@ public class Glistelda extends Spell {
             TickScheduler.schedule(i, () -> {
                 List<Entity> nearbyEntities = EntityUtil.getEntitiesInBox(level, user, user.position(), new Vec3(3, 3, 3));
                 entities.addAll(nearbyEntities);
-                EffectUtil.entityEffect(level, new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0), user, 4);
-                EffectUtil.entityEffect(level, new SquareParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(0.6F, 1.0F, 1.0F), 1.0F, 1, 0), user, 10);
+                EffectUtil.entityEffect(level, new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0, level.random.nextInt(50, 60), 0.99F), user, 4);
+                EffectUtil.entityEffect(level, new SquareParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(0.6F, 1.0F, 1.0F), 1.0F, 1, 0, 15, 1.0F), user, 10);
                 for (Entity entity : nearbyEntities) {
-                    EffectUtil.entityEffect(level, new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0), entity, 1);
-                    level.addParticle(new SquareFieldParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(0.6F, 1.0F, 1.0F), 1.0F, user.getRandom().nextInt(3, 6), 0), entity.getX(), entity.getY() + 0.1, entity.getZ(), 0, 0, 0);
+                    EffectUtil.entityEffect(level, new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0, level.random.nextInt(50, 60), 0.99F), entity, 1);
+                    level.addParticle(new SquareFieldParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(0.6F, 1.0F, 1.0F), 1.0F, user.getRandom().nextInt(3, 6), 0, 15, 1.0F), entity.getX(), entity.getY() + 0.1, entity.getZ(), 0, 0, 0);
                 }
-                level.addParticle(new SquareFieldParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(0.6F, 1.0F, 1.0F), 1.0F, user.getRandom().nextInt(3, 6), 0), user.getX(), user.getY() + 0.1, user.getZ(), 0, 0, 0);
+                level.addParticle(new SquareFieldParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(0.6F, 1.0F, 1.0F), 1.0F, user.getRandom().nextInt(3, 6), 0, 15, 1.0F), user.getX(), user.getY() + 0.1, user.getZ(), 0, 0, 0);
             }, level.isClientSide);
         }
         TickScheduler.schedule(duration, () -> {
@@ -105,7 +105,7 @@ public class Glistelda extends Spell {
                     Vec3 offset = new Vec3(3 * (user.getRandom().nextFloat() - 0.5), 3 * (user.getRandom().nextFloat() - 0.5), 3 * (user.getRandom().nextFloat() - 0.5));
                     Vec3 randomBody = entity.position().add(0, entity.getBbHeight() / 2, 0).add(offset);
 
-                    level.addParticle(new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, rotSpeed),
+                    level.addParticle(new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, rotSpeed, level.random.nextInt(50, 60), 0.99F),
                             randomBody.x, randomBody.y, randomBody.z, offset.x / 10, offset.y / 10, offset.z / 10);
                 }
             }

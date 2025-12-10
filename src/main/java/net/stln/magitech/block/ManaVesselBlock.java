@@ -50,20 +50,20 @@ public class ManaVesselBlock extends BaseEntityBlock {
             double x = center.x + Mth.nextDouble(random, -0.6, 0.6);
             double y = center.y + Mth.nextDouble(random, -0.6, 0.6);
             double z = center.z + Mth.nextDouble(random, -0.6, 0.6);
-            level.addParticle(new SquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 1.0F, 3, 0), x, y, z, 0, 0, 0);
+            level.addParticle(new SquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 1.0F, 3, 0, 15, 1.0F), x, y, z, 0, 0, 0);
         }
         for (int i = 0; i < 2; i++) {
             int direction = i == 0 ? -1 : 1;
             double x = center.x + Mth.nextDouble(random, -0.2, 0.2);
             double y = center.y + 0.5 * direction;
             double z = center.z + Mth.nextDouble(random, -0.2, 0.2);
-            level.addParticle(new SquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 1.0F, 3, Mth.nextFloat(random, -0.1F, 0.1F)), x, y, z, 0, 0.03 * direction, 0);
+            level.addParticle(new SquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 1.0F, 3, Mth.nextFloat(random, -0.1F, 0.1F), 15, 1.0F), x, y, z, 0, 0.03 * direction, 0);
         }
         for (int i = 0; i < 4; i++) {
             double x2 = center.x + Mth.nextDouble(random, -0.5, 0.5);
             double y2 = center.y + Mth.nextDouble(random, -0.5, 0.5);
             double z2 = center.z + Mth.nextDouble(random, -0.5, 0.5);
-            level.addParticle(new SquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 0.5F, 1, Mth.nextFloat(random, -0.1F, 0.1F)), x2, y2, z2, 0, 0.03, 0);
+            level.addParticle(new SquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 0.5F, 1, Mth.nextFloat(random, -0.1F, 0.1F), 15, 1.0F), x2, y2, z2, 0, 0.03, 0);
         }
     }
 }

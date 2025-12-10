@@ -192,7 +192,7 @@ public class ZardiusCrucibleBlockEntity extends BlockEntity {
                                 new Vector3f(0.5F, 0.5F, 1.0F),
                                 1.5F,
                                 Mth.randomBetweenInclusive(level.random, 5, 10),
-                                Mth.randomBetween(level.random, -0.05F, 0.05F)
+                                Mth.randomBetween(level.random, -0.05F, 0.05F), 15, 1.0F
                         ),
                         pPos.getX() + 0.5 + Mth.randomBetween(level.random, -0.375F, 0.375F),
                         pPos.getY() + height,
@@ -206,7 +206,7 @@ public class ZardiusCrucibleBlockEntity extends BlockEntity {
                                 new Vector3f(0.5F, 1.0F, 1.0F),
                                 1.5F,
                                 Mth.randomBetweenInclusive(level.random, 5, 10),
-                                Mth.randomBetween(level.random, -0.05F, 0.05F)
+                                Mth.randomBetween(level.random, -0.05F, 0.05F), 15, 1.0F
                         ),
                         pPos.getX() + 0.5 + Mth.randomBetween(level.random, -0.375F, 0.375F),
                         pPos.getY() + height,

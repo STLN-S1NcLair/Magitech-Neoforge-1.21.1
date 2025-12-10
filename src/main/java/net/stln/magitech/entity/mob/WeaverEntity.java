@@ -156,7 +156,7 @@ public class WeaverEntity extends Monster implements GeoEntity, RangedAttackMob 
         Vec3 position = target.position();
         Vec3 oldSurface = EntityUtil.findSurface(level(), position);
 
-        level().addParticle(new SquareFieldParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(0.5F, 0.5F, 1.0F), 1.0F, this.getRandom().nextInt(3, 6), 0), position.x, position.y + 0.1, position.z, 0, 0, 0);
+        level().addParticle(new SquareFieldParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(0.5F, 0.5F, 1.0F), 1.0F, this.getRandom().nextInt(3, 6), 0, 15, 1.0F), position.x, position.y + 0.1, position.z, 0, 0, 0);
 
         for (int i = 0; i < 40; i++) {
             Vector3f fromColor = new Vector3f(1.0F, 1.0F, 1.0F);
@@ -168,7 +168,7 @@ public class WeaverEntity extends Monster implements GeoEntity, RangedAttackMob 
             double z = oldSurface.z + Mth.randomBetween(this.getRandom(), -0.4F, 0.4F);
             double vy = (this.getRandom().nextFloat()) / 5;
             int twinkle = this.getRandom().nextInt(2, 4);
-            level().addParticle(new UnstableSquareParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed), x, y, z, 0, vy, 0);
+            level().addParticle(new UnstableSquareParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed, 15, 1.0F), x, y, z, 0, vy, 0);
         }
 
 
@@ -180,7 +180,7 @@ public class WeaverEntity extends Monster implements GeoEntity, RangedAttackMob 
             TickScheduler.schedule(5 + 10 * j, () -> {
 
                 if (this.isAlive() && target.isAlive() && surface[0] != null && this.level() != null) {
-                    level().addParticle(new SquareFieldParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(0.5F, 0.5F, 1.0F), 1.0F, this.getRandom().nextInt(3, 6), 0), surface[0].x, surface[0].y + 0.1, surface[0].z, 0, 0, 0);
+                    level().addParticle(new SquareFieldParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(0.5F, 0.5F, 1.0F), 1.0F, this.getRandom().nextInt(3, 6), 0, 15, 1.0F), surface[0].x, surface[0].y + 0.1, surface[0].z, 0, 0, 0);
                 }
 
                 Vec3 lightningTop = surface[0].add(0, Mth.randomBetween(this.getRandom(), 5, 20), 0);
@@ -202,7 +202,7 @@ public class WeaverEntity extends Monster implements GeoEntity, RangedAttackMob 
                 }
 
                 if (level.isClientSide) {
-                    level.addParticle(new ZapParticleEffect(new Vector3f(1), new Vector3f(1), lightningTop.toVector3f(), 2F, 3, 0), surface[0].x, surface[0].y, surface[0].z,
+                    level.addParticle(new ZapParticleEffect(new Vector3f(1), new Vector3f(1), lightningTop.toVector3f(), 2F, 3, 0, level.random.nextInt(2, 5), 1.0F), surface[0].x, surface[0].y, surface[0].z,
                             0, 0, 0);
                     Vector3f fromColor = new Vector3f(1.0F, 1.0F, 1.0F);
                     Vector3f toColor = new Vector3f(0.5F, 0.5F, 1.0F);
@@ -219,7 +219,7 @@ public class WeaverEntity extends Monster implements GeoEntity, RangedAttackMob 
                         double vx = (this.getRandom().nextFloat() - 0.5) / 10;
                         double vy = (this.getRandom().nextFloat() - 0.5) / 10;
                         double vz = (this.getRandom().nextFloat() - 0.5) / 10;
-                        level.addParticle(new SquareParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed), x, y, z, vx, vy, vz);
+                        level.addParticle(new SquareParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed, 15, 1.0F), x, y, z, vx, vy, vz);
                     }
 
                     for (int i = 0; i < particleAmount; i++) {
@@ -231,7 +231,7 @@ public class WeaverEntity extends Monster implements GeoEntity, RangedAttackMob 
                         double vx = (this.getRandom().nextFloat() - 0.5) / 2;
                         double vy = (this.getRandom().nextFloat() - 0.5);
                         double vz = (this.getRandom().nextFloat() - 0.5) / 2;
-                        level.addParticle(new UnstableSquareParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed), x, y, z, vx, vy, vz);
+                        level.addParticle(new UnstableSquareParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed, 15, 1.0F), x, y, z, vx, vy, vz);
                     }
                 }
             }, level.isClientSide);
@@ -247,10 +247,10 @@ public class WeaverEntity extends Monster implements GeoEntity, RangedAttackMob 
             Entity beamTarget = EntityUtil.raycastBeamEntity(this, 32, 0.3, forward);
             Vec3 start = this.position().add(0, this.getBbHeight() * 0.7, 0).add(forward.scale(0.5));
 
-            EffectUtil.lineEffect(level, new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0), start, hitPos, 2, false);
-            level.addParticle(new BeamParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(0.6F, 1.0F, 1.0F), hitPos.toVector3f(), 0.7F, 1, 1), start.x, start.y, start.z, 0, 0, 0);
+            EffectUtil.lineEffect(level, new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0, level.random.nextInt(50, 60), 0.99F), start, hitPos, 2, false);
+            level.addParticle(new BeamParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(0.6F, 1.0F, 1.0F), hitPos.toVector3f(), 0.7F, 1, 1, 5, 1), start.x, start.y, start.z, 0, 0, 0);
             for (int i = 0; i < 20; i++) {
-                level.addParticle(new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0),
+                level.addParticle(new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0, level.random.nextInt(50, 60), 0.99F),
                         hitPos.x, hitPos.y, hitPos.z, (this.getRandom().nextFloat() - 0.5) / 3, (this.getRandom().nextFloat() - 0.5) / 3, (this.getRandom().nextFloat() - 0.5) / 3);
             }
 

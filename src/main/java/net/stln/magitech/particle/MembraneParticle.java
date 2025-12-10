@@ -24,11 +24,11 @@ public class MembraneParticle extends GlowingParticle {
         this.xd = vx + (clientWorld.random.nextFloat() - 0.5F) / 15;
         this.yd = vy + (clientWorld.random.nextFloat() - 0.5F) / 15;
         this.zd = vz + (clientWorld.random.nextFloat() - 0.5F) / 15;
-        this.lifetime = 10 + clientWorld.random.nextInt(0, 30);
+        this.lifetime = parameters.getLifetime();
         this.alpha = 1.0F;
         this.scale = 1F * parameters.getScale();
         this.gravity = 0.1F;
-        this.friction = 0.85F;
+        this.friction = parameters.getFriction();
         this.spriteProvider = spriteProvider;
         this.setSpriteFromAge(spriteProvider);
         this.startColor = parameters.getFromColor();

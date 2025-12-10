@@ -85,15 +85,15 @@ public class Enercrux extends BeamSpell {
 
     @Override
     protected void addVisualEffect(Level level, Player user, Vec3 start, Vec3 hitPos) {
-        EffectUtil.lineEffect(level, new UnstableSquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 1.0F, user.getRandom().nextInt(2, 5), 0), start, hitPos, 2, false);
-        level.addParticle(new BeamParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), hitPos.toVector3f(), 0.4F, user.getRandom().nextInt(2, 5), 10), start.x, start.y, start.z, 0, 0, 0);
+        EffectUtil.lineEffect(level, new UnstableSquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 1.0F, user.getRandom().nextInt(2, 5), 0, 15, 0.0F), start, hitPos, 2, false);
+        level.addParticle(new BeamParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), hitPos.toVector3f(), 0.4F, user.getRandom().nextInt(2, 5), 10, 5, 1), start.x, start.y, start.z, 0, 0, 0);
         for (int i = 0; i < 20; i++) {
-            level.addParticle(new UnstableSquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 1.0F, user.getRandom().nextInt(2, 5), 0),
+            level.addParticle(new UnstableSquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 1.0F, user.getRandom().nextInt(2, 5), 0, 15, 0.0F),
                     hitPos.x + (user.getRandom().nextFloat() - 0.5) / 3, hitPos.y + (user.getRandom().nextFloat() - 0.5) / 3, hitPos.z + (user.getRandom().nextFloat() - 0.5) / 3,
                     Mth.nextFloat(user.getRandom(), -0.2F, 0.2F), Mth.nextFloat(user.getRandom(), -0.2F, 0.2F), Mth.nextFloat(user.getRandom(), -0.2F, 0.2F));
         }
         level.addParticle(new ManaZapParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F),
-                        new Vector3f((float) (hitPos.x), (float) (hitPos.y), (float) (hitPos.z)), 1.0F, user.getRandom().nextInt(2, 5), 0),
+                        new Vector3f((float) (hitPos.x), (float) (hitPos.y), (float) (hitPos.z)), 1.0F, user.getRandom().nextInt(2, 5), 0, level.random.nextInt(2, 5), 1F),
                 start.x, start.y, start.z, 0, 0, 0);
     }
 }

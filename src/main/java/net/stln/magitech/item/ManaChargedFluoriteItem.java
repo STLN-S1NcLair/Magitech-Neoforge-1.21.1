@@ -39,7 +39,7 @@ public class ManaChargedFluoriteItem extends TooltipTextItem {
                 stack.setCount(stack.getCount() - 1);
             }
             level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundInit.CRYSTAL_BREAK.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
-            EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(0.9F, 1.0F, 0.7F), new Vector3f(0.3F, 1.0F, 0.9F), 1F, 1, 0), player, 20);
+            EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(0.9F, 1.0F, 0.7F), new Vector3f(0.3F, 1.0F, 0.9F), 1F, 1, 0, 15, 1.0F), player, 20);
             ManaUtil.setMana(player, ManaUtil.ManaType.MANA, Math.min(currentMana + 45, maxMana));
             return InteractionResultHolder.success(stack);
         }
@@ -63,7 +63,7 @@ public class ManaChargedFluoriteItem extends TooltipTextItem {
                 double x = pos.getCenter().x + Mth.nextDouble(player.getRandom(), -0.75, 0.75);
                 double y = pos.getCenter().y + Mth.nextDouble(player.getRandom(), -0.75, 0.75);
                 double z = pos.getCenter().z + Mth.nextDouble(player.getRandom(), -0.75, 0.75);
-                level.addParticle(new PowerupParticleEffect(new Vector3f(0.9F, 1.0F, 0.7F), new Vector3f(0.3F, 1.0F, 0.9F), 1F, 1, 0), x, y, z, 0, 0, 0);
+                level.addParticle(new PowerupParticleEffect(new Vector3f(0.9F, 1.0F, 0.7F), new Vector3f(0.3F, 1.0F, 0.9F), 1F, 1, 0, 15, 1.0F), x, y, z, 0, 0, 0);
             }
             return InteractionResult.SUCCESS;
         }

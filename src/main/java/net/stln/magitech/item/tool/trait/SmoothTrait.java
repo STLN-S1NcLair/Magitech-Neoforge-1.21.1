@@ -79,7 +79,7 @@ public class SmoothTrait extends Trait {
     public void addEffect(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos, int damageAmount, boolean isInitial) {
         super.addEffect(player, level, stack, traitLevel, stats, blockState, pos, damageAmount, isInitial);
         for (int i = 0; i < 20; i++) {
-            level.addParticle(new PowerupParticleEffect(new Vector3f(1.0F, 1.0F, 0.9F), new Vector3f(1.0F, 0.9F, 0.7F), 1F, 1, 0),
+            level.addParticle(new PowerupParticleEffect(new Vector3f(1.0F, 1.0F, 0.9F), new Vector3f(1.0F, 0.9F, 0.7F), 1F, 1, 0, 15, 1.0F),
                     pos.getX() + player.getRandom().nextFloat(), pos.getY() + player.getRandom().nextFloat(), pos.getZ() + player.getRandom().nextFloat(), 0, 0, 0);
         }
     }
@@ -88,7 +88,7 @@ public class SmoothTrait extends Trait {
     public void tick(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, boolean isHost) {
         super.tick(player, level, stack, traitLevel, stats, isHost);
         if (!level.canSeeSkyFromBelowWater(player.blockPosition())) {
-            EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(1.0F, 1.0F, 0.9F), new Vector3f(1.0F, 0.9F, 0.7F), 1F, 1, 0), player, 1);
+            EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(1.0F, 1.0F, 0.9F), new Vector3f(1.0F, 0.9F, 0.7F), 1F, 1, 0, 15, 1.0F), player, 1);
         }
     }
 

@@ -75,9 +75,9 @@ public class AetherLifterItem extends TooltipArmorItem implements GeoItem {
                     double y = player.getY() + Mth.nextDouble(player.getRandom(), -0.25, 0.25);
                     double z = player.getZ() + Mth.nextDouble(player.getRandom(), -player.getBbWidth(), player.getBbWidth());
                     if (player.getRandom().nextBoolean()) {
-                        level.addParticle(new SquareParticleEffect(hollowCol, phantomCol, 1.0F, player.getRandom().nextInt(3, 6), 0), x, y, z, 0, 0.05, 0);
+                        level.addParticle(new SquareParticleEffect(hollowCol, phantomCol, 1.0F, player.getRandom().nextInt(3, 6), 0, 15, 1.0F), x, y, z, 0, 0.05, 0);
                     } else {
-                        level.addParticle(new SquareParticleEffect(phantomCol, hollowCol, 1.0F, player.getRandom().nextInt(3, 6), 0), x, y, z, 0, 0.05, 0);
+                        level.addParticle(new SquareParticleEffect(phantomCol, hollowCol, 1.0F, player.getRandom().nextInt(3, 6), 0, 15, 1.0F), x, y, z, 0, 0.05, 0);
                     }
                 }
                 for (int i = 0; i < position.distanceTo(surface) * 5; i++) {
@@ -86,16 +86,16 @@ public class AetherLifterItem extends TooltipArmorItem implements GeoItem {
                     double y = lerped.y + Mth.nextDouble(player.getRandom(), -0.25, 0.25);
                     double z = lerped.z + Mth.nextDouble(player.getRandom(), -player.getBbWidth(), player.getBbWidth()) / 2;
                     if (player.getRandom().nextBoolean()) {
-                        level.addParticle(new SquareParticleEffect(hollowCol, phantomCol, 1.0F, player.getRandom().nextInt(3, 6), 0), x, y, z, 0, 0.05, 0);
+                        level.addParticle(new SquareParticleEffect(hollowCol, phantomCol, 1.0F, player.getRandom().nextInt(3, 6), 0, 15, 1.0F), x, y, z, 0, 0.05, 0);
                     } else {
-                        level.addParticle(new SquareParticleEffect(phantomCol, hollowCol, 1.0F, player.getRandom().nextInt(3, 6), 0), x, y, z, 0, 0.05, 0);
+                        level.addParticle(new SquareParticleEffect(phantomCol, hollowCol, 1.0F, player.getRandom().nextInt(3, 6), 0, 15, 1.0F), x, y, z, 0, 0.05, 0);
                     }
                 }
                 if (player.getRandom().nextBoolean()) {
-                    level.addParticle(new SquareFieldParticleEffect(hollowCol, phantomCol, 1.0F, 1, 0),
+                    level.addParticle(new SquareFieldParticleEffect(hollowCol, phantomCol, 1.0F, 1, 0, 15, 1.0F),
                             player.getX() + Mth.nextDouble(player.getRandom(), -0.1, 0.1), player.getY() + Mth.nextDouble(player.getRandom(), -0.1, 0.1), player.getZ() + Mth.nextDouble(player.getRandom(), -0.1, 0.1), 0, 0, 0);
                 } else {
-                    level.addParticle(new SquareFieldParticleEffect(phantomCol, hollowCol, 1.0F, 1, 0),
+                    level.addParticle(new SquareFieldParticleEffect(phantomCol, hollowCol, 1.0F, 1, 0, 15, 1.0F),
                             player.getX() + Mth.nextDouble(player.getRandom(), -0.1, 0.1), player.getY() + Mth.nextDouble(player.getRandom(), -0.1, 0.1), player.getZ() + Mth.nextDouble(player.getRandom(), -0.1, 0.1), 0, 0, 0);
                 }
                 for (int i = 0; i < 10; i++) {
@@ -105,9 +105,9 @@ public class AetherLifterItem extends TooltipArmorItem implements GeoItem {
                             double y = player.getY() + Mth.nextDouble(player.getRandom(), -0.1, 0.1);
                             double z = player.getZ() + Mth.nextDouble(player.getRandom(), -0.1, 0.1);
                             if (player.getRandom().nextBoolean()) {
-                                level.addParticle(new SquareParticleEffect(hollowCol, phantomCol, 1.0F, player.getRandom().nextInt(3, 6), 0), x, y, z, 0, 0.05, 0);
+                                level.addParticle(new SquareParticleEffect(hollowCol, phantomCol, 1.0F, player.getRandom().nextInt(3, 6), 0, 15, 1.0F), x, y, z, 0, 0.05, 0);
                             } else {
-                                level.addParticle(new SquareParticleEffect(phantomCol, hollowCol, 1.0F, player.getRandom().nextInt(3, 6), 0), x, y, z, 0, 0.05, 0);
+                                level.addParticle(new SquareParticleEffect(phantomCol, hollowCol, 1.0F, player.getRandom().nextInt(3, 6), 0, 15, 1.0F), x, y, z, 0, 0.05, 0);
                             }
                         }, level.isClientSide);
                     }

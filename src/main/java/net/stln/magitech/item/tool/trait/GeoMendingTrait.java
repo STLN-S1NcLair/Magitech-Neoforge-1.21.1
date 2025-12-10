@@ -58,7 +58,7 @@ public class GeoMendingTrait extends Trait {
     public void addEffect(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos, int damageAmount, boolean isInitial) {
         super.addEffect(player, level, stack, traitLevel, stats, blockState, pos, damageAmount, isInitial);
         for (int i = 0; i < 20; i++) {
-            level.addParticle(new PowerupParticleEffect(new Vector3f(0.5F, 0.5F, 0.5F), new Vector3f(0.5F, 0.5F, 0.5F), 1F, 1, 0),
+            level.addParticle(new PowerupParticleEffect(new Vector3f(0.5F, 0.5F, 0.5F), new Vector3f(0.5F, 0.5F, 0.5F), 1F, 1, 0, 15, 1.0F),
                     pos.getX() + player.getRandom().nextFloat(), pos.getY() + player.getRandom().nextFloat(), pos.getZ() + player.getRandom().nextFloat(), 0, 0, 0);
         }
         level.playSound(player, pos.getX(), pos.getY(), pos.getZ(), SoundInit.GEOMENDING_BREAK.get(), SoundSource.PLAYERS, 1.0F, 0.7F + (player.getRandom().nextFloat() * 0.6F));

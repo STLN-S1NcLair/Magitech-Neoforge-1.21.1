@@ -39,7 +39,7 @@ public class AggregatedFluxiaItem extends TooltipTextItem {
                 stack.setCount(stack.getCount() - 1);
             }
             level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundInit.CRYSTAL_BREAK.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
-            EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(0.5F, 0.8F, 1.0F), 1F, 1, 0), player, 20);
+            EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(0.5F, 0.8F, 1.0F), 1F, 1, 0, 15, 1.0F), player, 20);
             ManaUtil.setMana(player, ManaUtil.ManaType.FLUXIA, Math.min(currentMana + 15, maxMana));
             player.hurt(player.damageSources().magic(), 5.0F);
             return InteractionResultHolder.success(stack);
@@ -47,29 +47,29 @@ public class AggregatedFluxiaItem extends TooltipTextItem {
         return InteractionResultHolder.fail(stack);
     }
 
-    @Override
-    public InteractionResult useOn(UseOnContext context) {
-        ItemStack stack = context.getItemInHand();
-        BlockPos pos = context.getClickedPos();
-        Level level = context.getLevel();
-        Player player = context.getPlayer();
-        BlockEntity entity = level.getBlockEntity(pos);
-        if (entity instanceof ManaContainerBlockEntity containerBlockEntity && !containerBlockEntity.isFull()) {
-            if (!player.isCreative()) {
-                stack.setCount(stack.getCount() - 1);
-            }
-            containerBlockEntity.addMana(45);
-            level.playSound(player, pos, SoundInit.CRYSTAL_BREAK.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
-            for (int i = 0; i < 40; i++) {
-                double x = pos.getCenter().x + Mth.nextDouble(player.getRandom(), -0.75, 0.75);
-                double y = pos.getCenter().y + Mth.nextDouble(player.getRandom(), -0.75, 0.75);
-                double z = pos.getCenter().z + Mth.nextDouble(player.getRandom(), -0.75, 0.75);
-                level.addParticle(new PowerupParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(0.5F, 0.8F, 1.0F), 1F, 1, 0), x, y, z, 0, 0, 0);
-            }
-            return InteractionResult.SUCCESS;
-        }
-        return InteractionResult.PASS;
-    }
+//    @Override
+//    public InteractionResult useOn(UseOnContext context) {
+//        ItemStack stack = context.getItemInHand();
+//        BlockPos pos = context.getClickedPos();
+//        Level level = context.getLevel();
+//        Player player = context.getPlayer();
+//        BlockEntity entity = level.getBlockEntity(pos);
+//        if (entity instanceof ManaContainerBlockEntity containerBlockEntity && !containerBlockEntity.isFull()) {
+//            if (!player.isCreative()) {
+//                stack.setCount(stack.getCount() - 1);
+//            }
+//            containerBlockEntity.addMana(45);
+//            level.playSound(player, pos, SoundInit.CRYSTAL_BREAK.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
+//            for (int i = 0; i < 40; i++) {
+//                double x = pos.getCenter().x + Mth.nextDouble(player.getRandom(), -0.75, 0.75);
+//                double y = pos.getCenter().y + Mth.nextDouble(player.getRandom(), -0.75, 0.75);
+//                double z = pos.getCenter().z + Mth.nextDouble(player.getRandom(), -0.75, 0.75);
+//                level.addParticle(new PowerupParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(0.5F, 0.8F, 1.0F), 1F, 1, 0, 15, 1.0F), x, y, z, 0, 0, 0);
+//            }
+//            return InteractionResult.SUCCESS;
+//        }
+//        return InteractionResult.PASS;
+//    }
 
     @Override
     public void appendHoverText(ItemStack stack, @NotNull TooltipContext context, List<Component> tooltipComponents, @NotNull TooltipFlag tooltipFlag) {

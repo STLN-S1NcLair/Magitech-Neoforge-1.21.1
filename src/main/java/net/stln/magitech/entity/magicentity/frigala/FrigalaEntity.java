@@ -71,7 +71,7 @@ public class FrigalaEntity extends SpellProjectileEntity implements GeoEntity {
                 double vx = deltaMovement.x / 4;
                 double vy = deltaMovement.y / 4;
                 double vz = deltaMovement.z / 4;
-                world.addParticle(new FrostParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed), x, y, z, vx, vy, vz);
+                world.addParticle(new FrostParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed, level().random.nextInt(50, 60), 0.99F), x, y, z, vx, vy, vz);
             }
         }
     }
@@ -141,7 +141,7 @@ public class FrigalaEntity extends SpellProjectileEntity implements GeoEntity {
                 double vx = (random.nextFloat() - 0.5) / 6;
                 double vy = (random.nextFloat() - 0.5) / 6;
                 double vz = (random.nextFloat() - 0.5) / 6;
-                world.addParticle(new FrostParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed), x, y, z, vx, vy, vz);
+                world.addParticle(new FrostParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed, level().random.nextInt(50, 60), 0.99F), x, y, z, vx, vy, vz);
             }
         }
     }

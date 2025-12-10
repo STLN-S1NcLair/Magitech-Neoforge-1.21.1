@@ -31,7 +31,7 @@ public class BeamParticle extends GlowingParticle {
         this.alpha = 1.0F;
         this.scale = parameters.getScale();
         this.gravity = 0.0F;
-        this.friction = 1.0F;
+        this.friction = parameters.getFriction();
         this.spriteProvider = spriteProvider;
         this.setSpriteFromAge(spriteProvider);
         this.startColor = parameters.getFromColor();

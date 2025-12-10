@@ -43,7 +43,7 @@ public class BirefringenceTrait extends Trait {
     public void addEffect(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos, int damageAmount, boolean isInitial) {
         super.addEffect(player, level, stack, traitLevel, stats, blockState, pos, damageAmount, isInitial);
         for (int i = 0; i < 20; i++) {
-            level.addParticle(new PowerupParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(0.9F, 1.0F, 1.0F), 1F, 1, 0),
+            level.addParticle(new PowerupParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(0.9F, 1.0F, 1.0F), 1F, 1, 0, 15, 1.0F),
                     pos.getX() + player.getRandom().nextFloat(), pos.getY() + player.getRandom().nextFloat(), pos.getZ() + player.getRandom().nextFloat(), 0, 0, 0);
         }
     }

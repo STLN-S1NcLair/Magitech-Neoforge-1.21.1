@@ -160,7 +160,7 @@ public abstract class SpellProjectileEntity extends Projectile implements GeoEnt
                 this.level().addParticle(ParticleTypes.BUBBLE, d7 - d5 * 0.25, d2 - d6 * 0.25, d3 - d1 * 0.25, d5, d6, d1);
             }
         }
-        if (!flag) {
+        if (!this.isNoGravity()) {
             this.applyGravity();
         }
 
@@ -179,9 +179,7 @@ public abstract class SpellProjectileEntity extends Projectile implements GeoEnt
     @Override
     protected void onHitEntity(EntityHitResult result) {
         super.onHitEntity(result);
-        Entity entity = result.getEntity();
-        float f = (float) this.getDeltaMovement().length();
-        Entity entity1 = this.getOwner();
+        playHitGroundSoundEvent();
 
         if (!this.level().isClientSide) {
             this.level().broadcastEntityEvent(this, EntityEvent.DEATH);
@@ -227,7 +225,6 @@ public abstract class SpellProjectileEntity extends Projectile implements GeoEnt
                 }
             }
 
-            this.playSound(this.getHitGroundSoundEvent(), 1.0F, 1.2F / (this.random.nextFloat() * 0.2F + 0.9F));
         } else {
             entity.setRemainingFireTicks(i);
             this.deflect(ProjectileDeflection.REVERSE, entity, this.getOwner(), false);
@@ -246,7 +243,7 @@ public abstract class SpellProjectileEntity extends Projectile implements GeoEnt
     @Override
     protected void onHitBlock(BlockHitResult blockHitResult) {
         super.onHitBlock(blockHitResult);
-        this.playSound(this.getHitGroundSoundEvent(), 1.0F, 1.2F / (this.random.nextFloat() * 0.2F + 0.9F));
+        playHitGroundSoundEvent();
 
         if (!this.level().isClientSide) {
             this.level().broadcastEntityEvent(this, EntityEvent.DEATH);
@@ -264,8 +261,12 @@ public abstract class SpellProjectileEntity extends Projectile implements GeoEnt
         return SoundEvents.ARROW_HIT;
     }
 
-    protected final SoundEvent getHitGroundSoundEvent() {
+    protected SoundEvent getHitGroundSoundEvent() {
         return this.soundEvent;
+    }
+
+    protected void playHitGroundSoundEvent() {
+        this.playSound(this.getHitGroundSoundEvent(), 1.0F, 1.2F / (this.random.nextFloat() * 0.2F + 0.9F));
     }
 
     protected void doPostHurtEffects(LivingEntity target) {

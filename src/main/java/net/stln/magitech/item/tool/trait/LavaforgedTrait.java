@@ -49,7 +49,7 @@ public class LavaforgedTrait extends Trait {
     public void tick(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, boolean isHost) {
         super.tick(player, level, stack, traitLevel, stats, isHost);
         if (player.position().y < 0 || player.level().dimension().equals(LevelStem.NETHER)) {
-            EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(1.0F, 0.25F, 0F), new Vector3f(1.0F, 0.25F, 0F), 1F, 1, 0), player, 1);
+            EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(1.0F, 0.25F, 0F), new Vector3f(1.0F, 0.25F, 0F), 1F, 1, 0, 15, 1.0F), player, 1);
         }
     }
 

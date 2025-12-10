@@ -39,7 +39,7 @@ public class IlluminationTrait extends Trait {
             }
             level.setBlock(placePos, Blocks.LIGHT.defaultBlockState().setValue(LightBlock.LEVEL, 15), 3);
             for (int i = 0; i < 20; i++) {
-                level.addParticle(new PowerupParticleEffect(new Vector3f(1.0F, 0.8F, 0.5F), new Vector3f(1.0F, 0.6F, 0.3F), 1F, 1, 0),
+                level.addParticle(new PowerupParticleEffect(new Vector3f(1.0F, 0.8F, 0.5F), new Vector3f(1.0F, 0.6F, 0.3F), 1F, 1, 0, 15, 1.0F),
                         placePos.getX() + player.getRandom().nextFloat(), placePos.getY() + player.getRandom().nextFloat(), placePos.getZ() + player.getRandom().nextFloat(), 0, 0, 0);
             }
 

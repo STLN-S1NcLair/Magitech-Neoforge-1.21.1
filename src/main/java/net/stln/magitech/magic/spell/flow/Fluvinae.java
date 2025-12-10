@@ -74,10 +74,10 @@ public class Fluvinae extends BeamSpell {
 
     @Override
     protected void addVisualEffect(Level level, Player user, Vec3 start, Vec3 hitPos) {
-        EffectUtil.lineEffect(level, new BlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0), start, hitPos, 2, false);
-        level.addParticle(new BeamParticleEffect(new Vector3f(0.7F, 1.0F, 0.0F), new Vector3f(0.9F, 1.0F, 0.0F), hitPos.toVector3f(), 0.3F, 1, 1), start.x, start.y, start.z, 0, 0, 0);
+        EffectUtil.lineEffect(level, new BlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0, level.random.nextInt(10, 30), 0.87F), start, hitPos, 2, false);
+        level.addParticle(new BeamParticleEffect(new Vector3f(0.7F, 1.0F, 0.0F), new Vector3f(0.9F, 1.0F, 0.0F), hitPos.toVector3f(), 0.3F, 1, 1, 5, 1), start.x, start.y, start.z, 0, 0, 0);
         for (int i = 0; i < 20; i++) {
-            level.addParticle(new BlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0),
+            level.addParticle(new BlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0, level.random.nextInt(10, 30), 0.87F),
                     hitPos.x, hitPos.y, hitPos.z, (user.getRandom().nextFloat() - 0.5) / 3, (user.getRandom().nextFloat() - 0.5) / 3, (user.getRandom().nextFloat() - 0.5) / 3);
         }
     }

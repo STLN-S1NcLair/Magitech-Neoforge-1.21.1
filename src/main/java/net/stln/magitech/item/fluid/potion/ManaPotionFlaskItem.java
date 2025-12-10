@@ -27,7 +27,7 @@ public class ManaPotionFlaskItem extends DrinkableFlaskItem {
 
             ManaUtil.setMana(player, ManaUtil.ManaType.MANA, Math.min(currentMana + 90, maxMana));
         }
-        EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(0.9F, 1.0F, 0.7F), new Vector3f(0.3F, 1.0F, 0.9F), 1F, 1, 0), entity, 20);
+        EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(0.9F, 1.0F, 0.7F), new Vector3f(0.3F, 1.0F, 0.9F), 1F, 1, 0, 15, 1.0F), entity, 20);
         entity.addEffect(new MobEffectInstance(MobEffectInit.MANA_REGENERATION, 300, 1));
     }
 }

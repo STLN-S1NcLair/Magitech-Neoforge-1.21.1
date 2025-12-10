@@ -114,7 +114,7 @@ public class NullixisEntity extends SpellProjectileEntity {
                 double vx = deltaMovement.x / 4;
                 double vy = deltaMovement.y / 4;
                 double vz = deltaMovement.z / 4;
-                world.addParticle(new VoidGlowParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed), x, y, z, vx, vy, vz);
+                world.addParticle(new VoidGlowParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed, level().random.nextInt(1, 21), 1.0F), x, y, z, vx, vy, vz);
             }
         }
         int axisX = this.tickCount % 3 != 0 ? -1 : 2;
@@ -182,7 +182,7 @@ public class NullixisEntity extends SpellProjectileEntity {
                 double vz = (random.nextFloat() - 0.5) / 6;
                 Vector3f endPos = this.position().add(new Vec3(this.random.nextFloat() * 4 - 2, this.random.nextFloat() * 4 - 2, this.random.nextFloat() * 4 - 2)).toVector3f();
 
-                world.addParticle(new VoidGlowParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed), x, y, z, vx, vy, vz);
+                world.addParticle(new VoidGlowParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed, level().random.nextInt(1, 21), 1.0F), x, y, z, vx, vy, vz);
             }
         }
     }

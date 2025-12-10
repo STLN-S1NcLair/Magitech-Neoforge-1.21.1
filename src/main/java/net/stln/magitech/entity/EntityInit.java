@@ -21,6 +21,8 @@ import net.stln.magitech.entity.magicentity.arcaleth.ArcalethEntity;
 import net.stln.magitech.entity.magicentity.arcaleth.ArcalethRenderer;
 import net.stln.magitech.entity.magicentity.frigala.FrigalaEntity;
 import net.stln.magitech.entity.magicentity.frigala.FrigalaRenderer;
+import net.stln.magitech.entity.magicentity.frosblast.FrosblastEntity;
+import net.stln.magitech.entity.magicentity.frosblast.FrosblastRenderer;
 import net.stln.magitech.entity.magicentity.ignisca.IgniscaEntity;
 import net.stln.magitech.entity.magicentity.ignisca.IgniscaRenderer;
 import net.stln.magitech.entity.magicentity.mirazien.MirazienEntity;
@@ -29,6 +31,8 @@ import net.stln.magitech.entity.magicentity.nullixis.NullixisEntity;
 import net.stln.magitech.entity.magicentity.nullixis.NullixisRenderer;
 import net.stln.magitech.entity.magicentity.tremivox.TremivoxEntity;
 import net.stln.magitech.entity.magicentity.tremivox.TremivoxRenderer;
+import net.stln.magitech.entity.magicentity.volkarin.VolkarinEntity;
+import net.stln.magitech.entity.magicentity.volkarin.VolkarinRenderer;
 import net.stln.magitech.entity.magicentity.voltaris.VoltarisEntity;
 import net.stln.magitech.entity.magicentity.voltaris.VoltarisRenderer;
 import net.stln.magitech.entity.mob.WeaverEntity;
@@ -43,7 +47,9 @@ public class EntityInit {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(Registries.ENTITY_TYPE, Magitech.MOD_ID);
 
     public static final Supplier<EntityType<IgniscaEntity>> IGNISCA_ENTITY = registerMobEntity("ignisca", IgniscaEntity::new, MobCategory.MISC, builder -> builder.sized(0.5F, 0.5F));
+    public static final Supplier<EntityType<VolkarinEntity>> VOLKARIN_ENTITY = registerMobEntity("volkarin", VolkarinEntity::new, MobCategory.MISC, builder -> builder.sized(1.0F, 1.0F));
     public static final Supplier<EntityType<FrigalaEntity>> FRIGALA_ENTITY = registerMobEntity("frigala", FrigalaEntity::new, MobCategory.MISC, builder -> builder.sized(0.5F, 0.5F));
+    public static final Supplier<EntityType<FrosblastEntity>> FROSBLAST_ENTITY = registerMobEntity("frosblast", FrosblastEntity::new, MobCategory.MISC, builder -> builder.sized(1.0F, 1.0F));
     public static final Supplier<EntityType<VoltarisEntity>> VOLTARIS_ENTITY = registerMobEntity("voltaris", VoltarisEntity::new, MobCategory.MISC, builder -> builder.sized(1.0F, 1.0F));
     public static final Supplier<EntityType<MirazienEntity>> MIRAZIEN_ENTITY = registerMobEntity("mirazien", MirazienEntity::new, MobCategory.MISC, builder -> builder.sized(0.5F, 0.5F));
     public static final Supplier<EntityType<TremivoxEntity>> TREMIVOX_ENTITY = registerMobEntity("tremivox", TremivoxEntity::new, MobCategory.MISC, builder -> builder.sized(0.75F, 0.75F));
@@ -61,7 +67,9 @@ public class EntityInit {
     public static void registerModEntitiesRenderer() {
         Magitech.LOGGER.info("Registering Entity Renderer for " + Magitech.MOD_ID);
         EntityRenderers.register(EntityInit.IGNISCA_ENTITY.get(), IgniscaRenderer::new);
+        EntityRenderers.register(EntityInit.VOLKARIN_ENTITY.get(), VolkarinRenderer::new);
         EntityRenderers.register(EntityInit.FRIGALA_ENTITY.get(), FrigalaRenderer::new);
+        EntityRenderers.register(EntityInit.FROSBLAST_ENTITY.get(), FrosblastRenderer::new);
         EntityRenderers.register(EntityInit.VOLTARIS_ENTITY.get(), VoltarisRenderer::new);
         EntityRenderers.register(EntityInit.MIRAZIEN_ENTITY.get(), MirazienRenderer::new);
         EntityRenderers.register(EntityInit.TREMIVOX_ENTITY.get(), TremivoxRenderer::new);

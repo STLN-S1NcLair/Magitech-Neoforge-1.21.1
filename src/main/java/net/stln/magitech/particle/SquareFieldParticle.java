@@ -24,10 +24,11 @@ public class SquareFieldParticle extends HorizontalParticle {
         this.xd = 0;
         this.yd = 0;
         this.zd = 0;
-        this.lifetime = 15;
+        this.lifetime = parameters.getLifetime();
         this.alpha = 1.0F;
         this.quadSize = 0.2F;
         this.scale = 4F * parameters.getScale();
+        this.friction = parameters.getFriction();
         this.gravity = -0.0F;
         this.spriteProvider = spriteProvider;
         this.setSpriteFromAge(spriteProvider);

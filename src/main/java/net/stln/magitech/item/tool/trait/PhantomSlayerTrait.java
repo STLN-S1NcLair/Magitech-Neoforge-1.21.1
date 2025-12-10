@@ -52,7 +52,7 @@ public class PhantomSlayerTrait extends Trait {
                     livingEntity.addEffect(new MobEffectInstance(MobEffects.GLOWING, traitLevel * 10, 0));
                 }
                 level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundInit.PHANTOM_SLAYER_DASH.get(), SoundSource.PLAYERS, 1.0F, 0.7F + (player.getRandom().nextFloat() * 0.6F));
-                EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(1.0F, 1.0F, 0.5F), new Vector3f(1.0F, 1.0F, 0.5F), 1F, 1, 0), player, 60);
+                EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(1.0F, 1.0F, 0.5F), new Vector3f(1.0F, 1.0F, 0.5F), 1F, 1, 0, 15, 1.0F), player, 60);
                 stack.hurtAndBreak(3, player, hand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
             } else {
                 Vec3 playerPos = new Vec3(player.getX(), player.getY(0.5), player.getZ());
@@ -69,7 +69,7 @@ public class PhantomSlayerTrait extends Trait {
                     }
                     ((PartToolItem) stack.getItem()).applyElementDamage(player, target, stack);
                     player.attack(target);
-                    EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(1.0F, 1.0F, 0.5F), new Vector3f(1.0F, 1.0F, 0.5F), 1F, 1, 0), player, 20);
+                    EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(1.0F, 1.0F, 0.5F), new Vector3f(1.0F, 1.0F, 0.5F), 1F, 1, 0, 15, 1.0F), player, 20);
 
                     Vec3 delta = player.getDeltaMovement();
 
@@ -78,10 +78,10 @@ public class PhantomSlayerTrait extends Trait {
                         delta.normalize().multiply(0.5, 0.5, 0.5);
                     }
                     player.setDeltaMovement(delta);
-                    EffectUtil.lineEffect(level, new MembraneParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2.0F, 1, 0), playerPos, teleportPos, 7, false);
+                    EffectUtil.lineEffect(level, new MembraneParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2.0F, 1, 0, level.random.nextInt(10, 40), 0.85F), playerPos, teleportPos, 7, false);
                     stack.hurtAndBreak(3, player, hand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
                     level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundInit.PHANTOM_SLAYER_DASH.get(), SoundSource.PLAYERS, 1.0F, 0.7F + (player.getRandom().nextFloat() * 0.6F));
-                    EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(1.0F, 1.0F, 0.5F), new Vector3f(1.0F, 1.0F, 0.5F), 1F, 1, 0), player, 60);
+                    EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(1.0F, 1.0F, 0.5F), new Vector3f(1.0F, 1.0F, 0.5F), 1F, 1, 0, 15, 1.0F), player, 60);
                 }
             }
         }
@@ -109,8 +109,8 @@ public class PhantomSlayerTrait extends Trait {
                     boolean flag = blockResult.getType() == HitResult.Type.MISS;
 
                     if (flag) {
-                        level.addParticle(new SquareFieldParticleEffect(new Vector3f(1.0F, 1.0F, 0.5F), new Vector3f(1.0F, 1.0F, 0.5F), 1F, 1, 0), target.getX(), target.getY() + 0.1, target.getZ(), 0, 0, 0);
-                        EffectUtil.entityEffect(level, new UnstableSquareParticleEffect(new Vector3f(1.0F, 1.0F, 0.5F), new Vector3f(1.0F, 1.0F, 0.5F), 1F, 1, 0), target, 5);
+                        level.addParticle(new SquareFieldParticleEffect(new Vector3f(1.0F, 1.0F, 0.5F), new Vector3f(1.0F, 1.0F, 0.5F), 1F, 1, 0, 15, 1.0F), target.getX(), target.getY() + 0.1, target.getZ(), 0, 0, 0);
+                        EffectUtil.entityEffect(level, new UnstableSquareParticleEffect(new Vector3f(1.0F, 1.0F, 0.5F), new Vector3f(1.0F, 1.0F, 0.5F), 1F, 1, 0, 15, 1.0F), target, 5);
                     }
                 }
             }
@@ -122,7 +122,7 @@ public class PhantomSlayerTrait extends Trait {
         super.onDamageEntity(player, level, stack, traitLevel, stats, target);
         player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, traitLevel * 10, 0));
         player.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, traitLevel * 5, 0));
-        EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(1.0F, 1.0F, 0.5F), new Vector3f(1.0F, 1.0F, 0.5F), 1F, 1, 0), player, 20);
+        EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(1.0F, 1.0F, 0.5F), new Vector3f(1.0F, 1.0F, 0.5F), 1F, 1, 0, 15, 1.0F), player, 20);
         level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundInit.PHANTOM_BUFF.get(), SoundSource.PLAYERS, 0.5F, 0.7F + (player.getRandom().nextFloat() * 0.6F));
     }
 
@@ -133,7 +133,7 @@ public class PhantomSlayerTrait extends Trait {
             player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, traitLevel * 10, 0));
             player.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, traitLevel * 5, 0));
         }
-        EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(1.0F, 1.0F, 0.5F), new Vector3f(1.0F, 1.0F, 0.5F), 1F, 1, 0), player, 20);
+        EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(1.0F, 1.0F, 0.5F), new Vector3f(1.0F, 1.0F, 0.5F), 1F, 1, 0, 15, 1.0F), player, 20);
         level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundInit.PHANTOM_BUFF.get(), SoundSource.PLAYERS, 0.5F, 0.7F + (player.getRandom().nextFloat() * 0.6F));
     }
 

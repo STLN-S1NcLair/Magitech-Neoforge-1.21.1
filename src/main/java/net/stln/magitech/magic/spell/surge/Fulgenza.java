@@ -100,10 +100,10 @@ public class Fulgenza extends BeamSpell {
                             this.applyDamage(baseDamage / 2, this.getRequiredMana(level, user, stack), this.getElement(), stack, user, chainTarget);
                         }
 
-                        level.addParticle(new ZapParticleEffect(new Vector3f(1), new Vector3f(1), targetBodyPos.toVector3f(), 2F, 3, 0), hitPos.x, hitPos.y, hitPos.z,
+                        level.addParticle(new ZapParticleEffect(new Vector3f(1), new Vector3f(1), targetBodyPos.toVector3f(), 2F, 3, 0, level.random.nextInt(2, 5), 1.0F), hitPos.x, hitPos.y, hitPos.z,
                                 0, 0, 0);
                         TickScheduler.schedule(5, () -> {
-                            EffectUtil.lineEffect(level, new SparkParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 3, 0), targetBodyPos, hitPos, 3, false);
+                            EffectUtil.lineEffect(level, new SparkParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 3, 0, level.random.nextInt(5, 15), 0.99F), targetBodyPos, hitPos, 3, false);
                         }, level.isClientSide);
                     }
                 }
@@ -132,17 +132,17 @@ public class Fulgenza extends BeamSpell {
 
     @Override
     protected void addVisualEffect(Level level, Player user, Vec3 start, Vec3 hitPos) {
-        EffectUtil.lineEffect(level, new SparkParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 3, 0), start, hitPos, 2, false);
+        EffectUtil.lineEffect(level, new SparkParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 3, 0, level.random.nextInt(5, 15), 0.99F), start, hitPos, 2, false);
         for (int i = 0; i < 3; i++) {
             level.addParticle(new ZapParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F),
-                            new Vector3f((float) (hitPos.x), (float) (hitPos.y), (float) (hitPos.z)), 1.0F, 1, 0),
+                            new Vector3f((float) (hitPos.x), (float) (hitPos.y), (float) (hitPos.z)), 1.0F, 1, 0, level.random.nextInt(2, 5), 1.0F),
                     start.x, start.y, start.z, 0, 0, 0);
         }
-        level.addParticle(new BeamParticleEffect(new Vector3f(0.5F, 0.5F, 0.7F), new Vector3f(0.3F, 0.3F, 0.5F), hitPos.toVector3f(), 1.0F, 1, 1), start.x, start.y, start.z, 0, 0, 0);
-        level.addParticle(new BeamParticleEffect(new Vector3f(0.3F, 0.3F, 0.4F), new Vector3f(0.2F, 0.2F, 0.4F), hitPos.toVector3f(), 3.0F, 1, 1), start.x, start.y, start.z, 0, 0, 0);
+        level.addParticle(new BeamParticleEffect(new Vector3f(0.5F, 0.5F, 0.7F), new Vector3f(0.3F, 0.3F, 0.5F), hitPos.toVector3f(), 1.0F, 1, 1, 5, 1), start.x, start.y, start.z, 0, 0, 0);
+        level.addParticle(new BeamParticleEffect(new Vector3f(0.3F, 0.3F, 0.4F), new Vector3f(0.2F, 0.2F, 0.4F), hitPos.toVector3f(), 3.0F, 1, 1, 5, 1), start.x, start.y, start.z, 0, 0, 0);
         for (int i = 0; i < 5; i++) {
             level.addParticle(new ZapParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F),
-                            new Vector3f((float) (hitPos.x + (user.getRandom().nextFloat() - 0.5)), (float) (hitPos.y + (user.getRandom().nextFloat() - 0.5)), (float) (hitPos.z + (user.getRandom().nextFloat() - 0.5))), 1.0F, 3, 0),
+                            new Vector3f((float) (hitPos.x + (user.getRandom().nextFloat() - 0.5)), (float) (hitPos.y + (user.getRandom().nextFloat() - 0.5)), (float) (hitPos.z + (user.getRandom().nextFloat() - 0.5))), 1.0F, 3, 0, level.random.nextInt(2, 5), 1.0F),
                     hitPos.x, hitPos.y, hitPos.z, (user.getRandom().nextFloat() - 0.5) * 2, (user.getRandom().nextFloat() - 0.5) * 2, (user.getRandom().nextFloat() - 0.5) * 2);
         }
     }

@@ -81,9 +81,9 @@ public class FlamglideStriderItem extends TooltipArmorItem implements GeoItem {
                     double y = player.getY() + Mth.nextDouble(player.getRandom(), -0.25, 0.25);
                     double z = player.getZ() + Mth.nextDouble(player.getRandom(), -player.getBbWidth(), player.getBbWidth());
                     if (player.getRandom().nextBoolean()) {
-                        level.addParticle(new SquareParticleEffect(flowCol, emberCol, 1.0F, player.getRandom().nextInt(3, 6), 0), x, y, z, 0, 0.05, 0);
+                        level.addParticle(new SquareParticleEffect(flowCol, emberCol, 1.0F, player.getRandom().nextInt(3, 6), 0, 15, 1.0F), x, y, z, 0, 0.05, 0);
                     } else {
-                        level.addParticle(new SquareParticleEffect(emberCol, flowCol, 1.0F, player.getRandom().nextInt(3, 6), 0), x, y, z, 0, 0.05, 0);
+                        level.addParticle(new SquareParticleEffect(emberCol, flowCol, 1.0F, player.getRandom().nextInt(3, 6), 0, 15, 1.0F), x, y, z, 0, 0.05, 0);
                     }
                 }
                 for (int i = 0; i < 30; i++) {
@@ -94,16 +94,16 @@ public class FlamglideStriderItem extends TooltipArmorItem implements GeoItem {
                     double yd = Mth.nextDouble(player.getRandom(), -0.25, 0.25);
                     double zd = Mth.nextDouble(player.getRandom(), -0.25, 0.25);
                     if (player.getRandom().nextBoolean()) {
-                        level.addParticle(new UnstableSquareParticleEffect(flowCol, emberCol, 2.0F, player.getRandom().nextInt(3, 6), 0), x, y, z, xd, yd, zd);
+                        level.addParticle(new UnstableSquareParticleEffect(flowCol, emberCol, 2.0F, player.getRandom().nextInt(3, 6), 0, 15, 1.0F), x, y, z, xd, yd, zd);
                     } else {
-                        level.addParticle(new UnstableSquareParticleEffect(emberCol, flowCol, 2.0F, player.getRandom().nextInt(3, 6), 0), x, y, z, xd, yd, zd);
+                        level.addParticle(new UnstableSquareParticleEffect(emberCol, flowCol, 2.0F, player.getRandom().nextInt(3, 6), 0, 15, 1.0F), x, y, z, xd, yd, zd);
                     }
                 }
                 if (player.getRandom().nextBoolean()) {
-                    level.addParticle(new SquareFieldParticleEffect(flowCol, emberCol, 1.0F, 1, 0),
+                    level.addParticle(new SquareFieldParticleEffect(flowCol, emberCol, 1.0F, 1, 0, 15, 1.0F),
                             player.getX() + Mth.nextDouble(player.getRandom(), -0.1, 0.1), player.getY() + Mth.nextDouble(player.getRandom(), -0.1, 0.1), player.getZ() + Mth.nextDouble(player.getRandom(), -0.1, 0.1), 0, 0, 0);
                 } else {
-                    level.addParticle(new SquareFieldParticleEffect(emberCol, flowCol, 1.0F, 1, 0),
+                    level.addParticle(new SquareFieldParticleEffect(emberCol, flowCol, 1.0F, 1, 0, 15, 1.0F),
                             player.getX() + Mth.nextDouble(player.getRandom(), -0.1, 0.1), player.getY() + Mth.nextDouble(player.getRandom(), -0.1, 0.1), player.getZ() + Mth.nextDouble(player.getRandom(), -0.1, 0.1), 0, 0, 0);
                 }
                 for (int i = 0; i < 12; i++) {
@@ -113,9 +113,9 @@ public class FlamglideStriderItem extends TooltipArmorItem implements GeoItem {
                             double y = player.getY() + Mth.nextDouble(player.getRandom(), -0.1, 0.1);
                             double z = player.getZ() + Mth.nextDouble(player.getRandom(), -0.1, 0.1);
                             if (player.getRandom().nextBoolean()) {
-                                level.addParticle(new SquareParticleEffect(flowCol, emberCol, 1.0F, player.getRandom().nextInt(3, 6), 0), x, y, z, 0, 0.05, 0);
+                                level.addParticle(new SquareParticleEffect(flowCol, emberCol, 1.0F, player.getRandom().nextInt(3, 6), 0, 15, 1.0F), x, y, z, 0, 0.05, 0);
                             } else {
-                                level.addParticle(new SquareParticleEffect(emberCol, flowCol, 1.0F, player.getRandom().nextInt(3, 6), 0), x, y, z, 0, 0.05, 0);
+                                level.addParticle(new SquareParticleEffect(emberCol, flowCol, 1.0F, player.getRandom().nextInt(3, 6), 0, 15, 1.0F), x, y, z, 0, 0.05, 0);
                             }
                         }, level.isClientSide);
                     }

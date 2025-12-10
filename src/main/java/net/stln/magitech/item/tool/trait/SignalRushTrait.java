@@ -89,7 +89,7 @@ public class SignalRushTrait extends Trait {
         super.tick(player, level, stack, traitLevel, stats, isHost);
         if (player.getFoodData().getSaturationLevel() > 0) {
             int signal = Math.max(level.getBestNeighborSignal(player.getOnPos()), level.getSignal(player.getOnPos(), Direction.UP));
-            EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(1.0F, 0.0F, 0.0F), new Vector3f(1.0F, (float) signal / 20, (float) signal / 20), 1F, 1, 0), player, 1);
+            EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(1.0F, 0.0F, 0.0F), new Vector3f(1.0F, (float) signal / 20, (float) signal / 20), 1F, 1, 0, 15, 1.0F), player, 1);
         }
     }
 

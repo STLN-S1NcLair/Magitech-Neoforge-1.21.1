@@ -33,11 +33,11 @@ public class ManaZapParticle extends GlowingParticle {
         this.xd = vx;
         this.yd = vy;
         this.zd = vz;
-        this.lifetime = 2 + clientWorld.random.nextInt(0, 3);
+        this.lifetime = parameters.getLifetime();
         this.alpha = 1.0F;
         this.scale = 1F * parameters.getScale();
         this.gravity = 0.0F;
-        this.friction = 1.0F;
+        this.friction = parameters.getFriction();
         this.spriteProvider = spriteProvider;
         this.setSpriteFromAge(spriteProvider);
         this.startColor = parameters.getFromColor();

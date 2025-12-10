@@ -88,7 +88,7 @@ public class BlindResonanceTrait extends Trait {
             target.invulnerableTime = 0;
             livingEntity.hurt(damageSource, livingEntity.getArmorValue() * 0.25F * traitLevel);
 
-            EffectUtil.entityEffect(level, new WaveParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, 0), livingEntity, 60);
+            EffectUtil.entityEffect(level, new WaveParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, 0, level.random.nextInt(5, 10), 0.9F), livingEntity, 60);
         }
     }
 
@@ -98,12 +98,12 @@ public class BlindResonanceTrait extends Trait {
         level.updateSkyBrightness();
         int light = level.getMaxLocalRawBrightness(player.blockPosition());
         if (light < 4 && !player.hasEffect(MobEffects.NIGHT_VISION)) {
-            EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(0.0F, 0.5F, 0.5F), new Vector3f(0.0F, 1.0F, 1.0F), 1F, 1, 0), player, 1);
+            EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(0.0F, 0.5F, 0.5F), new Vector3f(0.0F, 1.0F, 1.0F), 1F, 1, 0, 15, 1.0F), player, 1);
             List<Entity> entities = EntityUtil.getEntitiesInBox(level, player, player.position(), new Vec3(10, 10, 10));
             for (Entity entity : entities) {
                 if (player.getRandom().nextFloat() < 0.2F) {
-                    EffectUtil.entityEffect(level, new PowerupNoCullParticleEffect(new Vector3f(0.0F, 0.5F, 0.5F), new Vector3f(0.0F, 1.0F, 1.0F), 1F, 1, 0), entity, 1);
-                    EffectUtil.entityEffect(level, new WaveNoCullParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 5F, 1, 0), entity, 1);
+                    EffectUtil.entityEffect(level, new PowerupNoCullParticleEffect(new Vector3f(0.0F, 0.5F, 0.5F), new Vector3f(0.0F, 1.0F, 1.0F), 1F, 1, 0, 15, 1.0F), entity, 1);
+                    EffectUtil.entityEffect(level, new WaveNoCullParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 5F, 1, 0, level.random.nextInt(5, 10), 0.9F), entity, 1);
                 }
             }
         }

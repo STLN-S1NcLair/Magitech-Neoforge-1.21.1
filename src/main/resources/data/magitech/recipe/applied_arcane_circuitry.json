@@ -7,8 +7,7 @@
       "items": "magitech:reinforced_stick",
       "components": {
         "magitech:material_component": "magitech:zinc"
-      },
-      "strict": true
+      }
     },
     "B": {
       "item": "minecraft:book"

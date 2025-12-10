@@ -64,11 +64,11 @@ public class SparkTrait extends Trait {
     }
 
     public static void addVisualEffect(Level level, Player user, Vec3 start, Vec3 hitPos) {
-        EffectUtil.lineEffect(level, new SparkParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 0.5F, 3, 0), start, hitPos, 2, false);
+        EffectUtil.lineEffect(level, new SparkParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 0.5F, 3, 0, level.random.nextInt(5, 15), 0.99F), start, hitPos, 2, false);
         level.addParticle(new ZapParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F),
-                        start.toVector3f(), 1.0F, 1, 0),
+                        start.toVector3f(), 1.0F, 1, 0, level.random.nextInt(2, 5), 1.0F),
                 hitPos.x, hitPos.y, hitPos.z, 0, 0, 0);
-        level.addParticle(new BeamParticleEffect(new Vector3f(0.15F, 0.15F, 0.2F), new Vector3f(0.1F, 0.1F, 0.2F), start.toVector3f(), 0.5F, 1, 1), hitPos.x, hitPos.y, hitPos.z, 0, 0, 0);
+        level.addParticle(new BeamParticleEffect(new Vector3f(0.15F, 0.15F, 0.2F), new Vector3f(0.1F, 0.1F, 0.2F), start.toVector3f(), 0.5F, 1, 1, 5, 1), hitPos.x, hitPos.y, hitPos.z, 0, 0, 0);
     }
 
     @Override
@@ -179,7 +179,7 @@ public class SparkTrait extends Trait {
         super.addEffect(player, level, stack, traitLevel, stats, blockState, pos, damageAmount, isInitial);
         Vec3 center = pos.getCenter();
         level.addParticle(new ZapParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F),
-                        player.position().toVector3f(), 1.0F, 1, 0),
+                        player.position().toVector3f(), 1.0F, 1, 0, level.random.nextInt(2, 5), 1.0F),
                 center.x, center.y, center.z, 0, 0, 0);
         level.playSound(player, pos, SoundInit.SPARK.get(), SoundSource.PLAYERS, 0.1F, 0.3F + (player.getRandom().nextFloat() * 1.4F));
     }

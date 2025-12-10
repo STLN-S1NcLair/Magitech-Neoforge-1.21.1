@@ -17,11 +17,13 @@ public class FrostParticleEffect extends AbstractCustomizableParticleEffect {
                             ExtraCodecs.VECTOR3F.fieldOf("to_color").forGetter(effect -> effect.toColor),
                             SCALE_CODEC.fieldOf("scale").forGetter(AbstractCustomizableParticleEffect::getScale),
                             TWINKLE_CODEC.fieldOf("twinkle").forGetter(AbstractCustomizableParticleEffect::getTwinkle),
-                            ROTATE_SPEED_CODEC.fieldOf("rotate_speed").forGetter(AbstractCustomizableParticleEffect::getRotSpeed)
+                            ROTATE_SPEED_CODEC.fieldOf("rotate_speed").forGetter(AbstractCustomizableParticleEffect::getRotSpeed),
+                            LIFETIME_CODEC.fieldOf("lifetime").forGetter(AbstractCustomizableParticleEffect::getLifetime),
+                            FRICTION_CODEC.fieldOf("friction").forGetter(AbstractCustomizableParticleEffect::getFriction)
                     )
                     .apply(instance, FrostParticleEffect::new)
     );
-    public static final StreamCodec<ByteBuf, FrostParticleEffect> STREAM_CODEC = StreamCodec.composite(
+    public static final StreamCodec<ByteBuf, FrostParticleEffect> STREAM_CODEC = composite(
             ByteBufCodecs.VECTOR3F,
             effect -> effect.fromColor,
             ByteBufCodecs.VECTOR3F,
@@ -32,14 +34,18 @@ public class FrostParticleEffect extends AbstractCustomizableParticleEffect {
             AbstractCustomizableParticleEffect::getTwinkle,
             ByteBufCodecs.FLOAT,
             AbstractCustomizableParticleEffect::getRotSpeed,
+            ByteBufCodecs.INT,
+            AbstractCustomizableParticleEffect::getLifetime,
+            ByteBufCodecs.FLOAT,
+            AbstractCustomizableParticleEffect::getFriction,
             FrostParticleEffect::new
     );
 
     private final Vector3f fromColor;
     private final Vector3f toColor;
 
-    public FrostParticleEffect(Vector3f fromColor, Vector3f toColor, float scale, int twinkle, float rotSpeed) {
-        super(scale, twinkle, rotSpeed);
+    public FrostParticleEffect(Vector3f fromColor, Vector3f toColor, float scale, int twinkle, float rotSpeed, int lifetime, float friction) {
+        super(scale, twinkle, rotSpeed, lifetime, friction);
         this.fromColor = fromColor;
         this.toColor = toColor;
     }

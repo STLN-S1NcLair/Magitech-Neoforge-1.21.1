@@ -2,15 +2,9 @@ package net.stln.magitech.magic.spell;
 
 import net.neoforged.bus.api.IEventBus;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.magic.spell.ember.Blazewend;
-import net.stln.magitech.magic.spell.ember.Fluvalen;
-import net.stln.magitech.magic.spell.ember.Ignisca;
-import net.stln.magitech.magic.spell.ember.Pyrolux;
+import net.stln.magitech.magic.spell.ember.*;
 import net.stln.magitech.magic.spell.flow.*;
-import net.stln.magitech.magic.spell.glace.Cryoluxa;
-import net.stln.magitech.magic.spell.glace.Frigala;
-import net.stln.magitech.magic.spell.glace.Glistelda;
-import net.stln.magitech.magic.spell.glace.Nivalune;
+import net.stln.magitech.magic.spell.glace.*;
 import net.stln.magitech.magic.spell.hollow.*;
 import net.stln.magitech.magic.spell.magic.Arcaleth;
 import net.stln.magitech.magic.spell.magic.Envistra;
@@ -40,11 +34,13 @@ public class SpellInit {
     public static final DeferredSpell<Spell> PYROLUX = register("pyrolux", new Pyrolux());
     public static final DeferredSpell<Spell> FLUVALEN = register("fluvalen", new Fluvalen());
     public static final DeferredSpell<Spell> BLAZEWEND = register("blazewend", new Blazewend());
+    public static final DeferredSpell<Spell> VOLKARIN = register("volkarin", new Volkarin());
 
     public static final DeferredSpell<Spell> FRIGALA = register("frigala", new Frigala());
     public static final DeferredSpell<Spell> CRYOLUXA = register("cryoluxa", new Cryoluxa());
     public static final DeferredSpell<Spell> NIVALUNE = register("nivalune", new Nivalune());
     public static final DeferredSpell<Spell> GLISTELDA = register("glistelda", new Glistelda());
+    public static final DeferredSpell<Spell> FROSBLAST = register("frosblast", new Frosblast());
 
     public static final DeferredSpell<Spell> VOLTARIS = register("voltaris", new Voltaris());
     public static final DeferredSpell<Spell> FULGENZA = register("fulgenza", new Fulgenza());

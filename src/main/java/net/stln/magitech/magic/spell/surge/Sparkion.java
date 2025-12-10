@@ -128,7 +128,7 @@ public class Sparkion extends Spell {
             }
             hitEntity = true;
             if (usingTick % 2 == 0 || startPos == offset) {
-                level.addParticle(new ZapParticleEffect(new Vector3f(1), new Vector3f(1), targetBodyPos.toVector3f(), 2F, 3, 0), startPos.x, startPos.y, startPos.z,
+                level.addParticle(new ZapParticleEffect(new Vector3f(1), new Vector3f(1), targetBodyPos.toVector3f(), 2F, 3, 0, level.random.nextInt(2, 5), 1.0F), startPos.x, startPos.y, startPos.z,
                         0, 0, 0);
             }
             startPos = targetBodyPos;
@@ -136,7 +136,7 @@ public class Sparkion extends Spell {
         if (!hitEntity) {
             level.addParticle(new ZapParticleEffect(new Vector3f(1), new Vector3f(1),
                             center2.add(new Vec3(livingEntity.getRandom().nextFloat() - 0.5, livingEntity.getRandom().nextFloat() - 0.5, livingEntity.getRandom().nextFloat() - 0.5).scale(3)).toVector3f(),
-                            2F, 3, 0), offset.x, offset.y, offset.z,
+                            2F, 3, 0, level.random.nextInt(2, 5), 1.0F), offset.x, offset.y, offset.z,
                     0, 0, 0);
         }
         if (livingEntity instanceof Player player) {

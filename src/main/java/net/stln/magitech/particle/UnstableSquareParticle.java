@@ -26,11 +26,12 @@ public class UnstableSquareParticle extends GlowingParticle {
         this.xd = vx;
         this.yd = vy;
         this.zd = vz;
-        this.lifetime = 15;
+        this.lifetime = parameters.getLifetime();
         this.alpha = 1.0F;
         this.scale = 1F * parameters.getScale();
         this.initialScale = this.scale;
         this.gravity = -0.0F;
+        this.friction = parameters.getFriction();
         this.spriteProvider = spriteProvider;
         this.setSpriteFromAge(spriteProvider);
         this.startColor = parameters.getFromColor();

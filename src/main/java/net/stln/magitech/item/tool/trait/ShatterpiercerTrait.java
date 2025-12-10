@@ -61,7 +61,7 @@ public class ShatterpiercerTrait extends Trait {
                 Vec3 offset = new Vec3(player.getRandom().nextFloat(), player.getRandom().nextFloat(), player.getRandom().nextFloat()).add(Vec3.atLowerCornerOf(pos));
                 float rotSpeed = player.getRandom().nextFloat() / 5 - 0.1F;
 
-                level.addParticle(new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1F, 1, rotSpeed),
+                level.addParticle(new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1F, 1, rotSpeed, level.random.nextInt(50, 60), 0.99F),
                         offset.x, offset.y, offset.z, 0, 0, 0);
                 level.playSound(player, pos, SoundInit.FROST_BREAK.get(), SoundSource.PLAYERS, 0.1F, 0.7F + (player.getRandom().nextFloat() * 0.6F));
             }
@@ -79,7 +79,7 @@ public class ShatterpiercerTrait extends Trait {
                 List<Entity> list = level.getEntities(player, new AABB(target.position().subtract(range), target.position().add(range)), entity -> entity instanceof LivingEntity);
                 for (Entity entity : list) {
                     entity.hurt(damageSource, stats.getStats().get(ToolStats.ELM_ATK_STAT) * (float) Math.sqrt(traitLevel - 0.5));
-                    EffectUtil.entityEffect(level, new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, 0.01F), entity, 60);
+                    EffectUtil.entityEffect(level, new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, 0.01F, level.random.nextInt(50, 60), 0.99F), entity, 60);
                 }
                 for (int i = 0; i < 60; i++) {
                     float rotSpeed = player.getRandom().nextFloat() / 5 - 0.1F;
@@ -87,7 +87,7 @@ public class ShatterpiercerTrait extends Trait {
                     Vec3 offset = new Vec3(3 * (player.getRandom().nextFloat() - 0.5), 3 * (player.getRandom().nextFloat() - 0.5), 3 * (player.getRandom().nextFloat() - 0.5));
                     Vec3 randomBody = livingEntity.position().add(0, livingEntity.getBbHeight() / 2, 0).add(offset);
 
-                    level.addParticle(new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, rotSpeed),
+                    level.addParticle(new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, rotSpeed, level.random.nextInt(50, 60), 0.99F),
                             randomBody.x, randomBody.y, randomBody.z, offset.x / 10, offset.y / 10, offset.z / 10);
                 }
                 livingEntity.setTicksFrozen(0);
@@ -98,7 +98,7 @@ public class ShatterpiercerTrait extends Trait {
 
                 float rotSpeed = player.getRandom().nextFloat() / 5 - 0.1F;
 
-                EffectUtil.entityEffect(level, new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, rotSpeed), livingEntity, 60);
+                EffectUtil.entityEffect(level, new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, rotSpeed, level.random.nextInt(50, 60), 0.99F), livingEntity, 60);
             }
         }
     }

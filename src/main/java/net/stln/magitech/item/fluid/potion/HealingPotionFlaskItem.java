@@ -17,6 +17,6 @@ public class HealingPotionFlaskItem extends DrinkableFlaskItem {
     @Override
     protected void applyEffects(Level level, LivingEntity entity, ItemStack stack) {
         entity.heal(8.0F);
-        EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(0.9F, 1.0F, 0.7F), new Vector3f(0.3F, 1.0F, 0.1F), 1F, 1, 0), entity, 20);
+        EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(0.9F, 1.0F, 0.7F), new Vector3f(0.3F, 1.0F, 0.1F), 1F, 1, 0, 15, 1.0F), entity, 20);
     }
 }

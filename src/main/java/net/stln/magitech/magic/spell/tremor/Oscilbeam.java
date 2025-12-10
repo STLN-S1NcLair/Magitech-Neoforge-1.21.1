@@ -72,10 +72,10 @@ public class Oscilbeam extends BeamSpell {
 
     @Override
     protected void addVisualEffect(Level level, Player user, Vec3 start, Vec3 hitPos) {
-        EffectUtil.lineEffect(level, new WaveParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0), start, hitPos, 2, false);
-        level.addParticle(new BeamParticleEffect(new Vector3f(0.0F, 0.7F, 0.7F), new Vector3f(0.0F, 1.0F, 1.0F), hitPos.toVector3f(), 1.8F, 1, 1), start.x, start.y, start.z, 0, 0, 0);
+        EffectUtil.lineEffect(level, new WaveParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0, level.random.nextInt(5, 10), 0.9F), start, hitPos, 2, false);
+        level.addParticle(new BeamParticleEffect(new Vector3f(0.0F, 0.7F, 0.7F), new Vector3f(0.0F, 1.0F, 1.0F), hitPos.toVector3f(), 1.8F, 1, 1, 5, 1), start.x, start.y, start.z, 0, 0, 0);
         for (int i = 0; i < 20; i++) {
-            level.addParticle(new WaveParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0),
+            level.addParticle(new WaveParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0, level.random.nextInt(5, 10), 0.9F),
                     hitPos.x + (user.getRandom().nextFloat() - 0.5) / 3, hitPos.y + (user.getRandom().nextFloat() - 0.5) / 3, hitPos.z + (user.getRandom().nextFloat() - 0.5) / 3, 0, 0, 0);
         }
     }

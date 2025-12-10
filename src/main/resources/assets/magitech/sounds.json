@@ -209,6 +209,16 @@
       "magitech:tenebport_charge"
     ]
   },
+  "volkarin": {
+    "sounds": [
+      "magitech:volkarin"
+    ]
+  },
+  "volkarin_shoot": {
+    "sounds": [
+      "magitech:volkarin_shoot"
+    ]
+  },
   "aether_lifter_jump": {
     "sounds": [
       "magitech:aether_lifter_jump"

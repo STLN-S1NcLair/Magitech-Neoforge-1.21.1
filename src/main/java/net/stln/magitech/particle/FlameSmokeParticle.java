@@ -25,11 +25,11 @@ public class FlameSmokeParticle extends AbstractCustomizableParticle {
         this.xd = vx;
         this.yd = vy;
         this.zd = vz;
-        this.lifetime = 7 + clientWorld.random.nextInt(0, 5);
+        this.lifetime = parameters.getLifetime();
         this.alpha = 0.8F;
         this.scale = 1F * parameters.getScale();
         this.gravity = -0.02F;
-        this.friction = 0.9F;
+        this.friction = parameters.getFriction();
         this.spriteProvider = spriteProvider;
         this.setSpriteFromAge(spriteProvider);
         this.startColor = parameters.getFromColor();
@@ -46,7 +46,7 @@ public class FlameSmokeParticle extends AbstractCustomizableParticle {
             this.alpha = (this.lifetime - this.age) / (this.lifetime * 0.2F) * 0.6F + 0.2F;
             this.alpha *= 0.8F;
         } else if (this.age <= this.lifetime * 0.2F) {
-            this.alpha = (this.age - this.lifetime) / (this.lifetime * 0.2F) * 0.6F + 0.2F;
+            this.alpha = (this.age - this.lifetime) / ((this.age - this.lifetime) * 0.2F) * 0.6F + 0.2F;
             this.alpha *= 0.8F;
         } else {
             this.alpha = 0.8F;

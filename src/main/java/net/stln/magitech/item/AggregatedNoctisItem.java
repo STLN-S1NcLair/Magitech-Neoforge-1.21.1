@@ -33,7 +33,7 @@ public class AggregatedNoctisItem extends TooltipTextItem {
                 stack.setCount(stack.getCount() - 1);
             }
             level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundInit.CRYSTAL_BREAK.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
-            EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(0.5F, 0.0F, 0.7F), new Vector3f(0.2F, 0.0F, 0.5F), 1F, 1, 0), player, 20);
+            EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(0.5F, 0.0F, 0.7F), new Vector3f(0.2F, 0.0F, 0.5F), 1F, 1, 0, 15, 1.0F), player, 20);
             ManaUtil.setMana(player, ManaUtil.ManaType.NOCTIS, Math.min(currentMana + 15, maxMana));
             player.hurt(player.damageSources().magic(), 5.0F);
             return InteractionResultHolder.success(stack);

@@ -1,0 +1,9 @@
+{
+  "background": "magitech:textures/gui/arcane_engineering_compendium/background.png",
+  "entry_textures": "magitech:textures/gui/arcane_engineering_compendium/entry_textures.png",
+  "icon": {
+      "id": "magitech:thread_page"
+},
+  "name": "book.magitech.arcane_engineering_compendium.spells.name",
+  "sort_number": 0
+}

@@ -110,7 +110,7 @@ public class Syllaeze extends Spell {
             attackList.addAll(EntityUtil.getEntitiesInBox(level, livingEntity, center2, new Vec3(4.0, 4.0, 4.0)));
             for (int i = 0; i < 5; i++) {
                 level.addParticle(new BlowParticleEffect(new Vector3f(1), new Vector3f(1),
-                                5F, 1, 0.3F), offset.x + (livingEntity.getRandom().nextFloat() - 0.5) / 4, offset.y + (livingEntity.getRandom().nextFloat() - 0.5) / 4, offset.z + (livingEntity.getRandom().nextFloat() - 0.5) / 4,
+                                5F, 1, 0.3F, level.random.nextInt(10, 30), 0.87F), offset.x + (livingEntity.getRandom().nextFloat() - 0.5) / 4, offset.y + (livingEntity.getRandom().nextFloat() - 0.5) / 4, offset.z + (livingEntity.getRandom().nextFloat() - 0.5) / 4,
                         back.x * 0.75 + (livingEntity.getRandom().nextFloat() - 0.5) / 2, back.y * 0.75 + (livingEntity.getRandom().nextFloat() - 0.5) / 2, back.z * 0.75 + (livingEntity.getRandom().nextFloat() - 0.5) / 2);
             }
             if (usingTick % 5 == 0) {

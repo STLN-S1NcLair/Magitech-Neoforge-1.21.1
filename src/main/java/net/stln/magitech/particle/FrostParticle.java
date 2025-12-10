@@ -24,11 +24,11 @@ public class FrostParticle extends GlowingParticle {
         this.xd = vx + (clientWorld.random.nextFloat() - 0.5F) / 30;
         this.yd = vy + (clientWorld.random.nextFloat() - 0.5F) / 30;
         this.zd = vz + (clientWorld.random.nextFloat() - 0.5F) / 30;
-        this.lifetime = 50 + clientWorld.random.nextInt(0, 10);
+        this.lifetime = parameters.getLifetime();
         this.alpha = 1.0F;
         this.scale = 1F * parameters.getScale();
         this.gravity = 0.05F;
-        this.friction = 0.99F;
+        this.friction = parameters.getFriction();
         this.spriteProvider = spriteProvider;
         this.setSpriteFromAge(spriteProvider);
         this.startColor = parameters.getFromColor();

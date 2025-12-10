@@ -58,7 +58,7 @@ public class OverchargedTrait extends Trait {
         double currentMana = ManaData.getCurrentMana(player, ManaUtil.ManaType.MANA);
         double maxMana = ManaUtil.getMaxMana(player, ManaUtil.ManaType.MANA);
         if (currentMana >= maxMana / (stack.getItem() instanceof SpellCasterItem ? 2 : 1)) {
-            EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(0.9F, 1.0F, 0.7F), new Vector3f(0.3F, 1.0F, 0.9F), 1F, 1, 0), player, 1);
+            EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(0.9F, 1.0F, 0.7F), new Vector3f(0.3F, 1.0F, 0.9F), 1F, 1, 0, 15, 1.0F), player, 1);
         }
     }
 

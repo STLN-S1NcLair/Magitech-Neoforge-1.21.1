@@ -35,7 +35,7 @@ public class ElectricalBoostTrait extends Trait {
     public void tick(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, boolean isHost) {
         super.tick(player, level, stack, traitLevel, stats, isHost);
         if (player.hasEffect(MobEffectInit.CHARGE)) {
-            EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(0.8F, 0.9F, 1.0F), new Vector3f(0.65F, 0.7F, 0.85F), 1F, 1, 0), player, 1);
+            EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(0.8F, 0.9F, 1.0F), new Vector3f(0.65F, 0.7F, 0.85F), 1F, 1, 0, 15, 1.0F), player, 1);
         }
     }
 

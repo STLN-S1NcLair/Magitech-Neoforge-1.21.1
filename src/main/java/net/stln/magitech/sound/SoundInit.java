@@ -54,6 +54,8 @@ public class SoundInit {
     public static final Supplier<SoundEvent> NYMPHORA = registerSoundEvent("nymphora");
     public static final Supplier<SoundEvent> TENEBPORT = registerSoundEvent("tenebport");
     public static final Supplier<SoundEvent> TENEBPORT_CHARGE = registerSoundEvent("tenebport_charge");
+    public static final Supplier<SoundEvent> VOLKARIN = registerSoundEvent("volkarin");
+    public static final Supplier<SoundEvent> VOLKARIN_SHOOT = registerSoundEvent("volkarin_shoot");
 
     public static final Supplier<SoundEvent> AETHER_LIFTER_JUMP = registerSoundEvent("aether_lifter_jump");
     public static final Supplier<SoundEvent> FLAMGLIDE_STRIDER_JUMP = registerSoundEvent("flamglide_strider_jump");

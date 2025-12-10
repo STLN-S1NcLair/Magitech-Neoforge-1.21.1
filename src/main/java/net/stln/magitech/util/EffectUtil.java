@@ -44,7 +44,7 @@ public class EffectUtil {
         }
     }
 
-    public static void sweepEffect(Player player, Level world, ParticleOptions particleEffect, double randomizer, Vec3 center, double startDeg, double endDeg, int density, double radius, double slopeDeg, boolean alwaysVisible) {
+    public static void sweepEffect(Player player, Level world, Supplier<ParticleOptions> particleEffect, double randomizer, Vec3 center, double startDeg, double endDeg, int density, double radius, double slopeDeg, boolean alwaysVisible) {
         if (!world.isClientSide) {
             return; // クライアント側のみ処理
         }
@@ -63,6 +63,7 @@ public class EffectUtil {
         Vec3 upVec = lookVec.cross(rightVec).normalize(); // 視線に対する上方向
 
         for (int i = 0; i < density; i++) {
+            ParticleOptions particleOptions = particleEffect.get();
             double t = (double) i / (density - 1);
             double angleDeg = startDeg + (endDeg - startDeg) * t;
 
@@ -89,9 +90,9 @@ public class EffectUtil {
 
             int delay = (int) Math.floor(t * 3);
             if (delay < 0) {
-                displayParticle(world, particleEffect, alwaysVisible, x, y, z, xOffset, yOffset, zOffset);
+                displayParticle(world, particleOptions, alwaysVisible, x, y, z, xOffset, yOffset, zOffset);
             } else {
-                TickScheduler.schedule(delay, () -> displayParticle(world, particleEffect, alwaysVisible, x, y, z, xOffset, yOffset, zOffset), true);
+                TickScheduler.schedule(delay, () -> displayParticle(world, particleOptions, alwaysVisible, x, y, z, xOffset, yOffset, zOffset), true);
             }
         }
     }

@@ -116,10 +116,10 @@ public class Veilmist extends Spell {
             attackList.addAll(EntityUtil.getEntitiesInBox(level, livingEntity, center2, new Vec3(4.0, 4.0, 4.0)));
             for (int i = 0; i < 2; i++) {
                 level.addParticle(new MembraneParticleEffect(new Vector3f(1), new Vector3f(1),
-                                5F, 1, (float) ((livingEntity.getRandom().nextFloat() - 0.5) / 8)), offset.x + (livingEntity.getRandom().nextFloat() - 0.5) / 4, offset.y + (livingEntity.getRandom().nextFloat() - 0.5) / 4, offset.z + (livingEntity.getRandom().nextFloat() - 0.5) / 4,
+                                5F, 1, (float) ((livingEntity.getRandom().nextFloat() - 0.5) / 8), level.random.nextInt(10, 40), 0.85F), offset.x + (livingEntity.getRandom().nextFloat() - 0.5) / 4, offset.y + (livingEntity.getRandom().nextFloat() - 0.5) / 4, offset.z + (livingEntity.getRandom().nextFloat() - 0.5) / 4,
                         forward.x * 0.5 + (livingEntity.getRandom().nextFloat() - 0.5) / 2, forward.y * 0.5 + (livingEntity.getRandom().nextFloat() - 0.5) / 2, forward.z * 0.5 + (livingEntity.getRandom().nextFloat() - 0.5) / 2);
                 level.addParticle(new UnstableSquareParticleEffect(new Vector3f(1, 1, 0.7F), new Vector3f(1, 1, 0.5F),
-                                2F, 1, (float) ((livingEntity.getRandom().nextFloat() - 0.5) / 8)), offset.x + (livingEntity.getRandom().nextFloat() - 0.5) / 4, offset.y + (livingEntity.getRandom().nextFloat() - 0.5) / 4, offset.z + (livingEntity.getRandom().nextFloat() - 0.5) / 4,
+                                2F, 1, (float) ((livingEntity.getRandom().nextFloat() - 0.5) / 8), 15, 0.0F), offset.x + (livingEntity.getRandom().nextFloat() - 0.5) / 4, offset.y + (livingEntity.getRandom().nextFloat() - 0.5) / 4, offset.z + (livingEntity.getRandom().nextFloat() - 0.5) / 4,
                         forward.x * 0.25 + (livingEntity.getRandom().nextFloat() - 0.5) / 6, forward.y * 0.25 + (livingEntity.getRandom().nextFloat() - 0.5) / 6, forward.z * 0.25 + (livingEntity.getRandom().nextFloat() - 0.5) / 6);
             }
             if (usingTick % 5 == 0) {

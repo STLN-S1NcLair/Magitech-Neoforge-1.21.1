@@ -24,11 +24,11 @@ public class BlowParticle extends GlowingParticle {
         this.xd = vx + (clientWorld.random.nextFloat() - 0.5F) / 15;
         this.yd = vy + (clientWorld.random.nextFloat() - 0.5F) / 15;
         this.zd = vz + (clientWorld.random.nextFloat() - 0.5F) / 15;
-        this.lifetime = 10 + clientWorld.random.nextInt(0, 20);
+        this.lifetime = parameters.getLifetime();
         this.alpha = 1.0F;
         this.scale = 1F * parameters.getScale();
         this.gravity = 0.05F;
-        this.friction = 0.87F;
+        this.friction = parameters.getFriction();
         this.spriteProvider = spriteProvider;
         this.setSpriteFromAge(spriteProvider);
         this.startColor = parameters.getFromColor();

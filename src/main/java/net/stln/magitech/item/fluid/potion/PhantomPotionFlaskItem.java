@@ -19,6 +19,6 @@ public class PhantomPotionFlaskItem extends DrinkableFlaskItem {
     @Override
     protected void applyEffects(Level level, LivingEntity entity, ItemStack stack) {
         entity.addEffect(new MobEffectInstance(MobEffectInit.PHANTOM_POWER, 2400, 0));
-        EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(0.8F, 1.0F, 0.5F), new Vector3f(1.0F, 0.5F, 0.3F), 1F, 1, 0), entity, 20);
+        EffectUtil.entityEffect(level, new PowerupParticleEffect(new Vector3f(0.8F, 1.0F, 0.5F), new Vector3f(1.0F, 0.5F, 0.3F), 1F, 1, 0, 15, 1.0F), entity, 20);
     }
 }

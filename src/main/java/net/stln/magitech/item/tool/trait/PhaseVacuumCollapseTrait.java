@@ -29,7 +29,7 @@ public class PhaseVacuumCollapseTrait extends Trait {
 
             livingEntity.addEffect(new MobEffectInstance(MobEffectInit.PHASELOCK, 10 * traitLevel, 0));
 
-            EffectUtil.entityEffect(level, new VoidGlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, 0), livingEntity, 60);
+            EffectUtil.entityEffect(level, new VoidGlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, 0, level.random.nextInt(1, 21), 1.0F), livingEntity, 60);
         }
     }
 

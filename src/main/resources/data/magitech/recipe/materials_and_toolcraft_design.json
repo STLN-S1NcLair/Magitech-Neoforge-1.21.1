@@ -10,16 +10,14 @@
       "items": "magitech:reinforced_stick",
       "components": {
         "magitech:material_component": "magitech:iron"
-      },
-      "strict": true
+      }
     },
     "P": {
       "type": "neoforge:components",
       "items": "magitech:plate",
       "components": {
         "magitech:material_component": "magitech:stone"
-      },
-      "strict": true
+      }
     },
     "L": {
       "tag": "c:stripped_logs"

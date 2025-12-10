@@ -77,7 +77,7 @@ public class TremivoxEntity extends SpellProjectileEntity implements GeoEntity {
                 double vx = deltaMovement.x / 4;
                 double vy = deltaMovement.y / 4;
                 double vz = deltaMovement.z / 4;
-                world.addParticle(new WaveParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed), x, y, z, vx, vy, vz);
+                world.addParticle(new WaveParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed, level().random.nextInt(5, 10), 0.9F), x, y, z, vx, vy, vz);
             }
         } else {
             Vec3 center = this.position().add(this.getDeltaMovement().normalize().scale(10.0));
@@ -155,7 +155,7 @@ public class TremivoxEntity extends SpellProjectileEntity implements GeoEntity {
                 double vx = (random.nextFloat() - 0.5) / 6;
                 double vy = (random.nextFloat() - 0.5) / 6;
                 double vz = (random.nextFloat() - 0.5) / 6;
-                world.addParticle(new WaveParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed), x, y, z, vx, vy, vz);
+                world.addParticle(new WaveParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed, level().random.nextInt(5, 10), 0.9F), x, y, z, vx, vy, vz);
             }
         }
     }
