@@ -127,7 +127,7 @@ public class Arclume extends Spell {
                 double vx = (user.getRandom().nextFloat() - 0.5) / 10;
                 double vy = (user.getRandom().nextFloat() - 0.5) / 10;
                 double vz = (user.getRandom().nextFloat() - 0.5) / 10;
-                level.addParticle(new SquareParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed, 15, 1.0F), x, y, z, vx, vy, vz);
+                level.addParticle(new SquareParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed, 15, 0.8F), x, y, z, vx, vy, vz);
             }
 
             for (int i = 0; i < particleAmount; i++) {
@@ -139,7 +139,7 @@ public class Arclume extends Spell {
                 double vx = (user.getRandom().nextFloat() - 0.5) / 2;
                 double vy = (user.getRandom().nextFloat() - 0.5);
                 double vz = (user.getRandom().nextFloat() - 0.5) / 2;
-                level.addParticle(new UnstableSquareParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed, 15, 1.0F), x, y, z, vx, vy, vz);
+                level.addParticle(new UnstableSquareParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed, 15, 0.8F), x, y, z, vx, vy, vz);
             }
         }
     }

@@ -15,10 +15,7 @@ import net.stln.magitech.magic.spell.phantom.Fadancea;
 import net.stln.magitech.magic.spell.phantom.Mirazien;
 import net.stln.magitech.magic.spell.phantom.Phantastra;
 import net.stln.magitech.magic.spell.phantom.Veilmist;
-import net.stln.magitech.magic.spell.surge.Arclume;
-import net.stln.magitech.magic.spell.surge.Fulgenza;
-import net.stln.magitech.magic.spell.surge.Sparkion;
-import net.stln.magitech.magic.spell.surge.Voltaris;
+import net.stln.magitech.magic.spell.surge.*;
 import net.stln.magitech.magic.spell.tremor.Oscilbeam;
 import net.stln.magitech.magic.spell.tremor.Quaveris;
 import net.stln.magitech.magic.spell.tremor.Sonistorm;
@@ -46,6 +43,7 @@ public class SpellInit {
     public static final DeferredSpell<Spell> FULGENZA = register("fulgenza", new Fulgenza());
     public static final DeferredSpell<Spell> SPARKION = register("sparkion", new Sparkion());
     public static final DeferredSpell<Spell> ARCLUME = register("arclume", new Arclume());
+    public static final DeferredSpell<Spell> ELECTROIDE = register("electroide", new Electroide());
 
     public static final DeferredSpell<Spell> MIRAZIEN = register("mirazien", new Mirazien());
     public static final DeferredSpell<Spell> PHANTASTRA = register("phantastra", new Phantastra());

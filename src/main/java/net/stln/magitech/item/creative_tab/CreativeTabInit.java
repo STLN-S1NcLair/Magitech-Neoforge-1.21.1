@@ -564,6 +564,7 @@ public class CreativeTabInit {
                 output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.FULGENZA));
                 output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.SPARKION));
                 output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.ARCLUME));
+                output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.ELECTROIDE));
 
                 output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.TREMIVOX));
                 output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.OSCILBEAM));

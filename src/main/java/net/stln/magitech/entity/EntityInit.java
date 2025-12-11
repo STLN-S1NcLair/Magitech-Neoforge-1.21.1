@@ -19,6 +19,8 @@ import net.stln.magitech.entity.magicentity.aeltherin.AeltherinEntity;
 import net.stln.magitech.entity.magicentity.aeltherin.AeltherinRenderer;
 import net.stln.magitech.entity.magicentity.arcaleth.ArcalethEntity;
 import net.stln.magitech.entity.magicentity.arcaleth.ArcalethRenderer;
+import net.stln.magitech.entity.magicentity.electroide.ElectroideEntity;
+import net.stln.magitech.entity.magicentity.electroide.ElectroideRenderer;
 import net.stln.magitech.entity.magicentity.frigala.FrigalaEntity;
 import net.stln.magitech.entity.magicentity.frigala.FrigalaRenderer;
 import net.stln.magitech.entity.magicentity.frosblast.FrosblastEntity;
@@ -51,6 +53,7 @@ public class EntityInit {
     public static final Supplier<EntityType<FrigalaEntity>> FRIGALA_ENTITY = registerMobEntity("frigala", FrigalaEntity::new, MobCategory.MISC, builder -> builder.sized(0.5F, 0.5F));
     public static final Supplier<EntityType<FrosblastEntity>> FROSBLAST_ENTITY = registerMobEntity("frosblast", FrosblastEntity::new, MobCategory.MISC, builder -> builder.sized(1.0F, 1.0F));
     public static final Supplier<EntityType<VoltarisEntity>> VOLTARIS_ENTITY = registerMobEntity("voltaris", VoltarisEntity::new, MobCategory.MISC, builder -> builder.sized(1.0F, 1.0F));
+    public static final Supplier<EntityType<ElectroideEntity>> ELECTROIDE_ENTITY = registerMobEntity("electroide", ElectroideEntity::new, MobCategory.MISC, builder -> builder.sized(1.25F, 1.25F));
     public static final Supplier<EntityType<MirazienEntity>> MIRAZIEN_ENTITY = registerMobEntity("mirazien", MirazienEntity::new, MobCategory.MISC, builder -> builder.sized(0.5F, 0.5F));
     public static final Supplier<EntityType<TremivoxEntity>> TREMIVOX_ENTITY = registerMobEntity("tremivox", TremivoxEntity::new, MobCategory.MISC, builder -> builder.sized(0.75F, 0.75F));
     public static final Supplier<EntityType<ArcalethEntity>> ARCALETH_ENTITY = registerMobEntity("arcaleth", ArcalethEntity::new, MobCategory.MISC, builder -> builder.sized(0.5F, 0.5F));
@@ -71,6 +74,7 @@ public class EntityInit {
         EntityRenderers.register(EntityInit.FRIGALA_ENTITY.get(), FrigalaRenderer::new);
         EntityRenderers.register(EntityInit.FROSBLAST_ENTITY.get(), FrosblastRenderer::new);
         EntityRenderers.register(EntityInit.VOLTARIS_ENTITY.get(), VoltarisRenderer::new);
+        EntityRenderers.register(EntityInit.ELECTROIDE_ENTITY.get(), ElectroideRenderer::new);
         EntityRenderers.register(EntityInit.MIRAZIEN_ENTITY.get(), MirazienRenderer::new);
         EntityRenderers.register(EntityInit.TREMIVOX_ENTITY.get(), TremivoxRenderer::new);
         EntityRenderers.register(EntityInit.ARCALETH_ENTITY.get(), ArcalethRenderer::new);

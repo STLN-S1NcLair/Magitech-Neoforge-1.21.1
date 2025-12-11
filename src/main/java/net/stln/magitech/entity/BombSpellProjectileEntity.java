@@ -61,6 +61,21 @@ public abstract class BombSpellProjectileEntity extends SpellProjectileEntity{
         this.setOwner(owner);
     }
 
+
+    @Override
+    public void handleEntityEvent(byte status) {
+        if (status == EntityEvent.DEATH) {
+            if (this.level().isClientSide) {
+                explode();
+                addHitEffect();
+            } else {
+                this.discard();
+            }
+        }
+        super.handleEntityEvent(status);
+    }
+
+
     @Override
     protected void onHitEntity(EntityHitResult result) {
         super.onHitEntity(result);

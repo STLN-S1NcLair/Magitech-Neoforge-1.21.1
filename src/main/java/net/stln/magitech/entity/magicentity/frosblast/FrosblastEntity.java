@@ -85,7 +85,7 @@ public class FrosblastEntity extends BombSpellProjectileEntity{
 
     @Override
     protected Element getElement() {
-        return Element.EMBER;
+        return Element.GLACE;
     }
 
     @Override
