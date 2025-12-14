@@ -43,8 +43,7 @@ public class Phantastra extends BeamSpell {
     public Map<ManaUtil.ManaType, Double> getBaseRequiredMana() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
         cost.put(ManaUtil.ManaType.MANA, 40.0);
-        cost.put(ManaUtil.ManaType.LUMINIS, 3.0);
-        cost.put(ManaUtil.ManaType.FLUXIA, 2.0);
+        cost.put(ManaUtil.ManaType.LUMINIS, 5.0);
         return cost;
     }
 

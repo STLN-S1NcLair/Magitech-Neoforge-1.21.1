@@ -11,15 +11,9 @@ import net.stln.magitech.magic.spell.magic.Envistra;
 import net.stln.magitech.magic.spell.magic.Glymora;
 import net.stln.magitech.magic.spell.magic.Mystaven;
 import net.stln.magitech.magic.spell.mana.Enercrux;
-import net.stln.magitech.magic.spell.phantom.Fadancea;
-import net.stln.magitech.magic.spell.phantom.Mirazien;
-import net.stln.magitech.magic.spell.phantom.Phantastra;
-import net.stln.magitech.magic.spell.phantom.Veilmist;
+import net.stln.magitech.magic.spell.phantom.*;
 import net.stln.magitech.magic.spell.surge.*;
-import net.stln.magitech.magic.spell.tremor.Oscilbeam;
-import net.stln.magitech.magic.spell.tremor.Quaveris;
-import net.stln.magitech.magic.spell.tremor.Sonistorm;
-import net.stln.magitech.magic.spell.tremor.Tremivox;
+import net.stln.magitech.magic.spell.tremor.*;
 import net.stln.magitech.registry.DeferredSpell;
 import net.stln.magitech.registry.DeferredSpellRegister;
 import org.jetbrains.annotations.NotNull;
@@ -49,11 +43,13 @@ public class SpellInit {
     public static final DeferredSpell<Spell> PHANTASTRA = register("phantastra", new Phantastra());
     public static final DeferredSpell<Spell> VEILMIST = register("veilmist", new Veilmist());
     public static final DeferredSpell<Spell> FADANCEA = register("fadancea", new Fadancea());
+    public static final DeferredSpell<Spell> ILLUSFLARE = register("illusflare", new Illusflare());
 
     public static final DeferredSpell<Spell> TREMIVOX = register("tremivox", new Tremivox());
     public static final DeferredSpell<Spell> OSCILBEAM = register("oscilbeam", new Oscilbeam());
     public static final DeferredSpell<Spell> SONISTORM = register("sonistorm", new Sonistorm());
     public static final DeferredSpell<Spell> QUAVERIS = register("quaveris", new Quaveris());
+    public static final DeferredSpell<Spell> SHOCKVANE = register("shockvane", new Shockvane());
 
     public static final DeferredSpell<Spell> ARCALETH = register("arcaleth", new Arcaleth());
     public static final DeferredSpell<Spell> MYSTAVEN = register("mystaven", new Mystaven());

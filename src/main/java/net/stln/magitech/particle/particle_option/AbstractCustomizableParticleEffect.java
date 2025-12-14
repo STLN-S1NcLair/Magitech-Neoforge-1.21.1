@@ -24,7 +24,7 @@ public abstract class AbstractCustomizableParticleEffect implements ParticleOpti
     protected static final Codec<Integer> LIFETIME_CODEC = Codec.INT
             .validate(lifetime -> lifetime >= 1 && lifetime <= 1000 ? DataResult.success(lifetime) : DataResult.error(() -> "Value must be within range [1;1000]: " + lifetime));
     protected static final Codec<Float> FRICTION_CODEC = Codec.FLOAT
-            .validate(friction -> friction >= 0 && friction <= 1 ? DataResult.success(friction) : DataResult.error(() -> "Value must be within range [0;1]: " + friction));
+            .validate(friction -> friction >= 0 && friction <= 100 ? DataResult.success(friction) : DataResult.error(() -> "Value must be within range [0;100]: " + friction));
     private final Vector3f color;
     private final float scale;
     private final int twinkle;
