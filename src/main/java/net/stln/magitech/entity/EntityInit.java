@@ -25,6 +25,8 @@ import net.stln.magitech.entity.magicentity.frigala.FrigalaEntity;
 import net.stln.magitech.entity.magicentity.frigala.FrigalaRenderer;
 import net.stln.magitech.entity.magicentity.frosblast.FrosblastEntity;
 import net.stln.magitech.entity.magicentity.frosblast.FrosblastRenderer;
+import net.stln.magitech.entity.magicentity.hexflare.HexflareEntity;
+import net.stln.magitech.entity.magicentity.hexflare.HexflareRenderer;
 import net.stln.magitech.entity.magicentity.ignisca.IgniscaEntity;
 import net.stln.magitech.entity.magicentity.ignisca.IgniscaRenderer;
 import net.stln.magitech.entity.magicentity.illusflare.IllusflareEntity;
@@ -63,6 +65,7 @@ public class EntityInit {
     public static final Supplier<EntityType<TremivoxEntity>> TREMIVOX_ENTITY = registerMobEntity("tremivox", TremivoxEntity::new, MobCategory.MISC, builder -> builder.sized(0.75F, 0.75F));
     public static final Supplier<EntityType<ShockvaneEntity>> SHOCKVANE_ENTITY = registerMobEntity("shockvane", ShockvaneEntity::new, MobCategory.MISC, builder -> builder.sized(1.0F, 1.0F));
     public static final Supplier<EntityType<ArcalethEntity>> ARCALETH_ENTITY = registerMobEntity("arcaleth", ArcalethEntity::new, MobCategory.MISC, builder -> builder.sized(0.5F, 0.5F));
+    public static final Supplier<EntityType<HexflareEntity>> HEXFLARE_ENTITY = registerMobEntity("hexflare", HexflareEntity::new, MobCategory.MISC, builder -> builder.sized(1.0F, 1.0F));
     public static final Supplier<EntityType<AeltherinEntity>> AELTHERIN_ENTITY = registerMobEntity("aeltherin", AeltherinEntity::new, MobCategory.MISC, builder -> builder.sized(0.5F, 0.5F));
     public static final Supplier<EntityType<NullixisEntity>> NULLIXIS_ENTITY = registerMobEntity("nullixis", NullixisEntity::new, MobCategory.MISC, builder -> builder.sized(0.5F, 0.5F));
 
@@ -86,6 +89,7 @@ public class EntityInit {
         EntityRenderers.register(EntityInit.TREMIVOX_ENTITY.get(), TremivoxRenderer::new);
         EntityRenderers.register(EntityInit.SHOCKVANE_ENTITY.get(), ShockvaneRenderer::new);
         EntityRenderers.register(EntityInit.ARCALETH_ENTITY.get(), ArcalethRenderer::new);
+        EntityRenderers.register(EntityInit.HEXFLARE_ENTITY.get(), HexflareRenderer::new);
         EntityRenderers.register(EntityInit.AELTHERIN_ENTITY.get(), AeltherinRenderer::new);
         EntityRenderers.register(EntityInit.NULLIXIS_ENTITY.get(), NullixisRenderer::new);
 

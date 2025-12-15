@@ -6,10 +6,7 @@ import net.stln.magitech.magic.spell.ember.*;
 import net.stln.magitech.magic.spell.flow.*;
 import net.stln.magitech.magic.spell.glace.*;
 import net.stln.magitech.magic.spell.hollow.*;
-import net.stln.magitech.magic.spell.magic.Arcaleth;
-import net.stln.magitech.magic.spell.magic.Envistra;
-import net.stln.magitech.magic.spell.magic.Glymora;
-import net.stln.magitech.magic.spell.magic.Mystaven;
+import net.stln.magitech.magic.spell.magic.*;
 import net.stln.magitech.magic.spell.mana.Enercrux;
 import net.stln.magitech.magic.spell.phantom.*;
 import net.stln.magitech.magic.spell.surge.*;
@@ -55,6 +52,7 @@ public class SpellInit {
     public static final DeferredSpell<Spell> MYSTAVEN = register("mystaven", new Mystaven());
     public static final DeferredSpell<Spell> GLYMORA = register("glymora", new Glymora());
     public static final DeferredSpell<Spell> ENVISTRA = register("envistra", new Envistra());
+    public static final DeferredSpell<Spell> HEXFLARE = register("hexflare", new Hexflare());
 
     public static final DeferredSpell<Spell> AELTHERIN = register("aeltherin", new Aeltherin());
     public static final DeferredSpell<Spell> FLUVINAE = register("fluvinae", new Fluvinae());
