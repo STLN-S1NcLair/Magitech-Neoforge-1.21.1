@@ -15,8 +15,8 @@ import net.stln.magitech.element.Element;
 import net.stln.magitech.entity.BombSpellProjectileEntity;
 import net.stln.magitech.entity.EntityInit;
 import net.stln.magitech.particle.particle_option.AbstractCustomizableParticleEffect;
-import net.stln.magitech.particle.particle_option.WaveParticleEffect;
 import net.stln.magitech.particle.particle_option.UnstableSquareParticleEffect;
+import net.stln.magitech.particle.particle_option.WaveParticleEffect;
 import net.stln.magitech.sound.SoundInit;
 import net.stln.magitech.util.TickScheduler;
 import org.jetbrains.annotations.Nullable;
@@ -27,11 +27,12 @@ import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class ShockvaneEntity extends BombSpellProjectileEntity{
+public class ShockvaneEntity extends BombSpellProjectileEntity {
 
     private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
 
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
+    boolean exploded = false;
 
     public ShockvaneEntity(EntityType<? extends BombSpellProjectileEntity> entityType, Level world) {
         super(entityType, world);
@@ -105,8 +106,6 @@ public class ShockvaneEntity extends BombSpellProjectileEntity{
         super.handleEntityEvent(status);
     }
 
-    boolean exploded = false;
-
     @Override
     protected void explode() { // 2回爆発
         super.explode();
@@ -173,9 +172,12 @@ public class ShockvaneEntity extends BombSpellProjectileEntity{
                 AbstractCustomizableParticleEffect effect = switch (i % 5) {
                     case 0 -> new UnstableSquareParticleEffect(fromCol, toCol, scale2, twinkle, rotSpeed, 30, 0.9F);
                     case 1 -> new UnstableSquareParticleEffect(fromCol, toCol, scale2, twinkle, rotSpeed, 30, 0.95F);
-                    case 2 -> new WaveParticleEffect(fromColor, toColor, scale2, twinkle, rotSpeed, level().random.nextInt(5, 10), 0.9F);
-                    case 3 -> new WaveParticleEffect(fromColor, toColor, scale2, twinkle, rotSpeed, level().random.nextInt(5, 10), 0.85F);
-                    case 4 -> new WaveParticleEffect(fromColor, toColor, scale1, twinkle, rotSpeed + Mth.randomBetween(random, -0.1F, 0.1F), level().random.nextInt(5, 10), 0.65F);
+                    case 2 ->
+                            new WaveParticleEffect(fromColor, toColor, scale2, twinkle, rotSpeed, level().random.nextInt(5, 10), 0.9F);
+                    case 3 ->
+                            new WaveParticleEffect(fromColor, toColor, scale2, twinkle, rotSpeed, level().random.nextInt(5, 10), 0.85F);
+                    case 4 ->
+                            new WaveParticleEffect(fromColor, toColor, scale1, twinkle, rotSpeed + Mth.randomBetween(random, -0.1F, 0.1F), level().random.nextInt(5, 10), 0.65F);
                     default -> throw new IllegalStateException("Unexpected value: " + i % 4);
                 };
                 world.addParticle(effect, x, y, z, vx, vy, vz);

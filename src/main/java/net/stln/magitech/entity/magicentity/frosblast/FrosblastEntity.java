@@ -12,7 +12,9 @@ import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.element.Element;
 import net.stln.magitech.entity.BombSpellProjectileEntity;
 import net.stln.magitech.entity.EntityInit;
-import net.stln.magitech.particle.particle_option.*;
+import net.stln.magitech.particle.particle_option.AbstractCustomizableParticleEffect;
+import net.stln.magitech.particle.particle_option.FrostParticleEffect;
+import net.stln.magitech.particle.particle_option.UnstableSquareParticleEffect;
 import net.stln.magitech.sound.SoundInit;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
@@ -22,7 +24,7 @@ import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class FrosblastEntity extends BombSpellProjectileEntity{
+public class FrosblastEntity extends BombSpellProjectileEntity {
 
     private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
 
@@ -150,9 +152,12 @@ public class FrosblastEntity extends BombSpellProjectileEntity{
                 AbstractCustomizableParticleEffect effect = switch (i % 5) {
                     case 0 -> new UnstableSquareParticleEffect(fromCol, toCol, scale2, twinkle, rotSpeed, 60, 0.9F);
                     case 1 -> new UnstableSquareParticleEffect(fromCol, toCol, scale2, twinkle, rotSpeed, 60, 0.95F);
-                    case 2 -> new FrostParticleEffect(fromColor, toColor, scale2, twinkle, rotSpeed, level().random.nextInt(45, 60), 0.9F);
-                    case 3 -> new FrostParticleEffect(fromColor, toColor, scale2, twinkle, rotSpeed, level().random.nextInt(45, 60), 0.99F);
-                    case 4 -> new FrostParticleEffect(fromColor, toColor, scale1, twinkle, rotSpeed + Mth.randomBetween(random, -0.1F, 0.1F), level().random.nextInt(45, 80), 0.85F);
+                    case 2 ->
+                            new FrostParticleEffect(fromColor, toColor, scale2, twinkle, rotSpeed, level().random.nextInt(45, 60), 0.9F);
+                    case 3 ->
+                            new FrostParticleEffect(fromColor, toColor, scale2, twinkle, rotSpeed, level().random.nextInt(45, 60), 0.99F);
+                    case 4 ->
+                            new FrostParticleEffect(fromColor, toColor, scale1, twinkle, rotSpeed + Mth.randomBetween(random, -0.1F, 0.1F), level().random.nextInt(45, 80), 0.85F);
                     default -> throw new IllegalStateException("Unexpected value: " + i % 4);
                 };
                 world.addParticle(effect, x, y, z, vx, vy, vz);

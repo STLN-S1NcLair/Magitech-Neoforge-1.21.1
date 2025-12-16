@@ -24,7 +24,7 @@ import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class HexflareEntity extends BombSpellProjectileEntity{
+public class HexflareEntity extends BombSpellProjectileEntity {
 
     private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
 
@@ -149,9 +149,12 @@ public class HexflareEntity extends BombSpellProjectileEntity{
                 AbstractCustomizableParticleEffect effect = switch (i % 5) {
                     case 0 -> new UnstableSquareParticleEffect(fromCol, toCol, scale2, twinkle, rotSpeed, 20, 0.95F);
                     case 1 -> new UnstableSquareParticleEffect(fromCol, toCol, scale2, twinkle, rotSpeed, 20, 0.99F);
-                    case 2 -> new RuneParticleEffect(fromColor, toColor, scale2, twinkle, rotSpeed, level().random.nextInt(5, 25), 0.9F);
-                    case 3 -> new RuneParticleEffect(fromColor, toColor, scale2, twinkle, rotSpeed, level().random.nextInt(5, 25), 0.85F);
-                    case 4 -> new RuneParticleEffect(fromColor, toColor, scale1, twinkle, rotSpeed + Mth.randomBetween(random, -0.1F, 0.1F), level().random.nextInt(5, 45), 0.85F);
+                    case 2 ->
+                            new RuneParticleEffect(fromColor, toColor, scale2, twinkle, rotSpeed, level().random.nextInt(5, 25), 0.9F);
+                    case 3 ->
+                            new RuneParticleEffect(fromColor, toColor, scale2, twinkle, rotSpeed, level().random.nextInt(5, 25), 0.85F);
+                    case 4 ->
+                            new RuneParticleEffect(fromColor, toColor, scale1, twinkle, rotSpeed + Mth.randomBetween(random, -0.1F, 0.1F), level().random.nextInt(5, 45), 0.85F);
                     default -> throw new IllegalStateException("Unexpected value: " + i % 4);
                 };
                 world.addParticle(effect, x, y, z, vx, vy, vz);

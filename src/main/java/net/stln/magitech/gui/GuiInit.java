@@ -43,11 +43,12 @@ public class GuiInit {
         event.register(TOOL_REPAIRING_MENU.get(), ToolRepairingScreen::new);
         event.register(TOOL_UPGRADE_MENU.get(), ToolUpgradeScreen::new);
         event.register(THREADBOUND_MENU.get(), ThreadboundScreen::new);
-    }    public static final Supplier<MenuType<PartCuttingMenu>> PART_CUTTING_MENU = register("part_cutting_menu", PartCuttingMenu::new);
+    }
 
     public static void registerMenus(IEventBus eventBus) {
         REGISTER.register(eventBus);
-    }
+    }    public static final Supplier<MenuType<PartCuttingMenu>> PART_CUTTING_MENU = register("part_cutting_menu", PartCuttingMenu::new);
+
 
 
 

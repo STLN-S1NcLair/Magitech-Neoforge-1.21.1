@@ -1,18 +1,13 @@
 package net.stln.magitech.entity.magicentity.volkarin;
 
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.element.Element;
 import net.stln.magitech.entity.BombSpellProjectileEntity;
@@ -22,7 +17,6 @@ import net.stln.magitech.particle.particle_option.FlameParticleEffect;
 import net.stln.magitech.particle.particle_option.FlameSmokeParticleEffect;
 import net.stln.magitech.particle.particle_option.UnstableSquareParticleEffect;
 import net.stln.magitech.sound.SoundInit;
-import net.stln.magitech.util.DataMapHelper;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
@@ -31,7 +25,7 @@ import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class VolkarinEntity extends BombSpellProjectileEntity{
+public class VolkarinEntity extends BombSpellProjectileEntity {
 
     private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
 
@@ -159,9 +153,12 @@ public class VolkarinEntity extends BombSpellProjectileEntity{
                 AbstractCustomizableParticleEffect effect = switch (i % 5) {
                     case 0 -> new UnstableSquareParticleEffect(fromCol, toCol, scale2, twinkle, rotSpeed, 30, 0.9F);
                     case 1 -> new UnstableSquareParticleEffect(fromCol, toCol, scale2, twinkle, rotSpeed, 30, 0.99F);
-                    case 2 -> new FlameParticleEffect(fromColor, toColor, scale2, twinkle, rotSpeed, level().random.nextInt(15, 25), 0.9F);
-                    case 3 -> new FlameParticleEffect(fromColor, toColor, scale2, twinkle, rotSpeed, level().random.nextInt(15, 25), 0.99F);
-                    case 4 -> new FlameSmokeParticleEffect(fromColor, toColor, scale1, twinkle, rotSpeed + Mth.randomBetween(random, -0.1F, 0.1F), level().random.nextInt(35, 45), 0.85F);
+                    case 2 ->
+                            new FlameParticleEffect(fromColor, toColor, scale2, twinkle, rotSpeed, level().random.nextInt(15, 25), 0.9F);
+                    case 3 ->
+                            new FlameParticleEffect(fromColor, toColor, scale2, twinkle, rotSpeed, level().random.nextInt(15, 25), 0.99F);
+                    case 4 ->
+                            new FlameSmokeParticleEffect(fromColor, toColor, scale1, twinkle, rotSpeed + Mth.randomBetween(random, -0.1F, 0.1F), level().random.nextInt(35, 45), 0.85F);
                     default -> throw new IllegalStateException("Unexpected value: " + i % 4);
                 };
                 world.addParticle(effect, x, y, z, vx, vy, vz);

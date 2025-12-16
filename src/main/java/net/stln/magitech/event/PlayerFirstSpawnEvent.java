@@ -18,7 +18,6 @@ import net.stln.magitech.util.ComponentHelper;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @EventBusSubscriber(modid = Magitech.MOD_ID)
 public class PlayerFirstSpawnEvent {

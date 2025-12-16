@@ -131,6 +131,10 @@ public class ToolUpgradeMenu extends AbstractContainerMenu {
             }
         }
         return true;
+    }
+
+    private boolean isValidUpgrade(int upgradeIndex) {
+        return upgradeIndex >= 0 && upgradeIndex < this.upgradeSize && canUpgrade();
     }    public final Container container = new SimpleContainer(2) {
         @Override
         public void setChanged() {
@@ -139,10 +143,6 @@ public class ToolUpgradeMenu extends AbstractContainerMenu {
             ToolUpgradeMenu.this.slotUpdateListener.run();
         }
     };
-
-    private boolean isValidUpgrade(int upgradeIndex) {
-        return upgradeIndex >= 0 && upgradeIndex < this.upgradeSize && canUpgrade();
-    }
 
     public boolean canUpgrade() {
         ItemStack itemStack = container.getItem(0);

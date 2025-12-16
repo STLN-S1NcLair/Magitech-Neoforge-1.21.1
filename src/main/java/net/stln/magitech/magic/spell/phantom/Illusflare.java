@@ -20,7 +20,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.element.Element;
-import net.stln.magitech.entity.magicentity.frosblast.FrosblastEntity;
 import net.stln.magitech.entity.magicentity.illusflare.IllusflareEntity;
 import net.stln.magitech.magic.charge.ChargeData;
 import net.stln.magitech.magic.cooldown.CooldownData;
@@ -35,7 +34,7 @@ import java.util.Map;
 public class Illusflare extends Spell {
 
     public Illusflare() {
-        baseDamage = 7.0F;
+        baseDamage = 4.0F;
         baseSpeed = 1.2;
     }
 

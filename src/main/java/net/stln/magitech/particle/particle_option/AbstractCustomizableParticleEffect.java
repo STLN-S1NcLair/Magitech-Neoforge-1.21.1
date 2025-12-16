@@ -1,6 +1,5 @@
 package net.stln.magitech.particle.particle_option;
 
-import com.mojang.datafixers.util.Function6;
 import com.mojang.datafixers.util.Function7;
 import com.mojang.datafixers.util.Function8;
 import com.mojang.serialization.Codec;
@@ -67,27 +66,6 @@ public abstract class AbstractCustomizableParticleEffect implements ParticleOpti
         this.friction = MathHelper.clamp(friction, 0, 1);
         this.color = new Vector3f(0.0F, 0.0F, 0.0F);
     }
-
-    public float getScale() {
-        return this.scale;
-    }
-
-    public int getTwinkle() {
-        return this.twinkle;
-    }
-
-    public float getRotSpeed() {
-        return rotSpeed;
-    }
-
-    public int getLifetime() {
-        return lifetime;
-    }
-
-    public float getFriction() {
-        return friction;
-    }
-
 
     static <B, C, T1, T2, T3, T4, T5, T6, T7, T8> StreamCodec<B, C> composite(
             final StreamCodec<? super B, T1> codec1,
@@ -177,6 +155,26 @@ public abstract class AbstractCustomizableParticleEffect implements ParticleOpti
                 codec7.encode(p_332052_, getter7.apply(p_331912_));
             }
         };
+    }
+
+    public float getScale() {
+        return this.scale;
+    }
+
+    public int getTwinkle() {
+        return this.twinkle;
+    }
+
+    public float getRotSpeed() {
+        return rotSpeed;
+    }
+
+    public int getLifetime() {
+        return lifetime;
+    }
+
+    public float getFriction() {
+        return friction;
     }
 
 }

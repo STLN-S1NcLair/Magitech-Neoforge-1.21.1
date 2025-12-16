@@ -40,14 +40,14 @@ public class ToolRepairingMenu extends AbstractContainerMenu {
     private static final int USE_ROW_SLOT_END = 46;
     private final ResultContainer resultSlots = new ResultContainer();
     private final ContainerLevelAccess access;
-    private final Player player;    private final Container inputSlots = new SimpleContainer(3) {
+    private final Player player;
+    private final Level level;    private final Container inputSlots = new SimpleContainer(3) {
         @Override
         public void setChanged() {
             super.setChanged();
             ToolRepairingMenu.this.slotsChanged(this);
         }
     };
-    private final Level level;
     public ToolRepairingMenu(int containerId, Inventory playerInventory) {
         this(containerId, playerInventory, ContainerLevelAccess.NULL);
     }

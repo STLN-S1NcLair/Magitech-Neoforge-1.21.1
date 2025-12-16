@@ -20,8 +20,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.element.Element;
-import net.stln.magitech.entity.magicentity.frigala.FrigalaEntity;
-import net.stln.magitech.entity.magicentity.ignisca.IgniscaEntity;
 import net.stln.magitech.entity.magicentity.volkarin.VolkarinEntity;
 import net.stln.magitech.magic.charge.ChargeData;
 import net.stln.magitech.magic.cooldown.CooldownData;
