@@ -69,7 +69,7 @@ public class Quaveris extends Spell {
         FluidState fluid = state.getFluidState();
 
         // 石ツール以上が必要なら破壊しない
-        if (state.getTags().anyMatch(Predicate.isEqual(BlockTags.INCORRECT_FOR_WOODEN_TOOL))) {
+        if (state.getTags().anyMatch(Predicate.isEqual(BlockTags.INCORRECT_FOR_WOODEN_TOOL)) || state.getBlock().defaultDestroyTime() < 0) {
             return;
         }
 

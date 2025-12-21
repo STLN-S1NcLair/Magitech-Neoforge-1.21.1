@@ -1,4 +1,4 @@
-package net.stln.magitech.magic.spell.glace;
+package net.stln.magitech.magic.spell.hollow;
 
 import dev.kosmx.playerAnim.api.firstPerson.FirstPersonConfiguration;
 import dev.kosmx.playerAnim.api.firstPerson.FirstPersonMode;
@@ -20,7 +20,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.element.Element;
-import net.stln.magitech.entity.magicentity.frosblast.FrosblastEntity;
+import net.stln.magitech.entity.magicentity.nihilflare.NihilflareEntity;
 import net.stln.magitech.magic.charge.ChargeData;
 import net.stln.magitech.magic.cooldown.CooldownData;
 import net.stln.magitech.magic.mana.ManaUtil;
@@ -31,11 +31,11 @@ import net.stln.magitech.util.SpellShape;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Frosblast extends Spell {
+public class Nihilflare extends Spell {
 
-    public Frosblast() {
-        baseDamage = 9.0F;
-        baseSpeed = 1.0;
+    public Nihilflare() {
+        baseDamage = 13.0F;
+        baseSpeed = 1.5;
     }
 
     private static void playShootAnimation(Player user) {
@@ -49,7 +49,7 @@ public class Frosblast extends Spell {
     }
 
     public Element getElement() {
-        return Element.GLACE;
+        return Element.HOLLOW;
     }
 
     public SpellShape getSpellShape() {
@@ -59,20 +59,19 @@ public class Frosblast extends Spell {
     @Override
     public Map<ManaUtil.ManaType, Double> getBaseRequiredMana() {
         Map<ManaUtil.ManaType, Double> cost = new HashMap<>();
-        cost.put(ManaUtil.ManaType.MANA, 70.0);
-        cost.put(ManaUtil.ManaType.NOCTIS, 5.0);
-        cost.put(ManaUtil.ManaType.FLUXIA, 4.0);
+        cost.put(ManaUtil.ManaType.MANA, 85.0);
+        cost.put(ManaUtil.ManaType.NOCTIS, 9.0);
         return cost;
     }
 
     @Override
     public int getCooldown(Level level, Player user, ItemStack stack) {
-        return 220;
+        return 200;
     }
 
     @Override
     public void use(Level level, Player user, InteractionHand hand, boolean isHost) {
-        addCharge(user, 10, this.getElement());
+        addCharge(user, 30, this.getElement());
         super.use(level, user, hand, isHost);
     }
 
@@ -91,9 +90,9 @@ public class Frosblast extends Spell {
         super.finishUsing(stack, level, livingEntity, timeCharged, isHost);
         if (livingEntity instanceof Player user) {
             if (ChargeData.getCurrentCharge(user) == null && timeCharged > 1 && ManaUtil.useManaServerOnly(user, this.getRequiredMana(level, user, stack))) {
-                level.playSound(user, user.getX(), user.getY(), user.getZ(), SoundInit.FROSBLAST_SHOOT.get(), SoundSource.PLAYERS);
+                level.playSound(user, user.getX(), user.getY(), user.getZ(), SoundInit.VOLKARIN_SHOOT.get(), SoundSource.PLAYERS);
                 if (!level.isClientSide && !isHost) {
-                    FrosblastEntity bullet = new FrosblastEntity(level, user, stack, getDamage(user, this.getCost(level, user, stack), baseDamage, this.getElement()));
+                    NihilflareEntity bullet = new NihilflareEntity(level, user, stack, getDamage(user, this.getCost(level, user, stack), baseDamage, this.getElement()));
                     Vec3 velocity = Vec3.directionFromRotation(user.getRotationVector());
                     velocity = velocity.normalize().scale(getProjectileSpeed(user, baseSpeed));
                     bullet.setDeltaMovement(velocity);

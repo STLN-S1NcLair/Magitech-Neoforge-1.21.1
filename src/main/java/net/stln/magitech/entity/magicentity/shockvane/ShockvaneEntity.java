@@ -91,7 +91,7 @@ public class ShockvaneEntity extends BombSpellProjectileEntity {
 
     @Override
     protected Element getElement() {
-        return Element.PHANTOM;
+        return Element.TREMOR;
     }
 
     @Override

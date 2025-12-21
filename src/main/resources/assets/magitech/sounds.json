@@ -219,6 +219,36 @@
       "magitech:volkarin_shoot"
     ]
   },
+  "frosblast": {
+    "sounds": [
+      "magitech:frosblast"
+    ]
+  },
+  "frosblast_shoot": {
+    "sounds": [
+      "magitech:frosblast_shoot"
+    ]
+  },
+  "electroide": {
+    "sounds": [
+      "magitech:electroide"
+    ]
+  },
+  "electroide_shoot": {
+    "sounds": [
+      "magitech:electroide_shoot"
+    ]
+  },
+  "illusflare": {
+    "sounds": [
+      "magitech:illusflare"
+    ]
+  },
+  "illusflare_shoot": {
+    "sounds": [
+      "magitech:illusflare_shoot"
+    ]
+  },
   "aether_lifter_jump": {
     "sounds": [
       "magitech:aether_lifter_jump"

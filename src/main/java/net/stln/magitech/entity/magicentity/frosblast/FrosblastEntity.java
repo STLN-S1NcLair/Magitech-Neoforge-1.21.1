@@ -167,7 +167,7 @@ public class FrosblastEntity extends BombSpellProjectileEntity {
 
     @Override
     protected SoundEvent getDefaultHitGroundSoundEvent() {
-        return SoundInit.VOLKARIN.get();
+        return SoundInit.FROSBLAST.get();
     }
 
     @Override

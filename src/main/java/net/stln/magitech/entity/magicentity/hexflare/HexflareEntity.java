@@ -87,7 +87,7 @@ public class HexflareEntity extends BombSpellProjectileEntity {
 
     @Override
     protected Element getElement() {
-        return Element.EMBER;
+        return Element.MAGIC;
     }
 
     @Override

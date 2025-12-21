@@ -27,12 +27,16 @@ import net.stln.magitech.entity.magicentity.frosblast.FrosblastEntity;
 import net.stln.magitech.entity.magicentity.frosblast.FrosblastRenderer;
 import net.stln.magitech.entity.magicentity.hexflare.HexflareEntity;
 import net.stln.magitech.entity.magicentity.hexflare.HexflareRenderer;
+import net.stln.magitech.entity.magicentity.hydrelux.HydreluxEntity;
+import net.stln.magitech.entity.magicentity.hydrelux.HydreluxRenderer;
 import net.stln.magitech.entity.magicentity.ignisca.IgniscaEntity;
 import net.stln.magitech.entity.magicentity.ignisca.IgniscaRenderer;
 import net.stln.magitech.entity.magicentity.illusflare.IllusflareEntity;
 import net.stln.magitech.entity.magicentity.illusflare.IllusflareRenderer;
 import net.stln.magitech.entity.magicentity.mirazien.MirazienEntity;
 import net.stln.magitech.entity.magicentity.mirazien.MirazienRenderer;
+import net.stln.magitech.entity.magicentity.nihilflare.NihilflareEntity;
+import net.stln.magitech.entity.magicentity.nihilflare.NihilflareRenderer;
 import net.stln.magitech.entity.magicentity.nullixis.NullixisEntity;
 import net.stln.magitech.entity.magicentity.nullixis.NullixisRenderer;
 import net.stln.magitech.entity.magicentity.shockvane.ShockvaneEntity;
@@ -67,7 +71,9 @@ public class EntityInit {
     public static final Supplier<EntityType<ArcalethEntity>> ARCALETH_ENTITY = registerMobEntity("arcaleth", ArcalethEntity::new, MobCategory.MISC, builder -> builder.sized(0.5F, 0.5F));
     public static final Supplier<EntityType<HexflareEntity>> HEXFLARE_ENTITY = registerMobEntity("hexflare", HexflareEntity::new, MobCategory.MISC, builder -> builder.sized(1.0F, 1.0F));
     public static final Supplier<EntityType<AeltherinEntity>> AELTHERIN_ENTITY = registerMobEntity("aeltherin", AeltherinEntity::new, MobCategory.MISC, builder -> builder.sized(0.5F, 0.5F));
+    public static final Supplier<EntityType<HydreluxEntity>> HYDRELUX_ENTITY = registerMobEntity("hydrelux", HydreluxEntity::new, MobCategory.MISC, builder -> builder.sized(1.0F, 1.0F));
     public static final Supplier<EntityType<NullixisEntity>> NULLIXIS_ENTITY = registerMobEntity("nullixis", NullixisEntity::new, MobCategory.MISC, builder -> builder.sized(0.5F, 0.5F));
+    public static final Supplier<EntityType<NihilflareEntity>> NIHILFLARE_ENTITY = registerMobEntity("nihilflare", NihilflareEntity::new, MobCategory.MISC, builder -> builder.sized(1.0F, 1.0F));
 
     public static final Supplier<EntityType<WeaverEntity>> WEAVER_ENTITY = registerMobEntity("weaver", WeaverEntity::new, MobCategory.MONSTER, (builder) -> builder.sized(0.6F, 2.0F).eyeHeight(1.62F).clientTrackingRange(8));
 
@@ -91,7 +97,9 @@ public class EntityInit {
         EntityRenderers.register(EntityInit.ARCALETH_ENTITY.get(), ArcalethRenderer::new);
         EntityRenderers.register(EntityInit.HEXFLARE_ENTITY.get(), HexflareRenderer::new);
         EntityRenderers.register(EntityInit.AELTHERIN_ENTITY.get(), AeltherinRenderer::new);
+        EntityRenderers.register(EntityInit.HYDRELUX_ENTITY.get(), HydreluxRenderer::new);
         EntityRenderers.register(EntityInit.NULLIXIS_ENTITY.get(), NullixisRenderer::new);
+        EntityRenderers.register(EntityInit.NIHILFLARE_ENTITY.get(), NihilflareRenderer::new);
 
         EntityRenderers.register(EntityInit.WEAVER_ENTITY.get(), WeaverRenderer::new);
     }

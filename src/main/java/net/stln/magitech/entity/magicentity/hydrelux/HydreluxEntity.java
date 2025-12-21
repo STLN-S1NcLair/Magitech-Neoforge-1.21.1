@@ -1,7 +1,10 @@
-package net.stln.magitech.entity.magicentity.illusflare;
+package net.stln.magitech.entity.magicentity.hydrelux;
 
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -9,18 +12,22 @@ import net.minecraft.world.entity.EntityEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.element.Element;
 import net.stln.magitech.entity.BombSpellProjectileEntity;
 import net.stln.magitech.entity.EntityInit;
 import net.stln.magitech.entity.mob_effect.MobEffectInit;
 import net.stln.magitech.particle.particle_option.AbstractCustomizableParticleEffect;
-import net.stln.magitech.particle.particle_option.MembraneParticleEffect;
+import net.stln.magitech.particle.particle_option.BlowParticleEffect;
 import net.stln.magitech.particle.particle_option.UnstableSquareParticleEffect;
 import net.stln.magitech.sound.SoundInit;
+import net.stln.magitech.util.DataMapHelper;
+import net.stln.magitech.util.EntityUtil;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
@@ -29,36 +36,37 @@ import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-import java.util.SortedSet;
+import java.util.List;
 
-public class IllusflareEntity extends BombSpellProjectileEntity {
+public class HydreluxEntity extends BombSpellProjectileEntity {
 
     private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
+    private static final RawAnimation EXPLODE = RawAnimation.begin().thenLoop("explode");
 
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
 
-    public IllusflareEntity(EntityType<? extends BombSpellProjectileEntity> entityType, Level world) {
+    public HydreluxEntity(EntityType<? extends BombSpellProjectileEntity> entityType, Level world) {
         super(entityType, world);
         this.explodeRadius = 7.0F;
     }
 
-    public IllusflareEntity(Level world, LivingEntity owner, float damage) {
-        super(EntityInit.ILLUSFLARE_ENTITY.get(), owner, world, null, damage);
+    public HydreluxEntity(Level world, LivingEntity owner, float damage) {
+        super(EntityInit.HYDRELUX_ENTITY.get(), owner, world, null, damage);
         this.explodeRadius = 7.0F;
 
     }
 
-    public IllusflareEntity(Level world, LivingEntity owner, ItemStack weapon, float damage) {
-        super(EntityInit.ILLUSFLARE_ENTITY.get(), owner, world, weapon, damage);
+    public HydreluxEntity(Level world, LivingEntity owner, ItemStack weapon, float damage) {
+        super(EntityInit.HYDRELUX_ENTITY.get(), owner, world, weapon, damage);
         this.explodeRadius = 7.0F;
     }
 
-    public IllusflareEntity(EntityType<? extends BombSpellProjectileEntity> type, double x, double y, double z, Level world, ItemStack stack, @Nullable ItemStack weapon, float damage) {
+    public HydreluxEntity(EntityType<? extends BombSpellProjectileEntity> type, double x, double y, double z, Level world, ItemStack stack, @Nullable ItemStack weapon, float damage) {
         super(type, x, y, z, world, weapon, damage);
         this.explodeRadius = 7.0F;
     }
 
-    public IllusflareEntity(EntityType<? extends BombSpellProjectileEntity> type, LivingEntity owner, Level world, ItemStack stack, @Nullable ItemStack shotFrom, float damage) {
+    public HydreluxEntity(EntityType<? extends BombSpellProjectileEntity> type, LivingEntity owner, Level world, ItemStack stack, @Nullable ItemStack shotFrom, float damage) {
         super(type, owner, world, shotFrom, damage);
         this.explodeRadius = 7.0F;
     }
@@ -87,18 +95,63 @@ public class IllusflareEntity extends BombSpellProjectileEntity {
                 double vx = deltaMovement.x / 4;
                 double vy = deltaMovement.y / 4;
                 double vz = deltaMovement.z / 4;
-                world.addParticle(new MembraneParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed, level().random.nextInt(10, 40), 0.85F), x, y, z, vx, vy, vz);
+                world.addParticle(new BlowParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed, level().random.nextInt(10, 30), 0.87F), x, y, z, vx, vy, vz);
+            }
+        }
+        if  (this.vacuumTick > 0) {
+            this.setNoGravity(true);
+            vacuumTick++;
+            this.setDeltaMovement(this.getDeltaMovement().scale(0.99));
+            List<Entity> entities = EntityUtil.getEntitiesInBox(this.level(), this, this.position(), new Vec3(this.explodeRadius, this.explodeRadius, this.explodeRadius));
+            for (Entity entity : entities) {
+                Vec3 targetBodyPos = entity.position().add(0, entity.getBbHeight() * 0.7, 0);
+                    if (this.level().clip(new ClipContext(targetBodyPos, this.position(), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this)).getType() != HitResult.Type.BLOCK) {
+                        Vec3 toEntity = this.position().subtract(entity.position()).normalize();
+                        double distance = this.position().distanceTo(entity.position());
+                        double pullStrength = Mth.clamp((this.explodeRadius - distance) / this.explodeRadius, 0, 1) * 0.35;
+                        entity.addDeltaMovement(toEntity.scale(pullStrength));
+                    }
+            }
+
+            Vector3f fromCol = new Vector3f(0.7F, 1.0F, 0.0F);
+            Vector3f toCol = new Vector3f(0.3F, 1.0F, 0.0F);
+
+            for (int i = 0; i < 10; i++) {
+                int twinkle = 1;
+
+                Vec3 offset = new Vec3(Mth.nextDouble(random, -1, 1),
+                        Mth.nextDouble(random, -1, 1),
+                        Mth.nextDouble(random, -1, 1)).normalize().scale(explodeRadius / 2);
+                Vec3 vector = new Vec3(random.nextDouble(), random.nextDouble(), random.nextDouble());
+                double x = this.getX() + offset.x * vector.x;
+                double y = this.getY(0.5F) + offset.y * vector.y;
+                double z = this.getZ() + offset.z * vector.z;
+                double vx = -offset.x / 10 * (vector.x);
+                double vy = -offset.y / 10 * (vector.y);
+                double vz = -offset.z / 10 * (vector.z);
+
+                world.addParticle(new UnstableSquareParticleEffect(fromCol, toCol, 2.0F, twinkle, 0, 60, 1.05F), x, y, z, vx, vy, vz);
+            }
+        }
+        if (vacuumTick >= maxVacuumTick) {
+            this.explode();
+            this.playHitGroundSoundEvent();
+            if (this.level().isClientSide) {
+                addHitEffect();
+            } else {
+                this.level().broadcastEntityEvent(this, EntityEvent.DEATH);
+                this.discard();
             }
         }
     }
 
     @Override
     protected Element getElement() {
-        return Element.PHANTOM;
+        return Element.FLOW;
     }
 
-    int bounceCount = 0;
-    final int maxBounces = 2;
+    int vacuumTick = 0;
+    final int maxVacuumTick = 20;
 
     @Override
     public void handleEntityEvent(byte status) {
@@ -106,7 +159,7 @@ public class IllusflareEntity extends BombSpellProjectileEntity {
             if (this.level().isClientSide) {
                 explode();
                 addHitEffect();
-            } else if (bounceCount >= maxBounces) {
+            } else if (vacuumTick >= maxVacuumTick) {
                 this.discard();
             }
         }
@@ -115,39 +168,21 @@ public class IllusflareEntity extends BombSpellProjectileEntity {
     @Override
     protected void onHitEntity(EntityHitResult result) {
         Entity hitEntity = result.getEntity();
-        if (bounceCount < maxBounces) {
-            bounceCount++;
-            Vec3 normal = result.getLocation().subtract(hitEntity.position()).normalize();
-            reflect(normal);
-            playHitGroundSoundEvent();
-            explode();
-            if (this.level().isClientSide) {
-                addHitEffect();
-            }
-        } else {
-            super.onHitEntity(result);
-        }
+        vacuumTick++;
+        Vec3 normal = result.getLocation().subtract(hitEntity.position()).normalize();
+        reflect(normal);
     }
 
     @Override
     protected void onHitBlock(BlockHitResult blockHitResult) {
-        if (bounceCount < maxBounces) {
-            bounceCount++;
-            Vec3 normal = Vec3.atLowerCornerOf(blockHitResult.getDirection().getNormal());
-            reflect(normal);
-            playHitGroundSoundEvent();
-            explode();
-            if (this.level().isClientSide) {
-                addHitEffect();
-            }
-        } else {
-        super.onHitBlock(blockHitResult);
-        }
+        vacuumTick++;
+        Vec3 normal = Vec3.atLowerCornerOf(blockHitResult.getDirection().getNormal());
+        reflect(normal);
     }
 
     protected void reflect(Vec3 normal) {
         Vec3 deltaMovement = this.getDeltaMovement();
-        Vec3 reflected = deltaMovement.subtract(normal.scale(deltaMovement.dot(normal) * 2));
+        Vec3 reflected = deltaMovement.subtract(normal.scale(deltaMovement.dot(normal) * 2)).normalize().scale(0.2);
         this.setDeltaMovement(reflected);
     }
 
@@ -155,8 +190,10 @@ public class IllusflareEntity extends BombSpellProjectileEntity {
     protected void applyEntityHitEffect(Entity entity) {
         super.applyEntityHitEffect(entity);
         if (entity instanceof LivingEntity livingEntity) {
-            livingEntity.addEffect(new MobEffectInstance(MobEffects.GLOWING, 200, 0));
-            livingEntity.addEffect(new MobEffectInstance(MobEffectInit.SEIZE, 50, 0));
+            Vec3 toEntity = entity.position().subtract(this.position()).normalize();
+            double distance = this.position().distanceTo(entity.position());
+            double pushStrength = Mth.clamp((this.explodeRadius - distance) / this.explodeRadius, 0, 1) * 2;
+            livingEntity.addDeltaMovement(toEntity.scale(pushStrength).add(0, 0.3, 0));
         }
     }
 
@@ -180,11 +217,11 @@ public class IllusflareEntity extends BombSpellProjectileEntity {
                 double vx = (random.nextFloat() - 0.5) / 2;
                 double vy = (random.nextFloat() - 0.5) / 2;
                 double vz = (random.nextFloat() - 0.5) / 2;
-                world.addParticle(new MembraneParticleEffect(fromColor, toColor, scale1, twinkle, rotSpeed, level().random.nextInt(5, 8), 0.9F), x, y, z, vx, vy, vz);
+                world.addParticle(new BlowParticleEffect(fromColor, toColor, scale1, twinkle, rotSpeed, level().random.nextInt(5, 15), 0.87F), x, y, z, vx, vy, vz);
             }
 
-            Vector3f fromCol = new Vector3f(1.0F, 1.0F, 0.7F);
-            Vector3f toCol = new Vector3f(1.0F, 1.0F, 0.5F);
+            Vector3f fromCol = new Vector3f(0.7F, 1.0F, 0.0F);
+            Vector3f toCol = new Vector3f(0.3F, 1.0F, 0.0F);
 
             for (int i = 0; i < particleAmount; i++) {
                 int twinkle = 1;
@@ -203,11 +240,11 @@ public class IllusflareEntity extends BombSpellProjectileEntity {
                     case 0 -> new UnstableSquareParticleEffect(fromCol, toCol, scale2, twinkle, rotSpeed, 60, 0.9F);
                     case 1 -> new UnstableSquareParticleEffect(fromCol, toCol, scale2, twinkle, rotSpeed, 60, 0.95F);
                     case 2 ->
-                            new MembraneParticleEffect(fromColor, toColor, scale2, twinkle, rotSpeed, level().random.nextInt(10, 40), 0.9F);
+                            new BlowParticleEffect(fromColor, toColor, scale2, twinkle, rotSpeed, level().random.nextInt(10, 30), 0.87F);
                     case 3 ->
-                            new MembraneParticleEffect(fromColor, toColor, scale2, twinkle, rotSpeed, level().random.nextInt(10, 40), 0.85F);
+                            new BlowParticleEffect(fromColor, toColor, scale2, twinkle, rotSpeed, level().random.nextInt(10, 30), 0.8F);
                     case 4 ->
-                            new MembraneParticleEffect(fromColor, toColor, scale1, twinkle, rotSpeed + Mth.randomBetween(random, -0.1F, 0.1F), level().random.nextInt(10, 40), 0.65F);
+                            new BlowParticleEffect(fromColor, toColor, scale1, twinkle, rotSpeed + Mth.randomBetween(random, -0.1F, 0.1F), level().random.nextInt(10, 30), 0.65F);
                     default -> throw new IllegalStateException("Unexpected value: " + i % 4);
                 };
                 world.addParticle(effect, x, y, z, vx, vy, vz);
@@ -217,12 +254,17 @@ public class IllusflareEntity extends BombSpellProjectileEntity {
 
     @Override
     protected SoundEvent getDefaultHitGroundSoundEvent() {
-        return SoundInit.ILLUSFLARE.get();
+        return SoundInit.VOLKARIN.get();
     }
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "idle", (event) -> event.setAndContinue(IDLE)));
+        controllers.add(new AnimationController<>(this, "idle", 0, (event) -> {
+            if (vacuumTick > 0) {
+                return event.setAndContinue(EXPLODE);
+            }
+            return event.setAndContinue(IDLE);
+        }));
     }
 
     @Override

@@ -229,7 +229,7 @@ public class ElectroideEntity extends BombSpellProjectileEntity {
 
     @Override
     protected SoundEvent getDefaultHitGroundSoundEvent() {
-        return SoundInit.VOLKARIN.get();
+        return SoundInit.ELECTROIDE.get();
     }
 
     @Override

@@ -58,12 +58,14 @@ public class SpellInit {
     public static final DeferredSpell<Spell> FLUVINAE = register("fluvinae", new Fluvinae());
     public static final DeferredSpell<Spell> MISTRELUNE = register("mistrelune", new Mistrelune());
     public static final DeferredSpell<Spell> SYLLAEZE = register("syllaeze", new Syllaeze());
+    public static final DeferredSpell<Spell> HYDRELUX = register("hydrelux", new Hydrelux());
     public static final DeferredSpell<Spell> NYMPHORA = register("nymphora", new Nymphora());
 
     public static final DeferredSpell<Spell> NULLIXIS = register("nullixis", new Nullixis());
     public static final DeferredSpell<Spell> VOIDLANCE = register("voidlance", new Voidlance());
     public static final DeferredSpell<Spell> TENEBRISOL = register("tenebrisol", new Tenebrisol());
     public static final DeferredSpell<Spell> DISPARUNDRA = register("disparundra", new Disparundra());
+    public static final DeferredSpell<Spell> NIHILFLARE = register("nihilflare", new Nihilflare());
     public static final DeferredSpell<Spell> TENEBPORT = register("tenebport", new Tenebport());
 
     public static final DeferredSpell<Spell> ENERCRUX = register("enercrux", new Enercrux());
