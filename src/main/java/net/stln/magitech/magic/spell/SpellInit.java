@@ -41,6 +41,7 @@ public class SpellInit {
     public static final DeferredSpell<Spell> VEILMIST = register("veilmist", new Veilmist());
     public static final DeferredSpell<Spell> FADANCEA = register("fadancea", new Fadancea());
     public static final DeferredSpell<Spell> ILLUSFLARE = register("illusflare", new Illusflare());
+    public static final DeferredSpell<Spell> LUXGRAIL = register("luxgrail", new Luxgrail());
 
     public static final DeferredSpell<Spell> TREMIVOX = register("tremivox", new Tremivox());
     public static final DeferredSpell<Spell> OSCILBEAM = register("oscilbeam", new Oscilbeam());
