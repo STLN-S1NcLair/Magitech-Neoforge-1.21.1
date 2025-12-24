@@ -187,7 +187,7 @@ public class ShockvaneEntity extends BombSpellProjectileEntity {
 
     @Override
     protected SoundEvent getDefaultHitGroundSoundEvent() {
-        return SoundInit.VOLKARIN.get();
+        return SoundInit.SHOCKVANE.get();
     }
 
     @Override

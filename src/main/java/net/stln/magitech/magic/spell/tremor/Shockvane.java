@@ -90,7 +90,7 @@ public class Shockvane extends Spell {
         super.finishUsing(stack, level, livingEntity, timeCharged, isHost);
         if (livingEntity instanceof Player user) {
             if (ChargeData.getCurrentCharge(user) == null && timeCharged > 1 && ManaUtil.useManaServerOnly(user, this.getRequiredMana(level, user, stack))) {
-                level.playSound(user, user.getX(), user.getY(), user.getZ(), SoundInit.VOLKARIN_SHOOT.get(), SoundSource.PLAYERS);
+                level.playSound(user, user.getX(), user.getY(), user.getZ(), SoundInit.SHOCKVANE_SHOOT.get(), SoundSource.PLAYERS);
                 if (!level.isClientSide && !isHost) {
                     ShockvaneEntity bullet = new ShockvaneEntity(level, user, stack, getDamage(user, this.getCost(level, user, stack), baseDamage, this.getElement()));
                     Vec3 velocity = Vec3.directionFromRotation(user.getRotationVector());

@@ -249,6 +249,16 @@
       "magitech:illusflare_shoot"
     ]
   },
+  "shockvane": {
+    "sounds": [
+      "magitech:shockvane"
+    ]
+  },
+  "shockvane_shoot": {
+    "sounds": [
+      "magitech:shockvane_shoot"
+    ]
+  },
   "aether_lifter_jump": {
     "sounds": [
       "magitech:aether_lifter_jump"

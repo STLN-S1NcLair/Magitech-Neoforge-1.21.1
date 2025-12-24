@@ -62,6 +62,8 @@ public class SoundInit {
     public static final Supplier<SoundEvent> ELECTROIDE_SHOOT = registerSoundEvent("electroide_shoot");
     public static final Supplier<SoundEvent> ILLUSFLARE = registerSoundEvent("illusflare");
     public static final Supplier<SoundEvent> ILLUSFLARE_SHOOT = registerSoundEvent("illusflare_shoot");
+    public static final Supplier<SoundEvent> SHOCKVANE = registerSoundEvent("shockvane");
+    public static final Supplier<SoundEvent> SHOCKVANE_SHOOT = registerSoundEvent("shockvane_shoot");
 
     public static final Supplier<SoundEvent> AETHER_LIFTER_JUMP = registerSoundEvent("aether_lifter_jump");
     public static final Supplier<SoundEvent> FLAMGLIDE_STRIDER_JUMP = registerSoundEvent("flamglide_strider_jump");
