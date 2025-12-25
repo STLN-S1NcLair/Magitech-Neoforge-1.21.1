@@ -131,7 +131,7 @@ public class NihilflareEntity extends BombSpellProjectileEntity {
 
     @Override
     protected void onHitEntity(EntityHitResult result) {
-        this.setDeltaMovement(0, 0, 0);
+        this.setDeltaMovement(this.getDeltaMovement().scale(0.001));
     }
 
     @Override

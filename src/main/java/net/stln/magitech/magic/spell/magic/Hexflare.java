@@ -90,7 +90,7 @@ public class Hexflare extends Spell {
         super.finishUsing(stack, level, livingEntity, timeCharged, isHost);
         if (livingEntity instanceof Player user) {
             if (ChargeData.getCurrentCharge(user) == null && timeCharged > 1 && ManaUtil.useManaServerOnly(user, this.getRequiredMana(level, user, stack))) {
-                level.playSound(user, user.getX(), user.getY(), user.getZ(), SoundInit.VOLKARIN_SHOOT.get(), SoundSource.PLAYERS);
+                level.playSound(user, user.getX(), user.getY(), user.getZ(), SoundInit.HEXFLARE_SHOOT.get(), SoundSource.PLAYERS);
                 if (!level.isClientSide && !isHost) {
                     HexflareEntity bullet = new HexflareEntity(level, user, stack, getDamage(user, this.getCost(level, user, stack), baseDamage, this.getElement()));
                     Vec3 velocity = Vec3.directionFromRotation(user.getRotationVector());

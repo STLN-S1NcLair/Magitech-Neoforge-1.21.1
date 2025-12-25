@@ -259,6 +259,16 @@
       "magitech:shockvane_shoot"
     ]
   },
+  "hexflare": {
+    "sounds": [
+      "magitech:hexflare"
+    ]
+  },
+  "hexflare_shoot": {
+    "sounds": [
+      "magitech:hexflare_shoot"
+    ]
+  },
   "aether_lifter_jump": {
     "sounds": [
       "magitech:aether_lifter_jump"

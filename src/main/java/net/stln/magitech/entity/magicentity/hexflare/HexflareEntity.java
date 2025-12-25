@@ -164,7 +164,7 @@ public class HexflareEntity extends BombSpellProjectileEntity {
 
     @Override
     protected SoundEvent getDefaultHitGroundSoundEvent() {
-        return SoundInit.VOLKARIN.get();
+        return SoundInit.HEXFLARE.get();
     }
 
     @Override
