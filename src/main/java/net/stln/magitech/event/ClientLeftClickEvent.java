@@ -20,7 +20,7 @@ public class ClientLeftClickEvent {
 
 
     public static InteractionResult callOnLeftClick(Player player, int clickCount) {
-        if (player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof LeftClickOverrideItem leftClickOverrideItem) {
+        if (!player.isUsingItem() && player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof LeftClickOverrideItem leftClickOverrideItem) {
             if (clickCount != 0) {
                 return leftClickOverrideItem.onLeftClick(player, InteractionHand.MAIN_HAND, player.level());
             }

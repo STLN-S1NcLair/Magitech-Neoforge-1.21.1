@@ -1,6 +1,7 @@
 package net.stln.magitech.entity.magicentity.nihilflare;
 
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
@@ -144,6 +145,7 @@ public class NihilflareEntity extends BombSpellProjectileEntity {
         Vec3 deltaMovement = this.getDeltaMovement();
         Vec3 reflected = deltaMovement.subtract(normal.scale(deltaMovement.dot(normal) * 2));
         this.setDeltaMovement(reflected);
+        level().playSound(null, this.getX(), this.getY(), this.getZ(), SoundInit.NIHILFLARE_SHOOT.get(), SoundSource.PLAYERS, 2.0F, 1.0F + random.nextFloat() * 0.2F);
     }
 
     @Override
@@ -214,7 +216,7 @@ public class NihilflareEntity extends BombSpellProjectileEntity {
 
     @Override
     protected SoundEvent getDefaultHitGroundSoundEvent() {
-        return SoundInit.VOLKARIN.get();
+        return SoundInit.NIHILFLARE.get();
     }
 
     @Override

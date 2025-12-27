@@ -24,6 +24,7 @@ import net.minecraft.world.level.portal.DimensionTransition;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.element.Element;
+import net.stln.magitech.entity.status.AttributeInit;
 import net.stln.magitech.magic.charge.ChargeData;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.Spell;
@@ -76,7 +77,8 @@ public class Luxgrail extends Spell {
 
     @Override
     public void use(Level level, Player user, InteractionHand hand, boolean isHost) {
-        level.playSound(user, user.position().x, user.position().y, user.position().z, SoundInit.TENEBPORT_CHARGE.get(), SoundSource.PLAYERS, 1.0F, 0.7F + (user.getRandom().nextFloat() * 0.6F));
+        int delay = (int) Math.round(80 / user.getAttributeValue(AttributeInit.CASTING_SPEED)) - 80;
+        level.playSound(user, user.position().x, user.position().y, user.position().z, SoundInit.LUXGRAIL_CHARGE.get(), SoundSource.PLAYERS, 1.0F, (float) 80 / (Math.round(80 / user.getAttributeValue(AttributeInit.CASTING_SPEED)) - Math.max(delay, 0)));
         addCharge(user, 80, this.getElement());
         super.use(level, user, hand, isHost);
     }
@@ -99,7 +101,7 @@ public class Luxgrail extends Spell {
                             userPos.x, userPos.y, userPos.z, (user.getRandom().nextFloat() - 0.5) / 3, (user.getRandom().nextFloat() - 0.5) / 3, (user.getRandom().nextFloat() - 0.5) / 3);
                 }
 
-                level.playSound(user, userPos.x, userPos.y, userPos.z, SoundInit.TENEBPORT.get(), SoundSource.PLAYERS, 1.0F, 0.7F + (user.getRandom().nextFloat() * 0.6F));
+                level.playSound(user, userPos.x, userPos.y, userPos.z, SoundInit.LUXGRAIL.get(), SoundSource.PLAYERS, 1.0F, 0.7F + (user.getRandom().nextFloat() * 0.6F));
                 TickScheduler.schedule(2, () -> {
                     Vec3 newPos = user.position();
                     Vec3 newAbove = newPos.add(0, 10, 0);
@@ -110,7 +112,7 @@ public class Luxgrail extends Spell {
                                 newPos.x, newPos.y, newPos.z, (user.getRandom().nextFloat() - 0.5) / 3, (user.getRandom().nextFloat() - 0.5) / 3, (user.getRandom().nextFloat() - 0.5) / 3);
                     }
 
-                    level.playSound(user, newPos.x, newPos.y, newPos.z, SoundInit.TENEBPORT.get(), SoundSource.PLAYERS, 1.0F, 0.7F + (user.getRandom().nextFloat() * 0.6F));
+                    level.playSound(user, newPos.x, newPos.y, newPos.z, SoundInit.LUXGRAIL.get(), SoundSource.PLAYERS, 1.0F, 0.7F + (user.getRandom().nextFloat() * 0.6F));
                     livingEntity.fallDistance = 0;
                 }, level.isClientSide);
 

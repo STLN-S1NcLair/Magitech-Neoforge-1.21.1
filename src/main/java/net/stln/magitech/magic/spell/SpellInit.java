@@ -13,6 +13,7 @@ import net.stln.magitech.magic.spell.surge.*;
 import net.stln.magitech.magic.spell.tremor.*;
 import net.stln.magitech.registry.DeferredSpell;
 import net.stln.magitech.registry.DeferredSpellRegister;
+import org.checkerframework.checker.units.qual.A;
 import org.jetbrains.annotations.NotNull;
 
 public class SpellInit {
@@ -23,6 +24,7 @@ public class SpellInit {
     public static final DeferredSpell<Spell> FLUVALEN = register("fluvalen", new Fluvalen());
     public static final DeferredSpell<Spell> BLAZEWEND = register("blazewend", new Blazewend());
     public static final DeferredSpell<Spell> VOLKARIN = register("volkarin", new Volkarin());
+    public static final DeferredSpell<Spell> ARDOVITAE = register("ardovitae", new Ardovitae());
 
     public static final DeferredSpell<Spell> FRIGALA = register("frigala", new Frigala());
     public static final DeferredSpell<Spell> CRYOLUXA = register("cryoluxa", new Cryoluxa());
@@ -54,6 +56,7 @@ public class SpellInit {
     public static final DeferredSpell<Spell> GLYMORA = register("glymora", new Glymora());
     public static final DeferredSpell<Spell> ENVISTRA = register("envistra", new Envistra());
     public static final DeferredSpell<Spell> HEXFLARE = register("hexflare", new Hexflare());
+    public static final DeferredSpell<Spell> MYSTPHEL = register("mystphel", new Mystphel());
 
     public static final DeferredSpell<Spell> AELTHERIN = register("aeltherin", new Aeltherin());
     public static final DeferredSpell<Spell> FLUVINAE = register("fluvinae", new Fluvinae());
@@ -61,6 +64,7 @@ public class SpellInit {
     public static final DeferredSpell<Spell> SYLLAEZE = register("syllaeze", new Syllaeze());
     public static final DeferredSpell<Spell> HYDRELUX = register("hydrelux", new Hydrelux());
     public static final DeferredSpell<Spell> NYMPHORA = register("nymphora", new Nymphora());
+    public static final DeferredSpell<Spell> HYDRAERUN = register("hydraerun", new Hydraerun());
 
     public static final DeferredSpell<Spell> NULLIXIS = register("nullixis", new Nullixis());
     public static final DeferredSpell<Spell> VOIDLANCE = register("voidlance", new Voidlance());

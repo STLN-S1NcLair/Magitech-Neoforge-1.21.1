@@ -90,7 +90,7 @@ public class Nihilflare extends Spell {
         super.finishUsing(stack, level, livingEntity, timeCharged, isHost);
         if (livingEntity instanceof Player user) {
             if (ChargeData.getCurrentCharge(user) == null && timeCharged > 1 && ManaUtil.useManaServerOnly(user, this.getRequiredMana(level, user, stack))) {
-                level.playSound(user, user.getX(), user.getY(), user.getZ(), SoundInit.VOLKARIN_SHOOT.get(), SoundSource.PLAYERS);
+                level.playSound(user, user.getX(), user.getY(), user.getZ(), SoundInit.NIHILFLARE_SHOOT.get(), SoundSource.PLAYERS);
                 if (!level.isClientSide && !isHost) {
                     NihilflareEntity bullet = new NihilflareEntity(level, user, stack, getDamage(user, this.getCost(level, user, stack), baseDamage, this.getElement()));
                     Vec3 velocity = Vec3.directionFromRotation(user.getRotationVector());

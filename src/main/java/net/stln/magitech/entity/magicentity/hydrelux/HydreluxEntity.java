@@ -2,6 +2,7 @@ package net.stln.magitech.entity.magicentity.hydrelux;
 
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
@@ -11,6 +12,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
@@ -183,6 +185,7 @@ public class HydreluxEntity extends BombSpellProjectileEntity {
     protected void reflect(Vec3 normal) {
         Vec3 deltaMovement = this.getDeltaMovement();
         Vec3 reflected = deltaMovement.subtract(normal.scale(deltaMovement.dot(normal) * 2)).normalize().scale(0.2);
+        level().playSound(null, this.getX(), this.getY(), this.getZ(), SoundInit.HYDRELUX_BOUNCE.get(), SoundSource.PLAYERS, 2.0F, 1.0F + random.nextFloat() * 0.2F);
         this.setDeltaMovement(reflected);
     }
 
@@ -254,7 +257,7 @@ public class HydreluxEntity extends BombSpellProjectileEntity {
 
     @Override
     protected SoundEvent getDefaultHitGroundSoundEvent() {
-        return SoundInit.VOLKARIN.get();
+        return SoundInit.HYDRELUX.get();
     }
 
     @Override

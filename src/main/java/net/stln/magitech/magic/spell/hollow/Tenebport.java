@@ -22,6 +22,7 @@ import net.minecraft.world.level.portal.DimensionTransition;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.element.Element;
+import net.stln.magitech.entity.status.AttributeInit;
 import net.stln.magitech.magic.charge.ChargeData;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.Spell;
@@ -74,7 +75,8 @@ public class Tenebport extends Spell {
 
     @Override
     public void use(Level level, Player user, InteractionHand hand, boolean isHost) {
-        level.playSound(user, user.position().x, user.position().y, user.position().z, SoundInit.TENEBPORT_CHARGE.get(), SoundSource.PLAYERS, 1.0F, 0.7F + (user.getRandom().nextFloat() * 0.6F));
+        int delay = (int) Math.round(100 / user.getAttributeValue(AttributeInit.CASTING_SPEED)) - 100;
+        level.playSound(user, user.position().x, user.position().y, user.position().z, SoundInit.TENEBPORT_CHARGE.get(), SoundSource.PLAYERS, 1.0F, (float) 100 / (Math.round(100 / user.getAttributeValue(AttributeInit.CASTING_SPEED)) - Math.max(delay, 0)));
         addCharge(user, 100, this.getElement());
         super.use(level, user, hand, isHost);
     }

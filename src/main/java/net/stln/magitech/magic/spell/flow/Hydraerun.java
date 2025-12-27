@@ -12,7 +12,10 @@ import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -34,10 +37,10 @@ import org.joml.Vector3f;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Nymphora extends Spell {
+public class Hydraerun extends Spell {
 
-    public Nymphora() {
-        this.baseEffectStrength = 4.0F;
+    public Hydraerun() {
+        this.baseEffectStrength = 1.0F;
     }
 
     protected static void playShootAnimation(Player user) {
@@ -55,7 +58,7 @@ public class Nymphora extends Spell {
     }
 
     public SpellShape getSpellShape() {
-        return SpellShape.RESILIENCE;
+        return SpellShape.UTILITY;
     }
 
     @Override
@@ -68,12 +71,12 @@ public class Nymphora extends Spell {
 
     @Override
     public int getCooldown(Level level, Player user, ItemStack stack) {
-        return 300;
+        return 450;
     }
 
     @Override
     public void use(Level level, Player user, InteractionHand hand, boolean isHost) {
-        addCharge(user, 20, this.getElement());
+        addCharge(user, 10, this.getElement());
         super.use(level, user, hand, isHost);
     }
 
@@ -84,25 +87,27 @@ public class Nymphora extends Spell {
             if (ChargeData.getCurrentCharge(user) == null && timeCharged > 1 && ManaUtil.useManaServerOnly(user, this.getRequiredMana(level, user, stack))) {
                 Vec3 userPos = user.position();
                 level.addParticle(new SquareFieldParticleEffect(new Vector3f(0.7F, 1.0F, 0.0F), new Vector3f(0.9F, 1.0F, 0.0F), 1.0F, 1, 0, 15, 1.0F), user.getX(), user.getY() + 0.1, user.getZ(), 0, 0, 0);
-                for (int i = 0; i < 20; i++) {
+                for (int i = 0; i < 50; i++) {
                     level.addParticle(new BlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0, level.random.nextInt(10, 30), 0.87F),
-                            userPos.x, userPos.y, userPos.z, (user.getRandom().nextFloat() - 0.5) / 6, (user.getRandom().nextFloat() - 0.5) / 6 + 0.1, (user.getRandom().nextFloat() - 0.5) / 6);
-                    level.addParticle(new SquareParticleEffect(new Vector3f(0.7F, 1.0F, 0.0F), new Vector3f(0.9F, 1.0F, 0.0F), 1.0F, user.getRandom().nextInt(5, 7), (float) ((user.getRandom().nextFloat() - 0.5) / 10), 15, 1.0F),
-                            userPos.x, userPos.y, userPos.z, (user.getRandom().nextFloat() - 0.5) / 6, (user.getRandom().nextFloat() - 0.5) / 6 + 0.1, (user.getRandom().nextFloat() - 0.5) / 6);
+                            userPos.x + Mth.nextDouble(user.getRandom(), -1, 1), userPos.y + user.getBbHeight() * 0.5 + Mth.nextDouble(user.getRandom(), -1, 1), userPos.z + Mth.nextDouble(user.getRandom(), -1, 1),
+                            (user.getRandom().nextFloat() - 0.5) / 2, (user.getRandom().nextFloat() - 0.5) / 2 + 0.1, (user.getRandom().nextFloat() - 0.5) / 2);
+                    level.addParticle(new SquareParticleEffect(new Vector3f(0.7F, 1.0F, 0.0F), new Vector3f(0.9F, 1.0F, 0.0F), 1.0F, user.getRandom().nextInt(5, 7), (float) ((user.getRandom().nextFloat() - 0.5) / 10), 15, 0.8F),
+                            userPos.x + Mth.nextDouble(user.getRandom(), -1, 1), userPos.y + user.getBbHeight() * 0.5 + Mth.nextDouble(user.getRandom(), -1, 1), userPos.z + Mth.nextDouble(user.getRandom(), -1, 1),
+                            (user.getRandom().nextFloat() - 0.5) / 2, (user.getRandom().nextFloat() - 0.5) / 2 + 0.1, (user.getRandom().nextFloat() - 0.5) / 2);
                 }
                 EffectUtil.entityEffect(level, () -> new SquareParticleEffect(new Vector3f(0.7F, 1.0F, 0.0F), new Vector3f(0.9F, 1.0F, 0.0F), 0.75F, user.getRandom().nextInt(5, 7), (float) ((user.getRandom().nextFloat() - 0.5) / 10), 15, 1.0F),
-                        () -> new Vec3(0, user.getRandom().nextFloat() / 8, 0), user, 30);
+                        () -> new Vec3(user.getRandom().nextFloat() / 8, user.getRandom().nextFloat() / 8, user.getRandom().nextFloat() / 8), user, 30);
                 EffectUtil.entityEffect(level, () -> new BlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 0, 0, level.random.nextInt(10, 30), 0.87F),
-                        () -> new Vec3(0, user.getRandom().nextFloat() / 8, 0), user, 30);
+                        () -> new Vec3(user.getRandom().nextFloat() / 8, user.getRandom().nextFloat() / 8, user.getRandom().nextFloat() / 8), user, 30);
 
-                level.playSound(user, userPos.x, userPos.y, userPos.z, SoundInit.NYMPHORA.get(), SoundSource.PLAYERS, 1.0F, 0.7F + (user.getRandom().nextFloat() * 0.6F));
+                level.playSound(user, userPos.x, userPos.y, userPos.z, SoundInit.HYDRAERUN.get(), SoundSource.PLAYERS, 1.0F, 0.7F + (user.getRandom().nextFloat() * 0.6F));
 
                 if (level.isClientSide) {
                     playShootAnimation(user);
                 }
 
                 if (!level.isClientSide) {
-                    user.heal(getDamage(user, this.getRequiredMana(level, user, stack), this.baseEffectStrength, this.getElement()));
+                    user.addEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, (int) (getDamage(user, this.getRequiredMana(level, user, stack), this.baseEffectStrength, this.getElement()) * 2400), 0));
                 }
 
                 addCooldown(level, user, stack);

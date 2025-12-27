@@ -269,6 +269,56 @@
       "magitech:hexflare_shoot"
     ]
   },
+  "hydrelux": {
+    "sounds": [
+      "magitech:hydrelux"
+    ]
+  },
+  "hydrelux_shoot": {
+    "sounds": [
+      "magitech:hydrelux_shoot"
+    ]
+  },
+  "hydrelux_bounce": {
+    "sounds": [
+      "magitech:hydrelux_bounce"
+    ]
+  },
+  "nihilflare": {
+    "sounds": [
+      "magitech:nihilflare"
+    ]
+  },
+  "nihilflare_shoot": {
+    "sounds": [
+      "magitech:nihilflare_shoot"
+    ]
+  },
+  "ardovitae": {
+    "sounds": [
+      "magitech:ardovitae"
+    ]
+  },
+  "mystphel": {
+    "sounds": [
+      "magitech:mystphel"
+    ]
+  },
+  "hydraerun": {
+    "sounds": [
+      "magitech:hydraerun"
+    ]
+  },
+  "luxgrail": {
+    "sounds": [
+      "magitech:luxgrail"
+    ]
+  },
+  "luxgrail_charge": {
+    "sounds": [
+      "magitech:luxgrail_charge"
+    ]
+  },
   "aether_lifter_jump": {
     "sounds": [
       "magitech:aether_lifter_jump"

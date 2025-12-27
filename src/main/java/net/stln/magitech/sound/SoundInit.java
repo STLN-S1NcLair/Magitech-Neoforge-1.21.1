@@ -66,6 +66,16 @@ public class SoundInit {
     public static final Supplier<SoundEvent> SHOCKVANE_SHOOT = registerSoundEvent("shockvane_shoot");
     public static final Supplier<SoundEvent> HEXFLARE = registerSoundEvent("hexflare");
     public static final Supplier<SoundEvent> HEXFLARE_SHOOT = registerSoundEvent("hexflare_shoot");
+    public static final Supplier<SoundEvent> HYDRELUX = registerSoundEvent("hydrelux");
+    public static final Supplier<SoundEvent> HYDRELUX_SHOOT = registerSoundEvent("hydrelux_shoot");
+    public static final Supplier<SoundEvent> HYDRELUX_BOUNCE = registerSoundEvent("hydrelux_bounce");
+    public static final Supplier<SoundEvent> NIHILFLARE = registerSoundEvent("nihilflare");
+    public static final Supplier<SoundEvent> NIHILFLARE_SHOOT = registerSoundEvent("nihilflare_shoot");
+    public static final Supplier<SoundEvent> ARDOVITAE = registerSoundEvent("ardovitae");
+    public static final Supplier<SoundEvent> MYSTPHEL = registerSoundEvent("mystphel");
+    public static final Supplier<SoundEvent> HYDRAERUN = registerSoundEvent("hydraerun");
+    public static final Supplier<SoundEvent> LUXGRAIL = registerSoundEvent("luxgrail");
+    public static final Supplier<SoundEvent> LUXGRAIL_CHARGE = registerSoundEvent("luxgrail_charge");
 
     public static final Supplier<SoundEvent> AETHER_LIFTER_JUMP = registerSoundEvent("aether_lifter_jump");
     public static final Supplier<SoundEvent> FLAMGLIDE_STRIDER_JUMP = registerSoundEvent("flamglide_strider_jump");

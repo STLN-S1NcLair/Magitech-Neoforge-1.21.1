@@ -553,6 +553,7 @@ public class CreativeTabInit {
                 output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.FLUVALEN));
                 output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.BLAZEWEND));
                 output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.VOLKARIN));
+                output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.ARDOVITAE));
 
                 output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.FRIGALA));
                 output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.CRYOLUXA));
@@ -584,6 +585,7 @@ public class CreativeTabInit {
                 output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.GLYMORA));
                 output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.ENVISTRA));
                 output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.HEXFLARE));
+                output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.MYSTPHEL));
 
                 output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.AELTHERIN));
                 output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.FLUVINAE));
@@ -591,6 +593,7 @@ public class CreativeTabInit {
                 output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.SYLLAEZE));
                 output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.HYDRELUX));
                 output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.NYMPHORA));
+                output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.HYDRAERUN));
 
                 output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.NULLIXIS));
                 output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.VOIDLANCE));
