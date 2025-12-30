@@ -19,6 +19,7 @@ import net.stln.magitech.recipe.PartCuttingRecipe;
 import net.stln.magitech.recipe.RecipeInit;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PartCuttingMenu extends AbstractContainerMenu {
@@ -175,7 +176,7 @@ public class PartCuttingMenu extends AbstractContainerMenu {
 
     private void setupRecipeList(Container container, ItemStack stack) {
         boolean isRecipeEmpty = this.recipes.isEmpty();
-        this.recipes.clear();
+        this.recipes = new ArrayList<>();
         if (isRecipeEmpty) {
             this.selectedRecipeIndex.set(-1);
         }

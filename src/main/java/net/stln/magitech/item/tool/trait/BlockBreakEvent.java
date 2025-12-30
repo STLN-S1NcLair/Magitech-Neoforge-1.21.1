@@ -62,9 +62,11 @@ public class BlockBreakEvent {
                 } else {
                     blockList.add(pos);
                 }
-            } else {
-                blockList.add(pos);
             }
+            blockList.add(pos);
+            blockList2.addAll(blockList);
+            finalBlockList.addAll(blockList);
+
             blockList.forEach(pos1 -> traitMap.forEach((trait, value) -> blockList2.addAll(trait.addAdditionalBlockBreakFirst(player, event.getPlayer().level(), tool, value, partToolItem.getSumStats(player, event.getPlayer().level(), tool), event.getLevel().getBlockState(pos1), pos1, 1, breakDirection))));
             blockList2.forEach(pos1 -> traitMap.forEach((trait, value) -> {
                 if (!event.getLevel().getBlockState(pos1).getBlock().equals(Blocks.AIR)) {
@@ -102,7 +104,7 @@ public class BlockBreakEvent {
         }
     }
 
-    private static void addHammerMine(Player player, ItemStack stack, BlockPos pos, Set<BlockPos> blockPosList, Direction direction) {
+    public static void addHammerMine(Player player, ItemStack stack, BlockPos pos, Set<BlockPos> blockPosList, Direction direction) {
         int x = 0;
         int y = 0;
         int z = 0;
@@ -131,7 +133,7 @@ public class BlockBreakEvent {
         }
     }
 
-    private static void addScytheMine(Player player, ItemStack stack, BlockPos pos, Set<BlockPos> blockPosList, Block targetBlock) {
+    public static void addScytheMine(Player player, ItemStack stack, BlockPos pos, Set<BlockPos> blockPosList, Block targetBlock) {
         blockPosList.addAll(BlockUtil.getConnectedBlocks(player.level(), pos, targetBlock, 20));
     }
 

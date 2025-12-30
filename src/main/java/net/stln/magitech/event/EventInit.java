@@ -11,5 +11,6 @@ public class EventInit {
     @Environment(EnvType.CLIENT)
     public static void registerClientEvent() {
         ClientLeftClickEvent.register();
+        BlockBreakRangeHighlightEvent.register();
     }
 }

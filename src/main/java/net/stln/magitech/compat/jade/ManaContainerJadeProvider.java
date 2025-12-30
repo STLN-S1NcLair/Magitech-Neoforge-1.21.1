@@ -1,6 +1,7 @@
 package net.stln.magitech.compat.jade;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -10,6 +11,8 @@ import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.IBlockComponentProvider;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
+import snownee.jade.api.ui.BoxStyle;
+import snownee.jade.api.ui.IElementHelper;
 
 public class ManaContainerJadeProvider implements IBlockComponentProvider {
 
@@ -23,7 +26,17 @@ public class ManaContainerJadeProvider implements IBlockComponentProvider {
         if (level.getBlockEntity(pos) instanceof ManaContainerBlockEntity container) {
             int mana = container.getMana();
             int maxMana = container.getMaxMana();
-            iTooltip.addAll(container.getSimpleManaInfo());
+            float progress = (float) mana / maxMana;
+
+            iTooltip.add(
+                    IElementHelper.get().progress(
+                            progress,
+                            Component.literal(mana + " / " + maxMana + " kJ"),
+                            IElementHelper.get().progressStyle().color(0xA0FFD0).textColor(0xFFFFFF), // ゲージ色
+                            BoxStyle.getNestedBox(),
+                            true
+                    )
+            );
         }
     }
 
