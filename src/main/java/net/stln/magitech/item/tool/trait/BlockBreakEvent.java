@@ -146,8 +146,8 @@ public class BlockBreakEvent {
         Entity entity = event.getBreaker();
         Map<Trait, Integer> traitMap = PartToolItem.getTraitLevel(PartToolItem.getTraits(tool));
         if (entity instanceof Player player && tool.getItem() instanceof PartToolItem partToolItem && !ComponentHelper.isBroken(tool)) {
-            AtomicReference<List<ItemStack>> lootStack = new AtomicReference<>(new ArrayList<>());
-            AtomicReference<List<ItemStack>> setLootStack = new AtomicReference<>(new ArrayList<>());
+            AtomicReference<ArrayList<ItemStack>> lootStack = new AtomicReference<>(new ArrayList<>());
+            AtomicReference<ArrayList<ItemStack>> setLootStack = new AtomicReference<>(new ArrayList<>());
             lootStack.set(drops.stream().map(ItemEntity::getItem).collect(Collectors.toCollection(ArrayList::new)));
             traitMap.forEach((trait, value) -> trait.modifyEnchantmentOnBlockLooting(player, player.level(), tool, value, partToolItem.getSumStats(player, player.level(), tool), state, pos, lootStack.get()));
             final double[] expMul = {1.0};
@@ -160,10 +160,10 @@ public class BlockBreakEvent {
                     .withOptionalParameter(LootContextParams.BLOCK_ENTITY, event.getBlockEntity())
                     .withParameter(LootContextParams.THIS_ENTITY, player);
 
-            lootStack.set(state.getDrops(builder));
+            lootStack.set((ArrayList<ItemStack>) state.getDrops(builder));
 
             traitMap.forEach((trait, value) -> lootStack.get().addAll(trait.addItemOnBlockLooting(player, player.level(), tool, value, partToolItem.getSumStats(player, player.level(), tool), state, pos, lootStack.get())));
-            traitMap.forEach((trait, value) -> setLootStack.set(trait.setItemOnBlockLooting(player, player.level(), tool, value, partToolItem.getSumStats(player, player.level(), tool), state, pos, lootStack.get())));
+            traitMap.forEach((trait, value) -> setLootStack.set((ArrayList<ItemStack>) trait.setItemOnBlockLooting(player, player.level(), tool, value, partToolItem.getSumStats(player, player.level(), tool), state, pos, lootStack.get())));
             Vec3 center = pos.getCenter();
             if (setLootStack.get() != null && !setLootStack.get().isEmpty()) {
                 event.getDrops().clear();

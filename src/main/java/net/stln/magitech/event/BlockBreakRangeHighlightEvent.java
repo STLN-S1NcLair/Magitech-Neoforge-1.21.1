@@ -1,10 +1,12 @@
 package net.stln.magitech.event;
 
 import com.mojang.blaze3d.platform.GlStateManager;
-import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.vertex.VertexFormat;
+import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -15,10 +17,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.stln.magitech.item.tool.toolitem.PartToolItem;
@@ -26,11 +28,23 @@ import net.stln.magitech.item.tool.trait.BlockBreakEvent;
 import net.stln.magitech.item.tool.trait.Trait;
 import net.stln.magitech.util.ComponentHelper;
 import org.joml.Matrix4f;
-import org.joml.Vector3f;
 
 import java.util.*;
 
 public class BlockBreakRangeHighlightEvent {
+
+    private static RenderType NO_DEPTH_LINE = RenderType.create("magitech:no_depth_line",
+            DefaultVertexFormat.POSITION_COLOR_NORMAL,
+            VertexFormat.Mode.LINES,
+            256,
+            RenderType.CompositeState.builder()
+                    .setShaderState(RenderType.RENDERTYPE_LINES_SHADER)
+                    .setLineState(new RenderStateShard.LineStateShard(OptionalDouble.of(5.0)))
+                    .setTransparencyState(RenderType.TRANSLUCENT_TRANSPARENCY)
+                    .setDepthTestState(RenderType.NO_DEPTH_TEST)
+                    .setOutputState(RenderType.MAIN_TARGET)
+                    .setCullState(RenderType.NO_CULL)
+                    .createCompositeState(false));
 
     public static void register() {
         WorldRenderEvents.AFTER_TRANSLUCENT.register(context -> {
@@ -115,19 +129,6 @@ public class BlockBreakRangeHighlightEvent {
         finalList.addAll(blockList); // 中心は必ず含める
         return finalList;
     }
-
-    private static RenderType NO_DEPTH_LINE = RenderType.create("magitech:no_depth_line",
-            DefaultVertexFormat.POSITION_COLOR_NORMAL,
-            VertexFormat.Mode.LINES,
-            256,
-            RenderType.CompositeState.builder()
-                    .setShaderState(RenderType.RENDERTYPE_LINES_SHADER)
-                    .setLineState(new RenderStateShard.LineStateShard(OptionalDouble.of(5.0)))
-                    .setTransparencyState(RenderType.TRANSLUCENT_TRANSPARENCY)
-                    .setDepthTestState(RenderType.NO_DEPTH_TEST)
-                    .setOutputState(RenderType.MAIN_TARGET)
-                    .setCullState(RenderType.NO_CULL)
-                    .createCompositeState(false));
 
     private static void renderPredicted(PoseStack poseStack, MultiBufferSource buffers, Camera camera, Collection<BlockPos> positions) {
         Vec3 camPos = camera.getPosition();
@@ -259,8 +260,8 @@ public class BlockBreakRangeHighlightEvent {
             return checkAllSides(
                     positions, currentPos, Axis.X,
                     new BlockPos[]{
-                            new BlockPos(x, y,     z),
-                            new BlockPos(x, y,     z - 1),
+                            new BlockPos(x, y, z),
+                            new BlockPos(x, y, z - 1),
                             new BlockPos(x, y - 1, z - 1),
                             new BlockPos(x, y - 1, z)
                     }
@@ -275,10 +276,10 @@ public class BlockBreakRangeHighlightEvent {
             return checkAllSides(
                     positions, currentPos, Axis.Z,
                     new BlockPos[]{
-                            new BlockPos(x,     y, z),
+                            new BlockPos(x, y, z),
                             new BlockPos(x - 1, y, z),
                             new BlockPos(x - 1, y - 1, z),
-                            new BlockPos(x,     y - 1, z)
+                            new BlockPos(x, y - 1, z)
                     }
             );
         }
@@ -291,21 +292,15 @@ public class BlockBreakRangeHighlightEvent {
             return checkAllSides(
                     positions, currentPos, Axis.Y,
                     new BlockPos[]{
-                            new BlockPos(x,     y, z),
+                            new BlockPos(x, y, z),
                             new BlockPos(x - 1, y, z),
                             new BlockPos(x - 1, y, z - 1),
-                            new BlockPos(x,     y, z - 1)
+                            new BlockPos(x, y, z - 1)
                     }
             );
         }
 
         return false;
-    }
-
-
-    @FunctionalInterface
-    private interface QuadProvider {
-        BlockPos[] get(int a, int b);
     }
 
     private static boolean checkAllSides(
@@ -343,11 +338,6 @@ public class BlockBreakRangeHighlightEvent {
         return false;
     }
 
-
-    private enum Axis {
-        X, Y, Z
-    }
-
     private static boolean isEdgeOwner(
             BlockPos self,
             BlockPos p1,
@@ -367,6 +357,16 @@ public class BlockBreakRangeHighlightEvent {
             case Y -> self.getX() < other.getX()
                     || (self.getX() == other.getX() && self.getZ() < other.getZ());
         };
+    }
+
+
+    private enum Axis {
+        X, Y, Z
+    }
+
+    @FunctionalInterface
+    private interface QuadProvider {
+        BlockPos[] get(int a, int b);
     }
 
 

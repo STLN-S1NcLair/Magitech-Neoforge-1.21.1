@@ -9,21 +9,18 @@ import net.minecraft.world.entity.EntityEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.element.Element;
 import net.stln.magitech.entity.BombSpellProjectileEntity;
 import net.stln.magitech.entity.EntityInit;
 import net.stln.magitech.entity.mob_effect.MobEffectInit;
 import net.stln.magitech.particle.particle_option.AbstractCustomizableParticleEffect;
-import net.stln.magitech.particle.particle_option.VoidGlowParticleEffect;
 import net.stln.magitech.particle.particle_option.UnstableSquareParticleEffect;
+import net.stln.magitech.particle.particle_option.VoidGlowParticleEffect;
 import net.stln.magitech.sound.SoundInit;
-import net.stln.magitech.util.EntityUtil;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
@@ -32,13 +29,12 @@ import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-import java.util.List;
-
 public class NihilflareEntity extends BombSpellProjectileEntity {
 
     private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
 
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
+    int lifeTime = 20;
 
     public NihilflareEntity(EntityType<? extends BombSpellProjectileEntity> entityType, Level world) {
         super(entityType, world);
@@ -74,8 +70,6 @@ public class NihilflareEntity extends BombSpellProjectileEntity {
     protected double getDefaultGravity() {
         return 0.1;
     }
-
-    int lifeTime = 20;
 
     @Override
     public void tick() {

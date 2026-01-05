@@ -163,7 +163,7 @@ configurations {
 dependencies {
     compileOnly "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}"
     runtimeOnly "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
-    implementation "curse.maven:jade-324717:${jade_id}"
+    implementation "maven.modrinth:jade:${jade_id}"
     implementation "curse.maven:curios-309927:${curiosapi_id}"
     implementation "org.sinytra.forgified-fabric-api:forgified-fabric-api:${forgified_fabric_api_version}"
     implementation "curse.maven:playeranimator-658587:${playeranimator_id}"

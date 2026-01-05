@@ -321,7 +321,8 @@ public class AthanorPillarBlockEntity extends BlockEntity {
                         for (int i = 0; i < 5; i++) {
                             BlockPos vesselPos = getVesselPos(pos, i);
                             BlockState state1 = level.getBlockState(vesselPos);
-                            ((ManaVesselBlockEntity) level.getBlockEntity(vesselPos)).subMana(recipeHolder.get().value().getMana() / 5);
+                            ManaVesselBlockEntity manaVesselBlockEntity = (ManaVesselBlockEntity) level.getBlockEntity(vesselPos);
+                            manaVesselBlockEntity.setMana(manaVesselBlockEntity.getMana() - recipeHolder.get().value().getMana() / 5);
                             setChanged(level, vesselPos, state1);
                             level.sendBlockUpdated(vesselPos, state1, state1, 3);
                             blockEntity.craftingProgress = 0;

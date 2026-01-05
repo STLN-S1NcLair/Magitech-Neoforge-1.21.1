@@ -13,7 +13,6 @@ import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.gui.overlay.ManaContainerInfoOverlay;
 import net.stln.magitech.gui.overlay.ManaGaugeOverlay;
 import net.stln.magitech.gui.overlay.SpellGaugeOverlay;
 
@@ -32,7 +31,6 @@ public class GuiInit {
     public static void onRegisterOverlays(RegisterGuiLayersEvent event) {
         event.registerAboveAll(Magitech.id("mana_gauge"), new ManaGaugeOverlay());
         event.registerAboveAll(Magitech.id("spell_gauge"), new SpellGaugeOverlay());
-        event.registerAboveAll(Magitech.id("mana_container_info"), new ManaContainerInfoOverlay());
     }
 
     @SubscribeEvent
@@ -42,13 +40,13 @@ public class GuiInit {
         event.register(TOOL_ASSEMBLY_MENU.get(), ToolAssemblyScreen::new);
         event.register(TOOL_REPAIRING_MENU.get(), ToolRepairingScreen::new);
         event.register(TOOL_UPGRADE_MENU.get(), ToolUpgradeScreen::new);
+        event.register(MANA_VESSEL_MENU.get(), ManaVesselScreen::new);
         event.register(THREADBOUND_MENU.get(), ThreadboundScreen::new);
-    }
+    }    public static final Supplier<MenuType<PartCuttingMenu>> PART_CUTTING_MENU = register("part_cutting_menu", PartCuttingMenu::new);
 
     public static void registerMenus(IEventBus eventBus) {
         REGISTER.register(eventBus);
-    }    public static final Supplier<MenuType<PartCuttingMenu>> PART_CUTTING_MENU = register("part_cutting_menu", PartCuttingMenu::new);
-
+    }
 
 
 
@@ -59,7 +57,10 @@ public class GuiInit {
 
 
     public static final Supplier<MenuType<ToolUpgradeMenu>> TOOL_UPGRADE_MENU = register("tool_upgrade_menu", ToolUpgradeMenu::new);
-    public static final Supplier<MenuType<ThreadboundMenuType>> THREADBOUND_MENU = register("threadbound_menu", ThreadboundMenuType::new);
+
+    public static final Supplier<MenuType<ManaVesselMenu>> MANA_VESSEL_MENU = register("mana_vessel_menu", ManaVesselMenu::new);
+
+    public static final Supplier<MenuType<ThreadboundMenu>> THREADBOUND_MENU = register("threadbound_menu", ThreadboundMenu::new);
 
 
 }

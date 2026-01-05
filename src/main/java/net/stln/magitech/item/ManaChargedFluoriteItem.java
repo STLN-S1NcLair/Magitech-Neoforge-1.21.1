@@ -57,7 +57,7 @@ public class ManaChargedFluoriteItem extends TooltipTextItem {
             if (!player.isCreative()) {
                 stack.setCount(stack.getCount() - 1);
             }
-            containerBlockEntity.addMana(45);
+            containerBlockEntity.addMana(4500);
             level.playSound(player, pos, SoundInit.CRYSTAL_BREAK.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
             for (int i = 0; i < 40; i++) {
                 double x = pos.getCenter().x + Mth.nextDouble(player.getRandom(), -0.75, 0.75);

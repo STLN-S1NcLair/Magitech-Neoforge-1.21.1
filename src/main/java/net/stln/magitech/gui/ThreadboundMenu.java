@@ -22,17 +22,17 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ThreadboundMenuType extends AbstractContainerMenu {
+public class ThreadboundMenu extends AbstractContainerMenu {
     private final ItemStack threadbound;
     private final SimpleContainer container = new SimpleContainer(15);
     private final int containerRows = 3;
     private final int containerColumns = 5;
 
-    public ThreadboundMenuType(int containerId, Inventory playerInv) {
+    public ThreadboundMenu(int containerId, Inventory playerInv) {
         this(containerId, playerInv, playerInv.player, playerInv.player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof ThreadBoundItem ? playerInv.player.getItemInHand(InteractionHand.MAIN_HAND) : playerInv.player.getItemInHand(InteractionHand.OFF_HAND));
     }
 
-    public ThreadboundMenuType(int containerId, Inventory playerInv, Player player, ItemStack threadbound) {
+    public ThreadboundMenu(int containerId, Inventory playerInv, Player player, ItemStack threadbound) {
         super(GuiInit.THREADBOUND_MENU.get(), containerId);
 
         if (!(threadbound.getItem() instanceof ThreadBoundItem)) {

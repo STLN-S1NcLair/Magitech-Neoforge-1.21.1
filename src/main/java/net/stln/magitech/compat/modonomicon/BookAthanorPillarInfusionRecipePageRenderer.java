@@ -13,6 +13,7 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.recipe.AthanorPillarInfusionRecipe;
+import net.stln.magitech.util.EnergyFormatter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -121,7 +122,7 @@ public class BookAthanorPillarInfusionRecipePageRenderer extends BookRecipePageR
         }
         this.parentScreen.renderItemStacks(guiGraphics, recipeX + 30, recipeY + 47, mouseX, mouseY, base);
         this.parentScreen.renderItemStack(guiGraphics, recipeX + 87, recipeY + 62, mouseX, mouseY, output);
-        guiGraphics.drawString(Minecraft.getInstance().font, Component.translatable("recipe.magitech.required_mana").append(": " + value.getMana()), recipeX - 8, recipeY + 104, 0x004040, false);
+        guiGraphics.drawString(Minecraft.getInstance().font, Component.translatable("recipe.magitech.required_mana").append(": " + EnergyFormatter.formatValue(value.getMana())), recipeX - 8, recipeY + 104, 0x004040, false);
         this.parentScreen.renderItemStack(guiGraphics, recipeX + 87, recipeY + 81, mouseX, mouseY, BlockInit.ATHANOR_PILLAR.toStack());
     }
 }

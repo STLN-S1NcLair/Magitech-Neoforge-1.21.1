@@ -13,8 +13,6 @@ import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
@@ -27,7 +25,6 @@ import net.stln.magitech.element.Element;
 import net.stln.magitech.magic.charge.ChargeData;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.Spell;
-import net.stln.magitech.particle.particle_option.BlowParticleEffect;
 import net.stln.magitech.particle.particle_option.FlameParticleEffect;
 import net.stln.magitech.particle.particle_option.SquareFieldParticleEffect;
 import net.stln.magitech.particle.particle_option.SquareParticleEffect;
@@ -36,7 +33,6 @@ import net.stln.magitech.util.EffectUtil;
 import net.stln.magitech.util.SpellShape;
 import org.joml.Vector3f;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 

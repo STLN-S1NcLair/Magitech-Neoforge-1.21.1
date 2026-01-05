@@ -11,10 +11,8 @@ import dev.kosmx.playerAnim.core.util.Ease;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
 import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.core.Holder;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
@@ -27,7 +25,6 @@ import net.stln.magitech.element.Element;
 import net.stln.magitech.magic.charge.ChargeData;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.magic.spell.Spell;
-import net.stln.magitech.particle.particle_option.BlowParticleEffect;
 import net.stln.magitech.particle.particle_option.RuneParticleEffect;
 import net.stln.magitech.particle.particle_option.SquareFieldParticleEffect;
 import net.stln.magitech.particle.particle_option.SquareParticleEffect;
@@ -38,7 +35,6 @@ import org.joml.Vector3f;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Mystphel extends Spell {

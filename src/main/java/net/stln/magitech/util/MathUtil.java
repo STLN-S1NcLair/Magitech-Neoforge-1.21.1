@@ -15,4 +15,20 @@ public class MathUtil {
         }
         return angle;
     }
+
+    public static long min(long... values) {
+        long min = Long.MAX_VALUE;
+        for (long val : values) {
+            min = Math.min(min, val);
+        }
+        return min;
+    }
+
+    public static int min(int... values) {
+        int min = Integer.MAX_VALUE;
+        for (int val : values) {
+            min = Math.min(min, val);
+        }
+        return min;
+    }
 }

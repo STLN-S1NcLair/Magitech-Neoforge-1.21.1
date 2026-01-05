@@ -19,6 +19,7 @@ import net.stln.magitech.entity.EntityInit;
 import net.stln.magitech.entity.status.AttributeInit;
 import net.stln.magitech.item.armor.AetherLifterItem;
 import net.stln.magitech.item.armor.FlamglideStriderItem;
+import net.stln.magitech.item.energy.ManaContainerItem;
 import net.stln.magitech.item.fluid.AlchemicalFlaskItem;
 import net.stln.magitech.item.fluid.potion.*;
 import net.stln.magitech.item.tool.ToolBeltItem;
@@ -246,6 +247,9 @@ public class ItemInit {
     public static final DeferredItem<Item> MANA_DEEXCITER_CORE = ITEMS.registerItem("mana_deexciter_core", TooltipTextItem::new);
     public static final DeferredItem<Item> ASPECT_COLLECTOR = ITEMS.registerItem("aspect_collector", TooltipTextItem::new);
     public static final DeferredItem<Item> BOOTS_FRAME = ITEMS.registerItem("boots_frame", TooltipTextItem::new);
+
+    public static final DeferredItem<Item> MANA_CELL = ITEMS.registerItem("mana_cell", properties -> new ManaContainerItem(new Item.Properties().stacksTo(1), 500000, 5000));
+
     public static final DeferredItem<Item> MANA_BERRIES = ITEMS.registerItem("mana_berries", (properties) -> new TooltipTextPlaceableItem(BlockInit.MANA_BERRY_BUSH.get(), properties.food(FoodInit.MANA_BERRIES)));
     public static final DeferredItem<Item> MANA_PIE = ITEMS.registerItem("mana_pie", TooltipTextItem::new, new Item.Properties().food(FoodInit.MANA_PIE));
     public static final DeferredItem<Item> ALCHEMICAL_FLASK = ITEMS.registerItem("alchemical_flask", AlchemicalFlaskItem::new);

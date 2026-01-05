@@ -13,7 +13,6 @@ import net.stln.magitech.magic.spell.surge.*;
 import net.stln.magitech.magic.spell.tremor.*;
 import net.stln.magitech.registry.DeferredSpell;
 import net.stln.magitech.registry.DeferredSpellRegister;
-import org.checkerframework.checker.units.qual.A;
 import org.jetbrains.annotations.NotNull;
 
 public class SpellInit {

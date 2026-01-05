@@ -1,42 +1,42 @@
 package net.stln.magitech.compat.jade;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.block.block_entity.ManaContainerBlockEntity;
+import net.stln.magitech.util.EnergyFormatter;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.IBlockComponentProvider;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
-import snownee.jade.api.ui.BoxStyle;
-import snownee.jade.api.ui.IElementHelper;
 
-public class ManaContainerJadeProvider implements IBlockComponentProvider {
+public enum ManaContainerJadeProvider implements IBlockComponentProvider {
+    INSTANCE;
 
     public static final ResourceLocation UID = Magitech.id("mana_container");
+    // 注: ブロックアトラスにあるテクスチャを指定すること
+    public static final ResourceLocation TEXTURE = Magitech.id("mana");
 
     @Override
-    public void appendTooltip(ITooltip iTooltip, BlockAccessor blockAccessor, IPluginConfig iPluginConfig) {
-        BlockPos pos = blockAccessor.getPosition();
-        BlockState state = blockAccessor.getBlockState();
-        Level level = blockAccessor.getLevel();
-        if (level.getBlockEntity(pos) instanceof ManaContainerBlockEntity container) {
-            int mana = container.getMana();
-            int maxMana = container.getMaxMana();
-            float progress = (float) mana / maxMana;
+    public void appendTooltip(ITooltip tooltip, BlockAccessor accessor, IPluginConfig config) {
+        // サーバーから送られてきたデータがあるか確認
+        // (まだ届いていない一瞬の間は false になることがある)
+        if (accessor.getServerData().contains("mana")) {
+            CompoundTag data = accessor.getServerData();
 
-            iTooltip.add(
-                    IElementHelper.get().progress(
-                            progress,
-                            Component.literal(mana + " / " + maxMana + " kJ"),
-                            IElementHelper.get().progressStyle().color(0xA0FFD0).textColor(0xFFFFFF), // ゲージ色
-                            BoxStyle.getNestedBox(),
-                            true
-                    )
-            );
+            long mana = data.getLong("mana");
+            long maxMana = data.getLong("maxMana");
+
+            // ゼロ除算対策
+            float progress = maxMana > 0 ? (float) mana / maxMana : 0;
+
+            MutableComponent text = EnergyFormatter.formatEnergy(mana, maxMana);
+
+            tooltip.add(new TexturedProgressElement(
+                    progress,
+                    text,
+                    TEXTURE
+            ));
         }
     }
 

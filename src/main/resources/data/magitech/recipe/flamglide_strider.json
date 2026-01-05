@@ -47,7 +47,7 @@
       }
     ]
   ],
-  "mana": 500,
+  "mana": 500000,
   "result": {
     "count": 1,
     "id": "magitech:flamglide_strider"

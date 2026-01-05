@@ -52,6 +52,10 @@ public class ComponentHelper {
         return holder.getOrDefault(ComponentInit.BROKEN_COMPONENT, false);
     }
 
+    public static long getMana(@NotNull DataComponentHolder holder) {
+        return holder.getOrDefault(ComponentInit.MANA_CONTAINER_COMPONENT, 0L);
+    }
+
     public static SimpleFluidContent getFluidContent(@NotNull DataComponentHolder holder) {
         return holder.getOrDefault(ComponentInit.FLUID_CONTENT_COMPONENT, SimpleFluidContent.EMPTY);
     }
@@ -75,5 +79,9 @@ public class ComponentHelper {
 
     public static void updateUpgradePoint(@NotNull MutableDataComponentHolder holder, int whenNull, UnaryOperator<Integer> operator) {
         holder.update(ComponentInit.UPGRADE_POINT_COMPONENT, whenNull, operator);
+    }
+
+    public static void updateMana(@NotNull MutableDataComponentHolder holder, @NotNull UnaryOperator<Long> operator) {
+        holder.update(ComponentInit.MANA_CONTAINER_COMPONENT, 0L, operator);
     }
 }

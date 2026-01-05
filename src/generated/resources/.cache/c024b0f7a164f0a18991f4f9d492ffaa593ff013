@@ -1,4 +1,4 @@
-// 1.21.1	2025-11-06T22:04:03.8508883	Block States: magitech
+// 1.21.1	2026-01-04T13:15:02.9746229	Block States: magitech
 90f039d3c8040909582f040c2be7f09eca62a0a8 assets/magitech/blockstates/alchecrysite.json
 e2e47f25d85025ef83b8b30154421755d7d8c139 assets/magitech/blockstates/alchecrysite_bricks.json
 36896c4c599cbeeb6b3e9441de7d2de5fa12cb4d assets/magitech/blockstates/alchecrysite_brick_slab.json
@@ -56,6 +56,7 @@ bce9aceeb73bb08c14f847b4ba75e9d3bb9c5a5a assets/magitech/blockstates/charcoal_bi
 7be2966f86fcf68b17e9bd43df7e753c6cdcd040 assets/magitech/blockstates/fluorite_brick_wall.json
 23b24625ce85ce68a3043507db1070ade2249322 assets/magitech/blockstates/fluorite_ore.json
 ea5f32c600326878c156f8e6005a468090ac5787 assets/magitech/blockstates/mana_node.json
+6cdea5097e4c6a6a65aca88d53c1a132cc0cee3d assets/magitech/blockstates/mana_relay.json
 c3741a06a8cc44d283a4f95640e747fd7d6ddd19 assets/magitech/blockstates/mana_vessel.json
 8b75e7dbed96d274269674ee7a25a8e772778da4 assets/magitech/blockstates/polished_alchecrysite.json
 4d63808c8c023a13e385ec001f45a1d907fa477c assets/magitech/blockstates/polished_alchecrysite_slab.json
@@ -258,6 +259,7 @@ d7a4b1fb97de8531a033107078a9ff7873e9ea14 assets/magitech/models/item/fluorite_br
 7c8694a6ee631a86acf2ccc5d29301c0d41e6efa assets/magitech/models/item/fluorite_brick_wall.json
 154846b3063706a90adf80a7d0ca0d5f4dc79b24 assets/magitech/models/item/fluorite_ore.json
 d31f0296a75ebce6a226f7ccb718d34b37a4dd08 assets/magitech/models/item/mana_node.json
+b4f3e623505a3b02a888ed060eada49a6cfda822 assets/magitech/models/item/mana_relay.json
 c5b6f43c0cacde085d21fdec6817b297a64db379 assets/magitech/models/item/mana_vessel.json
 81a42d22c1b8c909decf741a392819a09d7096ba assets/magitech/models/item/polished_alchecrysite.json
 ccfc94681e4c0de1dd9577e261b7d4f54860660d assets/magitech/models/item/polished_alchecrysite_slab.json

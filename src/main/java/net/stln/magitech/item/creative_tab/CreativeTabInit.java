@@ -87,6 +87,7 @@ public class CreativeTabInit {
                 output.accept(ItemInit.MANA_DEEXCITER_CORE.get());
                 output.accept(ItemInit.ASPECT_COLLECTOR.get());
                 output.accept(ItemInit.BOOTS_FRAME.get());
+                output.accept(ItemInit.MANA_CELL.get());
                 output.accept(ItemInit.MANA_BERRIES.get());
                 output.accept(ItemInit.MANA_PIE.get());
                 output.accept(ItemInit.ALCHEMICAL_FLASK.get());
@@ -120,6 +121,7 @@ public class CreativeTabInit {
                 output.accept(BlockInit.ALCHEMETRIC_PYLON_ITEM.get());
                 output.accept(BlockInit.ATHANOR_PILLAR_ITEM.get());
                 output.accept(BlockInit.MANA_NODE_ITEM.get());
+                output.accept(BlockInit.MANA_RELAY_ITEM.get());
                 output.accept(BlockInit.MANA_VESSEL_ITEM.get());
                 output.accept(BlockInit.FLUORITE_ORE_ITEM.get());
                 output.accept(BlockInit.DEEPSLATE_FLUORITE_ORE_ITEM.get());

@@ -1,18 +1,12 @@
 package net.stln.magitech.entity.magicentity.hydrelux;
 
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageType;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
@@ -23,12 +17,10 @@ import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.element.Element;
 import net.stln.magitech.entity.BombSpellProjectileEntity;
 import net.stln.magitech.entity.EntityInit;
-import net.stln.magitech.entity.mob_effect.MobEffectInit;
 import net.stln.magitech.particle.particle_option.AbstractCustomizableParticleEffect;
 import net.stln.magitech.particle.particle_option.BlowParticleEffect;
 import net.stln.magitech.particle.particle_option.UnstableSquareParticleEffect;
 import net.stln.magitech.sound.SoundInit;
-import net.stln.magitech.util.DataMapHelper;
 import net.stln.magitech.util.EntityUtil;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
@@ -44,8 +36,9 @@ public class HydreluxEntity extends BombSpellProjectileEntity {
 
     private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
     private static final RawAnimation EXPLODE = RawAnimation.begin().thenLoop("explode");
-
+    final int maxVacuumTick = 20;
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
+    int vacuumTick = 0;
 
     public HydreluxEntity(EntityType<? extends BombSpellProjectileEntity> entityType, Level world) {
         super(entityType, world);
@@ -100,19 +93,19 @@ public class HydreluxEntity extends BombSpellProjectileEntity {
                 world.addParticle(new BlowParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed, level().random.nextInt(10, 30), 0.87F), x, y, z, vx, vy, vz);
             }
         }
-        if  (this.vacuumTick > 0) {
+        if (this.vacuumTick > 0) {
             this.setNoGravity(true);
             vacuumTick++;
             this.setDeltaMovement(this.getDeltaMovement().scale(0.99));
             List<Entity> entities = EntityUtil.getEntitiesInBox(this.level(), this, this.position(), new Vec3(this.explodeRadius, this.explodeRadius, this.explodeRadius));
             for (Entity entity : entities) {
                 Vec3 targetBodyPos = entity.position().add(0, entity.getBbHeight() * 0.7, 0);
-                    if (this.level().clip(new ClipContext(targetBodyPos, this.position(), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this)).getType() != HitResult.Type.BLOCK) {
-                        Vec3 toEntity = this.position().subtract(entity.position()).normalize();
-                        double distance = this.position().distanceTo(entity.position());
-                        double pullStrength = Mth.clamp((this.explodeRadius - distance) / this.explodeRadius, 0, 1) * 0.35;
-                        entity.addDeltaMovement(toEntity.scale(pullStrength));
-                    }
+                if (this.level().clip(new ClipContext(targetBodyPos, this.position(), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this)).getType() != HitResult.Type.BLOCK) {
+                    Vec3 toEntity = this.position().subtract(entity.position()).normalize();
+                    double distance = this.position().distanceTo(entity.position());
+                    double pullStrength = Mth.clamp((this.explodeRadius - distance) / this.explodeRadius, 0, 1) * 0.35;
+                    entity.addDeltaMovement(toEntity.scale(pullStrength));
+                }
             }
 
             Vector3f fromCol = new Vector3f(0.7F, 1.0F, 0.0F);
@@ -151,9 +144,6 @@ public class HydreluxEntity extends BombSpellProjectileEntity {
     protected Element getElement() {
         return Element.FLOW;
     }
-
-    int vacuumTick = 0;
-    final int maxVacuumTick = 20;
 
     @Override
     public void handleEntityEvent(byte status) {

@@ -1,4 +1,4 @@
-// 1.21.1	2025-11-19T21:34:38.2569222	Item Models: magitech
+// 1.21.1	2026-01-02T15:09:58.882762	Item Models: magitech
 b6e580466ba37335919256eafa6aebae2f80e029 assets/magitech/models/item/abyssite.json
 f8398c633fbbc637417f3dfe317b25ee85a8ac1f assets/magitech/models/item/abyssite_axe_heavy_handle.json
 ba7e38ad119bd2731692671964773b889925fc5c assets/magitech/models/item/abyssite_axe_light_blade.json
@@ -883,6 +883,7 @@ bfcc7eee2f1c127af996ce81c2c1e8d465c3f85d assets/magitech/models/item/light_sword
 8e45a72f8847143cae6f0243c0dfb8432a1b5f34 assets/magitech/models/item/magic_crystal.json
 440bc64a8403d613bd1ee05abee0df743af6e51d assets/magitech/models/item/magic_potion_flask.json
 6e77e448e0645d8609c0ee3cec0643102e5978da assets/magitech/models/item/mana_berries.json
+482c9002a21b48ee329f7fd81be350cd8d4254da assets/magitech/models/item/mana_cell.json
 a4eb262981514e64121967e4cf98ed9a9af90048 assets/magitech/models/item/mana_charged_fluorite.json
 d0392a2314934b78d703aa5909e2d2a944991a38 assets/magitech/models/item/mana_deexciter_core.json
 b20ad911143a435c0edd856c3568835f6288d55c assets/magitech/models/item/mana_insulating_glass.json

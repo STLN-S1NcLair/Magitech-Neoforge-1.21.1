@@ -41,13 +41,8 @@ public class ToolRepairingMenu extends AbstractContainerMenu {
     private final ResultContainer resultSlots = new ResultContainer();
     private final ContainerLevelAccess access;
     private final Player player;
-    private final Level level;    private final Container inputSlots = new SimpleContainer(3) {
-        @Override
-        public void setChanged() {
-            super.setChanged();
-            ToolRepairingMenu.this.slotsChanged(this);
-        }
-    };
+    private final Level level;
+
     public ToolRepairingMenu(int containerId, Inventory playerInventory) {
         this(containerId, playerInventory, ContainerLevelAccess.NULL);
     }
@@ -137,7 +132,13 @@ public class ToolRepairingMenu extends AbstractContainerMenu {
             menu.setRemoteSlot(0, stack);
             serverPlayer.connection.send(new ClientboundContainerSetSlotPacket(menu.containerId, menu.incrementStateId(), 0, stack));
         }
-    }
+    }    private final Container inputSlots = new SimpleContainer(3) {
+        @Override
+        public void setChanged() {
+            super.setChanged();
+            ToolRepairingMenu.this.slotsChanged(this);
+        }
+    };
 
     private static MultiStackRecipeInput createRecipeInput(Container container) {
         List<ItemStack> stacks = new ArrayList<>();

@@ -118,5 +118,10 @@ public class NetworkInit {
                 SparkTraitBeamPayload.STREAM_CODEC,
                 SparkTraitBeamPayloadHandler::handleDataOnMainS2C
         );
+        registrar.playToClient(
+                ManaNodeTransferPayload.TYPE,
+                ManaNodeTransferPayload.STREAM_CODEC,
+                ManaNodeTransferPayloadHandler::handleDataOnMainS2C
+        );
     }
 }

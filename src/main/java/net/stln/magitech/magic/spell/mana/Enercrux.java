@@ -74,7 +74,7 @@ public class Enercrux extends BeamSpell {
         super.applyEffectToBlock(level, user, stack, target);
         BlockEntity blockEntity = level.getBlockEntity(target);
         if (blockEntity instanceof ManaContainerBlockEntity manaContainerBlockEntity) {
-            manaContainerBlockEntity.addMana((int) Math.min(this.getRequiredMana(level, user, stack).get(ManaUtil.ManaType.MANA), this.getBaseRequiredMana().get(ManaUtil.ManaType.MANA) * 0.75));
+            manaContainerBlockEntity.addMana((long) (this.getBaseRequiredMana().get(ManaUtil.ManaType.MANA) * 75));
         }
     }
 

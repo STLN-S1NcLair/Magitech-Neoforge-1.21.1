@@ -135,14 +135,7 @@ public class ToolUpgradeMenu extends AbstractContainerMenu {
 
     private boolean isValidUpgrade(int upgradeIndex) {
         return upgradeIndex >= 0 && upgradeIndex < this.upgradeSize && canUpgrade();
-    }    public final Container container = new SimpleContainer(2) {
-        @Override
-        public void setChanged() {
-            super.setChanged();
-            ToolUpgradeMenu.this.slotsChanged(this);
-            ToolUpgradeMenu.this.slotUpdateListener.run();
-        }
-    };
+    }
 
     public boolean canUpgrade() {
         ItemStack itemStack = container.getItem(0);
@@ -155,7 +148,14 @@ public class ToolUpgradeMenu extends AbstractContainerMenu {
 
     public boolean hasUpgradePoint(ItemStack itemStack) {
         return !itemStack.isEmpty() && itemStack.getItem() instanceof PartToolItem && ComponentHelper.getUpgradePoint(itemStack) > 0;
-    }
+    }    public final Container container = new SimpleContainer(2) {
+        @Override
+        public void setChanged() {
+            super.setChanged();
+            ToolUpgradeMenu.this.slotsChanged(this);
+            ToolUpgradeMenu.this.slotUpdateListener.run();
+        }
+    };
 
     /**
      * Callback for when the crafting matrix is changed.

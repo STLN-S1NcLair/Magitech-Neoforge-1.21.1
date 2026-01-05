@@ -24,6 +24,7 @@ import net.stln.magitech.recipe.AthanorPillarInfusionRecipe;
 import net.stln.magitech.recipe.RecipeInit;
 import net.stln.magitech.recipe.ToolMaterialRecipe;
 import net.stln.magitech.util.ClientHelper;
+import net.stln.magitech.util.EnergyFormatter;
 import net.stln.magitech.util.RenderHelper;
 import org.jetbrains.annotations.NotNull;
 
@@ -75,7 +76,7 @@ public class AthanorPillarInfusionRecipeCategory extends AbstractMagitechRecipeC
 
         guiGraphics.blit(TEXTURE, 155, 54, 36, 0, 18, 18);
 
-        RenderHelper.renderFramedText(guiGraphics, Minecraft.getInstance().font, Component.translatable("recipe.magitech.required_mana").append(": " + (recipe.getMana() / 5) + " x 5").getString(), 0, 128, Element.NONE);
+        RenderHelper.renderFramedText(guiGraphics, Minecraft.getInstance().font, Component.translatable("recipe.magitech.required_mana").append(": " + EnergyFormatter.formatValue(recipe.getMana() / 5) + " x 5").getString(), 0, 128, Element.NONE);
     }
 
     @Override

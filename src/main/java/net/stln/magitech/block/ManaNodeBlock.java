@@ -9,6 +9,9 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -21,11 +24,13 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.stln.magitech.block.block_entity.ManaNodeBlockEntity;
 import net.stln.magitech.particle.particle_option.SquareParticleEffect;
 import net.stln.magitech.util.VoxelShapeUtil;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
-public class ManaNodeBlock extends Block implements SimpleWaterloggedBlock {
+public class ManaNodeBlock extends ManaContainerBlock implements SimpleWaterloggedBlock {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final VoxelShape SHAPE_UP = Shapes.or(
@@ -105,6 +110,20 @@ public class ManaNodeBlock extends Block implements SimpleWaterloggedBlock {
             double z2 = center.z + Mth.nextDouble(random, -0.3, 0.3);
             level.addParticle(new SquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 0.5F, 1, Mth.nextFloat(random, -0.1F, 0.1F), 15, 1.0F), x2, y2, z2, 0, 0.03, 0);
         }
+    }
+
+    // ★ EntityBlockの実装: BlockEntityを生成する
+    @Nullable
+    @Override
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new ManaNodeBlockEntity(pos, state);
+    }
+
+    // ★ EntityBlockの実装: Tick処理を紐付ける
+    @Nullable
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+        return createTickerHelper(type, BlockInit.MANA_NODE_ENTITY.get(), ManaNodeBlockEntity::tick);
     }
 
     @Override

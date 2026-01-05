@@ -21,7 +21,6 @@ import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.element.Element;
 import net.stln.magitech.entity.magicentity.hydrelux.HydreluxEntity;
-import net.stln.magitech.entity.magicentity.illusflare.IllusflareEntity;
 import net.stln.magitech.magic.charge.ChargeData;
 import net.stln.magitech.magic.cooldown.CooldownData;
 import net.stln.magitech.magic.mana.ManaUtil;

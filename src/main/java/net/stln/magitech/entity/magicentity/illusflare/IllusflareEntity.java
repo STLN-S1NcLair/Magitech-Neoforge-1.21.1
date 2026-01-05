@@ -29,13 +29,12 @@ import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-import java.util.SortedSet;
-
 public class IllusflareEntity extends BombSpellProjectileEntity {
 
     private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
-
+    final int maxBounces = 2;
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
+    int bounceCount = 0;
 
     public IllusflareEntity(EntityType<? extends BombSpellProjectileEntity> entityType, Level world) {
         super(entityType, world);
@@ -97,9 +96,6 @@ public class IllusflareEntity extends BombSpellProjectileEntity {
         return Element.PHANTOM;
     }
 
-    int bounceCount = 0;
-    final int maxBounces = 2;
-
     @Override
     public void handleEntityEvent(byte status) {
         if (status == EntityEvent.DEATH) {
@@ -141,7 +137,7 @@ public class IllusflareEntity extends BombSpellProjectileEntity {
                 addHitEffect();
             }
         } else {
-        super.onHitBlock(blockHitResult);
+            super.onHitBlock(blockHitResult);
         }
     }
 

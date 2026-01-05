@@ -93,6 +93,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ItemInit.MANA_DEEXCITER_CORE.get());
         basicItem(ItemInit.ASPECT_COLLECTOR.get());
         basicItem(ItemInit.BOOTS_FRAME.get());
+        basicItem(ItemInit.MANA_CELL.get());
         basicItem(ItemInit.MANA_BERRIES.get());
         basicItem(ItemInit.MANA_PIE.get());
         basicItem(ItemInit.ALCHEMICAL_FLASK.get());
