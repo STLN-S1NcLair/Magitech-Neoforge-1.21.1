@@ -117,9 +117,6 @@ public class BlockInit {
             ManaRelayBlock::new,
             BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(CRYSTAL_SOUND).lightLevel((blockState) -> 10));
     public static final DeferredItem<BlockItem> MANA_RELAY_ITEM = ItemInit.ITEMS.register("mana_relay", key -> new TooltipTextBlockItem(MANA_RELAY.get(), new Item.Properties()));
-    public static final Supplier<BlockEntityType<ManaRelayBlockEntity>> MANA_RELAY_ENTITY =
-            BLOCK_ENITIES.register("mana_relay", () -> BlockEntityType.Builder.of(
-                    ManaRelayBlockEntity::new, BlockInit.MANA_RELAY.get()).build(null));
 
     public static final DeferredBlock<ManaVesselBlock> MANA_VESSEL = BLOCKS.registerBlock("mana_vessel",
             ManaVesselBlock::new,

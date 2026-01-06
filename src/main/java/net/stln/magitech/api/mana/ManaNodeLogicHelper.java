@@ -5,39 +5,36 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.neoforged.neoforge.network.PacketDistributor;
-import net.stln.magitech.Magitech;
 import net.stln.magitech.block.ManaNodeBlock;
-import net.stln.magitech.block.block_entity.ManaNodeBlockEntity;
-import net.stln.magitech.block.block_entity.ManaRelayBlockEntity;
+import net.stln.magitech.block.ManaRelayBlock;
 import net.stln.magitech.network.ManaNodeTransferPayload;
 import net.stln.magitech.sound.SoundInit;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class ManaNodeLogicHelper {
-    private final BlockEntity host; // 自分自身 (Node または Relay)
-    private final Set<BlockPos> cachedNodePositions = new HashSet<>();
+    private final BlockEntity host;
+    private final @Nullable IBlockManaHandler selfContainer;
+
+    // ターゲットへの経路マップ (TargetPos -> [Source, Relay1, Relay2, ..., Target])
+    private final Map<BlockPos, List<BlockPos>> cachedPaths = new HashMap<>();
+
     private boolean needsRescan = true;
     private int tickCount = 0;
 
-    // ★追加: 有効な送信先が存在するかどうかのフラグ
-    private boolean hasValidTarget = false;
+    // 最大ホップ数 (リレーを経由できる回数)
+    private static final int MAX_HOPS = 64;
 
-    // コンテナ
-    private final @Nullable IBlockManaHandler selfContainer;
-
-    // コンストラクタ
     public ManaNodeLogicHelper(BlockEntity host, @Nullable IBlockManaHandler selfContainer) {
         this.host = host;
         this.selfContainer = selfContainer;
@@ -47,105 +44,245 @@ public class ManaNodeLogicHelper {
         this.needsRescan = true;
     }
 
-    // ★外部から状態を確認するためのメソッド
-    public boolean hasValidTarget() {
-        return hasValidTarget;
-    }
-
     public void tick(Level level, BlockPos pos, BlockState state) {
         if (level.isClientSide) return;
         tickCount++;
 
+        // 1. 定期スキャン (1秒に1回)
         if (needsRescan || tickCount % 20 == 0) {
-            rescanNeighbors(level, pos);
+            scanNetwork(level, pos);
             needsRescan = false;
         }
 
-        IBlockManaHandler sourceContainer = getSourceContainer(level, state, pos);
+        // 2. ソースの取得
+        IBlockManaHandler source = getSourceContainer(level, state, pos);
+        if (source == null || source.getMana() <= 0) return;
 
-        if (sourceContainer == null) return;
-
-        boolean playSound = false;
-        // 転送処理
-        for (BlockPos targetNodePos : cachedNodePositions) {
-            BlockState targetState = level.getBlockState(targetNodePos);
-            if (!(level.getBlockEntity(targetNodePos) instanceof IManaNode)) continue;
-
-            // 3. 相手の接続先コンテナを取得 (あちらへ注入する)
-            // ※ ここでは「搬入(Receive)」が可能かチェックする
-            IBlockManaHandler targetContainer = getHandlerFromNode(level, targetNodePos, targetState, true); // true = Receiveチェック
-
-            playSound = transfer((ServerLevel) level, pos, targetNodePos, targetContainer, sourceContainer, playSound);
-        }
-
-        if (playSound && tickCount % 5 == 0) {
-            level.playSound(null, pos, SoundInit.ATHANOR_PILLAR_INFUSION.get(), SoundSource.BLOCKS, 0.07F, 1.0F);
-        }
-    }
-
-    private static boolean transfer(ServerLevel level, BlockPos pos, BlockPos targetNodePos, IBlockManaHandler targetContainer, IBlockManaHandler sourceContainer, boolean succeeded) {
-        // 4. 転送実行
-        // まずは充填率が高い方から低い方へ
-        if (targetContainer != null && sourceContainer.fillRatio() > targetContainer.fillRatio()) {
-
-            // --- ステップ1: 理想的な平衡状態を計算 ---
-            long totalCurrent = sourceContainer.getMana() + targetContainer.getMana();
-            long totalMax = sourceContainer.getMaxMana() + targetContainer.getMaxMana();
-
-            // 2つのタンクを合わせた「全体の平均充填率」
-            // (doubleキャストを忘れずに)
-            double targetRatio = (double) totalCurrent / totalMax;
-
-            // この充填率になるために、自分が持っているべき理想のマナ量
-            long myIdealMana = (long) (targetRatio * sourceContainer.getMaxMana());
-
-            // 「今の量」から「理想の量」を引いたもの = 余剰分（送るべき量）
-            long equalizeAmount = sourceContainer.getMana() - myIdealMana;
-
-            // --- ステップ2: 流量制限 ---
-            // 一度に送れるのは「計算上の必要量」か「ノードの最大流量」の小さい方
-            long maxFlow = sourceContainer.getMaxFlow();
-            long transferAmount = Math.min(equalizeAmount / 2, maxFlow);
-
-            // --- ステップ3: 閾値 (不感帯) ---
-            // 移動量が少なすぎる(10以下)なら、もう誤差の範囲として転送しない
-            if (transferAmount > 10) {
-                IManaHandler.transferMana(sourceContainer, targetContainer, transferAmount);
-                PacketDistributor.sendToPlayersTrackingChunk(
-                        level,
-                        new ChunkPos(pos),
-                        new ManaNodeTransferPayload(pos, targetNodePos)
-                );
-                succeeded = true;
-            }
-        }
-        return succeeded;
+        // 3. ネットワーク平衡化と転送
+        balanceNetwork(level, pos, source);
     }
 
     /**
-     * 送信元のコンテナを取得する
+     * ネットワーク探索 (BFS)
+     * リレーを経由して到達可能なすべてのターゲットへの「経路」を記録する
      */
+    private void scanNetwork(Level level, BlockPos startPos) {
+        cachedPaths.clear();
+
+        // 探索用キュー: (現在の座標, ここまでの経路リスト)
+        Queue<PathNode> queue = new LinkedList<>();
+        // 訪問済みセット
+        Set<BlockPos> visited = new HashSet<>();
+
+        // 起点を登録
+        List<BlockPos> startPath = new ArrayList<>();
+        startPath.add(startPos);
+
+        visited.add(startPos);
+        queue.add(new PathNode(startPos, startPath));
+
+        while (!queue.isEmpty()) {
+            PathNode current = queue.poll();
+
+            // 最大ホップ制限
+            if (current.path.size() > MAX_HOPS) continue;
+
+            // 周囲を探索
+            for (int i = -3; i <= 3; i++) {
+                for (int j = -3; j <= 3; j++) {
+                    for (int k = -3; k <= 3; k++) {
+                        if (i == 0 && j == 0 && k == 0) continue;
+
+                        BlockPos targetPos = current.pos.offset(i, j, k);
+
+
+                        BlockState targetState = level.getBlockState(targetPos);
+                        BlockEntity targetBe = level.getBlockEntity(targetPos);
+
+                        // ノード(IManaNode)であることを確認
+                        if (!(targetState.getBlock() instanceof ManaNodeBlock)) continue;
+
+                        // 視線チェック (親ノード -> 子ノード)
+                        if (!canSee(level, current.pos, targetPos)) continue;
+
+                        // 訪問済みチェック
+                        if (!visited.add(targetPos)) continue;
+
+                        // 新しい経路リストを作成 (不変性を保つためコピー)
+                        List<BlockPos> newPath = new ArrayList<>(current.path);
+                        newPath.add(targetPos);
+
+                        // 1. コンテナを持っているか確認 (ターゲット候補として登録)
+                        // isReceive = true (搬入可能なもの)
+                        IBlockManaHandler container = getHandlerFromNode(level, targetPos, targetState, true);
+                        if (container != null) {
+                            // 自分自身へのパスは登録しない
+                            if (!targetPos.equals(startPos)) {
+                                cachedPaths.put(targetPos, newPath);
+                            }
+                        }
+
+                        // 2. リレーなら、さらに先を探索するためにキューに入れる
+                        // (IManaNodeかつIBlockManaHandlerならリレーとみなす、またはクラスチェック)
+                        if (targetState.getBlock() instanceof ManaRelayBlock) {
+                            queue.add(new PathNode(targetPos, newPath));
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * ネットワーク全体を一括で平衡化する (公平分配・流量制限対応版)
+     */
+    private void balanceNetwork(Level level, BlockPos sourcePos, IBlockManaHandler source) {
+        if (cachedPaths.isEmpty()) return;
+
+        // --- ステップ1: 参加者の選定と、ネットワーク全体の目標値計算 ---
+
+        long totalMana = source.getMana();
+        long totalCapacity = source.getMaxMana();
+
+        // 配分候補リスト
+        List<TargetInfo> participationList = new ArrayList<>();
+
+        for (Map.Entry<BlockPos, List<BlockPos>> entry : cachedPaths.entrySet()) {
+            BlockPos targetPos = entry.getKey();
+            if (targetPos.equals(sourcePos)) continue;
+
+            IBlockManaHandler target = getHandlerFromNode(level, targetPos, level.getBlockState(targetPos), true);
+
+            if (target != null) {
+                // ピンポン防止: 自分より明らかに少ない相手のみ対象
+                if (target.fillRatio() < source.fillRatio() - 0.001f) {
+                    participationList.add(new TargetInfo(target, targetPos, entry.getValue()));
+
+                    totalMana += target.getMana();
+                    totalCapacity += target.getMaxMana();
+                }
+            }
+        }
+
+        if (participationList.isEmpty()) return;
+
+        // ネットワーク全体の目標充填率
+        double targetRatio = (double) totalMana / totalCapacity;
+
+        // --- ステップ2: 各ターゲットの「要望量(Demand)」を計算 ---
+
+        // Key: ターゲット, Value: そのターゲットが欲しがっている量(MaxFlow考慮済み)
+        Map<TargetInfo, Long> demands = new HashMap<>();
+        long totalDemand = 0;
+
+        for (TargetInfo info : participationList) {
+            IBlockManaHandler target = info.handler;
+
+            // 目標量まであといくら必要か
+            long targetIdeal = (long) (target.getMaxMana() * targetRatio);
+            long required = targetIdeal - target.getMana();
+
+            if (required > 0) {
+                // ターゲット側の受入流量制限 (Pipeの太さ)
+                long demand = Math.min(required, target.getMaxFlow());
+
+                demands.put(info, demand);
+                totalDemand += demand;
+            }
+        }
+
+        if (totalDemand <= 0) return;
+
+        // --- ステップ3: ソースの「供給能力(Supply)」と「分配比率(Ratio)」の計算 ---
+
+        // ソースが維持すべき理想量
+        long sourceIdeal = (long) (source.getMaxMana() * targetRatio);
+        // 放出可能な余剰分
+        long excessMana = source.getMana() - sourceIdeal;
+
+        // 実際に放出できる量 = Min(余剰分, ソースの最大流量)
+        long distributableMana = Math.min(excessMana, source.getMaxFlow());
+
+        if (distributableMana <= 0) return;
+
+        // 充足率 (1.0 = 全員の要望を満たせる, 0.5 = 半分しかあげられない)
+        double supplyRatio = (double) distributableMana / totalDemand;
+
+        // 1.0を超えないようにキャップ (需要より供給が多い場合は1.0)
+        supplyRatio = Math.min(supplyRatio, 1.0d);
+
+        // --- ステップ4: 比率に基づいて分配実行 ---
+
+        boolean playedSound = false;
+
+        for (Map.Entry<TargetInfo, Long> entry : demands.entrySet()) {
+            TargetInfo info = entry.getKey();
+            long rawDemand = entry.getValue(); // ターゲットが欲しがった量
+
+            // 実際に送る量 = 要望量 * 充足率
+            long transferAmount = (long) (rawDemand * supplyRatio);
+
+            // 閾値判定 (10以下なら送らない)
+            if (transferAmount > 10) {
+                long accepted = IManaHandler.transferMana(source, info.handler, transferAmount);
+
+                if (accepted > 0) {
+                    // エフェクト送信
+                    spawnPathParticles(level, info.path);
+                    playedSound = true;
+                }
+            }
+        }
+
+        if (playedSound && tickCount % 5 == 0) {
+            level.playSound(null, sourcePos, SoundInit.ATHANOR_PILLAR_INFUSION.get(), SoundSource.BLOCKS, 0.07F, 1.0F);
+        }
+    }
+
+    /**
+     * 経路リストに従って、各区間ごとにパケットを送信する
+     */
+    private void spawnPathParticles(Level level, List<BlockPos> path) {
+        // パスは [Start, Relay1, Relay2, ..., End] の順
+        for (int i = 0; i < path.size() - 1; i++) {
+            BlockPos from = path.get(i);
+            BlockPos to = path.get(i + 1);
+                if (level.random.nextFloat() < 0.5f) {
+            PacketDistributor.sendToPlayersTrackingChunk(
+                    (ServerLevel) level,
+                    new ChunkPos(from),
+                    new ManaNodeTransferPayload(from, to)
+            );
+        }
+            if (tickCount % 5 == 0) {
+                level.playSound(null, to, SoundInit.ATHANOR_PILLAR_INFUSION.get(), SoundSource.BLOCKS, 0.05F, 1.0F);
+            }
+        }
+    }
+
+    // --- 以下、ヘルパーメソッド ---
+
+    private record PathNode(BlockPos pos, List<BlockPos> path) {}
+    private record TargetInfo(IBlockManaHandler handler, BlockPos pos, List<BlockPos> path) {}
+
     private @Nullable IBlockManaHandler getSourceContainer(Level level, BlockState state, BlockPos pos) {
-        // ★ もし自分自身がコンテナとして登録されているなら、それを返す (Relay用)
         if (this.selfContainer != null) {
             return this.selfContainer;
         }
-
-        // ★ そうでないなら、隣接ブロックを探す (Node用)
-        // false = Extract可能かチェック
         return getNeighborContainer(level, state, pos, false);
     }
 
-    /**
-     * 指定したノードに隣接するコンテナを取得する (汎用メソッド)
-     * (旧 getConnectedManaContainer を改名)
-     */
+    public static @Nullable IBlockManaHandler getHandlerFromNode(Level level, BlockPos nodePos, BlockState nodeState, boolean isReceive) {
+        BlockEntity be = level.getBlockEntity(nodePos);
+        if (be instanceof IBlockManaHandler handler) {
+            return handler;
+        }
+        return getNeighborContainer(level, nodeState, nodePos, isReceive);
+    }
+
     public static @Nullable IBlockManaHandler getNeighborContainer(Level level, BlockState nodeState, BlockPos nodePos, boolean isReceive) {
-        // ノードの向きを取得
         if (!nodeState.hasProperty(ManaNodeBlock.FACING)) return null;
         Direction facing = nodeState.getValue(ManaNodeBlock.FACING);
-
-        // 反対側のブロックをチェック
         BlockPos containerPos = nodePos.relative(facing.getOpposite());
         BlockEntity containerBe = level.getBlockEntity(containerPos);
 
@@ -157,65 +294,6 @@ public class ManaNodeLogicHelper {
             }
         }
         return null;
-    }
-
-    private void rescanNeighbors(Level level, BlockPos pos) {
-        cachedNodePositions.clear();
-        this.hasValidTarget = false; // 一旦リセット
-
-        // 範囲探索 (半径3マス = 7x7x7)
-        for (int i = -3; i < 4; i++) {
-            for (int j = -3; j < 4; j++) {
-                for (int k = -3; k < 4; k++) {
-                    if (i == 0 && j == 0 && k == 0) continue;
-
-                    BlockPos offsetPos = pos.offset(i, j, k);
-                    BlockState offsetState = level.getBlockState(offsetPos);
-
-                    // ManaNodeBlockであるか
-                    BlockEntity blockEntity = level.getBlockEntity(offsetPos);
-                    if (!(blockEntity instanceof IManaNode)) {
-                        continue;
-                    }
-
-                    // 視線が通るか
-                    if (!canSee(level, pos, offsetPos)) {
-                        continue;
-                    }
-
-                    // 【追加】相手のノードが、搬入可能なコンテナを持っているか確認
-                    // 持っていないノードをリストに入れても意味がないため
-                    IBlockManaHandler targetContainer = getHandlerFromNode(level, offsetPos, offsetState, true);
-
-                    if (targetContainer != null) {
-                        cachedNodePositions.add(offsetPos);
-                    }
-                }
-            }
-        }
-
-        // リストが空でなければ、送信先ありとみなす
-        this.hasValidTarget = !cachedNodePositions.isEmpty();
-    }
-
-    /**
-     * 指定座標にあるノード(またはリレー)がアクセス可能なコンテナを取得する
-     * * @param level レベル
-     * @param nodePos ノードがある座標
-     * @param nodeState ノードのBlockState
-     * @param isReceive trueなら搬入可能か、falseなら搬出可能かチェック
-     */
-    public static @Nullable IBlockManaHandler getHandlerFromNode(Level level, BlockPos nodePos, BlockState nodeState, boolean isReceive) {
-        BlockEntity be = level.getBlockEntity(nodePos);
-
-        // パターンA: 相手がコンテナを持つ場合 (BE自体がハンドラを実装している)
-        if (be instanceof IBlockManaHandler handler) {
-            return handler;
-        }
-
-        // パターンB: 相手が「通常ノード」の場合 (BEはハンドラではない)
-        // 隣接するブロック(タンク等)を探しに行く
-        return getNeighborContainer(level, nodeState, nodePos, isReceive);
     }
 
     private boolean canSee(Level level, BlockPos startPos, BlockPos endPos) {

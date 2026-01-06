@@ -21,11 +21,6 @@ public class CapabilityInit {
                 BlockInit.MANA_VESSEL_ENTITY.get(),
                 (be, context) -> be
         );
-        event.registerBlockEntity(
-                Capabilities.MANA_CONTAINER,
-                BlockInit.MANA_RELAY_ENTITY.get(),
-                (be, context) -> be
-        );
 
         // アイテムへの登録
         event.registerItem(

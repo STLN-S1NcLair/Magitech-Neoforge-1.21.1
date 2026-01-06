@@ -2,38 +2,22 @@ package net.stln.magitech.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.pathfinder.PathComputationType;
-import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.stln.magitech.block.block_entity.ManaNodeBlockEntity;
-import net.stln.magitech.block.block_entity.ManaRelayBlockEntity;
-import net.stln.magitech.particle.particle_option.SquareParticleEffect;
 import net.stln.magitech.util.VoxelShapeUtil;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector3f;
 
 public class ManaRelayBlock extends ManaNodeBlock {
     public static final VoxelShape SHAPE_UP = Shapes.or(
-            Block.box(4, 3, 4, 12, 12, 12),
+            Block.box(4, 3, 4, 12, 11, 12),
             Block.box(2, 0, 2, 14, 3, 14)
     );
     public static final VoxelShape SHAPE_DOWN = VoxelShapeUtil.rotateShape(SHAPE_UP, Direction.UP, Direction.DOWN);
@@ -62,13 +46,13 @@ public class ManaRelayBlock extends ManaNodeBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new ManaRelayBlockEntity(pos, state);
+        return null;
     }
 
     // ★ EntityBlockの実装: Tick処理を紐付ける
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return createTickerHelper(type, BlockInit.MANA_RELAY_ENTITY.get(), ManaRelayBlockEntity::tick);
+        return null;
     }
 }

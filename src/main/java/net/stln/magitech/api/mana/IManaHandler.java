@@ -7,7 +7,7 @@ import java.math.MathContext;
 
 public interface IManaHandler {
 
-    static void transferMana(@Nullable IManaHandler from, @Nullable IManaHandler to, long amount) {
+    static long transferMana(@Nullable IManaHandler from, @Nullable IManaHandler to, long amount) {
 
         // 両方存在すれば転送処理
         if (from != null && to != null) {
@@ -23,11 +23,13 @@ public interface IManaHandler {
                 from.extractMana(actualTransfer, false); // 実際に減らす (内部で書き換え)
                 to.receiveMana(actualTransfer, false); // 実際に増やす (内部で書き換え)
             }
+            return actualTransfer;
         }
+        return 0;
     }
 
     // できる限り多く転送
-    static void transferMana(@Nullable IManaHandler from, @Nullable IManaHandler to) {
+    static long transferMana(@Nullable IManaHandler from, @Nullable IManaHandler to) {
 
         // 両方存在すれば転送処理
         if (from != null && to != null) {
@@ -43,7 +45,9 @@ public interface IManaHandler {
                 from.extractMana(actualTransfer, false); // 実際に減らす (内部で書き換え)
                 to.receiveMana(actualTransfer, false); // 実際に増やす (内部で書き換え)
             }
+            return actualTransfer;
         }
+        return 0;
     }
 
     long getMana();
