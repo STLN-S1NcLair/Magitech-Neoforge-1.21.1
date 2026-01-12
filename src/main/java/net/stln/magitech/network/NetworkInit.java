@@ -123,5 +123,10 @@ public class NetworkInit {
                 ManaNodeTransferPayload.STREAM_CODEC,
                 ManaNodeTransferPayloadHandler::handleDataOnMainS2C
         );
+        registrar.playToClient(
+                ShootManaParcelTransferPayload.TYPE,
+                ShootManaParcelTransferPayload.STREAM_CODEC,
+                ShootManaParcelTransferPayloadHandler::handleDataOnMainS2C
+        );
     }
 }

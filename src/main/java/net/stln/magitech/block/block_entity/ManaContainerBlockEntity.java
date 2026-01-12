@@ -140,6 +140,16 @@ public abstract class ManaContainerBlockEntity extends BaseContainerBlockEntity 
         return maxFlow;
     }
 
+    public void useMana(long amount) {
+        this.setMana(Math.clamp(this.getMana() - amount, 0, this.getMaxMana()));
+        this.prevMana = Math.clamp(this.prevMana - amount, 0, this.getMaxMana());
+    }
+
+    public void produceMana(long amount) {
+        this.setMana(Math.clamp(this.getMana() + amount, 0, this.getMaxMana()));
+        this.prevMana = Math.clamp(this.prevMana + amount, 0, this.getMaxMana());
+    }
+
     private void updateFlowAverage() {
         // 平滑化係数 (0.05 ～ 0.1 くらいがおすすめ)
         // 値が小さいほど変化がゆっくりになり、大きいほど敏感になる

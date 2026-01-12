@@ -123,6 +123,7 @@ public class CreativeTabInit {
                 output.accept(BlockInit.MANA_NODE_ITEM.get());
                 output.accept(BlockInit.MANA_RELAY_ITEM.get());
                 output.accept(BlockInit.MANA_VESSEL_ITEM.get());
+                output.accept(BlockInit.MANA_STRANDER_ITEM.get());
                 output.accept(BlockInit.FLUORITE_ORE_ITEM.get());
                 output.accept(BlockInit.DEEPSLATE_FLUORITE_ORE_ITEM.get());
                 output.accept(BlockInit.ZINC_ORE_ITEM.get());

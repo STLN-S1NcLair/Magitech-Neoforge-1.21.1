@@ -1,6 +1,7 @@
 package net.stln.magitech.entity;
 
 import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.client.renderer.entity.NoopRenderer;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -47,6 +48,8 @@ import net.stln.magitech.entity.magicentity.volkarin.VolkarinEntity;
 import net.stln.magitech.entity.magicentity.volkarin.VolkarinRenderer;
 import net.stln.magitech.entity.magicentity.voltaris.VoltarisEntity;
 import net.stln.magitech.entity.magicentity.voltaris.VoltarisRenderer;
+import net.stln.magitech.entity.mana.mana_parcel.ManaParcelEntity;
+import net.stln.magitech.entity.mana.mana_parcel.ManaParcelRenderer;
 import net.stln.magitech.entity.mob.WeaverEntity;
 import net.stln.magitech.entity.mob.WeaverRenderer;
 
@@ -75,6 +78,8 @@ public class EntityInit {
     public static final Supplier<EntityType<NullixisEntity>> NULLIXIS_ENTITY = registerMobEntity("nullixis", NullixisEntity::new, MobCategory.MISC, builder -> builder.sized(0.5F, 0.5F));
     public static final Supplier<EntityType<NihilflareEntity>> NIHILFLARE_ENTITY = registerMobEntity("nihilflare", NihilflareEntity::new, MobCategory.MISC, builder -> builder.sized(1.0F, 1.0F));
 
+    public static final Supplier<EntityType<ManaParcelEntity>> MANA_PARCEL_ENTITY = registerMobEntity("mana_parcel", ManaParcelEntity::new, MobCategory.MISC, builder -> builder.sized(0.25F, 0.25F));
+
     public static final Supplier<EntityType<WeaverEntity>> WEAVER_ENTITY = registerMobEntity("weaver", WeaverEntity::new, MobCategory.MONSTER, (builder) -> builder.sized(0.6F, 2.0F).eyeHeight(1.62F).clientTrackingRange(8));
 
     public static void registerModEntities(IEventBus eventBus) {
@@ -100,6 +105,8 @@ public class EntityInit {
         EntityRenderers.register(EntityInit.HYDRELUX_ENTITY.get(), HydreluxRenderer::new);
         EntityRenderers.register(EntityInit.NULLIXIS_ENTITY.get(), NullixisRenderer::new);
         EntityRenderers.register(EntityInit.NIHILFLARE_ENTITY.get(), NihilflareRenderer::new);
+
+        EntityRenderers.register(EntityInit.MANA_PARCEL_ENTITY.get(), NoopRenderer::new);
 
         EntityRenderers.register(EntityInit.WEAVER_ENTITY.get(), WeaverRenderer::new);
     }

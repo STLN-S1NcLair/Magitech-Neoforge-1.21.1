@@ -9,7 +9,7 @@ import net.stln.magitech.Magitech;
 
 public record ManaNodeTransferPayload(BlockPos from, BlockPos to) implements CustomPacketPayload {
 
-    public static final Type<ManaNodeTransferPayload> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "mana_transfer"));
+    public static final Type<ManaNodeTransferPayload> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "mana_node_transfer"));
 
     // データの読み書き定義 (BlockPos 2つだけなので非常に軽い)
     public static final StreamCodec<ByteBuf, ManaNodeTransferPayload> STREAM_CODEC = StreamCodec.composite(

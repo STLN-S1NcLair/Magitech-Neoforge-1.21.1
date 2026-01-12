@@ -28,6 +28,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         directionalHandModeledBlockWithItem(BlockInit.MANA_NODE.get());
         directionalHandModeledBlockWithItem(BlockInit.MANA_RELAY.get());
         handModeledBlockWithInventoryModelItem(BlockInit.MANA_VESSEL.get());
+        directionalHandModeledBlockWithItem(BlockInit.MANA_STRANDER.get());
         blockWithItem(BlockInit.FLUORITE_ORE.get());
         blockWithItem(BlockInit.DEEPSLATE_FLUORITE_ORE.get());
         blockWithItem(BlockInit.TOURMALINE_ORE.get());

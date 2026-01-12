@@ -1,4 +1,4 @@
-// 1.21.1	2026-01-04T13:15:02.9836469	Loot Tables
+// 1.21.1	2026-01-11T23:21:02.3748078	Loot Tables
 d5c7ba896003b8f86835f7808a6a42840e7bb806 data/magitech/loot_table/blocks/alchecrysite.json
 0ec67ee2f0a83abcc8fc58cd95f43106109fca3e data/magitech/loot_table/blocks/alchecrysite_bricks.json
 f0dfbc1457dc98d193c135916b33deca6e65c407 data/magitech/loot_table/blocks/alchecrysite_brick_slab.json
@@ -59,6 +59,7 @@ c4f39039fc19bf226693833c0c1d1b40382e61fc data/magitech/loot_table/blocks/fluorit
 bdb94a9a1d420ced09408ed5d3f442a265e1baa3 data/magitech/loot_table/blocks/mana_berry_bush.json
 22833768a6a646d95d04445854bbf8e2202186f0 data/magitech/loot_table/blocks/mana_node.json
 a9f39a898d5e96c81b7872514957276d9edf3595 data/magitech/loot_table/blocks/mana_relay.json
+388fef45e5f2eff79f6919482678dd45bef70606 data/magitech/loot_table/blocks/mana_strander.json
 cd1f5953a6cbb7de81983a4de3a88e0733e0865e data/magitech/loot_table/blocks/mana_vessel.json
 f3c70539a26f1f9722a781541ce459730b24626f data/magitech/loot_table/blocks/mistalia_petals.json
 2ac933cddb1d5454bd732941f4960d8ddaac4c94 data/magitech/loot_table/blocks/polished_alchecrysite.json

@@ -141,7 +141,7 @@ public class ManaNodeLogicHelper {
 
         // --- ステップ1: 参加者の選定と、ネットワーク全体の目標値計算 ---
 
-        long totalMana = source.getMana();
+        long totalMana = source.getEffectiveMana();
         long totalCapacity = source.getMaxMana();
 
         // 配分候補リスト
@@ -155,10 +155,10 @@ public class ManaNodeLogicHelper {
 
             if (target != null) {
                 // ピンポン防止: 自分より明らかに少ない相手のみ対象
-                if (target.fillRatio() < source.fillRatio() - 0.001f) {
+                if (target.getEffectiveFillRatio() < source.getEffectiveFillRatio() - 0.001f) {
                     participationList.add(new TargetInfo(target, targetPos, entry.getValue()));
 
-                    totalMana += target.getMana();
+                    totalMana += target.getEffectiveMana();
                     totalCapacity += target.getMaxMana();
                 }
             }
@@ -180,7 +180,7 @@ public class ManaNodeLogicHelper {
 
             // 目標量まであといくら必要か
             long targetIdeal = (long) (target.getMaxMana() * targetRatio);
-            long required = targetIdeal - target.getMana();
+            long required = targetIdeal - target.getEffectiveMana();
 
             if (required > 0) {
                 // ターゲット側の受入流量制限 (Pipeの太さ)
@@ -198,7 +198,7 @@ public class ManaNodeLogicHelper {
         // ソースが維持すべき理想量
         long sourceIdeal = (long) (source.getMaxMana() * targetRatio);
         // 放出可能な余剰分
-        long excessMana = source.getMana() - sourceIdeal;
+        long excessMana = source.getEffectiveMana() - sourceIdeal;
 
         // 実際に放出できる量 = Min(余剰分, ソースの最大流量)
         long distributableMana = Math.min(excessMana, source.getMaxFlow());
@@ -220,7 +220,7 @@ public class ManaNodeLogicHelper {
             long rawDemand = entry.getValue(); // ターゲットが欲しがった量
 
             // 実際に送る量 = 要望量 * 充足率
-            long transferAmount = (long) (rawDemand * supplyRatio);
+            long transferAmount = Math.min((long) (rawDemand * supplyRatio), info.handler.getMaxMana() - info.handler.getMana());
 
             // 閾値判定 (10以下なら送らない)
             if (transferAmount > 10) {
@@ -255,7 +255,7 @@ public class ManaNodeLogicHelper {
             );
         }
             if (tickCount % 5 == 0) {
-                level.playSound(null, to, SoundInit.ATHANOR_PILLAR_INFUSION.get(), SoundSource.BLOCKS, 0.05F, 1.0F);
+                level.playSound(null, to, SoundInit.ATHANOR_PILLAR_INFUSION.get(), SoundSource.BLOCKS, 0.03F, 1.0F);
             }
         }
     }
