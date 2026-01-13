@@ -1,7 +1,7 @@
 package net.stln.magitech.magic.cooldown;
 
 import com.google.common.collect.Table;
-import com.ibm.icu.impl.Pair;
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.stln.magitech.magic.spell.Spell;
@@ -38,7 +38,7 @@ public class CooldownUtil {
                 }
             });
             for (Pair<Spell, Cooldown> pair : spellsToAdd2) {
-                CooldownData.addCurrentCooldown(player, pair.first, pair.second);
+                CooldownData.addCurrentCooldown(player, pair.getFirst(), pair.getSecond());
             }
             for (Spell spell : spellsToRemove) {
                 CooldownData.removeCooldown(player, spell);
