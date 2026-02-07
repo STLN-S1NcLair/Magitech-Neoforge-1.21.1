@@ -4,6 +4,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -20,10 +23,12 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.stln.magitech.block.block_entity.ManaReceiverBlockEntity;
 import net.stln.magitech.block.block_entity.ManaStranderBlockEntity;
 import net.stln.magitech.particle.particle_option.SquareParticleEffect;
 import net.stln.magitech.util.VoxelShapeUtil;
@@ -121,6 +126,19 @@ public class ManaStranderBlock extends ManaContainerBlock implements SimpleWater
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new ManaStranderBlockEntity(pos, state);
+    }
+
+    @Override
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+        if (level.isClientSide) {
+            return InteractionResult.SUCCESS;
+        } else {
+            BlockEntity blockentity = level.getBlockEntity(pos);
+            if (blockentity instanceof ManaStranderBlockEntity) {
+                player.openMenu((MenuProvider) blockentity);
+            }
+            return InteractionResult.CONSUME;
+        }
     }
 
     // ★ EntityBlockの実装: Tick処理を紐付ける

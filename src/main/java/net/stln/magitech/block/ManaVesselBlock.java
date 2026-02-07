@@ -2,19 +2,23 @@ package net.stln.magitech.block;
 
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.BaseEntityBlock;
-import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.block.block_entity.ManaVesselBlockEntity;
@@ -25,7 +29,8 @@ import javax.annotation.Nullable;
 
 public class ManaVesselBlock extends ManaContainerBlock {
 
-    public static final MapCodec<AlchemetricPylonBlock> CODEC = simpleCodec(AlchemetricPylonBlock::new);
+    public static final EnumProperty<Direction.Axis> AXIS = BlockStateProperties.AXIS;
+    public static final MapCodec<ManaVesselBlock> CODEC = simpleCodec(ManaVesselBlock::new);
     private static final Component CONTAINER_TITLE = Component.translatable("block.magitech.mana_vessel");
 
     protected ManaVesselBlock(Properties properties) {
@@ -42,6 +47,38 @@ public class ManaVesselBlock extends ManaContainerBlock {
     @Override
     protected RenderShape getRenderShape(BlockState state) {
         return RenderShape.MODEL;
+    }
+
+    @Override
+    protected BlockState rotate(BlockState state, Rotation rot) {
+        return rotatePillar(state, rot);
+    }
+
+    public static BlockState rotatePillar(BlockState state, Rotation rotation) {
+        switch (rotation) {
+            case COUNTERCLOCKWISE_90:
+            case CLOCKWISE_90:
+                switch ((Direction.Axis)state.getValue(AXIS)) {
+                    case X:
+                        return state.setValue(AXIS, Direction.Axis.Z);
+                    case Z:
+                        return state.setValue(AXIS, Direction.Axis.X);
+                    default:
+                        return state;
+                }
+            default:
+                return state;
+        }
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(AXIS);
+    }
+
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        return this.defaultBlockState().setValue(AXIS, context.getNearestLookingDirection().getAxis());
     }
 
     @Nullable
@@ -80,10 +117,30 @@ public class ManaVesselBlock extends ManaContainerBlock {
         }
         for (int i = 0; i < 2; i++) {
             int direction = i == 0 ? -1 : 1;
+            double v = 0.5 * direction;
+
             double x = center.x + Mth.nextDouble(random, -0.2, 0.2);
-            double y = center.y + 0.5 * direction;
+            double y = center.y + v;
             double z = center.z + Mth.nextDouble(random, -0.2, 0.2);
-            level.addParticle(new SquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 1.0F, 3, Mth.nextFloat(random, -0.1F, 0.1F), 15, 1.0F), x, y, z, 0, 0.03 * direction, 0);
+            double dx = 0;
+            double dy = 0.03 * direction;
+            double dz = 0;
+            if (state.getValue(AXIS) == Direction.Axis.X) {
+                x = center.x + v;
+                y = center.y + Mth.nextDouble(random, -0.2, 0.2);
+                z = center.z + Mth.nextDouble(random, -0.2, 0.2);
+                dx = 0.03 * direction;
+                dy = 0;
+                dz = 0;
+            } else if (state.getValue(AXIS) == Direction.Axis.Z) {
+                x = center.x + Mth.nextDouble(random, -0.2, 0.2);
+                y = center.y + Mth.nextDouble(random, -0.2, 0.2);
+                z = center.z + v;
+                dx = 0;
+                dy = 0;
+                dz = 0.03 * direction;
+            }
+            level.addParticle(new SquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 1.0F, 3, Mth.nextFloat(random, -0.1F, 0.1F), 15, 1.0F), x, y, z, dx, dy, dz);
         }
         for (int i = 0; i < 4; i++) {
             double x2 = center.x + Mth.nextDouble(random, -0.5, 0.5);

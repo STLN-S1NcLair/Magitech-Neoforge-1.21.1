@@ -27,9 +27,9 @@ public class AthanorPillarInfusionRecipe implements Recipe<GroupedMultiStackReci
     protected final ItemStack result;
     protected final String group;
     protected final ItemStack base;
-    protected final int mana;
+    protected final long mana;
 
-    public AthanorPillarInfusionRecipe(String group, ItemStack base, List<List<Ingredient>> ingredients, int mana, ItemStack result) {
+    public AthanorPillarInfusionRecipe(String group, ItemStack base, List<List<Ingredient>> ingredients, long mana, ItemStack result) {
         this.base = base;
         this.mana = mana;
         this.ingredients = ingredients;
@@ -108,12 +108,12 @@ public class AthanorPillarInfusionRecipe implements Recipe<GroupedMultiStackReci
         return base;
     }
 
-    public int getMana() {
+    public long getMana() {
         return mana;
     }
 
     public interface Factory<T extends AthanorPillarInfusionRecipe> {
-        T create(String group, ItemStack base, List<List<Ingredient>> ingredients, int mana, ItemStack result);
+        T create(String group, ItemStack base, List<List<Ingredient>> ingredients, long mana, ItemStack result);
     }
 
     public static class Serializer<T extends AthanorPillarInfusionRecipe> implements RecipeSerializer<T> {
@@ -128,7 +128,7 @@ public class AthanorPillarInfusionRecipe implements Recipe<GroupedMultiStackReci
                                     Codec.STRING.optionalFieldOf("group", "").forGetter(p_300947_ -> p_300947_.group),
                                     ItemStack.STRICT_CODEC.fieldOf("base").forGetter(p_300947_ -> p_300947_.base),
                                     Ingredient.LIST_CODEC.listOf().fieldOf("ingredients").forGetter(p_300947_ -> p_300947_.ingredients),
-                                    Codec.INT.optionalFieldOf("mana", 0).forGetter(p_300947_ -> p_300947_.mana),
+                                    Codec.LONG.optionalFieldOf("mana", 0L).forGetter(p_300947_ -> p_300947_.mana),
                                     ItemStack.STRICT_CODEC.fieldOf("result").forGetter(p_302316_ -> p_302316_.result)
                             )
                             .apply(p_340781_, factory::create)
@@ -140,7 +140,7 @@ public class AthanorPillarInfusionRecipe implements Recipe<GroupedMultiStackReci
                     r -> r.base,
                     Ingredient.CONTENTS_STREAM_CODEC.apply(ByteBufCodecs.list()).apply(ByteBufCodecs.list()),
                     r -> r.ingredients,
-                    ByteBufCodecs.INT,
+                    ByteBufCodecs.VAR_LONG,
                     r -> r.mana,
                     ItemStack.STREAM_CODEC,
                     r -> r.result,

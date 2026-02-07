@@ -339,6 +339,16 @@
       "magitech:athanor_pillar_zap"
     ]
   },
+  "mana_node": {
+    "sounds": [
+      "magitech:mana_node"
+    ]
+  },
+  "mana_parcel": {
+    "sounds": [
+      "magitech:mana_parcel"
+    ]
+  },
   "crystal_break": {
     "subtitle": "subtitles.block.generic.break",
     "sounds": [

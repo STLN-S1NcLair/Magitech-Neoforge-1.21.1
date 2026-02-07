@@ -38,6 +38,7 @@ public class ManaNodeLogicHelper {
     public ManaNodeLogicHelper(BlockEntity host, @Nullable IBlockManaHandler selfContainer) {
         this.host = host;
         this.selfContainer = selfContainer;
+        this.tickCount += new Random().nextInt(40); // スキャンタイミングをずらす
     }
 
     public void requestRescan() {
@@ -233,10 +234,6 @@ public class ManaNodeLogicHelper {
                 }
             }
         }
-
-        if (playedSound && tickCount % 5 == 0) {
-            level.playSound(null, sourcePos, SoundInit.ATHANOR_PILLAR_INFUSION.get(), SoundSource.BLOCKS, 0.07F, 1.0F);
-        }
     }
 
     /**
@@ -254,9 +251,10 @@ public class ManaNodeLogicHelper {
                     new ManaNodeTransferPayload(from, to)
             );
         }
-            if (tickCount % 5 == 0) {
-                level.playSound(null, to, SoundInit.ATHANOR_PILLAR_INFUSION.get(), SoundSource.BLOCKS, 0.03F, 1.0F);
-            }
+        }
+        if (tickCount % 30 == 0) {
+            Vec3 midPoint = Vec3.atCenterOf(path.getFirst()).add(Vec3.atCenterOf(path.getLast())).scale(0.5);
+            level.playSound(null, midPoint.x, midPoint.y, midPoint.z, SoundInit.MANA_NODE.get(), SoundSource.BLOCKS, 0.3F, 1.0F);
         }
     }
 

@@ -76,7 +76,7 @@ public class AthanorPillarInfusionRecipeCategory extends AbstractMagitechRecipeC
 
         guiGraphics.blit(TEXTURE, 155, 54, 36, 0, 18, 18);
 
-        RenderHelper.renderFramedText(guiGraphics, Minecraft.getInstance().font, Component.translatable("recipe.magitech.required_mana").append(": " + EnergyFormatter.formatValue(recipe.getMana() / 5) + " x 5").getString(), 0, 128, Element.NONE);
+        RenderHelper.renderFramedText(guiGraphics, Minecraft.getInstance().font, Component.translatable("recipe.magitech.required_mana").append(": " + EnergyFormatter.formatValue(recipe.getMana() / 5) + " x 5").getString(), 0, getHeight() - 8, Element.NONE);
     }
 
     @Override

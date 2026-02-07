@@ -26,6 +26,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.block.ManaStranderBlock;
 import net.stln.magitech.entity.mana.mana_parcel.ManaParcelEntity;
+import net.stln.magitech.gui.ManaStranderMenu;
 import net.stln.magitech.gui.ManaVesselMenu;
 import net.stln.magitech.network.ShootManaParcelTransferPayload;
 import net.stln.magitech.sound.SoundInit;
@@ -34,7 +35,7 @@ import org.jetbrains.annotations.Nullable;
 public class ManaStranderBlockEntity extends ManaContainerBlockEntity {
 
     private int tickCount = 0;
-    private static int MANA_PARCEL_ENERGY = 50000;
+    private static long MANA_PARCEL_ENERGY = 50000;
 
     public ManaStranderBlockEntity(BlockPos pos, BlockState blockState) {
         super(BlockInit.MANA_STRANDER_ENTITY.get(), pos, blockState, 100000, 5000);
@@ -62,10 +63,10 @@ public class ManaStranderBlockEntity extends ManaContainerBlockEntity {
 
     private void shootManaParcel(Level level, BlockPos pos, BlockState state) {
         if (this.getMana() >= MANA_PARCEL_ENERGY) {
-            useMana(MANA_PARCEL_ENERGY);
+            consumeMana(MANA_PARCEL_ENERGY);
             Direction direction = state.getValue(ManaStranderBlock.FACING);
             Vec3 summonPos = pos.getCenter();
-            Entity entity = new ManaParcelEntity(level, summonPos, 4);
+            Entity entity = new ManaParcelEntity(level, summonPos, MANA_PARCEL_ENERGY);
             entity.setDeltaMovement(Vec3.atLowerCornerOf(direction.getNormal()).scale(0.5F));
             entity.setPos(summonPos.subtract(0, entity.getBbHeight() / 2, 0));
             level.addFreshEntity(entity);
@@ -74,13 +75,13 @@ public class ManaStranderBlockEntity extends ManaContainerBlockEntity {
                     new ChunkPos(pos),
                     new ShootManaParcelTransferPayload(pos, direction)
             );
-            level.playSound(null, pos, SoundInit.ATHANOR_PILLAR_ZAP.get(), SoundSource.BLOCKS, 0.3F, Mth.randomBetween(level.random, 0.5F, 1.0F));
+            level.playSound(null, pos, SoundInit.MANA_PARCEL.get(), SoundSource.BLOCKS, 0.3F, Mth.randomBetween(level.random, 0.5F, 1.0F));
         }
     }
 
     @Override
     public AbstractContainerMenu createMenu(int containerId, Inventory inventory, Player player) {
-        return new ManaVesselMenu(containerId, inventory, this, ContainerLevelAccess.create(level, this.getBlockPos()), this.dataAccess);
+        return new ManaStranderMenu(containerId, inventory, ContainerLevelAccess.create(level, this.getBlockPos()), this.dataAccess);
     }
 
     @Override

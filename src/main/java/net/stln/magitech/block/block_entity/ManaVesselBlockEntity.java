@@ -23,6 +23,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.stln.magitech.api.Capabilities;
 import net.stln.magitech.api.mana.IManaHandler;
 import net.stln.magitech.block.BlockInit;
+import net.stln.magitech.block.ManaVesselBlock;
 import net.stln.magitech.gui.ManaVesselMenu;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
@@ -33,8 +34,8 @@ import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class ManaVesselBlockEntity extends ManaContainerBlockEntity implements GeoBlockEntity, MenuProvider {
-    public static final int RECEIVE_SLOT = 0;
-    public static final int EXTRACT_SLOT = 1;
+    public static final int INPUT = 0;
+    public static final int OUTPUT = 1;
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     public NonNullList<ItemStack> items = NonNullList.withSize(2, ItemStack.EMPTY);
 
@@ -64,8 +65,8 @@ public class ManaVesselBlockEntity extends ManaContainerBlockEntity implements G
     @Override
     public void tick(Level level, BlockPos pos, BlockState state) {
         super.tick(level, pos, state);
-        ItemStack receive = items.get(RECEIVE_SLOT);
-        ItemStack extract = items.get(EXTRACT_SLOT);
+        ItemStack receive = items.get(INPUT);
+        ItemStack extract = items.get(OUTPUT);
         IManaHandler receiveCapability = receive.getCapability(Capabilities.MANA_CONTAINER_ITEM, null);
         IManaHandler extractCapability = extract.getCapability(Capabilities.MANA_CONTAINER_ITEM, null);
         IManaHandler.transferMana(this, receiveCapability);
@@ -140,17 +141,11 @@ public class ManaVesselBlockEntity extends ManaContainerBlockEntity implements G
 
     @Override
     public boolean canReceiveMana(Direction direction, BlockPos pos, BlockState state) {
-        return switch (direction) {
-            case UP, DOWN -> true;
-            default -> false;
-        };
+        return state.getValue(ManaVesselBlock.AXIS) == direction.getAxis();
     }
 
     @Override
     public boolean canExtractMana(Direction direction, BlockPos pos, BlockState state) {
-        return switch (direction) {
-            case UP, DOWN -> true;
-            default -> false;
-        };
+        return state.getValue(ManaVesselBlock.AXIS) == direction.getAxis();
     }
 }

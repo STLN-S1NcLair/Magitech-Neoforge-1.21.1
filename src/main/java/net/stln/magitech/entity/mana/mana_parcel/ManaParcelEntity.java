@@ -1,6 +1,7 @@
 package net.stln.magitech.entity.mana.mana_parcel;
 
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
@@ -9,9 +10,6 @@ import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityEvent;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
@@ -22,7 +20,6 @@ import net.stln.magitech.entity.SpellProjectileEntity;
 import net.stln.magitech.particle.particle_option.UnstableSquareParticleEffect;
 import net.stln.magitech.sound.SoundInit;
 import net.stln.magitech.util.DataMapHelper;
-import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
@@ -30,14 +27,17 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class ManaParcelEntity extends SpellProjectileEntity {
 
+    private long mana;
+
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
 
     public ManaParcelEntity(EntityType<? extends SpellProjectileEntity> entityType, Level world) {
         super(entityType, world);
     }
 
-    public ManaParcelEntity(Level world, Vec3 pos, float damage) {
-        super(EntityInit.MANA_PARCEL_ENTITY.get(), pos.x, pos.y, pos.z, world, null, damage);
+    public ManaParcelEntity(Level world, Vec3 pos, long mana) {
+        super(EntityInit.MANA_PARCEL_ENTITY.get(), pos.x, pos.y, pos.z, world, null, mana / 20000F);
+        this.mana = mana;
     }
 
     @Override
@@ -144,12 +144,24 @@ public class ManaParcelEntity extends SpellProjectileEntity {
 
     @Override
     protected SoundEvent getDefaultHitGroundSoundEvent() {
-        return SoundInit.ATHANOR_PILLAR_ZAP.get();
+        return SoundInit.MANA_PARCEL.get();
     }
 
     @Override
     protected void playHitGroundSoundEvent() {
         this.playSound(this.getHitGroundSoundEvent(), 0.3F, Mth.randomBetween(this.random, 0.5F, 1.0F));
+    }
+
+    @Override
+    public void addAdditionalSaveData(CompoundTag compound) {
+        super.addAdditionalSaveData(compound);
+        compound.putLong("mana", this.mana);
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag compound) {
+        super.readAdditionalSaveData(compound);
+        this.mana = compound.getLong("mana");
     }
 
     @Override
@@ -160,5 +172,13 @@ public class ManaParcelEntity extends SpellProjectileEntity {
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return this.geoCache;
+    }
+
+    public long getMana() {
+        return mana;
+    }
+
+    public void setMana(long mana) {
+        this.mana = mana;
     }
 }

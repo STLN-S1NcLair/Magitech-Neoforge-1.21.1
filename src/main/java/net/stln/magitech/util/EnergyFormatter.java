@@ -23,7 +23,12 @@ public class EnergyFormatter {
 
     // 流量のフォーマット
     public static MutableComponent formatFlow(long flow, long maxFlow) {
-        return Component.literal((flow > 0 ? "+" : "") + formatValue(flow) + "/t / " + formatValue(maxFlow) + "/t");
+        return Component.literal((flow > 0 ? "+" : "") + formatAverage(flow).getString() + " / " + formatAverage(maxFlow).getString());
+    }
+
+    // 平均表示のフォーマット
+    public static MutableComponent formatAverage(long value) {
+        return Component.literal(formatValue(value) + "/t");
     }
 
     // 単体の値をフォーマットするメソッド

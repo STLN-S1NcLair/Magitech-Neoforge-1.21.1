@@ -1,5 +1,6 @@
 package net.stln.magitech.datagen;
 
+import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
@@ -27,8 +28,12 @@ public class ModBlockStateProvider extends BlockStateProvider {
         handModeledBlockWithItem(BlockInit.ZARDIUS_CRUCIBLE.get());
         directionalHandModeledBlockWithItem(BlockInit.MANA_NODE.get());
         directionalHandModeledBlockWithItem(BlockInit.MANA_RELAY.get());
-        handModeledBlockWithInventoryModelItem(BlockInit.MANA_VESSEL.get());
+        axisHandModeledBlockWithInventoryModelItem(BlockInit.MANA_VESSEL.get());
         directionalHandModeledBlockWithItem(BlockInit.MANA_STRANDER.get());
+        directionalHandModeledBlockWithItem(BlockInit.MANA_RECEIVER.get());
+        directionalHandModeledBlockWithItem(BlockInit.MANA_COLLECTOR.get());
+        handModeledBlockWithItem(BlockInit.MANA_JUNCTION.get());
+        horizontalHandModeledBlockWithItem(BlockInit.INFUSER.get());
         blockWithItem(BlockInit.FLUORITE_ORE.get());
         blockWithItem(BlockInit.DEEPSLATE_FLUORITE_ORE.get());
         blockWithItem(BlockInit.TOURMALINE_ORE.get());
@@ -125,6 +130,29 @@ public class ModBlockStateProvider extends BlockStateProvider {
         directionalBlock(block, new ModelFile.ExistingModelFile(blockTexture(block), this.models().existingFileHelper));
         blockItem(block);
     }
+
+    private void axisHandModeledBlockWithItem(Block block) {
+        ModelFile.ExistingModelFile existingModelFile = new ModelFile.ExistingModelFile(blockTexture(block), this.models().existingFileHelper);
+        axisBlock(block, existingModelFile, existingModelFile);
+        blockItem(block);
+    }
+
+    private void axisHandModeledBlockWithInventoryModelItem(Block block) {
+        ModelFile.ExistingModelFile existingModelFile = new ModelFile.ExistingModelFile(blockTexture(block), this.models().existingFileHelper);
+        axisBlock(block, existingModelFile, existingModelFile);
+        simpleBlockItem(block, new ModelFile.UncheckedModelFile(blockTexture(block).withSuffix("_inventory")));
+    }
+
+    public void axisBlock(Block block, ModelFile vertical, ModelFile horizontal) {
+        getVariantBuilder(block)
+                .partialState().with(RotatedPillarBlock.AXIS, Direction.Axis.Y)
+                .modelForState().modelFile(vertical).addModel()
+                .partialState().with(RotatedPillarBlock.AXIS, Direction.Axis.Z)
+                .modelForState().modelFile(horizontal).rotationX(90).addModel()
+                .partialState().with(RotatedPillarBlock.AXIS, Direction.Axis.X)
+                .modelForState().modelFile(horizontal).rotationX(90).rotationY(90).addModel();
+    }
+
 
     private void horizontalHandModeledBlockWithItem(Block block) {
         horizontalBlock(block, new ModelFile.ExistingModelFile(blockTexture(block), this.models().existingFileHelper));

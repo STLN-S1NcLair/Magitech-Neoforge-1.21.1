@@ -18,6 +18,8 @@ public abstract class ManaContainerBlockEntity extends BaseContainerBlockEntity 
 
     long mana;
     long prevMana;
+    long producedMana;
+    long consumedMana;
     long maxMana;
     long maxFlow;
 
@@ -26,6 +28,8 @@ public abstract class ManaContainerBlockEntity extends BaseContainerBlockEntity 
 
     // 表示用の滑らかな平均流量 (保存不要)
     private float averageFlow = 0;
+    private float averageProduce = 0;
+    private float averageConsumption = 0;
 
 
     public final LongContainerData dataAccess = new LongContainerData() {
@@ -37,6 +41,8 @@ public abstract class ManaContainerBlockEntity extends BaseContainerBlockEntity 
                 case 1 -> ManaContainerBlockEntity.this.getMaxMana();
                 case 2 -> ManaContainerBlockEntity.this.getFlowRate();
                 case 3 -> ManaContainerBlockEntity.this.getMaxFlow();
+                case 4 -> ManaContainerBlockEntity.this.getProductionRate();
+                case 5 -> ManaContainerBlockEntity.this.getConsumptionRate();
                 default -> 0;
             };
         }
@@ -50,7 +56,7 @@ public abstract class ManaContainerBlockEntity extends BaseContainerBlockEntity 
 
         @Override
         public int getLongCount() {
-            return 4;
+            return 6;
         }
     };
 
@@ -85,6 +91,10 @@ public abstract class ManaContainerBlockEntity extends BaseContainerBlockEntity 
         this.updateFlowAverage();
         // Tick終了時にリセット
         this.currentTickTransfer = 0;
+        this.producedMana = 0;
+        this.consumedMana = 0;
+        // 隣接ブロックへのマナ移動処理
+        transferManaTick(level, pos, state);
     }
 
     @Override
@@ -140,14 +150,16 @@ public abstract class ManaContainerBlockEntity extends BaseContainerBlockEntity 
         return maxFlow;
     }
 
-    public void useMana(long amount) {
+    public void consumeMana(long amount) {
         this.setMana(Math.clamp(this.getMana() - amount, 0, this.getMaxMana()));
         this.prevMana = Math.clamp(this.prevMana - amount, 0, this.getMaxMana());
+        this.consumedMana += amount;
     }
 
     public void produceMana(long amount) {
         this.setMana(Math.clamp(this.getMana() + amount, 0, this.getMaxMana()));
         this.prevMana = Math.clamp(this.prevMana + amount, 0, this.getMaxMana());
+        this.producedMana += amount;
     }
 
     private void updateFlowAverage() {
@@ -155,6 +167,7 @@ public abstract class ManaContainerBlockEntity extends BaseContainerBlockEntity 
         // 値が小さいほど変化がゆっくりになり、大きいほど敏感になる
         // 0.05 なら、約1秒(20tick)かけて目標値に追従するイメージ
         float factor = 0.05f;
+        float factorProduction = 0.0025f;
 
         // 計算式: 新しい平均 = (今の平均 * (1 - 係数)) + (今回の値 * 係数)
         this.averageFlow = (this.averageFlow * (1.0f - factor)) + (this.currentTickTransfer * factor);
@@ -162,6 +175,16 @@ public abstract class ManaContainerBlockEntity extends BaseContainerBlockEntity 
         // 完全に停止したときに 0.001 みたいな小さな値が残るのを防ぐ
         if (Math.abs(this.averageFlow) < 0.1f) {
             this.averageFlow = 0;
+        }
+
+        this.averageProduce = (this.averageProduce * (1.0f - factorProduction)) + (this.producedMana * factorProduction);
+        if (Math.abs(this.averageProduce) < 0.1f) {
+            this.averageProduce = 0;
+        }
+
+        this.averageConsumption = (this.averageConsumption * (1.0f - factorProduction)) + (this.consumedMana * factorProduction);
+        if (Math.abs(this.averageConsumption) < 0.1f) {
+            this.averageConsumption = 0;
         }
     }
 
@@ -215,5 +238,21 @@ public abstract class ManaContainerBlockEntity extends BaseContainerBlockEntity 
 
     public int getFlowRate() {
         return Math.round(this.averageFlow);
+    }
+
+    public long getProducedMana() {
+        return producedMana;
+    }
+
+    public int getProductionRate() {
+        return Math.round(this.averageProduce);
+    }
+
+    public long getConsumedMana() {
+        return consumedMana;
+    }
+
+    public int getConsumptionRate() {
+        return Math.round(averageConsumption);
     }
 }

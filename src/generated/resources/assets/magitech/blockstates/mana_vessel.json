@@ -1,7 +1,16 @@
 {
   "variants": {
-    "": {
+    "axis=x": {
+      "model": "magitech:block/mana_vessel",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
       "model": "magitech:block/mana_vessel"
+    },
+    "axis=z": {
+      "model": "magitech:block/mana_vessel",
+      "x": 90
     }
   }
 }

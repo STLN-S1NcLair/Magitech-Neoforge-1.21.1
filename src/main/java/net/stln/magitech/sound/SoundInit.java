@@ -82,6 +82,8 @@ public class SoundInit {
 
     public static final Supplier<SoundEvent> ATHANOR_PILLAR_INFUSION = registerSoundEvent("athanor_pillar_infusion");
     public static final Supplier<SoundEvent> ATHANOR_PILLAR_ZAP = registerSoundEvent("athanor_pillar_zap");
+    public static final Supplier<SoundEvent> MANA_NODE = registerSoundEvent("mana_node");
+    public static final Supplier<SoundEvent> MANA_PARCEL = registerSoundEvent("mana_parcel");
 
     public static final Supplier<SoundEvent> CRYSTAL_BREAK = registerSoundEvent("crystal_break");
     public static final Supplier<SoundEvent> CRYSTAL_PLACE = registerSoundEvent("crystal_place");

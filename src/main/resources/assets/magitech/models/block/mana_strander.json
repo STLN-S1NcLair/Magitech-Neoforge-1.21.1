@@ -3,10 +3,10 @@
 	"credit": "Made with Blockbench",
 	"render_type": "minecraft:cutout",
 	"textures": {
-		"1": "magitech:block/entangler",
-		"2": "magitech:block/entangler_bottom",
-		"3": "magitech:block/entangler_inside",
-		"particle": "magitech:block/entangler"
+		"1": "magitech:block/mana_strander",
+		"2": "magitech:block/mana_container_connect",
+		"3": "magitech:block/mana_strander_inside",
+		"particle": "magitech:block/mana_strander"
 	},
 	"elements": [
 		{

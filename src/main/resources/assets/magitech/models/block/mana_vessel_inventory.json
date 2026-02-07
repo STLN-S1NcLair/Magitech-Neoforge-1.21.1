@@ -4,7 +4,7 @@
 	"textures": {
 		"0": "magitech:block/mana_vessel_side",
 		"1": "magitech:block/mana_vessel_inside",
-		"2": "magitech:block/mana_vessel_outside",
+		"2": "magitech:block/mana_container_connect",
 		"3": "magitech:block/mana_vessel_crystal",
 		"particle": "magitech:block/mana_vessel_side"
 	},

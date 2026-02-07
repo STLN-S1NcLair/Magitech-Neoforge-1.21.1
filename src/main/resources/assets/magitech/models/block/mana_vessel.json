@@ -1,18 +1,18 @@
 {
 	"credit": "Made with Blockbench",
-  	"render_type": "minecraft:cutout",
-    "ambientocclusion": false,
+	"ambientocclusion": false,
+	"render_type": "minecraft:cutout",
 	"textures": {
 		"0": "magitech:block/mana_vessel_side",
 		"1": "magitech:block/mana_vessel_inside",
-		"2": "magitech:block/mana_vessel_outside",
+		"2": "magitech:block/mana_container_connect",
 		"particle": "magitech:block/mana_vessel_side"
 	},
 	"elements": [
 		{
 			"name": "bb_main",
-			"from": [0, 4, 0],
-			"to": [16, 12, 0],
+			"from": [0, 4, 0.01],
+			"to": [16, 12, 0.01],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
 			"faces": {
 				"north": {"uv": [16, 12, 0, 4], "texture": "#0"},
@@ -23,8 +23,8 @@
 		},
 		{
 			"name": "bb_main",
-			"from": [0, 4, 16],
-			"to": [16, 12, 16],
+			"from": [0, 4, 15.99],
+			"to": [16, 12, 15.99],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 24]},
 			"faces": {
 				"north": {"uv": [16, 12, 0, 4], "texture": "#0"},
@@ -35,8 +35,8 @@
 		},
 		{
 			"name": "bb_main",
-			"from": [0, 4, 0],
-			"to": [0, 12, 16],
+			"from": [0.01, 4, 0],
+			"to": [0.01, 12, 16],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
 			"faces": {
 				"north": {"uv": [16, 12, 0, 4], "texture": "#0"},
@@ -47,8 +47,8 @@
 		},
 		{
 			"name": "bb_main",
-			"from": [16, 4, 0],
-			"to": [16, 12, 16],
+			"from": [15.99, 4, 0],
+			"to": [15.99, 12, 16],
 			"rotation": {"angle": 0, "axis": "y", "origin": [24, 0, 8]},
 			"faces": {
 				"north": {"uv": [16, 12, 0, 4], "texture": "#0"},
@@ -102,7 +102,7 @@
 			"scale": [0.4, 0.4, 0.4]
 		},
 		"firstperson_lefthand": {
-			"rotation": [0, 225, 0],
+			"rotation": [0, -135, 0],
 			"scale": [0.4, 0.4, 0.4]
 		},
 		"ground": {
@@ -110,11 +110,21 @@
 			"scale": [0.25, 0.25, 0.25]
 		},
 		"gui": {
-			"rotation": [30, 225, 0],
+			"rotation": [30, -135, 0],
 			"scale": [0.625, 0.625, 0.625]
 		},
 		"fixed": {
 			"scale": [0.5, 0.5, 0.5]
 		}
-	}
+	},
+	"groups": [
+		{
+			"name": "group",
+			"origin": [8, 0, 8],
+			"color": 0,
+			"children": [0, 1, 2, 3]
+		},
+		4,
+		5
+	]
 }

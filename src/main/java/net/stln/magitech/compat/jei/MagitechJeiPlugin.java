@@ -33,7 +33,8 @@ public class MagitechJeiPlugin implements IModPlugin {
                 new ToolAssemblyRecipeCategory(guiHelper),
                 new SpellConversionRecipeCategory(guiHelper),
                 new ZardiusCrucibleRecipeCategory(guiHelper),
-                new AthanorPillarInfusionRecipeCategory(guiHelper)
+                new AthanorPillarInfusionRecipeCategory(guiHelper),
+                new InfuserInfusionRecipeCategory(guiHelper)
         );
     }
 
@@ -44,6 +45,7 @@ public class MagitechJeiPlugin implements IModPlugin {
         registration.addRecipes(SpellConversionRecipeCategory.SPELL_CONVERSION_RECIPE_TYPE, ClientHelper.getAllRecipes(RecipeInit.SPELL_CONVERSION_TYPE));
         registration.addRecipes(ZardiusCrucibleRecipeCategory.ZARDIUS_CRUCIBLE_RECIPE_TYPE, ClientHelper.getAllRecipes(RecipeInit.ZARDIUS_CRUCIBLE_TYPE));
         registration.addRecipes(AthanorPillarInfusionRecipeCategory.ATHANOR_PILLAR_INFUSION_RECIPE_TYPE, ClientHelper.getAllRecipes(RecipeInit.ATHANOR_PILLAR_INFUSION_TYPE));
+        registration.addRecipes(InfuserInfusionRecipeCategory.INFUSER_INFUSION_RECIPE_TYPE, ClientHelper.getAllRecipes(RecipeInit.INFUSER_INFUSION_TYPE));
     }
 
     @Override
@@ -60,5 +62,6 @@ public class MagitechJeiPlugin implements IModPlugin {
         registration.addRecipeCatalyst(ItemInit.WAND.toStack(), SpellConversionRecipeCategory.SPELL_CONVERSION_RECIPE_TYPE);
         registration.addRecipeCatalyst(BlockInit.ZARDIUS_CRUCIBLE_ITEM.toStack(), ZardiusCrucibleRecipeCategory.ZARDIUS_CRUCIBLE_RECIPE_TYPE);
         registration.addRecipeCatalyst(BlockInit.ATHANOR_PILLAR_ITEM.toStack(), AthanorPillarInfusionRecipeCategory.ATHANOR_PILLAR_INFUSION_RECIPE_TYPE);
+        registration.addRecipeCatalyst(BlockInit.INFUSER_ITEM.toStack(), InfuserInfusionRecipeCategory.INFUSER_INFUSION_RECIPE_TYPE);
     }
 }

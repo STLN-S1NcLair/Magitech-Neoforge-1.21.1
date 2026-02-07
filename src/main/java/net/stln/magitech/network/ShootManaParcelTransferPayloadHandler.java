@@ -26,10 +26,10 @@ public class ShootManaParcelTransferPayloadHandler {
             Vector3f fromColor = new Vector3f(0.8F, 1.0F, 0.7F);
             Vector3f toColor = new Vector3f(0.0F, 1.0F, 0.9F);
             float scale = 1.0F;
-            int twinkle = random.nextInt(2, 5);
             float rotSpeed = 0.0F;
             int particleAmount = 30;
             for (int i = 0; i < particleAmount; i++) {
+                int twinkle = random.nextInt(2, 5);
                 double mul = Mth.randomBetween(random, 0.9f, 1.1f);
                 double vx = direction.getNormal().getX() + Mth.randomBetween(random, -0.5f, 0.5f) / 3;
                 double vy = direction.getNormal().getY() + Mth.randomBetween(random, -0.5f, 0.5f) / 3;
