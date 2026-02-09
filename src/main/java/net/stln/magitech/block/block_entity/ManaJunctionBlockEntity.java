@@ -7,8 +7,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.stln.magitech.api.mana.IBlockManaHandler;
-import net.stln.magitech.api.mana.IManaNode;
-import net.stln.magitech.api.mana.ManaNodeLogicHelper;
 import net.stln.magitech.block.BlockInit;
 
 import java.util.ArrayList;

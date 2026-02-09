@@ -3,12 +3,12 @@ package net.stln.magitech.api.mana;
 import net.minecraft.world.item.ItemStack;
 import net.stln.magitech.util.ComponentHelper;
 
-public class ItemManaHandler implements IManaHandler {
+public class ManaContainerItemManaHandler implements IItemManaHandler {
     private final ItemStack stack;
     private final long capacity;
     private final long maxFlow;
 
-    public ItemManaHandler(ItemStack stack, long capacity, long maxFlow) {
+    public ManaContainerItemManaHandler(ItemStack stack, long capacity, long maxFlow) {
         this.stack = stack;
         this.capacity = capacity;
         this.maxFlow = maxFlow;
@@ -27,13 +27,6 @@ public class ItemManaHandler implements IManaHandler {
     @Override
     public long getMaxMana() {
         return capacity;
-    }
-
-    @Override
-    public long getPrevMana() {
-        // アイテムでは「前回値」を保持しないため、現在値を返して
-        // 「差分なし」として扱うのが安全。
-        return getMana();
     }
 
     @Override

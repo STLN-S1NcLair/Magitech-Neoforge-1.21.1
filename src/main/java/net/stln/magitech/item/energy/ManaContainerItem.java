@@ -5,7 +5,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.stln.magitech.api.Capabilities;
-import net.stln.magitech.api.mana.IManaHandler;
+import net.stln.magitech.api.mana.IBasicManaHandler;
 import net.stln.magitech.item.TooltipTextItem;
 import net.stln.magitech.util.ManaContainerUtil;
 import org.jetbrains.annotations.NotNull;
@@ -35,7 +35,7 @@ public class ManaContainerItem extends TooltipTextItem {
     public void appendHoverText(ItemStack stack, @NotNull TooltipContext context, List<Component> tooltipComponents, @NotNull TooltipFlag tooltipFlag) {
         int titleColor = 0x5a9e91;
         int color = 0xcdffde;
-        IManaHandler handler = stack.getCapability(Capabilities.MANA_CONTAINER_ITEM);
+        IBasicManaHandler handler = stack.getCapability(Capabilities.MANA_CONTAINER_ITEM);
         ManaContainerUtil.addManaContainerItemInfo(handler.getMana(), handler.getMaxMana(), handler.getMaxFlow(), tooltipComponents, color, titleColor);
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
     }
@@ -47,7 +47,7 @@ public class ManaContainerItem extends TooltipTextItem {
 
     @Override
     public int getBarWidth(ItemStack stack) {
-        IManaHandler manaHandler = stack.getCapability(Capabilities.MANA_CONTAINER_ITEM);
+        IBasicManaHandler manaHandler = stack.getCapability(Capabilities.MANA_CONTAINER_ITEM);
         return (int) Math.round(13.0 * manaHandler.fillRatio());
     }
 

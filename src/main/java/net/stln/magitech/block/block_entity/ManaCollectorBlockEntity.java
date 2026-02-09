@@ -9,36 +9,22 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.network.PacketDistributor;
-import net.stln.magitech.api.mana.IBlockManaHandler;
-import net.stln.magitech.api.mana.ManaNodeLogicHelper;
 import net.stln.magitech.block.*;
-import net.stln.magitech.entity.mana.mana_parcel.ManaParcelEntity;
 import net.stln.magitech.gui.ManaCollectorMenu;
-import net.stln.magitech.gui.ManaStranderMenu;
-import net.stln.magitech.network.ShootManaParcelTransferPayload;
 import net.stln.magitech.particle.particle_option.SquareParticleEffect;
-import net.stln.magitech.sound.SoundInit;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ManaCollectorBlockEntity extends ManaContainerBlockEntity {
 

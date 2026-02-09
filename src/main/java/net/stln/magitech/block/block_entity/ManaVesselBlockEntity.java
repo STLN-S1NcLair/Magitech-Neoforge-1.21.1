@@ -21,7 +21,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.stln.magitech.api.Capabilities;
-import net.stln.magitech.api.mana.IManaHandler;
+import net.stln.magitech.api.mana.IBasicManaHandler;
 import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.block.ManaVesselBlock;
 import net.stln.magitech.gui.ManaVesselMenu;
@@ -67,10 +67,10 @@ public class ManaVesselBlockEntity extends ManaContainerBlockEntity implements G
         super.tick(level, pos, state);
         ItemStack receive = items.get(INPUT);
         ItemStack extract = items.get(OUTPUT);
-        IManaHandler receiveCapability = receive.getCapability(Capabilities.MANA_CONTAINER_ITEM, null);
-        IManaHandler extractCapability = extract.getCapability(Capabilities.MANA_CONTAINER_ITEM, null);
-        IManaHandler.transferMana(this, receiveCapability);
-        IManaHandler.transferMana(extractCapability, this);
+        IBasicManaHandler receiveCapability = receive.getCapability(Capabilities.MANA_CONTAINER_ITEM, null);
+        IBasicManaHandler extractCapability = extract.getCapability(Capabilities.MANA_CONTAINER_ITEM, null);
+        IBasicManaHandler.transferMana(this, receiveCapability);
+        IBasicManaHandler.transferMana(extractCapability, this);
     }
 
     public void drops() {

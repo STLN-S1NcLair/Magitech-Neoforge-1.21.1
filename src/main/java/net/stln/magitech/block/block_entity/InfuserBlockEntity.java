@@ -26,7 +26,7 @@ import net.stln.magitech.block.InfuserBlock;
 import net.stln.magitech.gui.InfuserMenu;
 import org.jetbrains.annotations.Nullable;
 
-public class InfuserBlockEntity extends ManaContainerBlockEntity implements MenuProvider {
+public class InfuserBlockEntity extends ManaMachineBlockEntity implements MenuProvider {
     public static final int INPUT_SLOT = 0;
     public static final int OUTPUT_SLOT = 1;
     public NonNullList<ItemStack> items = NonNullList.withSize(2, ItemStack.EMPTY);
