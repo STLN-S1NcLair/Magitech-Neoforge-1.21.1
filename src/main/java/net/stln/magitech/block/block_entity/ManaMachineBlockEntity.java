@@ -2,21 +2,12 @@ package net.stln.magitech.block.block_entity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.stln.magitech.api.Capabilities;
-import net.stln.magitech.api.mana.*;
+import net.stln.magitech.api.mana.container.IManaMachineBlockEntity;
+import net.stln.magitech.api.mana.handler.MachineBlockEntityManaHandler;
 import net.stln.magitech.util.LongContainerData;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
 
 public abstract class ManaMachineBlockEntity extends ManaContainerBlockEntity implements IManaMachineBlockEntity {
 
@@ -70,12 +61,9 @@ public abstract class ManaMachineBlockEntity extends ManaContainerBlockEntity im
         super(type, pos, blockState, 0, 1000, 1000);
     }
 
-    // 生産、消費可能Handler
-    protected final IBasicManaHandler MACHINE_HANDLER = new ManaMachineBlockEntityManaHandler(this, true, true);
-
     @Override
-    protected IBasicManaHandler getInternalHandler() {
-        return MACHINE_HANDLER;
+    public MachineBlockEntityManaHandler getManaHandler(Direction side) {
+        return new MachineBlockEntityManaHandler(this, side);
     }
 
     @Override

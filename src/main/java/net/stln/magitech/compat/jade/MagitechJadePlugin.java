@@ -1,6 +1,5 @@
 package net.stln.magitech.compat.jade;
 
-import net.stln.magitech.api.mana.IBlockManaHandler;
 import net.stln.magitech.block.ManaContainerBlock;
 import net.stln.magitech.block.block_entity.ManaContainerBlockEntity;
 import snownee.jade.api.IWailaClientRegistration;

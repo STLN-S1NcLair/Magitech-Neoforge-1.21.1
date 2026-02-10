@@ -1,4 +1,4 @@
-package net.stln.magitech.api.mana;
+package net.stln.magitech.api.mana.flow;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;

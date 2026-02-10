@@ -30,7 +30,7 @@ public class ComponentInit {
     public static final Supplier<DataComponentType<UpgradeComponent>> UPGRADE_COMPONENT = register("upgrade_component", UpgradeComponent.CODEC, UpgradeComponent.STREAM_CODEC);
     public static final Supplier<DataComponentType<Integer>> UPGRADE_POINT_COMPONENT = register("upgrade_point_component", ExtraCodecs.NON_NEGATIVE_INT, ByteBufCodecs.VAR_INT);
     public static final Supplier<DataComponentType<Boolean>> BROKEN_COMPONENT = register("broken_component", Codec.BOOL, ByteBufCodecs.BOOL);
-    public static final Supplier<DataComponentType<Long>> MANA_CONTAINER_COMPONENT = register("mana_container_component", Codec.LONG, ByteBufCodecs.VAR_LONG);
+    public static final Supplier<DataComponentType<ManaContainerComponent>> MANA_CONTAINER_COMPONENT = register("mana_container_component", ManaContainerComponent.CODEC,  ManaContainerComponent.STREAM_CODEC);
     public static final Supplier<DataComponentType<SimpleFluidContent>> FLUID_CONTENT_COMPONENT = register("fluid_content_component", SimpleFluidContent.CODEC, SimpleFluidContent.STREAM_CODEC);
 
     public static void registerComponents(IEventBus eventBus) {

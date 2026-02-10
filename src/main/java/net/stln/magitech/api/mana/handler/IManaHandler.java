@@ -1,6 +1,4 @@
-package net.stln.magitech.api.mana;
-
-import org.jetbrains.annotations.Nullable;
+package net.stln.magitech.api.mana.handler;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -16,7 +14,7 @@ public interface IManaHandler {
     long getMaxFlow();    // 1tickあたりの最大転送量
 
     // マナを受け取る
-    long receiveMana(long maxReceive, boolean simulate);
+    long insertMana(long maxInsert, boolean simulate);
 
     // マナを取り出す
     long extractMana(long maxExtract, boolean simulate);

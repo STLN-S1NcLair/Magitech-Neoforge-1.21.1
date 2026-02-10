@@ -5,8 +5,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.stln.magitech.api.mana.IManaNode;
-import net.stln.magitech.api.mana.ManaNodeHelper;
+import net.stln.magitech.api.mana.flow.IManaNode;
+import net.stln.magitech.api.mana.flow.ManaNodeHelper;
 import net.stln.magitech.block.BlockInit;
 
 public class ManaNodeBlockEntity extends BlockEntity implements IManaNode {

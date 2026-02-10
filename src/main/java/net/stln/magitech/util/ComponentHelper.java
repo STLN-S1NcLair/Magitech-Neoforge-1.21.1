@@ -52,8 +52,20 @@ public class ComponentHelper {
         return holder.getOrDefault(ComponentInit.BROKEN_COMPONENT, false);
     }
 
+    private static @NotNull ManaContainerComponent getManaContainer(@NotNull DataComponentHolder holder) {
+        return holder.getOrDefault(ComponentInit.MANA_CONTAINER_COMPONENT, new ManaContainerComponent(0L, 0L, 0L));
+    }
+
     public static long getMana(@NotNull DataComponentHolder holder) {
-        return holder.getOrDefault(ComponentInit.MANA_CONTAINER_COMPONENT, 0L);
+        return getManaContainer(holder).mana();
+    }
+
+    public static long getMaxMana(@NotNull DataComponentHolder holder) {
+        return getManaContainer(holder).maxMana();
+    }
+
+    public static long getMaxFlow(@NotNull DataComponentHolder holder) {
+        return getManaContainer(holder).maxFlow();
     }
 
     public static SimpleFluidContent getFluidContent(@NotNull DataComponentHolder holder) {
@@ -81,7 +93,28 @@ public class ComponentHelper {
         holder.update(ComponentInit.UPGRADE_POINT_COMPONENT, whenNull, operator);
     }
 
+    public static void updateManaContainer(@NotNull MutableDataComponentHolder holder, @NotNull UnaryOperator<ManaContainerComponent> operator) {
+        holder.update(ComponentInit.MANA_CONTAINER_COMPONENT, new ManaContainerComponent(0L, 0L, 0L), operator);
+    }
+
     public static void updateMana(@NotNull MutableDataComponentHolder holder, @NotNull UnaryOperator<Long> operator) {
-        holder.update(ComponentInit.MANA_CONTAINER_COMPONENT, 0L, operator);
+        updateManaContainer(holder, manaContainer -> {
+            long newMana = operator.apply(manaContainer.mana());
+            return new ManaContainerComponent(newMana, manaContainer.maxMana(), manaContainer.maxFlow());
+        });
+    }
+
+    public static void updateMaxMana(@NotNull MutableDataComponentHolder holder, @NotNull UnaryOperator<Long> operator) {
+        updateManaContainer(holder, manaContainer -> {
+            long newMaxMana = operator.apply(manaContainer.maxMana());
+            return new ManaContainerComponent(manaContainer.mana(), newMaxMana, manaContainer.maxFlow());
+        });
+    }
+
+    public static void updateMaxFlow(@NotNull MutableDataComponentHolder holder, @NotNull UnaryOperator<Long> operator) {
+        updateManaContainer(holder, manaContainer -> {
+            long newMaxFlow = operator.apply(manaContainer.maxFlow());
+            return new ManaContainerComponent(manaContainer.mana(), manaContainer.maxMana(), newMaxFlow);
+        });
     }
 }

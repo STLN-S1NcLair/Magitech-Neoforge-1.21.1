@@ -20,13 +20,15 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import net.stln.magitech.api.mana.flow.ManaFlowRule;
+import net.stln.magitech.api.mana.handler.MachineBlockEntityManaHandler;
 import net.stln.magitech.block.*;
 import net.stln.magitech.gui.ManaCollectorMenu;
 import net.stln.magitech.particle.particle_option.SquareParticleEffect;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
-public class ManaCollectorBlockEntity extends ManaContainerBlockEntity {
+public class ManaCollectorBlockEntity extends ManaMachineBlockEntity {
 
     private int tickCount = 0;
     protected long collectionRate = 1000;
@@ -71,6 +73,7 @@ public class ManaCollectorBlockEntity extends ManaContainerBlockEntity {
     }
 
     protected void collectMana(Level level, BlockPos pos, BlockState state) {
+        MachineBlockEntityManaHandler handler = getManaHandler(null);
         int collectorCount = 1;
         // 周囲を探索
         for (int i = -2; i <= 2; i++) {
@@ -93,7 +96,7 @@ public class ManaCollectorBlockEntity extends ManaContainerBlockEntity {
         }
         // マナ収集
         long collect = collectionRate / collectorCount;
-        this.produceMana(collect);
+        handler.produceMana(collect);
     }
 
     @Override
@@ -102,18 +105,8 @@ public class ManaCollectorBlockEntity extends ManaContainerBlockEntity {
     }
 
     @Override
-    protected AbstractContainerMenu createMenu(int containerId, Inventory inventory) {
-        return null;
-    }
-
-    @Override
-    public Component getDisplayName() {
+    public Component getDefaultName() {
         return Component.translatable("block.magitech.mana_collector");
-    }
-
-    @Override
-    protected Component getDefaultName() {
-        return null;
     }
 
     @Override
@@ -130,18 +123,10 @@ public class ManaCollectorBlockEntity extends ManaContainerBlockEntity {
     }
 
     @Override
-    public float getFlowBias() {
-        return 1.0f;
-    }
-
-    // 排出のみ
-    @Override
-    public boolean canReceiveMana(Direction direction, BlockPos pos, BlockState state) {
-        return false;
-    }
-
-    @Override
-    public boolean canExtractMana(Direction direction, BlockPos pos, BlockState state) {
-        return state.getValue(ManaStranderBlock.FACING).getOpposite() == direction;
+    public ManaFlowRule getManaFlowRule(BlockState state, Direction side) {
+        if (side == state.getValue(ManaStranderBlock.FACING).getOpposite()) {
+            return ManaFlowRule.BothWays(1.0F);
+        }
+        return ManaFlowRule.None();
     }
 }

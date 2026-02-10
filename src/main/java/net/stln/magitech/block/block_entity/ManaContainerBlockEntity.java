@@ -4,18 +4,27 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.stln.magitech.api.mana.*;
+import net.stln.magitech.api.mana.container.IManaContainerBlockEntity;
+import net.stln.magitech.api.mana.flow.ManaNetworkHelper;
+import net.stln.magitech.api.mana.flow.ManaTransferHelper;
+import net.stln.magitech.api.mana.handler.IBasicManaHandler;
+import net.stln.magitech.api.mana.handler.ContainerBlockEntityManaHandler;
 import net.stln.magitech.util.LongContainerData;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public abstract class ManaContainerBlockEntity extends BaseContainerBlockEntity implements IManaContainerBlockEntity {
 
@@ -26,6 +35,8 @@ public abstract class ManaContainerBlockEntity extends BaseContainerBlockEntity 
     protected long currentTickTransfer = 0;
     // 表示用の滑らかな平均流量 (保存不要)
     protected float averageFlow = 0;
+
+    protected Map<Direction, Set<IBasicManaHandler>> cachedSinks = null;
 
 
     public LongContainerData dataAccess = new LongContainerData() {
@@ -73,25 +84,12 @@ public abstract class ManaContainerBlockEntity extends BaseContainerBlockEntity 
         this(type, pos, blockState, 0, 1000, 1000);
     }
 
-    protected final IBasicManaHandler BOTH_SIDE = new ManaContainerBlockEntityManaHandler(this, true, true);
-    protected final IBasicManaHandler INPUT_ONLY = new ManaContainerBlockEntityManaHandler(this, true, false);
-    protected final IBasicManaHandler OUTPUT_ONLY = new ManaContainerBlockEntityManaHandler(this, false, true);
-
-    // 側面指定なしの場合は内部アクセスとみなす
-    // 設定する場合はオーバーライドする
-    public IBasicManaHandler getManaHandler(BlockState state, Direction side) {
-        if (side == null) {
-            return getInternalHandler();
+    // 充填率バイアス、入出力可否はgetFlowRuleで取得する
+    public ContainerBlockEntityManaHandler getManaHandler(Direction side) {
+        if (getManaFlowRule(getBlockState(), side).isNone()) {
+            return null;
         }
-        return getExternalHandler(state, side);
-    }
-
-    // 外部アクセス用ハンドラを返す
-    protected abstract IBasicManaHandler getExternalHandler(BlockState state, Direction side);
-
-    // 内部アクセス用ハンドラを返す
-    protected IBasicManaHandler getInternalHandler() {
-        return BOTH_SIDE;
+        return new ContainerBlockEntityManaHandler(this, side);
     }
 
     public static void ticker(Level level, BlockPos pos, BlockState state, ManaContainerBlockEntity blockEntity) {
@@ -111,10 +109,16 @@ public abstract class ManaContainerBlockEntity extends BaseContainerBlockEntity 
 
     protected void transferManaTick(Level level, BlockPos pos, BlockState state) {
         for (Direction dir : Direction.values()) {
-            List<IBasicManaHandler> sinks = ManaNetworkHelper.findNetworkWithConnector(level, pos, dir, true);
+            Set<IBasicManaHandler> sinks = ManaNetworkHelper.findNetworkWithConnector(level, pos, dir, true);
             if (sinks.isEmpty()) continue;
             IBasicManaHandler source = ManaTransferHelper.getManaContainer(level, pos, dir);
             ManaTransferHelper.balance(source, sinks);
+        }
+    }
+
+    protected void rebuildCachedSinks(Level level, BlockPos pos) {
+        for (Direction dir : Direction.values()) {
+            this.cachedSinks.put(dir, ManaNetworkHelper.findNetworkWithConnector(level, pos, null, false));
         }
     }
 
@@ -128,6 +132,16 @@ public abstract class ManaContainerBlockEntity extends BaseContainerBlockEntity 
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
         tag.putLong("mana", this.mana);
+    }
+
+    @Override
+    protected AbstractContainerMenu createMenu(int containerId, Inventory inventory) {
+        return null;
+    }
+
+    @Override
+    public Component getDisplayName() {
+        return getDefaultName();
     }
 
     @Nullable

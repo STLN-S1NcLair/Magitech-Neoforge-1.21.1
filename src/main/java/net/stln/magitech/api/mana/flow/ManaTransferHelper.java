@@ -1,9 +1,12 @@
-package net.stln.magitech.api.mana;
+package net.stln.magitech.api.mana.flow;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
-import net.stln.magitech.api.Capabilities;
+import net.stln.magitech.api.ManaCapabilities;
+import net.stln.magitech.api.mana.handler.IBasicManaHandler;
+import net.stln.magitech.api.mana.handler.IBlockManaHandler;
+import net.stln.magitech.api.mana.handler.IManaHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,12 +22,12 @@ public class ManaTransferHelper {
             // シミュレーション: どれだけ抜けるか？
             long extracted = source.extractMana(amount, true);
             // シミュレーション: どれだけ入るか？
-            long accepted = sink.receiveMana(extracted, true);
+            long accepted = sink.insertMana(extracted, true);
 
             // 実行
             if (accepted > 0) {
                 source.extractMana(accepted, false); // 実際に減らす (内部で書き換え)
-                sink.receiveMana(accepted, false); // 実際に増やす (内部で書き換え)
+                sink.insertMana(accepted, false); // 実際に増やす (内部で書き換え)
             }
             return accepted;
         }
@@ -36,26 +39,26 @@ public class ManaTransferHelper {
         return transferMana(source, sink, Long.MAX_VALUE);
     }
 
-    public static void balance(IBasicManaHandler source, List<IBasicManaHandler> sinks) {
+    public static void balance(IBasicManaHandler source, Set<IBasicManaHandler> sinks) {
 
         // --- ステップ1: 参加者の選定と、ネットワーク全体の目標値計算 ---
         long totalMana = source.getEffectiveMana();
         long totalCapacity = source.getMaxMana();
 
         // 配分候補リスト
-        List<IBasicManaHandler> sendList = new ArrayList<>();
+        Set<IBasicManaHandler> sendSet = new HashSet<>();
 
         for (IBasicManaHandler sink : sinks) {
             // ピンポン防止: 自分より明らかに少ない相手のみ対象
             if (sink.getEffectiveFillRatio() < source.getEffectiveFillRatio() - 0.001f) {
-                sendList.add(sink);
+                sendSet.add(sink);
 
                 totalMana += sink.getEffectiveMana();
                 totalCapacity += sink.getMaxMana();
             }
         }
 
-        if (sendList.isEmpty()) return;
+        if (sendSet.isEmpty()) return;
 
         // ネットワーク全体の目標充填率
         double targetRatio = (double) totalMana / totalCapacity;
@@ -66,7 +69,7 @@ public class ManaTransferHelper {
         Map<IBasicManaHandler, Long> demands = new HashMap<>();
         long totalDemand = 0;
 
-        for (IBasicManaHandler target : sendList) {
+        for (IBasicManaHandler target : sendSet) {
 
             // 目標量まであといくら必要か
             long targetIdeal = (long) (target.getMaxMana() * targetRatio);
@@ -116,6 +119,6 @@ public class ManaTransferHelper {
     }
 
     public static @Nullable IBlockManaHandler getManaContainer(Level level, BlockPos pos, @NotNull Direction direction) {
-        return level.getCapability(Capabilities.MANA_CONTAINER, pos, level.getBlockState(pos), level.getBlockEntity(pos), direction);
+        return level.getCapability(ManaCapabilities.MANA_CONTAINER, pos, level.getBlockState(pos), level.getBlockEntity(pos), direction);
     }
 }

@@ -23,19 +23,20 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.PacketDistributor;
+import net.stln.magitech.api.mana.flow.ManaFlowRule;
+import net.stln.magitech.api.mana.handler.MachineBlockEntityManaHandler;
 import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.block.ManaStranderBlock;
 import net.stln.magitech.entity.mana.mana_parcel.ManaParcelEntity;
 import net.stln.magitech.gui.ManaStranderMenu;
-import net.stln.magitech.gui.ManaVesselMenu;
 import net.stln.magitech.network.ShootManaParcelTransferPayload;
 import net.stln.magitech.sound.SoundInit;
 import org.jetbrains.annotations.Nullable;
 
-public class ManaStranderBlockEntity extends ManaContainerBlockEntity {
+public class ManaStranderBlockEntity extends ManaMachineBlockEntity {
 
     private int tickCount = 0;
-    private static long MANA_PARCEL_ENERGY = 50000;
+    private static final long MANA_PARCEL_ENERGY = 50000;
 
     public ManaStranderBlockEntity(BlockPos pos, BlockState blockState) {
         super(BlockInit.MANA_STRANDER_ENTITY.get(), pos, blockState, 100000, 5000);
@@ -62,8 +63,9 @@ public class ManaStranderBlockEntity extends ManaContainerBlockEntity {
     }
 
     private void shootManaParcel(Level level, BlockPos pos, BlockState state) {
-        if (this.getMana() >= MANA_PARCEL_ENERGY) {
-            consumeMana(MANA_PARCEL_ENERGY);
+        MachineBlockEntityManaHandler handler = getManaHandler(null);
+        if (handler.getMana() >= MANA_PARCEL_ENERGY) {
+            handler.consumeMana(MANA_PARCEL_ENERGY);
             Direction direction = state.getValue(ManaStranderBlock.FACING);
             Vec3 summonPos = pos.getCenter();
             Entity entity = new ManaParcelEntity(level, summonPos, MANA_PARCEL_ENERGY);
@@ -85,18 +87,8 @@ public class ManaStranderBlockEntity extends ManaContainerBlockEntity {
     }
 
     @Override
-    protected AbstractContainerMenu createMenu(int containerId, Inventory inventory) {
-        return null;
-    }
-
-    @Override
-    public Component getDisplayName() {
-        return Component.translatable("block.magitech.mana_strander");
-    }
-
-    @Override
     protected Component getDefaultName() {
-        return null;
+        return Component.translatable("block.magitech.mana_strander");
     }
 
     @Override
@@ -113,18 +105,10 @@ public class ManaStranderBlockEntity extends ManaContainerBlockEntity {
     }
 
     @Override
-    public float getFlowBias() {
-        // 不足バイアス
-        return -1.0f;
-    }
-
-    @Override
-    public boolean canReceiveMana(Direction direction, BlockPos pos, BlockState state) {
-        return state.getValue(ManaStranderBlock.FACING).getOpposite() == direction;
-    }
-
-    @Override
-    public boolean canExtractMana(Direction direction, BlockPos pos, BlockState state) {
-        return state.getValue(ManaStranderBlock.FACING).getOpposite() == direction;
+    public ManaFlowRule getManaFlowRule(BlockState state, Direction side) {
+        if (side == state.getValue(ManaStranderBlock.FACING).getOpposite()) {
+            return ManaFlowRule.BothWays(-1.0F);
+        }
+        return ManaFlowRule.None();
     }
 }

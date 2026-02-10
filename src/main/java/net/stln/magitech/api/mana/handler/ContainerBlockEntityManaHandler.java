@@ -1,17 +1,16 @@
-package net.stln.magitech.api.mana;
+package net.stln.magitech.api.mana.handler;
 
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.Direction;
+import net.stln.magitech.api.mana.container.IManaContainerBlockEntity;
+import net.stln.magitech.api.mana.flow.ManaFlowRule;
 
-public class ManaContainerBlockEntityManaHandler implements IBlockManaHandler {
+public class ContainerBlockEntityManaHandler implements IBlockManaHandler {
     protected final IManaContainerBlockEntity be;
+    protected final Direction side;
 
-    protected final boolean canReceive;
-    protected final boolean canExtract;
-
-    public ManaContainerBlockEntityManaHandler(IManaContainerBlockEntity be, float flowBias, boolean canReceive, boolean canExtract) {
+    public ContainerBlockEntityManaHandler(IManaContainerBlockEntity be, Direction side) {
         this.be = be;
-        this.canReceive = canReceive;
-        this.canExtract = canExtract;
+        this.side = side;
     }
 
     @Override
@@ -35,8 +34,8 @@ public class ManaContainerBlockEntityManaHandler implements IBlockManaHandler {
     }
 
     @Override
-    public long receiveMana(long maxReceive, boolean simulate) {
-        if (!canReceive) {
+    public long insertMana(long maxInsert, boolean simulate) {
+        if (!getManaFlowRule().canInsert()) {
             return 0;
         }
         // 流量制限による受入可能残量 = (許容上限) - (現在の量)
@@ -46,7 +45,7 @@ public class ManaContainerBlockEntityManaHandler implements IBlockManaHandler {
         long tankCapacity = getMaxMana() - getMana();
 
         // すべての条件の中で最小の値を採用
-        long accepted = Math.min(maxReceive, Math.min(flowCapacity, tankCapacity));
+        long accepted = Math.min(maxInsert, Math.min(flowCapacity, tankCapacity));
 
         if (!simulate && accepted > 0) {
             setMana(getMana() + accepted);
@@ -57,7 +56,7 @@ public class ManaContainerBlockEntityManaHandler implements IBlockManaHandler {
 
     @Override
     public long extractMana(long maxExtract, boolean simulate) {
-        if (!canExtract) {
+        if (!getManaFlowRule().canExtract()) {
             return 0;
         }
         // 流量制限による排出可能残量 = (現在の量) - (許容下限)
@@ -70,5 +69,10 @@ public class ManaContainerBlockEntityManaHandler implements IBlockManaHandler {
             be.setCurrentTickTransfer(be.getCurrentTickTransfer() - extracted);
         }
         return extracted;
+    }
+
+    @Override
+    public ManaFlowRule getManaFlowRule() {
+        return be.getManaFlowRule(be.getBlockState(), side);
     }
 }

@@ -1,4 +1,4 @@
-package net.stln.magitech.api.mana;
+package net.stln.magitech.api.mana.handler;
 
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.state.BlockState;

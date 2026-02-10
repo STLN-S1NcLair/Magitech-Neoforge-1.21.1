@@ -1,4 +1,9 @@
-package net.stln.magitech.api.mana;
+package net.stln.magitech.api.mana.container;
+
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.stln.magitech.api.mana.flow.ManaFlowRule;
 
 public interface IManaContainerBlockEntity {
 
@@ -12,6 +17,11 @@ public interface IManaContainerBlockEntity {
 
     // 1tickあたりの現在の転送量を取得
     long getCurrentTickTransfer();
+
+    BlockState getBlockState();
+
+    // 充填率バイアス、入出力可否を取得する。
+    ManaFlowRule getManaFlowRule(BlockState state, Direction side);
 
     void setMana(long mana);
 

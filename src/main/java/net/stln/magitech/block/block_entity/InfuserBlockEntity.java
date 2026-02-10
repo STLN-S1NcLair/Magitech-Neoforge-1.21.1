@@ -21,12 +21,13 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.stln.magitech.api.mana.flow.ManaFlowRule;
 import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.block.InfuserBlock;
 import net.stln.magitech.gui.InfuserMenu;
 import org.jetbrains.annotations.Nullable;
 
-public class InfuserBlockEntity extends ManaMachineBlockEntity implements MenuProvider {
+public class InfuserBlockEntity extends ManaMachineBlockEntity {
     public static final int INPUT_SLOT = 0;
     public static final int OUTPUT_SLOT = 1;
     public NonNullList<ItemStack> items = NonNullList.withSize(2, ItemStack.EMPTY);
@@ -117,18 +118,8 @@ public class InfuserBlockEntity extends ManaMachineBlockEntity implements MenuPr
     }
 
     @Override
-    protected AbstractContainerMenu createMenu(int containerId, Inventory inventory) {
-        return null;
-    }
-
-    @Override
-    public Component getDisplayName() {
+    public Component getDefaultName() {
         return Component.translatable("block.magitech.infuser");
-    }
-
-    @Override
-    protected Component getDefaultName() {
-        return null;
     }
 
     @Override
@@ -162,17 +153,10 @@ public class InfuserBlockEntity extends ManaMachineBlockEntity implements MenuPr
     }
 
     @Override
-    public float getFlowBias() {
-        return -1.0F;
-    }
-
-    @Override
-    public boolean canReceiveMana(Direction direction, BlockPos pos, BlockState state) {
-        return direction == Direction.DOWN || state.getValue(InfuserBlock.FACING).getOpposite() == direction;
-    }
-
-    @Override
-    public boolean canExtractMana(Direction direction, BlockPos pos, BlockState state) {
-        return direction == Direction.DOWN || state.getValue(InfuserBlock.FACING).getOpposite() == direction;
+    public ManaFlowRule getManaFlowRule(BlockState state, Direction side) {
+        if (side == state.getValue(InfuserBlock.FACING).getOpposite() || side == Direction.DOWN) {
+            return ManaFlowRule.BothWays(-1.0F);
+        }
+        return ManaFlowRule.None();
     }
 }

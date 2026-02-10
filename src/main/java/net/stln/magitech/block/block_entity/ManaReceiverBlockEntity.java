@@ -23,6 +23,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.PacketDistributor;
+import net.stln.magitech.api.mana.flow.ManaFlowRule;
+import net.stln.magitech.api.mana.handler.ContainerBlockEntityManaHandler;
+import net.stln.magitech.api.mana.handler.MachineBlockEntityManaHandler;
 import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.block.ManaReceiverBlock;
 import net.stln.magitech.block.ManaStranderBlock;
@@ -36,7 +39,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class ManaReceiverBlockEntity extends ManaContainerBlockEntity {
+public class ManaReceiverBlockEntity extends ManaMachineBlockEntity {
 
     public ManaReceiverBlockEntity(BlockPos pos, BlockState blockState) {
         super(BlockInit.MANA_RECEIVER_ENTITY.get(), pos, blockState, 500000, 5000);
@@ -60,10 +63,11 @@ public class ManaReceiverBlockEntity extends ManaContainerBlockEntity {
     }
 
     private void checkManaParcel(Level level, BlockPos pos, BlockState state) {
+        MachineBlockEntityManaHandler handler = getManaHandler(null);
         List<Entity> entities = EntityUtil.getEntitiesInBox(level, null, pos.getCenter(), new Vec3(0.5, 0.5, 0.5));
         for (Entity entity : entities) {
             if (entity instanceof ManaParcelEntity manaParcel) {
-                produceMana(manaParcel.getMana());
+                handler.produceMana(manaParcel.getMana());
                 manaParcel.discard();
                 level.playSound(null, pos, SoundInit.MANA_PARCEL.get(), SoundSource.BLOCKS, 0.3F, Mth.randomBetween(level.random, 0.5F, 1.0F));
             }
@@ -76,18 +80,8 @@ public class ManaReceiverBlockEntity extends ManaContainerBlockEntity {
     }
 
     @Override
-    protected AbstractContainerMenu createMenu(int containerId, Inventory inventory) {
-        return null;
-    }
-
-    @Override
-    public Component getDisplayName() {
-        return Component.translatable("block.magitech.mana_receiver");
-    }
-
-    @Override
     protected Component getDefaultName() {
-        return null;
+        return Component.translatable("block.magitech.mana_receiver");
     }
 
     @Override
@@ -104,18 +98,10 @@ public class ManaReceiverBlockEntity extends ManaContainerBlockEntity {
     }
 
     @Override
-    public float getFlowBias() {
-        // 充足バイアス
-        return 1.0f;
-    }
-
-    @Override
-    public boolean canReceiveMana(Direction direction, BlockPos pos, BlockState state) {
-        return state.getValue(ManaReceiverBlock.FACING).getOpposite() == direction;
-    }
-
-    @Override
-    public boolean canExtractMana(Direction direction, BlockPos pos, BlockState state) {
-        return state.getValue(ManaReceiverBlock.FACING).getOpposite() == direction;
+    public ManaFlowRule getManaFlowRule(BlockState state, Direction side) {
+        if (side == state.getValue(ManaStranderBlock.FACING).getOpposite()) {
+            return ManaFlowRule.BothWays(1.0F);
+        }
+        return ManaFlowRule.None();
     }
 }

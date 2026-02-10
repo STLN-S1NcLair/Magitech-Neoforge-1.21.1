@@ -1,4 +1,4 @@
-package net.stln.magitech.event;
+package net.stln.magitech.item.component;
 
 import com.klikli_dev.modonomicon.registry.DataComponentRegistry;
 import net.minecraft.resources.ResourceLocation;
@@ -11,12 +11,11 @@ import net.neoforged.neoforge.registries.DeferredItem;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.fluid.FluidInit;
 import net.stln.magitech.item.ItemInit;
-import net.stln.magitech.item.component.*;
 import net.stln.magitech.item.tool.material.MaterialInit;
 import net.stln.magitech.magic.spell.SpellInit;
 
 @EventBusSubscriber(modid = Magitech.MOD_ID)
-public class ModifyDefaultComponentsEvent {
+public class DefaultComponentInit {
 
     @SubscribeEvent
     public static void modifyDefault(net.neoforged.neoforge.event.ModifyDefaultComponentsEvent event) {
@@ -67,6 +66,8 @@ public class ModifyDefaultComponentsEvent {
         setFluidContentComponent(event, ItemInit.MAGIC_POTION_FLASK, new FluidStack(FluidInit.MAGIC_POTION, 250));
         setFluidContentComponent(event, ItemInit.FLOW_POTION_FLASK, new FluidStack(FluidInit.FLOW_POTION, 250));
         setFluidContentComponent(event, ItemInit.HOLLOW_POTION_FLASK, new FluidStack(FluidInit.HOLLOW_POTION, 250));
+
+        setManaContainerComponent(event, ItemInit.MANA_CELL, 500000L, 5000L);
     }
 
     private static void setComponentsForThreadbound(net.neoforged.neoforge.event.ModifyDefaultComponentsEvent event, DeferredItem<?> item, ResourceLocation bookId) {
@@ -75,5 +76,13 @@ public class ModifyDefaultComponentsEvent {
 
     private static void setFluidContentComponent(net.neoforged.neoforge.event.ModifyDefaultComponentsEvent event, DeferredItem<?> item, FluidStack fluidStack) {
         event.modify(item, builder -> builder.set(ComponentInit.FLUID_CONTENT_COMPONENT.get(), SimpleFluidContent.copyOf(fluidStack)).build());
+    }
+
+    private static void setManaContainerComponent(net.neoforged.neoforge.event.ModifyDefaultComponentsEvent event, DeferredItem<?> item, long mana, long maxMana, long maxFlow) {
+        event.modify(item, builder -> builder.set(ComponentInit.MANA_CONTAINER_COMPONENT.get(), new ManaContainerComponent(mana, maxMana, maxFlow)).build());
+    }
+
+    private static void setManaContainerComponent(net.neoforged.neoforge.event.ModifyDefaultComponentsEvent event, DeferredItem<?> item, long maxMana, long maxFlow) {
+        event.modify(item, builder -> builder.set(ComponentInit.MANA_CONTAINER_COMPONENT.get(), new ManaContainerComponent(0, maxMana, maxFlow)).build());
     }
 }

@@ -20,8 +20,10 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.stln.magitech.api.Capabilities;
-import net.stln.magitech.api.mana.IBasicManaHandler;
+import net.stln.magitech.api.ManaCapabilities;
+import net.stln.magitech.api.mana.flow.ManaFlowRule;
+import net.stln.magitech.api.mana.flow.ManaTransferHelper;
+import net.stln.magitech.api.mana.handler.IBasicManaHandler;
 import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.block.ManaVesselBlock;
 import net.stln.magitech.gui.ManaVesselMenu;
@@ -33,7 +35,7 @@ import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class ManaVesselBlockEntity extends ManaContainerBlockEntity implements GeoBlockEntity, MenuProvider {
+public class ManaVesselBlockEntity extends ManaContainerBlockEntity implements GeoBlockEntity {
     public static final int INPUT = 0;
     public static final int OUTPUT = 1;
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
@@ -65,12 +67,13 @@ public class ManaVesselBlockEntity extends ManaContainerBlockEntity implements G
     @Override
     public void tick(Level level, BlockPos pos, BlockState state) {
         super.tick(level, pos, state);
-        ItemStack receive = items.get(INPUT);
-        ItemStack extract = items.get(OUTPUT);
-        IBasicManaHandler receiveCapability = receive.getCapability(Capabilities.MANA_CONTAINER_ITEM, null);
-        IBasicManaHandler extractCapability = extract.getCapability(Capabilities.MANA_CONTAINER_ITEM, null);
-        IBasicManaHandler.transferMana(this, receiveCapability);
-        IBasicManaHandler.transferMana(extractCapability, this);
+        ItemStack source = items.get(INPUT);
+        ItemStack sink = items.get(OUTPUT);
+        IBasicManaHandler sinkHandler = source.getCapability(ManaCapabilities.MANA_CONTAINER_ITEM, null);
+        IBasicManaHandler sourceHandler = sink.getCapability(ManaCapabilities.MANA_CONTAINER_ITEM, null);
+        IBasicManaHandler handler = this.getManaHandler(null);
+        ManaTransferHelper.transferMana(handler, sinkHandler);
+        ManaTransferHelper.transferMana(sourceHandler, handler);
     }
 
     public void drops() {
@@ -111,18 +114,8 @@ public class ManaVesselBlockEntity extends ManaContainerBlockEntity implements G
     }
 
     @Override
-    protected AbstractContainerMenu createMenu(int containerId, Inventory inventory) {
-        return null;
-    }
-
-    @Override
-    public Component getDisplayName() {
-        return Component.translatable("block.magitech.mana_vessel");
-    }
-
-    @Override
     protected Component getDefaultName() {
-        return null;
+        return Component.translatable("block.magitech.mana_vessel");
     }
 
     @Override
@@ -140,12 +133,10 @@ public class ManaVesselBlockEntity extends ManaContainerBlockEntity implements G
     }
 
     @Override
-    public boolean canReceiveMana(Direction direction, BlockPos pos, BlockState state) {
-        return state.getValue(ManaVesselBlock.AXIS) == direction.getAxis();
-    }
-
-    @Override
-    public boolean canExtractMana(Direction direction, BlockPos pos, BlockState state) {
-        return state.getValue(ManaVesselBlock.AXIS) == direction.getAxis();
+    public ManaFlowRule getManaFlowRule(BlockState state, Direction side) {
+        if (side.getAxis() == state.getValue(ManaVesselBlock.AXIS)) {
+            return ManaFlowRule.BothWays(0.0F);
+        }
+        return ManaFlowRule.None();
     }
 }

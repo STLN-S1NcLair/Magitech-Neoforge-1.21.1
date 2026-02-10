@@ -1,4 +1,4 @@
-package net.stln.magitech.api.mana;
+package net.stln.magitech.api.mana.container;
 
 public interface IManaMachineBlockEntity extends IManaContainerBlockEntity {
 

@@ -1,17 +1,14 @@
-package net.stln.magitech.api.mana;
+package net.stln.magitech.api.mana.handler;
 
 import net.minecraft.world.item.ItemStack;
+import net.stln.magitech.api.mana.flow.ManaFlowRule;
 import net.stln.magitech.util.ComponentHelper;
 
 public class ManaContainerItemManaHandler implements IItemManaHandler {
     private final ItemStack stack;
-    private final long capacity;
-    private final long maxFlow;
 
-    public ManaContainerItemManaHandler(ItemStack stack, long capacity, long maxFlow) {
+    public ManaContainerItemManaHandler(ItemStack stack) {
         this.stack = stack;
-        this.capacity = capacity;
-        this.maxFlow = maxFlow;
     }
 
     @Override
@@ -21,26 +18,26 @@ public class ManaContainerItemManaHandler implements IItemManaHandler {
 
     @Override
     public void setMana(long value) {
-        ComponentHelper.updateMana(stack, mana -> Math.clamp(value, 0, capacity));
+        ComponentHelper.updateMana(stack, mana -> Math.clamp(value, 0, getMaxMana()));
     }
 
     @Override
     public long getMaxMana() {
-        return capacity;
+        return ComponentHelper.getMaxMana(stack);
     }
 
     @Override
     public long getMaxFlow() {
-        return maxFlow;
+        return ComponentHelper.getMaxFlow(stack);
     }
 
     @Override
-    public long receiveMana(long maxReceive, boolean simulate) {
+    public long insertMana(long maxInsert, boolean simulate) {
         // アイテムの場合は「今回の要求量」を maxFlow で制限するだけにする
-        long effectiveRate = Math.min(maxReceive, maxFlow);
+        long effectiveRate = Math.min(maxInsert, getMaxFlow());
 
         long current = getMana();
-        long accepted = Math.min(capacity - current, effectiveRate);
+        long accepted = Math.min(getMaxMana() - current, effectiveRate);
 
         if (!simulate && accepted > 0) {
             setMana(current + accepted);
@@ -51,7 +48,7 @@ public class ManaContainerItemManaHandler implements IItemManaHandler {
     @Override
     public long extractMana(long maxExtract, boolean simulate) {
         // 同様に「今回の要求量」を maxFlow で制限
-        long effectiveRate = Math.min(maxExtract, maxFlow);
+        long effectiveRate = Math.min(maxExtract, getMaxFlow());
 
         long current = getMana();
         long extracted = Math.min(current, effectiveRate);
@@ -60,5 +57,10 @@ public class ManaContainerItemManaHandler implements IItemManaHandler {
             setMana(current - extracted);
         }
         return extracted;
+    }
+
+    @Override
+    public ManaFlowRule getManaFlowRule() {
+        return ManaFlowRule.BothWays(0.0F);
     }
 }
