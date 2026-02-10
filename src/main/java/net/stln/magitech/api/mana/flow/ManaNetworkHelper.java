@@ -34,10 +34,10 @@ public class ManaNetworkHelper {
         Queue<BlockPos> toVisit = new LinkedList<>();
 
         IBlockManaHandler startHandler = ManaTransferHelper.getManaContainer(level, start, direction);
-        if (canBeSource(startHandler) || !isStartManaHandler) {
+        if (startHandler != null || !isStartManaHandler) {
             BlockPos nextPos = start.relative(direction);
             IBlockManaHandler currentHandler = ManaTransferHelper.getManaContainer(level, nextPos, direction.getOpposite());
-            if (canBeSink(currentHandler)) {
+            if (currentHandler != null) {
                 network.add(currentHandler);
             } else {
                 toVisit.add(start.relative(direction));
@@ -52,7 +52,7 @@ public class ManaNetworkHelper {
                 visited.add(nextPos);
                 if (visited.contains(nextPos)) continue;
                 IBlockManaHandler currentHandler = ManaTransferHelper.getManaContainer(level, nextPos, dir.getOpposite());
-                if (canBeSink(currentHandler)) {
+                if (currentHandler != null) {
                     network.add(currentHandler);
                 } else {
                     if (level.getBlockState(nextPos).getBlock() instanceof IManaConnector) {
@@ -65,20 +65,12 @@ public class ManaNetworkHelper {
         return network;
     }
 
-    private static boolean canBeSource(@Nullable IBlockManaHandler source) {
-        return source != null && source.getManaFlowRule().canExtract();
-    }
-
-    private static boolean canBeSink(@Nullable IBlockManaHandler sink) {
-        return sink != null && sink.getManaFlowRule().canInsert();
-    }
-
     // ノード同士をつなぐネットワークを探索
     // ノード間のマナ輸送などで使用する
     // ハンドラーは取らず、ノードの経路のみ
     // ノードとハンドラー間の探索ではfindNetworkWithConnectorを使うこと
     // Direction: 探索を開始する方向
-    public static Set<NodePath> findNetworkWithNode(Level level, BlockPos startNode, @NotNull Direction direction, int maxHops) {
+    public static Set<NodePath> findNodeNetwork(Level level, BlockPos startNode, @NotNull Direction direction, int maxHops) {
 
         // 探索用キュー: (現在の座標, ここまでの経路リスト)
         Queue<NodePath> queue = new LinkedList<>();
@@ -136,31 +128,42 @@ public class ManaNetworkHelper {
         return network;
     }
 
-    public static NetworkSnapshot getNetworkSnapshot(Level level, BlockPos startNode, @NotNull Direction connectorDirection, , int maxHops) {
+    // ネットワーク更新用ハンドラー位置スナップショットを取得
+    public static NetworkSnapshot getConnectorNetworkSnapshot(Level level, BlockPos start, @NotNull Direction direction, int maxHops) {
         Set<BlockPos> manaHandlers = new HashSet<>();
-        Set<BlockPos> manaNodes = new HashSet<>();
-        Set<BlockPos> manaRelays = new HashSet<>();
+        Set<BlockPos> manaConnectors = new HashSet<>();
 
-        Set<NodePath> network = findNetworkWithNode(level, startNode, direction, maxHops);
-        for (NodePath nodePath : network) {
-            BlockPos nodePos = nodePath.target;
-            BlockState nodeState = level.getBlockState(nodePos);
-            if (nodeState.getBlock() instanceof IManaRelay) {
-                manaRelays.add(nodePos);
-            } else if (nodeState.getBlock() instanceof IManaNode) {
-                manaNodes.add(nodePos);
-            }
-
-            // ノードに接続されたマナハンドラも収集
-            Set<IBasicManaHandler> connectedHandlers = findNetworkWithConnector(level, nodePos, direction, false);
-            for (IBasicManaHandler handler : connectedHandlers) {
-                if (handler instanceof IBlockManaHandler blockHandler) {
-                    manaHandlers.add(blockHandler.getPosition());
+        // BFS
+        Set<BlockPos> visited = new HashSet<>();
+        Queue<BlockPos> toVisit = new LinkedList<>();
+        BlockPos nextPos = start.relative(direction);
+        IBlockManaHandler currentHandler = ManaTransferHelper.getManaContainer(level, nextPos, direction.getOpposite());
+        if (currentHandler != null) {
+            manaHandlers.add(nextPos);
+        } else {
+            toVisit.add(start.relative(direction));
+            visited.add(start);
+            visited.add(start.relative(direction));
+        }
+        while (!toVisit.isEmpty()) {
+            BlockPos currentPos = toVisit.poll();
+            for (Direction dir : Direction.values()) {
+                BlockPos nextPos = currentPos.relative(dir);
+                visited.add(nextPos);
+                if (visited.contains(nextPos)) continue;
+                IBlockManaHandler currentHandler = ManaTransferHelper.getManaContainer(level, nextPos, dir.getOpposite());
+                if (canBeSink(currentHandler)) {
+                    network.add(currentHandler);
+                } else {
+                    if (level.getBlockState(nextPos).getBlock() instanceof IManaConnector) {
+                        // 接続ブロックなら探索を続ける
+                        toVisit.add(nextPos);
+                    }
                 }
             }
         }
 
-        return new NetworkSnapshot(manaHandlers, manaNodes, manaRelays);
+        return new NetworkSnapshot(manaHandlers, manaConnectors, manaRelays);
     }
 
     private static boolean canSee(Level level, BlockPos startPos, BlockPos endPos) {
@@ -179,16 +182,15 @@ public class ManaNetworkHelper {
 
     public record NodePath(BlockPos target, List<BlockPos> path) {}
 
-    public record NetworkSnapshot(Set<BlockPos> manaHandlers, Set<BlockPos> manaNodes, Set<BlockPos> manaRelays) {
+    public record NetworkSnapshot(Set<BlockPos> manaHandlers, Set<BlockPos> wayPoints) {
         @Override
         public boolean equals(Object obj) {
             if (this == obj) return true;
-            if (!(obj instanceof NetworkSnapshot other)) {
+            if (!(obj instanceof NetworkSnapshot(Set<BlockPos> handlers, Set<BlockPos> points))) {
                 return false;
             } else {
-                return this.manaHandlers.equals(other.manaHandlers) &&
-                       this.manaNodes.equals(other.manaNodes) &&
-                       this.manaRelays.equals(other.manaRelays);
+                return this.manaHandlers.equals(handlers) &&
+                       this.wayPoints.equals(points);
             }
         }
     }
