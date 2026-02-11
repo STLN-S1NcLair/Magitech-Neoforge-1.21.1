@@ -57,9 +57,7 @@ public class ManaNetworkManager extends SavedData {
         }
 
         NetworkSnapshot newSnapshot = new NetworkSnapshot(combinedEndpoints, combinedWaypoints);
-        UUID uuid = UUID.randomUUID();
-
-        networks.put(uuid, new ManaNetworkInstance(newSnapshot));
+        UUID uuid = putNewNetwork(newSnapshot);
 
         for (HandlerEndpoint p : newSnapshot.endpoints()) {
             endpointIndex.put(p, uuid);
@@ -68,6 +66,8 @@ public class ManaNetworkManager extends SavedData {
 
     public void tick(Level level) {
         for (ManaNetworkInstance network : networks.values()) {
+            // ネットワークの定期更新処理
+            network.tick();
             if (network.isDirty()) {
                 rebuild(network, level);
             }
@@ -75,12 +75,24 @@ public class ManaNetworkManager extends SavedData {
     }
 
     private void rebuild(ManaNetworkInstance network, Level level) {
-        NetworkSnapshot snapshot = ManaNetworkScanner.scan(...);
+        Set<HandlerEndpoint> unconnectedEndpoints = network.getSnapshot().endpoints();
+        while (!unconnectedEndpoints.isEmpty()) {
+            HandlerEndpoint start = unconnectedEndpoints.iterator().next();
+            NetworkSnapshot snapshot = ManaNetworkScanner.scan(level, start.pos(), MAX_HOPS);
 
-        // 古いposToNetwork削除
-        // 新snapshot再登録
+            // 古いposToNetwork削除
+            // 新snapshot再登録
 
-        network.update(snapshot);
+            putNewNetwork(snapshot);
+
+            unconnectedEndpoints.removeAll(snapshot.endpoints());
+        }
+    }
+
+    private UUID putNewNetwork(NetworkSnapshot snapshot) {
+        UUID uuid = UUID.randomUUID();
+        networks.put(uuid, new ManaNetworkInstance(snapshot));
+        return uuid;
     }
 
     private static final Factory<ManaNetworkManager> FACTORY = new Factory<>(ManaNetworkManager::new, ((compoundTag, provider) -> new ManaNetworkManager()), null);
