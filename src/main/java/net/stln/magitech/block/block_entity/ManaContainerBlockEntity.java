@@ -15,18 +15,19 @@ import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.stln.magitech.api.mana.container.IManaContainerBlockEntity;
-import net.stln.magitech.api.mana.flow.ManaNetworkHelper;
 import net.stln.magitech.api.mana.flow.ManaTransferHelper;
+import net.stln.magitech.api.mana.flow.network.connectable.IWiredEndpointManaContainer;
 import net.stln.magitech.api.mana.handler.IBasicManaHandler;
 import net.stln.magitech.api.mana.handler.ContainerBlockEntityManaHandler;
 import net.stln.magitech.util.LongContainerData;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public abstract class ManaContainerBlockEntity extends BaseContainerBlockEntity implements IManaContainerBlockEntity {
+public abstract class ManaContainerBlockEntity extends BaseContainerBlockEntity implements IManaContainerBlockEntity, IWiredEndpointManaContainer {
 
     protected long mana;
     protected long maxMana;
@@ -36,7 +37,14 @@ public abstract class ManaContainerBlockEntity extends BaseContainerBlockEntity 
     // 表示用の滑らかな平均流量 (保存不要)
     protected float averageFlow = 0;
 
+    // キャッシュ(ネットワーク軽量化のため、毎Tickの再探索を避ける)
     protected Map<Direction, Set<IBasicManaHandler>> cachedSinks = null;
+    protected Map<Direction, ManaNetworkHelper.NetworkSnapshot> cachedNetworkSnapshot = null;
+    protected ManaNetworkHelper.NetworkFingerprint cachedNetworkFingerprint = null;
+    protected int ticksSinceLastNetworkRebuild = 0;
+    protected static final int MAX_HOPS = 64;
+    // スキャンリクエスト
+    protected boolean needsNetworkRescan = true;
 
 
     public LongContainerData dataAccess = new LongContainerData() {
@@ -70,6 +78,7 @@ public abstract class ManaContainerBlockEntity extends BaseContainerBlockEntity 
         this.mana = mana;
         this.maxMana = maxMana;
         this.maxFlow = maxManaFlow;
+        this.ticksSinceLastNetworkRebuild = level.random.nextInt(100); // 初期化時の同時更新を避けるためランダムオフセット
     }
 
     public ManaContainerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState, long maxMana, long maxManaFlow) {
@@ -103,22 +112,85 @@ public abstract class ManaContainerBlockEntity extends BaseContainerBlockEntity 
         this.updateFlowAverage();
         // Tick終了時にリセット
         this.currentTickTransfer = 0;
+        this.ticksSinceLastNetworkRebuild++;
+        // ネットワーク再スキャン処理
+        if (this.needsNetworkRescan || this.ticksSinceLastNetworkRebuild >= 100) {
+            // 定期的 or リクエストによる再スキャン
+            rescanNetwork(level);
+            this.needsNetworkRescan = false;
+        } else {
+            // 変化検出による再スキャンリクエスト
+            rescanNearbyNetwork(level);
+        }
         // 隣接ブロックへのマナ移動処理
         transferManaTick(level, pos, state);
     }
 
     protected void transferManaTick(Level level, BlockPos pos, BlockState state) {
         for (Direction dir : Direction.values()) {
-            Set<IBasicManaHandler> sinks = ManaNetworkHelper.findNetworkWithConnector(level, pos, dir, true);
+            Set<IBasicManaHandler> sinks = cachedSinks.get(dir);
             if (sinks.isEmpty()) continue;
             IBasicManaHandler source = ManaTransferHelper.getManaContainer(level, pos, dir);
             ManaTransferHelper.balance(source, sinks);
         }
     }
 
+    protected void rescanNearbyNetwork(Level level) {
+        // 毎Tick Fingerprintを計算して変化を検出
+        ManaNetworkHelper.NetworkFingerprint currentFingerprint = getCurrentFingerprint(level);
+        if (!currentFingerprint.equals(this.cachedNetworkFingerprint)) {
+            // 変化あり
+            this.requestRescan();
+        }
+    }
+
+    protected void rescanNetwork(Level level) {
+        Map<Direction, ManaNetworkHelper.NetworkSnapshot> newSnapshot = new HashMap<>();
+        for (Direction dir : Direction.values()) {
+            newSnapshot.put(dir, getNetworkSnapshot(level, dir));
+        }
+        if (!newSnapshot.equals(this.cachedNetworkSnapshot)) {
+            // 変化あり
+            this.cachedNetworkSnapshot = newSnapshot;
+            this.cachedNetworkFingerprint = getCurrentFingerprint(level);
+            this.ticksSinceLastNetworkRebuild = 0;
+            // キャッシュ再構築
+            rebuildCachedSinks(level, this.worldPosition);
+        }
+    }
+
     protected void rebuildCachedSinks(Level level, BlockPos pos) {
         for (Direction dir : Direction.values()) {
-            this.cachedSinks.put(dir, ManaNetworkHelper.findNetworkWithConnector(level, pos, null, false));
+            this.cachedSinks.put(dir, ManaNetworkHelper.findNetworkWithConnector(level, pos, dir, MAX_HOPS, true));
+        }
+    }
+
+    private ManaNetworkHelper.@NotNull NetworkFingerprint getCurrentFingerprint(Level level) {
+        return ManaNetworkHelper.computeFingerprint(level, this.worldPosition, MAX_HOPS);
+    }
+
+    private ManaNetworkHelper.@NotNull NetworkSnapshot getNetworkSnapshot(Level level, Direction dir) {
+        return ManaNetworkHelper.getConnectorNetworkSnapshot(level, this.worldPosition, dir, MAX_HOPS);
+    }
+
+    public void requestRescan() {
+        this.needsNetworkRescan = true;
+    }
+
+    @Override
+    public void onLoad() {
+        super.onLoad();
+    }
+
+    public void onRemove() {
+        rebuildCachedSinks(this.level, this.worldPosition);
+        for (Direction dir : Direction.values()) {
+            Set<IBasicManaHandler> sinks = cachedNetworkSnapshot.get(dir);
+            for (IBasicManaHandler sink : sinks) {
+                if (sink != null) {
+                    sink.get(this);
+                }
+            }
         }
     }
 
@@ -155,6 +227,17 @@ public abstract class ManaContainerBlockEntity extends BaseContainerBlockEntity 
         CompoundTag tag = super.getUpdateTag(pRegistries);
         tag.putLong("mana", this.mana);
         return tag;
+    }
+
+    @Override
+    public Set<Direction> getConnectableDirections(BlockState state) {
+        Set<Direction> connectableDirs = Set.of();
+        for (Direction dir : Direction.values()) {
+            if (!getManaFlowRule(state, dir).isNone()) {
+                connectableDirs.add(dir);
+            }
+        }
+        return connectableDirs;
     }
 
     protected void updateFlowAverage() {

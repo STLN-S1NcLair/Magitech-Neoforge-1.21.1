@@ -118,7 +118,7 @@ public class ManaTransferHelper {
         }
     }
 
-    public static @Nullable IBlockManaHandler getManaContainer(Level level, BlockPos pos, @NotNull Direction direction) {
+    public static @Nullable IBlockManaHandler getManaContainer(Level level, BlockPos pos, @Nullable Direction direction) {
         return level.getCapability(ManaCapabilities.MANA_CONTAINER, pos, level.getBlockState(pos), level.getBlockEntity(pos), direction);
     }
 }

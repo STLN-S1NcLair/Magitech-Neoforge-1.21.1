@@ -9,9 +9,6 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -24,13 +21,14 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.stln.magitech.block.block_entity.ManaNodeBlockEntity;
+import net.stln.magitech.api.mana.flow.network.connectable.IManaNode;
 import net.stln.magitech.particle.particle_option.SquareParticleEffect;
 import net.stln.magitech.util.VoxelShapeUtil;
-import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
-public class ManaNodeBlock extends ManaContainerBlock implements SimpleWaterloggedBlock {
+import java.util.Set;
+
+public class ManaNodeBlock extends Block implements SimpleWaterloggedBlock, IManaNode {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final VoxelShape SHAPE_UP = Shapes.or(
@@ -112,20 +110,6 @@ public class ManaNodeBlock extends ManaContainerBlock implements SimpleWaterlogg
         }
     }
 
-    // ★ EntityBlockの実装: BlockEntityを生成する
-    @Nullable
-    @Override
-    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new ManaNodeBlockEntity(pos, state);
-    }
-
-    // ★ EntityBlockの実装: Tick処理を紐付ける
-    @Nullable
-    @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return createTickerHelper(type, BlockInit.MANA_NODE_ENTITY.get(), ManaNodeBlockEntity::tick);
-    }
-
     @Override
     protected FluidState getFluidState(BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
@@ -134,5 +118,15 @@ public class ManaNodeBlock extends ManaContainerBlock implements SimpleWaterlogg
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING, WATERLOGGED);
+    }
+
+    @Override
+    public Set<Direction> getConnectableDirections(BlockState state) {
+        return Set.of(state.getValue(FACING).getOpposite());
+    }
+
+    @Override
+    public int getRange() {
+        return 3;
     }
 }

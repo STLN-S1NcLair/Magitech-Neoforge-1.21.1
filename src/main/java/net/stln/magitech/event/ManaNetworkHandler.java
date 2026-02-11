@@ -8,7 +8,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.api.mana.flow.IManaNode;
+import net.stln.magitech.api.mana.flow.network.connectable.IManaNode;
 import net.stln.magitech.block.ManaNodeBlock;
 
 @EventBusSubscriber(modid = Magitech.MOD_ID)

@@ -126,9 +126,6 @@ public class BlockInit {
             ManaNodeBlock::new,
             BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(CRYSTAL_SOUND).lightLevel((blockState) -> 10));
     public static final DeferredItem<BlockItem> MANA_NODE_ITEM = ItemInit.ITEMS.register("mana_node", key -> new TooltipTextBlockItem(MANA_NODE.get(), new Item.Properties()));
-    public static final Supplier<BlockEntityType<ManaNodeBlockEntity>> MANA_NODE_ENTITY =
-            BLOCK_ENITIES.register("mana_node", () -> BlockEntityType.Builder.of(
-                    ManaNodeBlockEntity::new, BlockInit.MANA_NODE.get()).build(null));
 
 
 
@@ -183,9 +180,6 @@ public class BlockInit {
             ManaJunctionBlock::new,
             BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(SoundType.NETHERITE_BLOCK).lightLevel((blockState) -> 5).noOcclusion());
     public static final DeferredItem<BlockItem> MANA_JUNCTION_ITEM = ItemInit.ITEMS.register("mana_junction", key -> new TooltipTextBlockItem(MANA_JUNCTION.get(), new Item.Properties()));
-    public static final Supplier<BlockEntityType<ManaJunctionBlockEntity>> MANA_JUNCTION_ENTITY =
-            BLOCK_ENITIES.register("mana_junction", () -> BlockEntityType.Builder.of(
-                    ManaJunctionBlockEntity::new, BlockInit.MANA_JUNCTION.get()).build(null));
 
 
 

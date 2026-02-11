@@ -3,35 +3,19 @@ package net.stln.magitech.block;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.Component;
-import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.MenuProvider;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
-import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.EnumProperty;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.Vec3;
-import net.stln.magitech.block.block_entity.ManaJunctionBlockEntity;
-import net.stln.magitech.block.block_entity.ManaNodeBlockEntity;
-import net.stln.magitech.particle.particle_option.SquareParticleEffect;
-import org.joml.Vector3f;
+import net.stln.magitech.api.mana.flow.network.connectable.IManaConnector;
 
 import javax.annotation.Nullable;
+import java.util.Set;
 
-public class ManaJunctionBlock extends ManaContainerBlock {
+public class ManaJunctionBlock extends ManaContainerBlock implements IManaConnector {
 
     public static final MapCodec<ManaJunctionBlock> CODEC = simpleCodec(ManaJunctionBlock::new);
 
@@ -72,5 +56,10 @@ public class ManaJunctionBlock extends ManaContainerBlock {
             }
         }
         super.onRemove(state, level, pos, newState, movedByPiston);
+    }
+
+    @Override
+    public Set<Direction> getConnectableDirections(BlockState state) {
+        return Set.of(Direction.values());
     }
 }
