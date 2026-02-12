@@ -6,7 +6,7 @@ import net.stln.magitech.api.mana.flow.network.ConnectionMode;
 
 import java.util.Set;
 
-public interface IManaNode extends IManaWaypoint {
+public interface IManaNode extends IManaWirelessWaypoint {
 
     @Override
     default Set<ConnectionMode> getConnectableModes(BlockState state) {

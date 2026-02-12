@@ -26,6 +26,10 @@ public class ManaNetworkManager extends SavedData {
     public ManaNetworkManager() {}
 
     public void requestRebuild(ServerLevel level, BlockPos pos) {
+
+        // 端点または中継点であれば接続ネットワークの更新
+        //
+
         // TODO: 整合性確認
         // 端点チェック
         Set<Direction> directions = Set.of(Direction.values());
@@ -39,6 +43,9 @@ public class ManaNetworkManager extends SavedData {
             if (id != null) {
                 networks.get(id).markDirty();
                 hasEndpoint = true;
+            } else {
+                // 新ネットワーク構築
+                buildNewNetwork(level, pos);
             }
         }
 
@@ -48,8 +55,8 @@ public class ManaNetworkManager extends SavedData {
              if (id != null) {
                  networks.get(id).markDirty();
             } else {
-                    // 新ネットワーク構築
-                    buildNewNetwork(level, pos);
+                 // 新ネットワーク構築
+                 buildNewNetwork(level, pos);
              }
         } else {
             buildNewNetwork();
