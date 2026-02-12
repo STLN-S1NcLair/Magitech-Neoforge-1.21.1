@@ -1,6 +1,7 @@
 package net.stln.magitech.api.mana.flow.network.manager;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -18,17 +19,40 @@ public class ManaNetworkManager extends SavedData {
 
     private final Map<UUID, ManaNetworkInstance> networks = new HashMap<>();
     private final Map<HandlerEndpoint, UUID> endpointIndex = new HashMap<>();
+    private final Map<BlockPos, UUID> waypointIndex = new HashMap<>();
 
     private static final int MAX_HOPS = 1024;
 
     public ManaNetworkManager() {}
 
     public void requestRebuild(ServerLevel level, BlockPos pos) {
-        UUID id = endpointIndex.get(pos);
-        if (id != null) {
-            networks.get(id).markDirty();
+        // TODO: 整合性確認
+        // 端点チェック
+        Set<Direction> directions = Set.of(Direction.values());
+        directions.add(null); // nullは内部アクセス/無線アクセスを意味する
+        Set<HandlerEndpoint> requestEndpoints = directions.stream()
+                .map(dir -> new HandlerEndpoint(pos, dir))
+                .collect(Collectors.toSet());
+        boolean hasEndpoint = false; // 変更点にHandlerEndpointがあるか
+        for (HandlerEndpoint endpoint : requestEndpoints) {
+            UUID id = endpointIndex.get(endpoint);
+            if (id != null) {
+                networks.get(id).markDirty();
+                hasEndpoint = true;
+            }
+        }
+
+        // 中継点チェック(端点の場合はチェック済み)
+        if (!hasEndpoint) {
+            UUID id = waypointIndex.get(pos);
+             if (id != null) {
+                 networks.get(id).markDirty();
+            } else {
+                    // 新ネットワーク構築
+                    buildNewNetwork(level, pos);
+             }
         } else {
-            buildNewNetwork(level, pos);
+            buildNewNetwork();
         }
     }
 
@@ -43,9 +67,6 @@ public class ManaNetworkManager extends SavedData {
         Set<BlockPos> combinedWaypoints = new HashSet<>(snapshot.waypoints());
         for (ManaNetworkInstance network : overlapped) {
             // 古いposToNetwork削除
-            for (HandlerEndpoint p : network.getSnapshot().endpoints()) {
-                endpointIndex.remove(p);
-            }
             // ネットワーク統合
             boolean changed = combinedEndpoints.addAll(network.getSnapshot().endpoints());
             changed |= combinedWaypoints.addAll(network.getSnapshot().waypoints());
@@ -53,15 +74,11 @@ public class ManaNetworkManager extends SavedData {
                 // ネットワークが変化した場合は異常: 通知
                 Magitech.LOGGER.warn("Mana network overlap detected during build at {}, merged {} endpoints and {} waypoints", start, combinedEndpoints.size(), combinedWaypoints.size());
             }
-            networks.remove(network);
+            removeNetwork(network);
         }
 
         NetworkSnapshot newSnapshot = new NetworkSnapshot(combinedEndpoints, combinedWaypoints);
-        UUID uuid = putNewNetwork(newSnapshot);
-
-        for (HandlerEndpoint p : newSnapshot.endpoints()) {
-            endpointIndex.put(p, uuid);
-        }
+        putNewNetwork(newSnapshot);
     }
 
     public void tick(Level level) {
@@ -87,11 +104,33 @@ public class ManaNetworkManager extends SavedData {
 
             unconnectedEndpoints.removeAll(snapshot.endpoints());
         }
+        removeNetwork(network);
     }
 
+    // ネットワーク削除
+    private void removeNetwork(ManaNetworkInstance networkInstance) {
+        if (networkInstance != null && networks.containsValue(networkInstance)) {
+            for (HandlerEndpoint p : networkInstance.getSnapshot().endpoints()) {
+                endpointIndex.remove(p);
+            }
+            for (BlockPos p : networkInstance.getSnapshot().waypoints()) {
+                waypointIndex.remove(p);
+            }
+            networks.values().remove(networkInstance);
+        }
+    }
+
+    // 新ネットワーク登録
     private UUID putNewNetwork(NetworkSnapshot snapshot) {
         UUID uuid = UUID.randomUUID();
         networks.put(uuid, new ManaNetworkInstance(snapshot));
+
+        for (HandlerEndpoint p : snapshot.endpoints()) {
+            endpointIndex.put(p, uuid);
+        }
+        for (BlockPos p : snapshot.waypoints()) {
+            waypointIndex.put(p, uuid);
+        }
         return uuid;
     }
 

@@ -103,7 +103,7 @@ public class ManaNetworkScanner {
     }
 
     private static void scanWireless(Level level, ScanNode node, BlockState state, Queue<ScanNode> queue, Set<BlockPos> visitedWireless, Set<HandlerEndpoint> endpoints) {
-        // TODO: 無線モードの探索ロジック
+        // 無線モードの探索ロジック
         // 例: 一定範囲内のブロックを探索し、視認可能かつNodeならノードとして登録し有線モードで追加、無線対応のHandlerなら終端として登録して終了
 
         Block block = state.getBlock();
