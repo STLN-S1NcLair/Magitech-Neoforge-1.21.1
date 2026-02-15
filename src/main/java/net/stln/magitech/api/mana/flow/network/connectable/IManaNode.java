@@ -20,4 +20,9 @@ public interface IManaNode extends IManaWirelessWaypoint {
             case WIRED -> Set.of(ConnectionMode.WIRED, ConnectionMode.WIRELESS);
         };
     }
+
+    @Override
+    default int maxWirelessConnections() {
+        return 1;
+    }
 }

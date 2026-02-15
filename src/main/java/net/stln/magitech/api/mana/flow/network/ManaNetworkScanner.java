@@ -25,7 +25,7 @@ import java.util.Set;
 
 public class ManaNetworkScanner {
 
-    public static NetworkSnapshot scan(Level level, BlockPos start, @Nullable Direction startSide, int maxHops) {
+    public static NetworkSnapshot scan(Level level, BlockPos start, @Nullable Direction startSide, boolean isEndpoint, int maxHops) {
         Set<ConnectionKey> visitedWired = new HashSet<>();
         Set<ConnectionKey> visitedWireless = new HashSet<>();
 
@@ -34,11 +34,33 @@ public class ManaNetworkScanner {
 
         Queue<ScanNode> queue = new ArrayDeque<>();
 
-        if (startSide != null) {
-            queue.add(new ScanNode(new ConnectionKey(start, startSide), ConnectionMode.WIRED, 0));
+
+        // 中継点の場合接続可能なすべての方向についてスキャンを開始、Handlerの場合はstartSideの方向でスキャンを開始、無線アクセスの場合はside=nullでスキャンを開始
+        if (!isEndpoint) {
+            if (level.getBlockState(start).getBlock() instanceof IManaWaypoint connectable) {
+                for (ConnectionMode mode : connectable.getConnectableModes(level.getBlockState(start))) {
+                    if (mode == ConnectionMode.WIRED) {
+                        for (Direction dir : Direction.values()) {
+                            if (connectable.getConnectableDirections(level.getBlockState(start)).contains(dir)
+                            ) {
+
+                                queue.add(new ScanNode(new ConnectionKey(start, dir), ConnectionMode.WIRED, 0));
+                                visitedWired.add(new ConnectionKey(start, dir));
+                            }
+                        }
+                    } else {
+                        queue.add(new ScanNode(new ConnectionKey(start, null), mode, 0));
+                        visitedWireless.add(new ConnectionKey(start, null));
+                    }
+                }
+            }
         } else {
-            queue.add(new ScanNode(new ConnectionKey(start, null), ConnectionMode.WIRELESS, 0));
-            visitedWireless.add(new ConnectionKey(start, null));
+            if (startSide != null) {
+                queue.add(new ScanNode(new ConnectionKey(start, startSide), ConnectionMode.WIRED, 0));
+            } else {
+                queue.add(new ScanNode(new ConnectionKey(start, null), ConnectionMode.WIRELESS, 0));
+                visitedWireless.add(new ConnectionKey(start, null));
+            }
         }
 
         Block startBlock = level.getBlockState(start).getBlock();
@@ -125,7 +147,10 @@ public class ManaNetworkScanner {
         BlockPos pos = node.key.pos;
         if (block instanceof IManaWirelessWaypoint wirelessWaypoint && wirelessWaypoint.getConnectableModes(state).contains(ConnectionMode.WIRELESS)) {
             int range = wirelessWaypoint.getRange();
+            int maxConnections = wirelessWaypoint.maxWirelessConnections();
+            int connections = 0;
             for (BlockPos targetPos : BlockPos.betweenClosed(pos.offset(-range, -range, -range), pos.offset(range, range, range))) {
+                if (connections >= maxConnections) break;
                 if (targetPos.equals(pos)) continue;
 
 
@@ -140,6 +165,7 @@ public class ManaNetworkScanner {
                 if (targetBlock instanceof IManaWaypoint waypoint && waypoint.getConnectableModes(targetState).contains(ConnectionMode.WIRELESS)) {
 
                     visitedWireless.add(new ConnectionKey(targetPos, null));
+                    connections++;
 
                     // 中継点
                     for (ConnectionMode nextMode : waypoint.getNextScanModes(ConnectionMode.WIRELESS, null, targetState)) {
