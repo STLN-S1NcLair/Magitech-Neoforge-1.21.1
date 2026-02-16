@@ -12,9 +12,4 @@ public interface IManaConnector extends IManaWaypoint {
     default Set<ConnectionMode> getConnectableModes(BlockState state) {
         return Set.of(ConnectionMode.WIRED);
     }
-
-    @Override
-    default Set<ConnectionMode> getNextScanModes(ConnectionMode currentMode, Direction fromSide, BlockState state) {
-        return Set.of(ConnectionMode.WIRED);
-    }
 }

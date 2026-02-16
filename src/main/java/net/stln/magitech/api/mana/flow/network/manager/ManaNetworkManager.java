@@ -12,6 +12,7 @@ import net.stln.magitech.api.mana.flow.network.HandlerEndpoint;
 import net.stln.magitech.api.mana.flow.network.ManaNetworkScanner;
 import net.stln.magitech.api.mana.flow.network.NetworkSnapshot;
 
+import javax.annotation.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -25,14 +26,14 @@ public class ManaNetworkManager extends SavedData {
 
     public ManaNetworkManager() {}
 
-    public void requestRebuild(ServerLevel level, BlockPos pos) {
+    public void requestRebuild(ServerLevel level, BlockPos pos, @Nullable Direction side) {
 
         // 端点または中継点であれば接続ネットワークの更新
         //
 
         // TODO: 整合性確認
         // 端点チェック
-        Set<Direction> directions = Set.of(Direction.values());
+        Set<Direction> directions = new HashSet<>(List.of(Direction.values()));
         directions.add(null); // nullは内部アクセス/無線アクセスを意味する
         Set<HandlerEndpoint> requestEndpoints = directions.stream()
                 .map(dir -> new HandlerEndpoint(pos, dir))
@@ -45,7 +46,7 @@ public class ManaNetworkManager extends SavedData {
                 hasEndpoint = true;
             } else {
                 // 新ネットワーク構築
-                buildNewNetwork(level, pos);
+                buildNewNetwork(level, pos, side);
             }
         }
 
@@ -54,17 +55,17 @@ public class ManaNetworkManager extends SavedData {
             UUID id = waypointIndex.get(pos);
              if (id != null) {
                  networks.get(id).markDirty();
-            } else {
+             } else {
                  // 新ネットワーク構築
-                 buildNewNetwork(level, pos);
+                 buildNewNetwork(level, pos, side);
              }
         } else {
-            buildNewNetwork();
+            buildNewNetwork(level, pos, side);
         }
     }
 
-    private void buildNewNetwork(ServerLevel level, BlockPos start) {
-        NetworkSnapshot snapshot = ManaNetworkScanner.scan(level, start, MAX_HOPS);
+    private void buildNewNetwork(ServerLevel level, BlockPos start, @Nullable Direction side) {
+        NetworkSnapshot snapshot = ManaNetworkScanner.scan(level, start, side, MAX_HOPS);
 
         Set<ManaNetworkInstance> overlapped = networks.values().stream()
                 .filter(n -> !Collections.disjoint(n.getSnapshot().endpoints(), snapshot.endpoints()))
@@ -102,7 +103,7 @@ public class ManaNetworkManager extends SavedData {
         Set<HandlerEndpoint> unconnectedEndpoints = network.getSnapshot().endpoints();
         while (!unconnectedEndpoints.isEmpty()) {
             HandlerEndpoint start = unconnectedEndpoints.iterator().next();
-            NetworkSnapshot snapshot = ManaNetworkScanner.scan(level, start.pos(), MAX_HOPS);
+            NetworkSnapshot snapshot = ManaNetworkScanner.scan(level, start.pos(), start.direction(), MAX_HOPS);
 
             // 古いposToNetwork削除
             // 新snapshot再登録
