@@ -39,9 +39,6 @@ public abstract class ManaContainerBlockEntity extends BaseContainerBlockEntity 
 
     // キャッシュ(ネットワーク軽量化のため、毎Tickの再探索を避ける)
     protected Map<Direction, Set<IBasicManaHandler>> cachedSinks = null;
-    protected Map<Direction, ManaNetworkHelper.NetworkSnapshot> cachedNetworkSnapshot = null;
-    protected ManaNetworkHelper.NetworkFingerprint cachedNetworkFingerprint = null;
-    protected int ticksSinceLastNetworkRebuild = 0;
     protected static final int MAX_HOPS = 64;
     // スキャンリクエスト
     protected boolean needsNetworkRescan = true;

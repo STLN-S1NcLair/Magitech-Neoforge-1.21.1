@@ -11,7 +11,6 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.stln.magitech.api.mana.flow.network.connectable.IManaConnectable;
-import net.stln.magitech.api.mana.flow.network.connectable.IManaRelay;
 import net.stln.magitech.api.mana.flow.network.connectable.IManaWaypoint;
 import net.stln.magitech.api.mana.flow.ManaTransferHelper;
 import net.stln.magitech.api.mana.flow.network.connectable.IManaWirelessWaypoint;
@@ -32,6 +31,7 @@ public class ManaNetworkScanner {
 
         Set<HandlerEndpoint> endpoints = new HashSet<>();
         Set<BlockPos> waypoints = new HashSet<>();
+        Set<NetworkSnapshot.WirelessPath> wirelessPaths = new HashSet<>();
 
         Queue<ScanNode> queue = new ArrayDeque<>();
 
@@ -43,7 +43,7 @@ public class ManaNetworkScanner {
                     for (Direction dir : Direction.values()) {
                         if (waypoint.getConnectableDirections(level.getBlockState(start)).contains(dir)
                         ) {
-                            queue.add(new ScanNode(new ConnectionKey(start, dir), ConnectionMode.WIRED, 0));
+                            queue.add(new ScanNode(new ConnectionKey(start, dir), ConnectionMode.WIRED, new NetworkSnapshot.WirelessPath(start), 0));
                             visitedWired.add(new ConnectionKey(start, dir));
                         }
                     }
@@ -84,10 +84,10 @@ public class ManaNetworkScanner {
             if (node.mode == ConnectionMode.WIRED) {
                 scanWired(level, node, state, queue, visitedWired, endpoints);
             } else {
-                scanWireless(level, node, state, queue, visitedWireless, endpoints);
+                scanWireless(level, node, state, queue, visitedWireless, endpoints, wirelessPaths);
             }
         }
-        return new NetworkSnapshot(endpoints, waypoints);
+        return new NetworkSnapshot(endpoints, waypoints, wirelessPaths);
     }
 
     // Handlerを収集できたらHandlerを返す
@@ -145,7 +145,8 @@ public class ManaNetworkScanner {
         }
     }
 
-    private static void scanWireless(Level level, ScanNode node, BlockState state, Queue<ScanNode> queue, Set<ConnectionKey> visitedWireless, Set<HandlerEndpoint> endpoints) {
+    private static void scanWireless(Level level, ScanNode node, BlockState state, Queue<ScanNode> queue,
+                                     Set<ConnectionKey> visitedWireless, Set<HandlerEndpoint> endpoints, Set<NetworkSnapshot.WirelessPath> wirelessPaths) {
         // 無線モードの探索ロジック
         // 例: 一定範囲内のブロックを探索し、視認可能かつNodeならノードとして登録し有線モードで追加、無線対応のHandlerなら終端として登録して終了
 
@@ -174,7 +175,9 @@ public class ManaNetworkScanner {
                         queue.add(new ScanNode(new ConnectionKey(targetPos, null), nextMode, node.depth + 1));
                     }
                 }
-                collectHandler(level, targetPos, endpoints, ConnectionMode.WIRELESS, null);
+                if (collectHandler(level, targetPos, endpoints, ConnectionMode.WIRELESS, null)) {
+                    wirelessPaths.add(new NetworkSnapshot.WirelessPath(pos, targetPos));
+                }
             }
         }
     }
@@ -193,21 +196,22 @@ public class ManaNetworkScanner {
         return hitResult.getType() == HitResult.Type.MISS;
     }
 
-    // Handlerを収集できたらHandlerを返す
-    private static void collectHandler(Level level, BlockPos pos, Set<HandlerEndpoint> endpoints, ConnectionMode mode, @Nullable Direction side) {
+    // Handlerを収集できたらtrueを返す
+    private static boolean collectHandler(Level level, BlockPos pos, Set<HandlerEndpoint> endpoints, ConnectionMode mode, @Nullable Direction side) {
         if (!endpoints.contains(new HandlerEndpoint(pos, side)) && level.getBlockEntity(pos) instanceof IManaConnectable connectable
                 && connectable.getConnectableModes(level.getBlockState(pos)).contains(mode)) {
             IBlockManaHandler handler = ManaTransferHelper.getManaContainer(level, pos, side);
             if (handler != null) {
                 // 終端
                 endpoints.add(new HandlerEndpoint(pos, side));
-                return;
+                return true;
             }
         }
+        return false;
     }
 
     // sideがnullの場合、無線アクセスを意味する
     record ConnectionKey(BlockPos pos, @Nullable Direction side) {}
 
-    record ScanNode(ConnectionKey key, ConnectionMode mode, int depth) {}
+    record ScanNode(ConnectionKey key, ConnectionMode mode, NetworkSnapshot.WirelessPath currentPath, int depth) {}
 }

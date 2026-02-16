@@ -142,6 +142,22 @@ public class ManaNetworkManager extends SavedData {
         return uuid;
     }
 
+    public Set<HandlerEndpoint> getEndpointsInNetwork(UUID networkId) {
+        ManaNetworkInstance instance = networks.get(networkId);
+        if (instance != null) {
+            return instance.getSnapshot().endpoints();
+        }
+        return Collections.emptySet();
+    }
+
+    public UUID getNetworkIdForEndpoint(HandlerEndpoint endpoint) {
+        return endpointIndex.get(endpoint);
+    }
+
+    public UUID getNetworkIdForWaypoint(BlockPos waypoint) {
+        return waypointIndex.get(waypoint);
+    }
+
     private static final Factory<ManaNetworkManager> FACTORY = new Factory<>(ManaNetworkManager::new, ((compoundTag, provider) -> new ManaNetworkManager()), null);
 
     public static ManaNetworkManager get(ServerLevel level) {
