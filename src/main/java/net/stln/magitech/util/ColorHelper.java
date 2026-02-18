@@ -202,7 +202,7 @@ public class ColorHelper {
         }
 
         /**
-         * {@return the ARGB color value from its components}
+         * {@return the ARGB color value parent its components}
          */
         public static int getArgb(int alpha, int red, int green, int blue) {
             return alpha << 24 | red << 16 | green << 8 | blue;

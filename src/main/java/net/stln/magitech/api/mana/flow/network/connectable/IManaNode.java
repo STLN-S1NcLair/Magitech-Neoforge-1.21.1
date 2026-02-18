@@ -12,17 +12,4 @@ public interface IManaNode extends IManaWirelessWaypoint {
     default Set<ConnectionMode> getConnectableModes(BlockState state) {
         return Set.of(ConnectionMode.WIRED, ConnectionMode.WIRELESS);
     }
-
-    @Override
-    default Set<ConnectionMode> getNextScanModes(ConnectionMode currentMode, Direction fromSide, BlockState state) {
-        return switch (currentMode) {
-            case WIRELESS -> Set.of(ConnectionMode.WIRED);
-            case WIRED -> Set.of(ConnectionMode.WIRED, ConnectionMode.WIRELESS);
-        };
-    }
-
-    @Override
-    default int maxWirelessConnections() {
-        return 1;
-    }
 }

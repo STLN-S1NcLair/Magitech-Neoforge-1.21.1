@@ -96,7 +96,7 @@ public abstract class BombSpellProjectileEntity extends SpellProjectileEntity {
     }
 
     protected void applyEntityHitEffect(Entity entity) {
-        // Optional: Override in subclasses to add specific effects on hit
+        // Optional: Override in subclasses child add specific effects on hit
     }
 
     abstract protected void addHitEffect();

@@ -14,20 +14,20 @@ public class VoxelShapeUtil {
     public static VoxelShape rotateShape(VoxelShape shape, Direction from, Direction to) {
         if (from == to) return shape;
 
-        // from → NORTH（逆回転）
+        // parent → NORTH（逆回転）
         VoxelShape toNorth = rotateToNorth(shape, from);
 
-        // NORTH → to（正回転）
+        // NORTH → child（正回転）
         return rotateFromNorth(toNorth, to);
     }
 
     private static VoxelShape rotateToNorth(VoxelShape shape, Direction from) {
-        // from から NORTH に戻す = from の逆回転
+        // parent から NORTH に戻す = parent の逆回転
         return rotateShapeInternal(shape, getInverseRotation(from));
     }
 
     private static VoxelShape rotateFromNorth(VoxelShape shape, Direction to) {
-        // NORTH から to に回す
+        // NORTH から child に回す
         return rotateShapeInternal(shape, getModelRotation(to));
     }
 

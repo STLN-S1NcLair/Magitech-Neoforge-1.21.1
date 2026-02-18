@@ -5,22 +5,16 @@ import net.minecraft.core.BlockPos;
 
 import java.util.Set;
 
-public record NetworkSnapshot(Set<HandlerEndpoint> endpoints, Set<BlockPos> waypoints, Set<WirelessEdge> wirelessPaths) {
+public record NetworkSnapshot(Set<HandlerEndpoint> endpoints, Set<BlockPos> waypoints, NetworkTree networkTree) {
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (!(obj instanceof NetworkSnapshot(Set<HandlerEndpoint> endpoints, Set<BlockPos> waypoints, Set<WirelessEdge> wirelessPaths))) {
+        if (!(obj instanceof NetworkSnapshot(Set<HandlerEndpoint> endpoints, Set<BlockPos> waypoints, NetworkTree networkTree))) {
             return false;
         } else {
             return this.endpoints.equals(endpoints) &&
                     this.waypoints.equals(waypoints) &&
-                    this.wirelessPaths.equals(wirelessPaths);
+                    this.networkTree.equals(networkTree);
         }
-    }
-
-    public record WirelessEdge(BlockPos from, BlockPos to) {
-    }
-
-    public record WirelessPath(BlockPos from, BlockPos to, Set<WirelessEdge> edges) {
     }
 }

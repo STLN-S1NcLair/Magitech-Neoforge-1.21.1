@@ -12,14 +12,4 @@ public interface IManaRelay extends IManaWirelessWaypoint {
     default Set<ConnectionMode> getConnectableModes(BlockState state) {
         return Set.of(ConnectionMode.WIRELESS);
     }
-
-    @Override
-    default Set<ConnectionMode> getNextScanModes(ConnectionMode currentMode, Direction fromSide, BlockState state) {
-        return Set.of(ConnectionMode.WIRELESS);
-    }
-
-    @Override
-    default int maxWirelessConnections() {
-        return Integer.MAX_VALUE;
-    }
 }

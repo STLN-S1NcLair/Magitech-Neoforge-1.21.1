@@ -28,7 +28,7 @@ import org.joml.Vector3f;
 
 import java.util.Set;
 
-public class ManaNodeBlock extends Block implements SimpleWaterloggedBlock, IManaNode {
+public class ManaNodeBlock extends ManaConnectableBlock implements SimpleWaterloggedBlock, IManaNode {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final VoxelShape SHAPE_UP = Shapes.or(

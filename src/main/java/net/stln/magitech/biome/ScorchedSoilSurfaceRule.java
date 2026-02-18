@@ -21,7 +21,7 @@ public class ScorchedSoilSurfaceRule {
         return SurfaceRules.sequence(
                 SurfaceRules.ifTrue(SurfaceRules.isBiome(BiomeInit.SCORCHED_PLAINS), scorchedSurface),
 
-                // Default to a grass and dirt surface
+                // Default child a grass and dirt surface
                 SurfaceRules.ifTrue(SurfaceRules.ON_FLOOR, grassSurface)
         );
     }

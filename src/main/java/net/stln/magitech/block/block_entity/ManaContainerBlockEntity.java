@@ -8,6 +8,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
@@ -17,6 +18,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.stln.magitech.api.mana.container.IManaContainerBlockEntity;
 import net.stln.magitech.api.mana.flow.ManaTransferHelper;
 import net.stln.magitech.api.mana.flow.network.connectable.IWiredEndpointManaContainer;
+import net.stln.magitech.api.mana.flow.network.manager.ManaNetworkManager;
 import net.stln.magitech.api.mana.handler.IBasicManaHandler;
 import net.stln.magitech.api.mana.handler.ContainerBlockEntityManaHandler;
 import net.stln.magitech.util.LongContainerData;
@@ -75,7 +77,6 @@ public abstract class ManaContainerBlockEntity extends BaseContainerBlockEntity 
         this.mana = mana;
         this.maxMana = maxMana;
         this.maxFlow = maxManaFlow;
-        this.ticksSinceLastNetworkRebuild = level.random.nextInt(100); // 初期化時の同時更新を避けるためランダムオフセット
     }
 
     public ManaContainerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState, long maxMana, long maxManaFlow) {
@@ -109,85 +110,23 @@ public abstract class ManaContainerBlockEntity extends BaseContainerBlockEntity 
         this.updateFlowAverage();
         // Tick終了時にリセット
         this.currentTickTransfer = 0;
-        this.ticksSinceLastNetworkRebuild++;
-        // ネットワーク再スキャン処理
-        if (this.needsNetworkRescan || this.ticksSinceLastNetworkRebuild >= 100) {
-            // 定期的 or リクエストによる再スキャン
-            rescanNetwork(level);
-            this.needsNetworkRescan = false;
-        } else {
-            // 変化検出による再スキャンリクエスト
-            rescanNearbyNetwork(level);
-        }
-        // 隣接ブロックへのマナ移動処理
-        transferManaTick(level, pos, state);
     }
 
-    protected void transferManaTick(Level level, BlockPos pos, BlockState state) {
-        for (Direction dir : Direction.values()) {
-            Set<IBasicManaHandler> sinks = cachedSinks.get(dir);
-            if (sinks.isEmpty()) continue;
-            IBasicManaHandler source = ManaTransferHelper.getManaContainer(level, pos, dir);
-            ManaTransferHelper.balance(source, sinks);
-        }
-    }
+//    @Override
+//    public void onLoad() {
+//        super.onLoad();
+//        requestRebuildNetwork();
+//    }
+//
+//    @Override
+//    public void setRemoved() {
+//        super.setRemoved();
+//        requestRebuildNetwork();
+//    }
 
-    protected void rescanNearbyNetwork(Level level) {
-        // 毎Tick Fingerprintを計算して変化を検出
-        ManaNetworkHelper.NetworkFingerprint currentFingerprint = getCurrentFingerprint(level);
-        if (!currentFingerprint.equals(this.cachedNetworkFingerprint)) {
-            // 変化あり
-            this.requestRescan();
-        }
-    }
-
-    protected void rescanNetwork(Level level) {
-        Map<Direction, ManaNetworkHelper.NetworkSnapshot> newSnapshot = new HashMap<>();
-        for (Direction dir : Direction.values()) {
-            newSnapshot.put(dir, getNetworkSnapshot(level, dir));
-        }
-        if (!newSnapshot.equals(this.cachedNetworkSnapshot)) {
-            // 変化あり
-            this.cachedNetworkSnapshot = newSnapshot;
-            this.cachedNetworkFingerprint = getCurrentFingerprint(level);
-            this.ticksSinceLastNetworkRebuild = 0;
-            // キャッシュ再構築
-            rebuildCachedSinks(level, this.worldPosition);
-        }
-    }
-
-    protected void rebuildCachedSinks(Level level, BlockPos pos) {
-        for (Direction dir : Direction.values()) {
-            this.cachedSinks.put(dir, ManaNetworkHelper.findNetworkWithConnector(level, pos, dir, MAX_HOPS, true));
-        }
-    }
-
-    private ManaNetworkHelper.@NotNull NetworkFingerprint getCurrentFingerprint(Level level) {
-        return ManaNetworkHelper.computeFingerprint(level, this.worldPosition, MAX_HOPS);
-    }
-
-    private ManaNetworkHelper.@NotNull NetworkSnapshot getNetworkSnapshot(Level level, Direction dir) {
-        return ManaNetworkHelper.getConnectorNetworkSnapshot(level, this.worldPosition, dir, MAX_HOPS);
-    }
-
-    public void requestRescan() {
-        this.needsNetworkRescan = true;
-    }
-
-    @Override
-    public void onLoad() {
-        super.onLoad();
-    }
-
-    public void onRemove() {
-        rebuildCachedSinks(this.level, this.worldPosition);
-        for (Direction dir : Direction.values()) {
-            Set<IBasicManaHandler> sinks = cachedNetworkSnapshot.get(dir);
-            for (IBasicManaHandler sink : sinks) {
-                if (sink != null) {
-                    sink.get(this);
-                }
-            }
+    private void requestRebuildNetwork() {
+        if (level != null && !level.isClientSide && level instanceof ServerLevel serverLevel) {
+            ManaNetworkManager.get(serverLevel).requestRebuild(serverLevel, worldPosition);
         }
     }
 

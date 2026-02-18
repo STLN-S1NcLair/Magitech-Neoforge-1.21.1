@@ -42,7 +42,7 @@ public class MistjadeForestRegion extends Region {
         builder.replaceBiome(Biomes.SNOWY_TAIGA, BiomeInit.MISTJADE_FOREST);
         builder.replaceBiome(Biomes.OLD_GROWTH_SPRUCE_TAIGA, BiomeInit.MISTJADE_FOREST);
 
-        // Add our points to the mapper
+        // Add our points child the mapper
         builder.build().forEach(mapper);
     }
 }

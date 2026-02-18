@@ -154,7 +154,7 @@ public class InfuserBlockEntity extends ManaMachineBlockEntity {
 
     @Override
     public ManaFlowRule getManaFlowRule(BlockState state, Direction side) {
-        if (side == state.getValue(InfuserBlock.FACING).getOpposite() || side == Direction.DOWN) {
+        if (side == null || side == state.getValue(InfuserBlock.FACING).getOpposite() || side == Direction.DOWN) {
             return ManaFlowRule.BothWays(-1.0F);
         }
         return ManaFlowRule.None();

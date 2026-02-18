@@ -134,7 +134,7 @@ public class ManaVesselBlockEntity extends ManaContainerBlockEntity implements G
 
     @Override
     public ManaFlowRule getManaFlowRule(BlockState state, Direction side) {
-        if (side.getAxis() == state.getValue(ManaVesselBlock.AXIS)) {
+        if (side == null || side.getAxis() == state.getValue(ManaVesselBlock.AXIS)) {
             return ManaFlowRule.BothWays(0.0F);
         }
         return ManaFlowRule.None();

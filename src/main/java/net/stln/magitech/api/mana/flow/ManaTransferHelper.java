@@ -2,11 +2,19 @@ package net.stln.magitech.api.mana.flow;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.network.PacketDistributor;
 import net.stln.magitech.api.ManaCapabilities;
+import net.stln.magitech.api.mana.flow.network.NetworkTree;
 import net.stln.magitech.api.mana.handler.IBasicManaHandler;
 import net.stln.magitech.api.mana.handler.IBlockManaHandler;
 import net.stln.magitech.api.mana.handler.IManaHandler;
+import net.stln.magitech.network.ManaNodeTransferPayload;
+import net.stln.magitech.sound.SoundInit;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -39,7 +47,10 @@ public class ManaTransferHelper {
         return transferMana(source, sink, Long.MAX_VALUE);
     }
 
-    public static void balance(IBasicManaHandler source, Set<IBasicManaHandler> sinks) {
+    // 送信できたハンドラーのセットを返す (転送量はハンドラーごとに異なる)
+    public static Set<IBasicManaHandler> balance(IBasicManaHandler source, Set<IBasicManaHandler> sinks) {
+
+        Set<IBasicManaHandler> validSinks = new HashSet<>();
 
         // --- ステップ1: 参加者の選定と、ネットワーク全体の目標値計算 ---
         long totalMana = source.getEffectiveMana();
@@ -58,7 +69,7 @@ public class ManaTransferHelper {
             }
         }
 
-        if (sendSet.isEmpty()) return;
+        if (sendSet.isEmpty()) return Set.of();
 
         // ネットワーク全体の目標充填率
         double targetRatio = (double) totalMana / totalCapacity;
@@ -84,7 +95,7 @@ public class ManaTransferHelper {
             }
         }
 
-        if (totalDemand <= 0) return;
+        if (totalDemand <= 0) return Set.of();
 
         // --- ステップ3: ソースの「供給能力(Supply)」と「分配比率(Ratio)」の計算 ---
 
@@ -96,7 +107,7 @@ public class ManaTransferHelper {
         // 実際に放出できる量 = Min(余剰分, ソースの最大流量)
         long distributableMana = Math.min(excessMana, source.getMaxFlow());
 
-        if (distributableMana <= 0) return;
+        if (distributableMana <= 0) return Set.of();
 
         // 充足率 (1.0 = 全員の要望を満たせる, 0.5 = 半分しかあげられない)
         double supplyRatio = (double) distributableMana / totalDemand;
@@ -114,8 +125,10 @@ public class ManaTransferHelper {
             // 閾値判定 (10以下なら送らない)
             if (transferAmount > 10) {
                 ManaTransferHelper.transferMana(source, target, transferAmount);
+                validSinks.add(target);
             }
         }
+        return validSinks;
     }
 
     public static @Nullable IBlockManaHandler getManaContainer(Level level, BlockPos pos, @Nullable Direction direction) {

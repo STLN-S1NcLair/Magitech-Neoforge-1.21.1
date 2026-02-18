@@ -15,47 +15,15 @@ import net.stln.magitech.api.mana.flow.network.connectable.IManaConnector;
 import javax.annotation.Nullable;
 import java.util.Set;
 
-public class ManaJunctionBlock extends ManaContainerBlock implements IManaConnector {
-
-    public static final MapCodec<ManaJunctionBlock> CODEC = simpleCodec(ManaJunctionBlock::new);
+public class ManaJunctionBlock extends ManaConnectableBlock implements IManaConnector {
 
     protected ManaJunctionBlock(Properties properties) {
         super(properties);
     }
 
     @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return CODEC;
-    }
-
-    /* BLOCK ENTITY */
-
-    @Override
     protected RenderShape getRenderShape(BlockState state) {
         return RenderShape.MODEL;
-    }
-
-    @Nullable
-    @Override
-    public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return new ManaJunctionBlockEntity(blockPos, blockState);
-    }
-
-    // ★ EntityBlockの実装: Tick処理を紐付ける
-    @org.jetbrains.annotations.Nullable
-    @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return createTickerHelper(type, BlockInit.MANA_JUNCTION_ENTITY.get(), ManaJunctionBlockEntity::tick);
-    }
-
-    @Override
-    protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
-        if (state.getBlock() != newState.getBlock()) {
-            if (level.getBlockEntity(pos) instanceof ManaJunctionBlockEntity manaJunctionBlockEntity) {
-                level.updateNeighbourForOutputSignal(pos, this);
-            }
-        }
-        super.onRemove(state, level, pos, newState, movedByPiston);
     }
 
     @Override

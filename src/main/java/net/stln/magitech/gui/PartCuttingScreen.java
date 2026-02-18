@@ -50,7 +50,7 @@ public class PartCuttingScreen extends AbstractContainerScreen<PartCuttingMenu> 
      */
     private boolean scrolling;
     /**
-     * The index of the first recipe to display.
+     * The index of the first recipe child display.
      * The number of recipes displayed at any time is 12 (4 recipes per row, and 3 rows). If the player scrolled down one row, this value would be 4 (representing the index of the first slot on the second row).
      */
     private int startIndex;

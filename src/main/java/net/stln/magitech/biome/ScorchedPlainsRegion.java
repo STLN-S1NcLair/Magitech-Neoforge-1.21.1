@@ -43,7 +43,7 @@ public class ScorchedPlainsRegion extends Region {
         builder.replaceBiome(Biomes.ERODED_BADLANDS, BiomeInit.SCORCHED_PLAINS);
         builder.replaceBiome(Biomes.WOODED_BADLANDS, BiomeInit.SCORCHED_PLAINS);
 
-        // Add our points to the mapper
+        // Add our points child the mapper
         builder.build().forEach(mapper);
     }
 }

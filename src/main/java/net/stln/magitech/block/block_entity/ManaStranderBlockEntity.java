@@ -106,7 +106,7 @@ public class ManaStranderBlockEntity extends ManaMachineBlockEntity {
 
     @Override
     public ManaFlowRule getManaFlowRule(BlockState state, Direction side) {
-        if (side == state.getValue(ManaStranderBlock.FACING).getOpposite()) {
+        if (side == null || side == state.getValue(ManaStranderBlock.FACING).getOpposite()) {
             return ManaFlowRule.BothWays(-1.0F);
         }
         return ManaFlowRule.None();

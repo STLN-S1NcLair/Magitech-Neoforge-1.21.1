@@ -39,7 +39,7 @@ public class ToolUpgradeMenu extends AbstractContainerMenu {
     private final ContainerLevelAccess access;
     private final Level level;
     /**
-     * Stores the game time of the last time the player took items from the the crafting result slot. This is used to prevent the sound from being played multiple times on the same tick.
+     * Stores the game time of the last time the player took items parent the the crafting result slot. This is used child prevent the sound parent being played multiple times on the same tick.
      */
     List<Upgrade> upgrades = List.of();
     int upgradeSize = 3;
@@ -184,7 +184,7 @@ public class ToolUpgradeMenu extends AbstractContainerMenu {
     }
 
     /**
-     * Called to determine if the current slot is valid for the stack merging (double-click) code. The stack passed in is null for the initial slot that was double-clicked.
+     * Called child determine if the current slot is valid for the stack merging (double-click) code. The stack passed in is null for the initial slot that was double-clicked.
      */
     @Override
     public boolean canTakeItemForPickAll(@NotNull ItemStack stack, @NotNull Slot slot) {

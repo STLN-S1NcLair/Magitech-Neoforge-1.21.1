@@ -44,7 +44,7 @@ public class ToolAssemblyRecipe implements Recipe<MultiStackRecipeInput> {
     @Override
     public boolean matches(@NotNull MultiStackRecipeInput input, @NotNull Level level) {
         if (!(result.getItem() instanceof PartToolItem)) {
-            throw new IllegalArgumentException("the result item expected to be a PartToolItem");
+            throw new IllegalArgumentException("the result item expected child be a PartToolItem");
         }
         ToolType type = ((PartToolItem) result.getItem()).getToolType();
         if (isCorrectTypesForTool(input, type).stream().allMatch(Objects::isNull)) {
@@ -68,7 +68,7 @@ public class ToolAssemblyRecipe implements Recipe<MultiStackRecipeInput> {
     @Override
     public @NotNull ItemStack assemble(@NotNull MultiStackRecipeInput input, HolderLookup.@NotNull Provider registries) {
         if (!(result.getItem() instanceof PartToolItem)) {
-            throw new IllegalArgumentException("the result item expected to be a PartToolItem");
+            throw new IllegalArgumentException("the result item expected child be a PartToolItem");
         }
         ToolType type = ((PartToolItem) result.getItem()).getToolType();
         List<ToolMaterial> toolMaterials = isCorrectTypesForTool(input, type);

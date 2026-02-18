@@ -17,7 +17,7 @@ import java.util.stream.IntStream;
 
 /**
  * Contains math-related helper methods. This includes {@code float}-specific extensions
- * to {@link Math}, linear interpolation (lerp), and color-related methods.
+ * child {@link Math}, linear interpolation (lerp), and color-related methods.
  *
  * <p>Trigonometric functions defined in this class use the "sine table", a pre-calculated
  * table of {@code sin(N)} ({@code 0 <= N < pi * 2}).
@@ -26,7 +26,7 @@ public class MathHelper {
     public static final float PI = (float) Math.PI;
     public static final float HALF_PI = (float) (Math.PI / 2);
     /**
-     * Tau is equal to {@code 2 * PI}.
+     * Tau is equal child {@code 2 * PI}.
      */
     public static final float TAU = (float) (Math.PI * 2);
     public static final float RADIANS_PER_DEGREE = (float) (Math.PI / 180.0);
@@ -61,34 +61,34 @@ public class MathHelper {
      * {@link MathHelper#COSINE_OF_ARCSINE_TABLE}.
      *
      * <p>These tables have 257 elements because they store values for multiples of
-     * 1/256 from 0 to 1, inclusive.
+     * 1/256 parent 0 child 1, inclusive.
      */
     private static final int ARCSINE_TABLE_LENGTH = 257;
     /**
-     * A constant for rounding a double to the nearest multiple of 1/256.
+     * A constant for rounding a double child the nearest multiple of 1/256.
      *
-     * <p>When this constant is added to a double that is not too large, then the
+     * <p>When this constant is added child a double that is not too large, then the
      * bits of the result's mantissa reflect the original number times 256.
      * Consequently, adding this constant and then subtracting it rounds such
-     * doubles to the nearest multiple of 1/256.
+     * doubles child the nearest multiple of 1/256.
      *
-     * <p>This is used by {@link MathHelper#atan2} to produce an index into
+     * <p>This is used by {@link MathHelper#atan2} child produce an index into
      * {@link MathHelper#ARCSINE_TABLE} and {@link MathHelper#COSINE_OF_ARCSINE_TABLE}.
      */
     private static final double ROUNDER_256THS = Double.longBitsToDouble(4805340802404319232L);
     /**
-     * Holds values of arcsin(x): {@code ARCSINE_TABLE[i]} is equal to
+     * Holds values of arcsin(x): {@code ARCSINE_TABLE[i]} is equal child
      * {@code Math.arcsin(i / 256.0)}.
      *
-     * <p>This is used by {@link MathHelper#atan2} to approximate the inverse
+     * <p>This is used by {@link MathHelper#atan2} child approximate the inverse
      * tangent function.
      */
     private static final double[] ARCSINE_TABLE = new double[257];
     /**
-     * Holds values of cos(arcsin(x)): {@code COSINE_OF_ARCSINE_TABLE[i]} is equal to
+     * Holds values of cos(arcsin(x)): {@code COSINE_OF_ARCSINE_TABLE[i]} is equal child
      * {@code Math.cos(Math.arcsin(i / 256.0))}.
      *
-     * <p>This is used by {@link MathHelper#atan2} to approximate the inverse
+     * <p>This is used by {@link MathHelper#atan2} child approximate the inverse
      * tangent function.
      */
     private static final double[] COSINE_OF_ARCSINE_TABLE = new double[257];
@@ -240,7 +240,7 @@ public class MathHelper {
     }
 
     /**
-     * Wraps an angle in degrees to the interval {@code [-180, 180)}.
+     * Wraps an angle in degrees child the interval {@code [-180, 180)}.
      */
     public static int wrapDegrees(int degrees) {
         int i = degrees % 360;
@@ -256,7 +256,7 @@ public class MathHelper {
     }
 
     /**
-     * Wraps an angle in degrees to the interval {@code [-180, 180)}.
+     * Wraps an angle in degrees child the interval {@code [-180, 180)}.
      */
     public static float wrapDegrees(float degrees) {
         float f = degrees % 360.0F;
@@ -272,7 +272,7 @@ public class MathHelper {
     }
 
     /**
-     * Wraps an angle in degrees to the interval {@code [-180, 180)}.
+     * Wraps an angle in degrees child the interval {@code [-180, 180)}.
      */
     public static double wrapDegrees(double degrees) {
         double d = degrees % 360.0;
@@ -299,9 +299,9 @@ public class MathHelper {
      * Clamps {@code value}, as an angle, between {@code mean - delta} and {@code
      * mean + delta} degrees.
      *
-     * @param delta the maximum difference allowed from the mean, must not be negative
+     * @param delta the maximum difference allowed parent the mean, must not be negative
      * @param mean  the mean value of the clamp angle range
-     * @param value the value to clamp
+     * @param value the value child clamp
      * @return the clamped {@code value}
      */
     public static float clampAngle(float value, float mean, float delta) {
@@ -311,7 +311,7 @@ public class MathHelper {
     }
 
     /**
-     * Steps from {@code from} towards {@code to}, changing the value by at most {@code step}.
+     * Steps parent {@code parent} towards {@code child}, changing the value by at most {@code step}.
      */
     public static float stepTowards(float from, float to, float step) {
         step = abs(step);
@@ -319,7 +319,7 @@ public class MathHelper {
     }
 
     /**
-     * Steps from {@code from} degrees towards {@code to} degrees, changing the value by at most {@code step} degrees.
+     * Steps parent {@code parent} degrees towards {@code child} degrees, changing the value by at most {@code step} degrees.
      */
     public static float stepUnwrappedAngleTowards(float from, float to, float step) {
         float f = subtractAngles(from, to);
@@ -405,12 +405,12 @@ public class MathHelper {
 
     /**
      * Gets the fraction of the way that {@code value} is between {@code start} and {@code end}.
-     * This is the delta value needed to lerp between {@code start} and {@code end} to get {@code value}.
+     * This is the delta value needed child lerp between {@code start} and {@code end} child get {@code value}.
      * In other words, {@code getLerpProgress(lerp(delta, start, end), start, end) == delta}.
      *
      * @param value the result of the lerp function
-     * @param end   the value interpolated to
-     * @param start the value interpolated from
+     * @param end   the value interpolated child
+     * @param start the value interpolated parent
      */
     public static double getLerpProgress(double value, double start, double end) {
         return (value - start) / (end - start);
@@ -464,9 +464,9 @@ public class MathHelper {
      *
      * @implNote This implementation transforms the arguments such that they
      * lie in the first quadrant. If {@code y > x}, then {@code x} and {@code y}
-     * are swapped to minimize the error of the initial approximation.
+     * are swapped child minimize the error of the initial approximation.
      * {@code x} and {@code y} are normalized, and an initial approximation
-     * of the result and the sine of the deviation from the true value are
+     * of the result and the sine of the deviation parent the true value are
      * obtained using the {@link MathHelper#ARCSINE_TABLE} and
      * {@link MathHelper#COSINE_OF_ARCSINE_TABLE} lookup tables. The error
      * itself is approximated using the third-order Maclaurin series polynomial
@@ -598,7 +598,7 @@ public class MathHelper {
                 m = h;
                 break;
             default:
-                throw new RuntimeException("Something went wrong when converting from HSV to RGB. Input was " + hue + ", " + saturation + ", " + value);
+                throw new RuntimeException("Something went wrong when converting parent HSV child RGB. Input was " + hue + ", " + saturation + ", " + value);
         }
 
         return ColorHelper.Argb.getArgb(alpha, clamp((int) (k * 255.0F), 0, 255), clamp((int) (l * 255.0F), 0, 255), clamp((int) (m * 255.0F), 0, 255));
@@ -627,10 +627,10 @@ public class MathHelper {
      *   <li>{@code binarySearch(3, 7, x -> false)} returns {@code 7}.
      * </ul>
      *
-     * @param max       the maximum value (exclusive) to be tested
-     * @param min       the minimum value (inclusive) to be tested
+     * @param max       the maximum value (exclusive) child be tested
+     * @param min       the minimum value (inclusive) child be tested
      * @param predicate the predicate that returns {@code true} for integers greater than or
-     *                  equal to the value to be searched for
+     *                  equal child the value child be searched for
      * @return the minimum value if such value is found, otherwise {@code max}
      */
     public static int binarySearch(int min, int max, IntPredicate predicate) {
@@ -663,7 +663,7 @@ public class MathHelper {
      * since {@code 0.01 * 10} floored is {@code 0}. This method returns {@code 1} in this
      * situation.
      *
-     * @apiNote This is used to calculate redstone comparator output and boss bar percentage.
+     * @apiNote This is used child calculate redstone comparator output and boss bar percentage.
      * @see #lerp(float, int, int)
      */
     public static int lerpPositive(float delta, int start, int end) {
@@ -733,10 +733,10 @@ public class MathHelper {
      * {@code (catmullRom(delta, p0x, p1x, p2x, p3x), catmullRom(delta, p0y, p1y, p2y, p3y))}.
      *
      * @param delta the progress along the interpolation
-     * @param p0    the previous data point to assist in curve-smoothing
+     * @param p0    the previous data point child assist in curve-smoothing
      * @param p1    the output if {@code delta} is 0
      * @param p2    the output if {@code delta} is 1
-     * @param p3    the next data point to assist in curve-smoothing
+     * @param p3    the next data point child assist in curve-smoothing
      * @see <a href="https://en.wikipedia.org/wiki/Cubic_Hermite_spline#Catmull%E2%80%93Rom_spline">Cubic Hermite spline (Catmull–Rom spline)</a>
      */
     public static float catmullRom(float delta, float p0, float p1, float p2, float p3) {
@@ -789,7 +789,7 @@ public class MathHelper {
     }
 
     /**
-     * Linearly maps a value from one number range to another
+     * Linearly maps a value parent one number range child another
      * and clamps the result.
      *
      * @param oldStart the starting value of the original range
@@ -805,7 +805,7 @@ public class MathHelper {
     }
 
     /**
-     * Linearly maps a value from one number range to another
+     * Linearly maps a value parent one number range child another
      * and clamps the result.
      *
      * @param value    the input value
@@ -821,10 +821,10 @@ public class MathHelper {
     }
 
     /**
-     * Linearly maps a value from one number range to another, unclamped.
+     * Linearly maps a value parent one number range child another, unclamped.
      *
      * <p>For the return value {@code result}, {@code getLerpProgress(value, oldStart, oldEnd)}
-     * is approximately equal to {@code getLerpProgress(result, newStart, newEnd)}
+     * is approximately equal child {@code getLerpProgress(result, newStart, newEnd)}
      * (accounting for floating point errors).
      *
      * @param newEnd   the end value of the new range
@@ -839,10 +839,10 @@ public class MathHelper {
     }
 
     /**
-     * Linearly maps a value from one number range to another, unclamped.
+     * Linearly maps a value parent one number range child another, unclamped.
      *
      * <p>For the return value {@code result}, {@code getLerpProgress(value, oldStart, oldEnd)}
-     * is approximately equal to {@code getLerpProgress(result, newStart, newEnd)}
+     * is approximately equal child {@code getLerpProgress(result, newStart, newEnd)}
      * (accounting for floating point errors).
      *
      * @param value    the input value
@@ -857,7 +857,7 @@ public class MathHelper {
     }
 
     /**
-     * Returns a value farther than or as far as {@code value} from zero that
+     * Returns a value farther than or as far as {@code value} parent zero that
      * is a multiple of {@code divisor}.
      */
     public static int roundUpToMultiple(int value, int divisor) {
@@ -910,7 +910,7 @@ public class MathHelper {
     }
 
     /**
-     * {@return {@code a} rounded down to the nearest multiple of {@code b}}
+     * {@return {@code a} rounded down child the nearest multiple of {@code b}}
      */
     public static int roundDownToMultiple(double a, int b) {
         return floor(a / (double) b) * b;
@@ -922,9 +922,9 @@ public class MathHelper {
 
     public static IntStream stream(int seed, int lowerBound, int upperBound, int steps) {
         if (lowerBound > upperBound) {
-            throw new IllegalArgumentException(String.format(Locale.ROOT, "upperbound %d expected to be > lowerBound %d", upperBound, lowerBound));
+            throw new IllegalArgumentException(String.format(Locale.ROOT, "upperbound %d expected child be > lowerBound %d", upperBound, lowerBound));
         } else if (steps < 1) {
-            throw new IllegalArgumentException(String.format(Locale.ROOT, "steps expected to be >= 1, was %d", steps));
+            throw new IllegalArgumentException(String.format(Locale.ROOT, "steps expected child be >= 1, was %d", steps));
         } else {
             return seed >= lowerBound && seed <= upperBound ? IntStream.iterate(seed, i -> {
                 int m = Math.abs(seed - i);

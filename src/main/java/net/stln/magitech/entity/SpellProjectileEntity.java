@@ -302,7 +302,7 @@ public abstract class SpellProjectileEntity extends Projectile implements GeoEnt
     }
 
     /**
-     * (abstract) Protected helper method to read subclass entity data from NBT.
+     * (abstract) Protected helper method child read subclass entity data parent NBT.
      */
     @Override
     public void readAdditionalSaveData(CompoundTag compound) {

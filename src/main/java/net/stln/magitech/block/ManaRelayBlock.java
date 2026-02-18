@@ -41,18 +41,4 @@ public class ManaRelayBlock extends ManaNodeBlock {
             case WEST -> SHAPE_WEST;
         };
     }
-
-    // ★ EntityBlockの実装: BlockEntityを生成する
-    @Nullable
-    @Override
-    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return null;
-    }
-
-    // ★ EntityBlockの実装: Tick処理を紐付ける
-    @Nullable
-    @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return null;
-    }
 }

@@ -8,9 +8,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.api.mana.flow.network.HandlerEndpoint;
-import net.stln.magitech.api.mana.flow.network.ManaNetworkScanner;
-import net.stln.magitech.api.mana.flow.network.NetworkSnapshot;
+import net.stln.magitech.api.mana.flow.network.*;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -26,12 +24,9 @@ public class ManaNetworkManager extends SavedData {
 
     public ManaNetworkManager() {}
 
-    public void requestRebuild(ServerLevel level, BlockPos pos, @Nullable Direction side) {
+    public void requestRebuild(ServerLevel level, BlockPos pos) {
 
         // 端点または中継点であれば接続ネットワークの更新
-        //
-
-        // TODO: 整合性確認
         // 端点チェック
         Set<Direction> directions = new HashSet<>(List.of(Direction.values()));
         directions.add(null); // nullは内部アクセス/無線アクセスを意味する
@@ -46,7 +41,7 @@ public class ManaNetworkManager extends SavedData {
                 hasEndpoint = true;
             } else {
                 // 新ネットワーク構築
-                buildNewNetwork(level, pos, side);
+                buildNewNetwork(level, pos, endpoint.direction());
             }
         }
 
@@ -57,10 +52,10 @@ public class ManaNetworkManager extends SavedData {
                  networks.get(id).markDirty();
              } else {
                  // 新ネットワーク構築
-                 buildNewNetwork(level, pos, side);
+                 buildNewNetwork(level, pos, null);
              }
         } else {
-            buildNewNetwork(level, pos, side);
+            buildNewNetwork(level, pos, null);
         }
     }
 
@@ -80,19 +75,19 @@ public class ManaNetworkManager extends SavedData {
             changed |= combinedWaypoints.addAll(network.getSnapshot().waypoints());
             if (changed) {
                 // ネットワークが変化した場合は異常: 通知
-                Magitech.LOGGER.warn("Mana network overlap detected during build at {}, merged {} endpoints and {} waypoints", start, combinedEndpoints.size(), combinedWaypoints.size());
+                Magitech.LOGGER.warn("Mana network abnormal overlap detected during build at {}, merged {} endpoints and {} waypoints", start, combinedEndpoints.size(), combinedWaypoints.size());
             }
             removeNetwork(network);
         }
 
-        NetworkSnapshot newSnapshot = new NetworkSnapshot(combinedEndpoints, combinedWaypoints);
+        NetworkSnapshot newSnapshot = new NetworkSnapshot(combinedEndpoints, combinedWaypoints, snapshot.networkTree());
         putNewNetwork(newSnapshot);
     }
 
     public void tick(Level level) {
         for (ManaNetworkInstance network : networks.values()) {
             // ネットワークの定期更新処理
-            network.tick();
+            network.tick(level);
             if (network.isDirty()) {
                 rebuild(network, level);
             }
@@ -156,6 +151,14 @@ public class ManaNetworkManager extends SavedData {
 
     public UUID getNetworkIdForWaypoint(BlockPos waypoint) {
         return waypointIndex.get(waypoint);
+    }
+
+    public Set<NetworkTree.Edge> getWirelessPath(UUID networkId, BlockPos start, BlockPos end) {
+        ManaNetworkInstance instance = networks.get(networkId);
+        if (instance != null) {
+            return NetworkTreeHelper.getWirelessPath(instance.getSnapshot().networkTree(), start, end);
+        }
+        return Collections.emptySet();
     }
 
     private static final Factory<ManaNetworkManager> FACTORY = new Factory<>(ManaNetworkManager::new, ((compoundTag, provider) -> new ManaNetworkManager()), null);

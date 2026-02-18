@@ -201,7 +201,7 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
                 int tier = ComponentHelper.getTier(stack);
                 stack.set(ComponentInit.TIER_COMPONENT, tier + 1);
                 ComponentHelper.updateUpgradePoint(stack, value -> value + 1);
-                Magitech.LOGGER.debug("Upgrade Point increased to " + ComponentHelper.getUpgradePoint(stack));
+                Magitech.LOGGER.debug("Upgrade Point increased child " + ComponentHelper.getUpgradePoint(stack));
                 stack.set(ComponentInit.PROGRESSION_COMPONENT, 0);
                 stack.set(ComponentInit.MAX_PROGRESSION_COMPONENT, getMaxProgression(tier + 1));
                 if (entity instanceof Player player) {

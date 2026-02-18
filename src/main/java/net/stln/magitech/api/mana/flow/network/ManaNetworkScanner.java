@@ -31,7 +31,7 @@ public class ManaNetworkScanner {
 
         Set<HandlerEndpoint> endpoints = new HashSet<>();
         Set<BlockPos> waypoints = new HashSet<>();
-        Set<NetworkSnapshot.WirelessPath> wirelessPaths = new HashSet<>();
+        Set<NetworkTree.Edge> edges = new HashSet<>();
 
         Queue<ScanNode> queue = new ArrayDeque<>();
 
@@ -43,7 +43,7 @@ public class ManaNetworkScanner {
                     for (Direction dir : Direction.values()) {
                         if (waypoint.getConnectableDirections(level.getBlockState(start)).contains(dir)
                         ) {
-                            queue.add(new ScanNode(new ConnectionKey(start, dir), ConnectionMode.WIRED, new NetworkSnapshot.WirelessPath(start), 0));
+                            queue.add(new ScanNode(new ConnectionKey(start, dir), ConnectionMode.WIRED, 0));
                             visitedWired.add(new ConnectionKey(start, dir));
                         }
                     }
@@ -67,7 +67,8 @@ public class ManaNetworkScanner {
             waypoints.add(start);
         } else {
             // 開始点が中継点でない場合、Handlerとして収集を試みる
-            collectHandler(level, start, endpoints, ConnectionMode.WIRED, startSide);
+            // rootノードはedgesに追加しない（あくまでHandlerとしての接続を収集するため）
+            collectHandler(level, null, start, endpoints, edges, ConnectionMode.WIRED, startSide);
         }
 
         while (!queue.isEmpty()) {
@@ -82,16 +83,17 @@ public class ManaNetworkScanner {
 
             // モード別探索
             if (node.mode == ConnectionMode.WIRED) {
-                scanWired(level, node, state, queue, visitedWired, endpoints);
+                scanWired(level, node, state, queue, visitedWired, endpoints, edges);
             } else {
-                scanWireless(level, node, state, queue, visitedWireless, endpoints, wirelessPaths);
+                scanWireless(level, node, state, queue, visitedWireless, endpoints, edges);
             }
         }
-        return new NetworkSnapshot(endpoints, waypoints, wirelessPaths);
+        return new NetworkSnapshot(endpoints, waypoints , new NetworkTree(endpoints, waypoints, edges));
     }
 
     // Handlerを収集できたらHandlerを返す
-    private static void scanWired(Level level, ScanNode node, BlockState state, Queue<ScanNode> queue, Set<ConnectionKey> visitedWired, Set<HandlerEndpoint> endpoints) {
+    private static void scanWired(Level level, ScanNode node, BlockState state, Queue<ScanNode> queue,
+                                  Set<ConnectionKey> visitedWired, Set<HandlerEndpoint> endpoints, Set<NetworkTree.Edge> edges) {
         // 有線モードの探索ロジック
         // 隣接ブロックを調べ、それがConnectorなら有線モードで追加、Nodeならノードとして登録し無線モードと有線モードで追加、Handlerなら終端として登録して終了
 
@@ -131,22 +133,24 @@ public class ManaNetworkScanner {
                                 if (nextDir == dir.getOpposite() || !visitedWired.add(new ConnectionKey(neighborPos, nextDir)))
                                     continue; // 来た方向には戻らない
                                 queue.add(new ScanNode(new ConnectionKey(neighborPos, nextDir), nextMode, node.depth + 1));
+                                    edges.add(new NetworkTree.Edge(pos, neighborPos, ConnectionMode.WIRED));
                             }
                         } else {
                             // 無線モードも接続可能なNodeは無線モードでも追加
                             if (visitedWired.add(new ConnectionKey(neighborPos, null))) {
                                 queue.add(new ScanNode(new ConnectionKey(neighborPos, null), nextMode, node.depth + 1));
+                                edges.add(new NetworkTree.Edge(pos, neighborPos, ConnectionMode.WIRED));
                             }
                         }
                     }
                 }
-                collectHandler(level, neighborPos, endpoints, ConnectionMode.WIRED, dir.getOpposite());
+                collectHandler(level, pos, neighborPos, endpoints, edges, ConnectionMode.WIRED, dir.getOpposite());
             }
         }
     }
 
     private static void scanWireless(Level level, ScanNode node, BlockState state, Queue<ScanNode> queue,
-                                     Set<ConnectionKey> visitedWireless, Set<HandlerEndpoint> endpoints, Set<NetworkSnapshot.WirelessPath> wirelessPaths) {
+                                     Set<ConnectionKey> visitedWireless, Set<HandlerEndpoint> endpoints, Set<NetworkTree.Edge> edges) {
         // 無線モードの探索ロジック
         // 例: 一定範囲内のブロックを探索し、視認可能かつNodeならノードとして登録し有線モードで追加、無線対応のHandlerなら終端として登録して終了
 
@@ -173,11 +177,10 @@ public class ManaNetworkScanner {
                     // 中継点
                     for (ConnectionMode nextMode : waypoint.getConnectableModes(targetState)) {
                         queue.add(new ScanNode(new ConnectionKey(targetPos, null), nextMode, node.depth + 1));
+                        edges.add(new NetworkTree.Edge(pos, targetPos, ConnectionMode.WIRELESS));
                     }
                 }
-                if (collectHandler(level, targetPos, endpoints, ConnectionMode.WIRELESS, null)) {
-                    wirelessPaths.add(new NetworkSnapshot.WirelessPath(pos, targetPos));
-                }
+                collectHandler(level, pos, targetPos, endpoints, edges, ConnectionMode.WIRELESS, null);
             }
         }
     }
@@ -196,22 +199,24 @@ public class ManaNetworkScanner {
         return hitResult.getType() == HitResult.Type.MISS;
     }
 
-    // Handlerを収集できたらtrueを返す
-    private static boolean collectHandler(Level level, BlockPos pos, Set<HandlerEndpoint> endpoints, ConnectionMode mode, @Nullable Direction side) {
+    private static void collectHandler(Level level, @Nullable BlockPos from, BlockPos pos, Set<HandlerEndpoint> endpoints, Set<NetworkTree.Edge> edges, ConnectionMode mode, @Nullable Direction side) {
         if (!endpoints.contains(new HandlerEndpoint(pos, side)) && level.getBlockEntity(pos) instanceof IManaConnectable connectable
                 && connectable.getConnectableModes(level.getBlockState(pos)).contains(mode)) {
             IBlockManaHandler handler = ManaTransferHelper.getManaContainer(level, pos, side);
             if (handler != null) {
                 // 終端
                 endpoints.add(new HandlerEndpoint(pos, side));
-                return true;
+                if (from != null && !from.equals(pos)) {
+                    edges.add(new NetworkTree.Edge(from, pos, mode));
+                }
+                return;
             }
         }
-        return false;
+        return;
     }
 
     // sideがnullの場合、無線アクセスを意味する
     record ConnectionKey(BlockPos pos, @Nullable Direction side) {}
 
-    record ScanNode(ConnectionKey key, ConnectionMode mode, NetworkSnapshot.WirelessPath currentPath, int depth) {}
+    record ScanNode(ConnectionKey key, ConnectionMode mode, int depth) {}
 }

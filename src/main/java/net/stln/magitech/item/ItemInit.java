@@ -19,6 +19,7 @@ import net.stln.magitech.entity.EntityInit;
 import net.stln.magitech.entity.status.AttributeInit;
 import net.stln.magitech.item.armor.AetherLifterItem;
 import net.stln.magitech.item.armor.FlamglideStriderItem;
+import net.stln.magitech.item.energy.ManaChargedFluoriteItem;
 import net.stln.magitech.item.energy.ManaContainerItem;
 import net.stln.magitech.item.fluid.AlchemicalFlaskItem;
 import net.stln.magitech.item.fluid.potion.*;

@@ -1,5 +1,6 @@
 package net.stln.magitech.block;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
@@ -33,6 +34,7 @@ import net.stln.magitech.block.block_entity.ManaStranderBlockEntity;
 import net.stln.magitech.block.block_entity.ManaVesselBlockEntity;
 import net.stln.magitech.particle.particle_option.SquareParticleEffect;
 import net.stln.magitech.util.VoxelShapeUtil;
+import org.checkerframework.checker.units.qual.C;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
@@ -52,11 +54,18 @@ public class ManaReceiverBlock extends ManaContainerBlock implements SimpleWater
     public static final VoxelShape SHAPE_EAST = VoxelShapeUtil.rotateShape(SHAPE_UP, Direction.UP, Direction.EAST);
     public static final VoxelShape SHAPE_WEST = VoxelShapeUtil.rotateShape(SHAPE_UP, Direction.UP, Direction.WEST);
 
+    public static final MapCodec<ManaReceiverBlock> CODEC = simpleCodec(ManaReceiverBlock::new);
+
     public ManaReceiverBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(
                 this.stateDefinition.any().setValue(FACING, Direction.UP).setValue(WATERLOGGED, Boolean.valueOf(false))
         );
+    }
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
     }
 
     @Override

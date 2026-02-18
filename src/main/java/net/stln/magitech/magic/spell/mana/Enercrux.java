@@ -10,6 +10,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
+import net.stln.magitech.api.mana.flow.ManaTransferHelper;
+import net.stln.magitech.api.mana.handler.IBasicManaHandler;
 import net.stln.magitech.block.block_entity.ManaContainerBlockEntity;
 import net.stln.magitech.element.Element;
 import net.stln.magitech.magic.mana.ManaUtil;
@@ -73,8 +75,8 @@ public class Enercrux extends BeamSpell {
     protected void applyEffectToBlock(Level level, Player user, ItemStack stack, BlockPos target) {
         super.applyEffectToBlock(level, user, stack, target);
         BlockEntity blockEntity = level.getBlockEntity(target);
-        if (blockEntity instanceof ManaContainerBlockEntity manaContainerBlockEntity) {
-            manaContainerBlockEntity.addMana((long) (this.getBaseRequiredMana().get(ManaUtil.ManaType.MANA) * 75));
+        if (ManaTransferHelper.getManaContainer(level, target, null) instanceof IBasicManaHandler handler) {
+            handler.addMana((long) (this.getBaseRequiredMana().get(ManaUtil.ManaType.MANA) * 75));
         }
     }
 

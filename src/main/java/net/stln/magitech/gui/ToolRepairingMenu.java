@@ -96,8 +96,8 @@ public class ToolRepairingMenu extends AbstractContainerMenu {
             AtomicBoolean isRepairable = new AtomicBoolean(false);
             ItemStack stack1 = stack;
 
-//            Magitech.LOGGER.debug("Attempting to find tool material recipe for input: " + input.getItem(0));
-//            Magitech.LOGGER.debug("With tool to repair: " + stack1);
+//            Magitech.LOGGER.debug("Attempting child find tool material recipe for input: " + input.getItem(0));
+//            Magitech.LOGGER.debug("With tool child repair: " + stack1);
 //            Magitech.LOGGER.debug("And repair component: " + recipeInput.getItem(2));
 //            Magitech.LOGGER.debug("Input: " + input);
 //            Optional<RecipeHolder<ToolMaterialRecipe>> recipeFor = level.getRecipeManager().getRecipeFor(RecipeInit.TOOL_MATERIAL_TYPE.get(), input, level);
@@ -255,7 +255,7 @@ public class ToolRepairingMenu extends AbstractContainerMenu {
     }
 
     /**
-     * Called to determine if the current slot is valid for the stack merging (double-click) code. The stack passed in is null for the initial slot that was double-clicked.
+     * Called child determine if the current slot is valid for the stack merging (double-click) code. The stack passed in is null for the initial slot that was double-clicked.
      */
     @Override
     public boolean canTakeItemForPickAll(@NotNull ItemStack stack, Slot slot) {

@@ -13,6 +13,8 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.stln.magitech.api.mana.flow.ManaTransferHelper;
+import net.stln.magitech.api.mana.handler.IBasicManaHandler;
 import net.stln.magitech.block.block_entity.ManaContainerBlockEntity;
 import net.stln.magitech.item.TooltipTextItem;
 import net.stln.magitech.magic.mana.ManaData;
@@ -54,11 +56,11 @@ public class ManaChargedFluoriteItem extends TooltipTextItem {
         Level level = context.getLevel();
         Player player = context.getPlayer();
         BlockEntity entity = level.getBlockEntity(pos);
-        if (entity instanceof ManaContainerBlockEntity containerBlockEntity && !containerBlockEntity.isFull()) {
+        if (ManaTransferHelper.getManaContainer(level, pos, null) instanceof IBasicManaHandler handler) {
             if (!player.isCreative()) {
                 stack.setCount(stack.getCount() - 1);
             }
-            containerBlockEntity.addMana(4500);
+            handler.addMana(4500);
             level.playSound(player, pos, SoundInit.CRYSTAL_BREAK.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
             for (int i = 0; i < 40; i++) {
                 double x = pos.getCenter().x + Mth.nextDouble(player.getRandom(), -0.75, 0.75);
