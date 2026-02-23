@@ -6,9 +6,11 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.api.mana.flow.network.*;
+import net.stln.magitech.api.mana.flow.network.connectable.IManaConnectable;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -24,68 +26,97 @@ public class ManaNetworkManager extends SavedData {
 
     public ManaNetworkManager() {}
 
-    public void requestRebuild(ServerLevel level, BlockPos pos) {
+    public void requestRebuild(ServerLevel level, BlockPos pos, boolean removal) {
+
+        // 削除の場合はキャッシュから取得
+        if (removal) {
+            // 変更点がネットワークの一部であれば、そのネットワークを再構築
+
+            Set<Direction> directions = new HashSet<>(List.of(Direction.values()));
+            directions.add(null); // 無線接続も考慮
+            for (Direction dir : directions) {
+                UUID endpointNetworkId = endpointIndex.get(new HandlerEndpoint(pos, dir));
+                if (endpointNetworkId != null) {
+                    rebuild(networks.get(endpointNetworkId), level);
+                }
+            }
+            UUID waypointNetworkId = waypointIndex.get(new BlockPos(pos));
+            if (waypointNetworkId != null) {
+                rebuild(networks.get(waypointNetworkId), level);
+            }
+            return;
+        }
 
         // 端点または中継点であれば接続ネットワークの更新
         // 端点チェック
-        Set<Direction> directions = new HashSet<>(List.of(Direction.values()));
-        directions.add(null); // nullは内部アクセス/無線アクセスを意味する
-        Set<HandlerEndpoint> requestEndpoints = directions.stream()
-                .map(dir -> new HandlerEndpoint(pos, dir))
-                .collect(Collectors.toSet());
-        boolean hasEndpoint = false; // 変更点にHandlerEndpointがあるか
-        for (HandlerEndpoint endpoint : requestEndpoints) {
-            UUID id = endpointIndex.get(endpoint);
-            if (id != null) {
-                networks.get(id).markDirty();
-                hasEndpoint = true;
-            } else {
-                // 新ネットワーク構築
-                buildNewNetwork(level, pos, endpoint.direction());
+        Block block = level.getBlockState(pos).getBlock();
+        IManaConnectable connectable = ((IManaConnectable) (block instanceof IManaConnectable ? block : level.getBlockEntity(pos)));
+        if (connectable != null) {
+            Set<Direction> directions = new HashSet<>(connectable.getConnectableDirections(level.getBlockState(pos)));
+            directions.add(null); // 無線接続も考慮
+            Set<HandlerEndpoint> requestEndpoints = directions.stream()
+                    .map(dir -> new HandlerEndpoint(pos, dir))
+                    .collect(Collectors.toSet());
+            boolean hasEndpoint = false; // 変更点にHandlerEndpointがあるか
+            for (HandlerEndpoint endpoint : requestEndpoints) {
+                UUID id = endpointIndex.get(endpoint);
+                if (id != null) {
+                    ManaNetworkInstance instance = networks.get(id);
+                    if (instance != null) {
+                        instance.markDirty();
+                        hasEndpoint = true;
+                    }
+                } else {
+                    // 新ネットワーク構築
+                    buildNewNetwork(level, pos, endpoint.direction());
+                }
             }
-        }
 
-        // 中継点チェック(端点の場合はチェック済み)
-        if (!hasEndpoint) {
-            UUID id = waypointIndex.get(pos);
-             if (id != null) {
-                 networks.get(id).markDirty();
-             } else {
-                 // 新ネットワーク構築
-                 buildNewNetwork(level, pos, null);
-             }
-        } else {
-            buildNewNetwork(level, pos, null);
+            // 中継点チェック(端点の場合はチェック済み)
+            if (!hasEndpoint) {
+                UUID id = waypointIndex.get(new BlockPos(pos));
+                if (id != null) {
+                    networks.get(id).markDirty();
+                } else {
+                    // 新ネットワーク構築
+                    buildNewNetwork(level, pos, null);
+                }
+            } else {
+                buildNewNetwork(level, pos, null);
+            }
         }
     }
 
     private void buildNewNetwork(ServerLevel level, BlockPos start, @Nullable Direction side) {
         NetworkSnapshot snapshot = ManaNetworkScanner.scan(level, start, side, MAX_HOPS);
 
-        Set<ManaNetworkInstance> overlapped = networks.values().stream()
-                .filter(n -> !Collections.disjoint(n.getSnapshot().endpoints(), snapshot.endpoints()))
-                .collect(Collectors.toSet());
+        if (snapshot != null) {
+            Set<ManaNetworkInstance> overlapped = networks.values().stream()
+                    .filter(n -> !Collections.disjoint(n.getSnapshot().endpoints(), snapshot.endpoints()))
+                    .collect(Collectors.toSet());
 
-        Set<HandlerEndpoint> combinedEndpoints = new HashSet<>(snapshot.endpoints());
-        Set<BlockPos> combinedWaypoints = new HashSet<>(snapshot.waypoints());
-        for (ManaNetworkInstance network : overlapped) {
-            // 古いposToNetwork削除
-            // ネットワーク統合
-            boolean changed = combinedEndpoints.addAll(network.getSnapshot().endpoints());
-            changed |= combinedWaypoints.addAll(network.getSnapshot().waypoints());
-            if (changed) {
-                // ネットワークが変化した場合は異常: 通知
-                Magitech.LOGGER.warn("Mana network abnormal overlap detected during build at {}, merged {} endpoints and {} waypoints", start, combinedEndpoints.size(), combinedWaypoints.size());
+            Set<HandlerEndpoint> combinedEndpoints = new HashSet<>(snapshot.endpoints());
+            Set<BlockPos> combinedWaypoints = new HashSet<>(snapshot.waypoints());
+            for (ManaNetworkInstance network : overlapped) {
+                // 古いposToNetwork削除
+                // ネットワーク統合
+                int sizeBefore = combinedEndpoints.size() + combinedWaypoints.size();
+                combinedEndpoints.addAll(network.getSnapshot().endpoints());
+                combinedWaypoints.addAll(network.getSnapshot().waypoints());
+                if (sizeBefore != combinedEndpoints.size() + combinedWaypoints.size()) {
+                    // ネットワークが変化した場合は異常: 通知
+                    Magitech.LOGGER.warn("Mana network abnormal overlap detected during build at {}, merged {} endpoints and {} waypoints", start, combinedEndpoints.size(), combinedWaypoints.size());
+                }
+                removeNetwork(network);
             }
-            removeNetwork(network);
-        }
 
-        NetworkSnapshot newSnapshot = new NetworkSnapshot(combinedEndpoints, combinedWaypoints, snapshot.networkTree());
-        putNewNetwork(newSnapshot);
+            NetworkSnapshot newSnapshot = new NetworkSnapshot(combinedEndpoints, combinedWaypoints, snapshot.networkTree());
+            putNewNetwork(newSnapshot);
+        }
     }
 
     public void tick(Level level) {
-        for (ManaNetworkInstance network : networks.values()) {
+        for (ManaNetworkInstance network : Set.copyOf(networks.values())) {
             // ネットワークの定期更新処理
             network.tick(level);
             if (network.isDirty()) {
@@ -96,18 +127,21 @@ public class ManaNetworkManager extends SavedData {
 
     private void rebuild(ManaNetworkInstance network, Level level) {
         Set<HandlerEndpoint> unconnectedEndpoints = network.getSnapshot().endpoints();
+        removeNetwork(network);
         while (!unconnectedEndpoints.isEmpty()) {
             HandlerEndpoint start = unconnectedEndpoints.iterator().next();
             NetworkSnapshot snapshot = ManaNetworkScanner.scan(level, start.pos(), start.direction(), MAX_HOPS);
 
-            // 古いposToNetwork削除
-            // 新snapshot再登録
+            if (snapshot != null) {
+                // 古いposToNetwork削除
+                // 新snapshot再登録
+                putNewNetwork(snapshot);
 
-            putNewNetwork(snapshot);
+                unconnectedEndpoints.removeAll(snapshot.endpoints());
+            }
+            unconnectedEndpoints.remove(start); // スキャン開始点は削除
 
-            unconnectedEndpoints.removeAll(snapshot.endpoints());
         }
-        removeNetwork(network);
     }
 
     // ネットワーク削除
@@ -117,7 +151,7 @@ public class ManaNetworkManager extends SavedData {
                 endpointIndex.remove(p);
             }
             for (BlockPos p : networkInstance.getSnapshot().waypoints()) {
-                waypointIndex.remove(p);
+                waypointIndex.remove(new BlockPos(p));
             }
             networks.values().remove(networkInstance);
         }
@@ -127,12 +161,11 @@ public class ManaNetworkManager extends SavedData {
     private UUID putNewNetwork(NetworkSnapshot snapshot) {
         UUID uuid = UUID.randomUUID();
         networks.put(uuid, new ManaNetworkInstance(snapshot));
-
         for (HandlerEndpoint p : snapshot.endpoints()) {
             endpointIndex.put(p, uuid);
         }
         for (BlockPos p : snapshot.waypoints()) {
-            waypointIndex.put(p, uuid);
+            waypointIndex.put(new BlockPos(p), uuid);
         }
         return uuid;
     }

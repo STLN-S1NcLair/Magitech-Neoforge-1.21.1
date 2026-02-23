@@ -56,10 +56,7 @@ public class ManaStranderBlockEntity extends ManaMachineBlockEntity {
     @Override
     public void tick(Level level, BlockPos pos, BlockState state) {
         super.tick(level, pos, state);
-        tickCount++;
-        if (this.tickCount >= 10) {
-            shootManaParcel(level, pos, state);
-        }
+        shootManaParcel(level, pos, state);
     }
 
     private void shootManaParcel(Level level, BlockPos pos, BlockState state) {

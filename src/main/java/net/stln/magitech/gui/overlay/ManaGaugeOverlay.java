@@ -35,7 +35,10 @@ public class ManaGaugeOverlay implements LayeredDraw.Layer {
     public void render(@NotNull GuiGraphics guiGraphics, @NotNull DeltaTracker deltaTracker) {
         Player player = ClientHelper.getPlayer();
         if (player == null) return;
-        if (!Minecraft.getInstance().options.hideGui && !player.isSpectator() && !Minecraft.getInstance().gui.getDebugOverlay().showDebugScreen()) {
+        if (!Minecraft.getInstance().options.hideGui && !player.isSpectator() && !Minecraft.getInstance().gui.getDebugOverlay().showDebugScreen()
+                && (player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof SpellCasterItem ||
+                    player.getItemInHand(InteractionHand.OFF_HAND).getItem() instanceof SpellCasterItem ||
+                    ManaData.getCurrentMana(player, ManaUtil.ManaType.MANA) / ManaUtil.getMaxMana(player, ManaUtil.ManaType.MANA) < 1)) {
             int x = guiGraphics.guiWidth() - 64;
             int y = guiGraphics.guiHeight() / 3;
             if (CuriosApi.getCuriosInventory(player).isPresent()) {

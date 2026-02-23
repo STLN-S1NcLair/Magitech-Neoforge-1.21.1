@@ -6,7 +6,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.stln.magitech.api.ManaCapabilities;
 import net.stln.magitech.api.mana.handler.IBasicManaHandler;
-import net.stln.magitech.item.TooltipTextItem;
+import net.stln.magitech.item.tooltip_item.TooltipTextItem;
 import net.stln.magitech.util.ManaContainerUtil;
 import org.jetbrains.annotations.NotNull;
 

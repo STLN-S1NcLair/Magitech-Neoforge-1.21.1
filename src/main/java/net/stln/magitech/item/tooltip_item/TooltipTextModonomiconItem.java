@@ -1,15 +1,15 @@
-package net.stln.magitech.item;
+package net.stln.magitech.item.tooltip_item;
 
+import com.klikli_dev.modonomicon.item.ModonomiconItem;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class TooltipTextItem extends Item {
-    public TooltipTextItem(Properties properties) {
+public class TooltipTextModonomiconItem extends ModonomiconItem {
+    public TooltipTextModonomiconItem(Properties properties) {
         super(properties);
     }
 

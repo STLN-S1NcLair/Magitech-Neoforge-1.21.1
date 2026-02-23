@@ -3,6 +3,7 @@ package net.stln.magitech.api.mana.flow.network;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
+import net.stln.magitech.Magitech;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -63,6 +64,9 @@ public class NetworkTreeHelper {
         while (!queue.isEmpty()) {
             BlockPos current = queue.poll();
             BlockPos parent = networkTree.getParent(current);
+            if (parent == null || parents.contains(parent)) {
+                continue; // 親ノードが見つからない、発見済みの場合はスキップ
+            }
             parents.add(parent);
             queue.add(parent);
         }

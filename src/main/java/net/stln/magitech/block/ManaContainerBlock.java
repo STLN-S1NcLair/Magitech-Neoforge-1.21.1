@@ -10,6 +10,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.stln.magitech.api.mana.flow.network.connectable.IManaEndpoint;
 import net.stln.magitech.api.mana.flow.network.manager.ManaNetworkManager;
 import net.stln.magitech.block.block_entity.ManaContainerBlockEntity;
 
@@ -31,18 +32,18 @@ public abstract class ManaContainerBlock extends BaseEntityBlock {
     @Override
     protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
         super.onPlace(state, level, pos, oldState, movedByPiston);
-        requestRebuildNetwork(level, pos);
+        requestRebuildNetwork(level, pos, false);
     }
 
     @Override
     protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
         super.onRemove(state, level, pos, newState, movedByPiston);
-        requestRebuildNetwork(level, pos);
+        requestRebuildNetwork(level, pos, true);
     }
 
-    private void requestRebuildNetwork(Level level, BlockPos worldPosition) {
+    public static void requestRebuildNetwork(Level level, BlockPos worldPosition, boolean removal) {
         if (level != null && !level.isClientSide && level instanceof ServerLevel serverLevel) {
-            ManaNetworkManager.get(serverLevel).requestRebuild(serverLevel, worldPosition);
+            ManaNetworkManager.get(serverLevel).requestRebuild(serverLevel, worldPosition, removal);
         }
     }
 

@@ -60,8 +60,8 @@ public class ManaTransferHelper {
         Set<IBasicManaHandler> sendSet = new HashSet<>();
 
         for (IBasicManaHandler sink : sinks) {
-            // ピンポン防止: 自分より明らかに少ない相手のみ対象
-            if (sink.getEffectiveFillRatio() < source.getEffectiveFillRatio() - 0.001f) {
+            // ピンポン防止: 自分より明らかに少なく、満タンでない相手のみ対象
+            if (sink.getEffectiveFillRatio() < source.getEffectiveFillRatio() - 0.001f && sink.fillRatio() < 1.0F) {
                 sendSet.add(sink);
 
                 totalMana += sink.getEffectiveMana();

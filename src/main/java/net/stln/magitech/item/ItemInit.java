@@ -5,9 +5,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.ArmorMaterials;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.DeferredSpawnEggItem;
@@ -26,6 +24,12 @@ import net.stln.magitech.item.fluid.potion.*;
 import net.stln.magitech.item.tool.ToolBeltItem;
 import net.stln.magitech.item.tool.partitem.*;
 import net.stln.magitech.item.tool.toolitem.*;
+import net.stln.magitech.item.tool.toolitem.AxeItem;
+import net.stln.magitech.item.tool.toolitem.PickaxeItem;
+import net.stln.magitech.item.tool.toolitem.ShovelItem;
+import net.stln.magitech.item.tooltip_item.TooltipTextBoatItem;
+import net.stln.magitech.item.tooltip_item.TooltipTextItem;
+import net.stln.magitech.item.tooltip_item.TooltipTextPlaceableItem;
 
 import java.util.Map;
 
@@ -278,6 +282,18 @@ public class ItemInit {
     public static final DeferredItem<Item> SHOVEL = ITEMS.registerItem("shovel", ShovelItem::new, TOOL_PROPERTIES);
     public static final DeferredItem<Item> SCYTHE = ITEMS.registerItem("scythe", ScytheItem::new, TOOL_PROPERTIES);
     public static final DeferredItem<Item> WAND = ITEMS.registerItem("wand", WandItem::new, TOOL_PROPERTIES);
+
+    public static final DeferredItem<Item> CELIFERN_BOAT = ITEMS.registerItem("celifern_boat", properties -> new TooltipTextBoatItem(false, BoatTypeEnumExtension.CELIFERN_BOAT_TYPE.getValue(), properties));
+
+    public static final DeferredItem<Item> CELIFERN_CHEST_BOAT = ITEMS.registerItem("celifern_chest_boat", properties -> new TooltipTextBoatItem(true, BoatTypeEnumExtension.CELIFERN_BOAT_TYPE.getValue(), properties));
+
+    public static final DeferredItem<Item> CHARCOAL_BIRCH_BOAT = ITEMS.registerItem("charcoal_birch_boat", properties -> new TooltipTextBoatItem(false, BoatTypeEnumExtension.CHARCOAL_BIRCH_BOAT_TYPE.getValue(), properties));
+
+    public static final DeferredItem<Item> CHARCOAL_BIRCH_CHEST_BOAT = ITEMS.registerItem("charcoal_birch_chest_boat", properties -> new TooltipTextBoatItem(true, BoatTypeEnumExtension.CHARCOAL_BIRCH_BOAT_TYPE.getValue(), properties));
+
+    public static final DeferredItem<Item> MYSTWOOD_BOAT = ITEMS.registerItem("mystwood_boat", properties -> new TooltipTextBoatItem(false, BoatTypeEnumExtension.MYSTWOOD_BOAT_TYPE.getValue(), properties));
+
+    public static final DeferredItem<Item> MYSTWOOD_CHEST_BOAT = ITEMS.registerItem("mystwood_chest_boat", properties -> new TooltipTextBoatItem(true, BoatTypeEnumExtension.MYSTWOOD_BOAT_TYPE.getValue(), properties));
 
     public static void registerItems(IEventBus eventBus) {
         Magitech.LOGGER.info("Registering Items for" + Magitech.MOD_ID);

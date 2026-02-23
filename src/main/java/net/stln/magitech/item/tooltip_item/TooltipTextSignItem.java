@@ -1,4 +1,4 @@
-package net.stln.magitech.item;
+package net.stln.magitech.item.tooltip_item;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;

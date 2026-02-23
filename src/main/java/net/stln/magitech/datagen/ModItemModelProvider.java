@@ -1,10 +1,12 @@
 package net.stln.magitech.datagen;
 
 import net.minecraft.data.PackOutput;
+import net.minecraft.world.item.BlockItem;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.client.model.generators.ModelProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.registries.DeferredItem;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.MagitechRegistries;
 import net.stln.magitech.block.BlockInit;
@@ -112,18 +114,24 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ItemInit.HOLLOW_POTION_FLASK.get());
 
         basicItem(BlockInit.CELIFERN_DOOR_ITEM.get());
-        getBuilder(BlockInit.CELIFERN_SAPLING_ITEM.get().toString())
-                .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                .texture("layer0", Magitech.id("block/" + BlockInit.CELIFERN_SAPLING_ITEM.getId().getPath()));
+        saplingItem(BlockInit.CELIFERN_SAPLING_ITEM);
         basicItem(BlockInit.CELIFERN_SIGN_ITEM.get());
         basicItem(BlockInit.CELIFERN_HANGING_SIGN_ITEM.get());
         basicItem(BlockInit.CHARCOAL_BIRCH_DOOR_ITEM.get());
-        getBuilder(BlockInit.CHARCOAL_BIRCH_SAPLING_ITEM.get().toString())
-                .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                .texture("layer0", Magitech.id("block/" + BlockInit.CHARCOAL_BIRCH_SAPLING_ITEM.getId().getPath()));
+        saplingItem(BlockInit.CHARCOAL_BIRCH_SAPLING_ITEM);
         basicItem(BlockInit.CHARCOAL_BIRCH_SIGN_ITEM.get());
         basicItem(BlockInit.CHARCOAL_BIRCH_HANGING_SIGN_ITEM.get());
+        basicItem(BlockInit.MYSTWOOD_DOOR_ITEM.get());
+        basicItem(BlockInit.MYSTWOOD_SIGN_ITEM.get());
+        basicItem(BlockInit.MYSTWOOD_HANGING_SIGN_ITEM.get());
         basicItem(BlockInit.MISTALIA_PETALS_ITEM.get());
+
+        basicItem(ItemInit.CELIFERN_BOAT.get());
+        basicItem(ItemInit.CELIFERN_CHEST_BOAT.get());
+        basicItem(ItemInit.CHARCOAL_BIRCH_BOAT.get());
+        basicItem(ItemInit.CHARCOAL_BIRCH_CHEST_BOAT.get());
+        basicItem(ItemInit.MYSTWOOD_BOAT.get());
+        basicItem(ItemInit.MYSTWOOD_CHEST_BOAT.get());
 
         MagitechRegistries.TOOL_MATERIAL.stream().forEach(toolMaterial -> {
             for (String type : ModelRegistrar.toolTypes) {
@@ -154,5 +162,11 @@ public class ModItemModelProvider extends ItemModelProvider {
                 }
             }
         });
+    }
+
+    private void saplingItem(DeferredItem<BlockItem> item) {
+        getBuilder(item.get().toString())
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", Magitech.id("block/" + item.getId().getPath()));
     }
 }

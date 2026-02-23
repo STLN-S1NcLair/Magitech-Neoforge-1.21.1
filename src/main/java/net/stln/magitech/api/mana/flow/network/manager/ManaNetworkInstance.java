@@ -62,25 +62,15 @@ public class ManaNetworkInstance {
 
     private void balance(Level level) {
         // ネットワーク内のマナの流れを計算して、各端点にマナを供給する処理
-        Map<IBlockManaHandler, HandlerEndpoint> handlerToEndpoint = snapshot.endpoints().stream()
+        Map<HandlerEndpoint, IBasicManaHandler> endpointToHandler = snapshot.endpoints().stream()
                 .map(endpoint -> {
                     // ブロック位置からIManaHandlerを取得する処理
                     IBlockManaHandler handler = ManaTransferHelper.getManaContainer(level, endpoint.pos(), endpoint.direction());
 
-                    return handler != null ? Map.entry(handler, endpoint) : null;
+                    return handler != null ? Map.entry(endpoint, handler) : null;
                 })
                 .filter(Objects::nonNull)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-
-        Set<IBasicManaHandler> handlers = snapshot.endpoints().stream()
-                .map(endpoint -> {
-                    // ブロック位置からIManaHandlerを取得する処理
-                    IBlockManaHandler handler = ManaTransferHelper.getManaContainer(level, endpoint.pos(), endpoint.direction());
-
-                    return handler != null ? handler : null;
-                })
-                .filter(Objects::nonNull)
-                .collect(Collectors.toSet());
 
         for (HandlerEndpoint endpoint : snapshot.endpoints()) {
 
@@ -88,11 +78,11 @@ public class ManaNetworkInstance {
 
             if (handler == null) continue;
 
-            Set<IBasicManaHandler> inserted = ManaTransferHelper.balance(handler, handlers);
+            Set<IBasicManaHandler> inserted = ManaTransferHelper.balance(handler, new HashSet<>(endpointToHandler.values()));
 
             for (HandlerEndpoint target : snapshot.endpoints()) {
-                IBlockManaHandler h = ManaTransferHelper.getManaContainer(level, target.pos(), target.direction());
-                if (inserted.contains(h)) {
+                IBasicManaHandler h = endpointToHandler.get(target);
+                if (h != null && inserted.contains(h)) {
                     Set<NetworkTree.Edge> path =
                             NetworkTreeHelper.getWirelessPath(snapshot.networkTree(), endpoint.pos(), target.pos());
                     ManaVisualEffectHelper.spawnPathParticles(level, endpoint.pos(), target.pos(), path, this.tickCounter);

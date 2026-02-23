@@ -26,6 +26,10 @@ public class CapabilityInit {
 
         // ブロックエンティティへの登録
         registerManaContainerBlockEntity(event, BlockInit.MANA_VESSEL_ENTITY.get());
+        registerManaContainerBlockEntity(event, BlockInit.MANA_STRANDER_ENTITY.get());
+        registerManaContainerBlockEntity(event, BlockInit.MANA_RECEIVER_ENTITY.get());
+        registerManaContainerBlockEntity(event, BlockInit.MANA_COLLECTOR_ENTITY.get());
+        registerManaContainerBlockEntity(event, BlockInit.INFUSER_ENTITY.get());
 
         // アイテムへの登録
         registerManaContainerItem(event, (ManaContainerItem) ItemInit.MANA_CELL.get());

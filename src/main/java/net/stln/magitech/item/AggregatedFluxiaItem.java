@@ -8,6 +8,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.stln.magitech.item.tooltip_item.TooltipTextItem;
 import net.stln.magitech.magic.mana.ManaData;
 import net.stln.magitech.magic.mana.ManaUtil;
 import net.stln.magitech.particle.particle_option.PowerupParticleEffect;

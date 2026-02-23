@@ -12,6 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.stln.magitech.element.Element;
 import net.stln.magitech.item.component.SpellComponent;
+import net.stln.magitech.item.tooltip_item.TooltipTextModonomiconItem;
 import net.stln.magitech.magic.spell.Spell;
 import net.stln.magitech.util.ComponentHelper;
 import org.jetbrains.annotations.NotNull;

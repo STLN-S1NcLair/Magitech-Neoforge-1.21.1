@@ -14,7 +14,7 @@ public class MachineBlockEntityManaHandler extends ContainerBlockEntityManaHandl
 
     // マナを消費する。実際に消費した量を返す。
     public long consumeMana(long amount) {
-        long actualConsumption = Math.clamp(getMana() - amount, 0, getMaxMana()) - getMana();
+        long actualConsumption = -(Math.clamp(getMana() - amount, 0, getMaxMana()) - getMana());
         setMana(getMana() - actualConsumption);
         ((IManaMachineBlockEntity) be).addConsumedMana(actualConsumption);
         return actualConsumption;

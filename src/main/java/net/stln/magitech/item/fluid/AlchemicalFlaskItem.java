@@ -18,7 +18,7 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.stln.magitech.item.ItemInit;
-import net.stln.magitech.item.TooltipTextItem;
+import net.stln.magitech.item.tooltip_item.TooltipTextItem;
 import net.stln.magitech.util.ComponentHelper;
 
 public class AlchemicalFlaskItem extends TooltipTextItem {

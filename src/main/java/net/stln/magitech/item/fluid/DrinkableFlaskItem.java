@@ -13,7 +13,7 @@ import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.stln.magitech.item.ItemInit;
-import net.stln.magitech.item.TooltipTextItem;
+import net.stln.magitech.item.tooltip_item.TooltipTextItem;
 
 public abstract class DrinkableFlaskItem extends TooltipTextItem {
 

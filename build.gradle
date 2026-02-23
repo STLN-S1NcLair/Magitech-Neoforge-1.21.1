@@ -192,6 +192,8 @@ dependencies {
     runtimeOnly "maven.modrinth:mekanism:JpDlMCsB"
     runtimeOnly "maven.modrinth:ae2:kfyIqgJ6"
     runtimeOnly "maven.modrinth:guideme:ILW6vM7o"
+    runtimeOnly "maven.modrinth:malum:BIbVs1fo"
+    runtimeOnly "maven.modrinth:lodestonelib:CohX6yP1"
 
 //    runtimeOnly("curse.maven:supplementaries-412082:6854370")
 //    runtimeOnly("curse.maven:selene-499980:6818413")

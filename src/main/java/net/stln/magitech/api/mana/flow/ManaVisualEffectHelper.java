@@ -31,7 +31,7 @@ public class ManaVisualEffectHelper {
                 );
             }
         }
-        if (tickCounter % 30 == 0) {
+        if (tickCounter % 30 == 0 && !path.isEmpty()) {
             Vec3 midPoint = Vec3.atCenterOf(start).add(Vec3.atCenterOf(end)).scale(0.5);
             level.playSound(null, midPoint.x, midPoint.y, midPoint.z, SoundInit.MANA_NODE.get(), SoundSource.BLOCKS, 0.3F, 1.0F);
         }

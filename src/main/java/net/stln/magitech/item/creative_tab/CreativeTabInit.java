@@ -104,6 +104,12 @@ public class CreativeTabInit {
                 output.accept(ItemInit.MAGIC_POTION_FLASK.get());
                 output.accept(ItemInit.FLOW_POTION_FLASK.get());
                 output.accept(ItemInit.HOLLOW_POTION_FLASK.get());
+                output.accept(ItemInit.CELIFERN_BOAT.get());
+                output.accept(ItemInit.CELIFERN_CHEST_BOAT.get());
+                output.accept(ItemInit.CHARCOAL_BIRCH_BOAT.get());
+                output.accept(ItemInit.CHARCOAL_BIRCH_CHEST_BOAT.get());
+                output.accept(ItemInit.MYSTWOOD_BOAT.get());
+                output.accept(ItemInit.MYSTWOOD_CHEST_BOAT.get());
                 output.accept(ItemInit.WEAVER_SPAWN_EGG.get());
             }).build());
 
@@ -192,6 +198,21 @@ public class CreativeTabInit {
                 output.accept(BlockInit.CHARCOAL_BIRCH_SAPLING_ITEM.get());
                 output.accept(BlockInit.CHARCOAL_BIRCH_SIGN_ITEM.get());
                 output.accept(BlockInit.CHARCOAL_BIRCH_HANGING_SIGN_ITEM.get());
+                output.accept(BlockInit.MYSTWOOD_LOG_ITEM.get());
+                output.accept(BlockInit.MYSTWOOD_WOOD_ITEM.get());
+                output.accept(BlockInit.STRIPPED_MYSTWOOD_LOG_ITEM.get());
+                output.accept(BlockInit.STRIPPED_MYSTWOOD_WOOD_ITEM.get());
+                output.accept(BlockInit.MYSTWOOD_PLANKS_ITEM.get());
+                output.accept(BlockInit.MYSTWOOD_STAIRS_ITEM.get());
+                output.accept(BlockInit.MYSTWOOD_SLAB_ITEM.get());
+                output.accept(BlockInit.MYSTWOOD_FENCE_ITEM.get());
+                output.accept(BlockInit.MYSTWOOD_FENCE_GATE_ITEM.get());
+                output.accept(BlockInit.MYSTWOOD_DOOR_ITEM.get());
+                output.accept(BlockInit.MYSTWOOD_TRAPDOOR_ITEM.get());
+                output.accept(BlockInit.MYSTWOOD_PRESSURE_PLATE_ITEM.get());
+                output.accept(BlockInit.MYSTWOOD_BUTTON_ITEM.get());
+                output.accept(BlockInit.MYSTWOOD_SIGN_ITEM.get());
+                output.accept(BlockInit.MYSTWOOD_HANGING_SIGN_ITEM.get());
                 output.accept(BlockInit.SCORCHED_GRASS_SOIL_ITEM.get());
                 output.accept(BlockInit.SCORCHED_SOIL_ITEM.get());
             }).build());

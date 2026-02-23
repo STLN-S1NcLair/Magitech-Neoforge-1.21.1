@@ -35,6 +35,8 @@ import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
+import java.util.Set;
+
 public class ManaVesselBlockEntity extends ManaContainerBlockEntity implements GeoBlockEntity {
     public static final int INPUT = 0;
     public static final int OUTPUT = 1;

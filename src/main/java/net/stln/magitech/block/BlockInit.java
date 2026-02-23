@@ -22,8 +22,8 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.block.block_entity.*;
 import net.stln.magitech.item.ItemInit;
-import net.stln.magitech.item.TooltipTextBlockItem;
-import net.stln.magitech.item.TooltipTextSignItem;
+import net.stln.magitech.item.tooltip_item.TooltipTextBlockItem;
+import net.stln.magitech.item.tooltip_item.TooltipTextSignItem;
 import net.stln.magitech.sound.SoundInit;
 import net.stln.magitech.worldgen.tree.TreeGrowerInit;
 
@@ -543,6 +543,81 @@ public class BlockInit {
     public static final DeferredBlock<Block> SCORCHED_GRASS_SOIL = BLOCKS.register("scorched_grass_soil", key -> new ScorchedGrassSoilBlock(
             BlockBehaviour.Properties.ofFullCopy(Blocks.GRASS_BLOCK).sound(SoundType.ROOTED_DIRT).mapColor(MapColor.COLOR_LIGHT_GRAY)
     ));
+
+
+    public static final BlockSetType MYSTWOOD_SET_TYPE = BlockSetType.register(new BlockSetType("magitech:mystwood"));
+    public static final WoodType MYSTWOOD_WOOD_TYPE = WoodType.register(new WoodType("magitech:mystwood", MYSTWOOD_SET_TYPE));
+    public static final DeferredBlock<Block> MYSTWOOD_FENCE_GATE = BLOCKS.register("mystwood_fence_gate", key -> new FenceGateBlock(
+            MYSTWOOD_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE_GATE)
+    ));
+    public static final DeferredItem<BlockItem> MYSTWOOD_FENCE_GATE_ITEM = ItemInit.ITEMS.register("mystwood_fence_gate", key -> new TooltipTextBlockItem(MYSTWOOD_FENCE_GATE.get(), new Item.Properties()));
+    public static final DeferredBlock<Block> MYSTWOOD_SIGN = BLOCKS.register("mystwood_sign", key -> new StandingSignBlock(
+            MYSTWOOD_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SIGN)
+    ));
+    public static final DeferredBlock<Block> MYSTWOOD_WALL_SIGN = BLOCKS.register("mystwood_wall_sign", key -> new WallSignBlock(
+            MYSTWOOD_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_SIGN)
+    ));
+    public static final DeferredItem<BlockItem> MYSTWOOD_SIGN_ITEM = ItemInit.ITEMS.register("mystwood_sign", key -> new TooltipTextSignItem(new Item.Properties(), MYSTWOOD_SIGN.get(), MYSTWOOD_WALL_SIGN.get()));
+    public static final DeferredBlock<Block> MYSTWOOD_HANGING_SIGN = BLOCKS.register("mystwood_hanging_sign", key -> new CeilingHangingSignBlock(
+            MYSTWOOD_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_HANGING_SIGN)
+    ));
+    public static final DeferredBlock<Block> MYSTWOOD_WALL_HANGING_SIGN = BLOCKS.register("mystwood_wall_hanging_sign", key -> new WallHangingSignBlock(
+            MYSTWOOD_WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_HANGING_SIGN)
+    ));
+    public static final DeferredItem<BlockItem> MYSTWOOD_HANGING_SIGN_ITEM = ItemInit.ITEMS.register("mystwood_hanging_sign", key -> new TooltipTextSignItem(new Item.Properties(), MYSTWOOD_HANGING_SIGN.get(), MYSTWOOD_WALL_HANGING_SIGN.get()));
+    public static final DeferredBlock<RotatedPillarBlock> MYSTWOOD_LOG = BLOCKS.register("mystwood_log", key -> new RotatedPillarBlock(
+            BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LOG)
+                    .mapColor(p_152624_ -> p_152624_.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? MapColor.COLOR_GREEN : MapColor.TERRACOTTA_GREEN)
+    ));
+    public static final DeferredItem<BlockItem> MYSTWOOD_LOG_ITEM = ItemInit.ITEMS.register("mystwood_log", key -> new TooltipTextBlockItem(MYSTWOOD_LOG.get(), new Item.Properties()));
+    public static final DeferredBlock<RotatedPillarBlock> MYSTWOOD_WOOD = BLOCKS.register("mystwood_wood", key -> new RotatedPillarBlock(
+            BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WOOD)
+                    .mapColor(MapColor.TERRACOTTA_GREEN)
+    ));
+    public static final DeferredItem<BlockItem> MYSTWOOD_WOOD_ITEM = ItemInit.ITEMS.register("mystwood_wood", key -> new TooltipTextBlockItem(MYSTWOOD_WOOD.get(), new Item.Properties()));
+    public static final DeferredBlock<RotatedPillarBlock> STRIPPED_MYSTWOOD_LOG = BLOCKS.register("stripped_mystwood_log", key -> new RotatedPillarBlock(
+            BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_LOG)
+                    .mapColor(MapColor.COLOR_GREEN)
+    ));
+    public static final DeferredItem<BlockItem> STRIPPED_MYSTWOOD_LOG_ITEM = ItemInit.ITEMS.register("stripped_mystwood_log", key -> new TooltipTextBlockItem(STRIPPED_MYSTWOOD_LOG.get(), new Item.Properties()));
+    public static final DeferredBlock<RotatedPillarBlock> STRIPPED_MYSTWOOD_WOOD = BLOCKS.register("stripped_mystwood_wood", key -> new RotatedPillarBlock(
+            BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_WOOD)
+                    .mapColor(MapColor.COLOR_GREEN)
+    ));
+    public static final DeferredItem<BlockItem> STRIPPED_MYSTWOOD_WOOD_ITEM = ItemInit.ITEMS.register("stripped_mystwood_wood", key -> new TooltipTextBlockItem(STRIPPED_MYSTWOOD_WOOD.get(), new Item.Properties()));
+    public static final DeferredBlock<Block> MYSTWOOD_PLANKS = BLOCKS.register("mystwood_planks", key -> new Block(
+            BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS)
+    ));
+    public static final DeferredItem<BlockItem> MYSTWOOD_PLANKS_ITEM = ItemInit.ITEMS.register("mystwood_planks", key -> new TooltipTextBlockItem(MYSTWOOD_PLANKS.get(), new Item.Properties()));
+    public static final DeferredBlock<Block> MYSTWOOD_STAIRS = BLOCKS.register("mystwood_stairs", key -> new StairBlock(
+            MYSTWOOD_PLANKS.get().defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_STAIRS)
+    ));
+    public static final DeferredItem<BlockItem> MYSTWOOD_STAIRS_ITEM = ItemInit.ITEMS.register("mystwood_stairs", key -> new TooltipTextBlockItem(MYSTWOOD_STAIRS.get(), new Item.Properties()));
+    public static final DeferredBlock<Block> MYSTWOOD_SLAB = BLOCKS.register("mystwood_slab", key -> new SlabBlock(
+            BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SLAB)
+    ));
+    public static final DeferredItem<BlockItem> MYSTWOOD_SLAB_ITEM = ItemInit.ITEMS.register("mystwood_slab", key -> new TooltipTextBlockItem(MYSTWOOD_SLAB.get(), new Item.Properties()));
+    public static final DeferredBlock<Block> MYSTWOOD_DOOR = BLOCKS.register("mystwood_door", key -> new DoorBlock(
+            MYSTWOOD_SET_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_DOOR)
+    ));
+    public static final DeferredItem<BlockItem> MYSTWOOD_DOOR_ITEM = ItemInit.ITEMS.register("mystwood_door", key -> new TooltipTextBlockItem(MYSTWOOD_DOOR.get(), new Item.Properties()));
+    public static final DeferredBlock<Block> MYSTWOOD_TRAPDOOR = BLOCKS.register("mystwood_trapdoor", key -> new TrapDoorBlock(
+            MYSTWOOD_SET_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_TRAPDOOR)
+    ));
+    public static final DeferredItem<BlockItem> MYSTWOOD_TRAPDOOR_ITEM = ItemInit.ITEMS.register("mystwood_trapdoor", key -> new TooltipTextBlockItem(MYSTWOOD_TRAPDOOR.get(), new Item.Properties()));
+    public static final DeferredBlock<Block> MYSTWOOD_FENCE = BLOCKS.register("mystwood_fence", key -> new FenceBlock(
+            BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE)
+    ));
+    public static final DeferredItem<BlockItem> MYSTWOOD_FENCE_ITEM = ItemInit.ITEMS.register("mystwood_fence", key -> new TooltipTextBlockItem(MYSTWOOD_FENCE.get(), new Item.Properties()));
+    public static final DeferredBlock<Block> MYSTWOOD_PRESSURE_PLATE = BLOCKS.register("mystwood_pressure_plate", key -> new PressurePlateBlock(
+            MYSTWOOD_SET_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PRESSURE_PLATE)
+    ));
+    public static final DeferredItem<BlockItem> MYSTWOOD_PRESSURE_PLATE_ITEM = ItemInit.ITEMS.register("mystwood_pressure_plate", key -> new TooltipTextBlockItem(MYSTWOOD_PRESSURE_PLATE.get(), new Item.Properties()));
+    public static final DeferredBlock<Block> MYSTWOOD_BUTTON = BLOCKS.register("mystwood_button", key -> new ButtonBlock(
+            MYSTWOOD_SET_TYPE, 30, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_BUTTON)
+    ));
+    public static final DeferredItem<BlockItem> MYSTWOOD_BUTTON_ITEM = ItemInit.ITEMS.register("mystwood_button", key -> new TooltipTextBlockItem(MYSTWOOD_BUTTON.get(), new Item.Properties()));
+
     public static final DeferredItem<BlockItem> SCORCHED_GRASS_SOIL_ITEM = ItemInit.ITEMS.register("scorched_grass_soil", key -> new TooltipTextBlockItem(SCORCHED_GRASS_SOIL.get(), new Item.Properties()));
     public static final DeferredBlock<Block> SCORCHED_SOIL = BLOCKS.register("scorched_soil", key -> new Block(
             BlockBehaviour.Properties.ofFullCopy(Blocks.DIRT).sound(SoundType.ROOTED_DIRT).mapColor(MapColor.COLOR_BROWN)
@@ -574,6 +649,8 @@ public class BlockInit {
         StrippableBlockRegistry.register(CELIFERN_WOOD.get(), STRIPPED_CELIFERN_WOOD.get());
         StrippableBlockRegistry.register(CHARCOAL_BIRCH_LOG.get(), STRIPPED_CHARCOAL_BIRCH_LOG.get());
         StrippableBlockRegistry.register(CHARCOAL_BIRCH_WOOD.get(), STRIPPED_CHARCOAL_BIRCH_WOOD.get());
+        StrippableBlockRegistry.register(MYSTWOOD_LOG.get(), STRIPPED_MYSTWOOD_LOG.get());
+        StrippableBlockRegistry.register(MYSTWOOD_WOOD.get(), STRIPPED_MYSTWOOD_WOOD.get());
     }
 
 

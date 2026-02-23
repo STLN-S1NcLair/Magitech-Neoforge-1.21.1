@@ -133,6 +133,25 @@ public class ModBlockLootProvider extends BlockLootSubProvider {
         dropSelf(BlockInit.CHARCOAL_BIRCH_WALL_SIGN.get());
         dropSelf(BlockInit.CHARCOAL_BIRCH_HANGING_SIGN.get());
         dropSelf(BlockInit.CHARCOAL_BIRCH_WALL_HANGING_SIGN.get());
+        dropSelf(BlockInit.MYSTWOOD_LOG.get());
+        dropSelf(BlockInit.MYSTWOOD_WOOD.get());
+        dropSelf(BlockInit.STRIPPED_MYSTWOOD_LOG.get());
+        dropSelf(BlockInit.STRIPPED_MYSTWOOD_WOOD.get());
+        dropSelf(BlockInit.MYSTWOOD_PLANKS.get());
+        dropSelf(BlockInit.MYSTWOOD_STAIRS.get());
+        add(BlockInit.MYSTWOOD_SLAB.get(),
+                block -> createSlabItemTable(BlockInit.MYSTWOOD_SLAB.get()));
+        dropSelf(BlockInit.MYSTWOOD_FENCE.get());
+        dropSelf(BlockInit.MYSTWOOD_FENCE_GATE.get());
+        add(BlockInit.MYSTWOOD_DOOR.get(),
+                block -> createDoorTable(BlockInit.MYSTWOOD_DOOR.get()));
+        dropSelf(BlockInit.MYSTWOOD_TRAPDOOR.get());
+        dropSelf(BlockInit.MYSTWOOD_PRESSURE_PLATE.get());
+        dropSelf(BlockInit.MYSTWOOD_BUTTON.get());
+        dropSelf(BlockInit.MYSTWOOD_SIGN.get());
+        dropSelf(BlockInit.MYSTWOOD_WALL_SIGN.get());
+        dropSelf(BlockInit.MYSTWOOD_HANGING_SIGN.get());
+        dropSelf(BlockInit.MYSTWOOD_WALL_HANGING_SIGN.get());
         add(BlockInit.SCORCHED_GRASS_SOIL.get(),
                 block -> createSingleItemTableWithSilkTouch(block, BlockInit.SCORCHED_SOIL));
         dropSelf(BlockInit.SCORCHED_SOIL.get());

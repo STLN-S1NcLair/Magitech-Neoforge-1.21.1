@@ -48,6 +48,8 @@ authors = "${mod_authors}" #optional
 # The description text for the mod (multi line!) (#mandatory)
 description = '''${mod_description}'''
 
+enumExtensions="META-INF/enum_extensions.json"
+
 # The [[mixins]] block allows you child declare your mixin config child FML so that it gets loaded.
 [[mixins]]
 config = "${mod_id}.mixins.json"

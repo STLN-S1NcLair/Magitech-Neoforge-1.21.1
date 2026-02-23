@@ -7,6 +7,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import net.stln.magitech.item.tooltip_item.TooltipTextItem;
 import net.stln.magitech.util.ClientHelper;
 import net.stln.magitech.util.ColorHelper;
 import net.stln.magitech.util.ComponentHelper;

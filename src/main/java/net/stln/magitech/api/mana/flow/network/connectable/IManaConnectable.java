@@ -1,8 +1,12 @@
 package net.stln.magitech.api.mana.flow.network.connectable;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.stln.magitech.api.mana.flow.network.ConnectionMode;
+import net.stln.magitech.api.mana.flow.network.manager.ManaNetworkManager;
 
 import java.util.Set;
 

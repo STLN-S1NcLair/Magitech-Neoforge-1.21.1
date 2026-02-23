@@ -20,7 +20,7 @@ public class ContainerBlockEntityManaHandler implements IBlockManaHandler {
 
     @Override
     public void setMana(long value) {
-        be.setMana(Math.clamp(value, 0, getMaxFlow()));
+        be.setMana(Math.clamp(value, 0, getMaxMana()));
     }
 
     @Override

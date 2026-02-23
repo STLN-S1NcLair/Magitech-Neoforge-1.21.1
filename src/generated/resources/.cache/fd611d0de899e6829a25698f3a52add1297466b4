@@ -1,4 +1,4 @@
-// 1.21.1	2026-01-02T15:09:58.882762	Item Models: magitech
+// 1.21.1	2026-02-23T21:47:26.2680705	Item Models: magitech
 b6e580466ba37335919256eafa6aebae2f80e029 assets/magitech/models/item/abyssite.json
 f8398c633fbbc637417f3dfe317b25ee85a8ac1f assets/magitech/models/item/abyssite_axe_heavy_handle.json
 ba7e38ad119bd2731692671964773b889925fc5c assets/magitech/models/item/abyssite_axe_light_blade.json
@@ -197,10 +197,14 @@ b4dba1fa20409ded8c1971e3989ee41f723115fa assets/magitech/models/item/calcite_wan
 050d192b21e1c19a46a7628f36f434bc5670a4f0 assets/magitech/models/item/calcite_wand_light_handle.json
 439f435df44736e0e92972665be44bad538a784e assets/magitech/models/item/calcite_wand_tool_binding.json
 2a8c73f5a7b46d5b8dd98d0972428a9fed270aa9 assets/magitech/models/item/catalyst.json
+a2d7da7fb9f902fc157e8afd45fc6b16c088e20b assets/magitech/models/item/celifern_boat.json
+f9ba46f945f1abcd4f6a3b076bb15a6339c78993 assets/magitech/models/item/celifern_chest_boat.json
 0e755502867f776490bebdee45135536849acab6 assets/magitech/models/item/celifern_door.json
 1ba7fea37cb065fd58a3095e9f39571e5c794266 assets/magitech/models/item/celifern_hanging_sign.json
 b7f1c9fd41dfd22fa0323283cb7a4a973dd4a3c0 assets/magitech/models/item/celifern_sapling.json
 502a483c6613cb1c09fe3e5728cf3a244c72e994 assets/magitech/models/item/celifern_sign.json
+8110ee5f46627c84f26c0e004949e9d9d36067e9 assets/magitech/models/item/charcoal_birch_boat.json
+a06a4f2a0e3c8befc07d542bf4ea276202d309fa assets/magitech/models/item/charcoal_birch_chest_boat.json
 18061e871c815fcbfe8974e3f2beb6ca0e6087c7 assets/magitech/models/item/charcoal_birch_door.json
 90e2f7a12887864665791eb52780d0684ad8fea7 assets/magitech/models/item/charcoal_birch_hanging_sign.json
 d42ad5438be9d47ccc1f2d28d2a6a5512a8919a1 assets/magitech/models/item/charcoal_birch_sapling.json
@@ -938,6 +942,11 @@ ca8ba577acf123b96bba220f0e35eeb67f7bffdf assets/magitech/models/item/moss_wand_c
 672444f3ed2ae1d167e9149b81206dfcd5a82eec assets/magitech/models/item/moss_wand_conductor.json
 8298deb6c84c61c7a988e2051607e36260ce730d assets/magitech/models/item/moss_wand_light_handle.json
 50784d4fb4fe881d45abd7c930d78bd0944a40c0 assets/magitech/models/item/moss_wand_tool_binding.json
+3e33c59db8f393f433ce47fd5dafe383d5ca8ced assets/magitech/models/item/mystwood_boat.json
+9e5c1072e12b93404ce3ae1839534cc7b696e30f assets/magitech/models/item/mystwood_chest_boat.json
+a7fdf196a1484c359c5389161bf351fc507c1081 assets/magitech/models/item/mystwood_door.json
+337fb748d1caa7a8d6373dc05ff7be1958b7bbcf assets/magitech/models/item/mystwood_hanging_sign.json
+7701d5597da2b9ac9986fa543808dd6b50dc27c5 assets/magitech/models/item/mystwood_sign.json
 c8f87e32d64741b6fb676f151018e9cbdf555ed4 assets/magitech/models/item/netherite_axe_heavy_handle.json
 30aece51963b81f810ceee57075bc93deebc374b assets/magitech/models/item/netherite_axe_light_blade.json
 c4bfbe989360a2ff94ec5b37c148bf9f0d03e1cc assets/magitech/models/item/netherite_axe_strike_head.json

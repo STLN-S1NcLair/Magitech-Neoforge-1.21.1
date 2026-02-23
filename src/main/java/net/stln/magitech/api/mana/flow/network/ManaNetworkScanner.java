@@ -10,6 +10,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.stln.magitech.Magitech;
 import net.stln.magitech.api.mana.flow.network.connectable.IManaConnectable;
 import net.stln.magitech.api.mana.flow.network.connectable.IManaWaypoint;
 import net.stln.magitech.api.mana.flow.ManaTransferHelper;
@@ -62,6 +63,10 @@ public class ManaNetworkScanner {
         }
 
         Block startBlock = level.getBlockState(start).getBlock();
+
+        // edge追加: 自己ループであるため、wiredのみでok
+        edges.add(new NetworkTree.Edge(start, start, ConnectionMode.WIRED));
+
         // 中継点
         if (startBlock instanceof IManaWaypoint) {
             waypoints.add(start);
@@ -74,6 +79,11 @@ public class ManaNetworkScanner {
         while (!queue.isEmpty()) {
             ScanNode node = queue.poll();
 
+            // 中継点
+            if (!node.key.pos.equals(start)) {
+                waypoints.add(node.key.pos);
+            }
+
             if (node.depth > maxHops) {
                 continue;
             }
@@ -83,24 +93,28 @@ public class ManaNetworkScanner {
 
             // モード別探索
             if (node.mode == ConnectionMode.WIRED) {
-                scanWired(level, node, state, queue, visitedWired, endpoints, edges);
+                scanWired(level, node, state, queue, visitedWired, visitedWireless, endpoints, edges);
             } else {
-                scanWireless(level, node, state, queue, visitedWireless, endpoints, edges);
+                scanWireless(level, node, state, queue, visitedWired, visitedWireless, endpoints, edges);
             }
         }
-        return new NetworkSnapshot(endpoints, waypoints , new NetworkTree(endpoints, waypoints, edges));
+        if (endpoints.isEmpty()) {
+            return null; // Handlerが1つも見つからなかった場合はネットワークとして成立しないためnullを返す
+        }
+
+        return new NetworkSnapshot(endpoints, waypoints, new NetworkTree(endpoints, waypoints, edges));
     }
 
     // Handlerを収集できたらHandlerを返す
     private static void scanWired(Level level, ScanNode node, BlockState state, Queue<ScanNode> queue,
-                                  Set<ConnectionKey> visitedWired, Set<HandlerEndpoint> endpoints, Set<NetworkTree.Edge> edges) {
+                                  Set<ConnectionKey> visitedWired, Set<ConnectionKey> visitedWireless, Set<HandlerEndpoint> endpoints, Set<NetworkTree.Edge> edges) {
         // 有線モードの探索ロジック
         // 隣接ブロックを調べ、それがConnectorなら有線モードで追加、Nodeならノードとして登録し無線モードと有線モードで追加、Handlerなら終端として登録して終了
 
         BlockPos pos = node.key.pos;
         Block block = state.getBlock();
 
-        if (!(block instanceof IManaConnectable connectable)) return;
+        if (!(block instanceof IManaConnectable || level.getBlockEntity(pos) instanceof IManaConnectable)) return;
 
         Set<Direction> nextDirs = node.key.side != null ? Set.of(node.key.side) : Set.of(Direction.values());
         for (Direction dir : nextDirs) {
@@ -113,76 +127,90 @@ public class ManaNetworkScanner {
             if (visitedWired.contains(new ConnectionKey(neighborPos, dir.getOpposite()))) continue;
 
             // 接続可能な方向チェック
+            IManaConnectable connectable = getConnectable(level, block, pos);
             Set<Direction> connectableDirs = connectable.getConnectableDirections(state);
             if (!connectableDirs.contains(dir)) {
                 continue;
             }
 
             Block neighborBlock = neighborState.getBlock();
-            if (neighborBlock instanceof IManaConnectable connectableNeighbor && connectableNeighbor.getConnectableDirections(neighborState).contains(dir.getOpposite())
-                    && connectableNeighbor.getConnectableModes(neighborState).contains(ConnectionMode.WIRED)) {
-                if (connectableNeighbor instanceof IManaWaypoint waypoint) {
+            if (neighborBlock instanceof IManaConnectable || level.getBlockEntity(neighborPos) instanceof IManaConnectable) {
+                IManaConnectable connectableNeighbor = getConnectable(level, neighborBlock, neighborPos);
+                if (connectableNeighbor.getConnectableDirections(neighborState).contains(dir.getOpposite())
+                        && connectableNeighbor.getConnectableModes(neighborState).contains(ConnectionMode.WIRED)) {
+                    if (connectableNeighbor instanceof IManaWaypoint waypoint) {
 
-                    visitedWired.add(new ConnectionKey(pos, dir));
-                    visitedWired.add(new ConnectionKey(neighborPos, dir.getOpposite()));
+                        visitedWired.add(new ConnectionKey(pos, dir));
+                        visitedWired.add(new ConnectionKey(neighborPos, dir.getOpposite()));
 
-                    // 中継点
-                    for (ConnectionMode nextMode : waypoint.getConnectableModes(neighborState)) {
-                        if (nextMode == ConnectionMode.WIRED) {
-                            for (Direction nextDir : waypoint.getConnectableDirections(neighborState)) {
-                                if (nextDir == dir.getOpposite() || !visitedWired.add(new ConnectionKey(neighborPos, nextDir)))
-                                    continue; // 来た方向には戻らない
-                                queue.add(new ScanNode(new ConnectionKey(neighborPos, nextDir), nextMode, node.depth + 1));
-                                    edges.add(new NetworkTree.Edge(pos, neighborPos, ConnectionMode.WIRED));
-                            }
-                        } else {
-                            // 無線モードも接続可能なNodeは無線モードでも追加
-                            if (visitedWired.add(new ConnectionKey(neighborPos, null))) {
-                                queue.add(new ScanNode(new ConnectionKey(neighborPos, null), nextMode, node.depth + 1));
-                                edges.add(new NetworkTree.Edge(pos, neighborPos, ConnectionMode.WIRED));
-                            }
-                        }
+
+                        // 中継点
+                        edges.add(new NetworkTree.Edge(pos, neighborPos, ConnectionMode.WIRED));
+                        addNextQueue(node.depth, queue, visitedWired, visitedWireless, dir, waypoint, neighborState, neighborPos);
                     }
+                    collectHandler(level, pos, neighborPos, endpoints, edges, ConnectionMode.WIRED, dir.getOpposite());
                 }
-                collectHandler(level, pos, neighborPos, endpoints, edges, ConnectionMode.WIRED, dir.getOpposite());
             }
         }
     }
 
     private static void scanWireless(Level level, ScanNode node, BlockState state, Queue<ScanNode> queue,
-                                     Set<ConnectionKey> visitedWireless, Set<HandlerEndpoint> endpoints, Set<NetworkTree.Edge> edges) {
+                                     Set<ConnectionKey> visitedWired, Set<ConnectionKey> visitedWireless, Set<HandlerEndpoint> endpoints, Set<NetworkTree.Edge> edges) {
         // 無線モードの探索ロジック
         // 例: 一定範囲内のブロックを探索し、視認可能かつNodeならノードとして登録し有線モードで追加、無線対応のHandlerなら終端として登録して終了
 
         Block block = state.getBlock();
         BlockPos pos = node.key.pos;
-        if (block instanceof IManaWirelessWaypoint wirelessWaypoint && wirelessWaypoint.getConnectableModes(state).contains(ConnectionMode.WIRELESS)) {
-            int range = wirelessWaypoint.getRange();
-            for (BlockPos targetPos : BlockPos.betweenClosed(pos.offset(-range, -range, -range), pos.offset(range, range, range))) {
-                if (targetPos.equals(pos)) continue;
+        if (block instanceof IManaWirelessWaypoint || level.getBlockEntity(pos) instanceof IManaWirelessWaypoint) {
+
+            IManaWirelessWaypoint wirelessWaypoint = (IManaWirelessWaypoint) (block instanceof IManaWirelessWaypoint ? block : level.getBlockEntity(pos));
+
+            if (wirelessWaypoint.getConnectableModes(state).contains(ConnectionMode.WIRELESS)) {
+                int range = wirelessWaypoint.getRange();
+                for (BlockPos targetPos : BlockPos.betweenClosed(pos.offset(-range, -range, -range), pos.offset(range, range, range))) {
+                    if (targetPos.equals(pos)) continue;
 
 
-                // 到達済みチェック
-                if (visitedWireless.contains(new ConnectionKey(targetPos, null))) continue;
+                    // 到達済みチェック
+                    if (visitedWireless.contains(new ConnectionKey(targetPos, null))) continue;
 
-                // 視認チェック
-                if (!canSee(level, pos, targetPos)) continue;
+                    // 視認チェック
+                    if (!canSee(level, pos, targetPos)) continue;
 
-                BlockState targetState = level.getBlockState(targetPos);
-                Block targetBlock = targetState.getBlock();
-                if (targetBlock instanceof IManaWaypoint waypoint && waypoint.getConnectableModes(targetState).contains(ConnectionMode.WIRELESS)) {
+                    BlockState targetState = level.getBlockState(targetPos);
+                    Block targetBlock = targetState.getBlock();
+                    BlockPos nextPos = new BlockPos(targetPos);
+                    if (targetBlock instanceof IManaWaypoint waypoint && waypoint.getConnectableModes(targetState).contains(ConnectionMode.WIRELESS)) {
 
-                    visitedWireless.add(new ConnectionKey(targetPos, null));
-
-                    // 中継点
-                    for (ConnectionMode nextMode : waypoint.getConnectableModes(targetState)) {
-                        queue.add(new ScanNode(new ConnectionKey(targetPos, null), nextMode, node.depth + 1));
-                        edges.add(new NetworkTree.Edge(pos, targetPos, ConnectionMode.WIRELESS));
+                        // 中継点
+                        edges.add(new NetworkTree.Edge(pos, nextPos, ConnectionMode.WIRELESS));
+                        addNextQueue(node.depth, queue, visitedWired, visitedWireless, null, waypoint, targetState, nextPos);
                     }
+                    collectHandler(level, pos, nextPos, endpoints, edges, ConnectionMode.WIRELESS, null);
                 }
-                collectHandler(level, pos, targetPos, endpoints, edges, ConnectionMode.WIRELESS, null);
             }
         }
+    }
+
+    private static void addNextQueue(int depth, Queue<ScanNode> queue, Set<ConnectionKey> visitedWired, Set<ConnectionKey> visitedWireless, Direction dir, IManaWaypoint waypoint, BlockState targetState, BlockPos targetPos) {
+        for (ConnectionMode nextMode : waypoint.getConnectableModes(targetState)) {
+            if (nextMode == ConnectionMode.WIRED) {
+                for (Direction nextDir : waypoint.getConnectableDirections(targetState)) {
+                    if (dir != null && nextDir == dir.getOpposite() || visitedWired.contains(new ConnectionKey(targetPos, nextDir)))
+                        continue; // 来た方向には戻らない
+                    queue.add(new ScanNode(new ConnectionKey(targetPos, nextDir), nextMode, depth + 1));
+                }
+            } else {
+                // 無線モードも接続可能なNodeは無線モードでも追加
+                if (visitedWireless.add(new ConnectionKey(targetPos, null))) {
+                    queue.add(new ScanNode(new ConnectionKey(targetPos, null), nextMode, depth + 1));
+                }
+            }
+        }
+    }
+
+    private static @Nullable IManaConnectable getConnectable(Level level, Block neighborBlock, BlockPos neighborPos) {
+        return (IManaConnectable) (neighborBlock instanceof IManaConnectable ? neighborBlock : level.getBlockEntity(neighborPos));
     }
 
     private static boolean canSee(Level level, BlockPos startPos, BlockPos endPos) {

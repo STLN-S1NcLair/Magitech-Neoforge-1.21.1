@@ -16,6 +16,8 @@ public class AddBlocksToBlockEntityEvent {
         event.modify(BlockEntityType.HANGING_SIGN, BlockInit.CELIFERN_HANGING_SIGN.get(), BlockInit.CELIFERN_WALL_HANGING_SIGN.get());
         event.modify(BlockEntityType.SIGN, BlockInit.CHARCOAL_BIRCH_SIGN.get(), BlockInit.CHARCOAL_BIRCH_WALL_SIGN.get());
         event.modify(BlockEntityType.HANGING_SIGN, BlockInit.CHARCOAL_BIRCH_HANGING_SIGN.get(), BlockInit.CHARCOAL_BIRCH_WALL_HANGING_SIGN.get());
+        event.modify(BlockEntityType.SIGN, BlockInit.MYSTWOOD_SIGN.get(), BlockInit.MYSTWOOD_WALL_SIGN.get());
+        event.modify(BlockEntityType.HANGING_SIGN, BlockInit.MYSTWOOD_HANGING_SIGN.get(), BlockInit.MYSTWOOD_WALL_HANGING_SIGN.get());
     }
 
 }

@@ -1,0 +1,10 @@
+{
+  "type": "magitech:spell_conversion",
+  "ingredient": {
+    "tag": "minecraft:logs"
+  },
+  "spell": "magitech:enercrux",
+  "result": {
+    "id": "magitech:mystwood_log"
+  }
+}

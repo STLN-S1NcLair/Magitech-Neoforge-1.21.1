@@ -3,7 +3,7 @@ package net.stln.magitech.item.tool;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.stln.magitech.item.TooltipTextItem;
+import net.stln.magitech.item.tooltip_item.TooltipTextItem;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

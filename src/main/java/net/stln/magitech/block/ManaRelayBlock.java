@@ -12,10 +12,14 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.stln.magitech.api.mana.flow.network.connectable.IManaRelay;
 import net.stln.magitech.util.VoxelShapeUtil;
 import org.jetbrains.annotations.Nullable;
+import org.openjdk.nashorn.internal.ir.Node;
 
-public class ManaRelayBlock extends ManaNodeBlock {
+import java.util.Set;
+
+public class ManaRelayBlock extends NodeBlock implements IManaRelay {
     public static final VoxelShape SHAPE_UP = Shapes.or(
             Block.box(4, 3, 4, 12, 11, 12),
             Block.box(2, 0, 2, 14, 3, 14)
@@ -40,5 +44,15 @@ public class ManaRelayBlock extends ManaNodeBlock {
             case EAST -> SHAPE_EAST;
             case WEST -> SHAPE_WEST;
         };
+    }
+
+    @Override
+    public Set<Direction> getConnectableDirections(BlockState state) {
+        return Set.of();
+    }
+
+    @Override
+    public int getRange() {
+        return 3;
     }
 }

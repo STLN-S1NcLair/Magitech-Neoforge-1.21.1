@@ -21,11 +21,13 @@ import net.stln.magitech.api.mana.flow.network.connectable.IWiredEndpointManaCon
 import net.stln.magitech.api.mana.flow.network.manager.ManaNetworkManager;
 import net.stln.magitech.api.mana.handler.IBasicManaHandler;
 import net.stln.magitech.api.mana.handler.ContainerBlockEntityManaHandler;
+import net.stln.magitech.block.ManaContainerBlock;
 import net.stln.magitech.util.LongContainerData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -112,24 +114,6 @@ public abstract class ManaContainerBlockEntity extends BaseContainerBlockEntity 
         this.currentTickTransfer = 0;
     }
 
-//    @Override
-//    public void onLoad() {
-//        super.onLoad();
-//        requestRebuildNetwork();
-//    }
-//
-//    @Override
-//    public void setRemoved() {
-//        super.setRemoved();
-//        requestRebuildNetwork();
-//    }
-
-    private void requestRebuildNetwork() {
-        if (level != null && !level.isClientSide && level instanceof ServerLevel serverLevel) {
-            ManaNetworkManager.get(serverLevel).requestRebuild(serverLevel, worldPosition);
-        }
-    }
-
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
@@ -167,7 +151,7 @@ public abstract class ManaContainerBlockEntity extends BaseContainerBlockEntity 
 
     @Override
     public Set<Direction> getConnectableDirections(BlockState state) {
-        Set<Direction> connectableDirs = Set.of();
+        Set<Direction> connectableDirs = new HashSet<>();
         for (Direction dir : Direction.values()) {
             if (!getManaFlowRule(state, dir).isNone()) {
                 connectableDirs.add(dir);
@@ -233,5 +217,11 @@ public abstract class ManaContainerBlockEntity extends BaseContainerBlockEntity 
 
     public int getFlowRate() {
         return Math.round(this.averageFlow);
+    }
+
+    @Override
+    public void onLoad() {
+        super.onLoad();
+        ManaContainerBlock.requestRebuildNetwork(this.level, this.worldPosition, false);
     }
 }

@@ -94,6 +94,21 @@ public class ModBlockStateProvider extends BlockStateProvider {
         saplingBlock(BlockInit.CHARCOAL_BIRCH_SAPLING.get());
         signBlock(BlockInit.CHARCOAL_BIRCH_SIGN.get(), BlockInit.CHARCOAL_BIRCH_WALL_SIGN.get(), BlockInit.CHARCOAL_BIRCH_PLANKS.get());
         hangingSignBlock(BlockInit.CHARCOAL_BIRCH_HANGING_SIGN.get(), BlockInit.CHARCOAL_BIRCH_WALL_HANGING_SIGN.get(), BlockInit.STRIPPED_CHARCOAL_BIRCH_LOG.get());
+        logBlockWithItem(BlockInit.MYSTWOOD_LOG.get());
+        woodBlockWithItem(BlockInit.MYSTWOOD_WOOD.get());
+        logBlockWithItem(BlockInit.STRIPPED_MYSTWOOD_LOG.get());
+        woodBlockWithItem(BlockInit.STRIPPED_MYSTWOOD_WOOD.get());
+        blockWithItem(BlockInit.MYSTWOOD_PLANKS.get());
+        stairsBlockWithItem(BlockInit.MYSTWOOD_STAIRS.get(), BlockInit.MYSTWOOD_PLANKS.get());
+        slabBlockWithItem(BlockInit.MYSTWOOD_SLAB.get(), BlockInit.MYSTWOOD_PLANKS.get());
+        fenceBlockWithItem(BlockInit.MYSTWOOD_FENCE.get(), BlockInit.MYSTWOOD_PLANKS.get());
+        fenceGateBlockWithItem(BlockInit.MYSTWOOD_FENCE_GATE.get(), BlockInit.MYSTWOOD_PLANKS.get());
+        doorBlock(BlockInit.MYSTWOOD_DOOR.get());
+        trapdoorBlockWithItem(BlockInit.MYSTWOOD_TRAPDOOR.get(), true);
+        pressurePlateBlockWithItem(BlockInit.MYSTWOOD_PRESSURE_PLATE.get(), BlockInit.MYSTWOOD_PLANKS.get());
+        buttonBlockWithItem(BlockInit.MYSTWOOD_BUTTON.get(), BlockInit.MYSTWOOD_PLANKS.get());
+        signBlock(BlockInit.MYSTWOOD_SIGN.get(), BlockInit.MYSTWOOD_WALL_SIGN.get(), BlockInit.MYSTWOOD_PLANKS.get());
+        hangingSignBlock(BlockInit.MYSTWOOD_HANGING_SIGN.get(), BlockInit.MYSTWOOD_WALL_HANGING_SIGN.get(), BlockInit.STRIPPED_MYSTWOOD_LOG.get());
         grassBlockWithItem(BlockInit.SCORCHED_GRASS_SOIL.get(), BlockInit.SCORCHED_SOIL.get());
         blockWithItem(BlockInit.SCORCHED_SOIL.get());
     }
