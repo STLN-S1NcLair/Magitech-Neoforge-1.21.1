@@ -5,7 +5,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.stln.magitech.MagitechRegistries;
-import net.stln.magitech.item.tool.material.ToolMaterial;
+import net.stln.magitech.feature.tool.material.ToolMaterial;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;

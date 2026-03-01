@@ -11,9 +11,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.block.BlockInit;
-import net.stln.magitech.recipe.AthanorPillarInfusionRecipe;
-import net.stln.magitech.util.EnergyFormatter;
+import net.stln.magitech.content.block.BlockInit;
+import net.stln.magitech.content.recipe.AthanorPillarInfusionRecipe;
+import net.stln.magitech.helper.EnergyFormatter;
 
 import java.util.ArrayList;
 import java.util.Arrays;

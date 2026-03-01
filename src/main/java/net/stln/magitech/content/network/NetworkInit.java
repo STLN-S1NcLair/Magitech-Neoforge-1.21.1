@@ -1,0 +1,132 @@
+package net.stln.magitech.content.network;
+
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.neoforged.neoforge.network.handling.DirectionalPayloadHandler;
+import net.neoforged.neoforge.network.registration.PayloadRegistrar;
+import net.stln.magitech.Magitech;
+
+@EventBusSubscriber(modid = Magitech.MOD_ID)
+public class NetworkInit {
+
+    @SubscribeEvent
+    public static void registerPayload(final RegisterPayloadHandlersEvent event) {
+        final PayloadRegistrar registrar = event.registrar("1");
+        registrar.playBidirectional(
+                LeftClickPayload.TYPE,
+                LeftClickPayload.STREAM_CODEC,
+                new DirectionalPayloadHandler<>(
+                        LeftClickPayLoadHandler::handleDataOnMainS2C,
+                        LeftClickPayLoadHandler::handleDataOnMainC2S
+                )
+        );
+        registrar.playBidirectional(
+                TraitActionPayload.TYPE,
+                TraitActionPayload.STREAM_CODEC,
+                new DirectionalPayloadHandler<>(
+                        TraitActionPayLoadHandler::handleDataOnMainS2C,
+                        TraitActionPayLoadHandler::handleDataOnMainC2S
+                )
+        );
+        registrar.playBidirectional(
+                DoubleJumpPayload.TYPE,
+                DoubleJumpPayload.STREAM_CODEC,
+                new DirectionalPayloadHandler<>(
+                        DoubleJumpPayLoadHandler::handleDataOnMainS2C,
+                        DoubleJumpPayLoadHandler::handleDataOnMainC2S
+                )
+        );
+        registrar.playBidirectional(
+                LongJumpPayload.TYPE,
+                LongJumpPayload.STREAM_CODEC,
+                new DirectionalPayloadHandler<>(
+                        LongJumpPayLoadHandler::handleDataOnMainS2C,
+                        LongJumpPayLoadHandler::handleDataOnMainC2S
+                )
+        );
+        registrar.playBidirectional(
+                TraitTickPayload.TYPE,
+                TraitTickPayload.STREAM_CODEC,
+                new DirectionalPayloadHandler<>(
+                        TraitTickPayLoadHandler::handleDataOnMainS2C,
+                        TraitTickPayLoadHandler::handleDataOnMainC2S
+                )
+        );
+        registrar.playBidirectional(
+                SyncManaPayload.TYPE,
+                SyncManaPayload.STREAM_CODEC,
+                new DirectionalPayloadHandler<>(
+                        SyncManaPayLoadHandler::handleDataOnMainS2C,
+                        SyncManaPayLoadHandler::handleDataOnMainC2S
+                )
+        );
+        registrar.playToClient(
+                BreakBlockPayload.TYPE,
+                BreakBlockPayload.STREAM_CODEC,
+                BreakBlockPayLoadHandler::handleDataOnMainS2C
+        );
+        registrar.playBidirectional(
+                SpellCastPayload.TYPE,
+                SpellCastPayload.STREAM_CODEC,
+                new DirectionalPayloadHandler<>(
+                        SpellCastPayLoadHandler::handleDataOnMainS2C,
+                        SpellCastPayLoadHandler::handleDataOnMainC2S
+                )
+        );
+        registrar.playBidirectional(
+                SpellEndPayload.TYPE,
+                SpellEndPayload.STREAM_CODEC,
+                new DirectionalPayloadHandler<>(
+                        SpellEndPayLoadHandler::handleDataOnMainS2C,
+                        SpellEndPayLoadHandler::handleDataOnMainC2S
+                )
+        );
+        registrar.playBidirectional(
+                ThreadboundSelectPayload.TYPE,
+                ThreadboundSelectPayload.STREAM_CODEC,
+                new DirectionalPayloadHandler<>(
+                        ThreadboundSelectPayLoadHandler::handleDataOnMainS2C,
+                        ThreadboundSelectPayLoadHandler::handleDataOnMainC2S
+                )
+        );
+        registrar.playBidirectional(
+                SwapToolFromBeltPayload.TYPE,
+                SwapToolFromBeltPayload.STREAM_CODEC,
+                new DirectionalPayloadHandler<>(
+                        SwapToolFromBeltPayLoadHandler::handleDataOnMainS2C,
+                        SwapToolFromBeltPayLoadHandler::handleDataOnMainC2S
+                )
+        );
+        registrar.playToServer(
+                OpenThreadBoundPageScreenPayload.TYPE,
+                OpenThreadBoundPageScreenPayload.STREAM_CODEC,
+                OpenThreadBoundPageScreenPayLoadHandler::handleDataOnMainC2S
+        );
+        registrar.playToClient(
+                TierUpToastPayload.TYPE,
+                TierUpToastPayload.STREAM_CODEC,
+                TierUpToastPayLoadHandler::handleDataOnMainS2C
+        );
+        registrar.playToClient(
+                RangedEntityAttackPayload.TYPE,
+                RangedEntityAttackPayload.STREAM_CODEC,
+                RangedEntityAttackPayLoadHandler::handleDataOnMainS2C
+        );
+        registrar.playToClient(
+                SparkTraitBeamPayload.TYPE,
+                SparkTraitBeamPayload.STREAM_CODEC,
+                SparkTraitBeamPayloadHandler::handleDataOnMainS2C
+        );
+        registrar.playToClient(
+                ManaNodeTransferPayload.TYPE,
+                ManaNodeTransferPayload.STREAM_CODEC,
+                ManaNodeTransferPayloadHandler::handleDataOnMainS2C
+        );
+        registrar.playToClient(
+                ShootManaParcelTransferPayload.TYPE,
+                ShootManaParcelTransferPayload.STREAM_CODEC,
+                ShootManaParcelTransferPayloadHandler::handleDataOnMainS2C
+        );
+    }
+}

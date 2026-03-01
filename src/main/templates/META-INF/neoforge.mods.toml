@@ -89,7 +89,7 @@ ordering = "AFTER"
 side = "BOTH"
 
 [[dependencies.magitech]]
-modId = "fabric_api"
+modId = "lodestone"
 type = "required"
 ordering = "AFTER"
 side = "BOTH"

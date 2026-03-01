@@ -1,7 +1,7 @@
 package net.stln.magitech.mixin;
 
 import net.minecraft.world.entity.LivingEntity;
-import net.stln.magitech.entity.AdjustableAttackStrengthEntity;
+import net.stln.magitech.content.entity.AdjustableAttackStrengthEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;

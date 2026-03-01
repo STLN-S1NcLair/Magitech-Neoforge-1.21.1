@@ -6,7 +6,7 @@ import net.minecraft.world.entity.EntityType;
 import net.neoforged.neoforge.common.data.DataMapProvider;
 import net.stln.magitech.data.DataMapTypeInit;
 import net.stln.magitech.data.EntityElementData;
-import net.stln.magitech.element.Element;
+import net.stln.magitech.feature.element.Element;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.CompletableFuture;

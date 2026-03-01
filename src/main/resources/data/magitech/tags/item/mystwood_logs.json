@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "magitech:mystwood_log",
+    "magitech:mystwood_wood",
+    "magitech:stripped_mystwood_log",
+    "magitech:stripped_mystwood_wood"
+  ]
+}

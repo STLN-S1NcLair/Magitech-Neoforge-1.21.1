@@ -3,9 +3,8 @@ package net.stln.magitech.compat.jade;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.api.mana.flow.ManaTransferHelper;
-import net.stln.magitech.api.mana.handler.IBlockManaHandler;
-import net.stln.magitech.block.block_entity.ManaContainerBlockEntity;
+import net.stln.magitech.core.api.mana.flow.ManaTransferHelper;
+import net.stln.magitech.core.api.mana.handler.IBlockManaHandler;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.IServerDataProvider;
 

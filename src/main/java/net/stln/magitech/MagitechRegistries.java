@@ -5,12 +5,13 @@ import net.minecraft.resources.ResourceKey;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.NewRegistryEvent;
 import net.neoforged.neoforge.registries.RegistryBuilder;
-import net.stln.magitech.item.fluid.FluidContainerMatcher;
-import net.stln.magitech.item.tool.material.ToolMaterial;
-import net.stln.magitech.magic.spell.Spell;
+import net.stln.magitech.content.item.fluid.FluidContainerMatcher;
+import net.stln.magitech.feature.magic.spell.ISpell;
+import net.stln.magitech.feature.magic.spell.Spell;
+import net.stln.magitech.feature.tool.material.ToolMaterial;
 
 public final class MagitechRegistries {
-    public static final Registry<Spell> SPELL = new RegistryBuilder<>(Keys.SPELL).sync(true).create();
+    public static final Registry<ISpell> SPELL = new RegistryBuilder<>(Keys.SPELL).sync(true).create();
     public static final Registry<ToolMaterial> TOOL_MATERIAL = new RegistryBuilder<>(Keys.TOOL_MATERIAL).sync(true).create();
     public static final Registry<FluidContainerMatcher> FLUID_CONTAINER_MATCHER = new RegistryBuilder<>(Keys.FLUID_CONTAINER_MATCHER).sync(true).create();
 
@@ -27,7 +28,7 @@ public final class MagitechRegistries {
     }
 
     public static final class Keys {
-        public static final ResourceKey<? extends Registry<Spell>> SPELL = ResourceKey.createRegistryKey(Magitech.id("spell"));
+        public static final ResourceKey<? extends Registry<ISpell>> SPELL = ResourceKey.createRegistryKey(Magitech.id("spell"));
         public static final ResourceKey<? extends Registry<ToolMaterial>> TOOL_MATERIAL = ResourceKey.createRegistryKey(Magitech.id("tool_material"));
         public static final ResourceKey<? extends Registry<FluidContainerMatcher>> FLUID_CONTAINER_MATCHER = ResourceKey.createRegistryKey(Magitech.id("alchemical_flask_containable"));
 

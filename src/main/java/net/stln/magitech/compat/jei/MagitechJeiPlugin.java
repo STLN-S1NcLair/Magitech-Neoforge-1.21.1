@@ -8,12 +8,12 @@ import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.resources.ResourceLocation;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.block.BlockInit;
-import net.stln.magitech.gui.PartCuttingScreen;
-import net.stln.magitech.gui.ToolAssemblyScreen;
-import net.stln.magitech.item.ItemInit;
-import net.stln.magitech.recipe.RecipeInit;
-import net.stln.magitech.util.ClientHelper;
+import net.stln.magitech.content.block.BlockInit;
+import net.stln.magitech.content.gui.PartCuttingScreen;
+import net.stln.magitech.content.gui.ToolAssemblyScreen;
+import net.stln.magitech.content.item.ItemInit;
+import net.stln.magitech.content.recipe.RecipeInit;
+import net.stln.magitech.helper.ClientHelper;
 import org.jetbrains.annotations.NotNull;
 
 @JeiPlugin
@@ -62,6 +62,6 @@ public class MagitechJeiPlugin implements IModPlugin {
         registration.addRecipeCatalyst(ItemInit.WAND.toStack(), SpellConversionRecipeCategory.SPELL_CONVERSION_RECIPE_TYPE);
         registration.addRecipeCatalyst(BlockInit.ZARDIUS_CRUCIBLE_ITEM.toStack(), ZardiusCrucibleRecipeCategory.ZARDIUS_CRUCIBLE_RECIPE_TYPE);
         registration.addRecipeCatalyst(BlockInit.ATHANOR_PILLAR_ITEM.toStack(), AthanorPillarInfusionRecipeCategory.ATHANOR_PILLAR_INFUSION_RECIPE_TYPE);
-        registration.addRecipeCatalyst(BlockInit.INFUSER_ITEM.toStack(), InfuserInfusionRecipeCategory.INFUSER_INFUSION_RECIPE_TYPE);
+        registration.addRecipeCatalyst(BlockInit.INFUSION_ALTAR_ITEM.toStack(), InfuserInfusionRecipeCategory.INFUSER_INFUSION_RECIPE_TYPE);
     }
 }

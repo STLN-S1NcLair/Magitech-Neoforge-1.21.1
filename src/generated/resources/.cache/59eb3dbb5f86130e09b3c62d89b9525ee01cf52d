@@ -1,4 +1,4 @@
-// 1.21.1	2026-02-23T20:23:51.1165651	Loot Tables
+// 1.21.1	2026-02-25T08:11:38.6097927	Loot Tables
 d5c7ba896003b8f86835f7808a6a42840e7bb806 data/magitech/loot_table/blocks/alchecrysite.json
 0ec67ee2f0a83abcc8fc58cd95f43106109fca3e data/magitech/loot_table/blocks/alchecrysite_bricks.json
 f0dfbc1457dc98d193c135916b33deca6e65c407 data/magitech/loot_table/blocks/alchecrysite_brick_slab.json
@@ -56,7 +56,7 @@ c4f39039fc19bf226693833c0c1d1b40382e61fc data/magitech/loot_table/blocks/fluorit
 8132ac76b46e0e540c524620f449f72525d0e4aa data/magitech/loot_table/blocks/fluorite_brick_wall.json
 9219220b343385e476349e5eec392e8624d5d079 data/magitech/loot_table/blocks/fluorite_crystal_cluster.json
 646c7512d800aaf5b41d0e6f4bde98bcc438bcd0 data/magitech/loot_table/blocks/fluorite_ore.json
-1110dc139d35fe4993df0a3d1587b31c4eec9bbc data/magitech/loot_table/blocks/infuser.json
+1c53413705e16c0f8ad38d11264a4c46826b4680 data/magitech/loot_table/blocks/infusion_altar.json
 bdb94a9a1d420ced09408ed5d3f442a265e1baa3 data/magitech/loot_table/blocks/mana_berry_bush.json
 2953f41395538778d69668987775953f6775dfe3 data/magitech/loot_table/blocks/mana_collector.json
 9ffa64b829ae2a3c83aa46c2d7a5f825175a13d8 data/magitech/loot_table/blocks/mana_junction.json
@@ -101,6 +101,10 @@ b51a462b847a60303fd6d5a7290bf95c24f15ecd data/magitech/loot_table/blocks/strippe
 09bda6905b76d6f568380832546a4144fbd4a3d0 data/magitech/loot_table/blocks/tool_hanger.json
 862dd084d0d8682a746abff7fd9e5073aaa581e2 data/magitech/loot_table/blocks/tourmaline_ore.json
 a8e206916edfa491763366e3d3ae1a948c7c8536 data/magitech/loot_table/blocks/upgrade_workbench.json
+b901c697204cc8a42fd16e1db5482f95a8321679 data/magitech/loot_table/blocks/vesperite.json
+ab2d8c1e72df4ecef6635d8d61d1618453dc30bf data/magitech/loot_table/blocks/vesperite_slab.json
+61915c45e644b5c0394930bf76f45569c96f72b5 data/magitech/loot_table/blocks/vesperite_stairs.json
+9cb6efc6a72ba1044a17b2d3c8f66339f155e80d data/magitech/loot_table/blocks/vesperite_wall.json
 ecaa5a057a4f74638d467635af23e62f127a6fb9 data/magitech/loot_table/blocks/zardius_crucible.json
 088052d24a41a18b3070011d5add8d871eb32988 data/magitech/loot_table/blocks/zinc_ore.json
 17f705bf740c6eefbde3a72401926a7663046d38 data/magitech/loot_table/entities/weaver.json

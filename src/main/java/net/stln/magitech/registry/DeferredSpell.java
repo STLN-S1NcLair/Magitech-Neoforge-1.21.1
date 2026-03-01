@@ -4,12 +4,13 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.stln.magitech.MagitechRegistries;
-import net.stln.magitech.magic.spell.Spell;
-import net.stln.magitech.magic.spell.SpellLike;
+import net.stln.magitech.feature.magic.spell.ISpell;
+import net.stln.magitech.feature.magic.spell.Spell;
+import net.stln.magitech.feature.magic.spell.SpellLike;
 import org.jetbrains.annotations.NotNull;
 
-public class DeferredSpell<T extends Spell> extends DeferredHolder<Spell, T> implements SpellLike {
-    public DeferredSpell(ResourceKey<Spell> key) {
+public class DeferredSpell<T extends ISpell> extends DeferredHolder<ISpell, T> implements SpellLike {
+    public DeferredSpell(ResourceKey<ISpell> key) {
         super(key);
     }
 
@@ -18,7 +19,7 @@ public class DeferredSpell<T extends Spell> extends DeferredHolder<Spell, T> imp
     }
 
     @Override
-    public @NotNull Spell asSpell() {
+    public @NotNull ISpell asSpell() {
         return get();
     }
 }

@@ -4,8 +4,8 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.stln.magitech.MagitechRegistries;
-import net.stln.magitech.item.tool.material.ToolMaterial;
-import net.stln.magitech.item.tool.material.ToolMaterialLike;
+import net.stln.magitech.feature.tool.material.ToolMaterial;
+import net.stln.magitech.feature.tool.material.ToolMaterialLike;
 import org.jetbrains.annotations.NotNull;
 
 public class DeferredToolMaterial<T extends ToolMaterial> extends DeferredHolder<ToolMaterial, T> implements ToolMaterialLike {

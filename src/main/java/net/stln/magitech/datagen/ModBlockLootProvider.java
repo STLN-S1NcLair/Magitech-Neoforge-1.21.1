@@ -18,8 +18,8 @@ import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
-import net.stln.magitech.block.BlockInit;
-import net.stln.magitech.item.ItemInit;
+import net.stln.magitech.content.block.BlockInit;
+import net.stln.magitech.content.item.ItemInit;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
@@ -46,7 +46,7 @@ public class ModBlockLootProvider extends BlockLootSubProvider {
         dropSelf(BlockInit.MANA_RECEIVER.get());
         dropSelf(BlockInit.MANA_COLLECTOR.get());
         dropSelf(BlockInit.MANA_JUNCTION.get());
-        dropSelf(BlockInit.INFUSER.get());
+        dropSelf(BlockInit.INFUSION_ALTAR.get());
         add(BlockInit.FLUORITE_ORE.get(),
                 block -> createOreDrop(BlockInit.FLUORITE_ORE.get(), ItemInit.FLUORITE.get()));
         add(BlockInit.DEEPSLATE_FLUORITE_ORE.get(),
@@ -83,6 +83,11 @@ public class ModBlockLootProvider extends BlockLootSubProvider {
                 block -> createSlabItemTable(BlockInit.ALCHECRYSITE_BRICK_SLAB.get()));
         dropSelf(BlockInit.ALCHECRYSITE_BRICK_WALL.get());
         dropSelf(BlockInit.ALCHECRYSITE_TILES.get());
+        dropSelf(BlockInit.VESPERITE.get());
+        dropSelf(BlockInit.VESPERITE_STAIRS.get());
+        add(BlockInit.VESPERITE_SLAB.get(),
+                block -> createSlabItemTable(BlockInit.VESPERITE_SLAB.get()));
+        dropSelf(BlockInit.VESPERITE_WALL.get());
         dropSelf(BlockInit.FLUORITE_BLOCK.get());
         dropSelf(BlockInit.FLUORITE_BRICKS.get());
         dropSelf(BlockInit.FLUORITE_BRICK_STAIRS.get());

@@ -11,14 +11,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.block.BlockInit;
-import net.stln.magitech.item.component.ComponentInit;
-import net.stln.magitech.item.component.MaterialComponent;
-import net.stln.magitech.item.component.PartMaterialComponent;
-import net.stln.magitech.item.tool.material.ToolMaterial;
-import net.stln.magitech.recipe.ToolAssemblyRecipe;
-import net.stln.magitech.util.ClientHelper;
-import net.stln.magitech.util.ToolMaterialUtil;
+import net.stln.magitech.content.block.BlockInit;
+import net.stln.magitech.content.item.component.ComponentInit;
+import net.stln.magitech.content.item.component.MaterialComponent;
+import net.stln.magitech.content.item.component.PartMaterialComponent;
+import net.stln.magitech.content.recipe.ToolAssemblyRecipe;
+import net.stln.magitech.feature.tool.material.ToolMaterial;
+import net.stln.magitech.helper.ClientHelper;
+import net.stln.magitech.helper.ToolMaterialHelper;
 import oshi.util.tuples.Pair;
 
 import java.util.ArrayList;
@@ -95,7 +95,7 @@ public class BookToolAssemblyRecipePageRenderer extends BookRecipePageRenderer<T
         List<List<ItemStack>> inputList = new ArrayList<>();
         List<ItemStack> results = new ArrayList<>();
         for (int idx = 0; idx < indexSize; idx += 10) {
-            List<ToolMaterial> materialList = ToolMaterialUtil.getMaterialCombinationAt(materials, size, idx);
+            List<ToolMaterial> materialList = ToolMaterialHelper.getMaterialCombinationAt(materials, size, idx);
             List<ItemStack> stacks = new ArrayList<>();
             for (int i = 0; i < size; i++) {
                 ItemStack returnStack = inputs.get(i).copy();

@@ -1,17 +1,20 @@
 package net.stln.magitech.capability;
 
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.api.ManaCapabilities;
-import net.stln.magitech.api.mana.handler.ManaContainerItemManaHandler;
-import net.stln.magitech.block.BlockInit;
-import net.stln.magitech.block.block_entity.ManaContainerBlockEntity;
-import net.stln.magitech.item.ItemInit;
-import net.stln.magitech.item.energy.ManaContainerItem;
+import net.stln.magitech.content.block.BlockInit;
+import net.stln.magitech.content.block.block_entity.ManaContainerBlockEntity;
+import net.stln.magitech.content.item.ItemInit;
+import net.stln.magitech.content.item.energy.ManaContainerItem;
+import net.stln.magitech.core.api.mana.ManaCapabilities;
+import net.stln.magitech.core.api.mana.handler.EntityManaHandler;
+import net.stln.magitech.core.api.mana.handler.ManaContainerItemManaHandler;
 
 @EventBusSubscriber(modid = Magitech.MOD_ID)
 public class CapabilityInit {
@@ -29,10 +32,13 @@ public class CapabilityInit {
         registerManaContainerBlockEntity(event, BlockInit.MANA_STRANDER_ENTITY.get());
         registerManaContainerBlockEntity(event, BlockInit.MANA_RECEIVER_ENTITY.get());
         registerManaContainerBlockEntity(event, BlockInit.MANA_COLLECTOR_ENTITY.get());
-        registerManaContainerBlockEntity(event, BlockInit.INFUSER_ENTITY.get());
+        registerManaContainerBlockEntity(event, BlockInit.INFUSION_ALTAR_ENTITY.get());
 
         // アイテムへの登録
         registerManaContainerItem(event, (ManaContainerItem) ItemInit.MANA_CELL.get());
+
+        // エンティティへの登録
+        registerManaCapableEntity(event, EntityType.PLAYER);
     }
 
     private static <T extends ManaContainerBlockEntity> void registerManaContainerBlockEntity(RegisterCapabilitiesEvent event, BlockEntityType<T> type) {
@@ -43,11 +49,24 @@ public class CapabilityInit {
         );
     }
 
-    private static  <T extends ManaContainerItem> void registerManaContainerItem(RegisterCapabilitiesEvent event, T item) {
+    private static <T extends ManaContainerItem> void registerManaContainerItem(RegisterCapabilitiesEvent event, T item) {
         event.registerItem(
                 ManaCapabilities.MANA_CONTAINER_ITEM,
                 (stack, context) -> new ManaContainerItemManaHandler(stack),
                 item
+        );
+    }
+
+    private static void registerManaCapableEntity(RegisterCapabilitiesEvent event, EntityType<?> entityType) {
+        event.registerEntity(
+                ManaCapabilities.MANA_CAPABLE_ENTITY,
+                entityType,
+                (entity, context) -> {
+                    if (entity instanceof LivingEntity livingEntity) {
+                        return new EntityManaHandler(livingEntity);
+                    }
+                    return null;
+                }
         );
     }
 }

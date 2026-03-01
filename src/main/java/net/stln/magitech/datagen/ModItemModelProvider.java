@@ -9,9 +9,9 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.MagitechRegistries;
-import net.stln.magitech.block.BlockInit;
-import net.stln.magitech.item.ItemInit;
-import net.stln.magitech.item.tool.model.ModelRegistrar;
+import net.stln.magitech.content.block.BlockInit;
+import net.stln.magitech.content.item.ItemInit;
+import net.stln.magitech.feature.tool.model.ModelRegistrar;
 
 public class ModItemModelProvider extends ItemModelProvider {
     public ModItemModelProvider(PackOutput output, ExistingFileHelper existingFileHelper) {

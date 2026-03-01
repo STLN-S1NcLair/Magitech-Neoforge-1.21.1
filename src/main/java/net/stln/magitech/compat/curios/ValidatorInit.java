@@ -1,7 +1,7 @@
 package net.stln.magitech.compat.curios;
 
 import net.stln.magitech.Magitech;
-import net.stln.magitech.item.ItemTagKeys;
+import net.stln.magitech.content.item.ItemTagKeys;
 import top.theillusivec4.curios.api.CuriosApi;
 
 public class ValidatorInit {

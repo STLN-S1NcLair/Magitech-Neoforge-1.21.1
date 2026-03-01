@@ -16,32 +16,32 @@ import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
-import net.stln.magitech.advancement.CriterionInit;
-import net.stln.magitech.biome.BiomeInit;
-import net.stln.magitech.block.BlockInit;
 import net.stln.magitech.compat.curios.ValidatorInit;
 import net.stln.magitech.compat.modonomicon.PageInit;
+import net.stln.magitech.content.advancement.CriterionInit;
+import net.stln.magitech.content.biome.BiomeInit;
+import net.stln.magitech.content.block.BlockInit;
+import net.stln.magitech.content.entity.EntityInit;
+import net.stln.magitech.content.entity.mob_effect.MobEffectInit;
+import net.stln.magitech.content.entity.status.AttributeInit;
+import net.stln.magitech.content.fluid.FluidInit;
+import net.stln.magitech.content.gui.GuiInit;
+import net.stln.magitech.content.item.ItemInit;
+import net.stln.magitech.content.item.ItemPropertyInit;
+import net.stln.magitech.content.item.component.ComponentInit;
+import net.stln.magitech.content.item.creative_tab.CreativeTabInit;
+import net.stln.magitech.content.item.fluid.FluidContainerMatcherInit;
+import net.stln.magitech.content.loot.LootFunctionInit;
+import net.stln.magitech.content.recipe.RecipeInit;
+import net.stln.magitech.content.sound.SoundInit;
+import net.stln.magitech.data.DataAttachmentInit;
 import net.stln.magitech.data.DataMapTypeInit;
-import net.stln.magitech.element.Element;
-import net.stln.magitech.entity.EntityInit;
-import net.stln.magitech.entity.mob_effect.MobEffectInit;
-import net.stln.magitech.entity.status.AttributeInit;
-import net.stln.magitech.event.EventInit;
-import net.stln.magitech.fluid.FluidInit;
-import net.stln.magitech.gui.GuiInit;
-import net.stln.magitech.item.ItemInit;
-import net.stln.magitech.item.ItemPropertyInit;
-import net.stln.magitech.item.component.ComponentInit;
-import net.stln.magitech.item.creative_tab.CreativeTabInit;
-import net.stln.magitech.item.fluid.FluidContainerMatcherInit;
-import net.stln.magitech.item.tool.material.MaterialInit;
-import net.stln.magitech.item.tool.register.ToolMaterialRegister;
-import net.stln.magitech.item.tool.upgrade.UpgradeInit;
-import net.stln.magitech.loot.LootFunctionInit;
-import net.stln.magitech.magic.spell.SpellInit;
-import net.stln.magitech.particle.ParticleInit;
-import net.stln.magitech.recipe.RecipeInit;
-import net.stln.magitech.sound.SoundInit;
+import net.stln.magitech.feature.element.Element;
+import net.stln.magitech.feature.magic.spell.SpellInit;
+import net.stln.magitech.feature.tool.material.MaterialInit;
+import net.stln.magitech.feature.tool.register.ToolMaterialRegister;
+import net.stln.magitech.feature.tool.upgrade.UpgradeInit;
+import net.stln.magitech.vfx.particle.ParticleInit;
 import net.stln.magitech.worldgen.WorldGenInit;
 import net.stln.magitech.worldgen.tree.TreeGrowerInit;
 import org.slf4j.Logger;
@@ -92,6 +92,7 @@ public class Magitech {
         UpgradeInit.registerUpgrades();
         ValidatorInit.registerValidators();
         WorldGenInit.registerFeatures(modEventBus);
+        DataAttachmentInit.registerDataAttachmentTypes(modEventBus);
 
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (ExampleMod) child respond directly child events.
@@ -109,7 +110,6 @@ public class Magitech {
     private void commonSetup(final FMLCommonSetupEvent event) {
 //        Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
 //        WorldGenInit.registerBiomeModifiers();
-        BlockInit.registerStrippableBlocks();
         BiomeInit.registerBiomeRegions(event);
         PageInit.registerPages();
     }
@@ -133,7 +133,6 @@ public class Magitech {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
             EntityInit.registerModEntitiesRenderer();
-            EventInit.registerClientEvent();
             ItemPropertyInit.registerItemProperties();
             PageInit.registerRenderers();
             FluidInit.registerFluidRenderTypes();

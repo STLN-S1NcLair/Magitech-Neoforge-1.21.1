@@ -9,7 +9,7 @@ import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.block.BlockInit;
+import net.stln.magitech.content.block.BlockInit;
 
 public class ModBlockStateProvider extends BlockStateProvider {
     public ModBlockStateProvider(PackOutput output, ExistingFileHelper exFileHelper) {
@@ -33,7 +33,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         directionalHandModeledBlockWithItem(BlockInit.MANA_RECEIVER.get());
         directionalHandModeledBlockWithItem(BlockInit.MANA_COLLECTOR.get());
         handModeledBlockWithItem(BlockInit.MANA_JUNCTION.get());
-        horizontalHandModeledBlockWithItem(BlockInit.INFUSER.get());
+        handModeledBlockWithItem(BlockInit.INFUSION_ALTAR.get());
         blockWithItem(BlockInit.FLUORITE_ORE.get());
         blockWithItem(BlockInit.DEEPSLATE_FLUORITE_ORE.get());
         blockWithItem(BlockInit.TOURMALINE_ORE.get());
@@ -55,6 +55,10 @@ public class ModBlockStateProvider extends BlockStateProvider {
         slabBlockWithItem(BlockInit.ALCHECRYSITE_BRICK_SLAB.get(), BlockInit.ALCHECRYSITE_BRICKS.get());
         wallBlockWithItem(BlockInit.ALCHECRYSITE_BRICK_WALL.get(), BlockInit.ALCHECRYSITE_BRICKS.get());
         blockWithItem(BlockInit.ALCHECRYSITE_TILES.get());
+        blockWithItem(BlockInit.VESPERITE.get());
+        stairsBlockWithItem(BlockInit.VESPERITE_STAIRS.get(), BlockInit.VESPERITE.get());
+        slabBlockWithItem(BlockInit.VESPERITE_SLAB.get(), BlockInit.VESPERITE.get());
+        wallBlockWithItem(BlockInit.VESPERITE_WALL.get(), BlockInit.VESPERITE.get());
         blockWithItem(BlockInit.FLUORITE_BLOCK.get());
         blockWithItem(BlockInit.FLUORITE_BRICKS.get());
         stairsBlockWithItem(BlockInit.FLUORITE_BRICK_STAIRS.get(), BlockInit.FLUORITE_BRICKS.get());

@@ -15,9 +15,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.item.ItemInit;
-import net.stln.magitech.recipe.SpellConversionRecipe;
-import net.stln.magitech.util.ComponentHelper;
+import net.stln.magitech.content.item.ItemInit;
+import net.stln.magitech.content.recipe.SpellConversionRecipe;
+import net.stln.magitech.helper.ComponentHelper;
 import org.jetbrains.annotations.NotNull;
 
 public class SpellConversionRecipeCategory extends AbstractMagitechRecipeCategory<SpellConversionRecipe> {

@@ -10,8 +10,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.stln.magitech.block.BlockInit;
-import net.stln.magitech.block.CrystalClusterBlock;
+import net.stln.magitech.content.block.BlockInit;
+import net.stln.magitech.content.block.CrystalClusterBlock;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -71,8 +71,8 @@ public class ScorchedGeyserFeature extends Feature<NoneFeatureConfiguration> {
             for (int dx = -l; dx <= l; dx++) {
 
                 for (int dz = -l; dz <= l; dz++) {
-                    float f1 = (float) Mth.abs((float) (Math.cos(hillRot) * dx - Math.sin(hillRot) * dz)) - 0.25F;
-                    float f2 = (float) Mth.abs((float) (Math.sin(hillRot) * dx + Math.cos(hillRot) * dz)) - 0.25F;
+                    float f1 = Mth.abs((float) (Math.cos(hillRot) * dx - Math.sin(hillRot) * dz)) - 0.25F;
+                    float f2 = Mth.abs((float) (Math.sin(hillRot) * dx + Math.cos(hillRot) * dz)) - 0.25F;
 
                     // --- 楕円形の判定 + 中心のずらし ---
                     float dist = (f1 * f1) / (scaleX * scaleX) + (f2 * f2) / (scaleZ * scaleZ);

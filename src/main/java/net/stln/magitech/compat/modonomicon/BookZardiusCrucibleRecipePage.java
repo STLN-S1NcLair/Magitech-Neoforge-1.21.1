@@ -12,8 +12,8 @@ import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
-import net.stln.magitech.recipe.RecipeInit;
-import net.stln.magitech.recipe.ZardiusCrucibleRecipe;
+import net.stln.magitech.content.recipe.RecipeInit;
+import net.stln.magitech.content.recipe.ZardiusCrucibleRecipe;
 
 public class BookZardiusCrucibleRecipePage extends BookRecipePage<ZardiusCrucibleRecipe> {
     public BookZardiusCrucibleRecipePage(BookTextHolder title1, ResourceLocation recipeId1, BookTextHolder title2, ResourceLocation recipeId2, BookTextHolder text, String anchor, BookCondition condition) {

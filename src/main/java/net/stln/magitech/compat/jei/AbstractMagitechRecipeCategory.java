@@ -7,7 +7,7 @@ import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeManager;
-import net.stln.magitech.util.ClientHelper;
+import net.stln.magitech.helper.ClientHelper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

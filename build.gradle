@@ -3,6 +3,7 @@ plugins {
     id 'java-library'
     id 'maven-publish'
     id 'net.neoforged.moddev' version '2.0.78'
+    id 'eclipse'
 }
 
 tasks.named('wrapper', Wrapper).configure {
@@ -165,35 +166,30 @@ dependencies {
     runtimeOnly "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
     implementation "maven.modrinth:jade:${jade_id}"
     implementation "curse.maven:curios-309927:${curiosapi_id}"
-    implementation "org.sinytra.forgified-fabric-api:forgified-fabric-api:${forgified_fabric_api_version}"
     implementation "curse.maven:playeranimator-658587:${playeranimator_id}"
-//    implementation "curse.maven:patchouli-306770:${patchouli_id}"
     implementation ("com.klikli_dev:modonomicon-${minecraft_version}-neoforge:${modonomicon_version}"){transitive=false}
-//    compileOnly("curse.maven:patchouli-306770:${patchouli_id}")
     implementation "com.github.glitchfiend:TerraBlender-neoforge:1.21.1-4.1.0.8"
     implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_id}"
+
     implementation "io.wispforest:owo-lib-neoforge:${owo_version}"
     interfaceInjectionData "io.wispforest:owo-lib-neoforge:${owo_version}"
+    implementation "org.sinytra.forgified-fabric-api:forgified-fabric-api:${forgified_fabric_api_version}"
+
+    compileOnlyApi "team.lodestar.lodestone:lodestone:${minecraft_version}-${lodestone_version}"
+    runtimeOnly "team.lodestar.lodestone:lodestone:${minecraft_version}-${lodestone_version}"
+//    implementation "org.spongepowered:mixin:0.7-SNAPSHOT"
 
     runtimeOnly "curse.maven:appleskin-248787:${appleskin_id}"
     runtimeOnly "curse.maven:auth-me-356643:6177873"
     runtimeOnly "curse.maven:xaeros-world-map-317780:6538359"
     runtimeOnly "curse.maven:xaeros-minimap-263420:6515043"
     runtimeOnly "curse.maven:advancements-reloaded-1113876:5835520"
-    runtimeOnly "curse.maven:cloth-config-348521:5729127"
 
     runtimeOnly "maven.modrinth:emi:ouSj7NfF"
-    runtimeOnly "maven.modrinth:ifr25ku:KQ8IQw7w"
-    runtimeOnly "maven.modrinth:architectury-api:ZxYGwlk0"
-    runtimeOnly "maven.modrinth:kotlin-for-forge:4qCjWixP"
     runtimeOnly "maven.modrinth:cloth-config:izKINKFg"
     runtimeOnly "maven.modrinth:create:tS7ygzAE"
-    runtimeOnly "maven.modrinth:owo-lib:HD3e3YKK"
     runtimeOnly "maven.modrinth:mekanism:JpDlMCsB"
-    runtimeOnly "maven.modrinth:ae2:kfyIqgJ6"
-    runtimeOnly "maven.modrinth:guideme:ILW6vM7o"
-    runtimeOnly "maven.modrinth:malum:BIbVs1fo"
-    runtimeOnly "maven.modrinth:lodestonelib:CohX6yP1"
+    implementation "maven.modrinth:malum:BIbVs1fo"
 
 //    runtimeOnly("curse.maven:supplementaries-412082:6854370")
 //    runtimeOnly("curse.maven:selene-499980:6818413")

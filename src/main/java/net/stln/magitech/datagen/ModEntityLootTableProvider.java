@@ -12,8 +12,8 @@ import net.minecraft.world.level.storage.loot.functions.EnchantedCountIncreaseFu
 import net.minecraft.world.level.storage.loot.predicates.TimeCheck;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
-import net.stln.magitech.entity.EntityInit;
-import net.stln.magitech.item.ItemInit;
+import net.stln.magitech.content.entity.EntityInit;
+import net.stln.magitech.content.item.ItemInit;
 
 public class ModEntityLootTableProvider extends EntityLootSubProvider {
     protected ModEntityLootTableProvider(HolderLookup.Provider registries) {

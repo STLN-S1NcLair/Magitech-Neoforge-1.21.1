@@ -12,8 +12,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.block.BlockInit;
-import net.stln.magitech.recipe.ZardiusCrucibleRecipe;
+import net.stln.magitech.content.block.BlockInit;
+import net.stln.magitech.content.recipe.ZardiusCrucibleRecipe;
 
 import java.util.ArrayList;
 import java.util.Arrays;

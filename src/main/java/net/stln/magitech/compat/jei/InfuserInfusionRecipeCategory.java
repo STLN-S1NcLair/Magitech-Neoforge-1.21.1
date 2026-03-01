@@ -17,11 +17,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.block.BlockInit;
-import net.stln.magitech.element.Element;
-import net.stln.magitech.recipe.InfuserInfusionRecipe;
-import net.stln.magitech.util.EnergyFormatter;
-import net.stln.magitech.util.RenderHelper;
+import net.stln.magitech.content.block.BlockInit;
+import net.stln.magitech.content.recipe.InfuserInfusionRecipe;
+import net.stln.magitech.feature.element.Element;
+import net.stln.magitech.helper.EnergyFormatter;
+import net.stln.magitech.helper.RenderHelper;
 import org.jetbrains.annotations.NotNull;
 
 public class InfuserInfusionRecipeCategory extends AbstractMagitechRecipeCategory<InfuserInfusionRecipe> {
@@ -35,7 +35,7 @@ public class InfuserInfusionRecipeCategory extends AbstractMagitechRecipeCategor
     }
 
     public InfuserInfusionRecipeCategory(IGuiHelper helper) {
-        this(helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(BlockInit.INFUSER)));
+        this(helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(BlockInit.INFUSION_ALTAR)));
     }
 
     @Override

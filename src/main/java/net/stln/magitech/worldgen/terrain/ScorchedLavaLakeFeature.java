@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.stln.magitech.block.BlockInit;
+import net.stln.magitech.content.block.BlockInit;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -109,13 +109,13 @@ public class ScorchedLavaLakeFeature extends Feature<NoneFeatureConfiguration> {
                 boolean flag3 = flag && flag1;
                 boolean flag4 = flag2 && !flag3;
                 double rot = Math.toRadians(random.nextInt(360));
-                float f1 = (float) Mth.abs((float) (Math.cos(rot) * i - Math.sin(rot) * j)) - 0.25F;
-                float f2 = (float) Mth.abs((float) (Math.sin(rot) * i + Math.cos(rot) * j)) - 0.25F;
+                float f1 = Mth.abs((float) (Math.cos(rot) * i - Math.sin(rot) * j)) - 0.25F;
+                float f2 = Mth.abs((float) (Math.sin(rot) * i + Math.cos(rot) * j)) - 0.25F;
 
                 // --- 楕円形の判定 + 中心のずらし ---
                 float dist = (f1 * f1) / (xRadius * xRadius) + (f2 * f2) / (zRadius * zRadius);
 
-                if (dist <= 0.9 && !flag3 && (!flag4 || 0.7F != 0.0F && !(random.nextFloat() > 0.7F))) {
+                if (dist <= 0.9 && !flag3 && (!flag4 || !(random.nextFloat() > 0.7F))) {
                     blockpos$mutableblockpos.setWithOffset(pos, i, 0, j);
 
                     for (int k = 0;
@@ -137,7 +137,7 @@ public class ScorchedLavaLakeFeature extends Feature<NoneFeatureConfiguration> {
                     if (level.isEmptyBlock(blockpos$mutableblockpos)
                             && blockstate.isFaceSturdy(level, blockpos$mutableblockpos1, Direction.DOWN.getOpposite())) {
                         int l = 3
-                                + (0.8F > 0.0F && random.nextFloat() < 0.8F ? 1 : 0);
+                                + (random.nextFloat() < 0.8F ? 1 : 0);
                         BlockPos blockpos = blockpos$mutableblockpos1.immutable();
                         boolean flag5 = this.placeGround(level, config, state, random, blockpos$mutableblockpos1, l);
                         if (flag5) {
