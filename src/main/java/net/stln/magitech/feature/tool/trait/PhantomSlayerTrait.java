@@ -26,10 +26,10 @@ import net.stln.magitech.content.sound.SoundInit;
 import net.stln.magitech.feature.tool.ToolStats;
 import net.stln.magitech.helper.EffectHelper;
 import net.stln.magitech.helper.EntityHelper;
-import net.stln.magitech.vfx.particle.particle_option.MembraneParticleEffect;
-import net.stln.magitech.vfx.particle.particle_option.PowerupParticleEffect;
-import net.stln.magitech.vfx.particle.particle_option.SquareFieldParticleEffect;
-import net.stln.magitech.vfx.particle.particle_option.UnstableSquareParticleEffect;
+import net.stln.magitech.effect.visual.particle.particle_option.MembraneParticleEffect;
+import net.stln.magitech.effect.visual.particle.particle_option.PowerupParticleEffect;
+import net.stln.magitech.effect.visual.particle.particle_option.SquareFieldParticleEffect;
+import net.stln.magitech.effect.visual.particle.particle_option.UnstableSquareParticleEffect;
 import org.joml.Vector3f;
 
 public class PhantomSlayerTrait extends Trait {

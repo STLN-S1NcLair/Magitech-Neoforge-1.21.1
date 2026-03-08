@@ -32,7 +32,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.stln.magitech.content.block.block_entity.ManaCollectorBlockEntity;
 import net.stln.magitech.content.block.block_entity.ManaContainerBlockEntity;
 import net.stln.magitech.helper.VoxelShapeHelper;
-import net.stln.magitech.vfx.particle.particle_option.SquareParticleEffect;
+import net.stln.magitech.effect.visual.particle.particle_option.SquareParticleEffect;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 

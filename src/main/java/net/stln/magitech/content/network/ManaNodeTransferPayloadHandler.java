@@ -5,7 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.stln.magitech.vfx.particle.particle_option.ManaZapParticleEffect;
+import net.stln.magitech.effect.visual.particle.particle_option.ManaZapParticleEffect;
 import org.joml.Vector3f;
 
 public class ManaNodeTransferPayloadHandler {

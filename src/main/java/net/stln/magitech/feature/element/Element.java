@@ -25,13 +25,13 @@ import java.util.Optional;
 @net.neoforged.fml.common.asm.enumextension.NamedEnum(1)
 @net.neoforged.fml.common.asm.enumextension.NetworkedEnum(NetworkedEnum.NetworkCheck.BIDIRECTIONAL)
 public enum Element implements StringRepresentable, IExtensibleEnum {
-    MANA("mana", new Color(0xA0FFD0), new Color(0x40E0F0), new Color(0x005060), DamageTypeInit.MANA_DAMAGE, Optional.empty()),
-    EMBER("ember", new Color(0xFF2000), new Color(0xFF6000), new Color(0x400000), DamageTypeInit.EMBER_DAMAGE, Optional.of(AttributeInit.EMBER_SPELL_POWER)),
-    GLACE("glace", new Color(0x40FFFF), new Color(0x00C0FF), new Color(0x002840), DamageTypeInit.GLACE_DAMAGE, Optional.of(AttributeInit.GLACE_SPELL_POWER)),
-    SURGE("surge", new Color(0x4020FF), new Color(0x6000FF), new Color(0x100040), DamageTypeInit.SURGE_DAMAGE, Optional.of(AttributeInit.SURGE_SPELL_POWER)),
-    PHANTOM("phantom", new Color(0xFFFF80), new Color(0xFFC000), new Color(0x403000), DamageTypeInit.PHANTOM_DAMAGE, Optional.of(AttributeInit.PHANTOM_SPELL_POWER)),
-    TREMOR("tremor", new Color(0x008080), new Color(0x006080), new Color(0x001020), DamageTypeInit.TREMOR_DAMAGE, Optional.of(AttributeInit.TREMOR_SPELL_POWER)),
-    MAGIC("magic", new Color(0xFF20C0), new Color(0xFF0080), new Color(0x400020), DamageTypeInit.MAGIC_DAMAGE, Optional.of(AttributeInit.MAGIC_SPELL_POWER)),
+    MANA("mana", new Color(0xA0FFD0), new Color(0x00E0F0), new Color(0x005060), DamageTypeInit.MANA_DAMAGE, Optional.empty()),
+    EMBER("ember", new Color(0xFF2000), new Color(0xFFA000), new Color(0x400000), DamageTypeInit.EMBER_DAMAGE, Optional.of(AttributeInit.EMBER_SPELL_POWER)),
+    GLACE("glace", new Color(0x60FFFF), new Color(0x40A0FF), new Color(0x002840), DamageTypeInit.GLACE_DAMAGE, Optional.of(AttributeInit.GLACE_SPELL_POWER)),
+    SURGE("surge", new Color(0x4020FF), new Color(0xA0C0FF), new Color(0x100040), DamageTypeInit.SURGE_DAMAGE, Optional.of(AttributeInit.SURGE_SPELL_POWER)),
+    PHANTOM("phantom", new Color(0xFFFF80), new Color(0xFFA000), new Color(0x403000), DamageTypeInit.PHANTOM_DAMAGE, Optional.of(AttributeInit.PHANTOM_SPELL_POWER)),
+    TREMOR("tremor", new Color(0x008080), new Color(0x004080), new Color(0x001020), DamageTypeInit.TREMOR_DAMAGE, Optional.of(AttributeInit.TREMOR_SPELL_POWER)),
+    MAGIC("magic", new Color(0xFF20C0), new Color(0xFF0060), new Color(0x400020), DamageTypeInit.MAGIC_DAMAGE, Optional.of(AttributeInit.MAGIC_SPELL_POWER)),
     FLOW("flow", new Color(0xA0FF40), new Color(0x00FF00), new Color(0x104000), DamageTypeInit.FLOW_DAMAGE, Optional.of(AttributeInit.FLOW_SPELL_POWER)),
     HOLLOW("hollow", new Color(0xA000F0), new Color(0x8000F0), new Color(0x200040), DamageTypeInit.HOLLOW_DAMAGE, Optional.of(AttributeInit.HOLLOW_SPELL_POWER)),
     LOGOS("logos", new Color(0x333333), new Color(0x000000), new Color(0xA0A0A0), DamageTypeInit.LOGOS_DAMAGE, Optional.empty()),

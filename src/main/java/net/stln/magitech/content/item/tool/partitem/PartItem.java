@@ -73,7 +73,7 @@ public abstract class PartItem extends Item {
                 tooltipComponents.add(Component.translatable("attribute.magitech.elemental_damage").append(": ").withColor(0xa0a0a0)
                         .append(Component.translatable("element.magitech." + finalStats.getElement().get())
                                 .append(" ")
-                                .append(Component.literal("x" + MathHelper.round(finalStats.getStats().get(ToolStats.ELM_ATK_STAT), 2))).withColor(finalStats.getElement().getColor())));
+                                .append(Component.literal("x" + MathHelper.round(finalStats.getStats().get(ToolStats.ELM_ATK_STAT), 2))).withColor(finalStats.getElement().getColor().getRGB())));
 
                 tooltipComponents.add(Component.translatable("attribute.magitech.attack_speed").append(": ").withColor(0xa0a0a0)
                         .append(Component.literal("x" + MathHelper.round(finalStats.getStats().get(ToolStats.SPD_STAT), 2)).withColor(0x40FFC0)));
@@ -104,7 +104,7 @@ public abstract class PartItem extends Item {
                 tooltipComponents.add(Component.translatable("attribute.magitech.elemental_spell_power").append(": ").withColor(0xa0a0a0)
                         .append(Component.translatable("element.magitech." + spellCasterStats.getElement().get())
                                 .append(" ")
-                                .append(Component.literal("x" + MathHelper.round(spellCasterStats.getStats().get(ToolStats.ELM_ATK_STAT), 2))).withColor(spellCasterStats.getElement().getColor())));
+                                .append(Component.literal("x" + MathHelper.round(spellCasterStats.getStats().get(ToolStats.ELM_ATK_STAT), 2))).withColor(spellCasterStats.getElement().getColor().getRGB())));
 
                 tooltipComponents.add(Component.translatable("attribute.magitech.casting_speed").append(": ").withColor(0xa0a0a0)
                         .append(Component.literal("x" + MathHelper.round(spellCasterStats.getStats().get(ToolStats.SPD_STAT), 2)).withColor(0x40FFC0)));

@@ -32,7 +32,7 @@ public class ThreadPageItem extends TooltipTextItem {
     @Override
     public void appendHoverText(ItemStack stack, @NotNull TooltipContext context, List<Component> tooltipComponents, @NotNull TooltipFlag tooltipFlag) {
         ComponentHelper.getThreadPageSpell(stack).ifPresent(spell -> {
-            tooltipComponents.add(spell.getDescription().withColor(spell.getElement().getSpellColor()));
+            tooltipComponents.add(spell.getDescription().withColor(spell.getConfig().element().getColor().getRGB()));
             Player player = ClientHelper.getPlayer();
             if (player == null) return;
             List<Component> componentList = spell.getTooltip(player.level(), player, stack);

@@ -57,7 +57,7 @@ public class RenderHelper {
     }
 
     public static void renderFramedText(GuiGraphics guiGraphics, Font font, String text, int x, int y, Element element) {
-        renderFramedText(guiGraphics, font, text, x, y, element.getSpellColor(), element.getSpellDark());
+        renderFramedText(guiGraphics, font, text, x, y, element.getColor().getRGB(), element.getDark().getRGB());
     }
 
     public static void renderFramedText(GuiGraphics guiGraphics, Font font, String text, int x, int y, int color, int frameColor) {

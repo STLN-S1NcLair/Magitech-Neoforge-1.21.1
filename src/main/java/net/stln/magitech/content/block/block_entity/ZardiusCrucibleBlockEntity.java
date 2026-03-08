@@ -36,7 +36,7 @@ import net.stln.magitech.content.block.ZardiusCrucibleBlock;
 import net.stln.magitech.content.recipe.RecipeInit;
 import net.stln.magitech.content.recipe.ZardiusCrucibleRecipe;
 import net.stln.magitech.content.recipe.input.CrucibleRecipeInput;
-import net.stln.magitech.vfx.particle.particle_option.SquareParticleEffect;
+import net.stln.magitech.effect.visual.particle.particle_option.SquareParticleEffect;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 

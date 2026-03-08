@@ -25,7 +25,7 @@ import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.content.block.block_entity.ManaVesselBlockEntity;
-import net.stln.magitech.vfx.particle.particle_option.SquareParticleEffect;
+import net.stln.magitech.effect.visual.particle.particle_option.SquareParticleEffect;
 import org.joml.Vector3f;
 
 import javax.annotation.Nullable;

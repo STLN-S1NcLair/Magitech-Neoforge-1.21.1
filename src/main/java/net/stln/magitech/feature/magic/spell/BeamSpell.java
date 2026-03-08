@@ -12,6 +12,8 @@ import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -21,101 +23,55 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.Magitech;
+import net.stln.magitech.effect.sound.SoundHelper;
+import net.stln.magitech.feature.magic.MagicPerformanceHelper;
 import net.stln.magitech.feature.magic.charge.ChargeData;
+import net.stln.magitech.feature.magic.spell.property.SpellPropertyInit;
 import net.stln.magitech.helper.EntityHelper;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.List;
 
-public class BeamSpell extends Spell {
+public class BeamSpell extends DamageSpell {
 
-    protected double beamradius = 0.2;
-
-    protected static void playShootAnimation(Player user) {
-        var playerAnimationData = (ModifierLayer<IAnimation>) PlayerAnimationAccess.getPlayerAssociatedData((AbstractClientPlayer) user).get(Magitech.id("animation"));
-        if (playerAnimationData != null) {
-
-            user.yBodyRot = user.yHeadRot;
-            playerAnimationData.setAnimation(new KeyframeAnimationPlayer((KeyframeAnimation) PlayerAnimationRegistry.getAnimation(Magitech.id("wand_beam")))
-                    .setFirstPersonMode(FirstPersonMode.THIRD_PERSON_MODEL).setFirstPersonConfiguration(new FirstPersonConfiguration(true, true, true, true)));
-        }
+    public BeamSpell(SpellConfig.Builder builder) {
+        super(builder);
     }
 
     @Override
-    public void finishUsing(ItemStack stack, Level level, LivingEntity livingEntity, int timeCharged, boolean isHost) {
-        callSuperFinishUsing(stack, level, livingEntity, timeCharged, isHost);
-        if (livingEntity instanceof Player user) {
-            if (ChargeData.getCurrentCharge(user) == null && timeCharged > 1 && ManaUtil.useManaServerOnly(user, this.getRequiredMana(level, user, stack))) {
-                Vec3 forward = Vec3.directionFromRotation(user.getRotationVector());
-                Vec3 hitPos = EntityHelper.raycastBeam(user, this.getDamage(user, new HashMap<>(), (float) this.baseMaxRange, this.getElement()), beamradius);
-                BlockHitResult blockHitResult = EntityHelper.raycastBeamBlockHit(user, this.getDamage(user, new HashMap<>(), (float) this.baseMaxRange, this.getElement()), beamradius);
-                Entity target = EntityHelper.raycastBeamEntity(user, this.getDamage(user, new HashMap<>(), (float) this.baseMaxRange, this.getElement()), beamradius);
-                Vec3 start = user.position().add(0, user.getBbHeight() * 0.7, 0).add(forward.scale(0.5));
-                addVisualEffect(level, user, start, hitPos);
-                playBeamSound(level, user);
+    public void endSpell(Level level, LivingEntity caster, @Nullable ItemStack wand, @Nullable InteractionHand hand) {
+        Vec3 forward = Vec3.directionFromRotation(caster.getRotationVector());
+        float radius = MagicPerformanceHelper.getEffectiveBeamRadius(caster, wand, this);
+        float maxRange = MagicPerformanceHelper.getEffectiveMaxRange(caster, wand, this);
+        Vec3 hitPos = EntityHelper.raycastBeam(caster, maxRange, radius);
+        Entity target = EntityHelper.raycastBeamEntity(caster, maxRange, radius);
+        Vec3 start = EntityHelper.getBodyPos(caster).add(forward.scale(0.5));
 
-
-                if (!level.isClientSide) {
-                    if (target != null) {
-                        this.applyDamage(baseDamage, this.getRequiredMana(level, user, stack), this.getElement(), stack, user, target);
-                        if (target instanceof LivingEntity livingTarget) {
-                            applyEffectToLivingTarget(level, user, livingTarget);
-                        }
-                    }
-                    List<Entity> entities = EntityHelper.getEntitiesInBox(level, user, hitPos, new Vec3(1, 1, 1));
-                    for (Entity entity : entities) {
-                        if (entity instanceof ItemEntity) {
-                            applyEffectToItem(level, user, entity);
-                        }
-                    }
-                }
-                if (blockHitResult != null && blockHitResult.getType() == BlockHitResult.Type.BLOCK) {
-                    BlockPos targetBlock = blockHitResult.getBlockPos();
-                    applyEffectToBlock(level, user, stack, targetBlock);
-                }
-                addCooldown(level, user, stack);
-
-                if (level.isClientSide) {
-                    playShootAnimation(user);
-                }
-                addCooldown(level, user, stack);
-            } else {
-                ChargeData.removeCharge(user);
+        if (!level.isClientSide) {
+            if (target != null) {
+                hitTarget(level, caster, wand, target);
             }
+            List<Entity> entities = EntityHelper.getEntitiesInBox(level, caster, hitPos, new Vec3(1, 1, 1));
+            for (Entity entity : entities) {
+                if (entity instanceof ItemEntity item) {
+                    SpellHelper.applyEffectToItem(level, this, caster, item);
+                }
+            }
+            SoundHelper.broadcastSound(level, caster, hitPos, this.getConfig().endSound());
+        } else {
+            addBeamVFX(level, caster, start, hitPos);
         }
+        additionalBeamProcess(level, caster, wand, target, hitPos);
     }
 
-    protected void callSuperFinishUsing(ItemStack stack, Level level, LivingEntity livingEntity, int timeCharged, boolean isHost) {
-        super.finishUsing(stack, level, livingEntity, timeCharged, isHost);
-    }
-
-    protected void applyEffectToLivingTarget(Level level, Player user, LivingEntity target) {
-
-    }
-
-    protected void applyEffectToBlock(Level level, Player user, ItemStack stack, BlockPos target) {
+    // 追加の処理
+    protected void additionalBeamProcess(Level level, LivingEntity caster, @Nullable ItemStack wand, @Nullable Entity target, Vec3 hitPos) {
 
     }
 
-    protected void addVisualEffect(Level level, Player user, Vec3 start, Vec3 hitPos) {
-    }
+    // ビームのエフェクト
+    protected void addBeamVFX(Level level, LivingEntity caster, Vec3 start, Vec3 end) {
 
-    protected void playBeamSound(Level level, Player user) {
-    }
-
-    @Override
-    public boolean canHoldUsing() {
-        return true;
-    }
-
-    @Override
-    protected void playAnimation(Player user) {
-        var playerAnimationData = (ModifierLayer<IAnimation>) PlayerAnimationAccess.getPlayerAssociatedData((AbstractClientPlayer) user).get(Magitech.id("animation"));
-        if (playerAnimationData != null && !playerAnimationData.isActive()) {
-
-            user.yBodyRot = user.yHeadRot;
-            playerAnimationData.replaceAnimationWithFade(AbstractFadeModifier.standardFadeIn(4, Ease.INSINE), new KeyframeAnimationPlayer((KeyframeAnimation) PlayerAnimationRegistry.getAnimation(Magitech.id("wand_charge_beam")))
-                    .setFirstPersonMode(FirstPersonMode.THIRD_PERSON_MODEL).setFirstPersonConfiguration(new FirstPersonConfiguration(true, true, true, true)));
-        }
     }
 }

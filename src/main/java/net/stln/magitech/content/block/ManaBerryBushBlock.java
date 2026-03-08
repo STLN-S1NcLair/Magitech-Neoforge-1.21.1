@@ -20,7 +20,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.content.damage.DamageTypeInit;
 import net.stln.magitech.content.item.ItemInit;
-import net.stln.magitech.vfx.particle.particle_option.UnstableSquareParticleEffect;
+import net.stln.magitech.effect.visual.particle.particle_option.UnstableSquareParticleEffect;
 import org.joml.Vector3f;
 
 public class ManaBerryBushBlock extends SweetBerryBushBlock {

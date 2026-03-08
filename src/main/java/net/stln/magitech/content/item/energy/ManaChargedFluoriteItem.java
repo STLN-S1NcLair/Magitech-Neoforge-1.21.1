@@ -15,10 +15,12 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.stln.magitech.content.item.tooltip_item.TooltipTextItem;
 import net.stln.magitech.content.sound.SoundInit;
+import net.stln.magitech.core.api.mana.ManaCapabilities;
 import net.stln.magitech.core.api.mana.flow.ManaTransferHelper;
+import net.stln.magitech.core.api.mana.handler.EntityManaHandler;
 import net.stln.magitech.core.api.mana.handler.IBasicManaHandler;
 import net.stln.magitech.helper.EffectHelper;
-import net.stln.magitech.vfx.particle.particle_option.PowerupParticleEffect;
+import net.stln.magitech.effect.visual.particle.particle_option.PowerupParticleEffect;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
@@ -32,16 +34,19 @@ public class ManaChargedFluoriteItem extends TooltipTextItem {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
         ItemStack stack = player.getItemInHand(usedHand);
-        double currentMana = ManaData.getCurrentMana(player, ManaUtil.ManaType.MANA);
-        double maxMana = ManaUtil.getMaxMana(player, ManaUtil.ManaType.MANA);
-        if (currentMana < maxMana) {
-            if (!player.isCreative()) {
-                stack.setCount(stack.getCount() - 1);
+        EntityManaHandler handler = player.getCapability(ManaCapabilities.MANA_CAPABLE_ENTITY);
+        if (handler != null) {
+            long currentMana = handler.getMana();
+            long maxMana = handler.getMaxMana();
+            if (currentMana < maxMana) {
+                if (!player.isCreative()) {
+                    stack.setCount(stack.getCount() - 1);
+                }
+                level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundInit.CRYSTAL_BREAK.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
+                EffectHelper.entityEffect(level, new PowerupParticleEffect(new Vector3f(0.9F, 1.0F, 0.7F), new Vector3f(0.3F, 1.0F, 0.9F), 1F, 1, 0, 15, 1.0F), player, 20);
+                handler.addMana(45000);
+                return InteractionResultHolder.success(stack);
             }
-            level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundInit.CRYSTAL_BREAK.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
-            EffectHelper.entityEffect(level, new PowerupParticleEffect(new Vector3f(0.9F, 1.0F, 0.7F), new Vector3f(0.3F, 1.0F, 0.9F), 1F, 1, 0, 15, 1.0F), player, 20);
-            ManaUtil.setMana(player, ManaUtil.ManaType.MANA, Math.min(currentMana + 45, maxMana));
-            return InteractionResultHolder.success(stack);
         }
         return InteractionResultHolder.fail(stack);
     }

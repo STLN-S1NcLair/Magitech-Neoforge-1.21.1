@@ -13,6 +13,7 @@ import net.stln.magitech.content.item.ThreadPageItem;
 import net.stln.magitech.content.item.component.ComponentInit;
 import net.stln.magitech.content.item.component.SpellComponent;
 import net.stln.magitech.content.item.component.ThreadPageComponent;
+import net.stln.magitech.feature.magic.spell.ISpell;
 import net.stln.magitech.feature.magic.spell.Spell;
 import net.stln.magitech.feature.magic.spell.SpellLike;
 import net.stln.magitech.helper.ComponentHelper;
@@ -58,7 +59,7 @@ public class ThreadboundMenu extends AbstractContainerMenu {
         addInventory(playerInv);
         addHotbar(playerInv);
 
-        List<Spell> spells = ComponentHelper.getSpells(threadbound).spells();
+        List<ISpell> spells = ComponentHelper.getSpells(threadbound).spells();
         for (int i = 0; i < Math.min(spells.size(), container.getContainerSize()); i++) {
             ItemStack stack = new ItemStack(ItemInit.THREAD_PAGE.get());
             stack.set(ComponentInit.THREAD_PAGE_COMPONENT, new ThreadPageComponent(spells.get(i)));

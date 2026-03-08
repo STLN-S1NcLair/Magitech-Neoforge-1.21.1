@@ -41,7 +41,7 @@ import net.stln.magitech.feature.magic.spell.SpellInit;
 import net.stln.magitech.feature.tool.material.MaterialInit;
 import net.stln.magitech.feature.tool.register.ToolMaterialRegister;
 import net.stln.magitech.feature.tool.upgrade.UpgradeInit;
-import net.stln.magitech.vfx.particle.ParticleInit;
+import net.stln.magitech.effect.visual.particle.ParticleInit;
 import net.stln.magitech.worldgen.WorldGenInit;
 import net.stln.magitech.worldgen.tree.TreeGrowerInit;
 import org.slf4j.Logger;

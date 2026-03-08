@@ -11,6 +11,7 @@ import net.minecraft.world.level.storage.loot.functions.LootItemFunction;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.stln.magitech.MagitechRegistries;
+import net.stln.magitech.feature.magic.spell.ISpell;
 import net.stln.magitech.feature.magic.spell.Spell;
 import net.stln.magitech.helper.ComponentHelper;
 import org.jetbrains.annotations.NotNull;
@@ -27,13 +28,13 @@ public class RandomThreadPageFunction extends LootItemConditionalFunction {
                     .apply(p_340803_, RandomThreadPageFunction::new)
     );
 
-    protected final ArrayList<Holder<Spell>> spells;
+    protected final ArrayList<Holder<ISpell>> spells;
 
     public RandomThreadPageFunction(List<LootItemCondition> lootItemConditions) {
         this(lootItemConditions, getAllSpells());
     }
 
-    protected RandomThreadPageFunction(List<LootItemCondition> conditions, List<Holder<Spell>> spells) {
+    protected RandomThreadPageFunction(List<LootItemCondition> conditions, List<Holder<ISpell>> spells) {
         super(conditions);
         if (spells.isEmpty()) {
             this.spells = new ArrayList<>(getAllSpells());
@@ -42,15 +43,15 @@ public class RandomThreadPageFunction extends LootItemConditionalFunction {
         }
     }
 
-    private static @NotNull List<Holder<Spell>> getAllSpells() {
-        return MagitechRegistries.SPELL.holders().map(holder -> (Holder<Spell>) holder).toList();
+    private static @NotNull List<Holder<ISpell>> getAllSpells() {
+        return MagitechRegistries.SPELL.holders().map(holder -> (Holder<ISpell>) holder).toList();
     }
 
     public static LootItemFunction.Builder builder() {
         return simpleBuilder(RandomThreadPageFunction::new);
     }
 
-    public List<Holder<Spell>> getSpells() {
+    public List<Holder<ISpell>> getSpells() {
         return spells;
     }
 

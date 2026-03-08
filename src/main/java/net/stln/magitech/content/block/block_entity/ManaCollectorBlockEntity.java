@@ -26,7 +26,7 @@ import net.stln.magitech.content.block.ManaStranderBlock;
 import net.stln.magitech.content.gui.ManaCollectorMenu;
 import net.stln.magitech.core.api.mana.flow.ManaFlowRule;
 import net.stln.magitech.core.api.mana.handler.MachineBlockEntityManaHandler;
-import net.stln.magitech.vfx.particle.particle_option.SquareParticleEffect;
+import net.stln.magitech.effect.visual.particle.particle_option.SquareParticleEffect;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 

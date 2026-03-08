@@ -13,6 +13,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.stln.magitech.content.item.component.SpellComponent;
 import net.stln.magitech.content.item.tooltip_item.TooltipTextModonomiconItem;
 import net.stln.magitech.feature.element.Element;
+import net.stln.magitech.feature.magic.spell.ISpell;
 import net.stln.magitech.feature.magic.spell.Spell;
 import net.stln.magitech.helper.ComponentHelper;
 import org.jetbrains.annotations.NotNull;
@@ -60,14 +61,14 @@ public class ThreadBoundItem extends TooltipTextModonomiconItem implements ICuri
     public void appendHoverText(ItemStack stack, @NotNull TooltipContext context, List<Component> tooltipComponents, @NotNull TooltipFlag tooltipFlag) {
         int i = 0;
         @NotNull SpellComponent spells = ComponentHelper.getSpells(stack);
-        for (Spell spell : spells.spells()) {
+        for (ISpell spell : spells.spells()) {
             int abs = Math.abs(spells.selected() - i);
             if (abs <= 2 || Screen.hasShiftDown()) {
-                Element element = spell.getElement();
+                Element element = spell.getConfig().element();
                 if (spells.selected() == i) {
-                    tooltipComponents.add(Component.literal("> ").append(spell.getDescription()).withColor(element.getSpellColor()));
+                    tooltipComponents.add(Component.literal("> ").append(spell.getDescription()).withColor(element.getColor().getRGB()));
                 } else {
-                    tooltipComponents.add(spell.getDescription().withColor(element.getSpellDark()));
+                    tooltipComponents.add(spell.getDescription().withColor(element.getDark().getRGB()));
                 }
             } else if (abs == 3) {
                 tooltipComponents.add(Component.literal("...").withColor(0x405060));

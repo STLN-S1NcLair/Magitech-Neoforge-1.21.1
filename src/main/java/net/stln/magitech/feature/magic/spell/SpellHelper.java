@@ -4,18 +4,27 @@ import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.content.recipe.RecipeInit;
 import net.stln.magitech.content.recipe.input.SpellRecipeInput;
 import net.stln.magitech.feature.magic.MagicPerformanceHelper;
 import net.stln.magitech.feature.magic.spell.property.SpellPropertyKey;
+import net.stln.magitech.helper.EntityHelper;
 import net.stln.magitech.helper.MathHelper;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class SpellHelper {
 
@@ -38,7 +47,7 @@ public class SpellHelper {
 
     public static <T extends Number> MutableComponent createDamagePropertyTooltip(ISpell spell, LivingEntity caster, @Nullable ItemStack wand, SpellPropertyKey<T> key, int roundDigit) {
         if (spell.getConfig().properties().contains(key)) {
-            return key.getDisplayName().append(": " + MathHelper.round(MagicPerformanceHelper.getOutgoingMagicDamage(caster, wand, key, spell), roundDigit));
+            return createTooltip(MagicPerformanceHelper.getOutgoingMagicDamage(caster, wand, key, spell), key, roundDigit);
         }
         return Component.empty();
     }
@@ -51,11 +60,62 @@ public class SpellHelper {
         return createDamagePropertyTooltip(spell, caster, wand, key, 2);
     }
 
-    public static MutableComponent createPropertyTooltip(ISpell spell, LivingEntity caster, @Nullable ItemStack wand, SpellPropertyKey<Float> key, Holder<Attribute> coefficientAttribute) {
+    public static <T extends Number> MutableComponent createRangePropertyTooltip(ISpell spell, LivingEntity caster, @Nullable ItemStack wand, SpellPropertyKey<T> key) {
+        return createDamagePropertyTooltip(spell, caster, wand, key, 2).append("m");
+    }
+
+    public static <T extends Number> MutableComponent createDurationPropertyTooltip(ISpell spell, LivingEntity caster, @Nullable ItemStack wand, SpellPropertyKey<T> key) {
         if (spell.getConfig().properties().contains(key)) {
-            return key.getDisplayName().append(": " + MathHelper.round(MagicPerformanceHelper.getEffectiveSpellProperty(caster, wand, spell, key, coefficientAttribute), 2));
+            return createTooltip(MagicPerformanceHelper.getOutgoingMagicDamage(caster, wand, key, spell) / 20, key, 2).append("s");
         }
         return Component.empty();
+    }
+
+    public static MutableComponent createPropertyTooltip(ISpell spell, LivingEntity caster, @Nullable ItemStack wand, SpellPropertyKey<Float> key, Holder<Attribute> coefficientAttribute) {
+        if (spell.getConfig().properties().contains(key)) {
+            return createTooltip(MagicPerformanceHelper.getEffectiveSpellProperty(caster, wand, spell, key, coefficientAttribute), key, 2);
+        }
+        return Component.empty();
+    }
+
+    public static <T extends Number> MutableComponent createBasicPropertyValueTooltip(ISpell spell, SpellPropertyKey<T> key, int roundDigit) {
+        if (spell.getConfig().properties().contains(key)) {
+            return createTooltip(spell.getConfig().properties().get(key).floatValue(), key, roundDigit);
+        }
+        return Component.empty();
+    }
+
+    public static <T extends Number> MutableComponent createBasicPropertyValueTooltip(ISpell spell, SpellPropertyKey<T> key) {
+        return createBasicPropertyValueTooltip(spell, key, 2);
+    }
+
+    public static <T extends Number> MutableComponent createTooltip(float value, SpellPropertyKey<T> key, int roundDigit) {
+        return key.getDisplayName().append(": " + MathHelper.round(value, roundDigit));
+    }
+
+    // 処理系
+
+    public static @NotNull Set<Entity> getTargets(Level level, LivingEntity caster) {
+        Vec3 forward = Vec3.directionFromRotation(caster.getRotationVector());
+        Vec3 center = caster.getEyePosition().add(forward);
+        Vec3 center2 = center.add(forward.scale(3));
+        Set<Entity> attackList = new HashSet<>();
+        attackList.addAll(EntityHelper.getEntitiesInBox(level, caster, center, new Vec3(3.0, 3.0, 3.0)));
+        attackList.addAll(EntityHelper.getEntitiesInBox(level, caster, center2, new Vec3(4.0, 4.0, 4.0)));
+        return attackList;
+    }
+
+    public static @NotNull Set<Entity> getChainTargets(Level level, Entity entity, Vec3 center, float radius) {
+        return new HashSet<>(EntityHelper.getEntitiesInBox(level, entity, center, new Vec3(radius, radius, radius)));
+    }
+
+    public static @NotNull Set<Entity> getChainTargets(Level level, Entity entity, float radius) {
+        Vec3 center = entity.position().add(0, entity.getBbHeight() * 0.7, 0);
+        return new HashSet<>(EntityHelper.getEntitiesInBox(level, entity, center, new Vec3(radius, radius, radius)));
+    }
+
+    public static boolean canSee(Level level, LivingEntity caster, Vec3 start, Vec3 end) {
+        return level.clip(new ClipContext(start, end, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, caster)).getType() != HitResult.Type.BLOCK;
     }
 
 }

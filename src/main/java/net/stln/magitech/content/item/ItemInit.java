@@ -225,9 +225,9 @@ public class ItemInit {
     public static final DeferredItem<Item> MAGIC_CRYSTAL = ITEMS.registerItem("magic_crystal", TooltipTextItem::new);
     public static final DeferredItem<Item> FLOW_CRYSTAL = ITEMS.registerItem("flow_crystal", TooltipTextItem::new);
     public static final DeferredItem<Item> HOLLOW_CRYSTAL = ITEMS.registerItem("hollow_crystal", TooltipTextItem::new);
-    public static final DeferredItem<Item> AGGREGATED_NOCTIS = ITEMS.registerItem("aggregated_noctis", AggregatedNoctisItem::new);
-    public static final DeferredItem<Item> AGGREGATED_LUMINIS = ITEMS.registerItem("aggregated_luminis", AggregatedLuminisItem::new);
-    public static final DeferredItem<Item> AGGREGATED_FLUXIA = ITEMS.registerItem("aggregated_fluxia", AggregatedFluxiaItem::new);
+    public static final DeferredItem<Item> AGGREGATED_NOCTIS = ITEMS.registerItem("aggregated_noctis", TooltipTextItem::new);
+    public static final DeferredItem<Item> AGGREGATED_LUMINIS = ITEMS.registerItem("aggregated_luminis", TooltipTextItem::new);
+    public static final DeferredItem<Item> AGGREGATED_FLUXIA = ITEMS.registerItem("aggregated_fluxia", TooltipTextItem::new);
     public static final DeferredItem<Item> CITRINE = ITEMS.registerItem("citrine", TooltipTextItem::new);
     public static final DeferredItem<Item> REDSTONE_CRYSTAL = ITEMS.registerItem("redstone_crystal", TooltipTextItem::new);
     public static final DeferredItem<Item> POLISHED_REDSTONE_CRYSTAL = ITEMS.registerItem("polished_redstone_crystal", TooltipTextItem::new);

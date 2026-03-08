@@ -20,7 +20,7 @@ import net.stln.magitech.content.sound.SoundInit;
 import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.helper.EntityHelper;
 import net.stln.magitech.helper.TickScheduler;
-import net.stln.magitech.vfx.particle.particle_option.*;
+import net.stln.magitech.effect.visual.particle.particle_option.*;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;

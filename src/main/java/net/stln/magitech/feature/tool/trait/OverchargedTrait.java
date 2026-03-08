@@ -5,9 +5,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.stln.magitech.content.item.tool.toolitem.SpellCasterItem;
+import net.stln.magitech.core.api.mana.handler.EntityManaHelper;
 import net.stln.magitech.feature.tool.ToolStats;
 import net.stln.magitech.helper.EffectHelper;
-import net.stln.magitech.vfx.particle.particle_option.PowerupParticleEffect;
+import net.stln.magitech.effect.visual.particle.particle_option.PowerupParticleEffect;
 import org.joml.Vector3f;
 
 import java.util.HashMap;
@@ -17,9 +18,7 @@ public class OverchargedTrait extends Trait {
 
     @Override
     public ToolStats modifyStatsConditional1(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
-        double currentMana = ManaData.getCurrentMana(player, ManaUtil.ManaType.MANA);
-        double maxMana = ManaUtil.getMaxMana(player, ManaUtil.ManaType.MANA);
-        if (currentMana >= maxMana) {
+        if (EntityManaHelper.getMagicManaFillRatio(player) >= 1) {
             ToolStats aDefault = ToolStats.DEFAULT;
             Map<String, Float> modified = new HashMap<>(aDefault.getStats());
             float mul = traitLevel * 0.25F;
@@ -35,9 +34,7 @@ public class OverchargedTrait extends Trait {
 
     @Override
     public ToolStats modifySpellCasterStatsConditional1(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
-        double currentMana = ManaData.getCurrentMana(player, ManaUtil.ManaType.MANA);
-        double maxMana = ManaUtil.getMaxMana(player, ManaUtil.ManaType.MANA);
-        if (currentMana >= maxMana / 2) {
+        if (EntityManaHelper.getMagicManaFillRatio(player) >= 0.5) {
             ToolStats aDefault = ToolStats.DEFAULT;
             Map<String, Float> modified = new HashMap<>(aDefault.getStats());
             float mul = traitLevel * 0.35F;
@@ -53,9 +50,7 @@ public class OverchargedTrait extends Trait {
     @Override
     public void tick(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, boolean isHost) {
         super.tick(player, level, stack, traitLevel, stats, isHost);
-        double currentMana = ManaData.getCurrentMana(player, ManaUtil.ManaType.MANA);
-        double maxMana = ManaUtil.getMaxMana(player, ManaUtil.ManaType.MANA);
-        if (currentMana >= maxMana / (stack.getItem() instanceof SpellCasterItem ? 2 : 1)) {
+        if (EntityManaHelper.getMagicManaFillRatio(player) >= (stack.getItem() instanceof SpellCasterItem ? 0.5 : 1)) {
             EffectHelper.entityEffect(level, new PowerupParticleEffect(new Vector3f(0.9F, 1.0F, 0.7F), new Vector3f(0.3F, 1.0F, 0.9F), 1F, 1, 0, 15, 1.0F), player, 1);
         }
     }

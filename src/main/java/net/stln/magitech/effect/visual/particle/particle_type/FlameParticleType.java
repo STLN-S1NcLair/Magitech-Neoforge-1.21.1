@@ -1,0 +1,23 @@
+package net.stln.magitech.effect.visual.particle.particle_type;
+
+import com.mojang.serialization.MapCodec;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.stln.magitech.effect.visual.particle.particle_option.FlameParticleEffect;
+
+public class FlameParticleType extends ParticleType<FlameParticleEffect> {
+    public FlameParticleType(boolean overrideLimitter) {
+        super(overrideLimitter);
+    }
+
+    @Override
+    public MapCodec<FlameParticleEffect> codec() {
+        return FlameParticleEffect.CODEC;
+    }
+
+    @Override
+    public StreamCodec<? super RegistryFriendlyByteBuf, FlameParticleEffect> streamCodec() {
+        return FlameParticleEffect.STREAM_CODEC;
+    }
+}

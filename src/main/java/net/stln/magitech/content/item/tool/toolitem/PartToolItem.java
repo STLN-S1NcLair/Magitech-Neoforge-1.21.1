@@ -60,12 +60,13 @@ import net.stln.magitech.feature.tool.register.ToolMaterialRegister;
 import net.stln.magitech.feature.tool.trait.Trait;
 import net.stln.magitech.feature.tool.upgrade.UpgradeInstance;
 import net.stln.magitech.helper.*;
-import net.stln.magitech.vfx.particle.particle_option.*;
+import net.stln.magitech.effect.visual.particle.particle_option.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
 import java.util.*;
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
@@ -499,7 +500,7 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
                         .append(" ")
                         .append(Component.literal(String.valueOf(
                                 MathHelper.round(finalStats.getStats().get(ToolStats.ELM_ATK_STAT), 2)
-                        ))).withColor(finalStats.getElement().getColor())));
+                        ))).withColor(finalStats.getElement().getColor().getRGB())));
 
         tooltipComponents.add(Component.translatable("attribute.magitech.attack_speed").append(": ").withColor(0xa0a0a0)
                 .append(Component.literal(String.valueOf(
@@ -618,9 +619,10 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
         float swp = stats.getStats().get(ToolStats.SWP_STAT);
         Vec3 effectCenter = EntityHelper.getAttackTargetPosition(user, user.entityInteractionRange(), 0.5, swp * 0.7F);
 
-        float red = ((float) ((stats.getElement().getColor() & 0xFF0000) >> 16)) / 255;
-        float green = ((float) ((stats.getElement().getColor() & 0x00FF00) >> 8)) / 255;
-        float blue = ((float) (stats.getElement().getColor() & 0x0000FF)) / 255;
+        int color = stats.getElement().getColor().getRGB();
+        float red = ((float) ((color & 0xFF0000) >> 16)) / 255;
+        float green = ((float) ((color & 0x00FF00) >> 8)) / 255;
+        float blue = ((float) (color & 0x0000FF)) / 255;
         float red2 = red * red;
         float green2 = green * green;
         float blue2 = blue * blue;

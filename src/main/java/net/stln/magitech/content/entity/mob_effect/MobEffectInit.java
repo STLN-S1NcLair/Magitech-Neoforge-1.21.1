@@ -23,28 +23,28 @@ public class MobEffectInit {
     public static final DeferredHolder<MobEffect, MobEffect> MANA_REGENERATION = STATUS_EFFECTS.register("mana_regeneration", id -> new CustomMobEffect(MobEffectCategory.BENEFICIAL, 0x80FFC0)
             .addAttributeModifier(AttributeInit.MANA_REGEN, id, 2, AttributeModifier.Operation.ADD_VALUE));
 
-    public static final DeferredHolder<MobEffect, MobEffect> EMBER_POWER = STATUS_EFFECTS.register("ember_power", id -> new CustomMobEffect(MobEffectCategory.BENEFICIAL, Element.EMBER.getColor())
+    public static final DeferredHolder<MobEffect, MobEffect> EMBER_POWER = STATUS_EFFECTS.register("ember_power", id -> new CustomMobEffect(MobEffectCategory.BENEFICIAL, Element.EMBER.getColor().getRGB())
             .addAttributeModifier(AttributeInit.EMBER_SPELL_POWER, id, 0.1, AttributeModifier.Operation.ADD_VALUE));
 
-    public static final DeferredHolder<MobEffect, MobEffect> GLACE_POWER = STATUS_EFFECTS.register("glace_power", id -> new CustomMobEffect(MobEffectCategory.BENEFICIAL, Element.GLACE.getColor())
+    public static final DeferredHolder<MobEffect, MobEffect> GLACE_POWER = STATUS_EFFECTS.register("glace_power", id -> new CustomMobEffect(MobEffectCategory.BENEFICIAL, Element.GLACE.getColor().getRGB())
             .addAttributeModifier(AttributeInit.GLACE_SPELL_POWER, id, 0.1, AttributeModifier.Operation.ADD_VALUE));
 
-    public static final DeferredHolder<MobEffect, MobEffect> SURGE_POWER = STATUS_EFFECTS.register("surge_power", id -> new CustomMobEffect(MobEffectCategory.BENEFICIAL, Element.SURGE.getColor())
+    public static final DeferredHolder<MobEffect, MobEffect> SURGE_POWER = STATUS_EFFECTS.register("surge_power", id -> new CustomMobEffect(MobEffectCategory.BENEFICIAL, Element.SURGE.getColor().getRGB())
             .addAttributeModifier(AttributeInit.SURGE_SPELL_POWER, id, 0.1, AttributeModifier.Operation.ADD_VALUE));
 
-    public static final DeferredHolder<MobEffect, MobEffect> PHANTOM_POWER = STATUS_EFFECTS.register("phantom_power", id -> new CustomMobEffect(MobEffectCategory.BENEFICIAL, Element.PHANTOM.getColor())
+    public static final DeferredHolder<MobEffect, MobEffect> PHANTOM_POWER = STATUS_EFFECTS.register("phantom_power", id -> new CustomMobEffect(MobEffectCategory.BENEFICIAL, Element.PHANTOM.getColor().getRGB())
             .addAttributeModifier(AttributeInit.PHANTOM_SPELL_POWER, id, 0.1, AttributeModifier.Operation.ADD_VALUE));
 
-    public static final DeferredHolder<MobEffect, MobEffect> TREMOR_POWER = STATUS_EFFECTS.register("tremor_power", id -> new CustomMobEffect(MobEffectCategory.BENEFICIAL, Element.TREMOR.getColor())
+    public static final DeferredHolder<MobEffect, MobEffect> TREMOR_POWER = STATUS_EFFECTS.register("tremor_power", id -> new CustomMobEffect(MobEffectCategory.BENEFICIAL, Element.TREMOR.getColor().getRGB())
             .addAttributeModifier(AttributeInit.TREMOR_SPELL_POWER, id, 0.1, AttributeModifier.Operation.ADD_VALUE));
 
-    public static final DeferredHolder<MobEffect, MobEffect> MAGIC_POWER = STATUS_EFFECTS.register("magic_power", id -> new CustomMobEffect(MobEffectCategory.BENEFICIAL, Element.MAGIC.getColor())
+    public static final DeferredHolder<MobEffect, MobEffect> MAGIC_POWER = STATUS_EFFECTS.register("magic_power", id -> new CustomMobEffect(MobEffectCategory.BENEFICIAL, Element.MAGIC.getColor().getRGB())
             .addAttributeModifier(AttributeInit.MAGIC_SPELL_POWER, id, 0.1, AttributeModifier.Operation.ADD_VALUE));
 
-    public static final DeferredHolder<MobEffect, MobEffect> FLOW_POWER = STATUS_EFFECTS.register("flow_power", id -> new CustomMobEffect(MobEffectCategory.BENEFICIAL, Element.FLOW.getColor())
+    public static final DeferredHolder<MobEffect, MobEffect> FLOW_POWER = STATUS_EFFECTS.register("flow_power", id -> new CustomMobEffect(MobEffectCategory.BENEFICIAL, Element.FLOW.getColor().getRGB())
             .addAttributeModifier(AttributeInit.FLOW_SPELL_POWER, id, 0.1, AttributeModifier.Operation.ADD_VALUE));
 
-    public static final DeferredHolder<MobEffect, MobEffect> HOLLOW_POWER = STATUS_EFFECTS.register("hollow_power", id -> new CustomMobEffect(MobEffectCategory.BENEFICIAL, Element.HOLLOW.getColor())
+    public static final DeferredHolder<MobEffect, MobEffect> HOLLOW_POWER = STATUS_EFFECTS.register("hollow_power", id -> new CustomMobEffect(MobEffectCategory.BENEFICIAL, Element.HOLLOW.getColor().getRGB())
             .addAttributeModifier(AttributeInit.HOLLOW_SPELL_POWER, id, 0.1, AttributeModifier.Operation.ADD_VALUE));
 
     public static final DeferredHolder<MobEffect, MobEffect> LEAP_STEP = STATUS_EFFECTS.register("leap_step", id -> new CustomMobEffect(MobEffectCategory.BENEFICIAL, 0xF0F0FF)
@@ -62,7 +62,7 @@ public class MobEffectInit {
 
     // 特性用効果
 
-    public static final DeferredHolder<MobEffect, MobEffect> CHARGE = STATUS_EFFECTS.register("charge", id -> new CustomMobEffect(MobEffectCategory.NEUTRAL, Element.SURGE.getColor()));
+    public static final DeferredHolder<MobEffect, MobEffect> CHARGE = STATUS_EFFECTS.register("charge", id -> new CustomMobEffect(MobEffectCategory.NEUTRAL, Element.SURGE.getColor().getRGB()));
 
     public static final DeferredHolder<MobEffect, MobEffect> COOLDOWN = STATUS_EFFECTS.register("cooldown", id -> new CustomMobEffect(MobEffectCategory.NEUTRAL, 0x808080));
 

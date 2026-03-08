@@ -17,9 +17,9 @@ public class EntityChargeTickEvent {
         if (entity.level().isClientSide()) return;
         if (entity instanceof LivingEntity livingEntity) {
             ChargeData data = livingEntity.getData(DataAttachmentInit.SPELL_CHARGE);
-            int chargeTicks = data.chargeTicks();
-            if (chargeTicks > 2) {
-                entity.setData(DataAttachmentInit.SPELL_CHARGE, new ChargeData(data.spell(), chargeTicks - 1));
+            ChargeData.Charge charge = data.charge();
+            if (charge.remaining() > 2) {
+                entity.setData(DataAttachmentInit.SPELL_CHARGE, data.tick());
             } else {
                 entity.setData(DataAttachmentInit.SPELL_CHARGE, ChargeData.empty());
             }

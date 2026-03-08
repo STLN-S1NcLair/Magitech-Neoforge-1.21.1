@@ -8,7 +8,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
@@ -19,7 +18,7 @@ import net.stln.magitech.content.entity.SpellProjectileEntity;
 import net.stln.magitech.content.sound.SoundInit;
 import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.helper.DataMapHelper;
-import net.stln.magitech.vfx.particle.particle_option.FrostParticleEffect;
+import net.stln.magitech.effect.visual.particle.particle_option.FrostParticleEffect;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -35,12 +34,12 @@ public class FrigalaEntity extends SpellProjectileEntity implements GeoEntity {
         super(entityType, world);
     }
 
-    public FrigalaEntity(Level world, Player player, float damage) {
+    public FrigalaEntity(Level world, LivingEntity player, float damage) {
         super(EntityInit.FRIGALA_ENTITY.get(), player, world, null, damage);
 
     }
 
-    public FrigalaEntity(Level world, Player player, ItemStack weapon, float damage) {
+    public FrigalaEntity(Level world, LivingEntity player, ItemStack weapon, float damage) {
         super(EntityInit.FRIGALA_ENTITY.get(), player, world, weapon, damage);
     }
 

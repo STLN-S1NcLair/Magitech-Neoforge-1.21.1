@@ -28,7 +28,12 @@ import net.stln.magitech.content.entity.status.AttributeInit;
 import net.stln.magitech.content.item.component.ComponentInit;
 import net.stln.magitech.content.item.component.SpellComponent;
 import net.stln.magitech.content.network.TraitTickPayload;
+import net.stln.magitech.core.api.mana.ManaCapabilities;
+import net.stln.magitech.core.api.mana.handler.EntityManaHandler;
+import net.stln.magitech.data.DataAttachmentInit;
 import net.stln.magitech.feature.element.Element;
+import net.stln.magitech.feature.magic.charge.ChargeData;
+import net.stln.magitech.feature.magic.spell.ISpell;
 import net.stln.magitech.feature.magic.spell.Spell;
 import net.stln.magitech.feature.tool.ToolStats;
 import net.stln.magitech.feature.tool.register.ToolMaterialRegister;
@@ -190,6 +195,7 @@ public abstract class SpellCasterItem extends PartToolItem {
             if (finalStats.getElement() != Element.NONE) {
                 DeferredHolder<Attribute, Attribute> elementAttribute = switch (finalStats.getElement()) {
                     case NONE -> null;
+                    case MANA -> null;
                     case EMBER -> AttributeInit.EMBER_SPELL_POWER;
                     case GLACE -> AttributeInit.GLACE_SPELL_POWER;
                     case SURGE -> AttributeInit.SURGE_SPELL_POWER;
@@ -198,6 +204,7 @@ public abstract class SpellCasterItem extends PartToolItem {
                     case MAGIC -> AttributeInit.MAGIC_SPELL_POWER;
                     case FLOW -> AttributeInit.FLOW_SPELL_POWER;
                     case HOLLOW -> AttributeInit.HOLLOW_SPELL_POWER;
+                    case LOGOS -> null;
                 };
                 entries.add(new ItemAttributeModifiers.Entry(elementAttribute, new AttributeModifier(elmatkId, map.get(ToolStats.ELM_ATK_STAT), AttributeModifier.Operation.ADD_VALUE), hand));
             }
@@ -262,7 +269,7 @@ public abstract class SpellCasterItem extends PartToolItem {
                         .append(" ")
                         .append(Component.literal(
                                 TextUtil.toSignedIntPercent(finalStats.getStats().get(ToolStats.ELM_ATK_STAT))
-                        )).withColor(finalStats.getElement().getColor())));
+                        )).withColor(finalStats.getElement().getColor().getRGB())));
 
         tooltipComponents.add(Component.translatable("attribute.magitech.casting_speed").append(": ").withColor(0xa0a0a0)
                 .append(Component.literal(
@@ -324,29 +331,15 @@ public abstract class SpellCasterItem extends PartToolItem {
         if (!threadbound.isEmpty()) {
             SpellComponent spells = ComponentHelper.getSpells(threadbound);
             if (spells.selected() < spells.spells().size()) {
-                Spell spell = spells.getSelectedSpell();
-                if (CooldownData.getPrevCooldown(player, spell) == null && spell.isActiveUse(level, player, usedHand, true)) {
-                    boolean flag;
-                    if (spell.needsUseCost(level, player, stack)) {
-                        if (ManaUtil.checkMana(player, spell.getRequiredMana(level, player, stack))) {
-                            flag = ManaUtil.useManaServerOnly(player, spell.getCost(level, player, stack)) || player.isCreative();
-                        } else {
-                            flag = player.isCreative();
-                        }
-                    } else {
-                        flag = true;
-                    }
-                    if (flag) {
-                        spell.use(level, player, usedHand, true);
-                        getTraitLevel(getTraits(stack)).forEach((trait, integer) -> {
-                            trait.onCastSpell(player, level, stack, integer, getModifiedStats(player, level, stack));
-                        });
-                    } else {
-                        player.releaseUsingItem();
-                        return InteractionResultHolder.consume(stack);
-                    }
+                ISpell spell = spells.getSelectedSpell();
+                if (spell.canCast(level, player)) {
+                    spell.cast(level, player, stack, usedHand, true);
+                    getTraitLevel(getTraits(stack)).forEach((trait, integer) -> {
+                        trait.onCastSpell(player, level, stack, integer, getModifiedStats(player, level, stack));
+                    });
                 } else {
                     player.releaseUsingItem();
+                    return InteractionResultHolder.consume(stack);
                 }
             } else {
                 threadbound.set(ComponentInit.SPELL_COMPONENT, spells.setSelected(0));
@@ -377,22 +370,13 @@ public abstract class SpellCasterItem extends PartToolItem {
         if (ComponentHelper.isBroken(stack)) return;
         if (livingEntity instanceof Player user) {
             ItemStack threadbound = CuriosHelper.getThreadBoundStack(user).orElse(ItemStack.EMPTY);
+            InteractionHand hand = user.getMainHandItem().equals(stack) ? InteractionHand.MAIN_HAND : user.getOffhandItem().equals(stack) ? InteractionHand.OFF_HAND : null;
 
             if (!threadbound.isEmpty()) {
                 SpellComponent spellComponent = ComponentHelper.getSpells(threadbound);
-                Spell spell = spellComponent.getSelectedSpell();
-                if (CooldownData.getCurrentCooldown(user, spell) == null && spell.isActiveUsingTick(level, livingEntity, stack, getUseDuration(stack, livingEntity) - remainingUseDuration)) {
-                    boolean flag;
-                    if (spell.needsTickCost(level, user, stack)) {
-                        flag = ManaUtil.useManaServerOnly(user, spell.getTickCost(level, user, stack)) || user.isCreative();
-                    } else {
-                        flag = true;
-                    }
-                    if (flag) {
-                        spell.usingTick(level, livingEntity, stack, getUseDuration(stack, livingEntity) - remainingUseDuration);
-                    } else {
-                        user.releaseUsingItem();
-                    }
+                ISpell spell = spellComponent.getSelectedSpell();
+                if (spell.canContinuousCast(level, livingEntity)) {
+                    spell.tick(level, livingEntity, stack, hand, getUseDuration(stack, livingEntity) - remainingUseDuration, true);
                 } else {
                     livingEntity.releaseUsingItem();
                 }
@@ -407,12 +391,13 @@ public abstract class SpellCasterItem extends PartToolItem {
 
         if (ComponentHelper.isBroken(stack)) return;
         super.releaseUsing(stack, level, livingEntity, timeCharged);
-        if (livingEntity instanceof Player user && level.isClientSide) {
+        if (livingEntity instanceof Player user) {
+            InteractionHand hand = user.getMainHandItem().equals(stack) ? InteractionHand.MAIN_HAND : user.getOffhandItem().equals(stack) ? InteractionHand.OFF_HAND : null;
             CuriosHelper.getThreadBoundStack(user).ifPresent(threadbound -> {
                 SpellComponent spells = ComponentHelper.getSpells(threadbound);
-                Spell spell = spells.getSelectedSpell();
+                ISpell spell = spells.getSelectedSpell();
 
-                spell.finishUsing(stack, level, livingEntity, getUseDuration(stack, livingEntity) - timeCharged, true);
+                spell.end(level, livingEntity, stack, hand, true);
             });
         }
     }

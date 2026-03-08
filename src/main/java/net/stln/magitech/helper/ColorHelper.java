@@ -1,10 +1,17 @@
 package net.stln.magitech.helper;
 
 import net.minecraft.util.Mth;
+import net.minecraft.world.phys.Vec3;
+import org.joml.Vector3f;
 
 import java.awt.*;
 
 public class ColorHelper {
+
+    public static Vector3f getVectorColor(Color color) {
+        return new Vector3f(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F);
+    }
+
     public static int channelFromFloat(float value) {
         return Mth.floor(value * 255.0F);
     }
@@ -116,52 +123,6 @@ public class ColorHelper {
         return Math.max(0, Math.min(255, val));
     }
 
-    public static class Abgr {
-        public static int getAlpha(int abgr) {
-            return abgr >>> 24;
-        }
-
-        public static int getRed(int abgr) {
-            return abgr & 0xFF;
-        }
-
-        public static int getGreen(int abgr) {
-            return abgr >> 8 & 0xFF;
-        }
-
-        public static int getBlue(int abgr) {
-            return abgr >> 16 & 0xFF;
-        }
-
-        public static int getBgr(int abgr) {
-            return abgr & 16777215;
-        }
-
-        public static int toOpaque(int abgr) {
-            return abgr | 0xFF000000;
-        }
-
-        public static int getAbgr(int a, int b, int g, int r) {
-            return a << 24 | b << 16 | g << 8 | r;
-        }
-
-        public static int withAlpha(int alpha, int bgr) {
-            return alpha << 24 | bgr & 16777215;
-        }
-
-        public static int toAbgr(int argb) {
-            return argb & -16711936 | (argb & 0xFF0000) >> 16 | (argb & 0xFF) << 16;
-        }
-
-        public static int mul(int color, int mulColor) {
-            int alpha = Math.clamp((long) getAlpha(color) * getAlpha(mulColor), 0, 255);
-            int red = Math.clamp((long) getRed(color) * getRed(mulColor), 0, 255);
-            int green = Math.clamp((long) getGreen(color) * getGreen(mulColor), 0, 255);
-            int blue = Math.clamp((long) getBlue(color) * getBlue(mulColor), 0, 255);
-            return getAbgr(alpha, blue, green, red);
-        }
-    }
-
     /**
      * Contains color-related helper methods that use ARGB colors represented
      * as {@code 0xAARRGGBB}.
@@ -253,6 +214,26 @@ public class ColorHelper {
             int green = Math.clamp((long) getGreen(color) * getGreen(mulColor) / 255, 0, 255);
             int blue = Math.clamp((long) getBlue(color) * getBlue(mulColor) / 255, 0, 255);
             return getArgb(alpha, red, green, blue);
+        }
+
+        public static int add(int color, int add) {
+            int alpha = Math.clamp((long) getAlpha(color) + getAlpha(add), 0, 255);
+            int red = Math.clamp((long) getRed(color) + getRed(add), 0, 255);
+            int green = Math.clamp((long) getGreen(color) + getGreen(add), 0, 255);
+            int blue = Math.clamp((long) getBlue(color) + getBlue(add), 0, 255);
+            return getArgb(alpha, red, green, blue);
+        }
+
+        public static Color mul(Color a, Color b) {
+            return new Color(mul(a.getRGB(), b.getRGB()));
+        }
+
+        public static Color add(Color a, Color b) {
+            return new Color(add(a.getRGB(), b.getRGB()));
+        }
+
+        public static Color dilute(Color a) {
+            return new Color(add(a.getRGB(), 0x808080));
         }
     }
 }

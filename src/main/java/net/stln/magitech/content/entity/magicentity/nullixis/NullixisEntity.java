@@ -22,7 +22,7 @@ import net.stln.magitech.content.entity.SpellProjectileEntity;
 import net.stln.magitech.content.sound.SoundInit;
 import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.helper.DataMapHelper;
-import net.stln.magitech.vfx.particle.particle_option.VoidGlowParticleEffect;
+import net.stln.magitech.effect.visual.particle.particle_option.VoidGlowParticleEffect;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
@@ -41,11 +41,11 @@ public class NullixisEntity extends SpellProjectileEntity {
         super(entityType, world);
     }
 
-    public NullixisEntity(Level world, Player player, float damage) {
+    public NullixisEntity(Level world, LivingEntity player, float damage) {
         super(EntityInit.NULLIXIS_ENTITY.get(), player, world, null, damage);
     }
 
-    public NullixisEntity(Level world, Player player, ItemStack weapon, float damage) {
+    public NullixisEntity(Level world, LivingEntity player, ItemStack weapon, float damage) {
         super(EntityInit.NULLIXIS_ENTITY.get(), player, world, weapon, damage);
     }
 

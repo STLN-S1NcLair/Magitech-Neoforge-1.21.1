@@ -96,7 +96,7 @@ public class EntityHelper {
         return playerEyePos.add(forward.multiply(hitDistance, hitDistance, hitDistance)).subtract(forward.multiply(offset, offset, offset));
     }
 
-    public static Vec3 raycast(Player player, double maxReachLength) {
+    public static Vec3 raycast(LivingEntity player, double maxReachLength) {
         Level world = player.level();
 
         // プレイヤーの目線の位置（頭の高さ）
@@ -152,7 +152,7 @@ public class EntityHelper {
 
         // 近い方を採用
         double hitDistance = Math.min(blockHitDist, entityHitDist);
-        return playerEyePos.add(directionNormalized.multiply(hitDistance, hitDistance, hitDistance));
+        return playerEyePos.add(directionNormalized.scale(hitDistance));
     }
 
     public static BlockHitResult raycastBeamBlockHit(Entity player, double maxReachLength, double radius) {
@@ -189,7 +189,7 @@ public class EntityHelper {
         }
     }
 
-    public static Vec3 raycast(Player player, double maxReachLength, Vec3 start, Vec3 directionNormalized) {
+    public static Vec3 raycast(Entity player, double maxReachLength, Vec3 start, Vec3 directionNormalized) {
         Level world = player.level();
 
         Vec3 maxReachPos = start.add(directionNormalized.scale(maxReachLength));
@@ -213,7 +213,7 @@ public class EntityHelper {
         return start.add(directionNormalized.multiply(hitDistance, hitDistance, hitDistance));
     }
 
-    public static Vec3 raycastBeam(Player player, double maxReachLength, Vec3 start, Vec3 directionNormalized, double radius) {
+    public static Vec3 raycastBeam(Entity player, double maxReachLength, Vec3 start, Vec3 directionNormalized, double radius) {
         Level world = player.level();
 
         Vec3 maxReachPos = start.add(directionNormalized.scale(maxReachLength));
@@ -238,7 +238,7 @@ public class EntityHelper {
         return start.add(directionNormalized.multiply(hitDistance, hitDistance, hitDistance));
     }
 
-    public static Entity raycastEntity(Player player, double maxReachLength) {
+    public static Entity raycastEntity(Entity player, double maxReachLength) {
         Level world = player.level();
 
         // プレイヤーの目線の位置（頭の高さ）
@@ -301,7 +301,7 @@ public class EntityHelper {
         return null;
     }
 
-    public static Entity raycastEntity(Player player, double maxReachLength, Vec3 start, Vec3 directionNormalized) {
+    public static Entity raycastEntity(Entity player, double maxReachLength, Vec3 start, Vec3 directionNormalized) {
         Level world = player.level();
 
         Vec3 maxReachPos = start.add(directionNormalized.scale(maxReachLength));
@@ -326,7 +326,7 @@ public class EntityHelper {
         return null;
     }
 
-    public static Entity raycastBeamEntity(Player player, double maxReachLength, Vec3 start, Vec3 directionNormalized, double radius) {
+    public static Entity raycastBeamEntity(Entity player, double maxReachLength, Vec3 start, Vec3 directionNormalized, double radius) {
         Level world = player.level();
 
         Vec3 maxReachPos = start.add(directionNormalized.scale(maxReachLength));
@@ -404,5 +404,9 @@ public class EntityHelper {
         double t = point.subtract(a).dot(ab) / ab.lengthSqr();
         t = Math.max(0, Math.min(1, t));
         return a.add(ab.scale(t));
+    }
+
+    public static Vec3 getBodyPos(Entity entity) {
+        return entity.position().add(0, entity.getBbHeight() * 0.7, 0);
     }
 }

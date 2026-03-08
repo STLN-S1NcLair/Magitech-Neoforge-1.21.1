@@ -29,10 +29,10 @@ import net.stln.magitech.feature.tool.material.ToolMaterial;
 import net.stln.magitech.helper.ComponentHelper;
 import net.stln.magitech.helper.EffectHelper;
 import net.stln.magitech.helper.EntityHelper;
-import net.stln.magitech.vfx.particle.particle_option.PowerupNoCullParticleEffect;
-import net.stln.magitech.vfx.particle.particle_option.PowerupParticleEffect;
-import net.stln.magitech.vfx.particle.particle_option.WaveNoCullParticleEffect;
-import net.stln.magitech.vfx.particle.particle_option.WaveParticleEffect;
+import net.stln.magitech.effect.visual.particle.particle_option.PowerupNoCullParticleEffect;
+import net.stln.magitech.effect.visual.particle.particle_option.PowerupParticleEffect;
+import net.stln.magitech.effect.visual.particle.particle_option.WaveNoCullParticleEffect;
+import net.stln.magitech.effect.visual.particle.particle_option.WaveParticleEffect;
 import org.joml.Vector3f;
 
 import java.util.HashMap;

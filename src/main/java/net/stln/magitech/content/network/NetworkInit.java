@@ -53,14 +53,6 @@ public class NetworkInit {
                         TraitTickPayLoadHandler::handleDataOnMainC2S
                 )
         );
-        registrar.playBidirectional(
-                SyncManaPayload.TYPE,
-                SyncManaPayload.STREAM_CODEC,
-                new DirectionalPayloadHandler<>(
-                        SyncManaPayLoadHandler::handleDataOnMainS2C,
-                        SyncManaPayLoadHandler::handleDataOnMainC2S
-                )
-        );
         registrar.playToClient(
                 BreakBlockPayload.TYPE,
                 BreakBlockPayload.STREAM_CODEC,

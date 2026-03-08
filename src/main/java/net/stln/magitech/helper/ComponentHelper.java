@@ -4,6 +4,7 @@ import net.minecraft.core.component.DataComponentHolder;
 import net.neoforged.neoforge.common.MutableDataComponentHolder;
 import net.neoforged.neoforge.fluids.SimpleFluidContent;
 import net.stln.magitech.content.item.component.*;
+import net.stln.magitech.feature.magic.spell.ISpell;
 import net.stln.magitech.feature.magic.spell.Spell;
 import net.stln.magitech.feature.magic.spell.SpellLike;
 import net.stln.magitech.feature.tool.material.ToolMaterial;
@@ -32,7 +33,7 @@ public class ComponentHelper {
         return holder.getOrDefault(ComponentInit.TOOLBELT_COMPONENT, ToolBeltComponent.EMPTY);
     }
 
-    public static @NotNull Optional<Spell> getThreadPageSpell(@NotNull DataComponentHolder holder) {
+    public static @NotNull Optional<ISpell> getThreadPageSpell(@NotNull DataComponentHolder holder) {
         return Optional.ofNullable(holder.get(ComponentInit.THREAD_PAGE_COMPONENT)).map(ThreadPageComponent::spell);
     }
 

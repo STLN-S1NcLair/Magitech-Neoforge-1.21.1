@@ -15,15 +15,15 @@ import java.util.Optional;
 
 public record SpellEndPayload(ISpell spell, Optional<ItemStack> wand, int id) implements CustomPacketPayload {
     public static final ResourceLocation ID = Magitech.id("spell_end");
-    public static final Type<SpellCastPayload> TYPE = new Type<>(ID);
-    public static final StreamCodec<RegistryFriendlyByteBuf, SpellCastPayload> STREAM_CODEC = StreamCodec.composite(
+    public static final Type<SpellEndPayload> TYPE = new Type<>(ID);
+    public static final StreamCodec<RegistryFriendlyByteBuf, SpellEndPayload> STREAM_CODEC = StreamCodec.composite(
             ISpell.STREAM_CODEC,
-            SpellCastPayload::spell,
+            SpellEndPayload::spell,
             ByteBufCodecs.optional(ItemStack.STREAM_CODEC),
-            SpellCastPayload::wand,
+            SpellEndPayload::wand,
             ByteBufCodecs.INT,
-            SpellCastPayload::id,
-            SpellCastPayload::new
+            SpellEndPayload::id,
+            SpellEndPayload::new
     );
 
     @Override

@@ -22,7 +22,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.stln.magitech.content.block.block_entity.InfusionAltarBlockEntity;
-import net.stln.magitech.vfx.particle.particle_option.SquareParticleEffect;
+import net.stln.magitech.effect.visual.particle.particle_option.SquareParticleEffect;
 import org.joml.Vector3f;
 
 import javax.annotation.Nullable;

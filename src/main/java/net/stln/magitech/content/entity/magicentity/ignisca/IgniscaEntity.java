@@ -18,7 +18,7 @@ import net.stln.magitech.content.entity.SpellProjectileEntity;
 import net.stln.magitech.content.sound.SoundInit;
 import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.helper.DataMapHelper;
-import net.stln.magitech.vfx.particle.particle_option.FlameParticleEffect;
+import net.stln.magitech.effect.visual.particle.particle_option.FlameParticleEffect;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 import software.bernie.geckolib.animatable.GeoEntity;

@@ -35,7 +35,7 @@ import net.stln.magitech.content.sound.SoundInit;
 import net.stln.magitech.helper.EffectHelper;
 import net.stln.magitech.helper.EntityHelper;
 import net.stln.magitech.helper.TickScheduler;
-import net.stln.magitech.vfx.particle.particle_option.*;
+import net.stln.magitech.effect.visual.particle.particle_option.*;
 import org.joml.Vector3f;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
@@ -110,7 +110,7 @@ public class WeaverEntity extends Monster implements GeoEntity, RangedAttackMob 
         if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
             LocalDate localdate = LocalDate.now();
             int i = localdate.getDayOfMonth();
-            int j = localdate.getMonth();
+            int j = localdate.getMonth().getValue();
             if (j == 10 && i == 31 && randomsource.nextFloat() < 0.25F) {
                 this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(randomsource.nextFloat() < 0.1F ? Blocks.JACK_O_LANTERN : Blocks.CARVED_PUMPKIN));
                 this.armorDropChances[EquipmentSlot.HEAD.getIndex()] = 0.0F;
