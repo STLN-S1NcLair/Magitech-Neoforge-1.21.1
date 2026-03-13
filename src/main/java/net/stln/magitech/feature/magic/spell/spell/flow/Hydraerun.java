@@ -25,7 +25,7 @@ import org.joml.Vector3f;
 public class Hydraerun extends Spell {
 
     public Hydraerun() {
-        super(new SpellConfig.Builder(Element.FLOW, SpellShape.RESILIENCE, 450, 60)
+        super(new SpellConfig.Builder(Element.FLOW, SpellShape.UTILITY, 450, 60)
                 .charge(10)
                 .property(SpellPropertyInit.DURATION_TIME, 2400)
                 .endSound(SoundInit.HYDRAERUN)
