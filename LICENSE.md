@@ -1,6 +1,59 @@
-Attribution-ShareAlike 4.0 International
+# License Overview
 
-=======================================================================
+## Special Provisions Regarding Video/Image Posting and Distribution
+
+
+This Mod may be freely used for the creation and distribution of videos featuring gameplay with this Mod installed, for both commercial and non-commercial purposes, provided that the following credits are displayed. For the creation and distribution of images, no credit display is required.
+
+
+In this specific case, the provisions of CC BY-SA 4.0 and the MIT License do not apply, and no permission requests or license inheritance are necessary.
+
+
+### Required Credit Items
+
+- Mod Name: Magitech
+
+- Download Location: A link to this Mod's distribution page on Modrinth or CurseForge.*
+
+*At least one of the above links must be provided.
+
+### Credit Template for Videos/Streams
+
+If you are a content creator, you can use the following template for your video description:
+
+- Option A: Standard (Standard and recommended)
+
+```
+Mod: Magitech
+Modrinth Download: https://modrinth.com/mod/magitech_mod
+Curseforge Download: https://www.curseforge.com/minecraft/mc-mods/magitech-arcane-engineering
+```
+
+- Option B: Short (Good for SNS or descriptions with many mods)
+```
+Magitech: https://modrinth.com/mod/magitech_mod
+```
+
+
+## Assets License (CC BY-SA 4.0)
+
+Creative Commons Attribution-ShareAlike 4.0 International
+
+Copyright (c) Stln
+
+This license applies to any files under the following directories:
+
+- ./src/main/resources/assets/
+
+## Code License (MIT)
+
+MIT License
+
+Copyright (c) Stln
+
+All other files are licensed under the MIT License.
+
+## Attribution-ShareAlike 4.0 International
 
 Creative Commons Corporation ("Creative Commons") is not a law firm and
 does not provide legal services or legal advice. Distribution of
@@ -423,3 +476,11 @@ to any of its public licenses or any other arrangements,
 understandings, or agreements concerning use of licensed material. For
 the avoidance of doubt, this paragraph does not form part of the
 public licenses.
+
+## MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
