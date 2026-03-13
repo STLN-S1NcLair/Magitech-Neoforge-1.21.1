@@ -28,7 +28,7 @@ import net.stln.magitech.feature.tool.ToolStats;
 import net.stln.magitech.feature.tool.material.ToolMaterial;
 import net.stln.magitech.helper.ComponentHelper;
 import net.stln.magitech.helper.EffectHelper;
-import net.stln.magitech.helper.EntityHelper;
+import net.stln.magitech.helper.CombatHelper;
 import net.stln.magitech.effect.visual.particle.particle_option.PowerupNoCullParticleEffect;
 import net.stln.magitech.effect.visual.particle.particle_option.PowerupParticleEffect;
 import net.stln.magitech.effect.visual.particle.particle_option.WaveNoCullParticleEffect;
@@ -99,7 +99,7 @@ public class BlindResonanceTrait extends Trait {
         int light = level.getMaxLocalRawBrightness(player.blockPosition());
         if (light < 4 && !player.hasEffect(MobEffects.NIGHT_VISION)) {
             EffectHelper.entityEffect(level, new PowerupParticleEffect(new Vector3f(0.0F, 0.5F, 0.5F), new Vector3f(0.0F, 1.0F, 1.0F), 1F, 1, 0, 15, 1.0F), player, 1);
-            List<Entity> entities = EntityHelper.getEntitiesInBox(level, player, player.position(), new Vec3(10, 10, 10));
+            List<Entity> entities = CombatHelper.getEntitiesInBox(level, player, player.position(), new Vec3(10, 10, 10));
             for (Entity entity : entities) {
                 if (player.getRandom().nextFloat() < 0.2F) {
                     EffectHelper.entityEffect(level, new PowerupNoCullParticleEffect(new Vector3f(0.0F, 0.5F, 0.5F), new Vector3f(0.0F, 1.0F, 1.0F), 1F, 1, 0, 15, 1.0F), entity, 1);

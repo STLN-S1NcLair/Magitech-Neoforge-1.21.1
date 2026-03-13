@@ -41,7 +41,7 @@ public class TrailRenderer {
 
     @SubscribeEvent
     public static void render(RenderLevelStageEvent event) {
-        if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_PARTICLES) {
+        if (event.getRenderTick() > 20 && event.getStage() == RenderLevelStageEvent.Stage.AFTER_PARTICLES) {
             for (TrailData trailData : trails) {
                 if (trailData != null) {
                     var poseStack = event.getPoseStack();

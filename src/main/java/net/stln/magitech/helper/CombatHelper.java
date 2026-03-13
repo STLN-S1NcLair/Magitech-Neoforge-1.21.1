@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Optional;
 
-public class EntityHelper {
+public class CombatHelper {
 
     public static Vec3 findSurface(Level level, Vec3 origin) {
         int x = Mth.floor(origin.x);
@@ -153,6 +153,34 @@ public class EntityHelper {
         // 近い方を採用
         double hitDistance = Math.min(blockHitDist, entityHitDist);
         return playerEyePos.add(directionNormalized.scale(hitDistance));
+    }
+
+    public static BlockHitResult getBeamBlockHit(Entity player, double maxReachLength, double radius, Vec3 directionNormalized) {
+        Level world = player.level();
+
+        // プレイヤーの目線の位置（頭の高さ）
+        Vec3 playerEyePos = player.getEyePosition();
+        Vec3 maxReachPos = playerEyePos.add(directionNormalized.scale(maxReachLength));
+
+        // Raycast (ブロック)
+        BlockHitResult blockHit = world.clip(new ClipContext(
+                playerEyePos, maxReachPos,
+                ClipContext.Block.COLLIDER,
+                ClipContext.Fluid.NONE,
+                player
+        ));
+
+        // Raycast (エンティティ)
+        EntityHitResult entityHit = getEntityHitResult(player, playerEyePos, maxReachPos, player.level());
+        entityHit = getCylinderHit(player, maxReachLength, playerEyePos, radius, entityHit, world, maxReachPos);
+
+        double blockHitDist = blockHit.getType() == HitResult.Type.MISS ? maxReachLength + 1 : blockHit.getLocation().distanceTo(playerEyePos);
+        double entityHitDist = entityHit != null ? entityHit.getLocation().distanceTo(playerEyePos) : maxReachLength + 1;
+        if (entityHitDist < blockHitDist) {
+            return null;
+        } else {
+            return blockHit;
+        }
     }
 
     public static BlockHitResult raycastBeamBlockHit(Entity player, double maxReachLength, double radius) {

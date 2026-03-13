@@ -9,13 +9,21 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.stln.magitech.content.entity.BombSpellProjectileEntity;
+import net.stln.magitech.content.entity.magicentity.BombSpellProjectileEntity;
 import net.stln.magitech.content.entity.EntityInit;
 import net.stln.magitech.content.sound.SoundInit;
+import net.stln.magitech.effect.visual.Section;
+import net.stln.magitech.effect.visual.preset.LineVFX;
+import net.stln.magitech.effect.visual.preset.PointVFX;
+import net.stln.magitech.effect.visual.preset.PresetHelper;
+import net.stln.magitech.effect.visual.spawner.ElementParticles;
+import net.stln.magitech.effect.visual.spawner.SquareParticles;
 import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.effect.visual.particle.particle_option.AbstractCustomizableParticleEffect;
 import net.stln.magitech.effect.visual.particle.particle_option.RuneParticleEffect;
 import net.stln.magitech.effect.visual.particle.particle_option.UnstableSquareParticleEffect;
+import net.stln.magitech.feature.magic.spell.ISpell;
+import net.stln.magitech.feature.magic.spell.SpellInit;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
@@ -23,6 +31,9 @@ import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
+
+import java.util.Optional;
+import java.util.function.Supplier;
 
 public class HexflareEntity extends BombSpellProjectileEntity {
 
@@ -32,28 +43,23 @@ public class HexflareEntity extends BombSpellProjectileEntity {
 
     public HexflareEntity(EntityType<? extends BombSpellProjectileEntity> entityType, Level world) {
         super(entityType, world);
-        this.explodeRadius = 8.0F;
     }
 
     public HexflareEntity(Level world, LivingEntity owner, float damage) {
         super(EntityInit.HEXFLARE_ENTITY.get(), owner, world, null, damage);
-        this.explodeRadius = 8.0F;
 
     }
 
     public HexflareEntity(Level world, LivingEntity owner, ItemStack weapon, float damage) {
         super(EntityInit.HEXFLARE_ENTITY.get(), owner, world, weapon, damage);
-        this.explodeRadius = 8.0F;
     }
 
     public HexflareEntity(EntityType<? extends BombSpellProjectileEntity> type, double x, double y, double z, Level world, ItemStack stack, @Nullable ItemStack weapon, float damage) {
         super(type, x, y, z, world, weapon, damage);
-        this.explodeRadius = 8.0F;
     }
 
     public HexflareEntity(EntityType<? extends BombSpellProjectileEntity> type, LivingEntity owner, Level world, ItemStack stack, @Nullable ItemStack shotFrom, float damage) {
         super(type, owner, world, shotFrom, damage);
-        this.explodeRadius = 8.0F;
     }
 
     @Override
@@ -62,118 +68,35 @@ public class HexflareEntity extends BombSpellProjectileEntity {
     }
 
     @Override
-    public void tick() {
-        super.tick();
-        Level world = this.level();
-        if (world.isClientSide) {
-            Vector3f fromColor = new Vector3f(1.0F, 1.0F, 1.0F);
-            Vector3f toColor = new Vector3f(1.0F, 1.0F, 1.0F);
-            float scale = 4.0F;
-            int twinkle = 1;
-            float rotSpeed = 0.0F;
-            int particleAmount = 3;
-            for (int i = 0; i < particleAmount; i++) {
-                Vec3 deltaMovement = this.getDeltaMovement();
-                double x = this.getX() - deltaMovement.x + (random.nextFloat() - 0.5) / 10;
-                double y = this.getY(0.5F) - deltaMovement.y + (random.nextFloat() - 0.5) / 10;
-                double z = this.getZ() - deltaMovement.z + (random.nextFloat() - 0.5) / 10;
-                double vx = deltaMovement.x / 4;
-                double vy = deltaMovement.y / 4;
-                double vz = deltaMovement.z / 4;
-                world.addParticle(new RuneParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed, level().random.nextInt(5, 20), 0.9F), x, y, z, vx, vy, vz);
-            }
-        }
+    protected Optional<Supplier<ISpell>> getSpell() {
+        return Optional.of(SpellInit.HEXFLARE);
     }
 
     @Override
-    protected Element getElement() {
-        return Element.MAGIC;
+    protected Supplier<SoundEvent> getHitGroundSoundEvent() {
+        return SoundInit.HEXFLARE;
     }
 
     @Override
-    public void handleEntityEvent(byte status) {
-        if (status == EntityEvent.DEATH) {
-            if (this.level().isClientSide) {
-                addHitEffect();
-            } else {
-                this.discard();
-            }
-        }
-        super.handleEntityEvent(status);
+    protected void spawnTickParticle() {
+        Level level = level();
+        Element element = getElement();
+        Vec3 old = getOldCenter();
+        Vec3 pos = getCurrentCenter();
+        LineVFX.spreadLinedSquare(level, old, pos, element, new Section(0F, 1F), 1F, 0.2F, 0.05F);
+        LineVFX.spreadLined(level, old, pos, element, ElementParticles::runeParticle, new Section(0F, 1F), 2F, 0.1F, 0.05F);
     }
 
-    @Override
-    protected void applyEntityHitEffect(Entity entity) {
-        super.applyEntityHitEffect(entity);
-    }
-
-    @Override
-    protected void addHitEffect() {
-        Level world = this.level();
-        if (world.isClientSide) {
-            Vector3f fromColor = new Vector3f(1.0F, 1.0F, 1.0F);
-            Vector3f toColor = new Vector3f(1.0F, 1.0F, 1.0F);
-            float scale1 = 8.0F;
-            float scale2 = 2.0F;
-            float rotSpeed = 0.0F;
-            int hitParticleAmount = 20;
-            int particleAmount = 600;
-            for (int i = 0; i < hitParticleAmount; i++) {
-                int twinkle = 1;
-
-                double x = this.getX() - this.getDeltaMovement().x + (random.nextFloat() - 0.5) / 5;
-                double y = this.getY(0.5F) - this.getDeltaMovement().y + (random.nextFloat() - 0.5) / 5;
-                double z = this.getZ() - this.getDeltaMovement().z + (random.nextFloat() - 0.5) / 5;
-                double vx = (random.nextFloat() - 0.5) / 2;
-                double vy = (random.nextFloat() - 0.5) / 2;
-                double vz = (random.nextFloat() - 0.5) / 2;
-                world.addParticle(new RuneParticleEffect(fromColor, toColor, scale1, twinkle, rotSpeed, level().random.nextInt(5, 8), 0.9F), x, y, z, vx, vy, vz);
-            }
-
-            Vector3f fromCol = new Vector3f(1.0F, 0.0F, 0.3F);
-            Vector3f toCol = new Vector3f(1.0F, 0.0F, 0.7F);
-
-            for (int i = 0; i < particleAmount; i++) {
-                int twinkle = 1;
-
-                Vec3 offset = new Vec3(Mth.nextDouble(random, -1, 1),
-                        Mth.nextDouble(random, -1, 1),
-                        Mth.nextDouble(random, -1, 1)).normalize().scale(explodeRadius / 2);
-                Vec3 vector = new Vec3(random.nextDouble(), random.nextDouble(), random.nextDouble());
-                double x = this.getX() + offset.x * vector.x;
-                double y = this.getY(0.5F) + offset.y * vector.y;
-                double z = this.getZ() + offset.z * vector.z;
-                double vx = offset.x / 3 * (vector.x);
-                double vy = offset.y / 3 * (vector.y);
-                double vz = offset.z / 3 * (vector.z);
-                AbstractCustomizableParticleEffect effect = switch (i % 5) {
-                    case 0 -> new UnstableSquareParticleEffect(fromCol, toCol, scale2, twinkle, rotSpeed, 20, 0.95F);
-                    case 1 -> new UnstableSquareParticleEffect(fromCol, toCol, scale2, twinkle, rotSpeed, 20, 0.99F);
-                    case 2 ->
-                            new RuneParticleEffect(fromColor, toColor, scale2, twinkle, rotSpeed, level().random.nextInt(5, 25), 0.9F);
-                    case 3 ->
-                            new RuneParticleEffect(fromColor, toColor, scale2, twinkle, rotSpeed, level().random.nextInt(5, 25), 0.85F);
-                    case 4 ->
-                            new RuneParticleEffect(fromColor, toColor, scale1, twinkle, rotSpeed + Mth.randomBetween(random, -0.1F, 0.1F), level().random.nextInt(5, 45), 0.85F);
-                    default -> throw new IllegalStateException("Unexpected value: " + i % 4);
-                };
-                world.addParticle(effect, x, y, z, vx, vy, vz);
-            }
-        }
-    }
-
-    @Override
-    protected SoundEvent getDefaultHitGroundSoundEvent() {
-        return SoundInit.HEXFLARE.get();
+    protected void spawnHitParticle() {
+        Level level = level();
+        Element element = getElement();
+        Vec3 pos = position();
+        PointVFX.burst(level, pos, element, SquareParticles::squareBlastParticle, 400, 1.0F);
+        PointVFX.burst(level, pos, element, (lvl, position, elm) -> PresetHelper.bigger(ElementParticles.runeParticle(lvl, position, elm)), 400, 1.0F);
     }
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "idle", (event) -> event.setAndContinue(IDLE)));
-    }
-
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return this.geoCache;
     }
 }

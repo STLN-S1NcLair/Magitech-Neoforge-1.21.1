@@ -13,7 +13,7 @@ import net.stln.magitech.feature.magic.MagicPerformanceHelper;
 import net.stln.magitech.feature.magic.spell.property.SpellPropertyInit;
 import org.jetbrains.annotations.Nullable;
 
-public class ShotSpell extends Spell {
+public abstract class ShotSpell extends Spell implements ISummonEntitySpell {
 
     private final Function4<Level, LivingEntity, ItemStack, Float, ? extends Entity> bulletProvider;
 

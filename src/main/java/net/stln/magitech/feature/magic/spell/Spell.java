@@ -10,7 +10,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.network.PacketDistributor;
-import net.stln.magitech.Magitech;
 import net.stln.magitech.MagitechRegistries;
 import net.stln.magitech.content.network.SpellCastPayload;
 import net.stln.magitech.content.network.SpellEndPayload;
@@ -248,7 +247,7 @@ public abstract class Spell implements ISpell {
         SpellShape shape = config.shape();
         float cost = config.cost();
         SpellProperties properties = config.properties();
-        list.add(element.getSpellElementName().withColor(element.getColor().getRGB()).append(Component.literal(" ").append(Component.translatable("spell_shape.magitech." + shape.get()).withColor(shape.getDark()))));
+        list.add(element.getSpellElementName().withColor(element.getTextColor().getRGB()).append(Component.literal(" ").append(Component.translatable("spell_shape.magitech." + shape.get()).withColor(shape.getDark()))));
         for (SpellPropertyKey<?> key : properties.map().keySet()) {
             MutableComponent component = key.getDisplayText(this, caster, wand);
             list.add(component);

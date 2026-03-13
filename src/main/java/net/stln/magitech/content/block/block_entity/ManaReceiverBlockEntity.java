@@ -27,7 +27,7 @@ import net.stln.magitech.content.gui.ManaReceiverMenu;
 import net.stln.magitech.content.sound.SoundInit;
 import net.stln.magitech.core.api.mana.flow.ManaFlowRule;
 import net.stln.magitech.core.api.mana.handler.MachineBlockEntityManaHandler;
-import net.stln.magitech.helper.EntityHelper;
+import net.stln.magitech.helper.CombatHelper;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -57,7 +57,7 @@ public class ManaReceiverBlockEntity extends ManaMachineBlockEntity {
 
     private void checkManaParcel(Level level, BlockPos pos, BlockState state) {
         MachineBlockEntityManaHandler handler = getManaHandler(null);
-        List<Entity> entities = EntityHelper.getEntitiesInBox(level, null, pos.getCenter(), new Vec3(0.5, 0.5, 0.5));
+        List<Entity> entities = CombatHelper.getEntitiesInBox(level, null, pos.getCenter(), new Vec3(0.5, 0.5, 0.5));
         for (Entity entity : entities) {
             if (entity instanceof ManaParcelEntity manaParcel) {
                 handler.produceMana(manaParcel.getMana());

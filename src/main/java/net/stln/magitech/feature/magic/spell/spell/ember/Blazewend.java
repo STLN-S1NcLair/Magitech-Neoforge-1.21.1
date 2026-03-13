@@ -12,7 +12,7 @@ import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.feature.magic.MagicPerformanceHelper;
 import net.stln.magitech.feature.magic.spell.*;
 import net.stln.magitech.feature.magic.spell.property.SpellPropertyInit;
-import net.stln.magitech.helper.EntityHelper;
+import net.stln.magitech.helper.CombatHelper;
 import net.stln.magitech.helper.TickScheduler;
 import net.stln.magitech.effect.visual.particle.particle_option.FlameParticleEffect;
 import org.jetbrains.annotations.Nullable;
@@ -44,7 +44,7 @@ public class Blazewend extends DamageSpell {
             int finalI = i;
             TickScheduler.schedule(i, () -> {
                 if (!level.isClientSide) {
-                    List<Entity> nearbyEntities = EntityHelper.getEntitiesInBox(level, caster, caster.position(), new Vec3(3, 3, 3));
+                    List<Entity> nearbyEntities = CombatHelper.getEntitiesInBox(level, caster, caster.position(), new Vec3(3, 3, 3));
                     Vec3 newFront = Vec3.directionFromRotation(caster.getRotationVector());
                     caster.addDeltaMovement(newFront.scale(strength / 3));
                     SoundHelper.broadcastSound(level, caster, this.getConfig().endSound());

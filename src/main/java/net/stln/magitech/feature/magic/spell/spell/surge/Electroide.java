@@ -40,7 +40,7 @@ public class Electroide extends ShotSpell {
                         .charge(12)
                         .property(SpellPropertyInit.DAMAGE, 8.0F)
                         .property(SpellPropertyInit.PROJECTILE_SPEED, 2.0F)
-                        .property(SpellPropertyInit.EXPLOSION_RADIUS, 7.0F)
+                        .property(SpellPropertyInit.EXPLOSION_RADIUS, 3.5F)
                         .endSound(SoundInit.ELECTROIDE_SHOOT)
                         .castAnim("charge_wand")
                         .endAnim("swing_wand"),

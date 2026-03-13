@@ -14,12 +14,21 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.content.entity.EntityInit;
-import net.stln.magitech.content.entity.SpellProjectileEntity;
+import net.stln.magitech.content.entity.magicentity.SpellProjectileEntity;
 import net.stln.magitech.content.sound.SoundInit;
+import net.stln.magitech.effect.visual.Section;
+import net.stln.magitech.effect.visual.preset.LineVFX;
+import net.stln.magitech.effect.visual.preset.PointVFX;
+import net.stln.magitech.effect.visual.preset.TrailVFX;
+import net.stln.magitech.effect.visual.spawner.ElementParticles;
+import net.stln.magitech.effect.visual.spawner.SquareParticles;
 import net.stln.magitech.feature.element.Element;
+import net.stln.magitech.feature.magic.spell.ISpell;
+import net.stln.magitech.feature.magic.spell.SpellInit;
 import net.stln.magitech.helper.DataMapHelper;
 import net.stln.magitech.effect.visual.particle.particle_option.SparkParticleEffect;
 import net.stln.magitech.effect.visual.particle.particle_option.ZapParticleEffect;
+import net.stln.magitech.helper.VectorHelper;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
@@ -27,6 +36,9 @@ import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
+
+import java.util.Optional;
+import java.util.function.Supplier;
 
 public class VoltarisEntity extends SpellProjectileEntity {
 
@@ -55,121 +67,35 @@ public class VoltarisEntity extends SpellProjectileEntity {
     }
 
     @Override
-    public void tick() {
-        super.tick();
-        Level world = this.level();
-        if (world.isClientSide) {
-            Vector3f fromColor = new Vector3f(1.0F, 1.0F, 1.0F);
-            Vector3f toColor = new Vector3f(1.0F, 1.0F, 1.0F);
-            float scale = 1.0F;
-            int twinkle = 5;
-            float rotSpeed = 0.0F;
-            int particleAmount = 5;
-            for (int i = 0; i < particleAmount; i++) {
-                Vec3 deltaMovement = this.getDeltaMovement();
-                double x = this.getX() - deltaMovement.x + (random.nextFloat() - 0.5) / 10;
-                double y = this.getY(0.5F) - deltaMovement.y + (random.nextFloat() - 0.5) / 10;
-                double z = this.getZ() - deltaMovement.z + (random.nextFloat() - 0.5) / 10;
-                double vx = deltaMovement.x / 4;
-                double vy = deltaMovement.y / 4;
-                double vz = deltaMovement.z / 4;
-                world.addParticle(new SparkParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed, level().random.nextInt(5, 15), 0.99F), x, y, z, vx, vy, vz);
-            }
-            Vec3 deltaMovement = this.getDeltaMovement();
-            double x = this.getX();
-            double y = this.getY(0.5F);
-            double z = this.getZ();
-            double vx = deltaMovement.x;
-            double vy = deltaMovement.y;
-            double vz = deltaMovement.z;
-            Vector3f endPos = this.position().add(0, this.getBbHeight() * 0.5, 0).add(new Vec3(this.random.nextFloat() * 2 - 1, this.random.nextFloat() * 2 - 1, this.random.nextFloat() * 2 - 1)).toVector3f();
-            world.addParticle(new ZapParticleEffect(fromColor, toColor, endPos, scale, twinkle, rotSpeed, level().random.nextInt(2, 5), 1.0F), x, y, z, vx, vy, vz);
-        }
+    protected Optional<Supplier<ISpell>> getSpell() {
+        return Optional.of(SpellInit.VOLTARIS);
     }
 
     @Override
-    protected void onHitEntity(EntityHitResult entityHitResult) {
-        super.onHitEntity(entityHitResult);
-        Entity entity = entityHitResult.getEntity();
-        Entity owner = this.getOwner();
-
-        ResourceKey<DamageType> damageType = this.getElement().getDamageType();
-        DamageSource elementalDamageSource = getElementalDamageSource(owner, damageType);
-
-
-        float finalDamage = this.damage * DataMapHelper.getElementMultiplier(entity, this.getElement());
-        applyDamage(entity, elementalDamageSource, finalDamage);
-        hitParticle();
-
-        if (!this.level().isClientSide) {
-            this.level().broadcastEntityEvent(this, EntityEvent.DEATH);
-        }
+    protected Supplier<SoundEvent> getHitGroundSoundEvent() {
+        return SoundInit.SPARK;
     }
 
     @Override
-    protected Element getElement() {
-        return Element.SURGE;
+    protected void spawnTickParticle() {
+        Level level = level();
+        Element element = getElement();
+        Vec3 old = getOldCenter();
+        Vec3 pos = getCurrentCenter();
+        LineVFX.spreadLinedSquare(level, old, pos, element, new Section(0F, 1F), 2F, 0.2F, 0.03F);
+        PointVFX.zap(level, pos, element, 1, 0.25F, 2F, 2F, 0.5F, 5);
     }
 
-    @Override
-    protected void onHitBlock(BlockHitResult blockHitResult) {
-        super.onHitBlock(blockHitResult);
-        hitParticle();
-
-        if (!this.level().isClientSide) {
-            this.level().broadcastEntityEvent(this, EntityEvent.DEATH);
-        }
-    }
-
-    @Override
-    public void handleEntityEvent(byte status) {
-        if (status == EntityEvent.DEATH) {
-            if (this.level().isClientSide) {
-                hitParticle();
-            } else {
-                this.discard();
-            }
-        }
-        super.handleEntityEvent(status);
-    }
-
-    protected void hitParticle() {
-        Level world = this.level();
-        if (world.isClientSide) {
-            Vector3f fromColor = new Vector3f(1.0F, 1.0F, 1.0F);
-            Vector3f toColor = new Vector3f(1.0F, 1.0F, 1.0F);
-            float scale = 1.0F;
-            float rotSpeed = 0.0F;
-            int particleAmount = 10;
-            for (int i = 0; i < particleAmount; i++) {
-                int twinkle = random.nextInt(3, 7);
-
-                double x = this.getX() - this.getDeltaMovement().x + (random.nextFloat() - 0.5) / 10;
-                double y = this.getY(0.5F) - this.getDeltaMovement().y + (random.nextFloat() - 0.5) / 10;
-                double z = this.getZ() - this.getDeltaMovement().z + (random.nextFloat() - 0.5) / 10;
-                double vx = (random.nextFloat() - 0.5) / 6;
-                double vy = (random.nextFloat() - 0.5) / 6;
-                double vz = (random.nextFloat() - 0.5) / 6;
-                Vector3f endPos = this.position().add(new Vec3(this.random.nextFloat() * 4 - 2, this.random.nextFloat() * 4 - 2, this.random.nextFloat() * 4 - 2)).toVector3f();
-
-                world.addParticle(new SparkParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed, level().random.nextInt(5, 15), 0.99F), x, y, z, vx, vy, vz);
-                world.addParticle(new ZapParticleEffect(fromColor, toColor, endPos, scale, twinkle, rotSpeed, level().random.nextInt(2, 5), 1.0F), x, y, z, vx, vy, vz);
-            }
-        }
-    }
-
-    @Override
-    protected SoundEvent getDefaultHitGroundSoundEvent() {
-        return SoundInit.SPARK.get();
+    protected void spawnHitParticle() {
+        Level level = level();
+        Element element = getElement();
+        Vec3 pos = getCurrentCenter();
+        PointVFX.burst(level, pos, element, SquareParticles::squareParticle, 10, 0.2F);
+        PointVFX.zap(level, pos, element, 5, 0.25F, 2F, 2F, 0.5F, 10);
     }
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "idle", (event) -> event.setAndContinue(IDLE)));
-    }
-
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return this.geoCache;
     }
 }

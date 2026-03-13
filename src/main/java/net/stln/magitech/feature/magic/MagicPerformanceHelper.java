@@ -12,6 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.stln.magitech.content.entity.status.AttributeInit;
 import net.stln.magitech.content.item.tool.toolitem.SpellCasterItem;
 import net.stln.magitech.feature.element.Element;
+import net.stln.magitech.feature.magic.spell.DamageSpell;
 import net.stln.magitech.feature.magic.spell.ISpell;
 import net.stln.magitech.feature.magic.spell.SpellConfig;
 import net.stln.magitech.feature.magic.spell.property.SpellPropertyInit;
@@ -52,6 +53,11 @@ public class MagicPerformanceHelper {
         return getEffectiveMagicDamage(caster, wand, config.cost(), config.properties().get(key), config.element(), target);
     }
 
+    public static float getEffectiveMagicDamage(LivingEntity caster, @Nullable ItemStack wand, ISpell spell, LivingEntity target) {
+        SpellConfig config = spell.getConfig();
+        return getEffectiveMagicDamage(caster, wand, config.cost(), config.properties().get(SpellPropertyInit.DAMAGE), config.element(), target);
+    }
+
     // 魔法威力を考慮した出力ダメージ値(EFFECT_STRENGTHなどでも使用する)
     public static float getOutgoingMagicDamage(LivingEntity caster, @Nullable ItemStack wand, float cost, float damage, Element element) {
         double power = caster.getAttributeValue(AttributeInit.SPELL_POWER);
@@ -78,8 +84,12 @@ public class MagicPerformanceHelper {
     public static void applyMagicDamage(LivingEntity caster, @Nullable ItemStack wand, float cost, float damage, Element element, LivingEntity target) {
         float effectiveDamage = getEffectiveMagicDamage(caster, wand, cost, damage, element, target);
         ResourceKey<DamageType> damageType = element.getDamageType();
-
         DamageSource elementalDamageSource = caster.damageSources().source(damageType, caster);
+        applyRawMagicDamage(caster, wand, target, elementalDamageSource, effectiveDamage);
+    }
+
+    public static void applyRawMagicDamage(@Nullable LivingEntity caster, @Nullable ItemStack wand, LivingEntity target, DamageSource source, float effectiveDamage) {
+
         if (target.isAttackable()) {
 
             if (target.invulnerableTime < 10) {
@@ -88,16 +98,18 @@ public class MagicPerformanceHelper {
                         spellCasterItem.callTraitSpellHitEntity(caster.level(), player, target, wand);
                     }
                 }
-                if (!target.isInvulnerableTo(elementalDamageSource)) {
+                if (!target.isInvulnerableTo(source)) {
                     float targetHealth = target.getHealth();
                     target.setLastHurtByMob(caster);
                     if (caster instanceof Player player) {
                         player.awardStat(Stats.DAMAGE_DEALT, Math.round((targetHealth - target.getHealth()) * 10));
                     }
                 }
-                target.hurt(elementalDamageSource, effectiveDamage);
+                target.hurt(source, effectiveDamage);
             }
-            caster.setLastHurtMob(target);
+            if (caster != null) {
+                caster.setLastHurtMob(target);
+            }
         }
     }
 

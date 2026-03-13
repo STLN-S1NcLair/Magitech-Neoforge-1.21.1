@@ -64,7 +64,7 @@ public class TestTrail {
                 var trail = LodestoneRenderTypes.ADDITIVE_TEXTURE_TRIANGLE.apply(RenderTypeTokenInit.TRAIL);
                 var builder = new VFXBuilders.WorldVFXBuilder().setColor(new Color(0xFFFFFF));
 
-                TrailRenderHelper.renderTrail(poseStack, builder.setRenderType(trail), trailPointBuilder, Element.MANA.getColor(), Element.MANA.getSecondary(), 0.5F, 0.3F, event.getPartialTick().getRealtimeDeltaTicks());
+                TrailRenderHelper.renderTrail(poseStack, builder.setRenderType(trail), trailPointBuilder, Element.MANA.getTextColor(), Element.MANA.getSecondary(), 0.5F, 0.3F, event.getPartialTick().getRealtimeDeltaTicks());
             }
         }
     }

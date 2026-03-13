@@ -12,13 +12,16 @@ import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.Magitech;
+import net.stln.magitech.content.entity.magicentity.BombSpellProjectileEntity;
 import net.stln.magitech.content.entity.magicentity.hydrelux.HydreluxEntity;
 import net.stln.magitech.content.entity.magicentity.volkarin.VolkarinEntity;
 import net.stln.magitech.content.sound.SoundInit;
@@ -29,6 +32,7 @@ import net.stln.magitech.feature.magic.spell.Spell;
 import net.stln.magitech.feature.magic.spell.SpellConfig;
 import net.stln.magitech.feature.magic.spell.SpellShape;
 import net.stln.magitech.feature.magic.spell.property.SpellPropertyInit;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,10 +44,21 @@ public class Hydrelux extends ShotSpell {
                         .charge(15)
                         .property(SpellPropertyInit.DAMAGE, 9.0F)
                         .property(SpellPropertyInit.PROJECTILE_SPEED, 2.0F)
-                        .property(SpellPropertyInit.EXPLOSION_RADIUS, 7.0F)
+                        .property(SpellPropertyInit.EXPLOSION_RADIUS, 3.5F)
                         .endSound(SoundInit.HYDRELUX_SHOOT)
                         .castAnim("charge_wand")
                         .endAnim("swing_wand"),
                 HydreluxEntity::new);
+    }
+
+    @Override
+    public void applyEffectToTarget(Level level, Entity summoned, @Nullable Entity owner, Entity target) {
+        if (target instanceof LivingEntity livingEntity && summoned instanceof BombSpellProjectileEntity bomb) {
+            Vec3 toEntity = livingEntity.position().subtract(bomb.position()).normalize();
+            double distance = bomb.position().distanceTo(target.position());
+            float explosionRadius = bomb.getExplosionRadius();
+            double pushStrength = Mth.clamp((explosionRadius - distance) / explosionRadius, 0, 1) * 2;
+            livingEntity.addDeltaMovement(toEntity.scale(pushStrength).add(0, 0.3, 0));
+        }
     }
 }

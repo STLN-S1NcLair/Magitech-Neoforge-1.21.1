@@ -24,8 +24,8 @@ import net.stln.magitech.content.item.tool.toolitem.PartToolItem;
 import net.stln.magitech.content.item.tool.toolitem.SpellCasterItem;
 import net.stln.magitech.content.sound.SoundInit;
 import net.stln.magitech.feature.tool.ToolStats;
+import net.stln.magitech.helper.CombatHelper;
 import net.stln.magitech.helper.EffectHelper;
-import net.stln.magitech.helper.EntityHelper;
 import net.stln.magitech.effect.visual.particle.particle_option.MembraneParticleEffect;
 import net.stln.magitech.effect.visual.particle.particle_option.PowerupParticleEffect;
 import net.stln.magitech.effect.visual.particle.particle_option.SquareFieldParticleEffect;
@@ -96,7 +96,7 @@ public class PhantomSlayerTrait extends Trait {
             double mul = player.getAttributeValue(Attributes.ENTITY_INTERACTION_RANGE) * Math.sqrt(traitLevel);
             Vec3 maxReachPos = playerEyePos.add(forward.multiply(mul, mul, mul));
 
-            EntityHitResult result = EntityHelper.getEntityHitResult(player, playerEyePos, maxReachPos, level);
+            EntityHitResult result = CombatHelper.getEntityHitResult(player, playerEyePos, maxReachPos, level);
 
             if (result != null && player.getAttackStrengthScale(0.5F) > 0.7F) {
 

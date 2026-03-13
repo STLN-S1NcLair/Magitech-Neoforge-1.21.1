@@ -15,15 +15,25 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.content.entity.EntityInit;
-import net.stln.magitech.content.entity.SpellProjectileEntity;
+import net.stln.magitech.content.entity.magicentity.SpellProjectileEntity;
 import net.stln.magitech.content.sound.SoundInit;
+import net.stln.magitech.effect.visual.Section;
+import net.stln.magitech.effect.visual.preset.LineVFX;
+import net.stln.magitech.effect.visual.preset.PointVFX;
+import net.stln.magitech.effect.visual.spawner.ElementParticles;
+import net.stln.magitech.effect.visual.spawner.SquareParticles;
 import net.stln.magitech.feature.element.Element;
+import net.stln.magitech.feature.magic.spell.ISpell;
+import net.stln.magitech.feature.magic.spell.SpellInit;
 import net.stln.magitech.helper.DataMapHelper;
 import net.stln.magitech.effect.visual.particle.particle_option.UnstableSquareParticleEffect;
 import org.joml.Vector3f;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.util.GeckoLibUtil;
+
+import java.util.Optional;
+import java.util.function.Supplier;
 
 public class ManaParcelEntity extends SpellProjectileEntity {
 
@@ -41,115 +51,36 @@ public class ManaParcelEntity extends SpellProjectileEntity {
     }
 
     @Override
-    public void tick() {
-        super.tick();
-        Level world = this.level();
-        if (world.isClientSide) {
-            Vector3f fromColor = new Vector3f(0.8F, 1.0F, 0.7F);
-            Vector3f toColor = new Vector3f(0.0F, 1.0F, 0.9F);
-            float scale = 1.0F;
-            int twinkle = random.nextInt(2, 5);
-            float rotSpeed = 0.0F;
-            int particleAmount = 5;
-            for (int i = 0; i < particleAmount; i++) {
-                Vec3 deltaMovement = this.getDeltaMovement();
-                double x = this.getX() - (random.nextFloat() - 0.5) / 5;
-                double y = this.getY(0.5F) - (random.nextFloat() - 0.5) / 5;
-                double z = this.getZ() - (random.nextFloat() - 0.5) / 5;
-                double mul = Mth.randomBetween(random, 0.9f, 1.1f);
-                double vx = deltaMovement.x * mul;
-                double vy = deltaMovement.y * mul;
-                double vz = deltaMovement.z * mul;
-                world.addParticle(new UnstableSquareParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed, random.nextInt(10, 20), Mth.randomBetween(random, 0.98f, 1.0f)), x, y, z, vx, vy, vz);
-            }
-        }
+    protected Element getDefaultElement() {
+        return Element.MANA;
     }
 
     @Override
-    protected void onHitEntity(EntityHitResult entityHitResult) {
-        super.onHitEntity(entityHitResult);
-        Entity entity = entityHitResult.getEntity();
-        Entity owner = this.getOwner();
-
-        ResourceKey<DamageType> damageType = this.getElement().getDamageType();
-        DamageSource elementalDamageSource;
-        if (owner != null) {
-            if (this.getWeaponItem() != null) {
-                elementalDamageSource = this.getWeaponItem().has(DataComponents.CUSTOM_NAME) ? owner.damageSources().source(damageType, owner) : owner.damageSources().source(damageType);
-            } else {
-                elementalDamageSource = owner.damageSources().source(damageType);
-            }
-        } else {
-            elementalDamageSource = this.damageSources().source(damageType);
-        }
-
-
-        float finalDamage = this.damage * DataMapHelper.getElementMultiplier(entity, this.getElement());
-        applyDamage(entity, elementalDamageSource, finalDamage);
-        hitParticle();
-
-        if (!this.level().isClientSide) {
-            this.level().broadcastEntityEvent(this, EntityEvent.DEATH);
-        }
+    protected Optional<Supplier<ISpell>> getSpell() {
+        return Optional.of(SpellInit.FRIGALA);
     }
 
     @Override
-    protected Element getElement() {
-        return Element.MAGIC;
+    protected Supplier<SoundEvent> getHitGroundSoundEvent() {
+        return SoundInit.GLACE_LAUNCH;
     }
 
     @Override
-    protected void onHitBlock(BlockHitResult blockHitResult) {
-        super.onHitBlock(blockHitResult);
-        hitParticle();
+    protected void spawnTickParticle() {
+        Level level = level();
+        Element element = getElement();
+        LineVFX.spreadLinedSquare(level, new Vec3(xOld, yOld, zOld), position(), element, new Section(0F, 1F), 2F, 0.2F, 0.1F);
+    }
 
-        if (!this.level().isClientSide) {
-            this.level().broadcastEntityEvent(this, EntityEvent.DEATH);
-        }
+    protected void spawnHitParticle() {
+        Level level = level();
+        Element element = getElement();
+        PointVFX.burst(level, position(), element, SquareParticles::squareParticle, 10, 0.2F);
     }
 
     @Override
-    public void handleEntityEvent(byte status) {
-        if (status == EntityEvent.DEATH) {
-            if (this.level().isClientSide) {
-                hitParticle();
-            } else {
-                this.discard();
-            }
-        }
-        super.handleEntityEvent(status);
-    }
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
 
-    protected void hitParticle() {
-        Level world = this.level();
-        if (world.isClientSide) {
-            Vector3f fromColor = new Vector3f(0.8F, 1.0F, 0.7F);
-            Vector3f toColor = new Vector3f(0.0F, 1.0F, 0.9F);
-            float scale = 1.0F;
-            float rotSpeed = 0.0F;
-            int particleAmount = 10;
-            for (int i = 0; i < particleAmount; i++) {
-                int twinkle = random.nextInt(3, 7);
-
-                double x = this.getX() - this.getDeltaMovement().x + (random.nextFloat() - 0.5) / 10;
-                double y = this.getY(0.5F) - this.getDeltaMovement().y + (random.nextFloat() - 0.5) / 10;
-                double z = this.getZ() - this.getDeltaMovement().z + (random.nextFloat() - 0.5) / 10;
-                double vx = (random.nextFloat() - 0.5) / 6;
-                double vy = (random.nextFloat() - 0.5) / 6;
-                double vz = (random.nextFloat() - 0.5) / 6;
-                world.addParticle(new UnstableSquareParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed, 15, 1.0F), x, y, z, vx, vy, vz);
-            }
-        }
-    }
-
-    @Override
-    protected SoundEvent getDefaultHitGroundSoundEvent() {
-        return SoundInit.MANA_PARCEL.get();
-    }
-
-    @Override
-    protected void playHitGroundSoundEvent() {
-        this.playSound(this.getHitGroundSoundEvent(), 0.3F, Mth.randomBetween(this.random, 0.5F, 1.0F));
     }
 
     @Override
@@ -162,16 +93,6 @@ public class ManaParcelEntity extends SpellProjectileEntity {
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         this.mana = compound.getLong("mana");
-    }
-
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-
-    }
-
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return this.geoCache;
     }
 
     public long getMana() {

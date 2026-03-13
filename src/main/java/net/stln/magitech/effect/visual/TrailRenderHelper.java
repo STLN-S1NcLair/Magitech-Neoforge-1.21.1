@@ -1,6 +1,7 @@
 package net.stln.magitech.effect.visual;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import team.lodestar.lodestone.helpers.ColorHelper;
 import team.lodestar.lodestone.systems.easing.Easing;
@@ -12,9 +13,14 @@ import java.awt.*;
 public class TrailRenderHelper {
     public static void renderEntityTrail(PoseStack poseStack, VFXBuilders.WorldVFXBuilder builder, TrailPointBuilder trailPointBuilder, Entity entity, Color primary, Color secondary, float scale, float alpha, float partialTicks) {
         poseStack.pushPose();
+        float offx = (float) Mth.lerp(partialTicks, entity.xOld, entity.getX());
+        float offy = (float) Mth.lerp(partialTicks, entity.yOld, entity.getY());
+        float offz = (float) Mth.lerp(partialTicks, entity.zOld, entity.getZ());
+        poseStack.translate(-offx, -offy, -offz);
         float size = 0.5f * scale;
         builder.setAlpha(alpha)
                 .renderTrail(trailPointBuilder, f -> size, f -> builder.setAlpha(alpha * f).setColor(ColorHelper.colorLerp(Easing.SINE_IN, f, secondary, primary)));
+        poseStack.translate(offx, offy, offz);
         poseStack.popPose();
     }
 

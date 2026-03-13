@@ -18,7 +18,7 @@ import net.stln.magitech.content.recipe.RecipeInit;
 import net.stln.magitech.content.recipe.input.SpellRecipeInput;
 import net.stln.magitech.feature.magic.MagicPerformanceHelper;
 import net.stln.magitech.feature.magic.spell.property.SpellPropertyKey;
-import net.stln.magitech.helper.EntityHelper;
+import net.stln.magitech.helper.CombatHelper;
 import net.stln.magitech.helper.MathHelper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -28,7 +28,7 @@ import java.util.Set;
 
 public class SpellHelper {
 
-    public static void applyEffectToItem(Level level, ISpell spell, LivingEntity caster, ItemEntity item) {
+    public static void applyEffectToItem(Level level, ISpell spell, ItemEntity item) {
         var recipeInput = new SpellRecipeInput(item.getItem(), spell);
         level.getRecipeManager().getRecipeFor(RecipeInit.SPELL_CONVERSION_TYPE.get(), recipeInput, level).map(RecipeHolder::value).ifPresent(recipe -> {
             ItemStack stack = recipe.assemble(recipeInput, level.registryAccess());
@@ -100,18 +100,18 @@ public class SpellHelper {
         Vec3 center = caster.getEyePosition().add(forward);
         Vec3 center2 = center.add(forward.scale(3));
         Set<Entity> attackList = new HashSet<>();
-        attackList.addAll(EntityHelper.getEntitiesInBox(level, caster, center, new Vec3(3.0, 3.0, 3.0)));
-        attackList.addAll(EntityHelper.getEntitiesInBox(level, caster, center2, new Vec3(4.0, 4.0, 4.0)));
+        attackList.addAll(CombatHelper.getEntitiesInBox(level, caster, center, new Vec3(3.0, 3.0, 3.0)));
+        attackList.addAll(CombatHelper.getEntitiesInBox(level, caster, center2, new Vec3(4.0, 4.0, 4.0)));
         return attackList;
     }
 
     public static @NotNull Set<Entity> getChainTargets(Level level, Entity entity, Vec3 center, float radius) {
-        return new HashSet<>(EntityHelper.getEntitiesInBox(level, entity, center, new Vec3(radius, radius, radius)));
+        return new HashSet<>(CombatHelper.getEntitiesInBox(level, entity, center, new Vec3(radius, radius, radius)));
     }
 
     public static @NotNull Set<Entity> getChainTargets(Level level, Entity entity, float radius) {
         Vec3 center = entity.position().add(0, entity.getBbHeight() * 0.7, 0);
-        return new HashSet<>(EntityHelper.getEntitiesInBox(level, entity, center, new Vec3(radius, radius, radius)));
+        return new HashSet<>(CombatHelper.getEntitiesInBox(level, entity, center, new Vec3(radius, radius, radius)));
     }
 
     public static boolean canSee(Level level, LivingEntity caster, Vec3 start, Vec3 end) {

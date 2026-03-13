@@ -9,14 +9,14 @@ import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.effect.sound.SoundHelper;
 import net.stln.magitech.feature.magic.MagicPerformanceHelper;
 import net.stln.magitech.feature.magic.spell.property.SpellPropertyInit;
-import net.stln.magitech.helper.EntityHelper;
+import net.stln.magitech.helper.CombatHelper;
 import net.stln.magitech.helper.TickScheduler;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlinkSpell extends DamageSpell {
+public abstract class BlinkSpell extends DamageSpell {
 
     public BlinkSpell(SpellConfig.Builder builder) {
         super(builder);
@@ -27,19 +27,19 @@ public class BlinkSpell extends DamageSpell {
         Vec3 start = caster.position();
         Vec3 forward = Vec3.directionFromRotation(caster.getRotationVector());
         float maxRange = MagicPerformanceHelper.getEffectiveMaxRange(caster, wand, this);
-        Vec3 hitPos = EntityHelper.raycast(caster, maxRange).subtract(forward.scale(caster.getBbWidth() / 2 + 0.1));
+        Vec3 hitPos = CombatHelper.raycast(caster, maxRange).subtract(forward.scale(caster.getBbWidth() / 2 + 0.1));
 
         // ダメージを与える場合のみ演算
         List<Entity> nearbyEntities = new ArrayList<>();
         if (!level.isClientSide) {
             if (this.getConfig().properties().contains(SpellPropertyInit.DAMAGE)) {
                 for (int i = 0; i < hitPos.distanceTo(caster.position()); i++) {
-                    nearbyEntities.addAll(EntityHelper.getEntitiesInBox(level, caster, caster.position().lerp(hitPos, i / hitPos.distanceTo(caster.position())), new Vec3(3, 3, 3)));
+                    nearbyEntities.addAll(CombatHelper.getEntitiesInBox(level, caster, caster.position().lerp(hitPos, i / hitPos.distanceTo(caster.position())), new Vec3(3, 3, 3)));
                 }
                 for (Entity entity : nearbyEntities) {
                     hitTarget(level, caster, wand, entity);
                 }
-                for (Entity entity : EntityHelper.getEntitiesInBox(level, caster, hitPos, new Vec3(4, 4, 4))) {
+                for (Entity entity : CombatHelper.getEntitiesInBox(level, caster, hitPos, new Vec3(4, 4, 4))) {
                     nearbyEntities.add(entity);
                     hitTarget(level, caster, wand, entity);
                     Vec3 hitDirection = entity.position().subtract(hitPos).normalize();

@@ -20,7 +20,7 @@ public class ParticleInit {
 
     public static final Supplier<SquareFieldParticleType> SQUARE_FIELD = PARTICLE_TYPES.register("square_field", () -> new SquareFieldParticleType(true));
     public static final Supplier<UnstableSquareParticleType> UNSTABLE_SQUARE = PARTICLE_TYPES.register("unstable_square", () -> new UnstableSquareParticleType(true));
-    public static final Supplier<SquareParticleType> SQUARE = PARTICLE_TYPES.register("square", () -> new SquareParticleType(true));
+    public static final Supplier<SquareParticleType> SQUARE = PARTICLE_TYPES.register("legacy_square", () -> new SquareParticleType(true));
     public static final Supplier<SquareNoCullParticleType> SQUARE_NO_CULL = PARTICLE_TYPES.register("square_no_cull", () -> new SquareNoCullParticleType(true));
     public static final Supplier<FlameParticleType> FLAME = PARTICLE_TYPES.register("flame", () -> new FlameParticleType(true));
     public static final Supplier<FlameSmokeParticleType> FLAME_SMOKE = PARTICLE_TYPES.register("flame_smoke", () -> new FlameSmokeParticleType(true));
@@ -30,7 +30,7 @@ public class ParticleInit {
     public static final Supplier<MembraneParticleType> MEMBRANE = PARTICLE_TYPES.register("membrane", () -> new MembraneParticleType(true));
     public static final Supplier<WaveParticleType> WAVE = PARTICLE_TYPES.register("wave", () -> new WaveParticleType(true));
     public static final Supplier<WaveNoCullParticleType> WAVE_NO_CULL = PARTICLE_TYPES.register("wave_no_cull", () -> new WaveNoCullParticleType(true));
-    public static final Supplier<RuneParticleType> RUNE = PARTICLE_TYPES.register("rune", () -> new RuneParticleType(true));
+    public static final Supplier<RuneParticleType> RUNE = PARTICLE_TYPES.register("legacy_rune", () -> new RuneParticleType(true));
     public static final Supplier<BlowParticleType> BLOW = PARTICLE_TYPES.register("blow", () -> new BlowParticleType(true));
     public static final Supplier<VoidGlowParticleType> VOID_GLOW = PARTICLE_TYPES.register("void_glow", () -> new VoidGlowParticleType(true));
     public static final Supplier<PowerupParticleType> POWERUP = PARTICLE_TYPES.register("powerup", () -> new PowerupParticleType(true));
@@ -39,9 +39,15 @@ public class ParticleInit {
     public static final Supplier<ManaZapParticleType> MANA_ZAP = PARTICLE_TYPES.register("mana_zap", () -> new ManaZapParticleType(true));
     public static final Supplier<BeamParticleType> BEAM = PARTICLE_TYPES.register("beam", () -> new BeamParticleType(true));
 
-    public static final DeferredHolder<ParticleType<?>, LodestoneWorldParticleType> LD_SQUARE = PARTICLE_TYPES.register("ld_square", LodestoneWorldParticleType::new);
+    public static final DeferredHolder<ParticleType<?>, LodestoneWorldParticleType> LD_SQUARE = PARTICLE_TYPES.register("square", LodestoneWorldParticleType::new);
+    public static final DeferredHolder<ParticleType<?>, LodestoneWorldParticleType> RING = PARTICLE_TYPES.register("ring", LodestoneWorldParticleType::new);
+    public static final DeferredHolder<ParticleType<?>, LodestoneWorldParticleType> RING_REVERSED = PARTICLE_TYPES.register("ring_reversed", LodestoneWorldParticleType::new);
     public static final DeferredHolder<ParticleType<?>, LodestoneWorldParticleType> SMOKE = PARTICLE_TYPES.register("smoke", LodestoneWorldParticleType::new);
     public static final DeferredHolder<ParticleType<?>, LodestoneWorldParticleType> SNOW = PARTICLE_TYPES.register("snow", LodestoneWorldParticleType::new);
+    public static final DeferredHolder<ParticleType<?>, LodestoneWorldParticleType> GLINT = PARTICLE_TYPES.register("glint", LodestoneWorldParticleType::new);
+    public static final DeferredHolder<ParticleType<?>, LodestoneWorldParticleType> LD_RUNE = PARTICLE_TYPES.register("rune", LodestoneWorldParticleType::new);
+    public static final DeferredHolder<ParticleType<?>, LodestoneWorldParticleType> LEAF = PARTICLE_TYPES.register("leaf", LodestoneWorldParticleType::new);
+    public static final DeferredHolder<ParticleType<?>, LodestoneWorldParticleType> RIFT = PARTICLE_TYPES.register("rift", LodestoneWorldParticleType::new);
 
     @OnlyIn(Dist.CLIENT)
     public static void registerParticleClient(IEventBus eventBus) {
@@ -71,7 +77,13 @@ public class ParticleInit {
         event.registerSpriteSet(MANA_ZAP.get(), ManaZapParticle.Provider::new);
         event.registerSpriteSet(BEAM.get(), BeamParticle.Provider::new);
         event.registerSpriteSet(LD_SQUARE.get(), LodestoneWorldParticleType.Factory::new);
+        event.registerSpriteSet(RING.get(), LodestoneWorldParticleType.Factory::new);
+        event.registerSpriteSet(RING_REVERSED.get(), LodestoneWorldParticleType.Factory::new);
         event.registerSpriteSet(SMOKE.get(), LodestoneWorldParticleType.Factory::new);
         event.registerSpriteSet(SNOW.get(), LodestoneWorldParticleType.Factory::new);
+        event.registerSpriteSet(GLINT.get(), LodestoneWorldParticleType.Factory::new);
+        event.registerSpriteSet(LD_RUNE.get(), LodestoneWorldParticleType.Factory::new);
+        event.registerSpriteSet(LEAF.get(), LodestoneWorldParticleType.Factory::new);
+        event.registerSpriteSet(RIFT.get(), LodestoneWorldParticleType.Factory::new);
     }
 }

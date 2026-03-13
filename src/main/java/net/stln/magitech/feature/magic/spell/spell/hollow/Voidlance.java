@@ -9,19 +9,21 @@ import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.content.entity.mob_effect.MobEffectInit;
 import net.stln.magitech.content.sound.SoundInit;
 import net.stln.magitech.effect.sound.SoundHelper;
+import net.stln.magitech.effect.visual.Section;
+import net.stln.magitech.effect.visual.preset.LineVFX;
+import net.stln.magitech.effect.visual.preset.PointVFX;
+import net.stln.magitech.effect.visual.spawner.BeamParticles;
+import net.stln.magitech.effect.visual.spawner.ElementParticles;
+import net.stln.magitech.effect.visual.spawner.SquareParticles;
 import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.feature.magic.MagicPerformanceHelper;
 import net.stln.magitech.feature.magic.spell.BeamSpell;
 import net.stln.magitech.feature.magic.spell.SpellConfig;
 import net.stln.magitech.feature.magic.spell.SpellShape;
 import net.stln.magitech.feature.magic.spell.property.SpellPropertyInit;
-import net.stln.magitech.helper.EffectHelper;
-import net.stln.magitech.helper.EntityHelper;
+import net.stln.magitech.helper.CombatHelper;
 import net.stln.magitech.helper.TickScheduler;
-import net.stln.magitech.effect.visual.particle.particle_option.BeamParticleEffect;
-import net.stln.magitech.effect.visual.particle.particle_option.VoidGlowParticleEffect;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector3f;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,15 +62,15 @@ public class Voidlance extends BeamSpell {
                         continue;
                     }
                     Vec3 dir = new Vec3(i, j, k).normalize();
+                    Vec3 start = end.add(dir.scale(0.1));
                     float beamradius = MagicPerformanceHelper.getEffectiveBeamRadius(caster, wand, this);
-                    Vec3 hit = EntityHelper.raycastBeam(caster, (double) 24 / Math.pow(order, 2), end.add(dir.scale(0.5)), dir, beamradius);
-                    Entity target = EntityHelper.raycastBeamEntity(caster, (double) 24 / Math.pow(order, 2), end.add(dir.scale(0.5)), dir, beamradius);
+                    Vec3 hit = CombatHelper.raycastBeam(caster, (double) 24 / Math.pow(order, 2), start, dir, beamradius);
+                    Entity target = CombatHelper.raycastBeamEntity(caster, (double) 24 / Math.pow(order, 2), start, dir, beamradius);
 
                     if (!level.isClientSide) {
                         hitTarget(level, caster, wand, target);
                         SoundHelper.broadcastSound(level, caster, hit, getConfig().endSound());
                     } else {
-                        Vec3 start = end.add(dir.scale(0.5));
                         addBeamVFX(level, caster, end, hit);
                     }
                     vec3s.add(hit);
@@ -87,11 +89,11 @@ public class Voidlance extends BeamSpell {
 
     @Override
     protected void addBeamVFX(Level level, LivingEntity caster, Vec3 start, Vec3 end) {
-        EffectHelper.lineEffect(level, new VoidGlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0, level.random.nextInt(1, 21), 1.0F), start, end, 2, false);
-        level.addParticle(new BeamParticleEffect(new Vector3f(0.3F, 0.0F, 1.0F), new Vector3f(0.5F, 0.0F, 1.0F), end.toVector3f(), 0.7F, 1, 1, 5, 1), start.x, start.y, start.z, 0, 0, 0);
-        for (int i = 0; i < 20; i++) {
-            level.addParticle(new VoidGlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0, level.random.nextInt(1, 21), 1.0F),
-                    end.x, end.y, end.z, (caster.getRandom().nextFloat() - 0.5) / 3, (caster.getRandom().nextFloat() - 0.5) / 3, (caster.getRandom().nextFloat() - 0.5) / 3);
-        }
+        Element element = this.getConfig().element();
+        LineVFX.destinationLinedSquare(level, start, end, element, new Section(0F, 1F), 5, 0.1F, 0.2F);
+        LineVFX.destinationLined(level, start, end, element, ElementParticles::riftParticle, new Section(0F, 1F), 5, 0.0F, 0.1F);
+        BeamParticles.beamParticle(level, start, end, element, this.getConfig().properties().get(SpellPropertyInit.BEAM_RADIUS));
+        PointVFX.burst(level, end, element, SquareParticles::squareParticle, 20, 0.3F);
+        PointVFX.burst(level, end, element, ElementParticles::riftParticle, 10, 0.1F);
     }
 }

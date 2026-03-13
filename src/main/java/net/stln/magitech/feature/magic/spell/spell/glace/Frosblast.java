@@ -13,6 +13,7 @@ import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -29,6 +30,7 @@ import net.stln.magitech.feature.magic.spell.Spell;
 import net.stln.magitech.feature.magic.spell.SpellConfig;
 import net.stln.magitech.feature.magic.spell.SpellShape;
 import net.stln.magitech.feature.magic.spell.property.SpellPropertyInit;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,10 +42,17 @@ public class Frosblast extends ShotSpell {
                         .charge(10)
                         .property(SpellPropertyInit.DAMAGE, 9.0F)
                         .property(SpellPropertyInit.PROJECTILE_SPEED, 1.0F)
-                        .property(SpellPropertyInit.EXPLOSION_RADIUS, 6.0F)
+                        .property(SpellPropertyInit.EXPLOSION_RADIUS, 3.0F)
                         .endSound(SoundInit.FROSBLAST_SHOOT)
                         .castAnim("charge_wand")
                         .endAnim("swing_wand"),
                 FrosblastEntity::new);
+    }
+
+    @Override
+    public void applyEffectToTarget(Level level, Entity summoned, @Nullable Entity owner, Entity target) {
+        if (target instanceof LivingEntity livingEntity) {
+            livingEntity.setTicksFrozen(Math.min(livingEntity.getTicksFrozen() + 200, 300));
+        }
     }
 }

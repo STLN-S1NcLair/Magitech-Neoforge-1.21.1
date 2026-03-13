@@ -1,7 +1,6 @@
 package net.stln.magitech.feature.magic.spell.spell.mana;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -20,12 +19,7 @@ import net.stln.magitech.feature.magic.spell.BeamSpell;
 import net.stln.magitech.feature.magic.spell.SpellConfig;
 import net.stln.magitech.feature.magic.spell.SpellShape;
 import net.stln.magitech.feature.magic.spell.property.SpellPropertyInit;
-import net.stln.magitech.helper.EffectHelper;
-import net.stln.magitech.effect.visual.particle.particle_option.BeamParticleEffect;
-import net.stln.magitech.effect.visual.particle.particle_option.ManaZapParticleEffect;
-import net.stln.magitech.effect.visual.particle.particle_option.UnstableSquareParticleEffect;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector3f;
 
 public class Enercrux extends BeamSpell {
 
@@ -34,7 +28,7 @@ public class Enercrux extends BeamSpell {
                 .charge(5)
                 .property(SpellPropertyInit.DAMAGE, 5.0F)
                 .property(SpellPropertyInit.MAX_RANGE, 8F)
-                .property(SpellPropertyInit.BEAM_RADIUS, 0.3F)
+                .property(SpellPropertyInit.BEAM_RADIUS, 0.1F)
                 .endSound(SoundInit.ENERCRUX)
                 .castAnim("wand_charge_beam")
                 .endAnim("wand_beam")
@@ -51,9 +45,9 @@ public class Enercrux extends BeamSpell {
     @Override
     protected void addBeamVFX(Level level, LivingEntity caster, Vec3 start, Vec3 end) {
         Element element = this.getConfig().element();
-        LineVFX.linedSquare(level, start, end, element, new Section(0F, 1F), 5, 0.15F, 0.1F);
+        LineVFX.destinationLinedSquare(level, start, end, element, new Section(0F, 1F), 5, 0.15F, 0.1F);
         BeamParticles.beamParticle(level, start, end, element, this.getConfig().properties().get(SpellPropertyInit.BEAM_RADIUS));
         PointVFX.burstSquare(level, end, element, 10, 0.1F);
-        TrailVFX.zapTrail(level, start, end, 0.5F, 0.5F, 1.0F, 10, element);
+        TrailVFX.zapTrail(level, start, end, 0.5F, 0.5F, 0.5F, 15, element);
     }
 }

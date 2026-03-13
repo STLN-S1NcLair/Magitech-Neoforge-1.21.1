@@ -13,8 +13,8 @@ import net.stln.magitech.feature.magic.spell.BlinkSpell;
 import net.stln.magitech.feature.magic.spell.SpellConfig;
 import net.stln.magitech.feature.magic.spell.SpellShape;
 import net.stln.magitech.feature.magic.spell.property.SpellPropertyInit;
+import net.stln.magitech.helper.CombatHelper;
 import net.stln.magitech.helper.EffectHelper;
-import net.stln.magitech.helper.EntityHelper;
 import net.stln.magitech.helper.TickScheduler;
 import net.stln.magitech.effect.visual.particle.particle_option.SparkParticleEffect;
 import net.stln.magitech.effect.visual.particle.particle_option.SquareParticleEffect;
@@ -47,9 +47,9 @@ public class Arclume extends BlinkSpell {
     }
 
     private void addLightning(Level level, LivingEntity caster, ItemStack wand, Vec3 pos) {
-        Vec3 surface = EntityHelper.findSurface(level, pos);
+        Vec3 surface = CombatHelper.findSurface(level, pos);
         Vec3 lightningTop = surface.add(0, Mth.randomBetween(caster.getRandom(), 5, 20), 0);
-        List<Entity> entities = EntityHelper.getEntitiesInBox(level, caster, surface, new Vec3(2, 2, 2));
+        List<Entity> entities = CombatHelper.getEntitiesInBox(level, caster, surface, new Vec3(2, 2, 2));
 
         SoundHelper.broadcastSound(level, caster, surface, this.getConfig().endSound());
 

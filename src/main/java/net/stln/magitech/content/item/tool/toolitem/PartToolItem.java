@@ -500,7 +500,7 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
                         .append(" ")
                         .append(Component.literal(String.valueOf(
                                 MathHelper.round(finalStats.getStats().get(ToolStats.ELM_ATK_STAT), 2)
-                        ))).withColor(finalStats.getElement().getColor().getRGB())));
+                        ))).withColor(finalStats.getElement().getTextColor().getRGB())));
 
         tooltipComponents.add(Component.translatable("attribute.magitech.attack_speed").append(": ").withColor(0xa0a0a0)
                 .append(Component.literal(String.valueOf(
@@ -566,7 +566,7 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
         double mul = 256;
         Vec3 maxReachPos = playerEyePos.add(forward.multiply(mul, mul, mul));
 
-        EntityHitResult result = EntityHelper.getEntityHitResult(player, playerEyePos, maxReachPos, level);
+        EntityHitResult result = CombatHelper.getEntityHitResult(player, playerEyePos, maxReachPos, level);
         if (result != null) {
             getTraitLevel(getTraits(stack)).forEach((trait, integer) -> {
                 trait.traitAction(player, level, result.getEntity(), result.getLocation(), stack, integer, getSumStats(player, level, stack), usedHand, true);
@@ -589,7 +589,7 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
         double mul = user.getAttributeValue(Attributes.ENTITY_INTERACTION_RANGE);
         Vec3 maxReachPos = playerEyePos.add(forward.multiply(mul, mul, mul));
 
-        if (EntityHelper.getEntityHitResult(user, playerEyePos, maxReachPos, world) != null || getPlayerPOVHitResult(world, user, ClipContext.Fluid.NONE).getType() != BlockHitResult.Type.BLOCK) {
+        if (CombatHelper.getEntityHitResult(user, playerEyePos, maxReachPos, world) != null || getPlayerPOVHitResult(world, user, ClipContext.Fluid.NONE).getType() != BlockHitResult.Type.BLOCK) {
             if (user.getAttackStrengthScale(0.5F) > 0.7F) {
                 world.playSound(user, user.getX(), user.getY(), user.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP, SoundSource.PLAYERS, 1.0F, (getSumStats(user, world, user.getItemInHand(hand)).getStats().get(ToolStats.SPD_STAT)) / 2);
                 sweepAttack(world, hand, user);
@@ -617,9 +617,9 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
         ItemStack stack = user.getItemInHand(hand);
         ToolStats stats = getSumStats(user, world, stack);
         float swp = stats.getStats().get(ToolStats.SWP_STAT);
-        Vec3 effectCenter = EntityHelper.getAttackTargetPosition(user, user.entityInteractionRange(), 0.5, swp * 0.7F);
+        Vec3 effectCenter = CombatHelper.getAttackTargetPosition(user, user.entityInteractionRange(), 0.5, swp * 0.7F);
 
-        int color = stats.getElement().getColor().getRGB();
+        int color = stats.getElement().getTextColor().getRGB();
         float red = ((float) ((color & 0xFF0000) >> 16)) / 255;
         float green = ((float) ((color & 0x00FF00) >> 8)) / 255;
         float blue = ((float) (color & 0x0000FF)) / 255;
@@ -647,8 +647,8 @@ public abstract class PartToolItem extends Item implements LeftClickOverrideItem
             EffectHelper.sweepEffect(user, world, () -> new SquareParticleEffect(new Vector3f(red, green, blue), new Vector3f(red2, green2, blue2), 1F, 1, 0, 15, 1.0F), 0.01, effectCenter, -45.0, 45.0, 100, swp * 0.7F, (user.getRandom().nextFloat() - 0.5) * 45.0, false);
         }
 
-        Vec3 center = EntityHelper.getAttackTargetPosition(user, user.entityInteractionRange(), 2, 0.0);
-        List<Entity> attackList = EntityHelper.getEntitiesInBox(world, user, center, new Vec3(swp, swp / 3.0F, swp));
+        Vec3 center = CombatHelper.getAttackTargetPosition(user, user.entityInteractionRange(), 2, 0.0);
+        List<Entity> attackList = CombatHelper.getEntitiesInBox(world, user, center, new Vec3(swp, swp / 3.0F, swp));
         attackList.removeIf(e -> !(e instanceof LivingEntity livingEntity) || e == user || !user.canAttack(livingEntity) || e.isInvulnerable());
 
         float cooldown = ((AdjustableAttackStrengthEntity) user).getLastAttackedTicks();

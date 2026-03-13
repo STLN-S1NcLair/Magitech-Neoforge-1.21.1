@@ -12,13 +12,19 @@ public class BehaviorPreset {
     }
 
 
-    public static Consumer<LodestoneWorldParticle> toDestination(Vec3 pos, float acceleration) {
+    public static Consumer<LodestoneWorldParticle> toDestination(Vec3 pos, float acceleration, float ageCoefficient, float strength) {
         return particle -> {
             Vec3 to = pos.subtract(particle.getParticlePosition()).normalize();
             double length = particle.getParticleSpeed().length();
-            float delta = 0.2F + 0.8F * (particle.getAge() / (float) particle.getLifetime());
+            float delta = 1 - ageCoefficient + ageCoefficient * (particle.getAge() / (float) particle.getLifetime());
+            delta *= strength;
             particle.setParticleSpeed(particle.getParticleSpeed().lerp(to.scale((length - 1) * acceleration + 1), delta));
         };
+    }
+
+
+    public static Consumer<LodestoneWorldParticle> toDestination(Vec3 pos, float acceleration) {
+        return toDestination(pos, acceleration, 0.8F, 1.0F);
     }
 
     public static Consumer<LodestoneWorldParticle> gravity(float acceleration) {

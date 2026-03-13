@@ -114,7 +114,7 @@ public class ManaTransferHelper {
             long rawDemand = entry.getValue(); // ターゲットが欲しがった量
 
             // 実際に送る量 = 要望量 * 充足率
-            long transferAmount = Math.min((long) (rawDemand * supplyRatio), target.getMaxMana() - target.getMana());
+            long transferAmount = Math.min(Math.min((long) (rawDemand * supplyRatio), target.getMaxMana() - target.getMana()), source.getMana());
 
             // 閾値判定 (10以下なら送らない)
             if (transferAmount > 10) {

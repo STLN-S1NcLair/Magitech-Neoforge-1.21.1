@@ -18,9 +18,16 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.content.entity.EntityInit;
-import net.stln.magitech.content.entity.SpellProjectileEntity;
+import net.stln.magitech.content.entity.magicentity.SpellProjectileEntity;
 import net.stln.magitech.content.sound.SoundInit;
+import net.stln.magitech.effect.visual.Section;
+import net.stln.magitech.effect.visual.preset.LineVFX;
+import net.stln.magitech.effect.visual.preset.PointVFX;
+import net.stln.magitech.effect.visual.spawner.ElementParticles;
+import net.stln.magitech.effect.visual.spawner.SquareParticles;
 import net.stln.magitech.feature.element.Element;
+import net.stln.magitech.feature.magic.spell.ISpell;
+import net.stln.magitech.feature.magic.spell.SpellInit;
 import net.stln.magitech.helper.DataMapHelper;
 import net.stln.magitech.effect.visual.particle.particle_option.VoidGlowParticleEffect;
 import org.jetbrains.annotations.Nullable;
@@ -31,6 +38,9 @@ import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
+import java.util.Optional;
+import java.util.function.Supplier;
+
 public class NullixisEntity extends SpellProjectileEntity {
 
     private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
@@ -39,166 +49,68 @@ public class NullixisEntity extends SpellProjectileEntity {
 
     public NullixisEntity(EntityType<? extends SpellProjectileEntity> entityType, Level world) {
         super(entityType, world);
+        setPierce(-1);
     }
 
+    // 無限貫通
     public NullixisEntity(Level world, LivingEntity player, float damage) {
         super(EntityInit.NULLIXIS_ENTITY.get(), player, world, null, damage);
+        setPierce(-1);
     }
 
     public NullixisEntity(Level world, LivingEntity player, ItemStack weapon, float damage) {
         super(EntityInit.NULLIXIS_ENTITY.get(), player, world, weapon, damage);
+        setPierce(-1);
     }
 
-    public NullixisEntity(EntityType<? extends SpellProjectileEntity> type, double x, double y, double z, Level world, ItemStack stack, @Nullable ItemStack weapon, float damage) {
+    public NullixisEntity(EntityType<? extends SpellProjectileEntity> type, double x, double y, double z, Level world, @Nullable ItemStack weapon, float damage) {
         super(type, x, y, z, world, weapon, damage);
+        setPierce(-1);
     }
 
-    public NullixisEntity(EntityType<? extends SpellProjectileEntity> type, LivingEntity owner, Level world, ItemStack stack, @Nullable ItemStack shotFrom, float damage) {
+    public NullixisEntity(EntityType<? extends SpellProjectileEntity> type, LivingEntity owner, Level world, @Nullable ItemStack shotFrom, float damage) {
         super(type, owner, world, shotFrom, damage);
+        setPierce(-1);
     }
 
     @Override
-    public void tick() {
-        super.tick();
-        Vec3 vec32 = this.position();
-        Vec3 vec33 = vec32.add(this.getDeltaMovement().scale(3));
-        HitResult hitresult = this.level().clip(new ClipContext(vec32, vec33, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
-        if (hitresult.getType() != HitResult.Type.MISS) {
-            vec33 = hitresult.getLocation();
-        }
-
-        while (!this.isRemoved()) {
-            EntityHitResult entityhitresult = this.findHitEntity(vec32, vec33);
-            if (entityhitresult != null) {
-                hitresult = entityhitresult;
-            }
-
-            if (hitresult != null && hitresult.getType() == HitResult.Type.ENTITY) {
-                Entity entity = ((EntityHitResult) hitresult).getEntity();
-                Entity entity1 = this.getOwner();
-                if (entity instanceof Player && entity1 instanceof Player && !((Player) entity1).canHarmPlayer((Player) entity)) {
-                    hitresult = null;
-                    entityhitresult = null;
-                }
-            }
-
-            if (hitresult != null && hitresult.getType() != HitResult.Type.MISS) {
-                if (net.neoforged.neoforge.event.EventHooks.onProjectileImpact(this, hitresult))
-                    break;
-                ProjectileDeflection projectiledeflection = this.hitTargetOrDeflectSelf(hitresult);
-                this.hasImpulse = true;
-                if (projectiledeflection != ProjectileDeflection.NONE) {
-                    break;
-                }
-            }
-
-            if (hitresult != null) {
-                hitresult.getType();
-            }
-
-            break;
-        }
-        Level world = this.level();
-        Vec3 deltaMovement = this.getDeltaMovement();
-        if (world.isClientSide) {
-            Vector3f fromColor = new Vector3f(1.0F, 1.0F, 1.0F);
-            Vector3f toColor = new Vector3f(1.0F, 1.0F, 1.0F);
-            float scale = 1.0F;
-            int twinkle = 1;
-            float rotSpeed = 0.0F;
-            int particleAmount = 5;
-            for (int i = 0; i < particleAmount; i++) {
-                double x = this.getX() - deltaMovement.x + (random.nextFloat() - 0.5) / 10;
-                double y = this.getY(0.5F) - deltaMovement.y + (random.nextFloat() - 0.5) / 10;
-                double z = this.getZ() - deltaMovement.z + (random.nextFloat() - 0.5) / 10;
-                double vx = deltaMovement.x / 4;
-                double vy = deltaMovement.y / 4;
-                double vz = deltaMovement.z / 4;
-                world.addParticle(new VoidGlowParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed, level().random.nextInt(1, 21), 1.0F), x, y, z, vx, vy, vz);
-            }
-        }
-        int axisX = this.tickCount % 3 != 0 ? -1 : 2;
-        int axisY = this.tickCount % 3 != 1 ? -1 : 2;
-        int axisZ = this.tickCount % 3 != 2 ? -1 : 2;
-        this.setPos(deltaMovement.x * axisX + this.position().x, deltaMovement.y * axisY + this.position().y, deltaMovement.z * axisZ + this.position().z);
+    protected Optional<Supplier<ISpell>> getSpell() {
+        return Optional.of(SpellInit.NULLIXIS);
     }
 
     @Override
-    protected void onHitEntity(EntityHitResult entityHitResult) {
-        super.onHitEntity(entityHitResult);
-        Entity entity = entityHitResult.getEntity();
-        Entity owner = this.getOwner();
+    protected Supplier<SoundEvent> getHitGroundSoundEvent() {
+        return SoundInit.NULLIXIS;
+    }
 
-        ResourceKey<DamageType> damageType = this.getElement().getDamageType();
-        DamageSource elementalDamageSource = getElementalDamageSource(owner, damageType);
-
-
-        float finalDamage = this.damage * DataMapHelper.getElementMultiplier(entity, this.getElement());
-        applyDamage(entity, elementalDamageSource, finalDamage);
-        hitParticle();
-
-        if (!this.level().isClientSide) {
-            this.level().broadcastEntityEvent(this, EntityEvent.DEATH);
+    @Override
+    protected void onHit(HitResult result) {
+        if (result instanceof EntityHitResult || result.getType() == HitResult.Type.MISS) {
+            setPierce(0);
         }
+        super.onHit(result);
     }
 
     @Override
-    protected Element getElement() {
-        return Element.HOLLOW;
+    protected void spawnTickParticle() {
+        Level level = level();
+        Element element = getElement();
+        Vec3 old = getOldCenter();
+        Vec3 pos = getCurrentCenter();
+        LineVFX.spreadLinedSquare(level, old, pos, element, new Section(0F, 1F), 2F, 0.2F, 0.03F);
+        LineVFX.spreadLined(level, old, pos, element, ElementParticles::riftParticle, new Section(0F, 1F), 1F, 0.1F, 0.03F);
     }
 
-    @Override
-    protected void onHitBlock(BlockHitResult blockHitResult) {
-    }
-
-    @Override
-    public void handleEntityEvent(byte status) {
-        if (status == EntityEvent.DEATH) {
-            if (this.level().isClientSide) {
-                hitParticle();
-            } else {
-                this.discard();
-            }
-        }
-        super.handleEntityEvent(status);
-    }
-
-    protected void hitParticle() {
-        Level world = this.level();
-        if (world.isClientSide) {
-            Vector3f fromColor = new Vector3f(1.0F, 1.0F, 1.0F);
-            Vector3f toColor = new Vector3f(1.0F, 1.0F, 1.0F);
-            float scale = 1.0F;
-            float rotSpeed = 0.0F;
-            int particleAmount = 10;
-            for (int i = 0; i < particleAmount; i++) {
-                int twinkle = 1;
-
-                double x = this.getX() - this.getDeltaMovement().x + (random.nextFloat() - 0.5) / 10;
-                double y = this.getY(0.5F) - this.getDeltaMovement().y + (random.nextFloat() - 0.5) / 10;
-                double z = this.getZ() - this.getDeltaMovement().z + (random.nextFloat() - 0.5) / 10;
-                double vx = (random.nextFloat() - 0.5) / 6;
-                double vy = (random.nextFloat() - 0.5) / 6;
-                double vz = (random.nextFloat() - 0.5) / 6;
-                Vector3f endPos = this.position().add(new Vec3(this.random.nextFloat() * 4 - 2, this.random.nextFloat() * 4 - 2, this.random.nextFloat() * 4 - 2)).toVector3f();
-
-                world.addParticle(new VoidGlowParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed, level().random.nextInt(1, 21), 1.0F), x, y, z, vx, vy, vz);
-            }
-        }
-    }
-
-    @Override
-    protected SoundEvent getDefaultHitGroundSoundEvent() {
-        return SoundInit.NULLIXIS.get();
+    protected void spawnHitParticle() {
+        Level level = level();
+        Element element = getElement();
+        Vec3 pos = position();
+        PointVFX.burst(level, pos, element, SquareParticles::squareParticle, 10, 0.2F);
+        PointVFX.burst(level, pos, element, ElementParticles::riftParticle, 10, 0.1F);
     }
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "idle", (event) -> event.setAndContinue(IDLE)));
-    }
-
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return this.geoCache;
     }
 }

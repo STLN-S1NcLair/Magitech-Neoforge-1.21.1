@@ -4,8 +4,8 @@
     {
       "type": "magitech:weaver",
       "minCount": 1,
-      "maxCount": 3,
-      "weight": 20
+      "maxCount": 1,
+      "weight": 15
     }
   ],
   "biomes": "#minecraft:is_overworld",

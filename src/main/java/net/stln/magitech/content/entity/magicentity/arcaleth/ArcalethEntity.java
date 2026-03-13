@@ -1,34 +1,29 @@
 package net.stln.magitech.content.entity.magicentity.arcaleth;
 
-import net.minecraft.core.component.DataComponents;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageType;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.content.entity.EntityInit;
-import net.stln.magitech.content.entity.SpellProjectileEntity;
+import net.stln.magitech.content.entity.magicentity.SpellProjectileEntity;
 import net.stln.magitech.content.sound.SoundInit;
+import net.stln.magitech.effect.visual.Section;
+import net.stln.magitech.effect.visual.preset.LineVFX;
+import net.stln.magitech.effect.visual.preset.PointVFX;
+import net.stln.magitech.effect.visual.spawner.ElementParticles;
+import net.stln.magitech.effect.visual.spawner.SquareParticles;
 import net.stln.magitech.feature.element.Element;
-import net.stln.magitech.helper.DataMapHelper;
-import net.stln.magitech.effect.visual.particle.particle_option.UnstableSquareParticleEffect;
+import net.stln.magitech.feature.magic.spell.ISpell;
+import net.stln.magitech.feature.magic.spell.SpellInit;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector3f;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.util.GeckoLibUtil;
+
+import java.util.Optional;
+import java.util.function.Supplier;
 
 public class ArcalethEntity extends SpellProjectileEntity {
-
-    private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
 
     public ArcalethEntity(EntityType<? extends SpellProjectileEntity> entityType, Level world) {
         super(entityType, world);
@@ -38,131 +33,47 @@ public class ArcalethEntity extends SpellProjectileEntity {
         super(EntityInit.ARCALETH_ENTITY.get(), player, world, null, damage);
     }
 
-    public ArcalethEntity(Level world, LivingEntity player, ItemStack weapon, float damage) {
-        super(EntityInit.ARCALETH_ENTITY.get(), player, world, weapon, damage);
+    public ArcalethEntity(Level world, LivingEntity player, ItemStack wand, float damage) {
+        super(EntityInit.ARCALETH_ENTITY.get(), player, world, wand, damage);
     }
 
-    public ArcalethEntity(EntityType<? extends SpellProjectileEntity> type, double x, double y, double z, Level world, ItemStack stack, @Nullable ItemStack weapon, float damage) {
-        super(type, x, y, z, world, weapon, damage);
+    public ArcalethEntity(EntityType<? extends SpellProjectileEntity> type, double x, double y, double z, Level world, @Nullable ItemStack wand, float damage) {
+        super(type, x, y, z, world, wand, damage);
     }
 
-    public ArcalethEntity(EntityType<? extends SpellProjectileEntity> type, LivingEntity owner, Level world, ItemStack stack, @Nullable ItemStack shotFrom, float damage) {
-        super(type, owner, world, shotFrom, damage);
-    }
-
-    @Override
-    public void tick() {
-        super.tick();
-        Level world = this.level();
-        if (world.isClientSide) {
-            Vector3f fromColor = new Vector3f(1.0F, 0.0F, 0.3F);
-            Vector3f toColor = new Vector3f(1.0F, 0.0F, 0.7F);
-            float scale = 1.0F;
-            int twinkle = 5;
-            float rotSpeed = 0.0F;
-            int particleAmount = 5;
-            for (int i = 0; i < particleAmount; i++) {
-                Vec3 deltaMovement = this.getDeltaMovement();
-                double x = this.getX() - deltaMovement.x + (random.nextFloat() - 0.5) / 10;
-                double y = this.getY(0.5F) - deltaMovement.y + (random.nextFloat() - 0.5) / 10;
-                double z = this.getZ() - deltaMovement.z + (random.nextFloat() - 0.5) / 10;
-                double vx = deltaMovement.x / 4;
-                double vy = deltaMovement.y / 4;
-                double vz = deltaMovement.z / 4;
-                world.addParticle(new UnstableSquareParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed, 15, 1.0F), x, y, z, vx, vy, vz);
-            }
-        }
+    public ArcalethEntity(EntityType<? extends SpellProjectileEntity> type, LivingEntity owner, Level world, @Nullable ItemStack wand, float damage) {
+        super(type, owner, world, wand, damage);
     }
 
     @Override
-    protected void onHitEntity(EntityHitResult entityHitResult) {
-        super.onHitEntity(entityHitResult);
-        Entity entity = entityHitResult.getEntity();
-        Entity owner = this.getOwner();
-
-        ResourceKey<DamageType> damageType = this.getElement().getDamageType();
-        DamageSource elementalDamageSource;
-        if (owner != null) {
-            if (this.getWeaponItem() != null) {
-                elementalDamageSource = this.getWeaponItem().has(DataComponents.CUSTOM_NAME) ? owner.damageSources().source(damageType, owner) : owner.damageSources().source(damageType);
-            } else {
-                elementalDamageSource = owner.damageSources().source(damageType);
-            }
-        } else {
-            elementalDamageSource = this.damageSources().source(damageType);
-        }
-
-
-        float finalDamage = this.damage * DataMapHelper.getElementMultiplier(entity, this.getElement());
-        applyDamage(entity, elementalDamageSource, finalDamage);
-        hitParticle();
-
-        if (!this.level().isClientSide) {
-            this.level().broadcastEntityEvent(this, EntityEvent.DEATH);
-        }
+    protected Optional<Supplier<ISpell>> getSpell() {
+        return Optional.of(SpellInit.ARCALETH);
     }
 
     @Override
-    protected Element getElement() {
-        return Element.MAGIC;
+    protected Supplier<SoundEvent> getHitGroundSoundEvent() {
+        return SoundInit.ARCALETH;
     }
 
     @Override
-    protected void onHitBlock(BlockHitResult blockHitResult) {
-        super.onHitBlock(blockHitResult);
-        hitParticle();
-
-        if (!this.level().isClientSide) {
-            this.level().broadcastEntityEvent(this, EntityEvent.DEATH);
-        }
+    protected void spawnTickParticle() {
+        Level level = level();
+        Element element = getElement();
+        Vec3 old = getOldCenter();
+        Vec3 pos = getCurrentCenter();
+        LineVFX.spreadLinedSquare(level, old, pos, element, new Section(0F, 1F), 2F, 0.2F, 0.03F);
+        LineVFX.spreadLined(level, old, pos, element, ElementParticles::runeParticle, new Section(0F, 1F), 1F, 0.1F, 0.03F);
     }
 
-    @Override
-    public void handleEntityEvent(byte status) {
-        if (status == EntityEvent.DEATH) {
-            if (this.level().isClientSide) {
-                hitParticle();
-            } else {
-                this.discard();
-            }
-        }
-        super.handleEntityEvent(status);
-    }
-
-    protected void hitParticle() {
-        Level world = this.level();
-        if (world.isClientSide) {
-            Vector3f fromColor = new Vector3f(1.0F, 0.0F, 0.3F);
-            Vector3f toColor = new Vector3f(1.0F, 0.0F, 0.7F);
-            float scale = 1.0F;
-            float rotSpeed = 0.0F;
-            int particleAmount = 10;
-            for (int i = 0; i < particleAmount; i++) {
-                int twinkle = random.nextInt(3, 7);
-
-                double x = this.getX() - this.getDeltaMovement().x + (random.nextFloat() - 0.5) / 10;
-                double y = this.getY(0.5F) - this.getDeltaMovement().y + (random.nextFloat() - 0.5) / 10;
-                double z = this.getZ() - this.getDeltaMovement().z + (random.nextFloat() - 0.5) / 10;
-                double vx = (random.nextFloat() - 0.5) / 6;
-                double vy = (random.nextFloat() - 0.5) / 6;
-                double vz = (random.nextFloat() - 0.5) / 6;
-                world.addParticle(new UnstableSquareParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed, 15, 1.0F), x, y, z, vx, vy, vz);
-            }
-        }
-    }
-
-    @Override
-    protected SoundEvent getDefaultHitGroundSoundEvent() {
-        return SoundInit.ARCALETH.get();
+    protected void spawnHitParticle() {
+        Level level = level();
+        Element element = getElement();
+        Vec3 pos = position();
+        PointVFX.burst(level, pos, element, SquareParticles::squareParticle, 10, 0.2F);
+        PointVFX.burst(level, pos, element, ElementParticles::runeParticle, 10, 0.1F);
     }
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-
-    }
-
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return this.geoCache;
     }
 }

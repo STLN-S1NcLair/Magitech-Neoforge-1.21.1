@@ -6,11 +6,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.content.sound.SoundInit;
+import net.stln.magitech.effect.visual.preset.TrailVFX;
 import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.feature.magic.spell.*;
 import net.stln.magitech.feature.magic.spell.property.SpellPropertyInit;
-import net.stln.magitech.helper.EntityHelper;
+import net.stln.magitech.helper.CombatHelper;
 import net.stln.magitech.effect.visual.particle.particle_option.ZapParticleEffect;
+import net.stln.magitech.helper.VectorHelper;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
@@ -30,7 +32,7 @@ public class Sparkion extends SpraySpell {
     @Override
     protected void additionalSprayProcess(Level level, LivingEntity caster, @Nullable ItemStack wand, Set<Entity> targets) {
         Vec3 forward = Vec3.directionFromRotation(caster.getRotationVector());
-        Vec3 bodyPos = EntityHelper.getBodyPos(caster);
+        Vec3 bodyPos = CombatHelper.getBodyPos(caster);
         Vec3 offset = bodyPos.add(forward.scale(1));
         if (targets.isEmpty()) {
             if (level.isClientSide) {
@@ -49,13 +51,13 @@ public class Sparkion extends SpraySpell {
             for (int i = 0; i < 2; i++) {
                 for (Entity entity : new HashSet<>(targets)) {
 
-                    Vec3 entityBody = EntityHelper.getBodyPos(entity);
-                    List<Entity> chainList = EntityHelper.getEntitiesInBox(level, entity, entityBody, new Vec3(3.0, 3.0, 3.0));
+                    Vec3 entityBody = CombatHelper.getBodyPos(entity);
+                    List<Entity> chainList = CombatHelper.getEntitiesInBox(level, entity, entityBody, new Vec3(3.0, 3.0, 3.0));
 
                     for (Entity chain : new HashSet<>(chainList)) {
                         if (visited.contains(chain)) continue;
 
-                        Vec3 chainBody = EntityHelper.getBodyPos(chain);
+                        Vec3 chainBody = CombatHelper.getBodyPos(chain);
                         visited.add(chain);
 
                         if (!SpellHelper.canSee(level, caster, entityBody, chainBody)) {
@@ -75,24 +77,23 @@ public class Sparkion extends SpraySpell {
     }
 
     public void addNoTargetVFX(Level level, LivingEntity caster) {
+        Element element = this.getConfig().element();
         Vec3 forward = Vec3.directionFromRotation(caster.getRotationVector());
-        Vec3 bodyPos = EntityHelper.getBodyPos(caster);
+        Vec3 bodyPos = CombatHelper.getBodyPos(caster);
         Vec3 offset = bodyPos.add(forward.scale(0.5));
         Vec3 center = caster.getEyePosition().add(forward);
         Vec3 center2 = center.add(forward.scale(2));
-        level.addParticle(new ZapParticleEffect(new Vector3f(1), new Vector3f(1),
-                        center2.add(new Vec3(caster.getRandom().nextFloat() - 0.5, caster.getRandom().nextFloat() - 0.5, caster.getRandom().nextFloat() - 0.5).scale(3)).toVector3f(),
-                        2F, 3, 0, level.random.nextInt(2, 5), 1.0F), offset.x, offset.y, offset.z,
-                0, 0, 0);
+        Vec3 random = center2.add(VectorHelper.randScaledRandom(level.random).scale(2.0F));
+        TrailVFX.directionalZapTrail(level, offset, random, 0.25F, 2.0F, 0.25F, 10, element);
     }
 
     public void addChainVFX(Level level, LivingEntity caster, Vec3 from, Entity target) {
-        Vec3 targetBodyPos = EntityHelper.getBodyPos(target);
-        level.addParticle(new ZapParticleEffect(new Vector3f(1), new Vector3f(1), targetBodyPos.toVector3f(), 2F, 3, 0, level.random.nextInt(2, 5), 1.0F), from.x, from.y, from.z,
-                0, 0, 0);
+        Element element = this.getConfig().element();
+        Vec3 targetBodyPos = CombatHelper.getBodyPos(target);
+        TrailVFX.zapTrail(level, from, targetBodyPos, 0.25F, 2.0F, 0.25F, 10, element);
     }
 
     public void addChainVFX(Level level, LivingEntity caster, Entity from, Entity target) {
-        addChainVFX(level, caster, EntityHelper.getBodyPos(from), target);
+        addChainVFX(level, caster, CombatHelper.getBodyPos(from), target);
     }
 }

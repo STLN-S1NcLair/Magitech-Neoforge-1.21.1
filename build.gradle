@@ -186,10 +186,20 @@ dependencies {
     runtimeOnly "curse.maven:advancements-reloaded-1113876:5835520"
 
     runtimeOnly "maven.modrinth:emi:ouSj7NfF"
+    runtimeOnly "maven.modrinth:emixx:sdRUQHCL"
+    runtimeOnly "maven.modrinth:emiffect:S6Q6duUj"
+//    runtimeOnly "maven.modrinth:emi-loot:QXkODMCT"
+//    runtimeOnly "maven.modrinth:emi-enchanting:ZyJ6TKvh"
+//    runtimeOnly "maven.modrinth:emi-ores:1jY6MIrK"
+    runtimeOnly "maven.modrinth:kotlin-for-forge:NrSebcsG"
     runtimeOnly "maven.modrinth:cloth-config:izKINKFg"
     runtimeOnly "maven.modrinth:create:tS7ygzAE"
     runtimeOnly "maven.modrinth:mekanism:JpDlMCsB"
-    implementation "maven.modrinth:malum:BIbVs1fo"
+    runtimeOnly "maven.modrinth:sodium:Pb3OXVqC"
+    runtimeOnly "maven.modrinth:iris:t3ruzodq"
+    runtimeOnly "maven.modrinth:malum:BIbVs1fo"
+    runtimeOnly "maven.modrinth:ars-nouveau:jQHRV6Y0"
+    runtimeOnly "maven.modrinth:irons-spells-n-spellbooks:Cu7ovsnN"
 
 //    runtimeOnly("curse.maven:supplementaries-412082:6854370")
 //    runtimeOnly("curse.maven:selene-499980:6818413")

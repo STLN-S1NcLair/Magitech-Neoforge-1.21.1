@@ -16,9 +16,18 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.content.entity.EntityInit;
-import net.stln.magitech.content.entity.SpellProjectileEntity;
+import net.stln.magitech.content.entity.magicentity.SpellProjectileEntity;
 import net.stln.magitech.content.sound.SoundInit;
+import net.stln.magitech.effect.visual.Section;
+import net.stln.magitech.effect.visual.preset.LineVFX;
+import net.stln.magitech.effect.visual.preset.PointVFX;
+import net.stln.magitech.effect.visual.preset.PresetHelper;
+import net.stln.magitech.effect.visual.spawner.ElementParticles;
+import net.stln.magitech.effect.visual.spawner.RingParticles;
+import net.stln.magitech.effect.visual.spawner.SquareParticles;
 import net.stln.magitech.feature.element.Element;
+import net.stln.magitech.feature.magic.spell.ISpell;
+import net.stln.magitech.feature.magic.spell.SpellInit;
 import net.stln.magitech.helper.DataMapHelper;
 import net.stln.magitech.effect.visual.particle.particle_option.WaveParticleEffect;
 import org.jetbrains.annotations.Nullable;
@@ -29,6 +38,9 @@ import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
+
+import java.util.Optional;
+import java.util.function.Supplier;
 
 public class TremivoxEntity extends SpellProjectileEntity implements GeoEntity {
 
@@ -58,33 +70,27 @@ public class TremivoxEntity extends SpellProjectileEntity implements GeoEntity {
     }
 
     @Override
+    protected Optional<Supplier<ISpell>> getSpell() {
+        return Optional.of(SpellInit.TREMIVOX);
+    }
+
+    @Override
+    protected Supplier<SoundEvent> getHitGroundSoundEvent() {
+        return SoundInit.TREMIVOX;
+    }
+
+    @Override
     public void tick() {
         super.tick();
-        Level world = this.level();
+        Level level = this.level();
         Vec3 deltaMovement = this.getDeltaMovement();
-        if (world.isClientSide) {
-            Vector3f fromColor = new Vector3f(1.0F, 1.0F, 1.0F);
-            Vector3f toColor = new Vector3f(1.0F, 1.0F, 1.0F);
-            float scale = 1.0F;
-            int twinkle = 1;
-            float rotSpeed = 0.0F;
-            int particleAmount = 5;
-            for (int i = 0; i < particleAmount; i++) {
-                double x = this.getX() - deltaMovement.x + (random.nextFloat() - 0.5) / 10;
-                double y = this.getY(0.5F) - deltaMovement.y + (random.nextFloat() - 0.5) / 10;
-                double z = this.getZ() - deltaMovement.z + (random.nextFloat() - 0.5) / 10;
-                double vx = deltaMovement.x / 4;
-                double vy = deltaMovement.y / 4;
-                double vz = deltaMovement.z / 4;
-                world.addParticle(new WaveParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed, level().random.nextInt(5, 10), 0.9F), x, y, z, vx, vy, vz);
-            }
-        } else {
+        if (!level.isClientSide) {
             Vec3 center = this.position().add(this.getDeltaMovement().normalize().scale(10.0));
             LivingEntity target;
             if (this.getOwner() instanceof LivingEntity livingEntity) {
-                target = world.getNearestEntity(LivingEntity.class, TargetingConditions.forCombat(), livingEntity, this.getX(), this.getY(), this.getZ(), new AABB(center.subtract(10, 10, 10), center.add(10, 10, 10)));
+                target = level.getNearestEntity(LivingEntity.class, TargetingConditions.forCombat(), livingEntity, this.getX(), this.getY(), this.getZ(), new AABB(center.subtract(10, 10, 10), center.add(10, 10, 10)));
             } else {
-                target = world.getNearestEntity(LivingEntity.class, TargetingConditions.forCombat(), null, this.getX(), this.getY(), this.getZ(), new AABB(center.subtract(10, 10, 10), center.add(10, 10, 10)));
+                target = level.getNearestEntity(LivingEntity.class, TargetingConditions.forCombat(), null, this.getX(), this.getY(), this.getZ(), new AABB(center.subtract(10, 10, 10), center.add(10, 10, 10)));
             }
             if (target != null) {
                 this.setDeltaMovement(target.position().add(0, target.getBbHeight() * 0.5, 0).subtract(this.position()).normalize().scale(0.15).add(deltaMovement).normalize().scale(deltaMovement.length()));
@@ -93,84 +99,26 @@ public class TremivoxEntity extends SpellProjectileEntity implements GeoEntity {
     }
 
     @Override
-    protected void onHitEntity(EntityHitResult entityHitResult) {
-        super.onHitEntity(entityHitResult);
-        Entity entity = entityHitResult.getEntity();
-        Entity owner = this.getOwner();
-
-        ResourceKey<DamageType> damageType = this.getElement().getDamageType();
-        DamageSource elementalDamageSource = getElementalDamageSource(owner, damageType);
-
-        float finalDamage = this.damage * DataMapHelper.getElementMultiplier(entity, this.getElement());
-        applyDamage(entity, elementalDamageSource, finalDamage);
-        hitParticle();
-
-        if (!this.level().isClientSide) {
-            this.level().broadcastEntityEvent(this, EntityEvent.DEATH);
-        }
+    protected void spawnTickParticle() {
+        Level level = level();
+        Element element = getElement();
+        Vec3 old = getOldCenter();
+        Vec3 pos = getCurrentCenter();
+        LineVFX.spreadLinedSquare(level, old, pos, element, new Section(0F, 1F), 2F, 0.2F, 0.03F);
+        LineVFX.spreadLined(level, old, pos, element,
+                (lvl, position, elm) -> PresetHelper.smaller(RingParticles.ringParticle(lvl, position, getDeltaMovement().normalize(), elm)),
+                new Section(0F, 1F), 0.5F, 0.0F, 0.0F);
     }
 
-    @Override
-    protected Element getElement() {
-        return Element.TREMOR;
-    }
-
-    @Override
-    protected void onHitBlock(BlockHitResult blockHitResult) {
-        super.onHitBlock(blockHitResult);
-        hitParticle();
-
-        if (!this.level().isClientSide) {
-            this.level().broadcastEntityEvent(this, EntityEvent.DEATH);
-        }
-    }
-
-    @Override
-    public void handleEntityEvent(byte status) {
-        if (status == EntityEvent.DEATH) {
-            if (this.level().isClientSide) {
-                hitParticle();
-            } else {
-                this.discard();
-            }
-        }
-        super.handleEntityEvent(status);
-    }
-
-    protected void hitParticle() {
-        Level world = this.level();
-        if (world.isClientSide) {
-            Vector3f fromColor = new Vector3f(1.0F, 1.0F, 1.0F);
-            Vector3f toColor = new Vector3f(1.0F, 1.0F, 1.0F);
-            float scale = 1.0F;
-            float rotSpeed = 0.0F;
-            int particleAmount = 10;
-            for (int i = 0; i < particleAmount; i++) {
-                int twinkle = 1;
-
-                double x = this.getX() - this.getDeltaMovement().x + (random.nextFloat() - 0.5) / 10;
-                double y = this.getY(0.5F) - this.getDeltaMovement().y + (random.nextFloat() - 0.5) / 10;
-                double z = this.getZ() - this.getDeltaMovement().z + (random.nextFloat() - 0.5) / 10;
-                double vx = (random.nextFloat() - 0.5) / 6;
-                double vy = (random.nextFloat() - 0.5) / 6;
-                double vz = (random.nextFloat() - 0.5) / 6;
-                world.addParticle(new WaveParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed, level().random.nextInt(5, 10), 0.9F), x, y, z, vx, vy, vz);
-            }
-        }
-    }
-
-    @Override
-    protected SoundEvent getDefaultHitGroundSoundEvent() {
-        return SoundInit.TREMIVOX.get();
+    protected void spawnHitParticle() {
+        Level level = level();
+        Element element = getElement();
+        Vec3 pos = position();
+        PointVFX.burst(level, pos, element, SquareParticles::squareGravityParticle, 20, 0.5F);
     }
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "idle", (event) -> event.setAndContinue(IDLE)));
-    }
-
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return this.geoCache;
     }
 }

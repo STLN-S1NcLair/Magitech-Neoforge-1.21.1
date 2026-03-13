@@ -15,7 +15,7 @@ import java.util.function.Consumer;
 public class PointVFX {
     public static void vortex(Level level, Vec3 pos, Element element, Function3<Level, Vec3, Element, ParticleEffectSpawner> supplier, int amount, float acceleration, float randomness) {
         for (int i = 0; i < amount; i++) {
-            Vec3 motion = VectorHelper.random().scale(randomness);
+            Vec3 motion = VectorHelper.random(level.random).scale(randomness);
             Consumer<LodestoneWorldParticle> behavior = BehaviorPreset.toDestination(pos, acceleration);
             ParticleEffectSpawner spawner = supplier.apply(level, pos, element);
             PresetHelper.modify(spawner, builder -> builder.setMotion(motion).addTickActor(behavior));
@@ -29,7 +29,7 @@ public class PointVFX {
 
     public static void burst(Level level, Vec3 pos, Element element, Function3<Level, Vec3, Element, ParticleEffectSpawner> supplier, int amount, float randomness) {
         for (int i = 0; i < amount; i++) {
-            Vec3 motion = VectorHelper.random().scale(randomness);
+            Vec3 motion = VectorHelper.blastRandom(level.random).scale(randomness);
             ParticleEffectSpawner spawner = supplier.apply(level, pos, element);
             PresetHelper.modify(spawner, builder -> builder.setMotion(motion));
             spawner.spawnParticles();
@@ -42,8 +42,21 @@ public class PointVFX {
 
     public static void zap(Level level, Vec3 pos, Element element, int amount, float scale, float length, float complexity, float randomness, int trailLength) {
         for (int i = 0; i < amount; i++) {
-            Vec3 end = pos.add(VectorHelper.random().scale(length));
-            TrailVFX.zapTrail(level, pos, end, scale, complexity, randomness, trailLength, element);
+            Vec3 end = pos.add(VectorHelper.random(level.random).scale(length));
+            TrailVFX.directionalZapTrail(level, pos, end, scale, complexity, randomness, trailLength, element);
         }
+    }
+
+    public static void spray(Level level, Vec3 pos, Element element, Function3<Level, Vec3, Element, ParticleEffectSpawner> supplier, Vec3 direction, int amount, float speed, float randomness) {
+        for (int i = 0; i < amount; i++) {
+            Vec3 motion = VectorHelper.randScaledRandom(level.random).scale(randomness).add(direction.scale(speed));
+            ParticleEffectSpawner spawner = supplier.apply(level, pos, element);
+            PresetHelper.modify(spawner, builder -> builder.setMotion(motion));
+            spawner.spawnParticles();
+        }
+    }
+
+    public static void spraySquare(Level level, Vec3 pos, Element element, Vec3 direction, int amount, float speed, float randomness) {
+        spray(level, pos, element, SquareParticles::squareParticle, direction, amount, speed, randomness);
     }
 }

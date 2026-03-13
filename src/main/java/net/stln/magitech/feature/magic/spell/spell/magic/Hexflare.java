@@ -40,7 +40,7 @@ public class Hexflare extends ShotSpell {
                         .charge(5)
                         .property(SpellPropertyInit.DAMAGE, 15.0F)
                         .property(SpellPropertyInit.PROJECTILE_SPEED, 1.5F)
-                        .property(SpellPropertyInit.EXPLOSION_RADIUS, 8.0F)
+                        .property(SpellPropertyInit.EXPLOSION_RADIUS, 4.0F)
                         .endSound(SoundInit.HEXFLARE_SHOOT)
                         .castAnim("charge_wand")
                         .endAnim("swing_wand"),

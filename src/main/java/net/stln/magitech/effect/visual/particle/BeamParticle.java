@@ -53,10 +53,10 @@ public class BeamParticle extends GlowingParticle {
     @Override
     public void render(@NotNull VertexConsumer vertexConsumer, @NotNull Camera camera, float tickDelta) {
         this.updateColor(tickDelta);
-        float width = 0.2F * this.scale;
+        float width = this.scale * 0.5F;
         if (this.age >= this.lifetime * 0.8F) {
             this.alpha = (this.lifetime - this.age) / (this.lifetime * 0.2F) * 0.6F + 0.2F;
-            width = ((this.lifetime - (this.age + tickDelta)) / (this.lifetime * 0.2F) * 0.6F + 0.2F) * 0.2F * this.scale;
+            width = ((this.lifetime - (this.age + tickDelta)) / (this.lifetime * 0.2F) * 0.6F + 0.2F) * 0.5F * this.scale;
         }
         if (this.twinkle > 1) {
             float multiplier = Math.max(((float) this.age % this.twinkle) / (this.twinkle - 1), 0.1F);

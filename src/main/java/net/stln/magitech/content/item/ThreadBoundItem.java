@@ -14,7 +14,6 @@ import net.stln.magitech.content.item.component.SpellComponent;
 import net.stln.magitech.content.item.tooltip_item.TooltipTextModonomiconItem;
 import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.feature.magic.spell.ISpell;
-import net.stln.magitech.feature.magic.spell.Spell;
 import net.stln.magitech.helper.ComponentHelper;
 import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.SlotContext;
@@ -66,7 +65,7 @@ public class ThreadBoundItem extends TooltipTextModonomiconItem implements ICuri
             if (abs <= 2 || Screen.hasShiftDown()) {
                 Element element = spell.getConfig().element();
                 if (spells.selected() == i) {
-                    tooltipComponents.add(Component.literal("> ").append(spell.getDescription()).withColor(element.getColor().getRGB()));
+                    tooltipComponents.add(Component.literal("> ").append(spell.getDescription()).withColor(element.getTextColor().getRGB()));
                 } else {
                     tooltipComponents.add(spell.getDescription().withColor(element.getDark().getRGB()));
                 }

@@ -25,21 +25,22 @@ import java.util.Optional;
 @net.neoforged.fml.common.asm.enumextension.NamedEnum(1)
 @net.neoforged.fml.common.asm.enumextension.NetworkedEnum(NetworkedEnum.NetworkCheck.BIDIRECTIONAL)
 public enum Element implements StringRepresentable, IExtensibleEnum {
-    MANA("mana", new Color(0xA0FFD0), new Color(0x00E0F0), new Color(0x005060), DamageTypeInit.MANA_DAMAGE, Optional.empty()),
-    EMBER("ember", new Color(0xFF2000), new Color(0xFFA000), new Color(0x400000), DamageTypeInit.EMBER_DAMAGE, Optional.of(AttributeInit.EMBER_SPELL_POWER)),
-    GLACE("glace", new Color(0x60FFFF), new Color(0x40A0FF), new Color(0x002840), DamageTypeInit.GLACE_DAMAGE, Optional.of(AttributeInit.GLACE_SPELL_POWER)),
-    SURGE("surge", new Color(0x4020FF), new Color(0xA0C0FF), new Color(0x100040), DamageTypeInit.SURGE_DAMAGE, Optional.of(AttributeInit.SURGE_SPELL_POWER)),
-    PHANTOM("phantom", new Color(0xFFFF80), new Color(0xFFA000), new Color(0x403000), DamageTypeInit.PHANTOM_DAMAGE, Optional.of(AttributeInit.PHANTOM_SPELL_POWER)),
-    TREMOR("tremor", new Color(0x008080), new Color(0x004080), new Color(0x001020), DamageTypeInit.TREMOR_DAMAGE, Optional.of(AttributeInit.TREMOR_SPELL_POWER)),
-    MAGIC("magic", new Color(0xFF20C0), new Color(0xFF0060), new Color(0x400020), DamageTypeInit.MAGIC_DAMAGE, Optional.of(AttributeInit.MAGIC_SPELL_POWER)),
-    FLOW("flow", new Color(0xA0FF40), new Color(0x00FF00), new Color(0x104000), DamageTypeInit.FLOW_DAMAGE, Optional.of(AttributeInit.FLOW_SPELL_POWER)),
-    HOLLOW("hollow", new Color(0xA000F0), new Color(0x8000F0), new Color(0x200040), DamageTypeInit.HOLLOW_DAMAGE, Optional.of(AttributeInit.HOLLOW_SPELL_POWER)),
-    LOGOS("logos", new Color(0x333333), new Color(0x000000), new Color(0xA0A0A0), DamageTypeInit.LOGOS_DAMAGE, Optional.empty()),
-    NONE("none", new Color(0xFFFFFF), new Color(0xFFE0D0), new Color(0x404040), DamageTypes.PLAYER_ATTACK, Optional.empty());
+    MANA("mana", new Color(0xA0FFD0), new Color(0xA0FFA0), new Color(0x00F0D0), new Color(0x005060), DamageTypeInit.MANA_DAMAGE, Optional.empty()),
+    EMBER("ember", new Color(0xFF2000), new Color(0xFFA000), new Color(0xFF2000), new Color(0x400000), DamageTypeInit.EMBER_DAMAGE, Optional.of(AttributeInit.EMBER_SPELL_POWER)),
+    GLACE("glace", new Color(0x00FFF0), new Color(0x60FFE0), new Color(0x40A0FF), new Color(0x002840), DamageTypeInit.GLACE_DAMAGE, Optional.of(AttributeInit.GLACE_SPELL_POWER)),
+    SURGE("surge", new Color(0x3000FF), new Color(0x3030FF), new Color(0x8080FF), new Color(0x000840), DamageTypeInit.SURGE_DAMAGE, Optional.of(AttributeInit.SURGE_SPELL_POWER)),
+    PHANTOM("phantom", new Color(0xFFFF80), new Color(0xFFFF80), new Color(0xFFA000), new Color(0x403000), DamageTypeInit.PHANTOM_DAMAGE, Optional.of(AttributeInit.PHANTOM_SPELL_POWER)),
+    TREMOR("tremor", new Color(0x008080), new Color(0x008080), new Color(0x004080), new Color(0x001020), DamageTypeInit.TREMOR_DAMAGE, Optional.of(AttributeInit.TREMOR_SPELL_POWER)),
+    MAGIC("magic", new Color(0xFF00C0), new Color(0xFF20C0), new Color(0xFF0040), new Color(0x400020), DamageTypeInit.MAGIC_DAMAGE, Optional.of(AttributeInit.MAGIC_SPELL_POWER)),
+    FLOW("flow", new Color(0xA0FF40), new Color(0x40FF40), new Color(0xE0FF20), new Color(0x104000), DamageTypeInit.FLOW_DAMAGE, Optional.of(AttributeInit.FLOW_SPELL_POWER)),
+    HOLLOW("hollow", new Color(0xA000F0), new Color(0xA000F0), new Color(0x8000F0), new Color(0x200040), DamageTypeInit.HOLLOW_DAMAGE, Optional.of(AttributeInit.HOLLOW_SPELL_POWER)),
+    LOGOS("logos", new Color(0x333333), new Color(0x333333), new Color(0x000000), new Color(0xA0A0A0), DamageTypeInit.LOGOS_DAMAGE, Optional.empty()),
+    NONE("none", new Color(0xFFFFFF), new Color(0xFFFFFF), new Color(0xFFE0D0), new Color(0x404040), DamageTypes.PLAYER_ATTACK, Optional.empty());
 
     public static final Codec<Element> CODEC = StringRepresentable.fromEnum(Element::values);
     private final String id;
-    private final Color color;
+    private final Color textColor;
+    private final Color primary;
     private final Color secondary;
     private final Color dark;
     private final ResourceKey<DamageType> damageType;
@@ -48,15 +49,17 @@ public enum Element implements StringRepresentable, IExtensibleEnum {
     /**
         * Constructor for the Element enum, initializing all properties of the element.
         * @param id The string ID of the element, used for serialization and translation keys.
-        * @param color The primary color of the element, used for spell effects and UI.
+        * @param textColor The text color of the element, used for UI.
+        * @param primary The primary color of the element, used for spell effects and UI.
         * @param secondary The secondary color of the element, used for spell effects and UI.
         * @param dark The dark color of the element, used for spell effects and UI.
         * @param damageType The damage type associated with the element, used for damage calculation and interactions with entities.
         * @param powerAttribute The optional attribute that increases the power of spells of this element, used for damage calculation and spell scaling.
      */
-    Element(String id, Color color, Color secondary, Color dark, ResourceKey<DamageType> damageType, Optional<Holder<Attribute>> powerAttribute) {
+    Element(String id, Color textColor, Color primary, Color secondary, Color dark, ResourceKey<DamageType> damageType, Optional<Holder<Attribute>> powerAttribute) {
         this.id = id;
-        this.color = color;
+        this.textColor = textColor;
+        this.primary = primary;
         this.secondary = secondary;
         this.dark = dark;
         this.damageType = damageType;
@@ -71,8 +74,12 @@ public enum Element implements StringRepresentable, IExtensibleEnum {
         return Component.translatable("element.magitech." + this.id);
     }
 
-    public Color getColor() {
-        return color;
+    public Color getTextColor() {
+        return textColor;
+    }
+
+    public Color getPrimary() {
+        return primary;
     }
 
     public Color getSecondary() {

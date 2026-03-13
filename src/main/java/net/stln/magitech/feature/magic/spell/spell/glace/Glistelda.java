@@ -16,8 +16,8 @@ import net.stln.magitech.feature.magic.spell.DamageSpell;
 import net.stln.magitech.feature.magic.spell.SpellConfig;
 import net.stln.magitech.feature.magic.spell.SpellShape;
 import net.stln.magitech.feature.magic.spell.property.SpellPropertyInit;
+import net.stln.magitech.helper.CombatHelper;
 import net.stln.magitech.helper.EffectHelper;
-import net.stln.magitech.helper.EntityHelper;
 import net.stln.magitech.helper.TickScheduler;
 import net.stln.magitech.effect.visual.particle.particle_option.FrostParticleEffect;
 import net.stln.magitech.effect.visual.particle.particle_option.SquareFieldParticleEffect;
@@ -47,7 +47,7 @@ public class Glistelda extends DamageSpell {
         List<Entity> entities = new ArrayList<>();
         for (int i = 0; i < duration; i++) {
             TickScheduler.schedule(i, () -> {
-                List<Entity> nearbyEntities = EntityHelper.getEntitiesInBox(level, caster, caster.position(), new Vec3(3, 3, 3));
+                List<Entity> nearbyEntities = CombatHelper.getEntitiesInBox(level, caster, caster.position(), new Vec3(3, 3, 3));
                 entities.addAll(nearbyEntities);
                 EffectHelper.entityEffect(level, new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0, level.random.nextInt(50, 60), 0.99F), caster, 4);
                 EffectHelper.entityEffect(level, new SquareParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(0.6F, 1.0F, 1.0F), 1.0F, 1, 0, 15, 1.0F), caster, 10);

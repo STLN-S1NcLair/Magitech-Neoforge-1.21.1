@@ -32,8 +32,8 @@ import net.stln.magitech.content.entity.RangedSpellAttackGoal;
 import net.stln.magitech.content.entity.magicentity.ignisca.IgniscaEntity;
 import net.stln.magitech.content.network.RangedEntityAttackPayload;
 import net.stln.magitech.content.sound.SoundInit;
+import net.stln.magitech.helper.CombatHelper;
 import net.stln.magitech.helper.EffectHelper;
-import net.stln.magitech.helper.EntityHelper;
 import net.stln.magitech.helper.TickScheduler;
 import net.stln.magitech.effect.visual.particle.particle_option.*;
 import org.joml.Vector3f;
@@ -153,7 +153,7 @@ public class WeaverEntity extends Monster implements GeoEntity, RangedAttackMob 
 
 
         Vec3 position = target.position();
-        Vec3 oldSurface = EntityHelper.findSurface(level(), position);
+        Vec3 oldSurface = CombatHelper.findSurface(level(), position);
 
         level().addParticle(new SquareFieldParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(0.5F, 0.5F, 1.0F), 1.0F, this.getRandom().nextInt(3, 6), 0, 15, 1.0F), position.x, position.y + 0.1, position.z, 0, 0, 0);
 
@@ -172,7 +172,7 @@ public class WeaverEntity extends Monster implements GeoEntity, RangedAttackMob 
 
 
         TickScheduler.schedule(2, () -> {
-            surface[0] = EntityHelper.findSurface(level, target.position());
+            surface[0] = CombatHelper.findSurface(level, target.position());
         }, level.isClientSide);
 
         for (int j = 0; j < 3; j++) {
@@ -183,7 +183,7 @@ public class WeaverEntity extends Monster implements GeoEntity, RangedAttackMob 
                 }
 
                 Vec3 lightningTop = surface[0].add(0, Mth.randomBetween(this.getRandom(), 5, 20), 0);
-                List<Entity> entities = EntityHelper.getEntitiesInBox(level, this, surface[0], new Vec3(2, 2, 2));
+                List<Entity> entities = CombatHelper.getEntitiesInBox(level, this, surface[0], new Vec3(2, 2, 2));
 
                 level.playSound(this, BlockPos.containing(surface[0]), SoundInit.ARCLUME.get(), SoundSource.HOSTILE, 1.0F, 0.8F + (this.getRandom().nextFloat() * 0.6F));
 
@@ -242,8 +242,8 @@ public class WeaverEntity extends Monster implements GeoEntity, RangedAttackMob 
 
         TickScheduler.schedule(3, () -> {
 
-            Vec3 hitPos = EntityHelper.raycastBeam(this, 32, 0.3, forward);
-            Entity beamTarget = EntityHelper.raycastBeamEntity(this, 32, 0.3, forward);
+            Vec3 hitPos = CombatHelper.raycastBeam(this, 32, 0.3, forward);
+            Entity beamTarget = CombatHelper.raycastBeamEntity(this, 32, 0.3, forward);
             Vec3 start = this.position().add(0, this.getBbHeight() * 0.7, 0).add(forward.scale(0.5));
 
             EffectHelper.lineEffect(level, new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0, level.random.nextInt(50, 60), 0.99F), start, hitPos, 2, false);

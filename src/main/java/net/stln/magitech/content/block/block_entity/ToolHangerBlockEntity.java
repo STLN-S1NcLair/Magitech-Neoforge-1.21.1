@@ -37,11 +37,13 @@ public class ToolHangerBlockEntity extends BlockEntity {
 
     public void addItem(Player player, ItemStack pItemStack, int slot) {
         ItemStack toolInHanger = this.inventory.getStackInSlot(slot);
-        this.inventory.setStackInSlot(slot, pItemStack.split(1));
-        player.setItemInHand(InteractionHand.MAIN_HAND, toolInHanger.copy());
-        player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARMOR_EQUIP_IRON, SoundSource.PLAYERS, 1.0f, 1.0f);
-        setChanged();
-        level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
+        if (!toolInHanger.isEmpty() || !pItemStack.isEmpty()) {
+            this.inventory.setStackInSlot(slot, pItemStack.split(1));
+            player.setItemInHand(InteractionHand.MAIN_HAND, toolInHanger.copy());
+            player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARMOR_EQUIP_IRON, SoundSource.PLAYERS, 1.0f, 1.0f);
+            setChanged();
+            level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
+        }
     }
 
     public void clearContents() {

@@ -23,6 +23,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.stln.magitech.Magitech;
 import net.stln.magitech.content.block.block_entity.ToolHangerBlockEntity;
 import net.stln.magitech.content.item.ItemTagKeys;
 import net.stln.magitech.helper.VoxelShapeHelper;
@@ -112,12 +113,13 @@ public class ToolHangerBlock extends BaseEntityBlock {
         BlockEntity entity = level.getBlockEntity(pos);
         if (entity instanceof ToolHangerBlockEntity toolHangerBlockEntity) {
             ItemStack itemInHand = player.getItemInHand(hand);
+            Magitech.LOGGER.debug("isEmpty: {}", itemInHand.isEmpty());
             if (itemInHand.isEmpty() || itemInHand.getTags().anyMatch(itemTagKey -> itemTagKey.equals(ItemTagKeys.TOOLS))) {
                 toolHangerBlockEntity.addItem(player, itemInHand, getClickedSlot(hitResult, state));
                 return ItemInteractionResult.SUCCESS;
             }
         }
-        return ItemInteractionResult.CONSUME;
+        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
     private int getClickedSlot(BlockHitResult hitResult, BlockState blockState) {

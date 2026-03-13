@@ -30,7 +30,7 @@ public class RenderHelper {
                         .setShaderState(RenderStateShard.RENDERTYPE_ENERGY_SWIRL_SHADER)
                         .setTextureState(new RenderStateShard.TextureStateShard(texture, false, false))
                         .setTransparencyState(RenderStateShard.ADDITIVE_TRANSPARENCY)
-                        .setCullState(RenderStateShard.NO_CULL) // 👈 カリング無効化
+                        .setCullState(RenderStateShard.NO_CULL)
                         .setLightmapState(RenderStateShard.LIGHTMAP)
                         .setOverlayState(RenderStateShard.OVERLAY)
                         .createCompositeState(false)
@@ -49,7 +49,7 @@ public class RenderHelper {
                         .setShaderState(RenderStateShard.RENDERTYPE_ENERGY_SWIRL_SHADER)
                         .setTextureState(new RenderStateShard.TextureStateShard(texture, false, false))
                         .setTransparencyState(RenderStateShard.ADDITIVE_TRANSPARENCY)
-                        .setCullState(RenderStateShard.CULL) // 👈 カリング無効化
+                        .setCullState(RenderStateShard.CULL)
                         .setLightmapState(RenderStateShard.LIGHTMAP)
                         .setOverlayState(RenderStateShard.OVERLAY)
                         .createCompositeState(false)
@@ -57,7 +57,7 @@ public class RenderHelper {
     }
 
     public static void renderFramedText(GuiGraphics guiGraphics, Font font, String text, int x, int y, Element element) {
-        renderFramedText(guiGraphics, font, text, x, y, element.getColor().getRGB(), element.getDark().getRGB());
+        renderFramedText(guiGraphics, font, text, x, y, element.getTextColor().getRGB(), element.getDark().getRGB());
     }
 
     public static void renderFramedText(GuiGraphics guiGraphics, Font font, String text, int x, int y, int color, int frameColor) {

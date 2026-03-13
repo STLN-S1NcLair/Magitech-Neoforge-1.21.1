@@ -100,7 +100,7 @@ public class SparkTrait extends Trait {
                     double maxReachLength = 12.0;
                     double radius = 0.1;
                     forward = forward.add(Mth.randomBetween(player.getRandom(), -0.1F, 0.1F), Mth.randomBetween(player.getRandom(), -0.1F, 0.1F), Mth.randomBetween(player.getRandom(), -0.1F, 0.1F)).normalize();
-                    Vec3 hitPos = EntityHelper.raycastBeam(player, maxReachLength, radius, forward);
+                    Vec3 hitPos = CombatHelper.raycastBeam(player, maxReachLength, radius, forward);
 
                     ResourceKey<DamageType> damageType = Element.SURGE.getDamageType();
                     DamageSource elementalDamageSource = player.damageSources().source(damageType, player);
@@ -111,7 +111,7 @@ public class SparkTrait extends Trait {
                             Mth.randomBetween(player.getRandom(), -1.0F, 1.0F) * (1 - forward.z * forward.z)
                     );
 
-                    Entity target1 = EntityHelper.raycastBeamEntity(player, maxReachLength, radius);
+                    Entity target1 = CombatHelper.raycastBeamEntity(player, maxReachLength, radius);
                     if (target1 != null) {
                         float finalDamage = (float) (1.0 * DataMapHelper.getElementMultiplier(target1, Element.SURGE));
                         if (target1.isAttackable()) {

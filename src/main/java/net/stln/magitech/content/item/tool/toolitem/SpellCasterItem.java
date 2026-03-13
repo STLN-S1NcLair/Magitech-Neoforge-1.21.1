@@ -28,13 +28,8 @@ import net.stln.magitech.content.entity.status.AttributeInit;
 import net.stln.magitech.content.item.component.ComponentInit;
 import net.stln.magitech.content.item.component.SpellComponent;
 import net.stln.magitech.content.network.TraitTickPayload;
-import net.stln.magitech.core.api.mana.ManaCapabilities;
-import net.stln.magitech.core.api.mana.handler.EntityManaHandler;
-import net.stln.magitech.data.DataAttachmentInit;
 import net.stln.magitech.feature.element.Element;
-import net.stln.magitech.feature.magic.charge.ChargeData;
 import net.stln.magitech.feature.magic.spell.ISpell;
-import net.stln.magitech.feature.magic.spell.Spell;
 import net.stln.magitech.feature.tool.ToolStats;
 import net.stln.magitech.feature.tool.register.ToolMaterialRegister;
 import net.stln.magitech.feature.tool.trait.Trait;
@@ -269,7 +264,7 @@ public abstract class SpellCasterItem extends PartToolItem {
                         .append(" ")
                         .append(Component.literal(
                                 TextUtil.toSignedIntPercent(finalStats.getStats().get(ToolStats.ELM_ATK_STAT))
-                        )).withColor(finalStats.getElement().getColor().getRGB())));
+                        )).withColor(finalStats.getElement().getTextColor().getRGB())));
 
         tooltipComponents.add(Component.translatable("attribute.magitech.casting_speed").append(": ").withColor(0xa0a0a0)
                 .append(Component.literal(

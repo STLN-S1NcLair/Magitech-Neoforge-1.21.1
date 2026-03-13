@@ -1,5 +1,7 @@
 package net.stln.magitech.content.entity.magicentity.electroide;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
@@ -13,12 +15,26 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.stln.magitech.content.entity.BombSpellProjectileEntity;
+import net.stln.magitech.Magitech;
+import net.stln.magitech.content.entity.magicentity.BombSpellProjectileEntity;
 import net.stln.magitech.content.entity.EntityInit;
 import net.stln.magitech.content.sound.SoundInit;
+import net.stln.magitech.effect.sound.SoundHelper;
+import net.stln.magitech.effect.visual.Section;
+import net.stln.magitech.effect.visual.preset.LineVFX;
+import net.stln.magitech.effect.visual.preset.PointVFX;
+import net.stln.magitech.effect.visual.preset.PresetHelper;
+import net.stln.magitech.effect.visual.preset.TrailVFX;
+import net.stln.magitech.effect.visual.spawner.ElementParticles;
+import net.stln.magitech.effect.visual.spawner.SquareParticles;
 import net.stln.magitech.feature.element.Element;
-import net.stln.magitech.helper.EntityHelper;
+import net.stln.magitech.feature.magic.spell.ISpell;
+import net.stln.magitech.feature.magic.spell.SpellInit;
+import net.stln.magitech.helper.CombatHelper;
 import net.stln.magitech.helper.TickScheduler;
 import net.stln.magitech.effect.visual.particle.particle_option.*;
 import org.jetbrains.annotations.Nullable;
@@ -29,7 +45,9 @@ import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-import java.util.List;
+import java.util.*;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class ElectroideEntity extends BombSpellProjectileEntity {
 
@@ -39,28 +57,23 @@ public class ElectroideEntity extends BombSpellProjectileEntity {
 
     public ElectroideEntity(EntityType<? extends BombSpellProjectileEntity> entityType, Level world) {
         super(entityType, world);
-        this.explodeRadius = 7.0F;
     }
 
     public ElectroideEntity(Level world, LivingEntity owner, float damage) {
         super(EntityInit.ELECTROIDE_ENTITY.get(), owner, world, null, damage);
-        this.explodeRadius = 7.0F;
 
     }
 
     public ElectroideEntity(Level world, LivingEntity owner, ItemStack weapon, float damage) {
         super(EntityInit.ELECTROIDE_ENTITY.get(), owner, world, weapon, damage);
-        this.explodeRadius = 7.0F;
     }
 
     public ElectroideEntity(EntityType<? extends BombSpellProjectileEntity> type, double x, double y, double z, Level world, ItemStack stack, @Nullable ItemStack weapon, float damage) {
         super(type, x, y, z, world, weapon, damage);
-        this.explodeRadius = 7.0F;
     }
 
     public ElectroideEntity(EntityType<? extends BombSpellProjectileEntity> type, LivingEntity owner, Level world, ItemStack stack, @Nullable ItemStack shotFrom, float damage) {
         super(type, owner, world, shotFrom, damage);
-        this.explodeRadius = 7.0F;
     }
 
     @Override
@@ -69,176 +82,68 @@ public class ElectroideEntity extends BombSpellProjectileEntity {
     }
 
     @Override
-    public void tick() {
-        super.tick();
-        Level world = this.level();
-        if (world.isClientSide) {
-            Vector3f fromColor = new Vector3f(1.0F, 1.0F, 1.0F);
-            Vector3f toColor = new Vector3f(1.0F, 1.0F, 1.0F);
-            float scale = 2.0F;
-            int twinkle = 1;
-            float rotSpeed = 0.0F;
-            int particleAmount = 3;
-            for (int i = 0; i < particleAmount; i++) {
-                Vec3 deltaMovement = this.getDeltaMovement();
-                double x = this.getX() - deltaMovement.x + (random.nextFloat() - 0.5) / 10;
-                double y = this.getY(0.5F) - deltaMovement.y + (random.nextFloat() - 0.5) / 10;
-                double z = this.getZ() - deltaMovement.z + (random.nextFloat() - 0.5) / 10;
-                double vx = deltaMovement.x / 4;
-                double vy = deltaMovement.y / 4;
-                double vz = deltaMovement.z / 4;
-                world.addParticle(new SparkParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed, level().random.nextInt(5, 15), 0.95F), x, y, z, vx, vy, vz);
-                Vector3f toPos = this.position().add(new Vec3(Mth.nextDouble(random, -2, 2), Mth.nextDouble(random, -2, 2), Mth.nextDouble(random, -2, 2))).toVector3f();
-                world.addParticle(new ZapParticleEffect(fromColor, toColor, toPos, scale, twinkle, rotSpeed, level().random.nextInt(2, 5), 0.95F), x, y, z, vx, vy, vz);
-            }
-        }
+    protected Optional<Supplier<ISpell>> getSpell() {
+        return Optional.of(SpellInit.ELECTROIDE);
     }
 
     @Override
-    protected Element getElement() {
-        return Element.SURGE;
+    protected Supplier<SoundEvent> getHitGroundSoundEvent() {
+        return SoundInit.ELECTROIDE;
     }
 
     @Override
-    protected void applyEntityHitEffect(Entity entity) {
-        super.applyEntityHitEffect(entity);
+    protected void onHit(HitResult result) {
+        chain(result);
+        super.onHit(result);
+    }
+
+    private void chain(HitResult result) {
+        Set<Entity> targets = getTargetList(result);
+        float chainRadius = getExplosionRadius();
+        TickScheduler.schedule(15, () -> {
+            Level level = level();
+            for (Entity target : targets) {
+                Set<Entity> chainTargets = CombatHelper.getEntitiesInBox(level, target, target.position(), new Vec3(chainRadius, chainRadius, chainRadius)).stream().filter(entity -> entity != getOwner() && !targets.contains(entity))
+                        .filter(entity -> entity.position().distanceTo(target.position()) < chainRadius).collect(Collectors.toSet());
+                if (!level.isClientSide && !chainTargets.isEmpty()) {
+                    hitEntity(chainTargets, 0.5F);
+                    SoundHelper.broadcastSound(level, getOwner(), target.position(), Optional.of(SoundInit.ARCLUME));
+                } else {
+                    for (Entity chainTarget : chainTargets) {
+                        addChainVFX(level, CombatHelper.getBodyPos(target), CombatHelper.getBodyPos(chainTarget));
+                    }
+                }
+            }
+        }, level().isClientSide);
+    }
+
+    protected void addChainVFX(Level level, Vec3 start, Vec3 end) {
+        Element element = getElement();
+        TrailVFX.zapTrail(level, start, end, 0.5F, 1.0F, 0.5F, 10, element);
+        LineVFX.destinationLinedSquare(level, start, end, element, new Section(0F, 1F), 3, 0.0F, 0.1F);
     }
 
     @Override
-    protected void addHitEffect() {
-        Level world = this.level();
-        if (world.isClientSide) {
-            Vector3f fromColor = new Vector3f(1.0F, 1.0F, 1.0F);
-            Vector3f toColor = new Vector3f(1.0F, 1.0F, 1.0F);
-            float scale1 = 4.0F;
-            float scale2 = 2.0F;
-            float rotSpeed = 0.0F;
-            int hitParticleAmount = 20;
-            int particleAmount = 300;
-            for (int i = 0; i < hitParticleAmount; i++) {
-                int twinkle = random.nextInt(2, 4);
-
-                double x = this.getX() - this.getDeltaMovement().x + (random.nextFloat() - 0.5) / 5;
-                double y = this.getY(0.5F) - this.getDeltaMovement().y + (random.nextFloat() - 0.5) / 5;
-                double z = this.getZ() - this.getDeltaMovement().z + (random.nextFloat() - 0.5) / 5;
-                double vx = (random.nextFloat() - 0.5) / 2;
-                double vy = (random.nextFloat() - 0.5) / 2;
-                double vz = (random.nextFloat() - 0.5) / 2;
-                world.addParticle(new SparkParticleEffect(fromColor, toColor, scale1, twinkle, rotSpeed, level().random.nextInt(5, 8), 0.9F), x, y, z, vx, vy, vz);
-            }
-
-            Vector3f fromCol = new Vector3f(1.0F, 1.0F, 1.0F);
-            Vector3f toCol = new Vector3f(0.6F, 1.0F, 1.0F);
-
-            for (int i = 0; i < particleAmount; i++) {
-                int twinkle = random.nextInt(2, 4);
-
-                Vec3 offset = new Vec3(Mth.nextDouble(random, -1, 1),
-                        Mth.nextDouble(random, -1, 1),
-                        Mth.nextDouble(random, -1, 1)).normalize().scale(explodeRadius / 2);
-                Vec3 vector = new Vec3(random.nextDouble(), random.nextDouble(), random.nextDouble());
-                double x = this.getX() + offset.x * vector.x;
-                double y = this.getY(0.5F) + offset.y * vector.y;
-                double z = this.getZ() + offset.z * vector.z;
-                double vx = offset.x / 5 * (vector.x);
-                double vy = offset.y / 5 * (vector.y);
-                double vz = offset.z / 5 * (vector.z);
-                AbstractCustomizableParticleEffect effect = switch (i % 5) {
-                    case 0 -> new UnstableSquareParticleEffect(fromCol, toCol, scale2, twinkle, rotSpeed, 10, 0.9F);
-                    case 1 -> new UnstableSquareParticleEffect(fromCol, toCol, scale2, twinkle, rotSpeed, 10, 0.95F);
-                    case 2 ->
-                            new SparkParticleEffect(fromColor, toColor, scale2, twinkle, rotSpeed, level().random.nextInt(5, 15), 0.9F);
-                    case 3 ->
-                            new SparkParticleEffect(fromColor, toColor, scale2, twinkle, rotSpeed, level().random.nextInt(5, 15), 0.99F);
-                    case 4 ->
-                            new ZapParticleEffect(fromColor, toColor, this.position().add(offset).toVector3f(), scale1, twinkle, rotSpeed + Mth.randomBetween(random, -0.1F, 0.1F), level().random.nextInt(3, 6), 0.0F);
-                    default -> throw new IllegalStateException("Unexpected value: " + i % 4);
-                };
-                world.addParticle(effect, x, y, z, vx, vy, vz);
-            }
-        }
+    protected void spawnTickParticle() {
+        Level level = level();
+        Element element = getElement();
+        Vec3 old = getOldCenter();
+        Vec3 pos = getCurrentCenter();
+        LineVFX.spreadLinedSquare(level, old, pos, element, new Section(0F, 1F), 1F, 0.2F, 0.05F);
+        PointVFX.zap(level, pos, element, 1, 0.25F, 2F, 2F, 0.5F, 5);
     }
 
-    @Override
-    protected void explode() {
-        Level level = this.level();
-        RandomSource random1 = this.random;
-        Entity user = this.getOwner();
-        for (int i = 0; i < 10; i++) {
-            TickScheduler.schedule(i * 3 + random1.nextInt(0, 5), () -> {
-                Vec3 origin = this.position().add(Mth.nextDouble(random1, -5, 5), Mth.nextDouble(random1, -5, 5), Mth.nextDouble(random1, -5, 5));
-                Vec3 lightningPos = EntityHelper.findSurface(level, origin);
-                addLightning(user, level, lightningPos, random1);
-
-            }, level.isClientSide);
-        }
-        super.explode();
-    }
-
-    private void addLightning(Entity user, Level level, Vec3 pos, RandomSource randomSource) {
-        Vec3 surface = EntityHelper.findSurface(level, pos);
-        Vec3 lightningTop = surface.add(0, Mth.randomBetween(randomSource, 5, 20), 0);
-        List<Entity> entities = EntityHelper.getEntitiesInBox(level, null, surface, new Vec3(2, 2, 2));
-
-        level.playSound(user instanceof Player ? (Player) user : null, surface.x, surface.y, surface.z, SoundInit.ARCLUME.get(), SoundSource.PLAYERS, 1.0F, 0.8F + (randomSource.nextFloat() * 0.6F));
-
-        if (!level.isClientSide) {
-
-            ResourceKey<DamageType> damageType = this.getElement().getDamageType();
-            DamageSource elementalDamageSource = getElementalDamageSource(this.getOwner(), damageType);
-
-            for (Entity target : entities) {
-                this.applyDamage(target, elementalDamageSource, this.damage);
-            }
-        }
-
-        if (level.isClientSide) {
-            level.addParticle(new ZapParticleEffect(new Vector3f(1), new Vector3f(1), lightningTop.toVector3f(), 2F, 3, 0, level.random.nextInt(2, 5), 1.0F), surface.x, surface.y, surface.z,
-                    0, 0, 0);
-            Vector3f fromColor = new Vector3f(1.0F, 1.0F, 1.0F);
-            Vector3f toColor = new Vector3f(0.5F, 0.5F, 1.0F);
-            float scale = 1.0F;
-            float rotSpeed = 0.0F;
-            int particleAmount = 20;
-
-            for (int i = 0; i < particleAmount; i++) {
-                int twinkle = randomSource.nextInt(2, 4);
-
-                double x = lightningTop.x;
-                double y = lightningTop.y;
-                double z = lightningTop.z;
-                double vx = (randomSource.nextFloat() - 0.5) / 10;
-                double vy = (randomSource.nextFloat() - 0.5) / 10;
-                double vz = (randomSource.nextFloat() - 0.5) / 10;
-                level.addParticle(new SquareParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed, 15, 0.8F), x, y, z, vx, vy, vz);
-            }
-
-            for (int i = 0; i < particleAmount; i++) {
-                int twinkle = randomSource.nextInt(2, 4);
-
-                double x = surface.x + Mth.randomBetween(randomSource, -0.2F, 0.2F);
-                double y = surface.y + Mth.randomBetween(randomSource, -0.2F, 0.2F);
-                double z = surface.z + Mth.randomBetween(randomSource, -0.2F, 0.2F);
-                double vx = (randomSource.nextFloat() - 0.5) / 2;
-                double vy = (randomSource.nextFloat() - 0.5);
-                double vz = (randomSource.nextFloat() - 0.5) / 2;
-                level.addParticle(new UnstableSquareParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed, 15, 0.8F), x, y, z, vx, vy, vz);
-            }
-        }
-    }
-
-    @Override
-    protected SoundEvent getDefaultHitGroundSoundEvent() {
-        return SoundInit.ELECTROIDE.get();
+    protected void spawnHitParticle() {
+        Level level = level();
+        Element element = getElement();
+        Vec3 pos = position();
+        PointVFX.burst(level, pos, element, SquareParticles::squareBlastParticle, 400, 1.0F);
+        PointVFX.zap(level, pos, element, 10, 0.5F, 6F, 2F, 0.5F, 30);
+        PointVFX.zap(level, pos, element, 10, 0.5F, 6F, 2F, 0.5F, 15);
     }
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "idle", (event) -> event.setAndContinue(IDLE)));
-    }
-
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return this.geoCache;
     }
 }

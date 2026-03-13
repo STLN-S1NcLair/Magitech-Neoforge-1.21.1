@@ -22,10 +22,8 @@ import net.stln.magitech.content.item.tool.toolitem.SpellCasterItem;
 import net.stln.magitech.content.network.ThreadboundSelectPayload;
 import net.stln.magitech.data.DataAttachmentInit;
 import net.stln.magitech.feature.element.Element;
-import net.stln.magitech.feature.magic.charge.ChargeData;
 import net.stln.magitech.feature.magic.cooldown.CooldownData;
 import net.stln.magitech.feature.magic.spell.ISpell;
-import net.stln.magitech.feature.magic.spell.Spell;
 import net.stln.magitech.helper.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -147,7 +145,7 @@ public class RadialSpellMenuOverlay extends Screen {
                 for (Component component : componentList) {
                     i++;
                     int tooltipx = (x - font.width(component.getString()) / 2);
-                    int elementCol = element.getColor().getRGB() & 0x00FFFFFF;
+                    int elementCol = element.getTextColor().getRGB() & 0x00FFFFFF;
                     int color = component.getStyle().getColor() != null ? component.getStyle().getColor().getValue() : 0xFFFFFF;
                     RenderHelper.renderFramedText(guiGraphics, font, component.getString(), tooltipx, rendery + i * 10, color, color == elementCol ? element.getDark().getRGB() : ColorHelper.Argb.mul(color, 0x404060));
                 }

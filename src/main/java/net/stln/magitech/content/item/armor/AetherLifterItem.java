@@ -24,7 +24,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.content.sound.SoundInit;
-import net.stln.magitech.helper.EntityHelper;
+import net.stln.magitech.helper.CombatHelper;
 import net.stln.magitech.helper.TickScheduler;
 import net.stln.magitech.effect.visual.particle.particle_option.SquareFieldParticleEffect;
 import net.stln.magitech.effect.visual.particle.particle_option.SquareParticleEffect;
@@ -69,7 +69,7 @@ public class AetherLifterItem extends TooltipArmorItem implements GeoItem {
                 Vector3f phantomCol = new Vector3f(1.0F, 1.0F, 0.5F);
                 Vector3f hollowCol = new Vector3f(0.3F, 0.0F, 1.0F);
                 Vec3 position = player.position();
-                Vec3 surface = EntityHelper.findSurface(level, position);
+                Vec3 surface = CombatHelper.findSurface(level, position);
                 for (int i = 0; i < 10; i++) {
                     double x = player.getX() + Mth.nextDouble(player.getRandom(), -player.getBbWidth(), player.getBbWidth());
                     double y = player.getY() + Mth.nextDouble(player.getRandom(), -0.25, 0.25);
