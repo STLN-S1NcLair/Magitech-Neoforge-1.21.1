@@ -7,7 +7,6 @@ import net.neoforged.neoforge.registries.NewRegistryEvent;
 import net.neoforged.neoforge.registries.RegistryBuilder;
 import net.stln.magitech.content.item.fluid.FluidContainerMatcher;
 import net.stln.magitech.feature.magic.spell.ISpell;
-import net.stln.magitech.feature.magic.spell.Spell;
 import net.stln.magitech.feature.tool.material.ToolMaterial;
 
 public final class MagitechRegistries {

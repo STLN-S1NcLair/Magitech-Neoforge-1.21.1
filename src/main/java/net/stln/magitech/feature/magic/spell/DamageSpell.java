@@ -17,9 +17,7 @@ public abstract class DamageSpell extends Spell {
     }
 
     protected void hitTarget(Level level, LivingEntity caster, @Nullable ItemStack wand, Entity target, float damage, float damageMultiplier) {
-        if (target instanceof LivingEntity livingEntity) {
-            MagicPerformanceHelper.applyMagicDamage(caster, wand, this, damage * damageMultiplier, livingEntity);
-        }
+        MagicPerformanceHelper.applyMagicDamage(caster, wand, this, damage * damageMultiplier, target);
         if (target instanceof ItemEntity item) {
             SpellHelper.applyEffectToItem(level, this, item);
         }

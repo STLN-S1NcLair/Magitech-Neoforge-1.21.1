@@ -17,8 +17,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LightBlock;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
-import net.stln.magitech.feature.tool.ToolStats;
 import net.stln.magitech.effect.visual.particle.particle_option.PowerupParticleEffect;
+import net.stln.magitech.feature.tool.ToolStats;
 import org.joml.Vector3f;
 
 public class IlluminationTrait extends Trait {

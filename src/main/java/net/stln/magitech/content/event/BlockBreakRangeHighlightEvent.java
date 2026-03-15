@@ -23,6 +23,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
@@ -36,6 +37,7 @@ import org.joml.Matrix4f;
 
 import java.util.*;
 
+@OnlyIn(Dist.CLIENT)
 @EventBusSubscriber(modid = Magitech.MOD_ID, value = Dist.CLIENT)
 public class BlockBreakRangeHighlightEvent {
 

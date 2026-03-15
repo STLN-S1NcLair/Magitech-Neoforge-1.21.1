@@ -1,7 +1,6 @@
 package net.stln.magitech.feature.magic.spell;
 
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 

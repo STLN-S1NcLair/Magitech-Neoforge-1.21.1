@@ -8,6 +8,8 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.stln.magitech.effect.visual.RenderTypeTokenInit;
 import net.stln.magitech.effect.visual.TrailRenderHelper;
 import net.stln.magitech.feature.element.Element;
@@ -20,6 +22,7 @@ import team.lodestar.lodestone.registry.client.LodestoneRenderTypes;
 import team.lodestar.lodestone.systems.rendering.VFXBuilders;
 import team.lodestar.lodestone.systems.rendering.rendeertype.LodestoneRenderTypeBuilder;
 
+@OnlyIn(Dist.CLIENT)
 public class SpellProjectileRenderer<T extends SpellProjectileEntity> extends GeoEntityRenderer<T> {
 
     public SpellProjectileRenderer(EntityRendererProvider.Context ctx, GeoModel<T> geoModel) {
@@ -59,19 +62,5 @@ public class SpellProjectileRenderer<T extends SpellProjectileEntity> extends Ge
 
     protected LodestoneRenderTypeBuilder renderTypeBuilder() {
         return LodestoneRenderTypes.ADDITIVE_TEXTURE_TRIANGLE.apply(RenderTypeTokenInit.TRAIL);
-    }
-
-    @Override
-    public void render(T entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
-        super.render(entity, entityYaw, partialTick, poseStack, bufferSource, packedLight);
-        Minecraft mc = Minecraft.getInstance();
-
-        if (mc.level == null || mc.player == null || mc.gameRenderer.getMainCamera() == null) {
-            return;
-        }
-        var builder = new VFXBuilders.WorldVFXBuilder().setColor(new java.awt.Color(0xFFFFFF));
-        Element element = entity.getElement();
-        TrailRenderHelper.renderEntityTrail(poseStack, builder.setRenderType(renderTypeBuilder()), entity.trail, entity, element.getPrimary(), element.getSecondary(), entity.getBbHeight() + 0.1F, 1.0F, partialTick);
-        TrailRenderHelper.renderEntityTrail(poseStack, builder.setRenderType(renderTypeBuilder()), entity.longTrail, entity, element.getSecondary(), element.getDark(), entity.getBbHeight() / 2, 0.5F, partialTick);
     }
 }

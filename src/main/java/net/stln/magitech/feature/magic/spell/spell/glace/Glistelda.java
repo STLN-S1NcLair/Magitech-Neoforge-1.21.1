@@ -10,6 +10,16 @@ import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.content.entity.mob_effect.MobEffectInit;
 import net.stln.magitech.content.sound.SoundInit;
 import net.stln.magitech.effect.sound.SoundHelper;
+import net.stln.magitech.effect.visual.TrailRenderHelper;
+import net.stln.magitech.effect.visual.particle.particle_option.FrostParticleEffect;
+import net.stln.magitech.effect.visual.particle.particle_option.SquareFieldParticleEffect;
+import net.stln.magitech.effect.visual.particle.particle_option.SquareParticleEffect;
+import net.stln.magitech.effect.visual.preset.PointVFX;
+import net.stln.magitech.effect.visual.preset.PresetHelper;
+import net.stln.magitech.effect.visual.spawner.ElementParticles;
+import net.stln.magitech.effect.visual.spawner.SquareParticles;
+import net.stln.magitech.effect.visual.trail.TrailData;
+import net.stln.magitech.effect.visual.trail.TrailRenderer;
 import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.feature.magic.MagicPerformanceHelper;
 import net.stln.magitech.feature.magic.spell.DamageSpell;
@@ -19,13 +29,15 @@ import net.stln.magitech.feature.magic.spell.property.SpellPropertyInit;
 import net.stln.magitech.helper.CombatHelper;
 import net.stln.magitech.helper.EffectHelper;
 import net.stln.magitech.helper.TickScheduler;
-import net.stln.magitech.effect.visual.particle.particle_option.FrostParticleEffect;
-import net.stln.magitech.effect.visual.particle.particle_option.SquareFieldParticleEffect;
-import net.stln.magitech.effect.visual.particle.particle_option.SquareParticleEffect;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
+import team.lodestar.lodestone.systems.rendering.VFXBuilders;
+import team.lodestar.lodestone.systems.rendering.trail.TrailPointBuilder;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Function;
 
 public class Glistelda extends DamageSpell {
 
@@ -43,18 +55,19 @@ public class Glistelda extends DamageSpell {
         int duration = MagicPerformanceHelper.getEffectiveDurationTime(caster, wand, this);
         if (!level.isClientSide) {
             caster.addEffect(new MobEffectInstance(MobEffectInit.LEAP_STEP, duration, 6, false, false, true));
+        } else {
+            addDashVFX(level, caster, duration);
         }
         List<Entity> entities = new ArrayList<>();
         for (int i = 0; i < duration; i++) {
             TickScheduler.schedule(i, () -> {
                 List<Entity> nearbyEntities = CombatHelper.getEntitiesInBox(level, caster, caster.position(), new Vec3(3, 3, 3));
                 entities.addAll(nearbyEntities);
-                EffectHelper.entityEffect(level, new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0, level.random.nextInt(50, 60), 0.99F), caster, 4);
-                EffectHelper.entityEffect(level, new SquareParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(0.6F, 1.0F, 1.0F), 1.0F, 1, 0, 15, 1.0F), caster, 10);
-                for (Entity entity : nearbyEntities) {
-                    addTargetMarkVFX(level, caster, entity);
+                if (level.isClientSide) {
+                    for (Entity entity : entities) {
+                        addTargetMarkVFX(level, caster, entity);
+                    }
                 }
-                addDashVFX(level, caster);
             }, level.isClientSide);
         }
         TickScheduler.schedule(duration, () -> {
@@ -75,24 +88,42 @@ public class Glistelda extends DamageSpell {
     }
 
     public void addTargetMarkVFX(Level level, LivingEntity caster, Entity target) {
-        EffectHelper.entityEffect(level, new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0, level.random.nextInt(50, 60), 0.99F), target, 1);
-        level.addParticle(new SquareFieldParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(0.6F, 1.0F, 1.0F), 1.0F, caster.getRandom().nextInt(3, 6), 0, 15, 1.0F), target.getX(), target.getY() + 0.1, target.getZ(), 0, 0, 0);
+        Element element = getConfig().element();
+        Vec3 pos = EffectHelper.getRandomBody(target);
+        PointVFX.burst(level, pos, element, SquareParticles::squareParticle, 5, 0.1F);
+        PointVFX.burst(level, pos, element, ElementParticles::snowParticle, 5, 0.1F);
     }
 
     public void addTargetAttackVFX(Level level, LivingEntity caster, Entity target) {
-        for (int i = 0; i < 60; i++) {
-            float rotSpeed = caster.getRandom().nextFloat() / 5 - 0.1F;
-
-            Vec3 offset = new Vec3(3 * (caster.getRandom().nextFloat() - 0.5), 3 * (caster.getRandom().nextFloat() - 0.5), 3 * (caster.getRandom().nextFloat() - 0.5));
-            Vec3 randomBody = target.position().add(0, target.getBbHeight() / 2, 0).add(offset);
-
-            level.addParticle(new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, rotSpeed, level.random.nextInt(50, 60), 0.99F),
-                    randomBody.x, randomBody.y, randomBody.z, offset.x / 10, offset.y / 10, offset.z / 10);
-        }
-
+        Element element = getConfig().element();
+        Vec3 pos = CombatHelper.getBodyPos(target);
+        PointVFX.burst(level, pos, element, ((lev, position, elm) -> SquareParticles.squareGravityParticle(level, pos, elm, 0.2F)), 20, 0.3F);
+        PointVFX.burst(level, pos, element, ElementParticles::snowParticle, 20, 0.3F);
     }
 
-    public void addDashVFX(Level level, LivingEntity caster) {
-        level.addParticle(new SquareFieldParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(0.6F, 1.0F, 1.0F), 1.0F, caster.getRandom().nextInt(3, 6), 0, 15, 1.0F), caster.getX(), caster.getY() + 0.1, caster.getZ(), 0, 0, 0);
+    public void addDashVFX(Level level, LivingEntity caster, int duration) {
+        Element element = getConfig().element();
+        TrailPointBuilder trail = TrailPointBuilder.create(5);
+        TrailPointBuilder longTrail = TrailPointBuilder.create(20);
+        Vec3 position = CombatHelper.getBodyPos(caster);
+        trail.addTrailPoint(position);
+        longTrail.addTrailPoint(position);
+        Function<VFXBuilders.WorldVFXBuilder, VFXBuilders.WorldVFXBuilder> builderFunc = TrailRenderHelper.defaultBuilderFunc();
+        TrailData trailData = new TrailData(level, builderFunc, trail, element.getPrimary(), element.getSecondary(), 2.0F, 0.9F);
+        TrailData longTrailData = new TrailData(level, builderFunc, longTrail, element.getSecondary(), element.getDark(), 1.0F, 0.5F);
+        TrailRenderer.add(trailData);
+        TrailRenderer.add(longTrailData);
+
+        for (int i = 0; i < duration; i++) {
+            TickScheduler.schedule(i, () -> {
+                Vec3 pos = caster.position();
+                Vec3 old = CombatHelper.getOldBodyPos(caster);
+                trail.addTrailPoint(old);
+                longTrail.addTrailPoint(old);
+                Vec3 up = new Vec3(0, 1, 0);
+                PointVFX.spraySquare(level, pos, element, up, 10, 0.05F, 0.05F);
+                PointVFX.spray(level, pos, element, ElementParticles::snowParticle, up, 10, 0.05F, 0.05F);
+            }, level.isClientSide);
+        }
     }
 }

@@ -7,6 +7,7 @@ import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Math;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
@@ -36,12 +37,16 @@ public class EffectHelper {
     public static void entityEffect(Level level, Supplier<ParticleOptions> particleOptions, Supplier<Vec3> vector, Entity entity, int amount) {
         for (int i = 0; i < amount; i++) {
             Vec3 vec3 = vector.get();
-            Vec3 randomBody = new Vec3(entity.getX() + (entity.getBbWidth() + 0.5F) * (entity.getRandom().nextFloat() - 0.5),
-                    entity.getY(0.5F) + (entity.getBbHeight() + 0.5F) * (entity.getRandom().nextFloat() - 0.5),
-                    entity.getZ() + (entity.getBbWidth() + 0.5F) * (entity.getRandom().nextFloat() - 0.5));
+            Vec3 randomBody = getRandomBody(entity);
 
             level.addParticle(particleOptions.get(), randomBody.x, randomBody.y, randomBody.z, vec3.x, vec3.y, vec3.z);
         }
+    }
+
+    public static @NotNull Vec3 getRandomBody(Entity entity) {
+        return new Vec3(entity.getX() + (entity.getBbWidth() + 0.5F) * (entity.getRandom().nextFloat() - 0.5),
+                entity.getY(0.5F) + (entity.getBbHeight() + 0.5F) * (entity.getRandom().nextFloat() - 0.5),
+                entity.getZ() + (entity.getBbWidth() + 0.5F) * (entity.getRandom().nextFloat() - 0.5));
     }
 
     public static void sweepEffect(Player player, Level world, Supplier<ParticleOptions> particleEffect, double randomizer, Vec3 center, double startDeg, double endDeg, int density, double radius, double slopeDeg, boolean alwaysVisible) {

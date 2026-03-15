@@ -10,6 +10,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.content.block.BlockInit;
 import net.stln.magitech.content.item.component.ComponentInit;
@@ -40,6 +42,7 @@ public class BookToolAssemblyRecipePageRenderer extends BookRecipePageRenderer<T
         return 75;
     }
 
+    @OnlyIn(Dist.CLIENT)
     @Override
     protected void drawRecipe(GuiGraphics guiGraphics, RecipeHolder<ToolAssemblyRecipe> recipe, int recipeX, int recipeY, int mouseX, int mouseY, boolean second) {
 
@@ -84,6 +87,7 @@ public class BookToolAssemblyRecipePageRenderer extends BookRecipePageRenderer<T
     }
 
 
+    @OnlyIn(Dist.CLIENT)
     private void setDisplayList() {
         RecipeManager recipeManager = Minecraft.getInstance().level != null ? Minecraft.getInstance().level.getRecipeManager() : null;
         if (recipeManager == null) {

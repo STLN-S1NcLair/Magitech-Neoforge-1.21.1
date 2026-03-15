@@ -13,7 +13,7 @@ import java.util.Optional;
 
 public record ChargeData(Optional<ISpell> spell, Charge charge) {
 
-    public static final Codec<ChargeData> CODEC = RecordCodecBuilder.<ChargeData>create(instance -> instance.group(
+    public static final Codec<ChargeData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             ISpell.CODEC.optionalFieldOf("spell").forGetter(ChargeData::spell),
             Charge.CODEC.fieldOf("charge").forGetter(ChargeData::charge)
     ).apply(instance, ChargeData::new));

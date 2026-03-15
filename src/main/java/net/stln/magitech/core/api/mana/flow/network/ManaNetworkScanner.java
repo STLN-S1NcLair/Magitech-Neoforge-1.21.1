@@ -236,7 +236,6 @@ public class ManaNetworkScanner {
                 if (from != null && !from.equals(pos)) {
                     edges.add(new NetworkTree.Edge(from, pos, mode));
                 }
-                return;
             }
         }
     }

@@ -5,13 +5,7 @@ import net.stln.magitech.core.api.mana.flow.ManaFlowRule;
 import net.stln.magitech.data.DataAttachmentInit;
 
 // Entityのmax_manaは1kJ単位で管理し、max_mana = 100のとき100kJのマナ容量とする
-public class EntityManaHandler implements IBasicManaHandler {
-
-    private final LivingEntity entity;
-
-    public EntityManaHandler(LivingEntity entity) {
-        this.entity = entity;
-    }
+public record EntityManaHandler(LivingEntity entity) implements IBasicManaHandler {
 
     @Override
     public ManaFlowRule getManaFlowRule() {
@@ -69,9 +63,5 @@ public class EntityManaHandler implements IBasicManaHandler {
             setMana(current - extracted);
         }
         return extracted;
-    }
-
-    public LivingEntity getEntity() {
-        return entity;
     }
 }

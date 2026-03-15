@@ -49,12 +49,12 @@ public class ParticleInit {
     public static final DeferredHolder<ParticleType<?>, LodestoneWorldParticleType> LEAF = PARTICLE_TYPES.register("leaf", LodestoneWorldParticleType::new);
     public static final DeferredHolder<ParticleType<?>, LodestoneWorldParticleType> RIFT = PARTICLE_TYPES.register("rift", LodestoneWorldParticleType::new);
 
-    @OnlyIn(Dist.CLIENT)
-    public static void registerParticleClient(IEventBus eventBus) {
+    public static void registerParticleType(IEventBus eventBus) {
         Magitech.LOGGER.info("Registering Client Particle for " + Magitech.MOD_ID);
         PARTICLE_TYPES.register(eventBus);
     }
 
+    @OnlyIn(Dist.CLIENT)
     public static void registerParticleFactories(RegisterParticleProvidersEvent event) {
         event.registerSpriteSet(SQUARE_FIELD.get(), SquareFieldParticle.Provider::new);
         event.registerSpriteSet(UNSTABLE_SQUARE.get(), UnstableSquareParticle.Provider::new);

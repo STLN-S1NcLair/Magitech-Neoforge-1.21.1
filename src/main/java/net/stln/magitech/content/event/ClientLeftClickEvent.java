@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.InputEvent;
@@ -12,7 +13,7 @@ import net.stln.magitech.Magitech;
 import net.stln.magitech.content.item.LeftClickOverrideItem;
 import net.stln.magitech.content.network.LeftClickPayload;
 
-@EventBusSubscriber(modid = Magitech.MOD_ID)
+@EventBusSubscriber(modid = Magitech.MOD_ID, value = Dist.CLIENT)
 public class ClientLeftClickEvent {
 
     @SubscribeEvent

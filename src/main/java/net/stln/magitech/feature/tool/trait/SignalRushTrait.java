@@ -8,9 +8,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.stln.magitech.effect.visual.particle.particle_option.PowerupParticleEffect;
 import net.stln.magitech.feature.tool.ToolStats;
 import net.stln.magitech.helper.EffectHelper;
-import net.stln.magitech.effect.visual.particle.particle_option.PowerupParticleEffect;
 import org.joml.Vector3f;
 
 import java.util.HashMap;

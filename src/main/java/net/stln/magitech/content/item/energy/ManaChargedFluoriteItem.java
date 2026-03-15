@@ -19,8 +19,8 @@ import net.stln.magitech.core.api.mana.ManaCapabilities;
 import net.stln.magitech.core.api.mana.flow.ManaTransferHelper;
 import net.stln.magitech.core.api.mana.handler.EntityManaHandler;
 import net.stln.magitech.core.api.mana.handler.IBasicManaHandler;
-import net.stln.magitech.helper.EffectHelper;
 import net.stln.magitech.effect.visual.particle.particle_option.PowerupParticleEffect;
+import net.stln.magitech.helper.EffectHelper;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 

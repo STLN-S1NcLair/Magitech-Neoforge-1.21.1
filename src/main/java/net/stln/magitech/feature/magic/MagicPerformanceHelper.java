@@ -5,6 +5,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.player.Player;
@@ -12,7 +13,6 @@ import net.minecraft.world.item.ItemStack;
 import net.stln.magitech.content.entity.status.AttributeInit;
 import net.stln.magitech.content.item.tool.toolitem.SpellCasterItem;
 import net.stln.magitech.feature.element.Element;
-import net.stln.magitech.feature.magic.spell.DamageSpell;
 import net.stln.magitech.feature.magic.spell.ISpell;
 import net.stln.magitech.feature.magic.spell.SpellConfig;
 import net.stln.magitech.feature.magic.spell.property.SpellPropertyInit;
@@ -42,7 +42,7 @@ public class MagicPerformanceHelper {
     }
 
     // 敵の属性倍率を考慮した実効ダメージ値
-    public static float getEffectiveMagicDamage(LivingEntity caster, @Nullable ItemStack wand, float cost, float damage, Element element, LivingEntity target) {
+    public static float getEffectiveMagicDamage(LivingEntity caster, @Nullable ItemStack wand, float cost, float damage, Element element, Entity target) {
         float powered = getOutgoingMagicDamage(caster, wand, cost, damage, element);
         powered *= DataMapHelper.getElementMultiplier(target, element);
         return powered;
@@ -76,19 +76,19 @@ public class MagicPerformanceHelper {
         applyMagicDamage(caster, wand, config.cost(), config.properties().get(SpellPropertyInit.DAMAGE), config.element(), target);
     }
 
-    public static void applyMagicDamage(LivingEntity caster, @Nullable ItemStack wand, ISpell spell, float damage, LivingEntity target) {
+    public static void applyMagicDamage(LivingEntity caster, @Nullable ItemStack wand, ISpell spell, float damage, Entity target) {
         SpellConfig config = spell.getConfig();
         applyMagicDamage(caster, wand, config.cost(), damage, config.element(), target);
     }
 
-    public static void applyMagicDamage(LivingEntity caster, @Nullable ItemStack wand, float cost, float damage, Element element, LivingEntity target) {
+    public static void applyMagicDamage(LivingEntity caster, @Nullable ItemStack wand, float cost, float damage, Element element, Entity target) {
         float effectiveDamage = getEffectiveMagicDamage(caster, wand, cost, damage, element, target);
         ResourceKey<DamageType> damageType = element.getDamageType();
         DamageSource elementalDamageSource = caster.damageSources().source(damageType, caster);
         applyRawMagicDamage(caster, wand, target, elementalDamageSource, effectiveDamage);
     }
 
-    public static void applyRawMagicDamage(@Nullable LivingEntity caster, @Nullable ItemStack wand, LivingEntity target, DamageSource source, float effectiveDamage) {
+    public static void applyRawMagicDamage(@Nullable LivingEntity caster, @Nullable ItemStack wand, Entity target, DamageSource source, float effectiveDamage) {
 
         if (target.isAttackable()) {
 
@@ -98,11 +98,11 @@ public class MagicPerformanceHelper {
                         spellCasterItem.callTraitSpellHitEntity(caster.level(), player, target, wand);
                     }
                 }
-                if (!target.isInvulnerableTo(source)) {
-                    float targetHealth = target.getHealth();
-                    target.setLastHurtByMob(caster);
+                if (!target.isInvulnerableTo(source) && target instanceof LivingEntity living) {
+                    float targetHealth = living.getHealth();
+                    living.setLastHurtByMob(caster);
                     if (caster instanceof Player player) {
-                        player.awardStat(Stats.DAMAGE_DEALT, Math.round((targetHealth - target.getHealth()) * 10));
+                        player.awardStat(Stats.DAMAGE_DEALT, Math.round((targetHealth - living.getHealth()) * 10));
                     }
                 }
                 target.hurt(source, effectiveDamage);

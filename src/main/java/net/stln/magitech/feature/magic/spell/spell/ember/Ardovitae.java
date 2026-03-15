@@ -8,6 +8,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.content.sound.SoundInit;
+import net.stln.magitech.effect.visual.particle.particle_option.FlameParticleEffect;
+import net.stln.magitech.effect.visual.particle.particle_option.SquareFieldParticleEffect;
+import net.stln.magitech.effect.visual.particle.particle_option.SquareParticleEffect;
 import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.feature.magic.MagicPerformanceHelper;
 import net.stln.magitech.feature.magic.spell.Spell;
@@ -15,9 +18,6 @@ import net.stln.magitech.feature.magic.spell.SpellConfig;
 import net.stln.magitech.feature.magic.spell.SpellShape;
 import net.stln.magitech.feature.magic.spell.property.SpellPropertyInit;
 import net.stln.magitech.helper.EffectHelper;
-import net.stln.magitech.effect.visual.particle.particle_option.FlameParticleEffect;
-import net.stln.magitech.effect.visual.particle.particle_option.SquareFieldParticleEffect;
-import net.stln.magitech.effect.visual.particle.particle_option.SquareParticleEffect;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
@@ -36,7 +36,7 @@ public class Ardovitae extends Spell {
     @Override
     public void endSpell(Level level, LivingEntity caster, @Nullable ItemStack wand, @Nullable InteractionHand hand) {
         if (!level.isClientSide) {
-            int durationTime = (int) MagicPerformanceHelper.getEffectiveDurationTime(caster, wand, this);
+            int durationTime = MagicPerformanceHelper.getEffectiveDurationTime(caster, wand, this);
             caster.addEffect(new MobEffectInstance(MobEffects.REGENERATION, durationTime / 3, 0, false, true, true));
             caster.addEffect(new MobEffectInstance(MobEffects.HEALTH_BOOST, durationTime, 2, false, true, true));
         }

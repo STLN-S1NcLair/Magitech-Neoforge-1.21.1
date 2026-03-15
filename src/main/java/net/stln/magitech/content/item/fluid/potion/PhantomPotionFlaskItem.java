@@ -6,8 +6,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.stln.magitech.content.entity.mob_effect.MobEffectInit;
 import net.stln.magitech.content.item.fluid.DrinkableFlaskItem;
-import net.stln.magitech.helper.EffectHelper;
 import net.stln.magitech.effect.visual.particle.particle_option.PowerupParticleEffect;
+import net.stln.magitech.helper.EffectHelper;
 import org.joml.Vector3f;
 
 public class PhantomPotionFlaskItem extends DrinkableFlaskItem {

@@ -10,6 +10,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.content.block.BlockInit;
 import net.stln.magitech.content.recipe.AthanorPillarInfusionRecipe;
@@ -33,6 +35,7 @@ public class BookAthanorPillarInfusionRecipePageRenderer extends BookRecipePageR
         return 106;
     }
 
+    @OnlyIn(Dist.CLIENT)
     @Override
     protected void drawRecipe(GuiGraphics guiGraphics, RecipeHolder<AthanorPillarInfusionRecipe> recipe, int recipeX, int recipeY, int mouseX, int mouseY, boolean second) {
         List<List<ItemStack>> inputs = new ArrayList<>();

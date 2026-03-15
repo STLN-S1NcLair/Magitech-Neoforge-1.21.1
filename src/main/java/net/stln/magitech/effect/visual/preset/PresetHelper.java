@@ -4,7 +4,6 @@ import team.lodestar.lodestone.systems.particle.ParticleEffectSpawner;
 import team.lodestar.lodestone.systems.particle.builder.WorldParticleBuilder;
 
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 public class PresetHelper {
 

@@ -1,14 +1,12 @@
 package net.stln.magitech.feature.magic.spell;
 
 import com.mojang.datafixers.util.Function4;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.stln.magitech.effect.sound.SoundHelper;
 import net.stln.magitech.feature.magic.MagicPerformanceHelper;
 import net.stln.magitech.feature.magic.spell.property.SpellPropertyInit;
 import org.jetbrains.annotations.Nullable;

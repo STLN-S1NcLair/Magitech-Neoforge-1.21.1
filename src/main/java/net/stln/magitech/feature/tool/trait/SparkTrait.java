@@ -38,12 +38,12 @@ import net.stln.magitech.Magitech;
 import net.stln.magitech.content.entity.mob_effect.MobEffectInit;
 import net.stln.magitech.content.network.SparkTraitBeamPayload;
 import net.stln.magitech.content.sound.SoundInit;
-import net.stln.magitech.feature.element.Element;
-import net.stln.magitech.feature.tool.ToolStats;
-import net.stln.magitech.helper.*;
 import net.stln.magitech.effect.visual.particle.particle_option.BeamParticleEffect;
 import net.stln.magitech.effect.visual.particle.particle_option.SparkParticleEffect;
 import net.stln.magitech.effect.visual.particle.particle_option.ZapParticleEffect;
+import net.stln.magitech.feature.element.Element;
+import net.stln.magitech.feature.tool.ToolStats;
+import net.stln.magitech.helper.*;
 import org.joml.Vector3f;
 
 import java.util.Objects;

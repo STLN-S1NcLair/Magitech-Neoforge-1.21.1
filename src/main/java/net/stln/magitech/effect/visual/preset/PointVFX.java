@@ -3,7 +3,6 @@ package net.stln.magitech.effect.visual.preset;
 import com.mojang.datafixers.util.Function3;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.stln.magitech.effect.visual.Section;
 import net.stln.magitech.effect.visual.spawner.SquareParticles;
 import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.helper.VectorHelper;

@@ -1,8 +1,10 @@
 package net.stln.magitech.effect.visual.preset;
 
 import com.mojang.datafixers.util.Function3;
+import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import net.stln.magitech.Magitech;
 import net.stln.magitech.effect.visual.Section;
 import net.stln.magitech.effect.visual.spawner.SquareParticles;
 import net.stln.magitech.feature.element.Element;
@@ -18,7 +20,7 @@ public class LineVFX {
     // speed: start -> endを正とする方向の速度
     public static void spreadLined(Level level, Vec3 start, Vec3 end, Element element, Function3<Level, Vec3, Element, ParticleEffectSpawner> supplier, Section section, float density, float speed, float randomness) {
         double dist = start.distanceTo(end);
-        int amount = (int) Math.ceil(density * dist * section.ratio());
+        int amount = Mth.ceil(density * dist * section.ratio()) + 1;
         Vec3 direction = end.subtract(start).normalize();
         for (int i = 0; i < amount; i++) {
             double progress = section.ratio() * i / amount + section.start();
@@ -29,9 +31,10 @@ public class LineVFX {
             spawner.spawnParticles();
         }
     }
+
     public static void destinationLined(Level level, Vec3 start, Vec3 end, Element element, Function3<Level, Vec3, Element, ParticleEffectSpawner> supplier, Section section, float density, float speed, float randomness) {
         double dist = start.distanceTo(end);
-        int amount = (int) Math.ceil(density * dist * section.ratio());
+        int amount = Mth.ceil(density * dist * section.ratio()) + 1;
         Vec3 direction = end.subtract(start).normalize();
         for (int i = 0; i < amount; i++) {
             double progress = section.ratio() * i / amount + section.start();

@@ -2,7 +2,6 @@ package net.stln.magitech;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.CreativeModeTabs;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -14,7 +13,6 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.stln.magitech.compat.curios.ValidatorInit;
 import net.stln.magitech.compat.modonomicon.PageInit;
@@ -36,12 +34,12 @@ import net.stln.magitech.content.recipe.RecipeInit;
 import net.stln.magitech.content.sound.SoundInit;
 import net.stln.magitech.data.DataAttachmentInit;
 import net.stln.magitech.data.DataMapTypeInit;
+import net.stln.magitech.effect.visual.particle.ParticleInit;
 import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.feature.magic.spell.SpellInit;
 import net.stln.magitech.feature.tool.material.MaterialInit;
 import net.stln.magitech.feature.tool.register.ToolMaterialRegister;
 import net.stln.magitech.feature.tool.upgrade.UpgradeInit;
-import net.stln.magitech.effect.visual.particle.ParticleInit;
 import net.stln.magitech.worldgen.WorldGenInit;
 import net.stln.magitech.worldgen.tree.TreeGrowerInit;
 import org.slf4j.Logger;
@@ -60,7 +58,7 @@ public class Magitech {
         MagitechRegistries.register(modEventBus);
 
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
-        modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+//        modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
 
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
@@ -82,7 +80,7 @@ public class Magitech {
         LootFunctionInit.registerFunctions(modEventBus);
         MaterialInit.registerMaterials(modEventBus);
         MobEffectInit.registerMobEffects(modEventBus);
-        ParticleInit.registerParticleClient(modEventBus);
+        ParticleInit.registerParticleType(modEventBus);
         RecipeInit.registerRecipes(modEventBus);
         SoundInit.registerSoundEvents(modEventBus);
         SpellInit.registerSpells(modEventBus);
@@ -98,9 +96,6 @@ public class Magitech {
         // Note that this is necessary if and only if we want *this* class (ExampleMod) child respond directly child events.
         // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.
         NeoForge.EVENT_BUS.register(this);
-
-        // Register the item child a creative tab
-        modEventBus.addListener(this::addCreative);
     }
 
     public static ResourceLocation id(String path) {
@@ -112,13 +107,6 @@ public class Magitech {
 //        WorldGenInit.registerBiomeModifiers();
         BiomeInit.registerBiomeRegions(event);
         PageInit.registerPages();
-    }
-
-    // Add the example block item child the building blocks tab
-    private void addCreative(BuildCreativeModeTabContentsEvent event) {
-        if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {
-
-        }
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods child call

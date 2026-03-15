@@ -3,8 +3,6 @@ package net.stln.magitech.content.item;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.feature.element.Element;
-import net.stln.magitech.feature.magic.spell.ISpell;
-import net.stln.magitech.feature.magic.spell.Spell;
 import net.stln.magitech.helper.ComponentHelper;
 
 public class ItemPropertyInit {

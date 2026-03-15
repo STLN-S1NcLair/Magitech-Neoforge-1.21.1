@@ -2,20 +2,17 @@ package net.stln.magitech.content.network;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.stln.magitech.effect.visual.particle.particle_option.ManaZapParticleEffect;
-import net.stln.magitech.effect.visual.preset.LineVFX;
 import net.stln.magitech.effect.visual.preset.TrailVFX;
 import net.stln.magitech.feature.element.Element;
-import org.joml.Vector3f;
 
 public class ManaNodeTransferPayloadHandler {
+
     // クライアント側での処理
     public static void handleDataOnMainS2C(ManaNodeTransferPayload packet, net.neoforged.neoforge.network.handling.IPayloadContext context) {
         // クライアントのワールドを取得
-        Level level = Minecraft.getInstance().level;
+        Level level = context.player().level();
         if (level != null) {
             spawnManaParticle(level, packet.from(), packet.to());
         }

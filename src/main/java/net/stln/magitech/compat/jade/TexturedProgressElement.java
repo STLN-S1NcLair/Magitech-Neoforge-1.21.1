@@ -5,12 +5,15 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec2;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import snownee.jade.api.ui.Element;
 import snownee.jade.overlay.WailaTickHandler;
 import snownee.jade.track.ProgressTrackInfo;
 
 import javax.annotation.Nullable;
 
+@OnlyIn(Dist.CLIENT)
 public class TexturedProgressElement extends Element {
     private final float ratio;
     private final Component text;

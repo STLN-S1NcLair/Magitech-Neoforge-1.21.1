@@ -8,8 +8,8 @@ import net.stln.magitech.content.entity.mob_effect.MobEffectInit;
 import net.stln.magitech.content.item.fluid.DrinkableFlaskItem;
 import net.stln.magitech.core.api.mana.ManaCapabilities;
 import net.stln.magitech.core.api.mana.handler.EntityManaHandler;
-import net.stln.magitech.helper.EffectHelper;
 import net.stln.magitech.effect.visual.particle.particle_option.PowerupParticleEffect;
+import net.stln.magitech.helper.EffectHelper;
 import org.joml.Vector3f;
 
 public class ManaPotionFlaskItem extends DrinkableFlaskItem {

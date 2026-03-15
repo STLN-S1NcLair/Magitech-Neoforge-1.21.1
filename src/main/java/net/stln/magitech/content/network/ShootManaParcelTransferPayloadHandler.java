@@ -14,7 +14,7 @@ public class ShootManaParcelTransferPayloadHandler {
     // クライアント側での処理
     public static void handleDataOnMainS2C(ShootManaParcelTransferPayload packet, net.neoforged.neoforge.network.handling.IPayloadContext context) {
         // クライアントのワールドを取得
-        Level level = Minecraft.getInstance().level;
+        Level level = context.player().level();
         if (level != null) {
             spawnManaParticle(level, packet.from(), packet.direction());
         }

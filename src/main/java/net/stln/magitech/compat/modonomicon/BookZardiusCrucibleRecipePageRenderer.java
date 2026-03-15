@@ -10,6 +10,8 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.content.block.BlockInit;
@@ -34,6 +36,7 @@ public class BookZardiusCrucibleRecipePageRenderer extends BookRecipePageRendere
         return 95;
     }
 
+    @OnlyIn(Dist.CLIENT)
     @Override
     protected void drawRecipe(GuiGraphics guiGraphics, RecipeHolder<ZardiusCrucibleRecipe> recipe, int recipeX, int recipeY, int mouseX, int mouseY, boolean second) {
         List<List<ItemStack>> inputs = new ArrayList<>();

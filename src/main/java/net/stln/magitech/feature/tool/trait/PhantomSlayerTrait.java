@@ -23,13 +23,13 @@ import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.content.item.tool.toolitem.PartToolItem;
 import net.stln.magitech.content.item.tool.toolitem.SpellCasterItem;
 import net.stln.magitech.content.sound.SoundInit;
-import net.stln.magitech.feature.tool.ToolStats;
-import net.stln.magitech.helper.CombatHelper;
-import net.stln.magitech.helper.EffectHelper;
 import net.stln.magitech.effect.visual.particle.particle_option.MembraneParticleEffect;
 import net.stln.magitech.effect.visual.particle.particle_option.PowerupParticleEffect;
 import net.stln.magitech.effect.visual.particle.particle_option.SquareFieldParticleEffect;
 import net.stln.magitech.effect.visual.particle.particle_option.UnstableSquareParticleEffect;
+import net.stln.magitech.feature.tool.ToolStats;
+import net.stln.magitech.helper.CombatHelper;
+import net.stln.magitech.helper.EffectHelper;
 import org.joml.Vector3f;
 
 public class PhantomSlayerTrait extends Trait {

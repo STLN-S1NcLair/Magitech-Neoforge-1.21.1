@@ -186,8 +186,8 @@ dependencies {
     runtimeOnly "curse.maven:advancements-reloaded-1113876:5835520"
 
     runtimeOnly "maven.modrinth:emi:ouSj7NfF"
-    runtimeOnly "maven.modrinth:emixx:sdRUQHCL"
-    runtimeOnly "maven.modrinth:emiffect:S6Q6duUj"
+//    runtimeOnly clientModulesOnly("maven.modrinth:emixx:sdRUQHCL")
+//    runtimeOnly "maven.modrinth:emiffect:S6Q6duUj"
 //    runtimeOnly "maven.modrinth:emi-loot:QXkODMCT"
 //    runtimeOnly "maven.modrinth:emi-enchanting:ZyJ6TKvh"
 //    runtimeOnly "maven.modrinth:emi-ores:1jY6MIrK"

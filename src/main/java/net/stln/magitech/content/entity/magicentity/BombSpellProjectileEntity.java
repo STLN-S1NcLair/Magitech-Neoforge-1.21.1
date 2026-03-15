@@ -1,32 +1,32 @@
 package net.stln.magitech.content.entity.magicentity;
 
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.effect.sound.SoundHelper;
+import net.stln.magitech.effect.visual.TrailRenderHelper;
+import net.stln.magitech.effect.visual.trail.TrailData;
+import net.stln.magitech.effect.visual.trail.TrailRenderer;
+import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.feature.magic.MagicPerformanceHelper;
 import net.stln.magitech.feature.magic.spell.ISpell;
 import net.stln.magitech.feature.magic.spell.property.SpellPropertyInit;
 import net.stln.magitech.helper.CombatHelper;
-import net.stln.magitech.helper.DataMapHelper;
 import net.stln.magitech.helper.VectorHelper;
+import team.lodestar.lodestone.systems.rendering.VFXBuilders;
 import team.lodestar.lodestone.systems.rendering.trail.InterpolatedTrailPoint;
+import team.lodestar.lodestone.systems.rendering.trail.TrailPoint;
+import team.lodestar.lodestone.systems.rendering.trail.TrailPointBuilder;
 
 import javax.annotation.Nullable;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -75,12 +75,17 @@ public abstract class BombSpellProjectileEntity extends SpellProjectileEntity {
 
     @Override
     protected void tickTrail() {
+        Element element = getElement();
+        Function<VFXBuilders.WorldVFXBuilder, VFXBuilders.WorldVFXBuilder> builderFunc = TrailRenderHelper.defaultBuilderFunc();
+        TrailPointBuilder trail = TrailPointBuilder.create(TRAIL_LENGTH);
+        TrailPointBuilder longTrail = TrailPointBuilder.create(LONG_TRAIL_LENGTH);
+        TrailData trailData = new TrailData(level(), builderFunc, trail, element.getPrimary(), element.getSecondary(), this.getBbHeight() + 0.1F, 0.9F);
+        TrailData longTrailData = new TrailData(level(), builderFunc, longTrail, element.getSecondary(), element.getDark(), this.getBbHeight() / 2, 0.5F);
         Vec3 center = this.getCenter();
         Vec3 random = VectorHelper.random(this.random);
-        trail.addTrailPoint(new InterpolatedTrailPoint(center, center.add(random), 20));
-        trail.tickTrailPoints();
-        longTrail.addTrailPoint(new InterpolatedTrailPoint(center, center.add(random), 20));
-        longTrail.tickTrailPoints();
+        Vec3 end = center.add(random);
+        TrailRenderer.updateTrail(this, trailData, new InterpolatedTrailPoint(center, end, LONG_TRAIL_LENGTH), TrailRenderer.TRAIL);
+        TrailRenderer.updateTrail(this, longTrailData, new InterpolatedTrailPoint(center, end, LONG_TRAIL_LENGTH), TrailRenderer.LONG_TRAIL);
     }
 
     @Override

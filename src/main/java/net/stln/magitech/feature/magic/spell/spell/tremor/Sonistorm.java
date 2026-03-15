@@ -1,6 +1,5 @@
 package net.stln.magitech.feature.magic.spell.spell.tremor;
 
-import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -11,7 +10,6 @@ import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.content.sound.SoundInit;
 import net.stln.magitech.effect.visual.preset.PointVFX;
 import net.stln.magitech.effect.visual.preset.PresetHelper;
-import net.stln.magitech.effect.visual.spawner.ElementParticles;
 import net.stln.magitech.effect.visual.spawner.RingParticles;
 import net.stln.magitech.effect.visual.spawner.SquareParticles;
 import net.stln.magitech.feature.element.Element;
@@ -19,13 +17,6 @@ import net.stln.magitech.feature.magic.spell.SpellConfig;
 import net.stln.magitech.feature.magic.spell.SpellShape;
 import net.stln.magitech.feature.magic.spell.SpraySpell;
 import net.stln.magitech.feature.magic.spell.property.SpellPropertyInit;
-import net.stln.magitech.helper.CombatHelper;
-import net.stln.magitech.effect.visual.particle.particle_option.WaveParticleEffect;
-import org.joml.Vector3f;
-import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
-
-import java.util.HashSet;
-import java.util.Set;
 
 public class Sonistorm extends SpraySpell {
 

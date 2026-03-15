@@ -10,6 +10,7 @@ import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.vehicle.Boat;
 import net.neoforged.fml.common.asm.enumextension.IExtensibleEnum;
 import net.neoforged.fml.common.asm.enumextension.NetworkedEnum;
 import net.stln.magitech.Magitech;
@@ -47,14 +48,15 @@ public enum Element implements StringRepresentable, IExtensibleEnum {
     private final Optional<Holder<Attribute>> powerAttribute;
 
     /**
-        * Constructor for the Element enum, initializing all properties of the element.
-        * @param id The string ID of the element, used for serialization and translation keys.
-        * @param textColor The text color of the element, used for UI.
-        * @param primary The primary color of the element, used for spell effects and UI.
-        * @param secondary The secondary color of the element, used for spell effects and UI.
-        * @param dark The dark color of the element, used for spell effects and UI.
-        * @param damageType The damage type associated with the element, used for damage calculation and interactions with entities.
-        * @param powerAttribute The optional attribute that increases the power of spells of this element, used for damage calculation and spell scaling.
+     * Constructor for the Element enum, initializing all properties of the element.
+     *
+     * @param id             The string ID of the element, used for serialization and translation keys.
+     * @param textColor      The text color of the element, used for UI.
+     * @param primary        The primary color of the element, used for spell effects and UI.
+     * @param secondary      The secondary color of the element, used for spell effects and UI.
+     * @param dark           The dark color of the element, used for spell effects and UI.
+     * @param damageType     The damage type associated with the element, used for damage calculation and interactions with entities.
+     * @param powerAttribute The optional attribute that increases the power of spells of this element, used for damage calculation and spell scaling.
      */
     Element(String id, Color textColor, Color primary, Color secondary, Color dark, ResourceKey<DamageType> damageType, Optional<Holder<Attribute>> powerAttribute) {
         this.id = id;
@@ -148,5 +150,9 @@ public enum Element implements StringRepresentable, IExtensibleEnum {
         // EntityElementRegister.registerEntityElement(EnderDragon.class, Element.HOLLOW);
         // EntityElementRegister.registerEntityElement(Endermite.class, Element.HOLLOW);
         // EntityElementRegister.registerEntityElement(Shulker.class, Element.HOLLOW);
+    }
+
+    public static net.neoforged.fml.common.asm.enumextension.ExtensionInfo getExtensionInfo() {
+        return net.neoforged.fml.common.asm.enumextension.ExtensionInfo.nonExtended(Element.class);
     }
 }

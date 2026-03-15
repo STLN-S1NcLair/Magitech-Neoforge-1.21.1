@@ -15,21 +15,24 @@ import net.stln.magitech.content.network.SpellCastPayload;
 import net.stln.magitech.content.network.SpellEndPayload;
 import net.stln.magitech.core.api.mana.handler.EntityManaHelper;
 import net.stln.magitech.data.DataAttachmentInit;
+import net.stln.magitech.effect.animation.AnimationHelper;
 import net.stln.magitech.effect.sound.SoundHelper;
+import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.feature.magic.MagicPerformanceHelper;
+import net.stln.magitech.feature.magic.charge.ChargeData;
 import net.stln.magitech.feature.magic.cooldown.CooldownData;
 import net.stln.magitech.feature.magic.cooldown.CooldownHelper;
 import net.stln.magitech.feature.magic.mana.UsedHandData;
-import net.stln.magitech.feature.element.Element;
-import net.stln.magitech.feature.magic.charge.ChargeData;
 import net.stln.magitech.feature.magic.spell.property.SpellProperties;
 import net.stln.magitech.feature.magic.spell.property.SpellPropertyKey;
 import net.stln.magitech.helper.MathHelper;
-import net.stln.magitech.effect.animation.AnimationHelper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 public abstract class Spell implements ISpell {
 

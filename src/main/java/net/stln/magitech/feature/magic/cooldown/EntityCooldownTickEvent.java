@@ -18,7 +18,7 @@ public class EntityCooldownTickEvent {
         if (entity instanceof LivingEntity livingEntity) {
             CooldownData data = livingEntity.getData(DataAttachmentInit.SPELL_COOLDOWNS.get());
             data.tick();
-                livingEntity.setData(DataAttachmentInit.SPELL_COOLDOWNS.get(), data);
+            livingEntity.setData(DataAttachmentInit.SPELL_COOLDOWNS.get(), data);
         }
     }
 }

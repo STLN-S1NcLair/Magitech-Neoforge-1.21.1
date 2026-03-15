@@ -437,4 +437,12 @@ public class CombatHelper {
     public static Vec3 getBodyPos(Entity entity) {
         return entity.position().add(0, entity.getBbHeight() * 0.7, 0);
     }
+
+    public static Vec3 getOldBodyPos(Entity entity) {
+        return new Vec3(entity.xOld, entity.yOld, entity.zOld).add(0, entity.getBbHeight() * 0.7, 0);
+    }
+
+    public static Vec3 getMiddleBodyPos(Entity entity) {
+        return getBodyPos(entity).lerp(getOldBodyPos(entity), 0.5);
+    }
 }

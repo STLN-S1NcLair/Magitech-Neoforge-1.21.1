@@ -4,8 +4,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.Vec3;
 
-import java.util.Random;
-
 public class VectorHelper {
 
     // 一様分布な3次元ベクトルを取得

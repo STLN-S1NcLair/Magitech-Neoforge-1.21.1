@@ -28,8 +28,8 @@ public record UpgradeInstance(int level, Upgrade upgrade) {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof UpgradeInstance other)) return false;
-        return upgrade.equals(other.upgrade) && level == other.level;
+        if (!(o instanceof UpgradeInstance(int level1, Upgrade upgrade1))) return false;
+        return upgrade.equals(upgrade1) && level == level1;
     }
 
     @Override

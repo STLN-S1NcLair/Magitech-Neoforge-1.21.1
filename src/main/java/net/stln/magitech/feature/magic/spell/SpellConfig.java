@@ -10,15 +10,20 @@ import net.stln.magitech.feature.magic.spell.property.SpellPropertyKey;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public record SpellConfig(Element element, SpellShape shape, int cooldown, float cost, boolean continuous, Optional<Float> costPerTick, boolean hasCharge, Optional<Integer> chargeTime, SpellProperties properties,
-                          Optional<ResourceLocation> castAnim, Optional<ResourceLocation> tickAnim, Optional<ResourceLocation> endAnim,
-                          Optional<Supplier<SoundEvent>> castSound, Optional<Supplier<SoundEvent>> tickSound, Optional<Supplier<SoundEvent>> chargeSound, Optional<Supplier<SoundEvent>> endSound, int tickSoundDelay) {
+public record SpellConfig(Element element, SpellShape shape, int cooldown, float cost, boolean continuous,
+                          Optional<Float> costPerTick, boolean hasCharge, Optional<Integer> chargeTime,
+                          SpellProperties properties,
+                          Optional<ResourceLocation> castAnim, Optional<ResourceLocation> tickAnim,
+                          Optional<ResourceLocation> endAnim,
+                          Optional<Supplier<SoundEvent>> castSound, Optional<Supplier<SoundEvent>> tickSound,
+                          Optional<Supplier<SoundEvent>> chargeSound, Optional<Supplier<SoundEvent>> endSound,
+                          int tickSoundDelay) {
 
     public static class Builder {
-        private Element element;
-        private SpellShape shape;
-        private int cooldown;
-        private float cost;
+        private final Element element;
+        private final SpellShape shape;
+        private final int cooldown;
+        private final float cost;
         private boolean continuous;
         private Float costPerTick;
         private boolean hasCharge;

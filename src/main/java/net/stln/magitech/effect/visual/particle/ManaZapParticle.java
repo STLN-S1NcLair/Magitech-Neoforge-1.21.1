@@ -56,8 +56,6 @@ public class ManaZapParticle extends GlowingParticle {
     public void render(VertexConsumer vertexConsumer, Camera camera, float tickDelta) {
         this.updateColor(tickDelta);
 
-        RandomSource random = Minecraft.getInstance().level.getRandom();
-
         if (this.age >= this.lifetime * 0.8F) {
             this.alpha = (this.lifetime - this.age) / (this.lifetime * 0.2F) * 0.6F + 0.2F;
         }

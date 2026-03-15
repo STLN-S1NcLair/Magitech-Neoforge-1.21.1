@@ -17,10 +17,6 @@ import net.stln.magitech.feature.magic.spell.SpellConfig;
 import net.stln.magitech.feature.magic.spell.SpellShape;
 import net.stln.magitech.feature.magic.spell.SpraySpell;
 import net.stln.magitech.feature.magic.spell.property.SpellPropertyInit;
-import net.stln.magitech.helper.CombatHelper;
-import net.stln.magitech.effect.visual.particle.particle_option.MembraneParticleEffect;
-import net.stln.magitech.effect.visual.particle.particle_option.UnstableSquareParticleEffect;
-import org.joml.Vector3f;
 
 public class Veilmist extends SpraySpell {
 

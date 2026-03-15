@@ -8,6 +8,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.content.entity.mob_effect.MobEffectInit;
 import net.stln.magitech.content.sound.SoundInit;
+import net.stln.magitech.effect.visual.Section;
+import net.stln.magitech.effect.visual.particle.particle_option.BeamParticleEffect;
+import net.stln.magitech.effect.visual.particle.particle_option.VoidGlowParticleEffect;
+import net.stln.magitech.effect.visual.preset.LineVFX;
+import net.stln.magitech.effect.visual.preset.PointVFX;
+import net.stln.magitech.effect.visual.preset.TrailVFX;
+import net.stln.magitech.effect.visual.spawner.ElementParticles;
 import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.feature.magic.spell.BlinkSpell;
 import net.stln.magitech.feature.magic.spell.SpellConfig;
@@ -15,8 +22,6 @@ import net.stln.magitech.feature.magic.spell.SpellShape;
 import net.stln.magitech.feature.magic.spell.property.SpellPropertyInit;
 import net.stln.magitech.helper.EffectHelper;
 import net.stln.magitech.helper.TickScheduler;
-import net.stln.magitech.effect.visual.particle.particle_option.BeamParticleEffect;
-import net.stln.magitech.effect.visual.particle.particle_option.VoidGlowParticleEffect;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
@@ -45,11 +50,12 @@ public class Disparundra extends BlinkSpell {
 
     @Override
     protected void addBlinkVFX(Level level, LivingEntity caster, Vec3 start, Vec3 end) {
-        EffectHelper.lineEffect(level, new VoidGlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0, level.random.nextInt(1, 21), 1.0F), start, end, 2, false);
-        level.addParticle(new BeamParticleEffect(new Vector3f(0.3F, 0.0F, 1.0F), new Vector3f(0.5F, 0.0F, 1.0F), end.toVector3f(), 0.7F, 1, 1, 5, 1), start.x, start.y, start.z, 0, 0, 0);
-        for (int i = 0; i < 20; i++) {
-            level.addParticle(new VoidGlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0, level.random.nextInt(1, 21), 1.0F),
-                    end.x, end.y, end.z, (caster.getRandom().nextFloat() - 0.5) / 3, (caster.getRandom().nextFloat() - 0.5) / 3, (caster.getRandom().nextFloat() - 0.5) / 3);
-        }
+        Element element = getConfig().element();
+        Vec3 bodyAdjustment = new Vec3(0, caster.getBbHeight() * 0.7F, 0);
+        Vec3 bodyStart = start.add(bodyAdjustment);
+        Vec3 bodyEnd = end.add(bodyAdjustment);
+        TrailVFX.directionalTrail(level, bodyStart, bodyEnd, 2.0F, 20, element);
+        LineVFX.destinationLinedSquare(level, bodyStart, bodyEnd, element, new Section(0F, 1F), 5, 0.5F, 0.2F);
+        LineVFX.destinationLined(level, bodyStart, bodyEnd, element, ElementParticles::riftParticle, new Section(0F, 1F), 5, 0.2F, 0.2F);
     }
 }

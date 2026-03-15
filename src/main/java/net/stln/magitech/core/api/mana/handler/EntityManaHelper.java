@@ -1,19 +1,17 @@
 package net.stln.magitech.core.api.mana.handler;
 
 import net.minecraft.world.entity.LivingEntity;
-import net.stln.magitech.Magitech;
 import net.stln.magitech.content.entity.status.AttributeInit;
 import net.stln.magitech.core.api.mana.ManaCapabilities;
-import net.stln.magitech.data.DataAttachmentInit;
 
 public class EntityManaHelper {
 
     public static void tick(LivingEntity entity) {
         if (!entity.level().isClientSide) {
-                EntityManaHandler handler = entity.getCapability(ManaCapabilities.MANA_CAPABLE_ENTITY);
-                if (handler != null) {
-                    handler.addMana(getEnergyManaRegen(entity) / 20);
-                }
+            EntityManaHandler handler = entity.getCapability(ManaCapabilities.MANA_CAPABLE_ENTITY);
+            if (handler != null) {
+                handler.addMana(getEnergyManaRegen(entity) / 20);
+            }
         }
     }
 

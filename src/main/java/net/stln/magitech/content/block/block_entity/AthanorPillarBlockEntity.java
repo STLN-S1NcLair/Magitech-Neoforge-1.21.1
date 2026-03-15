@@ -30,11 +30,11 @@ import net.stln.magitech.content.recipe.AthanorPillarInfusionRecipe;
 import net.stln.magitech.content.recipe.RecipeInit;
 import net.stln.magitech.content.recipe.input.GroupedMultiStackRecipeInput;
 import net.stln.magitech.content.sound.SoundInit;
-import net.stln.magitech.helper.EffectHelper;
-import net.stln.magitech.helper.StructureHelper;
 import net.stln.magitech.effect.visual.particle.particle_option.ManaZapParticleEffect;
 import net.stln.magitech.effect.visual.particle.particle_option.SquareParticleEffect;
 import net.stln.magitech.effect.visual.particle.particle_option.UnstableSquareParticleEffect;
+import net.stln.magitech.helper.EffectHelper;
+import net.stln.magitech.helper.StructureHelper;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 

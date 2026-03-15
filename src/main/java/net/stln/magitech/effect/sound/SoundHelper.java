@@ -9,10 +9,7 @@ import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.stln.magitech.Magitech;
 import net.stln.magitech.content.entity.status.AttributeInit;
-import net.stln.magitech.content.sound.SoundInit;
-import net.stln.magitech.feature.magic.MagicPerformanceHelper;
 import net.stln.magitech.helper.TickScheduler;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,7 +24,7 @@ public class SoundHelper {
     }
 
     public static void broadcastSound(Level level, Vec3 pos, SoundEvent event, SoundSource soundSource, float volume) {
-        broadcastSound(level, pos,  event, soundSource, volume, Mth.randomBetween(level.random, 0.7F, 1.3F));
+        broadcastSound(level, pos, event, soundSource, volume, Mth.randomBetween(level.random, 0.7F, 1.3F));
     }
 
     public static void broadcastSound(Level level, Vec3 pos, SoundEvent event, SoundSource soundSource) {

@@ -14,7 +14,6 @@ import net.stln.magitech.content.item.component.ComponentInit;
 import net.stln.magitech.content.item.component.SpellComponent;
 import net.stln.magitech.content.item.component.ThreadPageComponent;
 import net.stln.magitech.feature.magic.spell.ISpell;
-import net.stln.magitech.feature.magic.spell.Spell;
 import net.stln.magitech.feature.magic.spell.SpellLike;
 import net.stln.magitech.helper.ComponentHelper;
 import net.stln.magitech.helper.CuriosHelper;

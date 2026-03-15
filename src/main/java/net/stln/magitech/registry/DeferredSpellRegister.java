@@ -6,7 +6,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.stln.magitech.MagitechRegistries;
 import net.stln.magitech.feature.magic.spell.ISpell;
-import net.stln.magitech.feature.magic.spell.Spell;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;

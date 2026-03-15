@@ -8,15 +8,18 @@ import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.content.sound.SoundInit;
 import net.stln.magitech.effect.visual.preset.TrailVFX;
 import net.stln.magitech.feature.element.Element;
-import net.stln.magitech.feature.magic.spell.*;
+import net.stln.magitech.feature.magic.spell.SpellConfig;
+import net.stln.magitech.feature.magic.spell.SpellHelper;
+import net.stln.magitech.feature.magic.spell.SpellShape;
+import net.stln.magitech.feature.magic.spell.SpraySpell;
 import net.stln.magitech.feature.magic.spell.property.SpellPropertyInit;
 import net.stln.magitech.helper.CombatHelper;
-import net.stln.magitech.effect.visual.particle.particle_option.ZapParticleEffect;
 import net.stln.magitech.helper.VectorHelper;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector3f;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class Sparkion extends SpraySpell {
 

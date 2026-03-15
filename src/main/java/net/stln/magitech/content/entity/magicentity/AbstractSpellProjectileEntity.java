@@ -6,14 +6,11 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileDeflection;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
@@ -22,21 +19,11 @@ import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.stln.magitech.effect.sound.SoundHelper;
-import net.stln.magitech.feature.element.Element;
-import org.sat4j.core.Vec;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.util.GeckoLibUtil;
-import team.lodestar.lodestone.systems.rendering.trail.TrailPointBuilder;
 
 import javax.annotation.Nullable;
-import java.util.Optional;
-import java.util.function.Supplier;
 
 public abstract class AbstractSpellProjectileEntity extends Projectile {
     protected boolean inGround;
@@ -96,7 +83,7 @@ public abstract class AbstractSpellProjectileEntity extends Projectile {
             }
 
             if (hitresult != null && hitresult.getType() == HitResult.Type.ENTITY) {
-                Entity entity = ((EntityHitResult)hitresult).getEntity();
+                Entity entity = ((EntityHitResult) hitresult).getEntity();
                 Entity entity1 = this.getOwner();
                 if (entity instanceof Player target && entity1 instanceof Player owner && !owner.canHarmPlayer(target)) {
                     hitresult = null;

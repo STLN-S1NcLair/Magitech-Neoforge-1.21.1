@@ -13,7 +13,6 @@ import net.stln.magitech.MagitechRegistries;
 import net.stln.magitech.content.item.ItemInit;
 import net.stln.magitech.content.item.component.SpellComponent;
 import net.stln.magitech.feature.magic.spell.ISpell;
-import net.stln.magitech.feature.magic.spell.Spell;
 import net.stln.magitech.feature.magic.spell.SpellInit;
 import net.stln.magitech.helper.ComponentHelper;
 

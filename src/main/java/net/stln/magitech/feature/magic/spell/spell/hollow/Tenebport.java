@@ -11,14 +11,14 @@ import net.minecraft.world.level.portal.DimensionTransition;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.content.sound.SoundInit;
 import net.stln.magitech.effect.sound.SoundHelper;
+import net.stln.magitech.effect.visual.particle.particle_option.BeamParticleEffect;
+import net.stln.magitech.effect.visual.particle.particle_option.VoidGlowParticleEffect;
 import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.feature.magic.spell.Spell;
 import net.stln.magitech.feature.magic.spell.SpellConfig;
 import net.stln.magitech.feature.magic.spell.SpellShape;
 import net.stln.magitech.helper.EffectHelper;
 import net.stln.magitech.helper.TickScheduler;
-import net.stln.magitech.effect.visual.particle.particle_option.BeamParticleEffect;
-import net.stln.magitech.effect.visual.particle.particle_option.VoidGlowParticleEffect;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 

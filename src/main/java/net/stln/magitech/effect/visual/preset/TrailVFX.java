@@ -5,6 +5,7 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.stln.magitech.effect.visual.RenderTypeTokenInit;
+import net.stln.magitech.effect.visual.TrailRenderHelper;
 import net.stln.magitech.effect.visual.trail.TrailData;
 import net.stln.magitech.effect.visual.trail.TrailRenderer;
 import net.stln.magitech.feature.element.Element;
@@ -25,6 +26,25 @@ import java.util.function.Function;
 public class TrailVFX {
 
     final static float FACTOR = 1.4F;
+
+    public static void directionalTrail(Level level, Vec3 start, Vec3 end, float scale, int trailLength, Element element) {
+        Function<VFXBuilders.WorldVFXBuilder, VFXBuilders.WorldVFXBuilder> builderFunc = TrailRenderHelper.defaultBuilderFunc();
+        TrailPointBuilder trail = TrailPointBuilder.create(trailLength);
+
+        //端点処理
+        addTrailPoint(level, start, 0.0F, trailLength, trail);
+
+        for (int i = 1; i < trailLength; i++) {
+            float progress = (float) i / trailLength;
+            Vec3 lerped = start.lerp(end, progress);
+            addTrailPoint(level, lerped, 0.0F, trailLength, trail);
+            trail.tickTrailPoints();
+        }
+        addTrailPoint(level, end, 0.0F, trailLength, trail);
+
+        TrailRenderer.add(new TrailData(level, builderFunc, trail, element.getPrimary(), element.getSecondary(), scale * 0.5F, 0.9F));
+        TrailRenderer.add(new TrailData(level, builderFunc, trail, element.getPrimary(), element.getSecondary(), scale, 0.5F));
+    }
 
     // complexity: 1mあたりの端点の数, randomness: 端点の散らばり
     public static void zapTrail(Level level, Vec3 start, Vec3 end, float scale, float complexity, float randomness, int trailLength, Element element) {
@@ -63,8 +83,7 @@ public class TrailVFX {
     }
 
     public static void directionalZapTrail(Level level, Vec3 start, Vec3 end, float scale, float complexity, float randomness, int trailLength, Element element) {
-        var renderType = LodestoneRenderTypes.ADDITIVE_TEXTURE_TRIANGLE.apply(RenderTypeTokenInit.TRAIL);
-        Function<VFXBuilders.WorldVFXBuilder, VFXBuilders.WorldVFXBuilder> builderFunc = (builder) -> builder.setRenderType(renderType).setColor(new Color(0xFFFFFF));
+        Function<VFXBuilders.WorldVFXBuilder, VFXBuilders.WorldVFXBuilder> builderFunc = TrailRenderHelper.defaultBuilderFunc();
         TrailPointBuilder trail = TrailPointBuilder.create(trailLength);
 
         //端点処理

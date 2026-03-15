@@ -20,8 +20,9 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.stln.magitech.Magitech;
 import net.stln.magitech.effect.sound.SoundHelper;
+import net.stln.magitech.effect.visual.TrailRenderHelper;
+import net.stln.magitech.effect.visual.trail.TrailData;
 import net.stln.magitech.effect.visual.trail.TrailRenderer;
 import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.feature.magic.MagicPerformanceHelper;
@@ -32,20 +33,21 @@ import net.stln.magitech.helper.DataMapHelper;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.util.GeckoLibUtil;
+import team.lodestar.lodestone.systems.rendering.VFXBuilders;
+import team.lodestar.lodestone.systems.rendering.trail.TrailPoint;
 import team.lodestar.lodestone.systems.rendering.trail.TrailPointBuilder;
 
 import javax.annotation.Nullable;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public abstract class SpellProjectileEntity extends AbstractSpellProjectileEntity implements GeoEntity {
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
     protected float damage;
     protected ItemStack wand = null;
-    TrailPointBuilder trail = TrailPointBuilder.create(5);
-    TrailPointBuilder longTrail = TrailPointBuilder.create(20);
 
     protected SpellProjectileEntity(EntityType<? extends SpellProjectileEntity> entityType, Level level) {
         super(entityType, level);
@@ -108,11 +110,19 @@ public abstract class SpellProjectileEntity extends AbstractSpellProjectileEntit
         }
     }
 
+    protected static final int TRAIL_LENGTH = 10;
+    protected static final int LONG_TRAIL_LENGTH = 30;
+
     protected void tickTrail() {
-        trail.addTrailPoint(this.getCenter());
-        trail.tickTrailPoints();
-        longTrail.addTrailPoint(this.getCenter());
-        longTrail.tickTrailPoints();
+        Element element = getElement();
+        Function<VFXBuilders.WorldVFXBuilder, VFXBuilders.WorldVFXBuilder> builderFunc = TrailRenderHelper.defaultBuilderFunc();
+        TrailPointBuilder trail = TrailPointBuilder.create(TRAIL_LENGTH);
+        TrailPointBuilder longTrail = TrailPointBuilder.create(LONG_TRAIL_LENGTH);
+        TrailData trailData = new TrailData(level(), builderFunc, trail, element.getPrimary(), element.getSecondary(), this.getBbHeight() + 0.1F, 0.9F);
+        TrailData longTrailData = new TrailData(level(), builderFunc, longTrail, element.getSecondary(), element.getDark(), this.getBbHeight() / 2, 0.5F);
+        Vec3 center = this.getCenter();
+        TrailRenderer.updateTrail(this, trailData, new TrailPoint(center), TrailRenderer.TRAIL);
+        TrailRenderer.updateTrail(this, longTrailData, new TrailPoint(center), TrailRenderer.LONG_TRAIL);
     }
 
     protected Vec3 getCenter() {
@@ -187,12 +197,12 @@ public abstract class SpellProjectileEntity extends AbstractSpellProjectileEntit
             Optional<Supplier<ISpell>> spell = getSpell();
             Element element = getElement();
             float effectiveDamage = damage * DataMapHelper.getElementMultiplier(entity, element) * multiplier;
-            if (entity instanceof LivingEntity target) {
-                LivingEntity owner = getOwner() instanceof LivingEntity ? (LivingEntity) getOwner() : null;
-                ResourceKey<DamageType> damageType = element.getDamageType();
-                DamageSource source = owner == null ? this.damageSources().source(damageType) : this.damageSources().source(damageType, owner);
-                MagicPerformanceHelper.applyRawMagicDamage(owner, wand, target, source, effectiveDamage);
-            }
+
+            LivingEntity owner = getOwner() instanceof LivingEntity living ? living : null;
+            ResourceKey<DamageType> damageType = element.getDamageType();
+            DamageSource source = owner == null ? this.damageSources().source(damageType) : this.damageSources().source(damageType, owner);
+            MagicPerformanceHelper.applyRawMagicDamage(owner, wand, entity, source, effectiveDamage);
+
             if (entity instanceof ItemEntity item && spell.isPresent()) {
                 SpellHelper.applyEffectToItem(level(), spell.get().get(), item);
             }

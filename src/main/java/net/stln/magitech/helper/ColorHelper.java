@@ -1,7 +1,6 @@
 package net.stln.magitech.helper;
 
 import net.minecraft.util.Mth;
-import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
 
 import java.awt.*;

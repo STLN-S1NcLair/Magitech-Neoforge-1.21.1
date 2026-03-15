@@ -9,14 +9,14 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.content.sound.SoundInit;
 import net.stln.magitech.effect.sound.SoundHelper;
+import net.stln.magitech.effect.visual.particle.particle_option.BeamParticleEffect;
+import net.stln.magitech.effect.visual.particle.particle_option.MembraneParticleEffect;
 import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.feature.magic.spell.Spell;
 import net.stln.magitech.feature.magic.spell.SpellConfig;
 import net.stln.magitech.feature.magic.spell.SpellShape;
 import net.stln.magitech.helper.EffectHelper;
 import net.stln.magitech.helper.TickScheduler;
-import net.stln.magitech.effect.visual.particle.particle_option.BeamParticleEffect;
-import net.stln.magitech.effect.visual.particle.particle_option.MembraneParticleEffect;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
@@ -24,11 +24,11 @@ public class Luxgrail extends Spell {
 
     public Luxgrail() {
         super(new SpellConfig.Builder(Element.PHANTOM, SpellShape.UTILITY, 4000, 70)
-                        .charge(80)
-                        .chargeSound(SoundInit.LUXGRAIL_CHARGE)
-                        .endSound(SoundInit.LUXGRAIL)
-                        .castAnim("wand_chant")
-                        .endAnim("wand_shoot")
+                .charge(80)
+                .chargeSound(SoundInit.LUXGRAIL_CHARGE)
+                .endSound(SoundInit.LUXGRAIL)
+                .castAnim("wand_chant")
+                .endAnim("wand_shoot")
         );
     }
 

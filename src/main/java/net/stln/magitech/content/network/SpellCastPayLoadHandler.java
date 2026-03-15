@@ -1,6 +1,5 @@
 package net.stln.magitech.content.network;
 
-import com.sun.jna.platform.unix.LibC;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -12,10 +11,7 @@ import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
-import net.stln.magitech.content.item.component.SpellComponent;
 import net.stln.magitech.feature.magic.spell.ISpell;
-import net.stln.magitech.helper.ComponentHelper;
-import net.stln.magitech.helper.CuriosHelper;
 
 import java.util.Objects;
 

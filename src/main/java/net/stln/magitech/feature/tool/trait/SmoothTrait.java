@@ -11,11 +11,11 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.stln.magitech.content.item.tool.toolitem.PartToolItem;
+import net.stln.magitech.effect.visual.particle.particle_option.PowerupParticleEffect;
 import net.stln.magitech.feature.tool.ToolStats;
 import net.stln.magitech.feature.tool.material.ToolMaterial;
 import net.stln.magitech.helper.ComponentHelper;
 import net.stln.magitech.helper.EffectHelper;
-import net.stln.magitech.effect.visual.particle.particle_option.PowerupParticleEffect;
 import org.joml.Vector3f;
 
 import java.util.HashMap;
