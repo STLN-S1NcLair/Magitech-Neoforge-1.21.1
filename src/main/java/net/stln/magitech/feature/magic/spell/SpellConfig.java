@@ -5,7 +5,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.feature.magic.spell.property.SpellProperties;
-import net.stln.magitech.feature.magic.spell.property.SpellPropertyKey;
+import net.stln.magitech.feature.magic.spell.property.SpellProperty;
 
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -57,7 +57,7 @@ public record SpellConfig(Element element, SpellShape shape, int cooldown, float
             return this;
         }
 
-        public <T> Builder property(SpellPropertyKey<T> key, T value) {
+        public <T> Builder property(SpellProperty<T> key, T value) {
             this.properties.put(key, value);
             return this;
         }

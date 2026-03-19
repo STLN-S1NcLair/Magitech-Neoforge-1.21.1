@@ -9,8 +9,15 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.content.sound.SoundInit;
 import net.stln.magitech.effect.sound.SoundHelper;
+import net.stln.magitech.effect.visual.Section;
 import net.stln.magitech.effect.visual.particle.particle_option.BeamParticleEffect;
 import net.stln.magitech.effect.visual.particle.particle_option.MembraneParticleEffect;
+import net.stln.magitech.effect.visual.preset.AreaVFX;
+import net.stln.magitech.effect.visual.preset.EntityVFX;
+import net.stln.magitech.effect.visual.preset.PointVFX;
+import net.stln.magitech.effect.visual.preset.PresetHelper;
+import net.stln.magitech.effect.visual.spawner.ElementParticles;
+import net.stln.magitech.effect.visual.spawner.RingParticles;
 import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.feature.magic.spell.Spell;
 import net.stln.magitech.feature.magic.spell.SpellConfig;
@@ -34,47 +41,54 @@ public class Luxgrail extends Spell {
 
     @Override
     public void endSpell(Level level, LivingEntity caster, @Nullable ItemStack wand, @Nullable InteractionHand hand) {
-        // 参照渡し防止
-        Vec3 pos = caster.position().add(0, 0, 0);
         BlockPos targetPos = caster.blockPosition();
         int y = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, targetPos.getX(), targetPos.getZ());
-        targetPos = new BlockPos(targetPos.getX(), y, targetPos.getZ());
+        BlockPos to = new BlockPos(targetPos.getX(), y, targetPos.getZ());
 
         if (!level.isClientSide) {
             SoundHelper.broadcastSound(level, caster, getConfig().endSound());
 
 
-            TickScheduler.schedule(2, () -> {
-                SoundHelper.broadcastSound(level, caster, getConfig().endSound());
+            TickScheduler.schedule(1, () -> {
+                caster.teleportTo(to.getX() + 0.5, to.getY(), to.getZ() + 0.5);
                 caster.fallDistance = 0;
+                SoundHelper.broadcastSound(level, caster, getConfig().endSound());
             }, level.isClientSide);
 
-            caster.teleportTo(targetPos.getX() + 0.5, targetPos.getY(), targetPos.getZ() + 0.5);
-        } else {
-            addTeleportVFX(level, caster, pos, Vec3.atBottomCenterOf(targetPos));
         }
     }
 
-    public void addTeleportVFX(Level level, LivingEntity caster, Vec3 from, Vec3 to) {
-        Vec3 above = from.add(0, 10, 0);
-        Vector3f fromCol = new Vector3f(1.0F, 1.0F, 0.7F);
-        Vector3f toCol = new Vector3f(1.0F, 1.0F, 0.5F);
+    @Override
+    protected void tickVFX(Level level, LivingEntity caster, int ticks, boolean charging) {
+        Element element = getConfig().element();
+        Vec3 pos = caster.position();
+        Vec3 up = new Vec3(0, 1, 0);
+        EntityVFX.powerupAura(level, element, caster, Section.cover(), 1);
+        PointVFX.ringSquare(level, pos, element, up, 1, 0.15F, 0.5F, 0.0F);
+        PointVFX.ring(level, pos, element, ElementParticles::glintParticle, up, 1, 0.1F, 0.5F, 0.0F);
+    }
 
-        EffectHelper.lineEffect(level, new MembraneParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 3.0F, 1, 0, level.random.nextInt(10, 40), 0.85F), from, above, 4, false);
-        level.addParticle(new BeamParticleEffect(fromCol, toCol, above.toVector3f(), 5F, 1, 1, 5, 1), from.x, from.y - 0.5, from.z, 0, 0, 0);
-        for (int i = 0; i < 20; i++) {
-            level.addParticle(new MembraneParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 3.0F, 1, 0, level.random.nextInt(10, 40), 0.85F),
-                    from.x, from.y, from.z, (caster.getRandom().nextFloat() - 0.5) / 3, (caster.getRandom().nextFloat() - 0.5) / 3, (caster.getRandom().nextFloat() - 0.5) / 3);
-        }
+    @Override
+    protected void endVFX(Level level, LivingEntity caster) {
+        spawnTeleportVFX(level, caster, caster.position());
+    }
+
+    public void spawnTeleportVFX(Level level, LivingEntity caster, Vec3 from) {
+        teleportVFX(level, caster, from);
 
         TickScheduler.schedule(2, () -> {
-            Vec3 newAbove = to.add(0, 10, 0);
-            EffectHelper.lineEffect(level, new MembraneParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 3.0F, 1, 0, level.random.nextInt(10, 40), 0.85F), to, newAbove, 4, false);
-            level.addParticle(new BeamParticleEffect(fromCol, toCol, newAbove.toVector3f(), 5F, 1, 1, 5, 1), to.x, to.y - 0.5, to.z, 0, 0, 0);
-            for (int i = 0; i < 20; i++) {
-                level.addParticle(new MembraneParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 3.0F, 1, 0, level.random.nextInt(10, 40), 0.85F),
-                        to.x, to.y, to.z, (caster.getRandom().nextFloat() - 0.5) / 3, (caster.getRandom().nextFloat() - 0.5) / 3, (caster.getRandom().nextFloat() - 0.5) / 3);
-            }
+            Level newLevel = caster.level();
+            teleportVFX(newLevel, caster, caster.position());
         }, level.isClientSide);
+    }
+
+    protected void teleportVFX(Level level, LivingEntity caster, Vec3 pos) {
+        Element element = getConfig().element();
+        Vec3 up = new Vec3(0, 1, 0);
+        PointVFX.ringSquare(level, pos, element, up, 30, 0.2F, 1.2F, 0.05F);
+        PointVFX.ring(level, pos, element, ElementParticles::glintParticle, up, 30, 0.2F, 1.2F, 0.05F);
+        PointVFX.burst(level, pos.add(0, 0.1F, 0), element, (lvl, p, elm) -> PresetHelper.bigger(PresetHelper.longer(RingParticles.ringReversedParticle(lvl, p, up, elm)), 4.0F), 1, 0.0F);
+        EntityVFX.powerupAura(level, element, caster, Section.cover(), 80);
+        AreaVFX.areaLight(level, element, pos, 1.0F, 10.0F, 40);
     }
 }

@@ -8,7 +8,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.stln.magitech.content.item.component.ComponentInit;
-import net.stln.magitech.feature.tool.ToolPart;
+import net.stln.magitech.feature.tool.part.ToolPart;
 import net.stln.magitech.feature.tool.ToolStats;
 import net.stln.magitech.feature.tool.material.ToolMaterial;
 import net.stln.magitech.feature.tool.trait.Trait;

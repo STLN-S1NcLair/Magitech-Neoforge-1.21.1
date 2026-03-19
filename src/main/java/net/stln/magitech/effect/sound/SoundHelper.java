@@ -49,7 +49,7 @@ public class SoundHelper {
 
     public static void broadcastDelayedSound(Level level, LivingEntity caster, Vec3 pos, Optional<Supplier<SoundEvent>> event, int endTick) {
         if (event.isPresent()) {
-            double castingSpeed = caster.getAttributeValue(AttributeInit.CASTING_SPEED);
+            double castingSpeed = caster.getAttributeValue(AttributeInit.CHARGE_SPEED);
             int delay = (int) Math.round(endTick / castingSpeed) - endTick;
             if (delay > 0) {
                 TickScheduler.schedule(delay, () -> {

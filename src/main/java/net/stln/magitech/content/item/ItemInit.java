@@ -41,14 +41,7 @@ public class ItemInit {
     public static final DeferredItem<ThreadBoundItem> GLISTENING_LEXICON = ITEMS.registerItem("glistening_lexicon",
             (properties) -> new ThreadBoundItem(properties).attributeModifier(Map.of(
                     AttributeInit.MAX_MANA, new AttributeModifier(THREADBOUND_ID, 20, AttributeModifier.Operation.ADD_VALUE),
-                    AttributeInit.MANA_REGEN, new AttributeModifier(THREADBOUND_ID, 0.2, AttributeModifier.Operation.ADD_VALUE),
-
-                    AttributeInit.NOCTIS_REGEN, new AttributeModifier(THREADBOUND_ID, 0.2, AttributeModifier.Operation.ADD_VALUE),
-                    AttributeInit.LUMINIS_REGEN, new AttributeModifier(THREADBOUND_ID, 0.2, AttributeModifier.Operation.ADD_VALUE),
-                    AttributeInit.FLUXIA_REGEN, new AttributeModifier(THREADBOUND_ID, 0.2, AttributeModifier.Operation.ADD_VALUE),
-                    AttributeInit.MAX_NOCTIS, new AttributeModifier(THREADBOUND_ID, 10, AttributeModifier.Operation.ADD_VALUE),
-                    AttributeInit.MAX_LUMINIS, new AttributeModifier(THREADBOUND_ID, 10, AttributeModifier.Operation.ADD_VALUE),
-                    AttributeInit.MAX_FLUXIA, new AttributeModifier(THREADBOUND_ID, 10, AttributeModifier.Operation.ADD_VALUE)
+                    AttributeInit.MANA_REGEN, new AttributeModifier(THREADBOUND_ID, 0.2, AttributeModifier.Operation.ADD_VALUE)
             )),
             new Item.Properties().stacksTo(1));
 
@@ -57,15 +50,8 @@ public class ItemInit {
                     Map.entry(AttributeInit.MAX_MANA, new AttributeModifier(THREADBOUND_ID, 200, AttributeModifier.Operation.ADD_VALUE)),
                     Map.entry(AttributeInit.MANA_REGEN, new AttributeModifier(THREADBOUND_ID, 0.8, AttributeModifier.Operation.ADD_VALUE)),
 
-                    Map.entry(AttributeInit.NOCTIS_REGEN, new AttributeModifier(THREADBOUND_ID, 0.2, AttributeModifier.Operation.ADD_VALUE)),
-                    Map.entry(AttributeInit.LUMINIS_REGEN, new AttributeModifier(THREADBOUND_ID, 0.2, AttributeModifier.Operation.ADD_VALUE)),
-                    Map.entry(AttributeInit.FLUXIA_REGEN, new AttributeModifier(THREADBOUND_ID, 0.2, AttributeModifier.Operation.ADD_VALUE)),
-                    Map.entry(AttributeInit.MAX_NOCTIS, new AttributeModifier(THREADBOUND_ID, 15, AttributeModifier.Operation.ADD_VALUE)),
-                    Map.entry(AttributeInit.MAX_LUMINIS, new AttributeModifier(THREADBOUND_ID, 15, AttributeModifier.Operation.ADD_VALUE)),
-                    Map.entry(AttributeInit.MAX_FLUXIA, new AttributeModifier(THREADBOUND_ID, 15, AttributeModifier.Operation.ADD_VALUE)),
-
                     Map.entry(AttributeInit.COOLDOWN_SPEED, new AttributeModifier(THREADBOUND_ID, 0.2, AttributeModifier.Operation.ADD_VALUE)),
-                    Map.entry(AttributeInit.CASTING_SPEED, new AttributeModifier(THREADBOUND_ID, 0.2, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.CHARGE_SPEED, new AttributeModifier(THREADBOUND_ID, 0.2, AttributeModifier.Operation.ADD_VALUE)),
                     Map.entry(AttributeInit.MANA_EFFICIENCY, new AttributeModifier(THREADBOUND_ID, 0.1, AttributeModifier.Operation.ADD_VALUE)),
                     Map.entry(AttributeInit.SPELL_POWER, new AttributeModifier(THREADBOUND_ID, -0.2, AttributeModifier.Operation.ADD_VALUE))
             )),
@@ -75,13 +61,6 @@ public class ItemInit {
             (properties) -> new ThreadBoundItem(properties).attributeModifier(Map.of(
                     AttributeInit.MAX_MANA, new AttributeModifier(THREADBOUND_ID, 100, AttributeModifier.Operation.ADD_VALUE),
                     AttributeInit.MANA_REGEN, new AttributeModifier(THREADBOUND_ID, 1, AttributeModifier.Operation.ADD_VALUE),
-
-                    AttributeInit.NOCTIS_REGEN, new AttributeModifier(THREADBOUND_ID, 0.2, AttributeModifier.Operation.ADD_VALUE),
-                    AttributeInit.LUMINIS_REGEN, new AttributeModifier(THREADBOUND_ID, 0.2, AttributeModifier.Operation.ADD_VALUE),
-                    AttributeInit.FLUXIA_REGEN, new AttributeModifier(THREADBOUND_ID, 0.2, AttributeModifier.Operation.ADD_VALUE),
-                    AttributeInit.MAX_NOCTIS, new AttributeModifier(THREADBOUND_ID, 15, AttributeModifier.Operation.ADD_VALUE),
-                    AttributeInit.MAX_LUMINIS, new AttributeModifier(THREADBOUND_ID, 15, AttributeModifier.Operation.ADD_VALUE),
-                    AttributeInit.MAX_FLUXIA, new AttributeModifier(THREADBOUND_ID, 15, AttributeModifier.Operation.ADD_VALUE),
 
                     AttributeInit.SPELL_POWER, new AttributeModifier(THREADBOUND_ID, 0.2, AttributeModifier.Operation.ADD_VALUE),
                     AttributeInit.MANA_EFFICIENCY, new AttributeModifier(THREADBOUND_ID, -0.1, AttributeModifier.Operation.ADD_VALUE)
@@ -93,16 +72,8 @@ public class ItemInit {
                     Map.entry(AttributeInit.MAX_MANA, new AttributeModifier(THREADBOUND_ID, 400, AttributeModifier.Operation.ADD_VALUE)),
                     Map.entry(AttributeInit.MANA_REGEN, new AttributeModifier(THREADBOUND_ID, 1.2, AttributeModifier.Operation.ADD_VALUE)),
 
-                    Map.entry(AttributeInit.NOCTIS_REGEN, new AttributeModifier(THREADBOUND_ID, 0.1, AttributeModifier.Operation.ADD_VALUE)),
-                    Map.entry(AttributeInit.LUMINIS_REGEN, new AttributeModifier(THREADBOUND_ID, 0.1, AttributeModifier.Operation.ADD_VALUE)),
-                    Map.entry(AttributeInit.FLUXIA_REGEN, new AttributeModifier(THREADBOUND_ID, 0.1, AttributeModifier.Operation.ADD_VALUE)),
-                    Map.entry(AttributeInit.MAX_NOCTIS, new AttributeModifier(THREADBOUND_ID, 5, AttributeModifier.Operation.ADD_VALUE)),
-                    Map.entry(AttributeInit.MAX_LUMINIS, new AttributeModifier(THREADBOUND_ID, 5, AttributeModifier.Operation.ADD_VALUE)),
-                    Map.entry(AttributeInit.MAX_FLUXIA, new AttributeModifier(THREADBOUND_ID, 5, AttributeModifier.Operation.ADD_VALUE)),
-
-
                     Map.entry(AttributeInit.COOLDOWN_SPEED, new AttributeModifier(THREADBOUND_ID, -0.4, AttributeModifier.Operation.ADD_VALUE)),
-                    Map.entry(AttributeInit.CASTING_SPEED, new AttributeModifier(THREADBOUND_ID, -0.4, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.CHARGE_SPEED, new AttributeModifier(THREADBOUND_ID, -0.4, AttributeModifier.Operation.ADD_VALUE)),
                     Map.entry(AttributeInit.PROJECTILE_SPEED, new AttributeModifier(THREADBOUND_ID, 0.7, AttributeModifier.Operation.ADD_VALUE)),
                     Map.entry(AttributeInit.SPELL_POWER, new AttributeModifier(THREADBOUND_ID, 0.3, AttributeModifier.Operation.ADD_VALUE)),
                     Map.entry(AttributeInit.MANA_EFFICIENCY, new AttributeModifier(THREADBOUND_ID, -0.2, AttributeModifier.Operation.ADD_VALUE))
@@ -112,14 +83,7 @@ public class ItemInit {
     public static final DeferredItem<ThreadBoundItem> ARCANE_ENGINEERING_COMPENDIUM = ITEMS.registerItem("arcane_engineering_compendium",
             (properties) -> new ThreadBoundItem(properties).attributeModifier(Map.of(
                     AttributeInit.MAX_MANA, new AttributeModifier(THREADBOUND_ID, 300, AttributeModifier.Operation.ADD_VALUE),
-                    AttributeInit.MANA_REGEN, new AttributeModifier(THREADBOUND_ID, 4, AttributeModifier.Operation.ADD_VALUE),
-
-                    AttributeInit.NOCTIS_REGEN, new AttributeModifier(THREADBOUND_ID, 0.3, AttributeModifier.Operation.ADD_VALUE),
-                    AttributeInit.LUMINIS_REGEN, new AttributeModifier(THREADBOUND_ID, 0.3, AttributeModifier.Operation.ADD_VALUE),
-                    AttributeInit.FLUXIA_REGEN, new AttributeModifier(THREADBOUND_ID, 0.3, AttributeModifier.Operation.ADD_VALUE),
-                    AttributeInit.MAX_NOCTIS, new AttributeModifier(THREADBOUND_ID, 30, AttributeModifier.Operation.ADD_VALUE),
-                    AttributeInit.MAX_LUMINIS, new AttributeModifier(THREADBOUND_ID, 30, AttributeModifier.Operation.ADD_VALUE),
-                    AttributeInit.MAX_FLUXIA, new AttributeModifier(THREADBOUND_ID, 30, AttributeModifier.Operation.ADD_VALUE)
+                    AttributeInit.MANA_REGEN, new AttributeModifier(THREADBOUND_ID, 4, AttributeModifier.Operation.ADD_VALUE)
             )),
             new Item.Properties().stacksTo(1));
 
@@ -138,7 +102,7 @@ public class ItemInit {
 
     public static final DeferredItem<RingItem> CHARGEBIND_RING = ITEMS.registerItem("chargebind_ring",
             (properties) -> new RingItem(properties).attributeModifier(Map.of(
-                    AttributeInit.CASTING_SPEED, new AttributeModifier(Magitech.id("ring"), 0.25, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+                    AttributeInit.CHARGE_SPEED, new AttributeModifier(Magitech.id("ring"), 0.25, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
             )),
             new Item.Properties().stacksTo(1));
 
@@ -194,7 +158,7 @@ public class ItemInit {
 
     public static final DeferredItem<Item> SPIKE_HEAD = ITEMS.registerItem("spike_head", SpikeHeadItem::new);
 
-    public static final DeferredItem<Item> REINFORCED_STICK = ITEMS.registerItem("reinforced_stick", ReinforcedStickItem::new);
+    public static final DeferredItem<Item> REINFORCED_ROD = ITEMS.registerItem("reinforced_rod", ReinforcedRodItem::new);
 
     public static final DeferredItem<Item> PLATE = ITEMS.registerItem("plate", PlateItem::new);
 

@@ -9,9 +9,15 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.content.sound.SoundInit;
+import net.stln.magitech.effect.visual.Section;
 import net.stln.magitech.effect.visual.particle.particle_option.BlowParticleEffect;
 import net.stln.magitech.effect.visual.particle.particle_option.SquareFieldParticleEffect;
 import net.stln.magitech.effect.visual.particle.particle_option.SquareParticleEffect;
+import net.stln.magitech.effect.visual.preset.EntityVFX;
+import net.stln.magitech.effect.visual.preset.PointVFX;
+import net.stln.magitech.effect.visual.preset.PresetHelper;
+import net.stln.magitech.effect.visual.spawner.ElementParticles;
+import net.stln.magitech.effect.visual.spawner.RingParticles;
 import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.feature.magic.MagicPerformanceHelper;
 import net.stln.magitech.feature.magic.spell.Spell;
@@ -43,19 +49,12 @@ public class Hydraerun extends Spell {
 
     @Override
     protected void endVFX(Level level, LivingEntity caster) {
-        Vec3 casterPos = caster.position();
-        level.addParticle(new SquareFieldParticleEffect(new Vector3f(0.7F, 1.0F, 0.0F), new Vector3f(0.9F, 1.0F, 0.0F), 1.0F, 1, 0, 15, 1.0F), caster.getX(), caster.getY() + 0.1, caster.getZ(), 0, 0, 0);
-        for (int i = 0; i < 50; i++) {
-            level.addParticle(new BlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0, level.random.nextInt(10, 30), 0.87F),
-                    casterPos.x + Mth.nextDouble(caster.getRandom(), -1, 1), casterPos.y + caster.getBbHeight() * 0.5 + Mth.nextDouble(caster.getRandom(), -1, 1), casterPos.z + Mth.nextDouble(caster.getRandom(), -1, 1),
-                    (caster.getRandom().nextFloat() - 0.5) / 2, (caster.getRandom().nextFloat() - 0.5) / 2 + 0.1, (caster.getRandom().nextFloat() - 0.5) / 2);
-            level.addParticle(new SquareParticleEffect(new Vector3f(0.7F, 1.0F, 0.0F), new Vector3f(0.9F, 1.0F, 0.0F), 1.0F, caster.getRandom().nextInt(5, 7), (float) ((caster.getRandom().nextFloat() - 0.5) / 10), 15, 0.8F),
-                    casterPos.x + Mth.nextDouble(caster.getRandom(), -1, 1), casterPos.y + caster.getBbHeight() * 0.5 + Mth.nextDouble(caster.getRandom(), -1, 1), casterPos.z + Mth.nextDouble(caster.getRandom(), -1, 1),
-                    (caster.getRandom().nextFloat() - 0.5) / 2, (caster.getRandom().nextFloat() - 0.5) / 2 + 0.1, (caster.getRandom().nextFloat() - 0.5) / 2);
-        }
-        EffectHelper.entityEffect(level, () -> new SquareParticleEffect(new Vector3f(0.7F, 1.0F, 0.0F), new Vector3f(0.9F, 1.0F, 0.0F), 0.75F, caster.getRandom().nextInt(5, 7), (float) ((caster.getRandom().nextFloat() - 0.5) / 10), 15, 1.0F),
-                () -> new Vec3(caster.getRandom().nextFloat() / 8, caster.getRandom().nextFloat() / 8, caster.getRandom().nextFloat() / 8), caster, 30);
-        EffectHelper.entityEffect(level, () -> new BlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 0, 0, level.random.nextInt(10, 30), 0.87F),
-                () -> new Vec3(caster.getRandom().nextFloat() / 8, caster.getRandom().nextFloat() / 8, caster.getRandom().nextFloat() / 8), caster, 30);
+        Element element = getConfig().element();
+        Vec3 pos = caster.position();
+        Vec3 up = new Vec3(0, 1, 0);
+        PointVFX.ringSquare(level, pos, element, up, 30, 0.15F, 0.5F, 0.1F);
+        PointVFX.ring(level, pos, element, ElementParticles::leafParticle, up, 30, 0.3F, 0.5F, 0.3F);
+        PointVFX.burst(level, pos.add(0, 0.1F, 0), element, (lvl, p, elm) -> PresetHelper.bigger(PresetHelper.longer(RingParticles.ringReversedParticle(lvl, p, up, elm))), 1, 0.0F);
+        EntityVFX.powerupAura(level, element, caster, Section.cover(), 40);
     }
 }

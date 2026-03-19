@@ -38,7 +38,11 @@ import net.stln.magitech.effect.visual.particle.ParticleInit;
 import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.feature.magic.spell.SpellInit;
 import net.stln.magitech.feature.tool.material.MaterialInit;
+import net.stln.magitech.feature.tool.part.ToolPartInit;
+import net.stln.magitech.feature.tool.property.ToolPropertyInit;
 import net.stln.magitech.feature.tool.register.ToolMaterialRegister;
+import net.stln.magitech.feature.tool.tool_group.ToolGroupInit;
+import net.stln.magitech.feature.tool.tool_type.ToolTypeInit;
 import net.stln.magitech.feature.tool.upgrade.UpgradeInit;
 import net.stln.magitech.worldgen.WorldGenInit;
 import net.stln.magitech.worldgen.tree.TreeGrowerInit;
@@ -52,45 +56,55 @@ public class Magitech {
     // Directly reference a slf4j logger
     public static final Logger LOGGER = LogUtils.getLogger();
 
-    // The constructor for the mod class is the first code that is run when your mod is loaded.
-    // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
     public Magitech(IEventBus modEventBus, ModContainer modContainer) {
         MagitechRegistries.register(modEventBus);
 
-        // Register our mod's ModConfigSpec so that FML can create and load the config file for us
-//        modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
-
-        // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
 
-        // Register the Deferred Register child the mod event bus so blocks get registered
+        // Item
         ComponentInit.registerComponents(modEventBus);
-
-        BlockInit.registerBlocks(modEventBus);
         ItemInit.registerItems(modEventBus);
+        CreativeTabInit.registerCreativeTabs(modEventBus);
+        FluidContainerMatcherInit.registerFluidContainerMatchers(modEventBus);
+
+        // Block
+        BlockInit.registerBlocks(modEventBus);
         FluidInit.registerFluids(modEventBus);
 
-        AttributeInit.registerEntityAttributes(modEventBus);
-        CreativeTabInit.registerCreativeTabs(modEventBus);
-        CriterionInit.registerCriteria(modEventBus);
-        Element.registerElements();
-        DataMapTypeInit.registerDataMapTypes(modEventBus);
+        // Entity
         EntityInit.registerModEntities(modEventBus);
-        GuiInit.registerMenus(modEventBus);
-        LootFunctionInit.registerFunctions(modEventBus);
-        MaterialInit.registerMaterials(modEventBus);
+        AttributeInit.registerEntityAttributes(modEventBus);
         MobEffectInit.registerMobEffects(modEventBus);
-        ParticleInit.registerParticleType(modEventBus);
-        RecipeInit.registerRecipes(modEventBus);
-        SoundInit.registerSoundEvents(modEventBus);
-        SpellInit.registerSpells(modEventBus);
-        FluidContainerMatcherInit.registerFluidContainerMatchers(modEventBus);
-        ToolMaterialRegister.init();
-        TreeGrowerInit.registerTrunkPlacerTypes(modEventBus);
-        UpgradeInit.registerUpgrades();
-        ValidatorInit.registerValidators();
-        WorldGenInit.registerFeatures(modEventBus);
         DataAttachmentInit.registerDataAttachmentTypes(modEventBus);
+        DataMapTypeInit.registerDataMapTypes(modEventBus);
+
+        // UI
+        GuiInit.registerMenus(modEventBus);
+
+        // Core Feature
+        Element.registerElements();
+        MaterialInit.registerMaterials(modEventBus);
+        SpellInit.registerSpells(modEventBus);
+        ToolMaterialRegister.init();
+        ToolPartInit.registerToolParts(modEventBus);
+        ToolPropertyInit.registerToolProperties(modEventBus);
+        ToolGroupInit.registerToolGroups(modEventBus);
+        ToolTypeInit.registerToolTypes(modEventBus);
+        UpgradeInit.registerUpgrades();
+
+        // Generation
+        LootFunctionInit.registerFunctions(modEventBus);
+        WorldGenInit.registerFeatures(modEventBus);
+        TreeGrowerInit.registerTrunkPlacerTypes(modEventBus);
+
+        // Effect
+        ParticleInit.registerParticleType(modEventBus);
+        SoundInit.registerSoundEvents(modEventBus);
+
+        // Misc
+        CriterionInit.registerCriteria(modEventBus);
+        RecipeInit.registerRecipes(modEventBus);
+        ValidatorInit.registerValidators();
 
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (ExampleMod) child respond directly child events.

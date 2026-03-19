@@ -24,7 +24,7 @@ import net.stln.magitech.feature.magic.cooldown.CooldownData;
 import net.stln.magitech.feature.magic.cooldown.CooldownHelper;
 import net.stln.magitech.feature.magic.mana.UsedHandData;
 import net.stln.magitech.feature.magic.spell.property.SpellProperties;
-import net.stln.magitech.feature.magic.spell.property.SpellPropertyKey;
+import net.stln.magitech.feature.magic.spell.property.SpellProperty;
 import net.stln.magitech.helper.MathHelper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -251,7 +251,7 @@ public abstract class Spell implements ISpell {
         float cost = config.cost();
         SpellProperties properties = config.properties();
         list.add(element.getSpellElementName().withColor(element.getTextColor().getRGB()).append(Component.literal(" ").append(Component.translatable("spell_shape.magitech." + shape.get()).withColor(shape.getDark()))));
-        for (SpellPropertyKey<?> key : properties.map().keySet()) {
+        for (SpellProperty<?> key : properties.map().keySet()) {
             MutableComponent component = key.getDisplayText(this, caster, wand);
             list.add(component);
         }

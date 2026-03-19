@@ -67,7 +67,9 @@ public class Phantastra extends BeamSpell {
         Entity target = CombatHelper.raycastBeamEntity(caster, maxRange, start, direction, beamradius);
 
         if (!level.isClientSide) {
-            hitTarget(level, caster, wand, target);
+            if (target != null) {
+                hitTarget(level, caster, wand, target);
+            }
             SoundHelper.broadcastSound(level, caster, hit, getConfig().endSound());
         } else {
             addBeamVFX(level, caster, hitPos, hit);

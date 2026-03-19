@@ -33,7 +33,7 @@ public class ParticleInit {
     public static final Supplier<RuneParticleType> RUNE = PARTICLE_TYPES.register("legacy_rune", () -> new RuneParticleType(true));
     public static final Supplier<BlowParticleType> BLOW = PARTICLE_TYPES.register("blow", () -> new BlowParticleType(true));
     public static final Supplier<VoidGlowParticleType> VOID_GLOW = PARTICLE_TYPES.register("void_glow", () -> new VoidGlowParticleType(true));
-    public static final Supplier<PowerupParticleType> POWERUP = PARTICLE_TYPES.register("powerup", () -> new PowerupParticleType(true));
+    public static final Supplier<PowerupParticleType> POWERUP = PARTICLE_TYPES.register("legacy_powerup", () -> new PowerupParticleType(true));
     public static final Supplier<PowerupNoCullParticleType> POWERUP_NO_CULL = PARTICLE_TYPES.register("powerup_no_cull", () -> new PowerupNoCullParticleType(true));
     public static final Supplier<ZapParticleType> ZAP = PARTICLE_TYPES.register("zap", () -> new ZapParticleType(true));
     public static final Supplier<ManaZapParticleType> MANA_ZAP = PARTICLE_TYPES.register("mana_zap", () -> new ManaZapParticleType(true));
@@ -42,6 +42,8 @@ public class ParticleInit {
     public static final DeferredHolder<ParticleType<?>, LodestoneWorldParticleType> LD_SQUARE = PARTICLE_TYPES.register("square", LodestoneWorldParticleType::new);
     public static final DeferredHolder<ParticleType<?>, LodestoneWorldParticleType> RING = PARTICLE_TYPES.register("ring", LodestoneWorldParticleType::new);
     public static final DeferredHolder<ParticleType<?>, LodestoneWorldParticleType> RING_REVERSED = PARTICLE_TYPES.register("ring_reversed", LodestoneWorldParticleType::new);
+    public static final DeferredHolder<ParticleType<?>, LodestoneWorldParticleType> LD_POWERUP = PARTICLE_TYPES.register("powerup", LodestoneWorldParticleType::new);
+    public static final DeferredHolder<ParticleType<?>, LodestoneWorldParticleType> RAY = PARTICLE_TYPES.register("ray", LodestoneWorldParticleType::new);
     public static final DeferredHolder<ParticleType<?>, LodestoneWorldParticleType> SMOKE = PARTICLE_TYPES.register("smoke", LodestoneWorldParticleType::new);
     public static final DeferredHolder<ParticleType<?>, LodestoneWorldParticleType> SNOW = PARTICLE_TYPES.register("snow", LodestoneWorldParticleType::new);
     public static final DeferredHolder<ParticleType<?>, LodestoneWorldParticleType> GLINT = PARTICLE_TYPES.register("glint", LodestoneWorldParticleType::new);
@@ -79,6 +81,8 @@ public class ParticleInit {
         event.registerSpriteSet(LD_SQUARE.get(), LodestoneWorldParticleType.Factory::new);
         event.registerSpriteSet(RING.get(), LodestoneWorldParticleType.Factory::new);
         event.registerSpriteSet(RING_REVERSED.get(), LodestoneWorldParticleType.Factory::new);
+        event.registerSpriteSet(LD_POWERUP.get(), LodestoneWorldParticleType.Factory::new);
+        event.registerSpriteSet(RAY.get(), LodestoneWorldParticleType.Factory::new);
         event.registerSpriteSet(SMOKE.get(), LodestoneWorldParticleType.Factory::new);
         event.registerSpriteSet(SNOW.get(), LodestoneWorldParticleType.Factory::new);
         event.registerSpriteSet(GLINT.get(), LodestoneWorldParticleType.Factory::new);

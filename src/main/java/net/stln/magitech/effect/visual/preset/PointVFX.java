@@ -1,10 +1,14 @@
 package net.stln.magitech.effect.visual.preset;
 
 import com.mojang.datafixers.util.Function3;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import net.stln.magitech.effect.visual.spawner.PowerupParticles;
 import net.stln.magitech.effect.visual.spawner.SquareParticles;
 import net.stln.magitech.feature.element.Element;
+import net.stln.magitech.helper.CombatHelper;
+import net.stln.magitech.helper.EffectHelper;
 import net.stln.magitech.helper.VectorHelper;
 import team.lodestar.lodestone.systems.particle.ParticleEffectSpawner;
 import team.lodestar.lodestone.systems.particle.world.LodestoneWorldParticle;
@@ -57,5 +61,19 @@ public class PointVFX {
 
     public static void spraySquare(Level level, Vec3 pos, Element element, Vec3 direction, int amount, float speed, float randomness) {
         spray(level, pos, element, SquareParticles::squareParticle, direction, amount, speed, randomness);
+    }
+
+    public static void ring(Level level, Vec3 pos, Element element, Function3<Level, Vec3, Element, ParticleEffectSpawner> supplier, Vec3 direction, int amount, float speed, float radius, float randomness) {
+        for (int i = 0; i < amount; i++) {
+            Vec3 random = VectorHelper.randScaledRandom(level.random);
+            Vec3 motion = random.scale(randomness).add(direction.scale(speed));
+            ParticleEffectSpawner spawner = supplier.apply(level, pos.add(random.scale(radius)), element);
+            PresetHelper.modify(spawner, builder -> builder.setMotion(motion));
+            spawner.spawnParticles();
+        }
+    }
+
+    public static void ringSquare(Level level, Vec3 pos, Element element, Vec3 direction, int amount, float speed, float radius, float randomness) {
+        ring(level, pos, element, SquareParticles::squareParticle, direction, amount, speed, radius, randomness);
     }
 }

@@ -65,7 +65,7 @@ public class PlayerAnimatorInit {
                     testAnimation.addModifierBefore(new SpeedModifier() {
                         @Override
                         protected void step(float delta) {
-                            super.step((float) (delta * abstractClientPlayer.getAttributeValue(AttributeInit.CASTING_SPEED)));
+                            super.step((float) (delta * abstractClientPlayer.getAttributeValue(AttributeInit.CHARGE_SPEED)));
                         }
                     });
                     return testAnimation;

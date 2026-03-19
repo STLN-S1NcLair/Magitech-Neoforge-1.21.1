@@ -11,8 +11,15 @@ import net.minecraft.world.level.portal.DimensionTransition;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.content.sound.SoundInit;
 import net.stln.magitech.effect.sound.SoundHelper;
+import net.stln.magitech.effect.visual.Section;
 import net.stln.magitech.effect.visual.particle.particle_option.BeamParticleEffect;
 import net.stln.magitech.effect.visual.particle.particle_option.VoidGlowParticleEffect;
+import net.stln.magitech.effect.visual.preset.AreaVFX;
+import net.stln.magitech.effect.visual.preset.EntityVFX;
+import net.stln.magitech.effect.visual.preset.PointVFX;
+import net.stln.magitech.effect.visual.preset.PresetHelper;
+import net.stln.magitech.effect.visual.spawner.ElementParticles;
+import net.stln.magitech.effect.visual.spawner.RingParticles;
 import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.feature.magic.spell.Spell;
 import net.stln.magitech.feature.magic.spell.SpellConfig;
@@ -36,52 +43,52 @@ public class Tenebport extends Spell {
 
     @Override
     public void endSpell(Level level, LivingEntity caster, @Nullable ItemStack wand, @Nullable InteractionHand hand) {
-        // 参照渡し防止
-        Vec3 pos = caster.position().add(0, 0, 0);
-        BlockPos targetPos = caster.blockPosition();
-        int y = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, targetPos.getX(), targetPos.getZ());
-        targetPos = new BlockPos(targetPos.getX(), y, targetPos.getZ());
-
         if (!level.isClientSide) {
             SoundHelper.broadcastSound(level, caster, getConfig().endSound());
 
 
-            TickScheduler.schedule(2, () -> {
-                SoundHelper.broadcastSound(level, caster, getConfig().endSound());
+            TickScheduler.schedule(1, () -> {
+                ServerPlayer serverPlayer = (ServerPlayer) caster;
+                DimensionTransition respawnPos = serverPlayer.findRespawnPositionAndUseSpawnBlock(true, DimensionTransition.DO_NOTHING);
+                serverPlayer.changeDimension(respawnPos);
+                caster.teleportTo(respawnPos.pos().x + 0.5, respawnPos.pos().y, respawnPos.pos().z + 0.5);
                 caster.fallDistance = 0;
+                SoundHelper.broadcastSound(level, caster, getConfig().endSound());
             }, level.isClientSide);
-
-            ServerPlayer serverPlayer = (ServerPlayer) caster;
-            DimensionTransition respawnPos = serverPlayer.findRespawnPositionAndUseSpawnBlock(true, DimensionTransition.DO_NOTHING);
-            serverPlayer.changeDimension(respawnPos);
-
-
-            caster.teleportTo(targetPos.getX() + 0.5, targetPos.getY(), targetPos.getZ() + 0.5);
-        } else {
-            addTeleportVFX(level, caster, pos);
         }
     }
 
-    public void addTeleportVFX(Level level, LivingEntity caster, Vec3 from) {
-        Vec3 above = from.add(0, 10, 0);
+    @Override
+    protected void tickVFX(Level level, LivingEntity caster, int ticks, boolean charging) {
+        Element element = getConfig().element();
+        Vec3 pos = caster.position();
+        Vec3 up = new Vec3(0, 1, 0);
+        EntityVFX.powerupAura(level, element, caster, Section.cover(), 1);
+        PointVFX.ringSquare(level, pos, element, up, 1, 0.15F, 0.5F, 0.0F);
+        PointVFX.ring(level, pos, element, ElementParticles::riftParticle, up, 1, 0.15F, 0.5F, 0.0F);
+    }
 
-        EffectHelper.lineEffect(level, new VoidGlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0, level.random.nextInt(1, 21), 1.0F), from, above, 4, false);
-        level.addParticle(new BeamParticleEffect(new Vector3f(0.3F, 0.0F, 1.0F), new Vector3f(0.5F, 0.0F, 1.0F), above.toVector3f(), 5F, 1, 1, 5, 1), from.x, from.y - 0.5, from.z, 0, 0, 0);
-        for (int i = 0; i < 20; i++) {
-            level.addParticle(new VoidGlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0, level.random.nextInt(1, 21), 1.0F),
-                    from.x, from.y, from.z, (caster.getRandom().nextFloat() - 0.5) / 3, (caster.getRandom().nextFloat() - 0.5) / 3, (caster.getRandom().nextFloat() - 0.5) / 3);
-        }
+    @Override
+    protected void endVFX(Level level, LivingEntity caster) {
+        spawnTeleportVFX(level, caster, caster.position());
+    }
+
+    public void spawnTeleportVFX(Level level, LivingEntity caster, Vec3 from) {
+        teleportVFX(level, caster, from);
 
         TickScheduler.schedule(2, () -> {
             Level newLevel = caster.level();
-            Vec3 newPos = caster.position();
-            Vec3 newAbove = newPos.add(0, 10, 0);
-            EffectHelper.lineEffect(newLevel, new VoidGlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0, newLevel.random.nextInt(1, 21), 1.0F), newPos, newAbove, 4, false);
-            newLevel.addParticle(new BeamParticleEffect(new Vector3f(0.3F, 0.0F, 1.0F), new Vector3f(0.5F, 0.0F, 1.0F), newAbove.toVector3f(), 5F, 1, 1, 5, 1), newPos.x, newPos.y - 0.5, newPos.z, 0, 0, 0);
-            for (int i = 0; i < 20; i++) {
-                newLevel.addParticle(new VoidGlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0, newLevel.random.nextInt(1, 21), 1.0F),
-                        newPos.x, newPos.y, newPos.z, (caster.getRandom().nextFloat() - 0.5) / 3, (caster.getRandom().nextFloat() - 0.5) / 3, (caster.getRandom().nextFloat() - 0.5) / 3);
-            }
+            teleportVFX(newLevel, caster, caster.position());
         }, level.isClientSide);
+    }
+
+    protected void teleportVFX(Level level, LivingEntity caster, Vec3 pos) {
+        Element element = getConfig().element();
+        Vec3 up = new Vec3(0, 1, 0);
+        PointVFX.ringSquare(level, pos, element, up, 30, 0.2F, 1.2F, 0.05F);
+        PointVFX.ring(level, pos, element, ElementParticles::riftParticle, up, 30, 0.2F, 1.2F, 0.05F);
+        PointVFX.burst(level, pos.add(0, 0.1F, 0), element, (lvl, p, elm) -> PresetHelper.bigger(PresetHelper.longer(RingParticles.ringReversedParticle(lvl, p, up, elm)), 4.0F), 1, 0.0F);
+        EntityVFX.powerupAura(level, element, caster, Section.cover(), 80);
+        AreaVFX.areaLight(level, element, pos, 1.0F, 10.0F, 40);
     }
 }

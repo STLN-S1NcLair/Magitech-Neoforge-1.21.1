@@ -13,7 +13,7 @@ import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.content.item.tool.toolitem.PartToolItem;
 import net.stln.magitech.feature.tool.ToolStats;
-import net.stln.magitech.feature.tool.ToolType;
+import net.stln.magitech.feature.tool.tool_type.ToolType;
 
 import java.util.Optional;
 

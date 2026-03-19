@@ -11,43 +11,43 @@ import net.neoforged.neoforge.common.ModConfigSpec;
 import java.util.List;
 import java.util.Set;
 
-// An example config class. This is not required, but it's a good idea child have one child keep your config organized.
-// Demonstrates how child use Neo's config APIs
-@EventBusSubscriber(modid = Magitech.MOD_ID)
-public class Config {
-    private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
-    public static final ModConfigSpec.ConfigValue<String> MAGIC_NUMBER_INTRODUCTION = BUILDER
-            .comment("What you want the introduction message child be for the magic number")
-            .define("magicNumberIntroduction", "The magic number is... ");
-    static final ModConfigSpec SPEC = BUILDER.build();
-    private static final ModConfigSpec.BooleanValue LOG_DIRT_BLOCK = BUILDER
-            .comment("Whether child log the dirt block on common setup")
-            .define("logDirtBlock", true);
-    private static final ModConfigSpec.IntValue MAGIC_NUMBER = BUILDER
-            .comment("A magic number")
-            .defineInRange("magicNumber", 42, 0, Integer.MAX_VALUE);
-    // a list of strings that are treated as resource locations for items
-    private static final ModConfigSpec.ConfigValue<List<? extends String>> ITEM_STRINGS = BUILDER
-            .comment("A list of items child log on common setup.")
-            .defineListAllowEmpty("items", List.of("minecraft:iron_ingot"), Config::validateItemName);
-    public static boolean logDirtBlock;
-    public static int magicNumber;
-    public static String magicNumberIntroduction;
-    public static Set<Item> items;
-
-    private static boolean validateItemName(final Object obj) {
-        return obj instanceof String itemName && BuiltInRegistries.ITEM.containsKey(ResourceLocation.parse(itemName));
-    }
-
-    @SubscribeEvent
-    static void onLoad(final ModConfigEvent event) {
-//        logDirtBlock = LOG_DIRT_BLOCK.get();
-//        magicNumber = MAGIC_NUMBER.get();
-//        magicNumberIntroduction = MAGIC_NUMBER_INTRODUCTION.get();
+//// An example config class. This is not required, but it's a good idea child have one child keep your config organized.
+//// Demonstrates how child use Neo's config APIs
+//@EventBusSubscriber(modid = Magitech.MOD_ID)
+//public class Config {
+//    private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
+//    public static final ModConfigSpec.ConfigValue<String> MAGIC_NUMBER_INTRODUCTION = BUILDER
+//            .comment("What you want the introduction message child be for the magic number")
+//            .define("magicNumberIntroduction", "The magic number is... ");
+//    static final ModConfigSpec SPEC = BUILDER.build();
+//    private static final ModConfigSpec.BooleanValue LOG_DIRT_BLOCK = BUILDER
+//            .comment("Whether child log the dirt block on common setup")
+//            .define("logDirtBlock", true);
+//    private static final ModConfigSpec.IntValue MAGIC_NUMBER = BUILDER
+//            .comment("A magic number")
+//            .defineInRange("magicNumber", 42, 0, Integer.MAX_VALUE);
+//    // a list of strings that are treated as resource locations for items
+//    private static final ModConfigSpec.ConfigValue<List<? extends String>> ITEM_STRINGS = BUILDER
+//            .comment("A list of items child log on common setup.")
+//            .defineListAllowEmpty("items", List.of("minecraft:iron_ingot"), Config::validateItemName);
+//    public static boolean logDirtBlock;
+//    public static int magicNumber;
+//    public static String magicNumberIntroduction;
+//    public static Set<Item> items;
 //
-//        // convert the list of strings into a set of items
-//        items = ITEM_STRINGS.get().stream()
-//                .map(itemName -> BuiltInRegistries.ITEM.get(ResourceLocation.parse(itemName)))
-//                .collect(Collectors.toSet());
-    }
-}
+//    private static boolean validateItemName(final Object obj) {
+//        return obj instanceof String itemName && BuiltInRegistries.ITEM.containsKey(ResourceLocation.parse(itemName));
+//    }
+//
+//    @SubscribeEvent
+//    static void onLoad(final ModConfigEvent event) {
+////        logDirtBlock = LOG_DIRT_BLOCK.get();
+////        magicNumber = MAGIC_NUMBER.get();
+////        magicNumberIntroduction = MAGIC_NUMBER_INTRODUCTION.get();
+////
+////        // convert the list of strings into a set of items
+////        items = ITEM_STRINGS.get().stream()
+////                .map(itemName -> BuiltInRegistries.ITEM.get(ResourceLocation.parse(itemName)))
+////                .collect(Collectors.toSet());
+//    }
+//}

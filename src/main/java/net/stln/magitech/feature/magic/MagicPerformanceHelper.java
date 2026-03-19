@@ -16,7 +16,7 @@ import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.feature.magic.spell.ISpell;
 import net.stln.magitech.feature.magic.spell.SpellConfig;
 import net.stln.magitech.feature.magic.spell.property.SpellPropertyInit;
-import net.stln.magitech.feature.magic.spell.property.SpellPropertyKey;
+import net.stln.magitech.feature.magic.spell.property.SpellProperty;
 import net.stln.magitech.helper.DataMapHelper;
 import org.jetbrains.annotations.Nullable;
 
@@ -36,7 +36,7 @@ public class MagicPerformanceHelper {
         return (float) (value * coefficient);
     }
 
-    public static float getEffectiveSpellProperty(LivingEntity caster, @Nullable ItemStack wand, ISpell spell, SpellPropertyKey<Float> key, Holder<Attribute> coefficientAttribute) {
+    public static float getEffectiveSpellProperty(LivingEntity caster, @Nullable ItemStack wand, ISpell spell, SpellProperty<Float> key, Holder<Attribute> coefficientAttribute) {
         SpellConfig config = spell.getConfig();
         return getEffectiveSpellProperty(caster, wand, config.cost(), config.properties().get(key), coefficientAttribute);
     }
@@ -48,7 +48,7 @@ public class MagicPerformanceHelper {
         return powered;
     }
 
-    public static float getEffectiveMagicDamage(LivingEntity caster, @Nullable ItemStack wand, ISpell spell, SpellPropertyKey<Float> key, LivingEntity target) {
+    public static float getEffectiveMagicDamage(LivingEntity caster, @Nullable ItemStack wand, ISpell spell, SpellProperty<Float> key, LivingEntity target) {
         SpellConfig config = spell.getConfig();
         return getEffectiveMagicDamage(caster, wand, config.cost(), config.properties().get(key), config.element(), target);
     }
@@ -66,7 +66,7 @@ public class MagicPerformanceHelper {
         return (float) (damage * power + damage * (elementPower - 1));
     }
 
-    public static <T extends Number> float getOutgoingMagicDamage(LivingEntity caster, @Nullable ItemStack wand, SpellPropertyKey<T> key, ISpell spell) {
+    public static <T extends Number> float getOutgoingMagicDamage(LivingEntity caster, @Nullable ItemStack wand, SpellProperty<T> key, ISpell spell) {
         SpellConfig config = spell.getConfig();
         return getOutgoingMagicDamage(caster, wand, config.cost(), config.properties().get(key).floatValue(), config.element());
     }
@@ -90,7 +90,7 @@ public class MagicPerformanceHelper {
 
     public static void applyRawMagicDamage(@Nullable LivingEntity caster, @Nullable ItemStack wand, Entity target, DamageSource source, float effectiveDamage) {
 
-        if (target.isAttackable()) {
+        if (target != null && target.isAttackable()) {
 
             if (target.invulnerableTime < 10) {
                 if (wand != null && wand.getItem() instanceof SpellCasterItem spellCasterItem) {
@@ -134,7 +134,7 @@ public class MagicPerformanceHelper {
         if (!config.hasCharge()) return 0;
         float cost = config.cost();
         Optional<Integer> chargeTime = config.chargeTime();
-        return MagicPerformanceHelper.getEffectiveSpellPropertyWithDivide(caster, wand, cost, chargeTime.get(), AttributeInit.CASTING_SPEED);
+        return MagicPerformanceHelper.getEffectiveSpellPropertyWithDivide(caster, wand, cost, chargeTime.get(), AttributeInit.CHARGE_SPEED);
     }
 
     public static int getEffectiveCooldown(LivingEntity caster, @Nullable ItemStack wand, ISpell spell) {

@@ -106,7 +106,7 @@ public class EntityInit {
         EntityRenderers.register(EntityInit.NULLIXIS_ENTITY.get(), NullixisRenderer::new);
         EntityRenderers.register(EntityInit.NIHILFLARE_ENTITY.get(), NihilflareRenderer::new);
 
-        EntityRenderers.register(EntityInit.MANA_PARCEL_ENTITY.get(), ManaParcelRenderer::new);
+        EntityRenderers.register(EntityInit.MANA_PARCEL_ENTITY.get(), NoopRenderer::new);
 
         EntityRenderers.register(EntityInit.WEAVER_ENTITY.get(), WeaverRenderer::new);
     }

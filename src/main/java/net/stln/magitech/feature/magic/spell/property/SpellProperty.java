@@ -8,8 +8,8 @@ import net.minecraft.world.item.ItemStack;
 import net.stln.magitech.feature.magic.spell.ISpell;
 import org.jetbrains.annotations.Nullable;
 
-public record SpellPropertyKey<T>(String id,
-                                  Function4<ISpell, LivingEntity, ItemStack, SpellPropertyKey<T>, MutableComponent> textDecoration) {
+public record SpellProperty<T>(String id,
+                               Function4<ISpell, LivingEntity, ItemStack, SpellProperty<T>, MutableComponent> textDecoration) {
 
     public MutableComponent getDisplayName() {
         return Component.translatable("spell.magitech.property." + id);

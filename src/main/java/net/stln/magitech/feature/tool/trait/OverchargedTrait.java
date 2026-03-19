@@ -6,7 +6,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.stln.magitech.content.item.tool.toolitem.SpellCasterItem;
 import net.stln.magitech.core.api.mana.handler.EntityManaHelper;
+import net.stln.magitech.effect.visual.Section;
 import net.stln.magitech.effect.visual.particle.particle_option.PowerupParticleEffect;
+import net.stln.magitech.effect.visual.preset.EntityVFX;
+import net.stln.magitech.effect.visual.preset.PointVFX;
+import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.feature.tool.ToolStats;
 import net.stln.magitech.helper.EffectHelper;
 import org.joml.Vector3f;
@@ -51,7 +55,7 @@ public class OverchargedTrait extends Trait {
     public void tick(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, boolean isHost) {
         super.tick(player, level, stack, traitLevel, stats, isHost);
         if (EntityManaHelper.getMagicManaFillRatio(player) >= (stack.getItem() instanceof SpellCasterItem ? 0.5 : 1)) {
-            EffectHelper.entityEffect(level, new PowerupParticleEffect(new Vector3f(0.9F, 1.0F, 0.7F), new Vector3f(0.3F, 1.0F, 0.9F), 1F, 1, 0, 15, 1.0F), player, 1);
+            EntityVFX.powerupAura(level, Element.MANA, player, 0.2F);
         }
     }
 

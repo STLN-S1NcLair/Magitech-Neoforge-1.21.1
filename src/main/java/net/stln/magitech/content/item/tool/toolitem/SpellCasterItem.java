@@ -203,7 +203,7 @@ public abstract class SpellCasterItem extends PartToolItem {
                 };
                 entries.add(new ItemAttributeModifiers.Entry(elementAttribute, new AttributeModifier(elmatkId, map.get(ToolStats.ELM_ATK_STAT), AttributeModifier.Operation.ADD_VALUE), hand));
             }
-            entries.add(new ItemAttributeModifiers.Entry(AttributeInit.CASTING_SPEED, new AttributeModifier(spdId, map.get(ToolStats.SPD_STAT) - mod.get(ToolStats.SPD_STAT), AttributeModifier.Operation.ADD_VALUE), hand));
+            entries.add(new ItemAttributeModifiers.Entry(AttributeInit.CHARGE_SPEED, new AttributeModifier(spdId, map.get(ToolStats.SPD_STAT) - mod.get(ToolStats.SPD_STAT), AttributeModifier.Operation.ADD_VALUE), hand));
             entries.add(new ItemAttributeModifiers.Entry(AttributeInit.COOLDOWN_SPEED, new AttributeModifier(minId, map.get(ToolStats.MIN_STAT) - mod.get(ToolStats.MIN_STAT), AttributeModifier.Operation.ADD_VALUE), hand));
             entries.add(new ItemAttributeModifiers.Entry(Attributes.ARMOR, new AttributeModifier(defId, map.get(ToolStats.DEF_STAT), AttributeModifier.Operation.ADD_VALUE), hand));
             entries.add(new ItemAttributeModifiers.Entry(AttributeInit.PROJECTILE_SPEED, new AttributeModifier(rngId, map.get(ToolStats.RNG_STAT) - mod.get(ToolStats.RNG_STAT), AttributeModifier.Operation.ADD_VALUE), hand));

@@ -29,7 +29,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.content.item.tool.toolitem.PartToolItem;
-import net.stln.magitech.feature.tool.ToolType;
+import net.stln.magitech.feature.tool.tool_type.ToolType;
 import net.stln.magitech.feature.tool.trait.BlockBreakEvent;
 import net.stln.magitech.feature.tool.trait.Trait;
 import net.stln.magitech.helper.ComponentHelper;

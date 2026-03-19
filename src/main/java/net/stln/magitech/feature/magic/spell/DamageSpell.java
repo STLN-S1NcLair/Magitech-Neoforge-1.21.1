@@ -7,7 +7,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.stln.magitech.feature.magic.MagicPerformanceHelper;
 import net.stln.magitech.feature.magic.spell.property.SpellPropertyInit;
-import net.stln.magitech.feature.magic.spell.property.SpellPropertyKey;
+import net.stln.magitech.feature.magic.spell.property.SpellProperty;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class DamageSpell extends Spell {
@@ -28,7 +28,7 @@ public abstract class DamageSpell extends Spell {
         hitTarget(level, caster, wand, target, damage, 1.0F);
     }
 
-    protected void hitTarget(Level level, LivingEntity caster, @Nullable ItemStack wand, SpellPropertyKey<? extends Number> key, Entity target) {
+    protected void hitTarget(Level level, LivingEntity caster, @Nullable ItemStack wand, SpellProperty<? extends Number> key, Entity target) {
         hitTarget(level, caster, wand, target, this.getConfig().properties().get(key).floatValue(), 1.0F);
     }
 

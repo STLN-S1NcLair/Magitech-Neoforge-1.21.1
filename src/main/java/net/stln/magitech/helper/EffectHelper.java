@@ -7,6 +7,7 @@ import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import net.stln.magitech.effect.visual.Section;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Math;
 import org.joml.Quaternionf;
@@ -44,8 +45,12 @@ public class EffectHelper {
     }
 
     public static @NotNull Vec3 getRandomBody(Entity entity) {
+        return getRandomBody(entity, Section.cover());
+    }
+
+    public static @NotNull Vec3 getRandomBody(Entity entity, Section section) {
         return new Vec3(entity.getX() + (entity.getBbWidth() + 0.5F) * (entity.getRandom().nextFloat() - 0.5),
-                entity.getY(0.5F) + (entity.getBbHeight() + 0.5F) * (entity.getRandom().nextFloat() - 0.5),
+                entity.getY(0.5F) + (entity.getBbHeight() + 0.5F) * (Mth.randomBetween(entity.getRandom(), section.start(), section.end()) - 0.5F),
                 entity.getZ() + (entity.getBbWidth() + 0.5F) * (entity.getRandom().nextFloat() - 0.5));
     }
 

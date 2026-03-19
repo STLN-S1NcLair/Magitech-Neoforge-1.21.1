@@ -19,15 +19,13 @@ public class AttributeInit {
 
     public static final DeferredHolder<Attribute, Attribute> MAX_MANA = ATTRIBUTES.register("max_mana", () -> (new RangedAttribute("attribute.magitech.max_mana", 100, 0, Double.MAX_VALUE).setSyncable(true)));
     public static final DeferredHolder<Attribute, Attribute> MANA_REGEN = ATTRIBUTES.register("mana_regen", () -> (new RangedAttribute("attribute.magitech.mana_regen", 2, 0, Double.MAX_VALUE).setSyncable(true)));
-    public static final DeferredHolder<Attribute, Attribute> MAX_NOCTIS = ATTRIBUTES.register("max_noctis", () -> (new RangedAttribute("attribute.magitech.max_noctis", 50, 0, Double.MAX_VALUE).setSyncable(true)));
-    public static final DeferredHolder<Attribute, Attribute> NOCTIS_REGEN = ATTRIBUTES.register("noctis_regen", () -> (new RangedAttribute("attribute.magitech.noctis_regen", 0.5, 0, Double.MAX_VALUE).setSyncable(true)));
-    public static final DeferredHolder<Attribute, Attribute> MAX_LUMINIS = ATTRIBUTES.register("max_luminis", () -> (new RangedAttribute("attribute.magitech.max_luminis", 50, 0, Double.MAX_VALUE).setSyncable(true)));
-    public static final DeferredHolder<Attribute, Attribute> LUMINIS_REGEN = ATTRIBUTES.register("luminis_regen", () -> (new RangedAttribute("attribute.magitech.luminis_regen", 0.5, 0, Double.MAX_VALUE).setSyncable(true)));
-    public static final DeferredHolder<Attribute, Attribute> MAX_FLUXIA = ATTRIBUTES.register("max_fluxia", () -> (new RangedAttribute("attribute.magitech.max_fluxia", 50, 0, Double.MAX_VALUE).setSyncable(true)));
-    public static final DeferredHolder<Attribute, Attribute> FLUXIA_REGEN = ATTRIBUTES.register("fluxia_regen", () -> (new RangedAttribute("attribute.magitech.fluxia_regen", 0.5, 0, Double.MAX_VALUE).setSyncable(true)));
+
+    public static final DeferredHolder<Attribute, Attribute> ELEMENTAL_DAMAGE = ATTRIBUTES.register("elemental_damage", () -> (new RangedAttribute("attribute.magitech.elemental_damage", 1, 0, Double.MAX_VALUE).setSyncable(true)));
+    public static final DeferredHolder<Attribute, Attribute> MINING_SPEED = ATTRIBUTES.register("mining_speed", () -> (new RangedAttribute("attribute.magitech.mining_speed", 1, 0, Double.MAX_VALUE).setSyncable(true)));
+    public static final DeferredHolder<Attribute, Attribute> SWEEP_RANGE = ATTRIBUTES.register("sweep_range", () -> (new RangedAttribute("attribute.magitech.sweep_range", 1, 0, Double.MAX_VALUE).setSyncable(true)));
 
     public static final DeferredHolder<Attribute, Attribute> SPELL_POWER = ATTRIBUTES.register("spell_power", () -> (new PercentageAttribute("attribute.magitech.spell_power", 1, 0, Double.MAX_VALUE).setSyncable(true)));
-    public static final DeferredHolder<Attribute, Attribute> CASTING_SPEED = ATTRIBUTES.register("casting_speed", () -> (new PercentageAttribute("attribute.magitech.casting_speed", 1, 0, Double.MAX_VALUE).setSyncable(true)));
+    public static final DeferredHolder<Attribute, Attribute> CHARGE_SPEED = ATTRIBUTES.register("charge_speed", () -> (new PercentageAttribute("attribute.magitech.charge_speed", 1, 0, Double.MAX_VALUE).setSyncable(true)));
     public static final DeferredHolder<Attribute, Attribute> COOLDOWN_SPEED = ATTRIBUTES.register("cooldown_speed", () -> (new PercentageAttribute("attribute.magitech.cooldown_speed", 1, 0, Double.MAX_VALUE).setSyncable(true)));
     public static final DeferredHolder<Attribute, Attribute> PROJECTILE_SPEED = ATTRIBUTES.register("projectile_speed", () -> (new PercentageAttribute("attribute.magitech.projectile_speed", 1, 0, Double.MAX_VALUE).setSyncable(true)));
     public static final DeferredHolder<Attribute, Attribute> MANA_EFFICIENCY = ATTRIBUTES.register("mana_efficiency", () -> (new PercentageAttribute("attribute.magitech.mana_efficiency", 1, 0, Double.MAX_VALUE).setSyncable(true)));

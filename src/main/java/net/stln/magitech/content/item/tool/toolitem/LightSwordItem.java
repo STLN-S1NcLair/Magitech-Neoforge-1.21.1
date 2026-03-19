@@ -2,8 +2,8 @@ package net.stln.magitech.content.item.tool.toolitem;
 
 
 import net.minecraft.world.item.Item;
-import net.stln.magitech.feature.tool.ToolPart;
-import net.stln.magitech.feature.tool.ToolType;
+import net.stln.magitech.feature.tool.part.ToolPart;
+import net.stln.magitech.feature.tool.tool_type.ToolType;
 
 public class LightSwordItem extends PartToolItem {
     public LightSwordItem(Item.Properties settings) {

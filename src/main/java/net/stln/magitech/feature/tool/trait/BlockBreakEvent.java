@@ -23,7 +23,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.content.item.tool.toolitem.PartToolItem;
 import net.stln.magitech.content.network.BreakBlockPayload;
-import net.stln.magitech.feature.tool.ToolType;
+import net.stln.magitech.feature.tool.tool_type.ToolType;
 import net.stln.magitech.helper.BlockHelper;
 import net.stln.magitech.helper.ComponentHelper;
 
@@ -160,10 +160,10 @@ public class BlockBreakEvent {
                     .withOptionalParameter(LootContextParams.BLOCK_ENTITY, event.getBlockEntity())
                     .withParameter(LootContextParams.THIS_ENTITY, player);
 
-            lootStack.set((ArrayList<ItemStack>) state.getDrops(builder));
+            lootStack.set(new ArrayList<>(state.getDrops(builder)));
 
             traitMap.forEach((trait, value) -> lootStack.get().addAll(trait.addItemOnBlockLooting(player, player.level(), tool, value, partToolItem.getSumStats(player, player.level(), tool), state, pos, lootStack.get())));
-            traitMap.forEach((trait, value) -> setLootStack.set((ArrayList<ItemStack>) trait.setItemOnBlockLooting(player, player.level(), tool, value, partToolItem.getSumStats(player, player.level(), tool), state, pos, lootStack.get())));
+            traitMap.forEach((trait, value) -> setLootStack.set(new ArrayList<>(trait.setItemOnBlockLooting(player, player.level(), tool, value, partToolItem.getSumStats(player, player.level(), tool), state, pos, lootStack.get()))));
             Vec3 center = pos.getCenter();
             if (setLootStack.get() != null && !setLootStack.get().isEmpty()) {
                 event.getDrops().clear();

@@ -4,22 +4,22 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public record SpellProperties(Map<SpellPropertyKey<?>, Object> map) {
+public record SpellProperties(Map<SpellProperty<?>, Object> map) {
 
     public static SpellProperties create() {
         return new SpellProperties(new HashMap<>());
     }
 
-    public <T> void put(SpellPropertyKey<T> key, T value) {
+    public <T> void put(SpellProperty<T> key, T value) {
         map.put(key, value);
     }
 
     @SuppressWarnings("unchecked")
-    public <T> T get(SpellPropertyKey<T> key) {
+    public <T> T get(SpellProperty<T> key) {
         return (T) map.get(key);
     }
 
-    public <T> Optional<T> getOptional(SpellPropertyKey<T> key) {
+    public <T> Optional<T> getOptional(SpellProperty<T> key) {
         if (map.containsKey(key)) {
             return Optional.ofNullable(get(key));
         } else {
@@ -28,12 +28,12 @@ public record SpellProperties(Map<SpellPropertyKey<?>, Object> map) {
     }
 
     public void combine(SpellProperties oldP, SpellProperties newP) {
-        for (Map.Entry<SpellPropertyKey<?>, Object> entry : newP.map().entrySet()) {
+        for (Map.Entry<SpellProperty<?>, Object> entry : newP.map().entrySet()) {
             oldP.map().put(entry.getKey(), entry.getValue());
         }
     }
 
-    public boolean contains(SpellPropertyKey<?> key) {
+    public boolean contains(SpellProperty<?> key) {
         return map.containsKey(key);
     }
 }
