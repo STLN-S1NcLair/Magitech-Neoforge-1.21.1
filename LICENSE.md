@@ -3,7 +3,7 @@
 ## Special Provisions Regarding Video/Image Posting and Distribution
 
 
-This Mod may be freely used for the creation and distribution of videos featuring gameplay with this Mod installed, for both commercial and non-commercial purposes, provided that the following credits are displayed. For the creation and distribution of images, no credit display is required.
+This Mod may be freely used for the creation and distribution of videos featuring gameplay with this Mod installed, for both commercial and non-commercial purposes, provided that the following credits are displayed. For the creation and distribution of screenshot images, no credit display is required.
 
 
 In this specific case, the provisions of CC BY-SA 4.0 and the MIT License do not apply, and no permission requests or license inheritance are necessary.
