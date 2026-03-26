@@ -11,8 +11,8 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.feature.tool.ToolStats;
-import net.stln.magitech.feature.tool.tool_type.ToolType;
 import net.stln.magitech.feature.tool.register.ToolMaterialRegister;
+import net.stln.magitech.feature.tool.tool_type.ToolType;
 import net.stln.magitech.feature.tool.upgrade.UpgradeInstance;
 
 import java.util.List;
@@ -96,7 +96,7 @@ public class RenderHelper {
     }
 
     public static List<Component> getUpgradeTooltips(List<UpgradeInstance> instances, ToolType type, boolean isSpellCaster) {
-        List<ToolStats> statsList = instances.stream().map(i -> ToolStats.mulWithoutElementCode(i.upgrade().getUpgradeStats(i.level()), ToolMaterialRegister.getBaseStats(type))).toList();
+        List<ToolStats> statsList = instances.stream().map(i -> ToolStats.mulWithoutElementCode(i.upgrade().getModifiers(i.level()), ToolMaterialRegister.getBaseStats(type))).toList();
         ToolStats finalStats = ToolStats.addWithoutElementCode(statsList);
         List<Component> tooltipComponents = new java.util.ArrayList<>();
         if (finalStats.getStats().get(ToolStats.ATK_STAT) > 0) {

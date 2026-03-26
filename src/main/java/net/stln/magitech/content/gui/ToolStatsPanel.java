@@ -14,7 +14,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.content.item.tool.partitem.PartItem;
-import net.stln.magitech.content.item.tool.toolitem.PartToolItem;
+import net.stln.magitech.content.item.tool.toolitem.SynthesisedToolItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +24,9 @@ public class ToolStatsPanel {
 
     public static void addPanel(FlowLayout root, Positioning positioning, ItemStack stack, net.minecraft.network.chat.Component title, List<Component> whenEmpty) {
         List<net.minecraft.network.chat.Component> components = new ArrayList<>();
-        if (stack != null && stack.getItem() instanceof PartToolItem toolItem) {
+        if (stack != null && stack.getItem() instanceof SynthesisedToolItem toolItem) {
 
-            toolItem.addStatsHoverText(stack, components);
+            toolItem.addPropertiesHoverText(stack, components);
         } else {
             components.addAll(whenEmpty);
         }
@@ -37,7 +37,7 @@ public class ToolStatsPanel {
         List<net.minecraft.network.chat.Component> components = new ArrayList<>();
         if (stack != null && stack.getItem() instanceof PartItem partItem) {
 
-            partItem.addStatsHoverText(stack, components, true);
+            partItem.addPropertiesHoverText(stack, components);
         } else {
             components.addAll(whenEmpty);
         }

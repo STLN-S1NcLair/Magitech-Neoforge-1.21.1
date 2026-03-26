@@ -15,49 +15,62 @@ import net.stln.magitech.Magitech;
 import net.stln.magitech.content.entity.mob_effect.MobEffectInit;
 import net.stln.magitech.effect.visual.particle.particle_option.PowerupParticleEffect;
 import net.stln.magitech.feature.tool.ToolStats;
+import net.stln.magitech.feature.tool.property.ToolProperties;
+import net.stln.magitech.feature.tool.property.modifier.ToolPropertyModifier;
 import net.stln.magitech.helper.EffectHelper;
 import net.stln.magitech.helper.TraitMobEffectHelper;
 import org.joml.Vector3f;
 
+import java.awt.*;
 import java.util.List;
 
 public class ElectricalBoostTrait extends Trait {
 
     @Override
-    public void modifyAttribute(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, List<ItemAttributeModifiers.Entry> entries) {
+    public void modifyAttribute(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties, List<ItemAttributeModifiers.Entry> entries) {
         if (player.hasEffect(MobEffectInit.CHARGE)) {
-            entries.add(new ItemAttributeModifiers.Entry(Attributes.MOVEMENT_SPEED, new AttributeModifier(Magitech.id("electrical_boost"), (player.getEffect(MobEffectInit.CHARGE).getAmplifier() + 1) * 0.1, AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.MAINHAND));
+            entries.add(new ItemAttributeModifiers.Entry(Attributes.MOVEMENT_SPEED, new AttributeModifier(Magitech.id("electrical_boost"),
+                    (player.getEffect(MobEffectInit.CHARGE).getAmplifier() + 1) * 0.1, AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.MAINHAND));
         }
-        super.modifyAttribute(player, level, stack, traitLevel, stats, entries);
+        super.modifyAttribute(player, level, stack, traitLevel, properties, entries);
     }
 
     @Override
-    public void tick(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, boolean isHost) {
-        super.tick(player, level, stack, traitLevel, stats, isHost);
-        if (player.hasEffect(MobEffectInit.CHARGE)) {
-            EffectHelper.entityEffect(level, new PowerupParticleEffect(new Vector3f(0.8F, 0.9F, 1.0F), new Vector3f(0.65F, 0.7F, 0.85F), 1F, 1, 0, 15, 1.0F), player, 1);
-        }
+    public void onDamageEntity(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties, Entity target) {
+        super.onDamageEntity(player, level, stack, traitLevel, properties, target);
+        extendCharge(player, level, traitLevel);
     }
 
     @Override
-    public void onDamageEntity(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, Entity target) {
-        super.onDamageEntity(player, level, stack, traitLevel, stats, target);
+    public void onBreakBlock(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties, BlockState blockState, BlockPos pos, int damageAmount, boolean isInitial) {
+        super.onBreakBlock(player, level, stack, traitLevel, properties, blockState, pos, damageAmount, isInitial);
+        extendCharge(player, level, traitLevel);
+    }
+
+    private static void extendCharge(Player player, Level level, int traitLevel) {
         if (!level.isClientSide) {
             TraitMobEffectHelper.extendTraitMobEffectAmplifier(player, MobEffectInit.CHARGE, 1, traitLevel * 2 + 1, 60);
         }
     }
 
     @Override
-    public void onBreakBlock(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos, int damageAmount, boolean isInitial) {
-        super.onBreakBlock(player, level, stack, traitLevel, stats, blockState, pos, damageAmount, isInitial);
-        if (!level.isClientSide) {
-            TraitMobEffectHelper.extendTraitMobEffectAmplifier(player, MobEffectInit.CHARGE, 1, traitLevel * 2 + 1, 60);
-        }
+    public boolean effectEnabled(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties) {
+        return player.hasEffect(MobEffectInit.CHARGE);
     }
 
     @Override
-    public int getColor() {
-        return 0xA0A8C0;
+    public Color getColor() {
+        return new Color(0xA0A8C0);
+    }
+
+    @Override
+    public Color getPrimary() {
+        return new Color(0xC3ECFF);
+    }
+
+    @Override
+    public Color getSecondary() {
+        return new Color(0x9384B3);
     }
 
     @Override

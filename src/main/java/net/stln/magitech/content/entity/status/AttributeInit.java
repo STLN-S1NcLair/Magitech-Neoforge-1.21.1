@@ -27,7 +27,7 @@ public class AttributeInit {
     public static final DeferredHolder<Attribute, Attribute> SPELL_POWER = ATTRIBUTES.register("spell_power", () -> (new PercentageAttribute("attribute.magitech.spell_power", 1, 0, Double.MAX_VALUE).setSyncable(true)));
     public static final DeferredHolder<Attribute, Attribute> CHARGE_SPEED = ATTRIBUTES.register("charge_speed", () -> (new PercentageAttribute("attribute.magitech.charge_speed", 1, 0, Double.MAX_VALUE).setSyncable(true)));
     public static final DeferredHolder<Attribute, Attribute> COOLDOWN_SPEED = ATTRIBUTES.register("cooldown_speed", () -> (new PercentageAttribute("attribute.magitech.cooldown_speed", 1, 0, Double.MAX_VALUE).setSyncable(true)));
-    public static final DeferredHolder<Attribute, Attribute> PROJECTILE_SPEED = ATTRIBUTES.register("projectile_speed", () -> (new PercentageAttribute("attribute.magitech.projectile_speed", 1, 0, Double.MAX_VALUE).setSyncable(true)));
+    public static final DeferredHolder<Attribute, Attribute> LAUNCH = ATTRIBUTES.register("launch", () -> (new PercentageAttribute("attribute.magitech.launch", 1, 0, Double.MAX_VALUE).setSyncable(true)));
     public static final DeferredHolder<Attribute, Attribute> MANA_EFFICIENCY = ATTRIBUTES.register("mana_efficiency", () -> (new PercentageAttribute("attribute.magitech.mana_efficiency", 1, 0, Double.MAX_VALUE).setSyncable(true)));
 
     public static final DeferredHolder<Attribute, Attribute> EMBER_SPELL_POWER = ATTRIBUTES.register("ember_spell_power", () -> (new PercentageAttribute("attribute.magitech.ember_spell_power", 1, 0, Double.MAX_VALUE).setSyncable(true)));

@@ -49,7 +49,6 @@ import net.stln.magitech.content.entity.magicentity.volkarin.VolkarinRenderer;
 import net.stln.magitech.content.entity.magicentity.voltaris.VoltarisEntity;
 import net.stln.magitech.content.entity.magicentity.voltaris.VoltarisRenderer;
 import net.stln.magitech.content.entity.mana.mana_parcel.ManaParcelEntity;
-import net.stln.magitech.content.entity.mana.mana_parcel.ManaParcelRenderer;
 import net.stln.magitech.content.entity.mob.WeaverEntity;
 import net.stln.magitech.content.entity.mob.WeaverRenderer;
 

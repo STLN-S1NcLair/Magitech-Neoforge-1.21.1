@@ -17,33 +17,21 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.stln.magitech.feature.tool.part.ToolPart;
+import net.stln.magitech.feature.tool.part.ToolPartInit;
 import net.stln.magitech.feature.tool.tool_type.ToolType;
+import net.stln.magitech.feature.tool.tool_type.ToolTypeInit;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
 
-public class AxeItem extends PartToolItem {
+public class AxeItem extends SynthesisedToolItem {
     public AxeItem(Properties settings) {
-        super(settings);
+        super(settings, ToolTypeInit.AXE);
     }
 
     private static boolean playerHasShieldUseIntent(UseOnContext context) {
         Player player = context.getPlayer();
         return context.getHand().equals(InteractionHand.MAIN_HAND) && player.getOffhandItem().is(Items.SHIELD) && !player.isSecondaryUseActive();
-    }
-
-    public ToolType getToolType() {
-        return ToolType.AXE;
-    }
-
-    public float getMultiplier(ToolPart part) {
-        return switch (part) {
-            case TOOL_BINDING -> 0.2F;
-            case STRIKE_HEAD -> 1.3F;
-            case LIGHT_BLADE -> 1.9F;
-            case HEAVY_HANDLE -> 0.6F;
-            default -> 1F;
-        } / getToolType().getSize();
     }
 
     @Override

@@ -1,16 +1,5 @@
 package net.stln.magitech;
 
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.event.config.ModConfigEvent;
-import net.neoforged.neoforge.common.ModConfigSpec;
-
-import java.util.List;
-import java.util.Set;
-
 //// An example config class. This is not required, but it's a good idea child have one child keep your config organized.
 //// Demonstrates how child use Neo's config APIs
 //@EventBusSubscriber(modid = Magitech.MOD_ID)

@@ -8,7 +8,6 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
@@ -41,7 +40,7 @@ import net.stln.magitech.feature.tool.material.MaterialInit;
 import net.stln.magitech.feature.tool.part.ToolPartInit;
 import net.stln.magitech.feature.tool.property.ToolPropertyInit;
 import net.stln.magitech.feature.tool.register.ToolMaterialRegister;
-import net.stln.magitech.feature.tool.tool_group.ToolGroupInit;
+import net.stln.magitech.feature.tool.tool_category.ToolCategoryInit;
 import net.stln.magitech.feature.tool.tool_type.ToolTypeInit;
 import net.stln.magitech.feature.tool.upgrade.UpgradeInit;
 import net.stln.magitech.worldgen.WorldGenInit;
@@ -88,7 +87,7 @@ public class Magitech {
         ToolMaterialRegister.init();
         ToolPartInit.registerToolParts(modEventBus);
         ToolPropertyInit.registerToolProperties(modEventBus);
-        ToolGroupInit.registerToolGroups(modEventBus);
+        ToolCategoryInit.registerToolCategories(modEventBus);
         ToolTypeInit.registerToolTypes(modEventBus);
         UpgradeInit.registerUpgrades();
 

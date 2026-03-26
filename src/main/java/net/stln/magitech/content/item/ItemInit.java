@@ -74,7 +74,7 @@ public class ItemInit {
 
                     Map.entry(AttributeInit.COOLDOWN_SPEED, new AttributeModifier(THREADBOUND_ID, -0.4, AttributeModifier.Operation.ADD_VALUE)),
                     Map.entry(AttributeInit.CHARGE_SPEED, new AttributeModifier(THREADBOUND_ID, -0.4, AttributeModifier.Operation.ADD_VALUE)),
-                    Map.entry(AttributeInit.PROJECTILE_SPEED, new AttributeModifier(THREADBOUND_ID, 0.7, AttributeModifier.Operation.ADD_VALUE)),
+                    Map.entry(AttributeInit.LAUNCH, new AttributeModifier(THREADBOUND_ID, 0.7, AttributeModifier.Operation.ADD_VALUE)),
                     Map.entry(AttributeInit.SPELL_POWER, new AttributeModifier(THREADBOUND_ID, 0.3, AttributeModifier.Operation.ADD_VALUE)),
                     Map.entry(AttributeInit.MANA_EFFICIENCY, new AttributeModifier(THREADBOUND_ID, -0.2, AttributeModifier.Operation.ADD_VALUE))
             )),
@@ -108,7 +108,7 @@ public class ItemInit {
 
     public static final DeferredItem<RingItem> TORSION_RING = ITEMS.registerItem("torsion_ring",
             (properties) -> new RingItem(properties).attributeModifier(Map.of(
-                    AttributeInit.PROJECTILE_SPEED, new AttributeModifier(Magitech.id("ring"), 0.6, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+                    AttributeInit.LAUNCH, new AttributeModifier(Magitech.id("ring"), 0.6, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
             )),
             new Item.Properties().stacksTo(1));
 

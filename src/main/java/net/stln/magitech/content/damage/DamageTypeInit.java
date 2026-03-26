@@ -7,8 +7,10 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.content.item.tool.toolitem.PartToolItem;
+import net.stln.magitech.content.item.tool.toolitem.SynthesisedToolItem;
 import net.stln.magitech.feature.tool.ToolStats;
+import net.stln.magitech.feature.tool.property.ToolProperties;
+import net.stln.magitech.feature.tool.property.ToolPropertyInit;
 import net.stln.magitech.helper.DataMapHelper;
 
 public class DamageTypeInit {
@@ -25,12 +27,6 @@ public class DamageTypeInit {
     public static final ResourceKey<DamageType> LOGOS_DAMAGE = create("logos");
 
     public static final ResourceKey<DamageType> MANA_BERRY_BUSH = create("mana_berry_bush");
-
-    public static float getElementDamage(Player player, Entity target, ItemStack stack) {
-        ToolStats stats = ((PartToolItem) stack.getItem()).getSumStats(player, player.level(), stack);
-        float multiplier = DataMapHelper.getElementMultiplier(target, stats.getElement());
-        return stats.getStats().get(ToolStats.ELM_ATK_STAT) * multiplier;
-    }
 
     private static ResourceKey<DamageType> create(String path) {
         return ResourceKey.create(Registries.DAMAGE_TYPE, Magitech.id(path));

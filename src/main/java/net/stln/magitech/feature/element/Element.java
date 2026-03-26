@@ -10,7 +10,6 @@ import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.vehicle.Boat;
 import net.neoforged.fml.common.asm.enumextension.IExtensibleEnum;
 import net.neoforged.fml.common.asm.enumextension.NetworkedEnum;
 import net.stln.magitech.Magitech;
@@ -23,7 +22,7 @@ import java.awt.*;
 import java.util.Locale;
 import java.util.Optional;
 
-@net.neoforged.fml.common.asm.enumextension.NamedEnum(1)
+@net.neoforged.fml.common.asm.enumextension.NamedEnum()
 @net.neoforged.fml.common.asm.enumextension.NetworkedEnum(NetworkedEnum.NetworkCheck.BIDIRECTIONAL)
 public enum Element implements StringRepresentable, IExtensibleEnum {
     MANA("mana", new Color(0xA0FFD0), new Color(0xA0FFA0), new Color(0x00F0D0), new Color(0x005060), DamageTypeInit.MANA_DAMAGE, Optional.empty()),
@@ -72,7 +71,7 @@ public enum Element implements StringRepresentable, IExtensibleEnum {
         return this.id;
     }
 
-    public MutableComponent getSpellElementName() {
+    public MutableComponent getDisplayName() {
         return Component.translatable("element.magitech." + this.id);
     }
 

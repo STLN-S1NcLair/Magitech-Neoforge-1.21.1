@@ -9,24 +9,18 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.content.sound.SoundInit;
 import net.stln.magitech.effect.visual.Section;
-import net.stln.magitech.effect.visual.particle.particle_option.FlameParticleEffect;
-import net.stln.magitech.effect.visual.particle.particle_option.SquareFieldParticleEffect;
-import net.stln.magitech.effect.visual.particle.particle_option.SquareParticleEffect;
 import net.stln.magitech.effect.visual.preset.EntityVFX;
 import net.stln.magitech.effect.visual.preset.PointVFX;
 import net.stln.magitech.effect.visual.preset.PresetHelper;
 import net.stln.magitech.effect.visual.spawner.ElementParticles;
 import net.stln.magitech.effect.visual.spawner.RingParticles;
-import net.stln.magitech.effect.visual.spawner.SquareParticles;
 import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.feature.magic.MagicPerformanceHelper;
 import net.stln.magitech.feature.magic.spell.Spell;
 import net.stln.magitech.feature.magic.spell.SpellConfig;
 import net.stln.magitech.feature.magic.spell.SpellShape;
 import net.stln.magitech.feature.magic.spell.property.SpellPropertyInit;
-import net.stln.magitech.helper.EffectHelper;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector3f;
 
 public class Ardovitae extends Spell {
 

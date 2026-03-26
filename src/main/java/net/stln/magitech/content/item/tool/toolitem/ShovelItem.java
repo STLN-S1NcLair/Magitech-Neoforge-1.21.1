@@ -14,25 +14,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.stln.magitech.feature.tool.part.ToolPart;
 import net.stln.magitech.feature.tool.tool_type.ToolType;
+import net.stln.magitech.feature.tool.tool_type.ToolTypeInit;
 
-public class ShovelItem extends PartToolItem {
+public class ShovelItem extends SynthesisedToolItem {
 
     public ShovelItem(Properties settings) {
-        super(settings);
-    }
-
-    public ToolType getToolType() {
-        return ToolType.SHOVEL;
-    }
-
-    public float getMultiplier(ToolPart part) {
-        return switch (part) {
-            case TOOL_BINDING -> 0.5F;
-            case PLATE -> 1.2F;
-            case LIGHT_BLADE -> 1.7F;
-            case HEAVY_HANDLE -> 0.6F;
-            default -> 1F;
-        } / getToolType().getSize();
+        super(settings, ToolTypeInit.SHOVEL);
     }
 
     @Override

@@ -1,49 +1,55 @@
 package net.stln.magitech.feature.tool.trait;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.stln.magitech.feature.tool.ToolStats;
 import net.stln.magitech.feature.tool.material.MaterialInit;
+import net.stln.magitech.feature.tool.property.ToolProperties;
+import net.stln.magitech.feature.tool.property.ToolPropertyCategory;
+import net.stln.magitech.feature.tool.property.modifier.RationalToolPropertyModifier;
+import net.stln.magitech.feature.tool.property.modifier.ToolPropertyModifier;
 import net.stln.magitech.helper.ComponentHelper;
 
+import java.awt.*;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class HeatTreatmentTrait extends Trait {
 
     @Override
-    public ToolStats modifyStats1(ItemStack stack, int traitLevel, ToolStats stats) {
-        super.modifyStats1(stack, traitLevel, stats);
-        ToolStats defaultStats = ToolStats.DEFAULT;
-        if (ComponentHelper.getPartMaterials(stack).contains(MaterialInit.AMETHYST)) {
-            Map<String, Float> statsMap = stats.getStats();
-            Map<String, Float> modified = new HashMap<>(defaultStats.getStats());
-            float mul = 0.35F * traitLevel;
-            modified.put(ToolStats.ELM_ATK_STAT, statsMap.get(ToolStats.ELM_ATK_STAT) * mul);
-            modified.put(ToolStats.MIN_STAT, statsMap.get(ToolStats.MIN_STAT) * mul);
-            return new ToolStats(modified, defaultStats.getElement(), defaultStats.getMiningLevel(), defaultStats.getTier());
+    public List<ToolPropertyModifier> modifyProperty(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties) {
+        List<ToolPropertyModifier> list = super.modifyProperty(player, level, stack, traitLevel, properties);
+        float value = 0.25F * traitLevel;
+        list.add(new RationalToolPropertyModifier(ToolPropertyCategory.ELEMENT, value));
+        list.add(new RationalToolPropertyModifier(ToolPropertyCategory.CONTINUITY, value));
+        if (!effectEnabled(player, level, stack, traitLevel, properties)) {
+            for (ToolPropertyModifier modifier : list) {
+                modifier.setEnabled(false);
+            }
         }
-        return defaultStats;
+        return list;
+    }
+    @Override
+    public boolean effectEnabled(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties) {
+        return ComponentHelper.getPartMaterials(stack).contains(MaterialInit.AMETHYST);
     }
 
     @Override
-    public ToolStats modifySpellCasterStats1(ItemStack stack, int traitLevel, ToolStats stats) {
-        super.modifySpellCasterStats1(stack, traitLevel, stats);
-        ToolStats defaultStats = ToolStats.DEFAULT;
-        if (ComponentHelper.getPartMaterials(stack).contains(MaterialInit.AMETHYST)) {
-            Map<String, Float> statsMap = stats.getStats();
-            Map<String, Float> modified = new HashMap<>(defaultStats.getStats());
-            float mul = 0.35F * traitLevel;
-            modified.put(ToolStats.ELM_ATK_STAT, statsMap.get(ToolStats.ELM_ATK_STAT) * mul);
-            modified.put(ToolStats.MIN_STAT, statsMap.get(ToolStats.MIN_STAT) * mul);
-            return new ToolStats(modified, defaultStats.getElement(), defaultStats.getMiningLevel(), defaultStats.getTier());
-        }
-        return defaultStats;
+    public Color getColor() {
+        return new Color(0xFFF080);
     }
 
     @Override
-    public int getColor() {
-        return 0xFFF080;
+    public Color getPrimary() {
+        return new Color(0xFFF080);
+    }
+
+    @Override
+    public Color getSecondary() {
+        return new Color(0xFF492C);
     }
 
     @Override

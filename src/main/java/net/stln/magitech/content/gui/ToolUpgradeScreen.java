@@ -23,7 +23,7 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.content.item.tool.toolitem.PartToolItem;
+import net.stln.magitech.content.item.tool.toolitem.SynthesisedToolItem;
 import net.stln.magitech.content.item.tool.toolitem.SpellCasterItem;
 import net.stln.magitech.feature.tool.upgrade.Upgrade;
 import net.stln.magitech.feature.tool.upgrade.UpgradeInstance;
@@ -99,7 +99,7 @@ public class ToolUpgradeScreen extends AbstractContainerScreen<ToolUpgradeMenu> 
             this.renderButtons(guiGraphics, mouseX, mouseY, l, i1, j1);
         } else {
             ItemStack itemStack = menu.container.getItem(0);
-            if (itemStack.getItem() instanceof PartToolItem) {
+            if (itemStack.getItem() instanceof SynthesisedToolItem) {
                 if (menu.hasUpgradePoint(itemStack) && !ToolMaterialHelper.isCorrectMaterialForUpgrade(ComponentHelper.getTier(itemStack), ComponentHelper.getUpgradePoint(itemStack), menu.container.getItem(1).getItem())) {
                     MutableComponent text = Component.translatable("recipe.magitech.tool_upgrade.incorrect_material");
                     guiGraphics.drawString(this.font, text.withColor(0xF0D080), l - font.width(text) / 2 + 58, i1 + 15, 0xFFFFFF, false);
@@ -153,14 +153,14 @@ public class ToolUpgradeScreen extends AbstractContainerScreen<ToolUpgradeMenu> 
 
             for (int l = 0; l < k; l++) {
                 if (x >= i && x < i + 117 && y >= j + 18 * l && y < j + 18 + 18 * l) {
-                    List<Component> upgradeTooltips = RenderHelper.getUpgradeTooltips(List.of(new UpgradeInstance(1, menu.upgrades.get(l))), ((PartToolItem) itemStack.getItem()).getToolType(), itemStack.getItem() instanceof SpellCasterItem);
+                    List<Component> upgradeTooltips = RenderHelper.getUpgradeTooltips(List.of(new UpgradeInstance(1, menu.upgrades.get(l))), ((SynthesisedToolItem) itemStack.getItem()).getToolType(), itemStack.getItem() instanceof SpellCasterItem);
                     upgradeTooltips.addFirst(Component.translatable("recipe.magitech.tool_upgrade.click_to_apply").withStyle(style -> style.withColor(0xF0D080)));
                     guiGraphics.renderTooltip(this.font,
                             upgradeTooltips, Optional.empty(), x, y);
                 }
             }
         }
-        if (!menu.canUpgrade() && menu.hasUpgradePoint(itemStack) && itemStack.getItem() instanceof PartToolItem && !ToolMaterialHelper.isCorrectMaterialForUpgrade(ComponentHelper.getTier(itemStack), ComponentHelper.getUpgradePoint(itemStack), menu.container.getItem(1).getItem())) {
+        if (!menu.canUpgrade() && menu.hasUpgradePoint(itemStack) && itemStack.getItem() instanceof SynthesisedToolItem && !ToolMaterialHelper.isCorrectMaterialForUpgrade(ComponentHelper.getTier(itemStack), ComponentHelper.getUpgradePoint(itemStack), menu.container.getItem(1).getItem())) {
             if (x >= i + 50 && x < i + 66 && y >= j + 31 && y < j + 47) {
                 guiGraphics.renderTooltip(font, new ItemStack(tagItems.get(currentIndex)), x, y);
             }
@@ -169,7 +169,7 @@ public class ToolUpgradeScreen extends AbstractContainerScreen<ToolUpgradeMenu> 
 
     private void renderButtons(GuiGraphics guiGraphics, int mouseX, int mouseY, int x, int y, int lastVisibleElementIndex) {
         ItemStack stack = this.menu.container.getItem(0);
-        if (stack.getItem() instanceof PartToolItem) {
+        if (stack.getItem() instanceof SynthesisedToolItem) {
             List<UpgradeInstance> upgrades = ComponentHelper.getUpgrades(stack);
             List<Upgrade> currentUpgrades = menu.upgrades;
             for (int i = 0; i < lastVisibleElementIndex; i++) {

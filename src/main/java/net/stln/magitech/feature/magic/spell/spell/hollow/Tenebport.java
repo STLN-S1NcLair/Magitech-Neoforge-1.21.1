@@ -1,19 +1,15 @@
 package net.stln.magitech.feature.magic.spell.spell.hollow;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.portal.DimensionTransition;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.content.sound.SoundInit;
 import net.stln.magitech.effect.sound.SoundHelper;
 import net.stln.magitech.effect.visual.Section;
-import net.stln.magitech.effect.visual.particle.particle_option.BeamParticleEffect;
-import net.stln.magitech.effect.visual.particle.particle_option.VoidGlowParticleEffect;
 import net.stln.magitech.effect.visual.preset.AreaVFX;
 import net.stln.magitech.effect.visual.preset.EntityVFX;
 import net.stln.magitech.effect.visual.preset.PointVFX;
@@ -24,10 +20,8 @@ import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.feature.magic.spell.Spell;
 import net.stln.magitech.feature.magic.spell.SpellConfig;
 import net.stln.magitech.feature.magic.spell.SpellShape;
-import net.stln.magitech.helper.EffectHelper;
 import net.stln.magitech.helper.TickScheduler;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector3f;
 
 public class Tenebport extends Spell {
 

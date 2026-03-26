@@ -12,7 +12,8 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
-import net.stln.magitech.content.item.tool.toolitem.PartToolItem;
+import net.stln.magitech.content.item.tool.toolitem.SynthesisedToolItem;
+import net.stln.magitech.feature.tool.trait.TraitHelper;
 
 import java.util.Objects;
 
@@ -34,14 +35,14 @@ public class TraitActionPayLoadHandler {
         Entity entity = player.level().getEntity(payload.targetId());
         InteractionHand hand = payload.isMainHand() ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
         Item item = player.getItemInHand(hand).getItem();
-        if (item instanceof PartToolItem partToolItem) {
+        if (item instanceof SynthesisedToolItem partToolItem) {
             ItemStack stack = player.getItemInHand(hand);
-            PartToolItem.getTraitLevel(PartToolItem.getTraits(stack)).forEach((trait, integer) -> {
+            TraitHelper.getTrait(stack).forEach((instance) -> {
                 Vec3 lookingPos = payload.targetPos();
                 if (lookingPos.x == Double.MAX_VALUE && lookingPos.y == Double.MAX_VALUE && lookingPos.z == Double.MAX_VALUE) {
                     lookingPos = null;
                 }
-                trait.traitAction(player1, player1.level(), entity, lookingPos, stack, integer, ((PartToolItem) stack.getItem()).getSumStats(player1, player1.level(), stack), hand, false);
+                instance.trait().traitAction(player1, player1.level(), entity, lookingPos, stack, instance.level(), ((SynthesisedToolItem) stack.getItem()).getAppliedProperties(player1, player1.level(), stack), hand, false);
             });
         }
     }
@@ -54,15 +55,15 @@ public class TraitActionPayLoadHandler {
         Entity entity = player.level().getEntity(payload.targetId());
         InteractionHand hand = payload.isMainHand() ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
         Item item = player.getItemInHand(hand).getItem();
-        if (item instanceof PartToolItem partToolItem) {
+        if (item instanceof SynthesisedToolItem partToolItem) {
             ItemStack stack = player.getItemInHand(hand);
 
-            PartToolItem.getTraitLevel(PartToolItem.getTraits(stack)).forEach((trait, integer) -> {
+            TraitHelper.getTrait(stack).forEach((instance) -> {
                 Vec3 lookingPos = payload.targetPos();
                 if (lookingPos.x == Double.MAX_VALUE && lookingPos.y == Double.MAX_VALUE && lookingPos.z == Double.MAX_VALUE) {
                     lookingPos = null;
                 }
-                trait.traitAction(player, player.level(), entity, lookingPos, stack, integer, ((PartToolItem) stack.getItem()).getSumStats(player, player.level(), stack), hand, false);
+                instance.trait().traitAction(player, player.level(), entity, lookingPos, stack, instance.level(), ((SynthesisedToolItem) stack.getItem()).getAppliedProperties(player, player.level(), stack), hand, false);
             });
         }
         MinecraftServer server = Objects.requireNonNull(ServerLifecycleHooks.getCurrentServer(), "Cannot send clientbound payloads on the client");

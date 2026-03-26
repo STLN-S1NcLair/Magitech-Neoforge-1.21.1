@@ -9,9 +9,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.content.sound.SoundInit;
 import net.stln.magitech.effect.visual.Section;
-import net.stln.magitech.effect.visual.particle.particle_option.BeamParticleEffect;
-import net.stln.magitech.effect.visual.particle.particle_option.MembraneParticleEffect;
-import net.stln.magitech.effect.visual.particle.particle_option.SquareParticleEffect;
 import net.stln.magitech.effect.visual.preset.LineVFX;
 import net.stln.magitech.effect.visual.preset.PointVFX;
 import net.stln.magitech.effect.visual.preset.TrailVFX;
@@ -21,9 +18,7 @@ import net.stln.magitech.feature.magic.spell.BlinkSpell;
 import net.stln.magitech.feature.magic.spell.SpellConfig;
 import net.stln.magitech.feature.magic.spell.SpellShape;
 import net.stln.magitech.feature.magic.spell.property.SpellPropertyInit;
-import net.stln.magitech.helper.EffectHelper;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector3f;
 
 import java.util.List;
 

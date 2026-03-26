@@ -1,17 +1,12 @@
 package net.stln.magitech.content.item.tool.partitem;
 
 
-import net.stln.magitech.feature.tool.part.ToolPart;
 import net.stln.magitech.feature.tool.material.ToolMaterial;
+import net.stln.magitech.feature.tool.part.ToolPart;
+import net.stln.magitech.feature.tool.part.ToolPartInit;
 
 public class StrikeHeadItem extends PartItem {
-    protected ToolMaterial material;
-
     public StrikeHeadItem(Properties settings) {
-        super(settings);
-    }
-
-    public ToolPart getPart() {
-        return ToolPart.STRIKE_HEAD;
+        super(settings, ToolPartInit.STRIKE_HEAD);
     }
 }

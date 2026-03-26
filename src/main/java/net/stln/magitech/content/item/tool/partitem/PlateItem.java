@@ -1,17 +1,12 @@
 package net.stln.magitech.content.item.tool.partitem;
 
 
-import net.stln.magitech.feature.tool.part.ToolPart;
 import net.stln.magitech.feature.tool.material.ToolMaterial;
+import net.stln.magitech.feature.tool.part.ToolPart;
+import net.stln.magitech.feature.tool.part.ToolPartInit;
 
 public class PlateItem extends PartItem {
-    protected ToolMaterial material;
-
     public PlateItem(Properties settings) {
-        super(settings);
-    }
-
-    public ToolPart getPart() {
-        return ToolPart.PLATE;
+        super(settings, ToolPartInit.PLATE);
     }
 }

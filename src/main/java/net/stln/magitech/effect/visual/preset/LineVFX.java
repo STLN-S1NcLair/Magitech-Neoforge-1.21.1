@@ -4,7 +4,6 @@ import com.mojang.datafixers.util.Function3;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.stln.magitech.Magitech;
 import net.stln.magitech.effect.visual.Section;
 import net.stln.magitech.effect.visual.spawner.SquareParticles;
 import net.stln.magitech.feature.element.Element;

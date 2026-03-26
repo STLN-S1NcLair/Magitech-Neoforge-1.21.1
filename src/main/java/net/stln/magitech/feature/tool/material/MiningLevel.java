@@ -1,6 +1,14 @@
 package net.stln.magitech.feature.tool.material;
 
-public enum MiningLevel {
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.neoforged.fml.common.asm.enumextension.IExtensibleEnum;
+import net.neoforged.fml.common.asm.enumextension.NetworkedEnum;
+import net.stln.magitech.feature.element.Element;
+
+@net.neoforged.fml.common.asm.enumextension.NamedEnum()
+@net.neoforged.fml.common.asm.enumextension.NetworkedEnum(NetworkedEnum.NetworkCheck.BIDIRECTIONAL)
+public enum MiningLevel implements IExtensibleEnum {
     NONE("none", 0, 0x805830),
     STONE("stone", 1, 0x808080),
     IRON("iron", 2, 0xFFFFFF),
@@ -27,5 +35,13 @@ public enum MiningLevel {
 
     public int getColor() {
         return color;
+    }
+
+    public MutableComponent getDisplayName() {
+        return Component.translatable("tool.magitech.property.mining_level." + get());
+    }
+
+    public static net.neoforged.fml.common.asm.enumextension.ExtensionInfo getExtensionInfo() {
+        return net.neoforged.fml.common.asm.enumextension.ExtensionInfo.nonExtended(Element.class);
     }
 }

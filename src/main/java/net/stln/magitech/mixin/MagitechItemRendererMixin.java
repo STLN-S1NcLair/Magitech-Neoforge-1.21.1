@@ -11,12 +11,12 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.stln.magitech.content.item.tool.partitem.PartItem;
-import net.stln.magitech.content.item.tool.toolitem.PartToolItem;
-import net.stln.magitech.feature.tool.part.ToolPart;
-import net.stln.magitech.feature.tool.tool_type.ToolType;
+import net.stln.magitech.content.item.tool.toolitem.SynthesisedToolItem;
 import net.stln.magitech.feature.tool.material.ToolMaterial;
 import net.stln.magitech.feature.tool.model.ModelRegistrar;
+import net.stln.magitech.feature.tool.part.ToolPart;
 import net.stln.magitech.feature.tool.register.ToolMaterialRegister;
+import net.stln.magitech.feature.tool.tool_type.ToolType;
 import net.stln.magitech.helper.ComponentHelper;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -39,7 +39,7 @@ public class MagitechItemRendererMixin {
         ItemRenderer itemRenderer = minecraft.getItemRenderer();
         ModelManager modelManager = minecraft.getModelManager();
 
-        if (itemStack.getItem() instanceof PartToolItem partToolItem) {
+        if (itemStack.getItem() instanceof SynthesisedToolItem partToolItem) {
             ToolType toolType = partToolItem.getToolType();
             List<ToolMaterial> partMaterials = ComponentHelper.getPartMaterials(itemStack);
             for (int i = 0; i < partMaterials.size(); i++) {

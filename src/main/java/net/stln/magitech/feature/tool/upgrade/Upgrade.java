@@ -1,10 +1,10 @@
 package net.stln.magitech.feature.tool.upgrade;
 
-import net.stln.magitech.feature.tool.ToolStats;
+import net.stln.magitech.feature.tool.property.modifier.ToolPropertyModifier;
+
+import java.util.List;
 
 public abstract class Upgrade {
 
-    public ToolStats getUpgradeStats(int level) {
-        return ToolStats.DEFAULT;
-    }
+    public abstract List<ToolPropertyModifier> getModifiers(int level);
 }

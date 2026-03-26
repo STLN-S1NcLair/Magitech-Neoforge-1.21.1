@@ -20,7 +20,6 @@ import net.stln.magitech.helper.CombatHelper;
 import net.stln.magitech.helper.VectorHelper;
 import team.lodestar.lodestone.systems.rendering.VFXBuilders;
 import team.lodestar.lodestone.systems.rendering.trail.InterpolatedTrailPoint;
-import team.lodestar.lodestone.systems.rendering.trail.TrailPoint;
 import team.lodestar.lodestone.systems.rendering.trail.TrailPointBuilder;
 
 import javax.annotation.Nullable;

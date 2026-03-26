@@ -1,14 +1,10 @@
 package net.stln.magitech.effect.visual.preset;
 
 import com.mojang.datafixers.util.Function3;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.stln.magitech.effect.visual.spawner.PowerupParticles;
 import net.stln.magitech.effect.visual.spawner.SquareParticles;
 import net.stln.magitech.feature.element.Element;
-import net.stln.magitech.helper.CombatHelper;
-import net.stln.magitech.helper.EffectHelper;
 import net.stln.magitech.helper.VectorHelper;
 import team.lodestar.lodestone.systems.particle.ParticleEffectSpawner;
 import team.lodestar.lodestone.systems.particle.world.LodestoneWorldParticle;

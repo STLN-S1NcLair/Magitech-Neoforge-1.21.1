@@ -11,24 +11,27 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.stln.magitech.feature.tool.ToolStats;
+import net.stln.magitech.feature.tool.property.ToolProperties;
+
+import java.awt.*;
 
 public class HardmineTrait extends Trait {
 
     @Override
-    public float modifyMiningSpeed(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos) {
+    public float modifyMiningSpeed(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties, BlockState blockState, BlockPos pos) {
         return blockState.getBlock().getExplosionResistance() * traitLevel / 5;
     }
 
     @Override
-    public void onAttackEntity(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, Entity target) {
+    public void onDamageEntity(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties, Entity target) {
         if (target instanceof LivingEntity livingEntity && player.getRandom().nextFloat() < traitLevel * 0.4F) {
             livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 1));
         }
     }
 
     @Override
-    public int getColor() {
-        return 0x404050;
+    public Color getColor() {
+        return new Color(0x404050);
     }
 
     @Override

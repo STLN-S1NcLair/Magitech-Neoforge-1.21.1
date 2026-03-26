@@ -6,6 +6,9 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
+import net.stln.magitech.feature.tool.property.modifier.ToolPropertyModifier;
+
+import java.util.List;
 
 public record UpgradeInstance(int level, Upgrade upgrade) {
     public static final Codec<UpgradeInstance> CODEC = RecordCodecBuilder.create(instance ->
@@ -20,6 +23,10 @@ public record UpgradeInstance(int level, Upgrade upgrade) {
             ResourceLocation.STREAM_CODEC, (instance) -> UpgradeRegister.getId(instance.upgrade),
             UpgradeInstance::new
     );
+
+    public List<ToolPropertyModifier> getModifiers() {
+        return upgrade().getModifiers(level());
+    }
 
     public UpgradeInstance(int level, ResourceLocation upgrade) {
         this(level, UpgradeRegister.getUpgradeFromAll(upgrade));

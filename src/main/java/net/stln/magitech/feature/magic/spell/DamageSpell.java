@@ -6,8 +6,8 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.stln.magitech.feature.magic.MagicPerformanceHelper;
-import net.stln.magitech.feature.magic.spell.property.SpellPropertyInit;
 import net.stln.magitech.feature.magic.spell.property.SpellProperty;
+import net.stln.magitech.feature.magic.spell.property.SpellPropertyInit;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class DamageSpell extends Spell {

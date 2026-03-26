@@ -1,42 +1,35 @@
 package net.stln.magitech.feature.tool.trait;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.stln.magitech.feature.tool.ToolStats;
+import net.stln.magitech.feature.tool.property.ToolProperties;
+import net.stln.magitech.feature.tool.property.ToolPropertyCategory;
+import net.stln.magitech.feature.tool.property.modifier.CrossRefRationalToolPropertyModifier;
+import net.stln.magitech.feature.tool.property.modifier.RationalToolPropertyModifier;
+import net.stln.magitech.feature.tool.property.modifier.ToolPropertyModifier;
+import org.checkerframework.checker.units.qual.C;
 
+import java.awt.*;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CatalysisTrait extends Trait {
 
     @Override
-    public ToolStats modifyStats2(ItemStack stack, int traitLevel, ToolStats stats) {
-        super.modifyStats2(stack, traitLevel, stats);
-        ToolStats defaultStats = ToolStats.DEFAULT;
-        Map<String, Float> modified = new HashMap<>(defaultStats.getStats());
-        float mul = traitLevel * 0.25F;
-        Float elmAtk = stats.getStats().get(ToolStats.ELM_ATK_STAT);
-        modified.put(ToolStats.ATK_STAT, elmAtk * mul);
-        modified.put(ToolStats.MIN_STAT, elmAtk * mul);
-        return new ToolStats(modified, defaultStats.getElement(), defaultStats.getMiningLevel(), defaultStats.getTier());
+    public List<ToolPropertyModifier> modifyProperty(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties) {
+        float value = 0.3F * traitLevel;
+        ToolPropertyModifier mod1 = new CrossRefRationalToolPropertyModifier(ToolPropertyCategory.ATTACK, ToolPropertyCategory.ELEMENT, value);
+        ToolPropertyModifier mod2 = new CrossRefRationalToolPropertyModifier(ToolPropertyCategory.CONTINUITY, ToolPropertyCategory.ELEMENT, value);
+        return List.of(mod1, mod2);
     }
 
     @Override
-    public ToolStats modifySpellCasterStats2(ItemStack stack, int traitLevel, ToolStats stats) {
-        super.modifySpellCasterStats2(stack, traitLevel, stats);
-        ToolStats defaultStats = ToolStats.DEFAULT;
-        Map<String, Float> modified = new HashMap<>(defaultStats.getStats());
-        float mul = traitLevel * 0.25F;
-        Float elmAtk = stats.getStats().get(ToolStats.ELM_ATK_STAT);
-        modified.put(ToolStats.PWR_STAT, elmAtk * mul);
-        modified.put(ToolStats.PRJ_STAT, elmAtk * mul);
-        modified.put(ToolStats.MNA_STAT, elmAtk * mul / 2);
-        return new ToolStats(modified, defaultStats.getElement(), defaultStats.getMiningLevel(), defaultStats.getTier());
-    }
-
-    @Override
-    public int getColor() {
-        return 0xF0B020;
+    public Color getColor() {
+        return new Color(0xF0B020);
     }
 
     @Override

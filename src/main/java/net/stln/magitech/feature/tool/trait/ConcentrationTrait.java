@@ -6,55 +6,52 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.stln.magitech.effect.visual.particle.particle_option.PowerupParticleEffect;
 import net.stln.magitech.feature.tool.ToolStats;
+import net.stln.magitech.feature.tool.property.ToolProperties;
+import net.stln.magitech.feature.tool.property.ToolPropertyCategory;
+import net.stln.magitech.feature.tool.property.modifier.RationalToolPropertyModifier;
+import net.stln.magitech.feature.tool.property.modifier.ToolPropertyModifier;
 import net.stln.magitech.helper.EffectHelper;
 import org.joml.Vector3f;
 
+import java.awt.*;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ConcentrationTrait extends Trait {
 
     @Override
-    public ToolStats modifyStatsConditional1(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
-        if (player.getHealth() == player.getMaxHealth() && player.getFoodData().getFoodLevel() <= 18 && player.getFoodData().getFoodLevel() >= 10) {
-            ToolStats aDefault = ToolStats.DEFAULT;
-            Map<String, Float> modified = new HashMap<>(aDefault.getStats());
-            float mul = traitLevel * 0.5F;
-            Float atk = stats.getStats().get(ToolStats.ATK_STAT);
-            Float min = stats.getStats().get(ToolStats.MIN_STAT);
-            modified.put(ToolStats.ATK_STAT, atk * mul);
-            modified.put(ToolStats.MIN_STAT, min * mul);
-            return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
+    public List<ToolPropertyModifier> modifyProperty(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties) {
+        List<ToolPropertyModifier> list = super.modifyProperty(player, level, stack, traitLevel, properties);
+        float value = 0.25F * traitLevel;
+        list.add(new RationalToolPropertyModifier(ToolPropertyCategory.ATTACK, value));
+        list.add(new RationalToolPropertyModifier(ToolPropertyCategory.CONTINUITY, value));
+        if (!effectEnabled(player, level, stack, traitLevel, properties)) {
+            for (ToolPropertyModifier modifier : list) {
+                modifier.setEnabled(false);
+            }
         }
-        return super.modifyStatsConditional1(player, level, stack, traitLevel, stats);
+        return list;
     }
 
     @Override
-    public ToolStats modifySpellCasterStatsConditional1(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
-        if (player.getHealth() == player.getMaxHealth() && player.getFoodData().getFoodLevel() <= 18 && player.getFoodData().getFoodLevel() >= 10) {
-            ToolStats aDefault = ToolStats.DEFAULT;
-            Map<String, Float> modified = new HashMap<>(aDefault.getStats());
-            float mul = traitLevel * 0.5F;
-            Float atk = stats.getStats().get(ToolStats.ATK_STAT);
-            Float cld = stats.getStats().get(ToolStats.CLD_STAT);
-            modified.put(ToolStats.ATK_STAT, atk * mul);
-            modified.put(ToolStats.CLD_STAT, cld * mul);
-            return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
-        }
-        return super.modifySpellCasterStatsConditional1(player, level, stack, traitLevel, stats);
+    public boolean effectEnabled(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties) {
+        return player.getHealth() == player.getMaxHealth();
     }
 
     @Override
-    public void tick(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, boolean isHost) {
-        super.tick(player, level, stack, traitLevel, stats, isHost);
-        if (player.getHealth() == player.getMaxHealth() && player.getFoodData().getFoodLevel() <= 18 && player.getFoodData().getFoodLevel() >= 10) {
-            EffectHelper.entityEffect(level, new PowerupParticleEffect(new Vector3f(0.5F, 1.0F, 0.7F), new Vector3f(0.3F, 1.0F, 0.4F), 1F, 1, 0, 15, 1.0F), player, 1);
-        }
+    public Color getColor() {
+        return new Color(0x40FF50);
     }
 
     @Override
-    public int getColor() {
-        return 0x40FF50;
+    public Color getPrimary() {
+        return new Color(0x81FF33);
+    }
+
+    @Override
+    public Color getSecondary() {
+        return new Color(0x00ED60);
     }
 
     @Override

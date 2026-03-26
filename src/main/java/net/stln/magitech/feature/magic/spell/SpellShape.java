@@ -1,6 +1,12 @@
 package net.stln.magitech.feature.magic.spell;
 
-public enum SpellShape {
+import net.neoforged.fml.common.asm.enumextension.IExtensibleEnum;
+import net.neoforged.fml.common.asm.enumextension.NetworkedEnum;
+import net.stln.magitech.feature.element.Element;
+
+@net.neoforged.fml.common.asm.enumextension.NamedEnum()
+@net.neoforged.fml.common.asm.enumextension.NetworkedEnum(NetworkedEnum.NetworkCheck.BIDIRECTIONAL)
+public enum SpellShape implements IExtensibleEnum {
     SHOT("shot", 0xFFFFFF, 0x808080),
     BEAM("beam", 0xFFFFFF, 0x808080),
     SPRAY("spray", 0xFFFFFF, 0x808080),
@@ -35,5 +41,9 @@ public enum SpellShape {
 
     public int getDark() {
         return dark;
+    }
+
+    public static net.neoforged.fml.common.asm.enumextension.ExtensionInfo getExtensionInfo() {
+        return net.neoforged.fml.common.asm.enumextension.ExtensionInfo.nonExtended(Element.class);
     }
 }

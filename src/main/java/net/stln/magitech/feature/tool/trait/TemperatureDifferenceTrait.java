@@ -5,47 +5,34 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.stln.magitech.feature.tool.ToolStats;
+import net.stln.magitech.feature.tool.property.ToolProperties;
+import net.stln.magitech.feature.tool.property.ToolPropertyCategory;
+import net.stln.magitech.feature.tool.property.modifier.RationalToolPropertyModifier;
+import net.stln.magitech.feature.tool.property.modifier.ToolPropertyModifier;
 
+import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class TemperatureDifferenceTrait extends Trait {
 
     @Override
-    public ToolStats modifyStatsConditional1(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
-        super.modifyStatsConditional1(player, level, stack, traitLevel, stats);
-        ToolStats defaultStats = ToolStats.DEFAULT;
-        Map<String, Float> modified = new HashMap<>(defaultStats.getStats());
+    public List<ToolPropertyModifier> modifyProperty(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties) {
+        List<ToolPropertyModifier> mods = new ArrayList<>();
         float mul = traitLevel * 0.25F;
         if (level.isDay()) {
-            modified.put(ToolStats.ATK_STAT, stats.getStats().get(ToolStats.ATK_STAT) * mul);
-            modified.put(ToolStats.DEF_STAT, stats.getStats().get(ToolStats.DEF_STAT) * mul);
+            mods.add(new RationalToolPropertyModifier(ToolPropertyCategory.ATTACK, mul));
         } else {
-            modified.put(ToolStats.SPD_STAT, stats.getStats().get(ToolStats.SPD_STAT) * mul);
-            modified.put(ToolStats.SPD_STAT, stats.getStats().get(ToolStats.MIN_STAT) * mul);
+            mods.add(new RationalToolPropertyModifier(ToolPropertyCategory.HANDLING, mul));
         }
-        return new ToolStats(modified, defaultStats.getElement(), defaultStats.getMiningLevel(), defaultStats.getTier());
+        return super.modifyProperty(player, level, stack, traitLevel, properties);
     }
 
     @Override
-    public ToolStats modifySpellCasterStatsConditional3(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
-        super.modifySpellCasterStatsConditional3(player, level, stack, traitLevel, stats);
-        ToolStats defaultStats = ToolStats.DEFAULT;
-        Map<String, Float> modified = new HashMap<>(defaultStats.getStats());
-        float mul = traitLevel * 0.25F;
-        if (level.isDay()) {
-            modified.put(ToolStats.ATK_STAT, stats.getStats().get(ToolStats.ATK_STAT) * mul);
-            modified.put(ToolStats.DEF_STAT, stats.getStats().get(ToolStats.DEF_STAT) * mul);
-        } else {
-            modified.put(ToolStats.CHG_STAT, stats.getStats().get(ToolStats.CHG_STAT) * mul);
-            modified.put(ToolStats.MNA_STAT, stats.getStats().get(ToolStats.MNA_STAT) * mul);
-        }
-        return new ToolStats(modified, defaultStats.getElement(), defaultStats.getMiningLevel(), defaultStats.getTier());
-    }
-
-    @Override
-    public int getColor() {
-        return 0xFFFFC0;
+    public Color getColor() {
+        return new Color(0xFFFFC0);
     }
 
     @Override

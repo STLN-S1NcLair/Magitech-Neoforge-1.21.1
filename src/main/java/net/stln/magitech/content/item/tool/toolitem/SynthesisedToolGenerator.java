@@ -8,7 +8,7 @@ import net.stln.magitech.content.item.component.PartMaterialComponent;
 import net.stln.magitech.content.item.tool.partitem.PartItem;
 import net.stln.magitech.feature.tool.material.ToolMaterialLike;
 
-public class PartToolGenerator {
+public class SynthesisedToolGenerator {
 
     public static ItemStack generatePart(PartItem partItem, ToolMaterialLike material) {
         ItemStack stack = new ItemStack(partItem);

@@ -17,12 +17,12 @@ import net.minecraft.world.level.Level;
 import net.stln.magitech.content.item.component.ComponentInit;
 import net.stln.magitech.content.item.component.PartMaterialComponent;
 import net.stln.magitech.content.item.tool.partitem.PartItem;
-import net.stln.magitech.content.item.tool.toolitem.PartToolItem;
+import net.stln.magitech.content.item.tool.toolitem.SynthesisedToolItem;
 import net.stln.magitech.content.recipe.input.MultiStackRecipeInput;
-import net.stln.magitech.feature.tool.part.ToolPart;
-import net.stln.magitech.feature.tool.tool_type.ToolType;
 import net.stln.magitech.feature.tool.material.ToolMaterial;
+import net.stln.magitech.feature.tool.part.ToolPart;
 import net.stln.magitech.feature.tool.register.ToolMaterialRegister;
+import net.stln.magitech.feature.tool.tool_type.ToolType;
 import net.stln.magitech.helper.ComponentHelper;
 import org.jetbrains.annotations.NotNull;
 
@@ -43,10 +43,10 @@ public class ToolAssemblyRecipe implements Recipe<MultiStackRecipeInput> {
 
     @Override
     public boolean matches(@NotNull MultiStackRecipeInput input, @NotNull Level level) {
-        if (!(result.getItem() instanceof PartToolItem)) {
+        if (!(result.getItem() instanceof SynthesisedToolItem)) {
             throw new IllegalArgumentException("the result item expected child be a PartToolItem");
         }
-        ToolType type = ((PartToolItem) result.getItem()).getToolType();
+        ToolType type = ((SynthesisedToolItem) result.getItem()).getToolType();
         if (isCorrectTypesForTool(input, type).stream().allMatch(Objects::isNull)) {
             return false;
         }
@@ -67,10 +67,10 @@ public class ToolAssemblyRecipe implements Recipe<MultiStackRecipeInput> {
 
     @Override
     public @NotNull ItemStack assemble(@NotNull MultiStackRecipeInput input, HolderLookup.@NotNull Provider registries) {
-        if (!(result.getItem() instanceof PartToolItem)) {
+        if (!(result.getItem() instanceof SynthesisedToolItem)) {
             throw new IllegalArgumentException("the result item expected child be a PartToolItem");
         }
-        ToolType type = ((PartToolItem) result.getItem()).getToolType();
+        ToolType type = ((SynthesisedToolItem) result.getItem()).getToolType();
         List<ToolMaterial> toolMaterials = isCorrectTypesForTool(input, type);
         if (!toolMaterials.isEmpty()) {
             ItemStack stack = result.copy();
@@ -81,14 +81,15 @@ public class ToolAssemblyRecipe implements Recipe<MultiStackRecipeInput> {
     }
 
     private List<ToolMaterial> isCorrectTypesForTool(MultiStackRecipeInput input, ToolType type) {
-        if (input.size() == type.getSize()) {
+        int size = type.parts().size();
+        if (input.size() == size) {
             boolean flag = true;
-            List<ToolMaterial> result = new ArrayList<>(type.getSize());
-            for (int i = 0; i < type.getSize(); i++) {
+            List<ToolMaterial> result = new ArrayList<>(size);
+            for (int i = 0; i < size; i++) {
                 result.add(null);
             }
             List<ToolPart> partList = new ArrayList<>();
-            for (int i = 0; i < type.getSize(); i++) {
+            for (int i = 0; i < size; i++) {
                 partList.add(ToolMaterialRegister.getToolPartFromIndex(type, i));
             }
             for (int i = 0; i < input.size(); i++) {

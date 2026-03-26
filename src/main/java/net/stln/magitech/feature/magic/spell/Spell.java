@@ -250,7 +250,7 @@ public abstract class Spell implements ISpell {
         SpellShape shape = config.shape();
         float cost = config.cost();
         SpellProperties properties = config.properties();
-        list.add(element.getSpellElementName().withColor(element.getTextColor().getRGB()).append(Component.literal(" ").append(Component.translatable("spell_shape.magitech." + shape.get()).withColor(shape.getDark()))));
+        list.add(element.getDisplayName().withColor(element.getTextColor().getRGB()).append(Component.literal(" ").append(Component.translatable("spell_shape.magitech." + shape.get()).withColor(shape.getDark()))));
         for (SpellProperty<?> key : properties.map().keySet()) {
             MutableComponent component = key.getDisplayText(this, caster, wand);
             list.add(component);

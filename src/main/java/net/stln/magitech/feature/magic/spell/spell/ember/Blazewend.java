@@ -8,12 +8,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.content.sound.SoundInit;
 import net.stln.magitech.effect.sound.SoundHelper;
-import net.stln.magitech.effect.visual.RenderTypeTokenInit;
 import net.stln.magitech.effect.visual.Section;
 import net.stln.magitech.effect.visual.TrailRenderHelper;
-import net.stln.magitech.effect.visual.particle.particle_option.FlameParticleEffect;
 import net.stln.magitech.effect.visual.preset.LineVFX;
-import net.stln.magitech.effect.visual.preset.PointVFX;
 import net.stln.magitech.effect.visual.preset.PresetHelper;
 import net.stln.magitech.effect.visual.spawner.ElementParticles;
 import net.stln.magitech.effect.visual.spawner.SquareParticles;
@@ -28,12 +25,9 @@ import net.stln.magitech.feature.magic.spell.property.SpellPropertyInit;
 import net.stln.magitech.helper.CombatHelper;
 import net.stln.magitech.helper.TickScheduler;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector3f;
-import team.lodestar.lodestone.registry.client.LodestoneRenderTypes;
 import team.lodestar.lodestone.systems.rendering.VFXBuilders;
 import team.lodestar.lodestone.systems.rendering.trail.TrailPointBuilder;
 
-import java.awt.*;
 import java.util.List;
 import java.util.function.Function;
 

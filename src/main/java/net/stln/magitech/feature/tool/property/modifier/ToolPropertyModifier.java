@@ -1,0 +1,15 @@
+package net.stln.magitech.feature.tool.property.modifier;
+
+import net.minecraft.network.chat.MutableComponent;
+import net.stln.magitech.feature.tool.property.ToolProperties;
+
+public interface ToolPropertyModifier {
+
+    ToolProperties apply(ToolProperties base);
+
+    ToolPropertyModifier setEnabled(boolean value);
+
+    boolean enabled();
+
+    MutableComponent getDisplayText();
+}

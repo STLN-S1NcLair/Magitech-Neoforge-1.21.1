@@ -18,77 +18,37 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.stln.magitech.content.network.TraitActionPayload;
-import net.stln.magitech.feature.tool.ToolStats;
+import net.stln.magitech.effect.visual.preset.EntityVFX;
+import net.stln.magitech.feature.tool.property.ToolProperties;
+import net.stln.magitech.feature.tool.property.modifier.ToolPropertyModifier;
 
+import java.awt.*;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public abstract class Trait {
 
-    public ToolStats modifyStats1(ItemStack stack, int traitLevel, ToolStats stats) {
-        return ToolStats.DEFAULT;
+    public List<ToolPropertyModifier> modifyProperty(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties) {
+        return List.of();
     }
 
-    public ToolStats modifyStats2(ItemStack stack, int traitLevel, ToolStats stats) {
-        return ToolStats.DEFAULT;
+    public void modifyAttribute(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties, List<ItemAttributeModifiers.Entry> entries) {
     }
 
-    public ToolStats modifyStats3(ItemStack stack, int traitLevel, ToolStats stats) {
-        return ToolStats.DEFAULT;
-    }
-
-    public ToolStats modifyStatsConditional1(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
-        return ToolStats.DEFAULT;
-    }
-
-    public ToolStats modifyStatsConditional2(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
-        return ToolStats.DEFAULT;
-    }
-
-    public ToolStats modifyStatsConditional3(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
-        return ToolStats.DEFAULT;
-    }
-
-    public void modifyAttribute(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, List<ItemAttributeModifiers.Entry> entries) {
-    }
-
-    public ToolStats modifySpellCasterStats1(ItemStack stack, int traitLevel, ToolStats stats) {
-        return ToolStats.DEFAULT;
-    }
-
-    public ToolStats modifySpellCasterStats2(ItemStack stack, int traitLevel, ToolStats stats) {
-        return ToolStats.DEFAULT;
-    }
-
-    public ToolStats modifySpellCasterStats3(ItemStack stack, int traitLevel, ToolStats stats) {
-        return ToolStats.DEFAULT;
-    }
-
-    public ToolStats modifySpellCasterStatsConditional1(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
-        return ToolStats.DEFAULT;
-    }
-
-    public ToolStats modifySpellCasterStatsConditional2(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
-        return ToolStats.DEFAULT;
-    }
-
-    public ToolStats modifySpellCasterStatsConditional3(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
-        return ToolStats.DEFAULT;
-    }
-
-    public void modifySpellCasterAttribute(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, List<ItemAttributeModifiers.Entry> entries) {
-    }
-
-    public Boolean isCorrectTool(ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState) {
+    public Boolean modifyCorrectTool(ItemStack stack, int traitLevel, BlockState blockState) {
         return null;
     }
 
-    public float modifyMiningSpeed(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos) {
+    public float modifyMiningSpeed(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties, BlockState blockState, BlockPos pos) {
         return 0;
     }
 
-    public void onBreakBlock(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos, int damageAmount, boolean isInitial) {
+    public boolean effectEnabled(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties) {
+        return false;
+    }
+
+    public void onBreakBlock(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties, BlockState blockState, BlockPos pos, int damageAmount, boolean isInitial) {
         if (!isInitial) {
             SoundType soundType = level.getBlockState(pos).getSoundType(level, pos, player);
             level.playSound(player, pos, soundType.getBreakSound(), SoundSource.PLAYERS, (soundType.getVolume() + 1.0F) / 2.0F, soundType.getPitch() * 0.8F);
@@ -96,65 +56,47 @@ public abstract class Trait {
         }
     }
 
-    public boolean emitEffect(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos, int damageAmount, boolean isInitial) {
-        return false;
-    }
-
-    public void addEffect(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos, int damageAmount, boolean isInitial) {
+    public void emitBlockBreakParticle(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties, BlockState blockState, BlockPos pos, int damageAmount, boolean isInitial) {
 
     }
 
-    public Set<BlockPos> addAdditionalBlockBreakFirst(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos, int damageAmount, Direction direction) {
+    public Set<BlockPos> additionalBlockBreak(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties, BlockState blockState, BlockPos pos, int damageAmount, Direction direction) {
         Set<BlockPos> posSet = new HashSet<>();
         posSet.add(pos);
         return posSet;
     }
 
-    public Set<BlockPos> addAdditionalBlockBreakSecond(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos, int damageAmount, Direction direction) {
-        Set<BlockPos> posSet = new HashSet<>();
-        posSet.add(pos);
-        return posSet;
-    }
-
-    public void modifyEnchantmentOnBlockLooting(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos, List<ItemStack> lootStack) {
+    public void modifyEnchantmentOnBlockLooting(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties, BlockState blockState, BlockPos pos, List<ItemStack> lootStack) {
     }
 
     // EXP倍率で指定すること
-    public double modifyExpOnBlockLooting(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos, List<ItemStack> lootStack, int exp) {
+    public double modifyExpOnBlockLooting(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties, BlockState blockState, BlockPos pos, List<ItemStack> lootStack, int exp) {
         return 1.0;
     }
 
-    public List<ItemStack> setItemOnBlockLooting(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos, List<ItemStack> lootStack) {
+    public List<ItemStack> setItemOnBlockLooting(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties, BlockState blockState, BlockPos pos, List<ItemStack> lootStack) {
         return List.of();
     }
 
-    public List<ItemStack> addItemOnBlockLooting(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos, List<ItemStack> lootStack) {
+    public List<ItemStack> addItemOnBlockLooting(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties, BlockState blockState, BlockPos pos, List<ItemStack> lootStack) {
         return List.of();
     }
 
-    public int addEnchantments(ItemStack stack, int traitLevel, ToolStats stats, Holder<Enchantment> enchantmentHolder, int enchantmentLevel) {
+    public int addEnchantments(ItemStack stack, int traitLevel, ToolProperties properties, Holder<Enchantment> enchantmentHolder, int enchantmentLevel) {
         return 0;
     }
 
-    public int enhanceEnchantments(ItemStack stack, int traitLevel, ToolStats stats, Holder<Enchantment> enchantmentHolder, int enchantmentLevel) {
+    public int enhanceEnchantments(ItemStack stack, int traitLevel, ToolProperties properties, Holder<Enchantment> enchantmentHolder, int enchantmentLevel) {
         return 0;
     }
 
-    public void onAttackEntity(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, Entity target) {
-        onDamageEntity(player, level, stack, traitLevel, stats, target);
+    public void onCastSpell(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties) {
     }
 
-    public void onCastSpell(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
+    public void onDamageEntity(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties, Entity target) {
     }
 
-    public void onSpellHitEntity(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, Entity target) {
-        onDamageEntity(player, level, stack, traitLevel, stats, target);
-    }
-
-    public void onDamageEntity(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, Entity target) {
-    }
-
-    public void traitAction(Player player, Level level, Entity target, Vec3 lookingPos, ItemStack stack, int traitLevel, ToolStats stats, InteractionHand hand, boolean isHost) {
+    public void traitAction(Player player, Level level, Entity target, Vec3 lookingPos, ItemStack stack, int traitLevel, ToolProperties properties, InteractionHand hand, boolean isHost) {
         int id = target != null ? target.getId() : -1;
         if (isHost) {
             if (level.isClientSide) {
@@ -165,20 +107,29 @@ public abstract class Trait {
         }
     }
 
-    public void tick(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, boolean isHost) {
+    public void handTick(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties, boolean isHost) {
+        if (level.isClientSide && effectEnabled(player, level, stack, traitLevel, properties)) {
+            EntityVFX.powerupAura(level, this, player, 0.5F);
+        }
     }
 
-    public void inventoryTick(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, boolean isHost) {
+    public void inventoryTick(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties, boolean isHost) {
     }
 
-    public void onRepair(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, int repairAmount) {
+    public void onRepair(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties, int repairAmount) {
     }
 
-    public void testRepair(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, int repairAmount) {
+    public void testRepair(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties, int repairAmount) {
     }
 
-    public int getColor() {
-        return 0xFFFFFF;
+    public abstract Color getColor();
+
+    public Color getPrimary() {
+        return new Color(0xFFFFFF);
+    }
+
+    public Color getSecondary() {
+        return new Color(0xFFFFFF);
     }
 
     public Component getName() {
@@ -186,7 +137,7 @@ public abstract class Trait {
     }
 
     public MutableComponent getComponent() {
-        return getName().copy().withColor(getColor());
+        return getName().copy().withColor(getColor().getRGB());
     }
 
     public int getMaxLevel() {

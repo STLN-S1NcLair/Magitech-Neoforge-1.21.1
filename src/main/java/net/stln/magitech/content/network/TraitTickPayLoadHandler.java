@@ -8,7 +8,8 @@ import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
-import net.stln.magitech.content.item.tool.toolitem.PartToolItem;
+import net.stln.magitech.content.item.tool.toolitem.SynthesisedToolItem;
+import net.stln.magitech.feature.tool.trait.TraitHelper;
 
 import java.util.Objects;
 
@@ -28,10 +29,12 @@ public class TraitTickPayLoadHandler {
             return;
         }
         ItemStack stack = player.getInventory().getItem(payload.slot());
-        if (payload.isInventory() && stack.getItem() instanceof PartToolItem partToolItem) {
-            PartToolItem.getTraitLevel(PartToolItem.getTraits(stack)).forEach((trait, integer) -> trait.inventoryTick(player1, player1.level(), stack, integer, ((PartToolItem) stack.getItem()).getSumStats(player1, player1.level(), stack), false));
-        } else if (stack.getItem() instanceof PartToolItem partToolItem) {
-            PartToolItem.getTraitLevel(PartToolItem.getTraits(stack)).forEach((trait, integer) -> trait.tick(player1, player1.level(), stack, integer, ((PartToolItem) stack.getItem()).getSumStats(player1, player1.level(), stack), false));
+        if (stack.getItem() instanceof SynthesisedToolItem) {
+            if (payload.isInventory()) {
+                TraitHelper.getTrait(stack).forEach((instance) -> instance.trait().inventoryTick(player1, player1.level(), stack, instance.level(), ((SynthesisedToolItem) stack.getItem()).getAppliedProperties(player1, player1.level(), stack), false));
+            } else {
+                TraitHelper.getTrait(stack).forEach((instance) -> instance.trait().handTick(player1, player1.level(), stack, instance.level(), ((SynthesisedToolItem) stack.getItem()).getAppliedProperties(player1, player1.level(), stack), false));
+            }
         }
     }
 
@@ -41,10 +44,12 @@ public class TraitTickPayLoadHandler {
             return;
         }
         ItemStack stack = player.getInventory().getItem(payload.slot());
-        if (payload.isInventory() && stack.getItem() instanceof PartToolItem partToolItem) {
-            PartToolItem.getTraitLevel(PartToolItem.getTraits(stack)).forEach((trait, integer) -> trait.inventoryTick(player, player.level(), stack, integer, ((PartToolItem) stack.getItem()).getSumStats(player, player.level(), stack), false));
-        } else if (stack.getItem() instanceof PartToolItem partToolItem) {
-            PartToolItem.getTraitLevel(PartToolItem.getTraits(stack)).forEach((trait, integer) -> trait.tick(player, player.level(), stack, integer, ((PartToolItem) stack.getItem()).getSumStats(player, player.level(), stack), false));
+        if (stack.getItem() instanceof SynthesisedToolItem) {
+            if (payload.isInventory()) {
+                TraitHelper.getTrait(stack).forEach((instance) -> instance.trait().inventoryTick(player, player.level(), stack, instance.level(), ((SynthesisedToolItem) stack.getItem()).getAppliedProperties(player, player.level(), stack), false));
+            } else {
+                TraitHelper.getTrait(stack).forEach((instance) -> instance.trait().handTick(player, player.level(), stack, instance.level(), ((SynthesisedToolItem) stack.getItem()).getAppliedProperties(player, player.level(), stack), false));
+            }
         }
         MinecraftServer server = Objects.requireNonNull(ServerLifecycleHooks.getCurrentServer(), "Cannot send clientbound payloads on the client");
         for (ServerPlayer serverPlayer : server.getPlayerList().getPlayers())

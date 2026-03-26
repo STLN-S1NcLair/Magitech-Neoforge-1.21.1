@@ -7,7 +7,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
-import net.stln.magitech.content.item.tool.toolitem.PartToolItem;
+import net.stln.magitech.content.item.tool.toolitem.SynthesisedToolItem;
+import net.stln.magitech.feature.tool.trait.TraitHelper;
 
 public class BreakBlockPayLoadHandler {
 
@@ -26,13 +27,10 @@ public class BreakBlockPayLoadHandler {
             Item item = player.getItemInHand(InteractionHand.MAIN_HAND).getItem();
             BlockPos pos = payload.pos();
             BlockPos initialPos = payload.initialPos();
-            if (item instanceof PartToolItem) {
-                PartToolItem.getTraitLevel(PartToolItem.getTraits(stack)).forEach((trait, integer) -> {
+            if (item instanceof SynthesisedToolItem) {
+                TraitHelper.getTrait(stack).forEach((instance) -> {
                     if (payload.callBreakBlock()) {
-                        trait.onBreakBlock(player1, player1.level(), stack, integer, ((PartToolItem) stack.getItem()).getSumStats(player1, player1.level(), stack), player1.level().getBlockState(pos), pos, 1, pos.equals(initialPos));
-                    }
-                    if (payload.effect()) {
-                        trait.addEffect(player1, player1.level(), stack, integer, ((PartToolItem) stack.getItem()).getSumStats(player1, player1.level(), stack), player1.level().getBlockState(pos), pos, 1, pos.equals(initialPos));
+                        instance.trait().onBreakBlock(player1, player1.level(), stack, instance.level(), ((SynthesisedToolItem) stack.getItem()).getAppliedProperties(player1, player1.level(), stack), player1.level().getBlockState(pos), pos, 1, pos.equals(initialPos));
                     }
                 });
             }

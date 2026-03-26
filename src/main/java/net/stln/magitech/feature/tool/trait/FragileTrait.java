@@ -1,53 +1,38 @@
 package net.stln.magitech.feature.tool.trait;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.stln.magitech.feature.tool.ToolStats;
+import net.stln.magitech.feature.tool.property.ToolProperties;
+import net.stln.magitech.feature.tool.property.ToolPropertyCategory;
+import net.stln.magitech.feature.tool.property.modifier.RationalToolPropertyModifier;
+import net.stln.magitech.feature.tool.property.modifier.ToolPropertyModifier;
 
+import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class FragileTrait extends Trait {
 
     @Override
-    public ToolStats modifyStats1(ItemStack stack, int traitLevel, ToolStats stats) {
-        super.modifyStats1(stack, traitLevel, stats);
-        ToolStats defaultStats = ToolStats.DEFAULT;
-        Map<String, Float> modified = new HashMap<>(defaultStats.getStats());
+    public List<ToolPropertyModifier> modifyProperty(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties) {
+        List<ToolPropertyModifier> mods = new ArrayList<>();
         float mul = traitLevel * 0.3F;
         float div = 0.5F / traitLevel - 1.0F;
-        modified.put(ToolStats.ATK_STAT, stats.getStats().get(ToolStats.ATK_STAT) * mul);
-        modified.put(ToolStats.ELM_ATK_STAT, stats.getStats().get(ToolStats.ELM_ATK_STAT) * mul);
-        modified.put(ToolStats.SPD_STAT, stats.getStats().get(ToolStats.SPD_STAT) * mul);
-        modified.put(ToolStats.MIN_STAT, stats.getStats().get(ToolStats.MIN_STAT) * mul);
-        modified.put(ToolStats.DEF_STAT, stats.getStats().get(ToolStats.DEF_STAT) * mul);
-        modified.put(ToolStats.RNG_STAT, stats.getStats().get(ToolStats.RNG_STAT) * mul);
-        modified.put(ToolStats.SWP_STAT, stats.getStats().get(ToolStats.SWP_STAT) * mul);
-        modified.put(ToolStats.DUR_STAT, stats.getStats().get(ToolStats.DUR_STAT) * div);
-        return new ToolStats(modified, defaultStats.getElement(), defaultStats.getMiningLevel(), defaultStats.getTier());
+        for (ToolPropertyCategory category : ToolPropertyCategory.values()) {
+            mods.add(new RationalToolPropertyModifier(category, category == ToolPropertyCategory.DURATION ? div : mul));
+        }
+
+        return super.modifyProperty(player, level, stack, traitLevel, properties);
     }
 
     @Override
-    public ToolStats modifySpellCasterStats1(ItemStack stack, int traitLevel, ToolStats stats) {
-        super.modifySpellCasterStats1(stack, traitLevel, stats);
-        ToolStats defaultStats = ToolStats.DEFAULT;
-        Map<String, Float> modified = new HashMap<>(defaultStats.getStats());
-        float mul = traitLevel * 0.3F;
-        float div = 0.5F / traitLevel - 1.0F;
-        modified.put(ToolStats.ATK_STAT, stats.getStats().get(ToolStats.ATK_STAT) * mul);
-        modified.put(ToolStats.ELM_ATK_STAT, stats.getStats().get(ToolStats.ELM_ATK_STAT) * mul);
-        modified.put(ToolStats.SPD_STAT, stats.getStats().get(ToolStats.SPD_STAT) * mul);
-        modified.put(ToolStats.MIN_STAT, stats.getStats().get(ToolStats.MIN_STAT) * mul);
-        modified.put(ToolStats.DEF_STAT, stats.getStats().get(ToolStats.DEF_STAT) * mul);
-        modified.put(ToolStats.RNG_STAT, stats.getStats().get(ToolStats.RNG_STAT) * mul);
-        modified.put(ToolStats.SWP_STAT, stats.getStats().get(ToolStats.SWP_STAT) * mul);
-        modified.put(ToolStats.DUR_STAT, stats.getStats().get(ToolStats.DUR_STAT) * div);
-        return new ToolStats(modified, defaultStats.getElement(), defaultStats.getMiningLevel(), defaultStats.getTier());
-    }
-
-    @Override
-    public int getColor() {
-        return 0xC0E8FF;
+    public Color getColor() {
+        return new Color(0xC0E8FF);
     }
 
     @Override

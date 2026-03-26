@@ -2,7 +2,11 @@ package net.stln.magitech.feature.tool.property;
 
 import java.awt.*;
 
-public class InitialIntegerToolProperty extends InitialToolProperty<Integer> {
+public abstract class InitialIntegerToolProperty extends InitialToolProperty<Integer> {
+
+    public InitialIntegerToolProperty(ToolPropertyCategory group) {
+        super(group);
+    }
 
     public InitialIntegerToolProperty(Color color) {
         super(color);
@@ -19,12 +23,22 @@ public class InitialIntegerToolProperty extends InitialToolProperty<Integer> {
     }
 
     @Override
-    public Integer addIdentity() {
-        return 0;
+    public Integer scalarAdd(Integer a, float b) {
+        return (int) (a + b);
     }
 
     @Override
-    public Integer mulIdentity() {
-        return 1;
+    public Integer scalarMul(Integer a, float b) {
+        return (int) (a * b);
+    }
+
+    @Override
+    public float scalarValue(Integer a) {
+        return a;
+    }
+
+    @Override
+    public Integer identity() {
+        return 0;
     }
 }

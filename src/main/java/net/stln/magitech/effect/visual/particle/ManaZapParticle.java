@@ -2,12 +2,10 @@ package net.stln.magitech.effect.visual.particle;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;

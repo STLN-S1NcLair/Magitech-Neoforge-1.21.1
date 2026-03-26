@@ -20,7 +20,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.stln.magitech.content.item.tool.toolitem.PartToolItem;
+import net.stln.magitech.content.item.tool.toolitem.SynthesisedToolItem;
 import net.stln.magitech.content.item.tool.toolitem.SpellCasterItem;
 import net.stln.magitech.content.sound.SoundInit;
 import net.stln.magitech.effect.visual.particle.particle_option.MembraneParticleEffect;
@@ -67,7 +67,7 @@ public class PhantomSlayerTrait extends Trait {
                         player.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, traitLevel * 10, 0));
                         player.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, traitLevel * 5, 0));
                     }
-                    ((PartToolItem) stack.getItem()).applyElementDamage(player, target, stack);
+                    ((SynthesisedToolItem) stack.getItem()).applyElementDamage(player, target, stack);
                     player.attack(target);
                     EffectHelper.entityEffect(level, new PowerupParticleEffect(new Vector3f(1.0F, 1.0F, 0.5F), new Vector3f(1.0F, 1.0F, 0.5F), 1F, 1, 0, 15, 1.0F), player, 20);
 
@@ -89,7 +89,7 @@ public class PhantomSlayerTrait extends Trait {
 
     @Override
     public void tick(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, boolean isHost) {
-        super.tick(player, level, stack, traitLevel, stats, isHost);
+        super.handTick(player, level, stack, traitLevel, stats, isHost);
         if (level.isClientSide && Minecraft.getInstance().isLocalPlayer(player.getUUID()) && player.tickCount % 10 == 0) {
             Vec3 playerEyePos = player.getEyePosition();
             Vec3 forward = Vec3.directionFromRotation(player.getRotationVector());

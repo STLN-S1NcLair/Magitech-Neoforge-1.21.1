@@ -11,38 +11,42 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.stln.magitech.content.sound.SoundInit;
 import net.stln.magitech.effect.visual.particle.particle_option.PowerupParticleEffect;
 import net.stln.magitech.feature.tool.ToolStats;
+import net.stln.magitech.feature.tool.property.SingleToolPropertyGroup;
+import net.stln.magitech.feature.tool.property.ToolProperties;
+import net.stln.magitech.feature.tool.property.ToolPropertyCategory;
+import net.stln.magitech.feature.tool.property.ToolPropertyInit;
+import net.stln.magitech.feature.tool.property.modifier.RationalToolPropertyModifier;
+import net.stln.magitech.feature.tool.property.modifier.ToolPropertyModifier;
+import org.checkerframework.checker.units.qual.C;
 import org.joml.Vector3f;
 
+import java.awt.*;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
 public class GeoMendingTrait extends Trait {
 
-
     @Override
-    public ToolStats modifySpellCasterStats1(ItemStack stack, int traitLevel, ToolStats stats) {
-        ToolStats aDefault = ToolStats.DEFAULT;
-        Map<String, Float> modified = new HashMap<>(aDefault.getStats());
-        float mul = traitLevel * 0.8F;
-        Float def = stats.getStats().get(ToolStats.DEF_STAT);
-        modified.put(ToolStats.DEF_STAT, def * mul);
-        return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
+    public List<ToolPropertyModifier> modifyProperty(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties) {
+        ToolPropertyModifier mod = new RationalToolPropertyModifier(ToolPropertyCategory.DEFENCE, 0.2F * traitLevel);
+        return List.of(mod);
     }
 
     @Override
-    public Boolean isCorrectTool(ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState) {
+    public Boolean modifyCorrectTool(ItemStack stack, int traitLevel, BlockState blockState) {
         if (blockState.getTags().anyMatch(Predicate.isEqual(BlockTags.BASE_STONE_OVERWORLD))) {
             return true;
         }
-        return super.isCorrectTool(stack, traitLevel, stats, blockState);
+        return super.modifyCorrectTool(stack, traitLevel, blockState);
     }
 
     @Override
-    public void onBreakBlock(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos, int damageAmount, boolean isInitial) {
-        super.onBreakBlock(player, level, stack, traitLevel, stats, blockState, pos, damageAmount, isInitial);
+    public void onBreakBlock(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties, BlockState blockState, BlockPos pos, int damageAmount, boolean isInitial) {
+        super.onBreakBlock(player, level, stack, traitLevel, properties, blockState, pos, damageAmount, isInitial);
         if (blockState.getTags().anyMatch(Predicate.isEqual(BlockTags.BASE_STONE_OVERWORLD)) && damageAmount > 0 && stack.getDamageValue() < stack.getMaxDamage()) {
-            if (player.getRandom().nextFloat() < traitLevel * 0.22F) {
+            if (player.getRandom().nextFloat() < traitLevel * 0.2F) {
                 stack.setDamageValue(stack.getDamageValue() - 1);
                 level.playSound(player, pos.getX(), pos.getY(), pos.getZ(), SoundInit.GEOMENDING_BREAK.get(), SoundSource.PLAYERS, 1.0F, 0.7F + (player.getRandom().nextFloat() * 0.6F));
             }
@@ -50,23 +54,8 @@ public class GeoMendingTrait extends Trait {
     }
 
     @Override
-    public boolean emitEffect(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos, int damageAmount, boolean isInitial) {
-        return blockState.getTags().anyMatch(Predicate.isEqual(BlockTags.BASE_STONE_OVERWORLD)) && damageAmount > 0 && stack.getDamageValue() < stack.getMaxDamage();
-    }
-
-    @Override
-    public void addEffect(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos, int damageAmount, boolean isInitial) {
-        super.addEffect(player, level, stack, traitLevel, stats, blockState, pos, damageAmount, isInitial);
-        for (int i = 0; i < 20; i++) {
-            level.addParticle(new PowerupParticleEffect(new Vector3f(0.5F, 0.5F, 0.5F), new Vector3f(0.5F, 0.5F, 0.5F), 1F, 1, 0, 15, 1.0F),
-                    pos.getX() + player.getRandom().nextFloat(), pos.getY() + player.getRandom().nextFloat(), pos.getZ() + player.getRandom().nextFloat(), 0, 0, 0);
-        }
-        level.playSound(player, pos.getX(), pos.getY(), pos.getZ(), SoundInit.GEOMENDING_BREAK.get(), SoundSource.PLAYERS, 1.0F, 0.7F + (player.getRandom().nextFloat() * 0.6F));
-    }
-
-    @Override
-    public int getColor() {
-        return 0x808080;
+    public Color getColor() {
+        return new Color(0x808080);
     }
 
     @Override

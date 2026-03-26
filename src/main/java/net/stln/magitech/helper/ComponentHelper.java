@@ -48,6 +48,14 @@ public class ComponentHelper {
         return holder.getOrDefault(ComponentInit.UPGRADE_POINT_COMPONENT, 0);
     }
 
+    public static int getProgression(@NotNull DataComponentHolder holder) {
+        return holder.getOrDefault(ComponentInit.PROGRESSION_COMPONENT, 0);
+    }
+
+    public static int getMaxProgression(@NotNull DataComponentHolder holder) {
+        return holder.getOrDefault(ComponentInit.MAX_PROGRESSION_COMPONENT, 0);
+    }
+
     public static boolean isBroken(@NotNull DataComponentHolder holder) {
         return holder.getOrDefault(ComponentInit.BROKEN_COMPONENT, false);
     }
@@ -85,12 +93,24 @@ public class ComponentHelper {
         holder.update(ComponentInit.TOOLBELT_COMPONENT, ToolBeltComponent.EMPTY, operator);
     }
 
+    public static void updateTier(@NotNull MutableDataComponentHolder holder, int whenNull, UnaryOperator<Integer> operator) {
+        holder.update(ComponentInit.TIER_COMPONENT, whenNull, operator);
+    }
+
     public static void updateUpgradePoint(@NotNull MutableDataComponentHolder holder, UnaryOperator<Integer> operator) {
         holder.update(ComponentInit.UPGRADE_POINT_COMPONENT, 0, operator);
     }
 
     public static void updateUpgradePoint(@NotNull MutableDataComponentHolder holder, int whenNull, UnaryOperator<Integer> operator) {
         holder.update(ComponentInit.UPGRADE_POINT_COMPONENT, whenNull, operator);
+    }
+
+    public static void updateProgression(@NotNull MutableDataComponentHolder holder, int whenNull, UnaryOperator<Integer> operator) {
+        holder.update(ComponentInit.PROGRESSION_COMPONENT, whenNull, operator);
+    }
+
+    public static void updateMaxProgression(@NotNull MutableDataComponentHolder holder, int whenNull, UnaryOperator<Integer> operator) {
+        holder.update(ComponentInit.MAX_PROGRESSION_COMPONENT, whenNull, operator);
     }
 
     public static void updateManaContainer(@NotNull MutableDataComponentHolder holder, @NotNull UnaryOperator<ManaContainerComponent> operator) {

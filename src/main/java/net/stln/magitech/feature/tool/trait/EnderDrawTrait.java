@@ -13,17 +13,19 @@ import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.effect.visual.particle.particle_option.SquareFieldParticleEffect;
 import net.stln.magitech.effect.visual.particle.particle_option.UnstableSquareParticleEffect;
 import net.stln.magitech.feature.tool.ToolStats;
+import net.stln.magitech.feature.tool.property.ToolProperties;
 import net.stln.magitech.helper.EffectHelper;
 import org.joml.Vector3f;
 
+import java.awt.*;
 import java.util.List;
 
 public class EnderDrawTrait extends Trait {
 
     @Override
-    public void tick(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, boolean isHost) {
+    public void handTick(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties, boolean isHost) {
         if (player.isCrouching()) {
-            float range = traitLevel * 4;
+            float range = traitLevel * 8;
             Vec3 rangeVec = new Vec3(range, range, range);
             List<Entity> list = level.getEntities(player, new AABB(player.getPosition(0F).subtract(rangeVec), player.getPosition(0F).add(rangeVec)), entity -> entity instanceof ItemEntity);
             if (!list.isEmpty()) {
@@ -48,8 +50,8 @@ public class EnderDrawTrait extends Trait {
     }
 
     @Override
-    public int getColor() {
-        return 0x006050;
+    public Color getColor() {
+        return new Color(0x006050);
     }
 
     @Override

@@ -11,7 +11,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.content.item.tool.toolitem.PartToolItem;
+import net.stln.magitech.content.item.tool.toolitem.SynthesisedToolItem;
 import net.stln.magitech.feature.tool.ToolStats;
 import net.stln.magitech.feature.tool.tool_type.ToolType;
 
@@ -28,15 +28,15 @@ public class ModifyBreakSpeedEvent {
         Optional<BlockPos> blockPosOptional = event.getPosition();
         BlockState state = event.getState();
         ItemStack stack = player.getItemInHand(InteractionHand.MAIN_HAND);
-        Direction direction = PartToolItem.getBreakDirection(player.blockInteractionRange(), blockPosOptional.orElse(BlockPos.ZERO), player);
-        if (stack.getItem() instanceof PartToolItem partToolItem) {
+        Direction direction = SynthesisedToolItem.getBreakDirection(player.blockInteractionRange(), blockPosOptional.orElse(BlockPos.ZERO), player);
+        if (stack.getItem() instanceof SynthesisedToolItem partToolItem) {
 
-            ToolStats stats = partToolItem.getSumStats(player, level, stack);
+            ToolStats stats = partToolItem.getAppliedStats(player, level, stack);
             if (partToolItem.isCorrectTool(stack, state, partToolItem, stats) && blockPosOptional.isPresent()) {
                 BlockPos pos = blockPosOptional.get();
                 final float[] speed = {stats.getStats().get(ToolStats.MIN_STAT)};
-                PartToolItem.getTraitLevel(PartToolItem.getTraits(stack)).forEach((trait, integer) -> {
-                    speed[0] += trait.modifyMiningSpeed(player, level, stack, integer, stats, state, pos);
+                SynthesisedToolItem.getTraitLevel(SynthesisedToolItem.getTraits(stack)).forEach((trait, integer) -> {
+                    speed[0] *= trait.modifyMiningSpeed(player, level, stack, integer, stats, state, pos);
                 });
                 if (partToolItem.getToolType() == ToolType.HAMMER) {
                     speed[0] = getHammerMineSpeed(player, stack, pos, direction, speed[0]);
@@ -69,7 +69,7 @@ public class ModifyBreakSpeedEvent {
         for (int i = -x; i <= x; i++) {
             for (int j = -y; j <= y; j++) {
                 for (int k = -z; k <= z; k++) {
-                    if (((PartToolItem) stack.getItem()).isCorrectTool(stack, player.level().getBlockState(pos.offset(i, j, k)), (PartToolItem) stack.getItem(), ((PartToolItem) stack.getItem()).getSumStats(player, player.level(), stack))) {
+                    if (((SynthesisedToolItem) stack.getItem()).isCorrectTool(stack, player.level().getBlockState(pos.offset(i, j, k)), (SynthesisedToolItem) stack.getItem(), ((SynthesisedToolItem) stack.getItem()).getAppliedStats(player, player.level(), stack))) {
                         hard += player.level().getBlockState(pos.offset(i, j, k)).getDestroySpeed(player.level(), pos.offset(i, j, k));
                         count++;
                     }

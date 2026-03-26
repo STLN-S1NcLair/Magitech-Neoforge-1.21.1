@@ -15,8 +15,8 @@ import net.stln.magitech.content.item.tool.toolitem.SpellCasterItem;
 import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.feature.magic.spell.ISpell;
 import net.stln.magitech.feature.magic.spell.SpellConfig;
-import net.stln.magitech.feature.magic.spell.property.SpellPropertyInit;
 import net.stln.magitech.feature.magic.spell.property.SpellProperty;
+import net.stln.magitech.feature.magic.spell.property.SpellPropertyInit;
 import net.stln.magitech.helper.DataMapHelper;
 import org.jetbrains.annotations.Nullable;
 
@@ -95,7 +95,7 @@ public class MagicPerformanceHelper {
             if (target.invulnerableTime < 10) {
                 if (wand != null && wand.getItem() instanceof SpellCasterItem spellCasterItem) {
                     if (caster instanceof Player player) {
-                        spellCasterItem.callTraitSpellHitEntity(caster.level(), player, target, wand);
+                        spellCasterItem.callTraitDamageEntity(caster.level(), player, target, wand);
                     }
                 }
                 if (!target.isInvulnerableTo(source) && target instanceof LivingEntity living) {
@@ -149,7 +149,7 @@ public class MagicPerformanceHelper {
         if (!config.properties().contains(SpellPropertyInit.PROJECTILE_SPEED)) return 0;
         float cost = config.cost();
         Optional<Float> projectileSpeed = config.properties().getOptional(SpellPropertyInit.PROJECTILE_SPEED);
-        return MagicPerformanceHelper.getEffectiveSpellProperty(caster, wand, cost, projectileSpeed.get(), AttributeInit.PROJECTILE_SPEED);
+        return MagicPerformanceHelper.getEffectiveSpellProperty(caster, wand, cost, projectileSpeed.get(), AttributeInit.LAUNCH);
     }
 
     public static float getEffectiveMaxRange(LivingEntity caster, @Nullable ItemStack wand, ISpell spell) {

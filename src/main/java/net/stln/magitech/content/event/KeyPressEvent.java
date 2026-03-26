@@ -17,7 +17,7 @@ import net.stln.magitech.content.item.ItemInit;
 import net.stln.magitech.content.item.ThreadBoundItem;
 import net.stln.magitech.content.item.armor.AetherLifterItem;
 import net.stln.magitech.content.item.armor.FlamglideStriderItem;
-import net.stln.magitech.content.item.tool.toolitem.PartToolItem;
+import net.stln.magitech.content.item.tool.toolitem.SynthesisedToolItem;
 import net.stln.magitech.content.network.DoubleJumpPayload;
 import net.stln.magitech.content.network.LongJumpPayload;
 import net.stln.magitech.content.network.OpenThreadBoundPageScreenPayload;
@@ -37,9 +37,9 @@ public class KeyPressEvent {
         if (player == null) return;
 
         while (KeyMappingEvent.TRAIT_ACTION.get().consumeClick()) {
-            if (player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof PartToolItem || player.getItemInHand(InteractionHand.OFF_HAND).getItem() instanceof PartToolItem) {
-                InteractionHand hand = player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof PartToolItem ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
-                ((PartToolItem) player.getItemInHand(hand).getItem()).traitAction(player.level(), player, hand);
+            if (player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof SynthesisedToolItem || player.getItemInHand(InteractionHand.OFF_HAND).getItem() instanceof SynthesisedToolItem) {
+                InteractionHand hand = player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof SynthesisedToolItem ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
+                ((SynthesisedToolItem) player.getItemInHand(hand).getItem()).traitAction(player.level(), player, hand);
             }
         }
         while (KeyMappingEvent.DOUBLE_JUMP.get().consumeClick()) {

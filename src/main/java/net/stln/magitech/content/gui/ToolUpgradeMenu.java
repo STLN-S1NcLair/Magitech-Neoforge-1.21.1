@@ -18,7 +18,7 @@ import net.stln.magitech.content.advancement.CriterionInit;
 import net.stln.magitech.content.block.BlockInit;
 import net.stln.magitech.content.item.component.ComponentInit;
 import net.stln.magitech.content.item.component.UpgradeComponent;
-import net.stln.magitech.content.item.tool.toolitem.PartToolItem;
+import net.stln.magitech.content.item.tool.toolitem.SynthesisedToolItem;
 import net.stln.magitech.feature.tool.upgrade.Upgrade;
 import net.stln.magitech.feature.tool.upgrade.UpgradeInstance;
 import net.stln.magitech.feature.tool.upgrade.UpgradeUtil;
@@ -127,7 +127,7 @@ public class ToolUpgradeMenu extends AbstractContainerMenu {
             player.level().playSound(player, player, SoundEvents.SMITHING_TABLE_USE, SoundSource.BLOCKS, 1.0F, 1.0F);
             if (!player.level().isClientSide && player instanceof ServerPlayer serverPlayer) {
                 CriterionInit.TOOL_UPGRADE.get().trigger(serverPlayer, stack, ComponentHelper.getTier(stack) - ComponentHelper.getUpgradePoint(stack));
-                ((PartToolItem) stack.getItem()).reloadComponent(player, level, stack);
+                ((SynthesisedToolItem) stack.getItem()).reloadComponent(player, level, stack);
             }
         }
         return true;
@@ -147,7 +147,7 @@ public class ToolUpgradeMenu extends AbstractContainerMenu {
     }
 
     public boolean hasUpgradePoint(ItemStack itemStack) {
-        return !itemStack.isEmpty() && itemStack.getItem() instanceof PartToolItem && ComponentHelper.getUpgradePoint(itemStack) > 0;
+        return !itemStack.isEmpty() && itemStack.getItem() instanceof SynthesisedToolItem && ComponentHelper.getUpgradePoint(itemStack) > 0;
     }
 
     public final Container container = new SimpleContainer(2) {
@@ -170,7 +170,7 @@ public class ToolUpgradeMenu extends AbstractContainerMenu {
     }
 
     private void setupUpgrade(Container container, ItemStack stack) {
-        if (stack.isEmpty() || !(stack.getItem() instanceof PartToolItem)) {
+        if (stack.isEmpty() || !(stack.getItem() instanceof SynthesisedToolItem)) {
             this.upgrades = List.of();
             return;
         }
@@ -215,7 +215,7 @@ public class ToolUpgradeMenu extends AbstractContainerMenu {
                 if (!this.moveItemStackTo(itemstack1, 2, 38, false)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (itemstack1.getItem() instanceof PartToolItem) {
+            } else if (itemstack1.getItem() instanceof SynthesisedToolItem) {
                 if (!this.moveItemStackTo(itemstack1, 0, 1, false)) {
                     return ItemStack.EMPTY;
                 }

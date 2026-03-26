@@ -1,14 +1,22 @@
 package net.stln.magitech.feature.tool.property;
 
 import net.minecraft.core.Holder;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.item.ItemStack;
 import net.stln.magitech.feature.element.Element;
+import net.stln.magitech.helper.MathHelper;
 
 import java.awt.*;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ElementalAttributeToolProperty extends AttributeToolProperty<Map<Element, Double>> {
+
+    public ElementalAttributeToolProperty(Holder<Attribute> attribute, ToolPropertyCategory group) {
+        super(attribute, group);
+    }
 
     public ElementalAttributeToolProperty(Holder<Attribute> attribute, Color color) {
         super(attribute, color);
@@ -28,7 +36,7 @@ public class ElementalAttributeToolProperty extends AttributeToolProperty<Map<El
             if (element == elm) {
                 result.put(elm, value);
             } else {
-                result.put(elm, 0.0);
+                result.put(elm, scalarIdentity());
             }
         }
         return result;
@@ -38,7 +46,7 @@ public class ElementalAttributeToolProperty extends AttributeToolProperty<Map<El
     public Map<Element, Double> add(Map<Element, Double> a, Map<Element, Double> b) {
         Map<Element, Double> result = new HashMap<>();
         for (Element element : Element.values()) {
-            result.put(element, a.getOrDefault(element, 0.0) + b.getOrDefault(element, 0.0));
+            result.put(element, a.getOrDefault(element, scalarIdentity()) + b.getOrDefault(element, scalarIdentity()));
         }
         return result;
     }
@@ -47,18 +55,84 @@ public class ElementalAttributeToolProperty extends AttributeToolProperty<Map<El
     public Map<Element, Double> mul(Map<Element, Double> a, Map<Element, Double> b) {
         Map<Element, Double> result = new HashMap<>();
         for (Element element : Element.values()) {
-            result.put(element, a.getOrDefault(element, 1.0) * b.getOrDefault(element, 1.0));
+            result.put(element, a.getOrDefault(element, scalarIdentity()) * b.getOrDefault(element, scalarIdentity()));
         }
         return result;
     }
 
     @Override
-    public Map<Element, Double> addIdentity() {
-        return new HashMap<>();
+    public Map<Element, Double> scalarAdd(Map<Element, Double> a, float b) {
+        Map<Element, Double> result = new HashMap<>();
+        for (Element element : Element.values()) {
+            result.put(element, a.getOrDefault(element, scalarIdentity()) + b);
+        }
+        return result;
     }
 
     @Override
-    public Map<Element, Double> mulIdentity() {
+    public Map<Element, Double> scalarMul(Map<Element, Double> a, float b) {
+        Map<Element, Double> result = new HashMap<>();
+        for (Element element : Element.values()) {
+            result.put(element, a.getOrDefault(element, scalarIdentity()) * b);
+        }
+        return result;
+    }
+
+    @Override
+    public float scalarValue(Map<Element, Double> a) {
+        Element maxElement = Element.NONE;
+        double max = Double.MIN_VALUE;
+        for (Element element : Element.values()) {
+            double current = a.getOrDefault(element, scalarIdentity());
+            if (max < current) {
+                maxElement = element;
+                max = current;
+            }
+        }
+        float result = 0.0F;
+        for (Element element : Element.values()) {
+            result += (float) (a.getOrDefault(element, scalarIdentity()) * (element == maxElement ? 1.0F : 0.75F));
+        }
+        return result;
+    }
+
+    @Override
+    public Map<Element, Double> identity() {
         return new HashMap<>();
+    }
+
+    public static double scalarIdentity() {
+        return 0.0;
+    }
+
+    public Element getElement(Map<Element, Double> a) {
+        Element maxElement = Element.NONE;
+        double max = Double.MIN_VALUE;
+        for (Element element : Element.values()) {
+            double current = a.getOrDefault(element, scalarIdentity());
+            if (max < current) {
+                maxElement = element;
+                max = current;
+            }
+        }
+        return maxElement;
+    }
+
+    @Override
+    public void addTooltip(ItemStack stack, ToolProperties properties, List<net.minecraft.network.chat.Component> components) {
+        Element element = this.getElement(properties.get(this));
+
+        components.add(ToolPropertyHelper.getToolTipComponent(this)
+                .append(element.getDisplayName().append(" ").append(String.valueOf(MathHelper.round(properties.getScalar(this), 2)))
+                        .withColor(element.getTextColor().getRGB())));
+    }
+
+    @Override
+    public void addPartTooltip(ItemStack stack, ToolProperties properties, List<Component> components) {
+        Element element = this.getElement(properties.get(this));
+
+        components.add(ToolPropertyHelper.getToolTipComponent(this)
+                .append(element.getDisplayName().append(" ").append(Component.literal(String.valueOf(MathHelper.round(properties.getScalar(this), 2))).append("x"))
+                        .withColor(getColor().getRGB())));
     }
 }

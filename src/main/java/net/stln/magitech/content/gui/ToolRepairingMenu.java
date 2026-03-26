@@ -16,7 +16,7 @@ import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
 import net.stln.magitech.content.block.BlockInit;
 import net.stln.magitech.content.item.ItemTagKeys;
-import net.stln.magitech.content.item.tool.toolitem.PartToolItem;
+import net.stln.magitech.content.item.tool.toolitem.SynthesisedToolItem;
 import net.stln.magitech.content.recipe.RecipeInit;
 import net.stln.magitech.content.recipe.ToolMaterialRecipe;
 import net.stln.magitech.content.recipe.input.MultiStackRecipeInput;
@@ -113,7 +113,7 @@ public class ToolRepairingMenu extends AbstractContainerMenu {
                                 ToolMaterial toolMaterial = recipe.getToolMaterial();
                                 if (ComponentHelper.getPartMaterials(stack1).contains(toolMaterial)) {
                                     for (int i = 0; i < Math.min(recipeInput.getItem(1).getCount(), recipeInput.getItem(2).getCount()); i++) {
-                                        if (stack1.getDamageValue() > 0 && (stack1.getItem() instanceof PartToolItem partToolItem)) {
+                                        if (stack1.getDamageValue() > 0 && (stack1.getItem() instanceof SynthesisedToolItem partToolItem)) {
                                             stack1.setDamageValue(stack1.getDamageValue() - stack1.getMaxDamage() / 5);
                                             partToolItem.callTestRepair(level, player, stack1.getMaxDamage() / 5, stack1);
                                             partToolItem.reloadComponent(player, level, stack1);
@@ -155,7 +155,7 @@ public class ToolRepairingMenu extends AbstractContainerMenu {
         for (int i = 0; i < Math.min(inputSlots.getItem(1).getCount(), inputSlots.getItem(2).getCount()); i++) {
             if (stack.getDamageValue() > 0) {
                 stack.setDamageValue(stack.getDamageValue() - stack.getMaxDamage() / 5);
-                ((PartToolItem) stack.getItem()).callOnRepair(level, player, stack.getMaxDamage() / 5, stack);
+                ((SynthesisedToolItem) stack.getItem()).callOnRepair(level, player, stack.getMaxDamage() / 5, stack);
                 repairCount++;
             }
         }
@@ -245,7 +245,7 @@ public class ToolRepairingMenu extends AbstractContainerMenu {
                 .getRecipeManager()
                 .getAllRecipesFor(RecipeInit.TOOL_MATERIAL_TYPE.get());
 
-        if (itemStack.getItem() instanceof PartToolItem) {
+        if (itemStack.getItem() instanceof SynthesisedToolItem) {
             return this.moveItemStackTo(itemStack, 1, 2, false);
         } else if (optional.stream().anyMatch(recipe -> Arrays.stream(recipe.value().getIngredients().get(0).getItems()).anyMatch(stack -> stack.is(itemStack.getItem())))) {
             return this.moveItemStackTo(itemStack, 2, 3, false);

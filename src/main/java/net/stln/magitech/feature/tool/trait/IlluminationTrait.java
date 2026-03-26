@@ -19,13 +19,16 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.effect.visual.particle.particle_option.PowerupParticleEffect;
 import net.stln.magitech.feature.tool.ToolStats;
+import net.stln.magitech.feature.tool.property.ToolProperties;
 import org.joml.Vector3f;
+
+import java.awt.*;
 
 public class IlluminationTrait extends Trait {
 
     @Override
-    public void traitAction(Player player, Level level, Entity target, Vec3 lookingPos, ItemStack stack, int traitLevel, ToolStats stats, InteractionHand hand, boolean isHost) {
-        super.traitAction(player, level, target, lookingPos, stack, traitLevel, stats, hand, isHost);
+    public void traitAction(Player player, Level level, Entity target, Vec3 lookingPos, ItemStack stack, int traitLevel, ToolProperties properties, InteractionHand hand, boolean isHost) {
+        super.traitAction(player, level, target, lookingPos, stack, traitLevel, properties, hand, isHost);
 
         Vec3 max = player.getEyePosition().add(player.getLookAngle().scale(player.getAttribute(Attributes.BLOCK_INTERACTION_RANGE).getValue() * traitLevel));
         BlockHitResult result = level.clip(new ClipContext(player.getEyePosition(), max, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, player));
@@ -48,8 +51,8 @@ public class IlluminationTrait extends Trait {
     }
 
     @Override
-    public int getColor() {
-        return 0xFFC080;
+    public Color getColor() {
+        return new Color(0xFFC080);
     }
 
     @Override

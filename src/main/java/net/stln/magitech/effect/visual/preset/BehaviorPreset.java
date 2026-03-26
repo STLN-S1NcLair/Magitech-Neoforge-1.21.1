@@ -4,11 +4,9 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.helper.CombatHelper;
-import net.stln.magitech.helper.EffectHelper;
 import net.stln.magitech.helper.TickScheduler;
 import team.lodestar.lodestone.systems.particle.world.LodestoneWorldParticle;
 
-import java.util.Map;
 import java.util.function.Consumer;
 
 public class BehaviorPreset {

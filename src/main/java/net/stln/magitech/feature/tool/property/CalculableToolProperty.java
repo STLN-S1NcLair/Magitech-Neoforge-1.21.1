@@ -8,9 +8,14 @@ public interface CalculableToolProperty<T> extends IToolProperty<T> {
     // 乗算
     T mul(T a, T b);
 
-    // 加法単位元
-    T addIdentity();
+    // スカラー加算
+    T scalarAdd(T a, float b);
 
-    // 乗法単位元
-    T mulIdentity();
+    // スカラー乗算
+    T scalarMul(T a, float b);
+
+    float scalarValue(T a);
+
+    // 単位元
+    T identity();
 }

@@ -12,45 +12,23 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.stln.magitech.effect.visual.particle.particle_option.PowerupParticleEffect;
 import net.stln.magitech.feature.tool.ToolStats;
+import net.stln.magitech.feature.tool.property.ToolProperties;
 import net.stln.magitech.helper.BlockHelper;
 import org.joml.Vector3f;
 
+import java.awt.*;
 import java.util.Set;
 
 public class BirefringenceTrait extends Trait {
 
     @Override
-    public Set<BlockPos> addAdditionalBlockBreakFirst(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos, int damageAmount, Direction direction) {
-        return BlockHelper.getConnectedBlocks(level, pos, blockState.getBlock(), traitLevel);
+    public Set<BlockPos> additionalBlockBreak(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties, BlockState blockState, BlockPos pos, int damageAmount, Direction direction) {
+        return BlockHelper.getConnectedBlocks(level, pos, blockState.getBlock(), traitLevel);;
     }
 
     @Override
-    public void onDamageEntity(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, Entity target) {
-        super.onDamageEntity(player, level, stack, traitLevel, stats, target);
-        if (target instanceof LivingEntity livingEntity && livingEntity.getHealth() < livingEntity.getMaxHealth() / 2) {
-            livingEntity.invulnerableTime = 0;
-            DamageSource source = player.damageSources().playerAttack(player);
-            livingEntity.hurt(source, traitLevel);
-        }
-    }
-
-    @Override
-    public boolean emitEffect(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos, int damageAmount, boolean isInitial) {
-        return !isInitial;
-    }
-
-    @Override
-    public void addEffect(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos, int damageAmount, boolean isInitial) {
-        super.addEffect(player, level, stack, traitLevel, stats, blockState, pos, damageAmount, isInitial);
-        for (int i = 0; i < 20; i++) {
-            level.addParticle(new PowerupParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(0.9F, 1.0F, 1.0F), 1F, 1, 0, 15, 1.0F),
-                    pos.getX() + player.getRandom().nextFloat(), pos.getY() + player.getRandom().nextFloat(), pos.getZ() + player.getRandom().nextFloat(), 0, 0, 0);
-        }
-    }
-
-    @Override
-    public int getColor() {
-        return 0xF0FFFF;
+    public Color getColor() {
+        return new Color(0xF0FFFF);
     }
 
     @Override

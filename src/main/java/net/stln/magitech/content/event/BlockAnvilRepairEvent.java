@@ -5,7 +5,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.AnvilUpdateEvent;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.content.item.tool.toolitem.PartToolItem;
+import net.stln.magitech.content.item.tool.toolitem.SynthesisedToolItem;
 
 @EventBusSubscriber(modid = Magitech.MOD_ID)
 public class BlockAnvilRepairEvent {
@@ -16,7 +16,7 @@ public class BlockAnvilRepairEvent {
         ItemStack right = event.getRight();
 
         // 左または右に特定のアイテムがある場合、処理を無効化
-        if (left.getItem() instanceof PartToolItem || right.getItem() instanceof PartToolItem) {
+        if (left.getItem() instanceof SynthesisedToolItem || right.getItem() instanceof SynthesisedToolItem) {
             event.setCanceled(true); // 金床の出力をブロック
         }
     }

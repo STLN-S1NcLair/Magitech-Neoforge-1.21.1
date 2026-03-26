@@ -6,62 +6,53 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.stln.magitech.content.item.tool.toolitem.SpellCasterItem;
 import net.stln.magitech.core.api.mana.handler.EntityManaHelper;
-import net.stln.magitech.effect.visual.Section;
-import net.stln.magitech.effect.visual.particle.particle_option.PowerupParticleEffect;
 import net.stln.magitech.effect.visual.preset.EntityVFX;
-import net.stln.magitech.effect.visual.preset.PointVFX;
 import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.feature.tool.ToolStats;
-import net.stln.magitech.helper.EffectHelper;
-import org.joml.Vector3f;
+import net.stln.magitech.feature.tool.property.ToolProperties;
+import net.stln.magitech.feature.tool.property.ToolPropertyCategory;
+import net.stln.magitech.feature.tool.property.modifier.RationalToolPropertyModifier;
+import net.stln.magitech.feature.tool.property.modifier.ToolPropertyModifier;
 
+import java.awt.*;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class OverchargedTrait extends Trait {
 
     @Override
-    public ToolStats modifyStatsConditional1(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
-        if (EntityManaHelper.getMagicManaFillRatio(player) >= 1) {
-            ToolStats aDefault = ToolStats.DEFAULT;
-            Map<String, Float> modified = new HashMap<>(aDefault.getStats());
-            float mul = traitLevel * 0.25F;
-            Float elmAtk = stats.getStats().get(ToolStats.ELM_ATK_STAT);
-            float mul2 = traitLevel * 0.35F;
-            Float min = stats.getStats().get(ToolStats.MIN_STAT);
-            modified.put(ToolStats.ELM_ATK_STAT, elmAtk * mul);
-            modified.put(ToolStats.MIN_STAT, min * mul2);
-            return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
+    public List<ToolPropertyModifier> modifyProperty(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties) {
+        List<ToolPropertyModifier> list = super.modifyProperty(player, level, stack, traitLevel, properties);
+        float value = 0.25F * traitLevel;
+        list.add(new RationalToolPropertyModifier(ToolPropertyCategory.ELEMENT, value));
+        list.add(new RationalToolPropertyModifier(ToolPropertyCategory.HANDLING, value));
+        if (!effectEnabled(player, level, stack, traitLevel, properties)) {
+            for (ToolPropertyModifier modifier : list) {
+                modifier.setEnabled(false);
+            }
         }
-        return super.modifyStatsConditional1(player, level, stack, traitLevel, stats);
+        return list;
     }
 
     @Override
-    public ToolStats modifySpellCasterStatsConditional1(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats) {
-        if (EntityManaHelper.getMagicManaFillRatio(player) >= 0.5) {
-            ToolStats aDefault = ToolStats.DEFAULT;
-            Map<String, Float> modified = new HashMap<>(aDefault.getStats());
-            float mul = traitLevel * 0.35F;
-            Float pwr = stats.getStats().get(ToolStats.PWR_STAT);
-            Float chg = stats.getStats().get(ToolStats.CHG_STAT);
-            modified.put(ToolStats.PWR_STAT, pwr * mul);
-            modified.put(ToolStats.CHG_STAT, chg * mul);
-            return new ToolStats(modified, stats.getElement(), stats.getMiningLevel(), aDefault.getTier());
-        }
-        return super.modifySpellCasterStatsConditional1(player, level, stack, traitLevel, stats);
+    public boolean effectEnabled(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties) {
+        return EntityManaHelper.getMagicManaFillRatio(player) >= 0.5;
     }
 
     @Override
-    public void tick(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, boolean isHost) {
-        super.tick(player, level, stack, traitLevel, stats, isHost);
-        if (EntityManaHelper.getMagicManaFillRatio(player) >= (stack.getItem() instanceof SpellCasterItem ? 0.5 : 1)) {
-            EntityVFX.powerupAura(level, Element.MANA, player, 0.2F);
-        }
+    public Color getColor() {
+        return new Color(0x80FFC0);
     }
 
     @Override
-    public int getColor() {
-        return 0x80FFC0;
+    public Color getPrimary() {
+        return new Color(0xA0FFA0);
+    }
+
+    @Override
+    public Color getSecondary() {
+        return new Color(0x00F0D0);
     }
 
     @Override

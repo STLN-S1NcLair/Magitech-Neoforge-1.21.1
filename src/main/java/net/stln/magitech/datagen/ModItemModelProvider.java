@@ -41,7 +41,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ItemInit.HANDGUARD.get());
         basicItem(ItemInit.STRIKE_HEAD.get());
         basicItem(ItemInit.SPIKE_HEAD.get());
-        basicItem(ItemInit.REINFORCED_STICK.get());
+        basicItem(ItemInit.REINFORCED_ROD.get());
         basicItem(ItemInit.PLATE.get());
         basicItem(ItemInit.CATALYST.get());
         basicItem(ItemInit.CONDUCTOR.get());

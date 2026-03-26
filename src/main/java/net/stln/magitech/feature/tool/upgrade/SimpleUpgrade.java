@@ -10,7 +10,7 @@ public class SimpleUpgrade extends Upgrade {
         this.upgradeStats = upgradeStats;
     }
 
-    public ToolStats getUpgradeStats(int level) {
+    public ToolStats getModifiers(int level) {
         return ToolStats.mulWithoutElementCode(this.upgradeStats, level);
     }
 }

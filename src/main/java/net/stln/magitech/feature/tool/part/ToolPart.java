@@ -1,12 +1,21 @@
 package net.stln.magitech.feature.tool.part;
 
 
+import com.mojang.serialization.Codec;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.Item;
+import net.stln.magitech.MagitechRegistries;
+import net.stln.magitech.feature.tool.material.ToolMaterial;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Supplier;
 
 public record ToolPart(Supplier<Item> partItem) implements ToolPartLike {
+    public static final Codec<ToolPart> CODEC = MagitechRegistries.TOOL_PART.byNameCodec();
+    public static final StreamCodec<RegistryFriendlyByteBuf, ToolPart> STREAM_CODEC = ByteBufCodecs.registry(MagitechRegistries.Keys.TOOL_PART);
+
     @Override
     public @NotNull ToolPart asToolPart() {
         return this;

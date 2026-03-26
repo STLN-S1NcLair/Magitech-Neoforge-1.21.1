@@ -1,67 +1,42 @@
 package net.stln.magitech.feature.tool.trait;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.stln.magitech.content.item.tool.toolitem.PartToolItem;
+import net.minecraft.world.level.Level;
+import net.stln.magitech.content.item.tool.toolitem.SynthesisedToolItem;
 import net.stln.magitech.feature.tool.ToolStats;
 import net.stln.magitech.feature.tool.material.ToolMaterial;
+import net.stln.magitech.feature.tool.property.SingleToolPropertyGroup;
+import net.stln.magitech.feature.tool.property.ToolProperties;
+import net.stln.magitech.feature.tool.property.ToolPropertyInit;
+import net.stln.magitech.feature.tool.property.modifier.RationalToolPropertyModifier;
+import net.stln.magitech.feature.tool.property.modifier.ToolPropertyModifier;
 import net.stln.magitech.helper.ComponentHelper;
 
-import java.util.HashMap;
+import java.awt.*;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class AdaptationTrait extends Trait {
 
     @Override
-    public ToolStats modifyStats1(ItemStack stack, int traitLevel, ToolStats stats) {
-        super.modifyStats1(stack, traitLevel, stats);
+    public List<ToolPropertyModifier> modifyProperty(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties) {
         List<ToolMaterial> materials = ComponentHelper.getPartMaterials(stack);
-        Set<ToolMaterial> materialSet = PartToolItem.getMaterialSet(materials);
-        ToolStats defaultStats = ToolStats.DEFAULT;
-        Map<String, Float> statsMap = stats.getStats();
-        Map<String, Float> modified = new HashMap<>(defaultStats.getStats());
-        float mul = (float) ((materialSet.size() - 1) * 0.15);
-        modified.put(ToolStats.ATK_STAT, statsMap.get(ToolStats.ATK_STAT) * mul);
-        modified.put(ToolStats.ELM_ATK_STAT, statsMap.get(ToolStats.ELM_ATK_STAT) * mul);
-        modified.put(ToolStats.SPD_STAT, (statsMap.get(ToolStats.SPD_STAT)) * mul);
-        modified.put(ToolStats.MIN_STAT, statsMap.get(ToolStats.MIN_STAT) * mul);
-        modified.put(ToolStats.DEF_STAT, statsMap.get(ToolStats.DEF_STAT) * mul);
-        modified.put(ToolStats.RNG_STAT, (statsMap.get(ToolStats.RNG_STAT)) * mul);
-        modified.put(ToolStats.SWP_STAT, statsMap.get(ToolStats.SWP_STAT) * mul);
-        modified.put(ToolStats.DUR_STAT, statsMap.get(ToolStats.DUR_STAT) * mul);
-        return new ToolStats(modified, defaultStats.getElement(), defaultStats.getMiningLevel(), defaultStats.getTier());
+        Set<ToolMaterial> materialSet = new HashSet<>(materials);
+        float value = (float) ((materialSet.size() - 1) * 0.2F);
+        ToolPropertyModifier mod = new RationalToolPropertyModifier(new SingleToolPropertyGroup(ToolPropertyInit.MAX_PROGRESSION_COEFFICIENT.get()), value);
+        return List.of(mod);
     }
 
     @Override
-    public ToolStats modifySpellCasterStats1(ItemStack stack, int traitLevel, ToolStats stats) {
-        super.modifySpellCasterStats1(stack, traitLevel, stats);
-        List<ToolMaterial> materials = ComponentHelper.getPartMaterials(stack);
-        Set<ToolMaterial> materialSet = PartToolItem.getMaterialSet(materials);
-        ToolStats defaultStats = ToolStats.DEFAULT;
-        Map<String, Float> statsMap = stats.getStats();
-        Map<String, Float> modified = new HashMap<>(defaultStats.getStats());
-        float mul = (float) ((materialSet.size() - 1) * 0.15);
-        modified.put(ToolStats.ATK_STAT, statsMap.get(ToolStats.ATK_STAT) * mul);
-        modified.put(ToolStats.ELM_ATK_STAT, statsMap.get(ToolStats.ELM_ATK_STAT) * mul);
-        modified.put(ToolStats.SPD_STAT, (statsMap.get(ToolStats.SPD_STAT)) * mul);
-        modified.put(ToolStats.MIN_STAT, statsMap.get(ToolStats.MIN_STAT) * mul);
-        modified.put(ToolStats.DEF_STAT, statsMap.get(ToolStats.DEF_STAT) * mul);
-        modified.put(ToolStats.RNG_STAT, (statsMap.get(ToolStats.RNG_STAT)) * mul);
-        modified.put(ToolStats.SWP_STAT, statsMap.get(ToolStats.SWP_STAT) * mul);
-        modified.put(ToolStats.DUR_STAT, statsMap.get(ToolStats.DUR_STAT) * mul);
-        return new ToolStats(modified, defaultStats.getElement(), defaultStats.getMiningLevel(), defaultStats.getTier());
-    }
-
-    @Override
-    public int getColor() {
-        return 0x805830;
+    public Color getColor() {
+        return new Color(0x805830);
     }
 
     @Override
     public Component getName() {
-        return Component.translatable("trait.magitech.ataptation");
+        return Component.translatable("trait.magitech.adaptation");
     }
 
     @Override

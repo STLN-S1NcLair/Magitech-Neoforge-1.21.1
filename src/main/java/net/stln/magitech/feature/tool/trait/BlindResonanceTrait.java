@@ -22,7 +22,7 @@ import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.content.damage.DamageTypeInit;
 import net.stln.magitech.content.entity.mob_effect.MobEffectInit;
-import net.stln.magitech.content.item.tool.toolitem.PartToolItem;
+import net.stln.magitech.content.item.tool.toolitem.SynthesisedToolItem;
 import net.stln.magitech.content.sound.SoundInit;
 import net.stln.magitech.effect.visual.particle.particle_option.PowerupNoCullParticleEffect;
 import net.stln.magitech.effect.visual.particle.particle_option.PowerupParticleEffect;
@@ -68,7 +68,7 @@ public class BlindResonanceTrait extends Trait {
         int light = level.getMaxLocalRawBrightness(player.blockPosition());
         if (light < 4) {
             List<ToolMaterial> materials = ComponentHelper.getPartMaterials(stack);
-            Set<ToolMaterial> materialSet = PartToolItem.getMaterialSet(materials);
+            Set<ToolMaterial> materialSet = SynthesisedToolItem.getMaterialSet(materials);
             ToolStats defaultStats = ToolStats.DEFAULT;
             Map<String, Float> statsMap = stats.getStats();
             Map<String, Float> modified = new HashMap<>(defaultStats.getStats());
@@ -94,7 +94,7 @@ public class BlindResonanceTrait extends Trait {
 
     @Override
     public void tick(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, boolean isHost) {
-        super.tick(player, level, stack, traitLevel, stats, isHost);
+        super.handTick(player, level, stack, traitLevel, stats, isHost);
         level.updateSkyBrightness();
         int light = level.getMaxLocalRawBrightness(player.blockPosition());
         if (light < 4 && !player.hasEffect(MobEffects.NIGHT_VISION)) {

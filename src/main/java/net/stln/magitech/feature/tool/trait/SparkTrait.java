@@ -42,10 +42,11 @@ import net.stln.magitech.effect.visual.particle.particle_option.BeamParticleEffe
 import net.stln.magitech.effect.visual.particle.particle_option.SparkParticleEffect;
 import net.stln.magitech.effect.visual.particle.particle_option.ZapParticleEffect;
 import net.stln.magitech.feature.element.Element;
-import net.stln.magitech.feature.tool.ToolStats;
+import net.stln.magitech.feature.tool.property.ToolProperties;
 import net.stln.magitech.helper.*;
 import org.joml.Vector3f;
 
+import java.awt.*;
 import java.util.Objects;
 import java.util.Set;
 
@@ -72,24 +73,24 @@ public class SparkTrait extends Trait {
     }
 
     @Override
-    public void onDamageEntity(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, Entity target) {
-        super.onDamageEntity(player, level, stack, traitLevel, stats, target);
+    public void onDamageEntity(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties, Entity target) {
+        super.onDamageEntity(player, level, stack, traitLevel, properties, target);
         if (!level.isClientSide) {
             TraitMobEffectHelper.applyTraitMobEffect(player, MobEffectInit.CHARGE, 40, 0);
         }
     }
 
     @Override
-    public void onBreakBlock(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos, int damageAmount, boolean isInitial) {
-        super.onBreakBlock(player, level, stack, traitLevel, stats, blockState, pos, damageAmount, isInitial);
+    public void onBreakBlock(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties, BlockState blockState, BlockPos pos, int damageAmount, boolean isInitial) {
+        super.onBreakBlock(player, level, stack, traitLevel, properties, blockState, pos, damageAmount, isInitial);
         if (!level.isClientSide) {
             TraitMobEffectHelper.applyTraitMobEffect(player, MobEffectInit.CHARGE, 40, 0);
         }
     }
 
     @Override
-    public void traitAction(Player player, Level level, Entity target, Vec3 lookingPos, ItemStack stack, int traitLevel, ToolStats stats, InteractionHand hand, boolean isHost) {
-        super.traitAction(player, level, target, lookingPos, stack, traitLevel, stats, hand, isHost);
+    public void traitAction(Player player, Level level, Entity target, Vec3 lookingPos, ItemStack stack, int traitLevel, ToolProperties properties, InteractionHand hand, boolean isHost) {
+        super.traitAction(player, level, target, lookingPos, stack, traitLevel, properties, hand, isHost);
 
         if (player.hasEffect(MobEffectInit.CHARGE)) {
             for (int i = 0; i < (player.getEffect(MobEffectInit.CHARGE).getAmplifier() + 1) * 3; i++) {
@@ -157,7 +158,7 @@ public class SparkTrait extends Trait {
     }
 
     @Override
-    public Set<BlockPos> addAdditionalBlockBreakFirst(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos, int damageAmount, Direction direction) {
+    public Set<BlockPos> additionalBlockBreak(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties, BlockState blockState, BlockPos pos, int damageAmount, Direction direction) {
         int amplifier = 0;
         if (player.hasEffect(MobEffectInit.CHARGE)) {
             amplifier = player.getEffect(MobEffectInit.CHARGE).getAmplifier() + 1;
@@ -170,23 +171,8 @@ public class SparkTrait extends Trait {
     }
 
     @Override
-    public boolean emitEffect(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos, int damageAmount, boolean isInitial) {
-        return !isInitial;
-    }
-
-    @Override
-    public void addEffect(Player player, Level level, ItemStack stack, int traitLevel, ToolStats stats, BlockState blockState, BlockPos pos, int damageAmount, boolean isInitial) {
-        super.addEffect(player, level, stack, traitLevel, stats, blockState, pos, damageAmount, isInitial);
-        Vec3 center = pos.getCenter();
-        level.addParticle(new ZapParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F),
-                        player.position().toVector3f(), 1.0F, 1, 0, level.random.nextInt(2, 5), 1.0F),
-                center.x, center.y, center.z, 0, 0, 0);
-        level.playSound(player, pos, SoundInit.SPARK.get(), SoundSource.PLAYERS, 0.1F, 0.3F + (player.getRandom().nextFloat() * 1.4F));
-    }
-
-    @Override
-    public int getColor() {
-        return 0x80E0FF;
+    public Color getColor() {
+        return new Color(0x80E0FF);
     }
 
     @Override

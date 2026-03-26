@@ -2,7 +2,12 @@ package net.stln.magitech.feature.tool.material;
 
 import net.neoforged.bus.api.IEventBus;
 import net.stln.magitech.Magitech;
+import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.feature.tool.ToolStats;
+import net.stln.magitech.feature.tool.property.ElementalAttributeToolProperty;
+import net.stln.magitech.feature.tool.property.ToolProperties;
+import net.stln.magitech.feature.tool.property.ToolPropertyInit;
+import net.stln.magitech.feature.tool.tool_category.ToolCategoryInit;
 import net.stln.magitech.feature.tool.trait.*;
 import net.stln.magitech.registry.DeferredToolMaterial;
 import net.stln.magitech.registry.DeferredToolMaterialRegister;
@@ -10,8 +15,43 @@ import net.stln.magitech.registry.DeferredToolMaterialRegister;
 public class MaterialInit {
 
     public static final DeferredToolMaterialRegister REGISTER = new DeferredToolMaterialRegister(Magitech.MOD_ID);
-    public static final DeferredToolMaterial<ToolMaterial> WOOD = register("wood", ToolStatsInit.WOOD, SpellToolStatsInit.WOOD, new AdaptationTrait());
-    public static final DeferredToolMaterial<ToolMaterial> STONE = register("stone", ToolStatsInit.STONE, SpellToolStatsInit.STONE, new GeoMendingTrait());
+
+    public static final DeferredToolMaterial<ToolMaterial> WOOD = register("wood", new AdaptationTrait(), new ToolProperties(ToolCategoryInit.MELEE)
+            .set(ToolPropertyInit.TIER, 0)
+            .set(ToolPropertyInit.DAMAGE, 0.4)
+            .set(ToolPropertyInit.ELEMENTAL_DAMAGE, ElementalAttributeToolProperty.singleElement(Element.FLOW, 0.2))
+            .set(ToolPropertyInit.ATTACK_SPEED, 1.1)
+            .set(ToolPropertyInit.MINING_SPEED, 0.4)
+            .set(ToolPropertyInit.DEFENSE, 0.5)
+            .set(ToolPropertyInit.REACH, 0.9)
+            .set(ToolPropertyInit.SWEEP, 0.7)
+            .set(ToolPropertyInit.DURATION, 0.3)
+            .set(ToolPropertyInit.MINING_LEVEL, MiningLevel.NONE)
+            .set(ToolPropertyInit.POWER, 0.4)
+            .set(ToolPropertyInit.ELEMENTAL_POWER, ElementalAttributeToolProperty.singleElement(Element.FLOW, 0.4))
+            .set(ToolPropertyInit.CHARGE_SPEED, 1.1)
+            .set(ToolPropertyInit.COOLDOWN_SPEED, 1.2)
+            .set(ToolPropertyInit.LAUNCH, 0.9)
+            .set(ToolPropertyInit.MANA_EFFICIENCY, 0.7)
+    );
+    public static final DeferredToolMaterial<ToolMaterial> STONE = register("stone", new GeoMendingTrait(), new ToolProperties(ToolCategoryInit.MELEE)
+            .set(ToolPropertyInit.TIER, 0.0)
+            .set(ToolPropertyInit.DAMAGE, 1.0)
+            .set(ToolPropertyInit.ELEMENTAL_DAMAGE, ElementalAttributeToolProperty.flatValue(0.0))
+            .set(ToolPropertyInit.ATTACK_SPEED, 0.85)
+            .set(ToolPropertyInit.MINING_SPEED, 0.8)
+            .set(ToolPropertyInit.DEFENSE, 1.5)
+            .set(ToolPropertyInit.REACH, 1.0)
+            .set(ToolPropertyInit.SWEEP, 0.8)
+            .set(ToolPropertyInit.DURATION, 0.5)
+            .set(ToolPropertyInit.MINING_LEVEL, MiningLevel.STONE)
+            .set(ToolPropertyInit.POWER, 1.0)
+            .set(ToolPropertyInit.ELEMENTAL_POWER, ElementalAttributeToolProperty.flatValue(0.0))
+            .set(ToolPropertyInit.CHARGE_SPEED, 0.85)
+            .set(ToolPropertyInit.COOLDOWN_SPEED, 0.8)
+            .set(ToolPropertyInit.LAUNCH, 1.0)
+            .set(ToolPropertyInit.MANA_EFFICIENCY, 0.8)
+    );
     public static final DeferredToolMaterial<ToolMaterial> DEEPSLATE = register("deepslate", ToolStatsInit.DEEPSLATE, SpellToolStatsInit.DEEPSLATE, new HardmineTrait());
     public static final DeferredToolMaterial<ToolMaterial> COPPER = register("copper", ToolStatsInit.COPPER, SpellToolStatsInit.COPPER, new ConductanceTrait());
     public static final DeferredToolMaterial<ToolMaterial> ZINC = register("zinc", ToolStatsInit.ZINC, SpellToolStatsInit.ZINC, new ElectrostaticChargeTrait());
@@ -21,7 +61,7 @@ public class MaterialInit {
     public static final DeferredToolMaterial<ToolMaterial> MOSS = register("moss", ToolStatsInit.MOSS, SpellToolStatsInit.MOSS, new GrowthTrait());
     public static final DeferredToolMaterial<ToolMaterial> IRON = register("iron", ToolStatsInit.IRON, SpellToolStatsInit.IRON, new DuranceTrait());
     public static final DeferredToolMaterial<ToolMaterial> GOLD = register("gold", ToolStatsInit.GOLD, SpellToolStatsInit.GOLD, new CatalysisTrait());
-    public static final DeferredToolMaterial<ToolMaterial> AMETHYST = register("amethyst", ToolStatsInit.AMETHYST, SpellToolStatsInit.AMETHYST, new ShatterforceTrait());
+    public static final DeferredToolMaterial<ToolMaterial> AMETHYST = register("amethyst", ToolStatsInit.AMETHYST, SpellToolStatsInit.AMETHYST, new ShatterTrait());
     public static final DeferredToolMaterial<ToolMaterial> CITRINE = register("citrine", ToolStatsInit.CITRINE, SpellToolStatsInit.CITRINE, new HeatTreatmentTrait());
     public static final DeferredToolMaterial<ToolMaterial> REDSTONE = register("redstone", ToolStatsInit.REDSTONE, SpellToolStatsInit.REDSTONE, new SignalRushTrait());
     public static final DeferredToolMaterial<ToolMaterial> LAPIS = register("lapis", ToolStatsInit.LAPIS, SpellToolStatsInit.LAPIS, new InclusionTrait());
@@ -42,8 +82,8 @@ public class MaterialInit {
     public static final DeferredToolMaterial<ToolMaterial> RESONITE = register("resonite", ToolStatsInit.RESONITE, SpellToolStatsInit.RESONITE, new BlindResonanceTrait());
     public static final DeferredToolMaterial<ToolMaterial> ABYSSITE = register("abyssite", ToolStatsInit.ABYSSITE, SpellToolStatsInit.ABYSSITE, new PhaseVacuumCollapseTrait());
 
-    private static DeferredToolMaterial<ToolMaterial> register(String name, ToolStats stats, ToolStats spellCasterStats, Trait trait) {
-        return REGISTER.register(name, () -> new ToolMaterial(stats, spellCasterStats, trait));
+    private static DeferredToolMaterial<ToolMaterial> register(String name, Trait trait, ToolProperties properties) {
+        return REGISTER.register(name, () -> new ToolMaterial(properties, trait));
     }
 
     public static void registerMaterials(IEventBus bus) {

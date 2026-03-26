@@ -28,10 +28,14 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.content.item.tool.toolitem.PartToolItem;
+import net.stln.magitech.content.item.tool.toolitem.SynthesisedToolItem;
+import net.stln.magitech.feature.tool.property.ToolProperties;
 import net.stln.magitech.feature.tool.tool_type.ToolType;
+import net.stln.magitech.feature.tool.tool_type.ToolTypeInit;
 import net.stln.magitech.feature.tool.trait.BlockBreakEvent;
 import net.stln.magitech.feature.tool.trait.Trait;
+import net.stln.magitech.feature.tool.trait.TraitHelper;
+import net.stln.magitech.feature.tool.trait.TraitInstance;
 import net.stln.magitech.helper.ComponentHelper;
 import org.joml.Matrix4f;
 
@@ -74,22 +78,22 @@ public class BlockBreakRangeHighlightEvent {
     }
 
     private static boolean shouldShowOverlay(LocalPlayer player, BlockPos target) {
-        return player.getMainHandItem().getItem() instanceof PartToolItem && !player.level().getBlockState(target).getShape(player.level(), target, CollisionContext.of(player)).isEmpty()
+        return player.getMainHandItem().getItem() instanceof SynthesisedToolItem && !player.level().getBlockState(target).getShape(player.level(), target, CollisionContext.of(player)).isEmpty()
                 && !ComponentHelper.isBroken(player.getMainHandItem());
     }
 
     // サーバ側ロジックを参照: BlockBreakEvent の public メソッドを利用する
     private static Collection<BlockPos> calculatePredictedPositions(LocalPlayer player, Level level, BlockPos pos) {
         ItemStack stack = player.getItemInHand(InteractionHand.MAIN_HAND);
-        if (!(stack.getItem() instanceof PartToolItem pti) || ComponentHelper.isBroken(stack)) {
+        if (!(stack.getItem() instanceof SynthesisedToolItem item) || ComponentHelper.isBroken(stack)) {
             return Collections.emptyList();
         }
-        Map<Trait, Integer> traitMap = PartToolItem.getTraitLevel(PartToolItem.getTraits(stack));
+        List<TraitInstance> traits = TraitHelper.getTrait(stack);
 
         Set<BlockPos> blockList = new HashSet<>();
         Direction breakDir;
         try {
-            breakDir = PartToolItem.getBreakDirection(player.blockInteractionRange(), pos, player);
+            breakDir = SynthesisedToolItem.getBreakDirection(player.blockInteractionRange(), pos, player);
         } catch (Throwable t) {
             Vec3 look = player.getLookAngle();
             if (Math.abs(look.y) > Math.abs(look.x) && Math.abs(look.y) > Math.abs(look.z)) {
@@ -101,9 +105,9 @@ public class BlockBreakRangeHighlightEvent {
             }
         }
 
-        if (pti.getToolType().equals(ToolType.HAMMER)) {
+        if (item.getToolType().equals(ToolTypeInit.HAMMER)) {
             BlockBreakEvent.addHammerMine(player, stack, pos, blockList, breakDir);
-        } else if (pti.getToolType().equals(ToolType.SCYTHE)) {
+        } else if (item.getToolType().equals(ToolTypeInit.SCYTHE)) {
             boolean noCollision = level.getBlockState(pos).getCollisionShape(level, pos).isEmpty();
             boolean instant = level.getBlockState(pos).getBlock().defaultDestroyTime() == 0.0f;
             if (noCollision || instant) {
@@ -114,24 +118,15 @@ public class BlockBreakRangeHighlightEvent {
         }
         blockList.add(pos);
 
-        Set<BlockPos> blockList2 = new HashSet<>();
-        for (BlockPos p : blockList) {
-            for (Map.Entry<Trait, Integer> e : traitMap.entrySet()) {
-                blockList2.addAll(e.getKey().addAdditionalBlockBreakFirst(player, level, stack, e.getValue(),
-                        pti.getSumStats(player, level, stack), level.getBlockState(p), p, 1, breakDir));
-            }
-        }
+        ToolProperties appliedProperties = item.getAppliedProperties(player, level, stack);
 
         Set<BlockPos> finalList = new HashSet<>();
-        for (BlockPos p : blockList2) {
-            if (!level.getBlockState(p).getBlock().equals(net.minecraft.world.level.block.Blocks.AIR)) {
-                for (Map.Entry<Trait, Integer> e : traitMap.entrySet()) {
-                    finalList.addAll(e.getKey().addAdditionalBlockBreakSecond(player, level, stack, e.getValue(),
-                            pti.getSumStats(player, level, stack), level.getBlockState(p), p, 1, breakDir));
-                }
+        for (BlockPos p : blockList) {
+            for (TraitInstance instance : traits) {
+                finalList.addAll(instance.trait().additionalBlockBreak(player, level, stack, instance.level(),
+                        appliedProperties, level.getBlockState(p), p, 1, breakDir));
             }
         }
-
         finalList.addAll(blockList); // 中心は必ず含める
         return finalList;
     }

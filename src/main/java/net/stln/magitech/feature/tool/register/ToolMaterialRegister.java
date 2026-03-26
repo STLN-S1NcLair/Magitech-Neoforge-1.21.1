@@ -4,10 +4,10 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Table;
 import net.stln.magitech.feature.element.Element;
-import net.stln.magitech.feature.tool.part.ToolPart;
 import net.stln.magitech.feature.tool.ToolStats;
-import net.stln.magitech.feature.tool.tool_type.ToolType;
 import net.stln.magitech.feature.tool.material.MiningLevel;
+import net.stln.magitech.feature.tool.part.ToolPart;
+import net.stln.magitech.feature.tool.tool_type.ToolType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
