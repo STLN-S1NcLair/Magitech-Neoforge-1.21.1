@@ -67,9 +67,8 @@ public class Sparkion extends SpraySpell {
                             continue;
                         }
                         targets.add(chain);
-                        if (!level.isClientSide) {
-                            hitTarget(level, caster, wand, SpellPropertyInit.CONTINUOUS_DAMAGE, chain);
-                        } else {
+                        hitTarget(level, caster, wand, SpellPropertyInit.CONTINUOUS_DAMAGE, chain);
+                        if (level.isClientSide) {
                             addChainVFX(level, caster, entityBody, chain);
                         }
                     }

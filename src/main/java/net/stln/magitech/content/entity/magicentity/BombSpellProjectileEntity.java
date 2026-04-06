@@ -66,7 +66,7 @@ public abstract class BombSpellProjectileEntity extends SpellProjectileEntity {
         if (spell.isPresent()) {
             explodeRadius = spell.get().get().getConfig().properties().get(SpellPropertyInit.EXPLOSION_RADIUS);
             if (getOwner() != null && getOwner() instanceof LivingEntity caster) {
-                explodeRadius = MagicPerformanceHelper.getEffectiveExplosionRadius(caster, wand, spell.get().get());
+                explodeRadius = MagicPerformanceHelper.getEffectiveExplosionRadius(caster, getWand(), spell.get().get());
             }
         }
         return explodeRadius;

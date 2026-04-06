@@ -31,21 +31,22 @@ public abstract class BlinkSpell extends DamageSpell {
 
         // ダメージを与える場合のみ演算
         List<Entity> nearbyEntities = new ArrayList<>();
-        if (!level.isClientSide) {
-            if (this.getConfig().properties().contains(SpellPropertyInit.DAMAGE)) {
-                for (int i = 0; i < hitPos.distanceTo(caster.position()); i++) {
-                    nearbyEntities.addAll(CombatHelper.getEntitiesInBox(level, caster, caster.position().lerp(hitPos, i / hitPos.distanceTo(caster.position())), new Vec3(3, 3, 3)));
-                }
-                for (Entity entity : nearbyEntities) {
-                    hitTarget(level, caster, wand, entity);
-                }
-                for (Entity entity : CombatHelper.getEntitiesInBox(level, caster, hitPos, new Vec3(4, 4, 4))) {
-                    nearbyEntities.add(entity);
-                    hitTarget(level, caster, wand, entity);
-                    Vec3 hitDirection = entity.position().subtract(hitPos).normalize();
-                    entity.addDeltaMovement(hitDirection.scale(0.3));
-                }
+
+        if (this.getConfig().properties().contains(SpellPropertyInit.DAMAGE)) {
+            for (int i = 0; i < hitPos.distanceTo(caster.position()); i++) {
+                nearbyEntities.addAll(CombatHelper.getEntitiesInBox(level, caster, caster.position().lerp(hitPos, i / hitPos.distanceTo(caster.position())), new Vec3(3, 3, 3)));
             }
+            for (Entity entity : nearbyEntities) {
+                hitTarget(level, caster, wand, entity);
+            }
+            for (Entity entity : CombatHelper.getEntitiesInBox(level, caster, hitPos, new Vec3(4, 4, 4))) {
+                nearbyEntities.add(entity);
+                hitTarget(level, caster, wand, entity);
+                Vec3 hitDirection = entity.position().subtract(hitPos).normalize();
+                entity.addDeltaMovement(hitDirection.scale(0.3));
+            }
+        }
+        if (!level.isClientSide) {
             caster.fallDistance = 0;
             TickScheduler.schedule(1, () -> {
                 caster.fallDistance = 0;

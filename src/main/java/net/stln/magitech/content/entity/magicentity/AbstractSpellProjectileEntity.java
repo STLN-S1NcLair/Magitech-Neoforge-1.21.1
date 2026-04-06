@@ -5,6 +5,9 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -26,12 +29,12 @@ import net.minecraft.world.phys.Vec3;
 import javax.annotation.Nullable;
 
 public abstract class AbstractSpellProjectileEntity extends Projectile {
+    private static final EntityDataAccessor<Integer> PIERCE_LEVEL = SynchedEntityData.defineId(AbstractSpellProjectileEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<ItemStack> WAND = SynchedEntityData.defineId(AbstractSpellProjectileEntity.class, EntityDataSerializers.ITEM_STACK);
     protected boolean inGround;
     protected int inGroundTime;
-    protected int pierce = 0;
     @Nullable
     private BlockState lastState;
-    private ItemStack wand = null;
 
     protected AbstractSpellProjectileEntity(EntityType<? extends AbstractSpellProjectileEntity> entityType, Level level) {
         super(entityType, level);
@@ -45,7 +48,7 @@ public abstract class AbstractSpellProjectileEntity extends Projectile {
                 throw new IllegalArgumentException("Invalid weapon casting spell");
             }
 
-            this.wand = wand.copy();
+           setWand(wand.copy());
         }
     }
 
@@ -118,12 +121,24 @@ public abstract class AbstractSpellProjectileEntity extends Projectile {
         }
     }
 
-    public void setPierce(int value) {
-        pierce = value;
+    public ItemStack getWand() {
+        return this.entityData.get(WAND);
+    }
+
+    public void setWand(ItemStack wand) {
+        this.entityData.set(WAND, wand);
+    }
+
+    public int getPierce() {
+        return this.entityData.get(PIERCE_LEVEL);
+    }
+
+    public void setPierce(int pierce) {
+        this.entityData.set(PIERCE_LEVEL, pierce);
     }
 
     protected boolean isFinalHit() {
-        return pierce == 0;
+        return getPierce() == 0;
     }
 
     protected boolean isValidHit(HitResult result) {
@@ -161,7 +176,7 @@ public abstract class AbstractSpellProjectileEntity extends Projectile {
 
     @Override
     public ItemStack getWeaponItem() {
-        return this.wand;
+        return getWand();
     }
 
     /**
@@ -175,14 +190,22 @@ public abstract class AbstractSpellProjectileEntity extends Projectile {
     }
 
     @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        builder.define(PIERCE_LEVEL, 0);
+        builder.define(WAND, ItemStack.EMPTY);
+    }
+
+    @Override
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         if (this.lastState != null) {
             compound.put("inBlockState", NbtUtils.writeBlockState(this.lastState));
         }
         compound.putBoolean("inGround", this.inGround);
-        if (this.wand != null) {
-            compound.put("weapon", this.wand.save(this.registryAccess(), new CompoundTag()));
+        compound.putInt("pierce", this.getPierce());
+        ItemStack wand = getWand();
+        if (!wand.isEmpty()) {
+            compound.put("weapon", wand.save(this.registryAccess(), new CompoundTag()));
         }
     }
 
@@ -196,11 +219,13 @@ public abstract class AbstractSpellProjectileEntity extends Projectile {
             this.lastState = NbtUtils.readBlockState(this.level().holderLookup(Registries.BLOCK), compound.getCompound("inBlockState"));
         }
         this.inGround = compound.getBoolean("inGround");
-
+        if (compound.contains("pierce", 99)) {
+            setPierce(compound.getInt("pierce"));
+        }
         if (compound.contains("weapon", 10)) {
-            this.wand = ItemStack.parse(this.registryAccess(), compound.getCompound("weapon")).orElse(null);
+            setWand(ItemStack.parse(this.registryAccess(), compound.getCompound("weapon")).orElse(ItemStack.EMPTY));
         } else {
-            this.wand = null;
+            setWand(ItemStack.EMPTY);
         }
     }
 }

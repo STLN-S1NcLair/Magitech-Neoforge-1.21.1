@@ -43,10 +43,10 @@ public class ClientHelper {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static <I extends RecipeInput, R extends Recipe<I>> @NotNull List<@NotNull R> getAllRecipes(@NotNull Supplier<? extends RecipeType<R>> supplier) {
+    public static <I extends RecipeInput, R extends Recipe<I>> List<RecipeHolder<R>> getAllRecipes(@NotNull Supplier<? extends RecipeType<R>> supplier) {
         RecipeManager recipeManager = getRecipeManager();
         if (recipeManager == null) return List.of();
-        return recipeManager.getAllRecipesFor(supplier.get()).stream().map(RecipeHolder::value).toList();
+        return recipeManager.getAllRecipesFor(supplier.get()).stream().toList();
     }
 
     // Registry Access
@@ -59,7 +59,7 @@ public class ClientHelper {
     // Tool Material
     @OnlyIn(Dist.CLIENT)
     public static List<ToolMaterial> getAllCraftableMaterials() {
-        List<ToolMaterialRecipe> materialRecipes = ClientHelper.getAllRecipes(RecipeInit.TOOL_MATERIAL_TYPE);
+        List<ToolMaterialRecipe> materialRecipes = ClientHelper.getAllRecipes(RecipeInit.TOOL_MATERIAL_TYPE).stream().map(RecipeHolder::value).toList();
         return materialRecipes.stream()
                 .map(ToolMaterialRecipe::getToolMaterial)
                 .toList();

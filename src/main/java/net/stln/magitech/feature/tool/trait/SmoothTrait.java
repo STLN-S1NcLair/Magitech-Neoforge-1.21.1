@@ -4,26 +4,18 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.stln.magitech.content.item.tool.toolitem.SynthesisedToolItem;
-import net.stln.magitech.effect.visual.particle.particle_option.PowerupParticleEffect;
-import net.stln.magitech.feature.tool.ToolStats;
-import net.stln.magitech.feature.tool.material.ToolMaterial;
+import net.stln.magitech.Magitech;
 import net.stln.magitech.feature.tool.property.ToolProperties;
-import net.stln.magitech.helper.ComponentHelper;
-import net.stln.magitech.helper.EffectHelper;
-import org.joml.Vector3f;
 
 import java.awt.*;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class SmoothTrait extends Trait {
 
@@ -45,8 +37,8 @@ public class SmoothTrait extends Trait {
     }
 
     @Override
-    public Component getName() {
-        return Component.translatable("trait.magitech.smooth");
+    public ResourceLocation getKey() {
+        return Magitech.id("smooth");
     }
 
 }

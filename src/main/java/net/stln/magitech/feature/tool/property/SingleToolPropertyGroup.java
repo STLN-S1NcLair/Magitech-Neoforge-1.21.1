@@ -2,7 +2,7 @@ package net.stln.magitech.feature.tool.property;
 
 import net.minecraft.network.chat.MutableComponent;
 
-import java.util.Set;
+import java.awt.*;
 
 public record SingleToolPropertyGroup(IToolProperty<?> property) implements IToolPropertyGroup {
     @Override
@@ -11,7 +11,12 @@ public record SingleToolPropertyGroup(IToolProperty<?> property) implements IToo
     }
 
     @Override
+    public Color getColor() {
+        return property.getColor();
+    }
+
+    @Override
     public MutableComponent getDisplayText() {
-        return property.getDisplayName().withColor(property.getColor().getRGB());
+        return property.getDisplayName().withColor(getColor().getRGB());
     }
 }

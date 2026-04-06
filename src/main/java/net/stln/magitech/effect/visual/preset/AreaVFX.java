@@ -25,7 +25,7 @@ public class AreaVFX {
     }
 
     public static int getSidesFromInRadius(float radius) {
-        return Math.max(12, (int) Math.ceil(8 * Math.PI * radius));
+        return Math.max(36, (int) Math.ceil(8 * Math.PI * radius));
     }
 
     public static float getSideLength(float inRadius, int sides) {

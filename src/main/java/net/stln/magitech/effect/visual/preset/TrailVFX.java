@@ -1,6 +1,11 @@
 package net.stln.magitech.effect.visual.preset;
 
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -10,7 +15,10 @@ import net.stln.magitech.effect.visual.trail.TrailData;
 import net.stln.magitech.effect.visual.trail.TrailRenderer;
 import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.helper.ColorHelper;
+import net.stln.magitech.helper.TickScheduler;
 import net.stln.magitech.helper.VectorHelper;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 import team.lodestar.lodestone.registry.client.LodestoneRenderTypes;
 import team.lodestar.lodestone.systems.rendering.VFXBuilders;
 import team.lodestar.lodestone.systems.rendering.trail.InterpolatedTrailPoint;
@@ -41,6 +49,48 @@ public class TrailVFX {
             trail.tickTrailPoints();
         }
         addTrailPoint(level, end, 0.0F, trailLength, trail);
+
+        TrailRenderer.add(new TrailData(level, builderFunc, trail, element.getPrimary(), element.getSecondary(), scale * 0.5F, 0.9F));
+        TrailRenderer.add(new TrailData(level, builderFunc, trail, element.getPrimary(), element.getSecondary(), scale, 0.5F));
+    }
+
+    public static void arcTrail(Level level, Vec3 center, Vec2 normal, float startDeg, float endDeg, float slopeDeg, float scale, float radius, float resolution, int trailLength, Element element) {
+
+        Function<VFXBuilders.WorldVFXBuilder, VFXBuilders.WorldVFXBuilder> builderFunc = TrailRenderHelper.defaultBuilderFunc();
+        TrailPointBuilder trail = TrailPointBuilder.create(trailLength);
+
+        int points = (int) (resolution * radius * org.joml.Math.abs(endDeg - startDeg) / 50);
+
+        List<Integer> tickPoints = new ArrayList<>();
+
+        float tickDist = (float) points / trailLength * 2;
+        for (int i = 1; i <= trailLength; i++) {
+            tickPoints.add((int) Math.floor(tickDist * i));
+        }
+
+        Vec3 lookVec = Vec3.directionFromRotation(normal); // プレイヤーの視線方向
+        double yawRad = org.joml.Math.toRadians(normal.y);
+
+        // **視線方向に基づく「右方向ベクトル」を計算**
+        Vec3 rightVec = new Vec3(org.joml.Math.cos(yawRad), 0, org.joml.Math.sin(yawRad)).normalize(); // 視線の右方向
+        Vec3 upVec = lookVec.cross(rightVec).normalize(); // 視線に対する上方向
+
+        for (int i = 0; i <= points; i++) {
+            double t = (double) i / (points - 1);
+            double angleDeg = startDeg + (endDeg - startDeg) * t;
+
+            Vec3 axisVec = VectorHelper.rotateVector(upVec, lookVec, slopeDeg);
+            Vec3 offset = VectorHelper.rotateVector(lookVec, axisVec, angleDeg);
+
+            double x = center.x - offset.x * radius;
+            double y = center.y - offset.y * radius;
+            double z = center.z - offset.z * radius;
+
+            addTrailPoint(level, new Vec3(x, y, z), 0.0F, trailLength, trail);
+            if (tickPoints.contains(i)) {
+                trail.tickTrailPoints();
+            }
+        }
 
         TrailRenderer.add(new TrailData(level, builderFunc, trail, element.getPrimary(), element.getSecondary(), scale * 0.5F, 0.9F));
         TrailRenderer.add(new TrailData(level, builderFunc, trail, element.getPrimary(), element.getSecondary(), scale, 0.5F));

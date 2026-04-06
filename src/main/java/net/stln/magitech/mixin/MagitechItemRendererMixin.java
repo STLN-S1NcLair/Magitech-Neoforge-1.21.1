@@ -15,7 +15,6 @@ import net.stln.magitech.content.item.tool.toolitem.SynthesisedToolItem;
 import net.stln.magitech.feature.tool.material.ToolMaterial;
 import net.stln.magitech.feature.tool.model.ModelRegistrar;
 import net.stln.magitech.feature.tool.part.ToolPart;
-import net.stln.magitech.feature.tool.register.ToolMaterialRegister;
 import net.stln.magitech.feature.tool.tool_type.ToolType;
 import net.stln.magitech.helper.ComponentHelper;
 import org.spongepowered.asm.mixin.Final;
@@ -45,16 +44,16 @@ public class MagitechItemRendererMixin {
             for (int i = 0; i < partMaterials.size(); i++) {
                 ToolMaterial partMaterial = partMaterials.get(i);
 
-                ToolPart toolPart = ToolMaterialRegister.getToolPartFromIndex(toolType, i);
+                ToolPart toolPart = toolType.parts().get(i).part().asToolPart();
 
                 if (toolPart != null) {
-                    itemRenderer.render(new ItemStack(Items.IRON_INGOT), displayContext, leftHand, poseStack, bufferSource, combinedLight, combinedOverlay, modelManager.getModel(ModelResourceLocation.standalone(ModelRegistrar.getPartModelId(partMaterial, toolType.getId(), toolPart.get()))));
+                    itemRenderer.render(new ItemStack(Items.IRON_INGOT), displayContext, leftHand, poseStack, bufferSource, combinedLight, combinedOverlay, modelManager.getModel(ModelResourceLocation.standalone(ModelRegistrar.getPartModelId(partMaterial, toolType, toolPart))));
                 }
             }
         }
         if (itemStack.getItem() instanceof PartItem partItem) {
             ComponentHelper.getMaterial(itemStack)
-                    .ifPresent(toolMaterial -> itemRenderer.render(new ItemStack(Items.IRON_INGOT), displayContext, leftHand, poseStack, bufferSource, combinedLight, combinedOverlay, modelManager.getModel(ModelResourceLocation.standalone(ModelRegistrar.getPartItemModelId(toolMaterial, partItem.getPart().get())))));
+                    .ifPresent(toolMaterial -> itemRenderer.render(new ItemStack(Items.IRON_INGOT), displayContext, leftHand, poseStack, bufferSource, combinedLight, combinedOverlay, modelManager.getModel(ModelResourceLocation.standalone(ModelRegistrar.getPartItemModelId(toolMaterial, partItem.getPart())))));
         }
     }
 }

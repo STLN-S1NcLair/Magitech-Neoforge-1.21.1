@@ -15,7 +15,8 @@ public class ManaVesselScreen extends ManaContainerScreen<ManaVesselMenu> {
 
     public ManaVesselScreen(ManaVesselMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
-        this.panelWidth = 128;
+        this.imageHeight = 181;
+        this.inventoryLabelY = 88;
     }
 
     @Override

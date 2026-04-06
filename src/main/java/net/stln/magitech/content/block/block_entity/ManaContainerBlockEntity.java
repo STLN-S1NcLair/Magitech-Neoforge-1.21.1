@@ -96,8 +96,16 @@ public abstract class ManaContainerBlockEntity extends BaseContainerBlockEntity 
         return new ContainerBlockEntityManaHandler(this, side);
     }
 
+    public static void clientTicker(Level level, BlockPos pos, BlockState state, ManaContainerBlockEntity blockEntity) {
+        blockEntity.clientTick(level, pos, state);
+    }
+
     public static void ticker(Level level, BlockPos pos, BlockState state, ManaContainerBlockEntity blockEntity) {
         blockEntity.tick(level, pos, state);
+    }
+
+    public void clientTick(Level level, BlockPos pos, BlockState state) {
+
     }
 
     public void tick(Level level, BlockPos pos, BlockState state) {

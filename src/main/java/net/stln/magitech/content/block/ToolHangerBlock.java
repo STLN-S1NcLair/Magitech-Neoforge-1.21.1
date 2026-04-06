@@ -113,7 +113,6 @@ public class ToolHangerBlock extends BaseEntityBlock {
         BlockEntity entity = level.getBlockEntity(pos);
         if (entity instanceof ToolHangerBlockEntity toolHangerBlockEntity) {
             ItemStack itemInHand = player.getItemInHand(hand);
-            Magitech.LOGGER.debug("isEmpty: {}", itemInHand.isEmpty());
             if (itemInHand.isEmpty() || itemInHand.getTags().anyMatch(itemTagKey -> itemTagKey.equals(ItemTagKeys.TOOLS))) {
                 toolHangerBlockEntity.addItem(player, itemInHand, getClickedSlot(hitResult, state));
                 return ItemInteractionResult.SUCCESS;

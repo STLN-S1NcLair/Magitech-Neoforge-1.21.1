@@ -1,8 +1,6 @@
 package net.stln.magitech.feature.tool.property;
 
-import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.item.ItemStack;
 import net.stln.magitech.helper.MathHelper;
 
@@ -11,12 +9,12 @@ import java.util.List;
 
 public class DoubleToolProperty extends ToolProperty<Double> implements CalculableToolProperty<Double> {
 
-    public DoubleToolProperty(ToolPropertyCategory group) {
-        super(group);
+    public DoubleToolProperty(float order, ToolPropertyCategory group) {
+        super(order, group);
     }
 
-    public DoubleToolProperty(Color color) {
-        super(color);
+    public DoubleToolProperty(float order, Color color) {
+        super(order, color);
     }
 
     @Override
@@ -53,6 +51,14 @@ public class DoubleToolProperty extends ToolProperty<Double> implements Calculab
     public void addTooltip(ItemStack stack, ToolProperties properties, List<net.minecraft.network.chat.Component> components) {
         components.add(ToolPropertyHelper.getToolTipComponent(this)
                 .append(Component.literal(String.valueOf(MathHelper.round(properties.getScalar(this), 2)))
+                        .withColor(getColor().getRGB())));
+    }
+
+    @Override
+    public void addRationalTooltip(ItemStack stack, ToolProperties properties, List<Component> components) {
+        int value = Math.round(properties.getScalar(this) * 100 - 100);
+        components.add(ToolPropertyHelper.getToolTipComponent(this)
+                .append(Component.literal((value >= 0 ? "+" : "") + value + "%")
                         .withColor(getColor().getRGB())));
     }
 

@@ -1,12 +1,15 @@
 package net.stln.magitech.compat.jei;
 
+import com.mojang.serialization.Codec;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
+import mezz.jei.api.helpers.ICodecHelper;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.neoforge.NeoForgeTypes;
 import mezz.jei.api.recipe.IFocusGroup;
+import mezz.jei.api.recipe.IRecipeManager;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.client.gui.GuiGraphics;
@@ -15,24 +18,20 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.content.block.BlockInit;
-import net.stln.magitech.content.recipe.RecipeInit;
-import net.stln.magitech.content.recipe.ToolMaterialRecipe;
 import net.stln.magitech.content.recipe.ZardiusCrucibleRecipe;
-import net.stln.magitech.feature.tool.material.ToolMaterial;
 import net.stln.magitech.helper.ClientHelper;
 import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.List;
 
-public class ZardiusCrucibleRecipeCategory extends AbstractMagitechRecipeCategory<ZardiusCrucibleRecipe> {
-    public static final ResourceLocation UID = Magitech.id("recipe.magitech.zardius_crucible");
+public class ZardiusCrucibleRecipeCategory extends AbstractMagitechRecipeCategory<RecipeHolder<ZardiusCrucibleRecipe>> {
     public static final ResourceLocation TEXTURE = Magitech.id("textures/gui/jei_widgets.png");
-
-    public static final RecipeType<ZardiusCrucibleRecipe> ZARDIUS_CRUCIBLE_RECIPE_TYPE = new RecipeType<>(UID, ZardiusCrucibleRecipe.class);
 
     public ZardiusCrucibleRecipeCategory(IDrawable icon) {
         super(icon);
@@ -43,8 +42,8 @@ public class ZardiusCrucibleRecipeCategory extends AbstractMagitechRecipeCategor
     }
 
     @Override
-    public @NotNull RecipeType<ZardiusCrucibleRecipe> getRecipeType() {
-        return ZARDIUS_CRUCIBLE_RECIPE_TYPE;
+    public @NotNull RecipeType<RecipeHolder<ZardiusCrucibleRecipe>> getRecipeType() {
+        return RecipeHolderTypeInit.ZARDIUS_CRUCIBLE_TYPE;
     }
 
     @Override
@@ -53,9 +52,19 @@ public class ZardiusCrucibleRecipeCategory extends AbstractMagitechRecipeCategor
     }
 
     @Override
-    public void draw(@NotNull ZardiusCrucibleRecipe recipe, @NotNull IRecipeSlotsView recipeSlotsView, @NotNull GuiGraphics guiGraphics, double mouseX, double mouseY) {
+    public Codec<RecipeHolder<ZardiusCrucibleRecipe>> getCodec(ICodecHelper codecHelper, IRecipeManager recipeManager) {
+        return codecHelper.getRecipeHolderCodec();
+    }
+
+    @Override
+    public @Nullable ResourceLocation getRegistryName(RecipeHolder<ZardiusCrucibleRecipe> recipe) {
+        return recipe.id();
+    }
+
+    @Override
+    public void draw(@NotNull RecipeHolder<ZardiusCrucibleRecipe> recipe, @NotNull IRecipeSlotsView recipeSlotsView, @NotNull GuiGraphics guiGraphics, double mouseX, double mouseY) {
         super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
-        int size = recipe.getIngredients().size();
+        int size = recipe.value().getIngredients().size();
 
         for (int i = 0; i < (size == 0 ? 8 : size); i++) {
             int x, y;
@@ -109,13 +118,9 @@ public class ZardiusCrucibleRecipeCategory extends AbstractMagitechRecipeCategor
     }
 
     @Override
-    protected void setRecipe(@NotNull IRecipeLayoutBuilder builder, @NotNull ZardiusCrucibleRecipe recipe, @NotNull IFocusGroup focuses, @NotNull RecipeManager recipeManager, @NotNull RegistryAccess access) {
-        List<ToolMaterialRecipe> materialRecipes = ClientHelper.getAllRecipes(RecipeInit.TOOL_MATERIAL_TYPE);
-        List<ToolMaterial> materials = materialRecipes.stream()
-                .map(ToolMaterialRecipe::getToolMaterial)
-                .toList();
+    protected void setRecipe(@NotNull IRecipeLayoutBuilder builder, @NotNull RecipeHolder<ZardiusCrucibleRecipe> recipe, @NotNull IFocusGroup focuses, @NotNull RecipeManager recipeManager, @NotNull RegistryAccess access) {
 
-        List<Ingredient> ingredients = recipe.getIngredients();
+        List<Ingredient> ingredients = recipe.value().getIngredients();
 
         for (int i = 0; i < ingredients.size(); i++) {
             int x, y;
@@ -152,18 +157,18 @@ public class ZardiusCrucibleRecipeCategory extends AbstractMagitechRecipeCategor
                     .addIngredients(ingredients.get(i));
         }
         builder.addSlot(RecipeIngredientRole.INPUT, 74, 14)
-                .addIngredients(NeoForgeTypes.FLUID_STACK, Arrays.stream(recipe.fluidIngredient().getFluids()).toList()).addRichTooltipCallback((recipeSlotView, tooltip) -> {
+                .addIngredients(NeoForgeTypes.FLUID_STACK, Arrays.stream(recipe.value().fluidIngredient().getFluids()).toList()).addRichTooltipCallback((recipeSlotView, tooltip) -> {
                     recipeSlotView.getDisplayedIngredient(NeoForgeTypes.FLUID_STACK).ifPresent(fluid -> {
                         int amount = fluid.getAmount();
                         // mB単位で表示
                         tooltip.add(Component.literal(amount + " mB").withColor(0x808080));
                     });
                 });
-        if (!recipe.getResultItem(access).isEmpty()) {
+        if (!recipe.value().getResultItem(access).isEmpty()) {
             builder.addSlot(RecipeIngredientRole.OUTPUT, 121, 14)
-                    .addItemStack(recipe.getResultItem(access));
+                    .addItemStack(recipe.value().getResultItem(access));
         }
-        recipe.resultFluid().ifPresent(fluidStack -> builder.addSlot(RecipeIngredientRole.OUTPUT, 139, 14)
+        recipe.value().resultFluid().ifPresent(fluidStack -> builder.addSlot(RecipeIngredientRole.OUTPUT, 139, 14)
                 .addIngredient(NeoForgeTypes.FLUID_STACK, fluidStack).addRichTooltipCallback((recipeSlotView, tooltip) -> {
                     recipeSlotView.getDisplayedIngredient(NeoForgeTypes.FLUID_STACK).ifPresent(fluid -> {
                         int amount = fluid.getAmount();

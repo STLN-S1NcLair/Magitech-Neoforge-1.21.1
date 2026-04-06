@@ -20,12 +20,12 @@ public class ToolCategoryInit {
     }
 
     // 全プロパティ
-    public static final DeferredToolCategory<ToolCategory> ALL = register("all", new ToolCategory(MagitechRegistries.TOOL_PROPERTY.entrySet().stream().map(Map.Entry::getValue).collect(Collectors.toUnmodifiableList())));
+    public static final DeferredToolCategory<ToolCategory> ALL = register("all", new ToolCategory(() -> MagitechRegistries.TOOL_PROPERTY.entrySet().stream().map(Map.Entry::getValue).collect(Collectors.toUnmodifiableList())));
 
-    public static final DeferredToolCategory<ToolCategory> NONE = register("none", new ToolCategory(List.of()));
+    public static final DeferredToolCategory<ToolCategory> NONE = register("none", new ToolCategory(List::of));
 
     // 近接武器のプロパティ一覧
-    public static final DeferredToolCategory<ToolCategory> MELEE = register("melee", new ToolCategory(List.of(
+    public static final DeferredToolCategory<ToolCategory> MELEE = register("melee", new ToolCategory(() -> List.of(
             ToolPropertyInit.TIER,
             ToolPropertyInit.PROGRESSION,
             ToolPropertyInit.UPGRADE_POINT,
@@ -38,11 +38,11 @@ public class ToolCategoryInit {
             ToolPropertyInit.REACH,
             ToolPropertyInit.SWEEP,
             ToolPropertyInit.MINING_LEVEL,
-            ToolPropertyInit.DURATION
+            ToolPropertyInit.DURABILITY
     )));
 
     // 魔法武器のプロパティ一覧
-    public static final DeferredToolCategory<ToolCategory> CASTER = register("caster", new ToolCategory(List.of(
+    public static final DeferredToolCategory<ToolCategory> CASTER = register("caster", new ToolCategory(() -> List.of(
             ToolPropertyInit.TIER,
             ToolPropertyInit.PROGRESSION,
             ToolPropertyInit.UPGRADE_POINT,
@@ -54,7 +54,7 @@ public class ToolCategoryInit {
             ToolPropertyInit.DEFENSE,
             ToolPropertyInit.LAUNCH,
             ToolPropertyInit.MANA_EFFICIENCY,
-            ToolPropertyInit.DURATION
+            ToolPropertyInit.DURABILITY
     )));
 
     public static void registerToolCategories(IEventBus bus) {

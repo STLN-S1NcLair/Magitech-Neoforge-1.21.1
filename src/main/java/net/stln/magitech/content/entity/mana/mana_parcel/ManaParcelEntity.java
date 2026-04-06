@@ -9,16 +9,23 @@ import net.stln.magitech.content.entity.EntityInit;
 import net.stln.magitech.content.entity.magicentity.SpellProjectileEntity;
 import net.stln.magitech.content.sound.SoundInit;
 import net.stln.magitech.effect.visual.Section;
+import net.stln.magitech.effect.visual.TrailRenderHelper;
 import net.stln.magitech.effect.visual.preset.LineVFX;
 import net.stln.magitech.effect.visual.preset.PointVFX;
 import net.stln.magitech.effect.visual.spawner.SquareParticles;
+import net.stln.magitech.effect.visual.trail.TrailData;
+import net.stln.magitech.effect.visual.trail.TrailRenderer;
 import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.feature.magic.spell.ISpell;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.util.GeckoLibUtil;
+import team.lodestar.lodestone.systems.rendering.VFXBuilders;
+import team.lodestar.lodestone.systems.rendering.trail.TrailPoint;
+import team.lodestar.lodestone.systems.rendering.trail.TrailPointBuilder;
 
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class ManaParcelEntity extends SpellProjectileEntity {
@@ -49,6 +56,18 @@ public class ManaParcelEntity extends SpellProjectileEntity {
     @Override
     protected Supplier<SoundEvent> getHitGroundSoundEvent() {
         return SoundInit.MANA_PARCEL;
+    }
+
+    protected void tickTrail() {
+        Element element = getElement();
+        Function<VFXBuilders.WorldVFXBuilder, VFXBuilders.WorldVFXBuilder> builderFunc = TrailRenderHelper.defaultBuilderFunc();
+        TrailPointBuilder trail = TrailPointBuilder.create(TRAIL_LENGTH);
+        TrailPointBuilder longTrail = TrailPointBuilder.create(LONG_TRAIL_LENGTH);
+        TrailData trailData = new TrailData(level(), builderFunc, trail, element.getPrimary(), element.getSecondary(), this.getBbHeight() * 2 + 0.1F, 0.9F);
+        TrailData longTrailData = new TrailData(level(), builderFunc, longTrail, element.getSecondary(), element.getDark(), this.getBbHeight(), 0.5F);
+        Vec3 center = this.getCenter();
+        TrailRenderer.updateTrail(this, trailData, new TrailPoint(center), TrailRenderer.TRAIL);
+        TrailRenderer.updateTrail(this, longTrailData, new TrailPoint(center), TrailRenderer.LONG_TRAIL);
     }
 
     @Override

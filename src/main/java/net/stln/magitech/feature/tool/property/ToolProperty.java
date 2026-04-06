@@ -3,25 +3,31 @@ package net.stln.magitech.feature.tool.property;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
 import net.stln.magitech.MagitechRegistries;
-import net.stln.magitech.helper.MathHelper;
 import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
-import java.util.List;
 
 public abstract class ToolProperty<T> implements IToolProperty<T> {
     protected ToolPropertyCategory group;
     protected Color defaultColor = Color.WHITE;
 
-    public ToolProperty(@Nullable ToolPropertyCategory group) {
+    private float order;
+
+    public ToolProperty(float order, @Nullable ToolPropertyCategory group) {
         this.group = group;
+        this.order = order;
     }
 
-    public ToolProperty(Color color) {
+    public ToolProperty(float order, Color color) {
+        this.order = order;
         this.group = null;
         this.defaultColor = color;
+    }
+
+    @Override
+    public float order() {
+        return order;
     }
 
     @Override
@@ -36,6 +42,6 @@ public abstract class ToolProperty<T> implements IToolProperty<T> {
 
     public MutableComponent getDisplayName() {
         ResourceLocation key = MagitechRegistries.TOOL_PROPERTY.getKey(this);
-        return Component.translatable("tool." + key.getPath() + ".property." + key.getNamespace());
+        return Component.translatable("tool." + key.getNamespace() + ".property." + key.getPath());
     }
 }

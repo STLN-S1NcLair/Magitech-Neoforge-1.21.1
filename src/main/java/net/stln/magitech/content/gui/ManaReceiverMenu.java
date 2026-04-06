@@ -23,9 +23,4 @@ public class ManaReceiverMenu extends ManaContainerMenu {
     protected Block getBlock() {
         return BlockInit.MANA_RECEIVER.get();
     }
-
-    @Override
-    public MenuType<?> getType() {
-        return GuiInit.MANA_RECEIVER_MENU.get();
-    }
 }

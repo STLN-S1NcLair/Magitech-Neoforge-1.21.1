@@ -2,23 +2,18 @@ package net.stln.magitech.feature.tool.property;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
-import net.stln.magitech.content.item.component.ComponentInit;
-import net.stln.magitech.feature.tool.ToolStats;
-import net.stln.magitech.helper.ColorHelper;
-import net.stln.magitech.helper.ComponentHelper;
-import net.stln.magitech.helper.RenderHelper;
 
 import java.awt.*;
 import java.util.List;
 
-public class DurationToolProperty extends InitialIntegerToolProperty {
+public class DurationToolProperty extends InitialDoubleToolProperty {
 
-    public DurationToolProperty(ToolPropertyCategory group) {
-        super(group);
+    public DurationToolProperty(float order, ToolPropertyCategory group) {
+        super(order, group);
     }
 
-    public DurationToolProperty() {
-        super(Color.WHITE);
+    public DurationToolProperty(float order) {
+        super(order, Color.WHITE);
     }
 
     @Override
@@ -29,5 +24,10 @@ public class DurationToolProperty extends InitialIntegerToolProperty {
         components.add(ToolPropertyHelper.getToolTipComponent(this)
                 .append(Component.literal(duration + " / " + maxDuration)
                         .withColor(getColor().getRGB())));
+    }
+
+    @Override
+    public void addRationalTooltip(ItemStack stack, ToolProperties properties, List<Component> components) {
+        addTooltip(stack, properties, components);
     }
 }

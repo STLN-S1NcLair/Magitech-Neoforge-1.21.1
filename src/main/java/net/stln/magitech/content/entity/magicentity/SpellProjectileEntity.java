@@ -3,6 +3,8 @@ package net.stln.magitech.content.entity.magicentity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
@@ -14,12 +16,16 @@ import net.minecraft.world.entity.EntityEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.stln.magitech.Magitech;
+import net.stln.magitech.content.item.tool.toolitem.SynthesisedToolItem;
 import net.stln.magitech.effect.sound.SoundHelper;
 import net.stln.magitech.effect.visual.TrailRenderHelper;
 import net.stln.magitech.effect.visual.trail.TrailData;
@@ -45,25 +51,17 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 public abstract class SpellProjectileEntity extends AbstractSpellProjectileEntity implements GeoEntity {
+    private static final EntityDataAccessor<Float> DAMAGE = SynchedEntityData.defineId(SpellProjectileEntity.class, EntityDataSerializers.FLOAT);
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
-    protected float damage;
-    protected ItemStack wand = null;
 
     protected SpellProjectileEntity(EntityType<? extends SpellProjectileEntity> entityType, Level level) {
         super(entityType, level);
     }
 
     protected SpellProjectileEntity(EntityType<? extends SpellProjectileEntity> entityType, double x, double y, double z, Level level, @javax.annotation.Nullable ItemStack wand, float damage) {
-        this(entityType, level);
+        super(entityType, x, y, z, level, wand);
         this.setPos(x, y, z);
-        this.damage = damage;
-        if (wand != null && level instanceof ServerLevel serverlevel) {
-            if (wand.isEmpty()) {
-                throw new IllegalArgumentException("Invalid weapon firing an arrow");
-            }
-
-            this.wand = wand.copy();
-        }
+        setDamage(damage);
     }
 
     protected SpellProjectileEntity(EntityType<? extends SpellProjectileEntity> entityType, LivingEntity owner, Level level, @Nullable ItemStack wand, float damage) {
@@ -151,18 +149,19 @@ public abstract class SpellProjectileEntity extends AbstractSpellProjectileEntit
 
     protected void onHit(HitResult result) {
         discardOrReflect(result);
+        damageEntity(result);
         if (!this.level().isClientSide) {
             if (isValidHit(result)) {
                 playHitSound();
-                damageEntity(result);
             }
         } else {
             if (isValidHit(result)) {
                 spawnHitParticle();
             }
         }
+        int pierce = getPierce();
         if (pierce > 0) {
-            pierce--;
+            setPierce(pierce - 1);
         }
     }
 
@@ -181,7 +180,13 @@ public abstract class SpellProjectileEntity extends AbstractSpellProjectileEntit
     public void handleEntityEvent(byte id) {
         if (id == EntityEvent.DEATH) {
             if (level().isClientSide) {
-                onHit(BlockHitResult.miss(position(), Direction.DOWN, BlockPos.containing(position())));
+                EntityHitResult result = findHitEntity(position(), position().add(getDeltaMovement()));
+                if (result != null) {
+                    Magitech.LOGGER.debug(String.valueOf(result.getLocation()));
+                    onHit(result);
+                } else {
+                    onHit(BlockHitResult.miss(position(), Direction.DOWN, BlockPos.containing(position())));
+                }
 //                spawnHitParticle();
             }
         }
@@ -196,12 +201,18 @@ public abstract class SpellProjectileEntity extends AbstractSpellProjectileEntit
         for (Entity entity : entities) {
             Optional<Supplier<ISpell>> spell = getSpell();
             Element element = getElement();
-            float effectiveDamage = damage * DataMapHelper.getElementMultiplier(entity, element) * multiplier;
-
             LivingEntity owner = getOwner() instanceof LivingEntity living ? living : null;
-            ResourceKey<DamageType> damageType = element.getDamageType();
-            DamageSource source = owner == null ? this.damageSources().source(damageType) : this.damageSources().source(damageType, owner);
-            MagicPerformanceHelper.applyRawMagicDamage(owner, wand, entity, source, effectiveDamage);
+
+            if (!level().isClientSide) {
+                float effectiveDamage = getDamage() * DataMapHelper.getElementMultiplier(entity, element) * multiplier;
+                ResourceKey<DamageType> damageType = element.getDamageType();
+                DamageSource source = owner == null ? this.damageSources().source(damageType) : this.damageSources().source(damageType, owner);
+                MagicPerformanceHelper.applyRawMagicDamage(owner, getWand(), entity, source, effectiveDamage);
+            }
+
+            if (getWand() != null && getWand().getItem() instanceof SynthesisedToolItem item && owner instanceof Player player) {
+                item.callTraitDamageEntity(level(), player, entity, getWand());
+            }
 
             if (entity instanceof ItemEntity item && spell.isPresent()) {
                 SpellHelper.applyEffectToItem(level(), spell.get().get(), item);
@@ -217,8 +228,12 @@ public abstract class SpellProjectileEntity extends AbstractSpellProjectileEntit
         hitEntity(entities, 1.0F);
     }
 
+    public float getDamage() {
+        return this.entityData.get(DAMAGE);
+    }
+
     public void setDamage(float value) {
-        this.damage = value;
+        this.entityData.set(DAMAGE, value);
     }
 
 //    @Override
@@ -234,10 +249,15 @@ public abstract class SpellProjectileEntity extends AbstractSpellProjectileEntit
 //    }
 
     @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(DAMAGE, 0.0F);
+    }
+
+    @Override
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
-        compound.putFloat("damage", this.damage);
-        compound.putInt("pierce", this.pierce);
+        compound.putFloat("damage", this.getDamage());
     }
 
     /**
@@ -247,16 +267,8 @@ public abstract class SpellProjectileEntity extends AbstractSpellProjectileEntit
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         if (compound.contains("damage", 99)) {
-            this.damage = compound.getFloat("damage");
+            setDamage(compound.getFloat("damage"));
         }
-        if (compound.contains("pierce", 99)) {
-            this.pierce = compound.getInt("pierce");
-        }
-    }
-
-    @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
-
     }
 
     @Override

@@ -24,7 +24,7 @@ public abstract class ManaContainerBlock extends BaseEntityBlock {
     protected static <T extends BlockEntity> BlockEntityTicker<T> createTicker(
             Level level, BlockEntityType<T> serverType, BlockEntityType<? extends ManaContainerBlockEntity> clientType
     ) {
-        return level.isClientSide ? null : createTickerHelper(serverType, clientType, ManaContainerBlockEntity::ticker);
+        return level.isClientSide ? createTickerHelper(serverType, clientType, ManaContainerBlockEntity::clientTicker) : createTickerHelper(serverType, clientType, ManaContainerBlockEntity::ticker);
     }
 
     @Override

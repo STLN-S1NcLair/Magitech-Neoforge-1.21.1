@@ -24,7 +24,7 @@ import org.jetbrains.annotations.Nullable;
 public class Enercrux extends BeamSpell {
 
     public Enercrux() {
-        super(new SpellConfig.Builder(Element.MANA, SpellShape.BEAM, 30, 30)
+        super(new SpellConfig.Builder(Element.MANA, SpellShape.INFUSE, 30, 30)
                 .charge(5)
                 .property(SpellPropertyInit.DAMAGE, 5.0F)
                 .property(SpellPropertyInit.MAX_RANGE, 8F)

@@ -56,14 +56,15 @@ public class Blazewend extends DamageSpell {
             for (int i = 0; i < DURATION; i++) {
                 int finalI = i;
                 TickScheduler.schedule(i, () -> {
+                    List<Entity> nearbyEntities = CombatHelper.getEntitiesInBox(level, caster, caster.position(), new Vec3(3, 3, 3));
+                    for (Entity entity : nearbyEntities) {
+                        hitTarget(level, caster, wand, entity);
+                    }
                     if (!level.isClientSide) {
-                        List<Entity> nearbyEntities = CombatHelper.getEntitiesInBox(level, caster, caster.position(), new Vec3(3, 3, 3));
                         Vec3 newFront = Vec3.directionFromRotation(caster.getRotationVector());
                         caster.addDeltaMovement(newFront.scale(strength / 3));
                         SoundHelper.broadcastSound(level, caster, this.getConfig().endSound());
-                        for (Entity entity : nearbyEntities) {
-                            hitTarget(level, caster, wand, entity);
-                        }
+
                         if (finalI + 1 == DURATION) {
                             caster.setDeltaMovement(caster.getDeltaMovement().scale(0.3));
                         }

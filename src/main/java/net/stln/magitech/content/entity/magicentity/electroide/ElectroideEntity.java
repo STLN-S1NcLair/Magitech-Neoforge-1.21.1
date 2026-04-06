@@ -90,12 +90,14 @@ public class ElectroideEntity extends BombSpellProjectileEntity {
             for (Entity target : targets) {
                 Set<Entity> chainTargets = CombatHelper.getEntitiesInBox(level, target, target.position(), new Vec3(chainRadius, chainRadius, chainRadius)).stream().filter(entity -> entity != getOwner() && !targets.contains(entity))
                         .filter(entity -> entity.position().distanceTo(target.position()) < chainRadius).collect(Collectors.toSet());
-                if (!level.isClientSide && !chainTargets.isEmpty()) {
+                if (!chainTargets.isEmpty()) {
                     hitEntity(chainTargets, 0.5F);
-                    SoundHelper.broadcastSound(level, getOwner(), target.position(), Optional.of(SoundInit.ARCLUME));
-                } else {
-                    for (Entity chainTarget : chainTargets) {
-                        addChainVFX(level, CombatHelper.getBodyPos(target), CombatHelper.getBodyPos(chainTarget));
+                    if (!level.isClientSide) {
+                        SoundHelper.broadcastSound(level, getOwner(), target.position(), Optional.of(SoundInit.ARCLUME));
+                    } else {
+                        for (Entity chainTarget : chainTargets) {
+                            addChainVFX(level, CombatHelper.getBodyPos(target), CombatHelper.getBodyPos(chainTarget));
+                        }
                     }
                 }
             }

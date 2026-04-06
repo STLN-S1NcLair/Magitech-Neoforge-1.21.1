@@ -5,6 +5,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
@@ -23,6 +24,7 @@ import net.stln.magitech.feature.tool.property.ToolProperties;
 import net.stln.magitech.feature.tool.property.modifier.ToolPropertyModifier;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -30,7 +32,7 @@ import java.util.Set;
 public abstract class Trait {
 
     public List<ToolPropertyModifier> modifyProperty(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties) {
-        return List.of();
+        return new ArrayList<>();
     }
 
     public void modifyAttribute(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties, List<ItemAttributeModifiers.Entry> entries) {
@@ -41,7 +43,7 @@ public abstract class Trait {
     }
 
     public float modifyMiningSpeed(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties, BlockState blockState, BlockPos pos) {
-        return 0;
+        return 1.0F;
     }
 
     public boolean effectEnabled(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties) {
@@ -132,12 +134,25 @@ public abstract class Trait {
         return new Color(0xFFFFFF);
     }
 
+    public abstract ResourceLocation getKey();
+
     public Component getName() {
-        return Component.empty();
+        ResourceLocation key = getKey();
+        return Component.translatable("trait." + key.getNamespace() + "." + key.getPath());
     }
 
     public MutableComponent getComponent() {
         return getName().copy().withColor(getColor().getRGB());
+    }
+
+    public void addDescription(List<Component> components) {
+        ResourceLocation key = this.getKey();
+        MutableComponent component = Component.translatable("trait." + key.getNamespace() + ".description." + key.getPath());
+        String[] lines = component.getString().split("\n");
+
+        for (String line : lines) {
+            components.add(Component.literal(line).withColor(0x808080));
+        }
     }
 
     public int getMaxLevel() {

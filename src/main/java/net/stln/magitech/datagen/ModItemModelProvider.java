@@ -11,7 +11,16 @@ import net.stln.magitech.Magitech;
 import net.stln.magitech.MagitechRegistries;
 import net.stln.magitech.content.block.BlockInit;
 import net.stln.magitech.content.item.ItemInit;
+import net.stln.magitech.feature.tool.material.ToolMaterial;
 import net.stln.magitech.feature.tool.model.ModelRegistrar;
+import net.stln.magitech.feature.tool.part.ToolPart;
+import net.stln.magitech.feature.tool.part.ToolPartLike;
+import net.stln.magitech.feature.tool.tool_type.ToolType;
+import net.stln.magitech.feature.tool.tool_type.ToolTypeLike;
+import net.stln.magitech.registry.RegistryHelper;
+
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ModItemModelProvider extends ItemModelProvider {
     public ModItemModelProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
@@ -133,35 +142,36 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ItemInit.MYSTWOOD_BOAT.get());
         basicItem(ItemInit.MYSTWOOD_CHEST_BOAT.get());
 
-        MagitechRegistries.TOOL_MATERIAL.stream().forEach(toolMaterial -> {
-            for (String type : ModelRegistrar.toolTypes) {
-                for (String part : ModelRegistrar.partTypes) {
-                    if (existingFileHelper.exists(ModelRegistrar.getPartTextureId(toolMaterial, type, part), ModelProvider.TEXTURE)) {
+        for (ToolMaterial material : RegistryHelper.registeredToolMaterials()) {
+
+            // tools
+            for (ToolTypeLike type : RegistryHelper.registeredToolTypes()) {
+                for (ToolPartLike part : type.asToolType().parts().stream().map(ToolType.PartData::part).toList()) {
+                    ToolType toolType = type.asToolType();
+                    ToolPart toolPart = part.asToolPart();
+                    if (existingFileHelper.exists(ModelRegistrar.getPartTextureId(material, toolType, toolPart), ModelProvider.TEXTURE)) {
                         String parent = "item/handheld";
-                        if (type.equals("heavy_sword") ||
-                                type.equals("hammer") ||
-                                type.equals("scythe") ||
-                                type.equals("spear") ||
-                                type.equals("staff")) {
+                        if (type.asToolType().heavyTool()) {
                             parent = "magitech:item/heavy_tool";
                         }
-                        getBuilder(ModelRegistrar.getPartModelName(toolMaterial, type, part))
+                        getBuilder(ModelRegistrar.getPartModelName(material, toolType, toolPart))
                                 .parent(new ModelFile.UncheckedModelFile(parent))
-                                .texture("layer0", ModelRegistrar.getPartTextureId(toolMaterial, type, part));
+                                .texture("layer0", ModelRegistrar.getPartTextureId(material, toolType, toolPart));
                     }
                 }
             }
-        });
-        MagitechRegistries.TOOL_MATERIAL.stream().forEach(toolMaterial -> {
-            for (String part : ModelRegistrar.partTypes) {
-                if (existingFileHelper.exists(ModelRegistrar.getPartItemTextureId(toolMaterial, part), ModelProvider.TEXTURE)) {
+
+            // parts
+            for (ToolPartLike part : RegistryHelper.registeredToolParts()) {
+                ToolPart toolPart = part.asToolPart();
+                if (existingFileHelper.exists(ModelRegistrar.getPartItemTextureId(material, toolPart), ModelProvider.TEXTURE)) {
                     String parent = "item/generated";
-                    getBuilder(ModelRegistrar.getPartItemModelName(toolMaterial, part))
+                    getBuilder(ModelRegistrar.getPartItemModelName(material, toolPart))
                             .parent(new ModelFile.UncheckedModelFile(parent))
-                            .texture("layer0", ModelRegistrar.getPartItemTextureId(toolMaterial, part));
+                            .texture("layer0", ModelRegistrar.getPartItemTextureId(material, toolPart));
                 }
             }
-        });
+        }
     }
 
     private void saplingItem(DeferredItem<BlockItem> item) {

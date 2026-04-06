@@ -26,6 +26,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         handModeledBlockWithItem(BlockInit.ALCHEMETRIC_PYLON.get());
         handModeledBlockWithItem(BlockInit.ATHANOR_PILLAR.get());
         handModeledBlockWithItem(BlockInit.ZARDIUS_CRUCIBLE.get());
+        handModeledBlockWithItem(BlockInit.PEDESTAL_PYLON.get());
         directionalHandModeledBlockWithItem(BlockInit.MANA_NODE.get());
         directionalHandModeledBlockWithItem(BlockInit.MANA_RELAY.get());
         axisHandModeledBlockWithInventoryModelItem(BlockInit.MANA_VESSEL.get());

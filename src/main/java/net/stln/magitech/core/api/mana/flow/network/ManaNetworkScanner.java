@@ -2,6 +2,7 @@ package net.stln.magitech.core.api.mana.flow.network;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Vec3i;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -179,7 +180,12 @@ public class ManaNetworkScanner {
                     BlockState targetState = level.getBlockState(targetPos);
                     Block targetBlock = targetState.getBlock();
                     BlockPos nextPos = new BlockPos(targetPos);
-                    if (targetBlock instanceof IManaWaypoint waypoint && waypoint.getConnectableModes(targetState).contains(ConnectionMode.WIRELESS)) {
+                    if (targetBlock instanceof IManaWirelessWaypoint waypoint && waypoint.getConnectableModes(targetState).contains(ConnectionMode.WIRELESS)) {
+                        int targetRange = waypoint.getRange();
+                        Vec3i offset = nextPos.subtract(pos);
+                        if (targetRange < Math.max(offset.getX(), Math.max(offset.getY(), offset.getZ()))) {
+                            continue; // 相手の範囲外
+                        }
 
                         // 中継点
                         edges.add(new NetworkTree.Edge(pos, nextPos, ConnectionMode.WIRELESS));

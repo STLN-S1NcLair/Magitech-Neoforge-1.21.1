@@ -17,6 +17,7 @@ import net.stln.magitech.feature.magic.spell.ISpell;
 import net.stln.magitech.feature.magic.spell.SpellConfig;
 import net.stln.magitech.feature.magic.spell.property.SpellProperty;
 import net.stln.magitech.feature.magic.spell.property.SpellPropertyInit;
+import net.stln.magitech.helper.CombatHelper;
 import net.stln.magitech.helper.DataMapHelper;
 import org.jetbrains.annotations.Nullable;
 
@@ -36,9 +37,9 @@ public class MagicPerformanceHelper {
         return (float) (value * coefficient);
     }
 
-    public static float getEffectiveSpellProperty(LivingEntity caster, @Nullable ItemStack wand, ISpell spell, SpellProperty<Float> key, Holder<Attribute> coefficientAttribute) {
+    public static<T extends Number>  float getEffectiveSpellProperty(LivingEntity caster, @Nullable ItemStack wand, ISpell spell, SpellProperty<T> key, Holder<Attribute> coefficientAttribute) {
         SpellConfig config = spell.getConfig();
-        return getEffectiveSpellProperty(caster, wand, config.cost(), config.properties().get(key), coefficientAttribute);
+        return getEffectiveSpellProperty(caster, wand, config.cost(), config.properties().get(key).floatValue(), coefficientAttribute);
     }
 
     // 敵の属性倍率を考慮した実効ダメージ値
@@ -93,22 +94,12 @@ public class MagicPerformanceHelper {
         if (target != null && target.isAttackable()) {
 
             if (target.invulnerableTime < 10) {
-                if (wand != null && wand.getItem() instanceof SpellCasterItem spellCasterItem) {
-                    if (caster instanceof Player player) {
-                        spellCasterItem.callTraitDamageEntity(caster.level(), player, target, wand);
-                    }
-                }
-                if (!target.isInvulnerableTo(source) && target instanceof LivingEntity living) {
-                    float targetHealth = living.getHealth();
-                    living.setLastHurtByMob(caster);
-                    if (caster instanceof Player player) {
-                        player.awardStat(Stats.DAMAGE_DEALT, Math.round((targetHealth - living.getHealth()) * 10));
-                    }
-                }
-                target.hurt(source, effectiveDamage);
+                CombatHelper.applyDamage(caster, target, source, effectiveDamage);
             }
-            if (caster != null) {
-                caster.setLastHurtMob(target);
+            if (wand != null && wand.getItem() instanceof SpellCasterItem spellCasterItem) {
+                if (caster instanceof Player player) {
+                    spellCasterItem.callTraitDamageEntity(caster.level(), player, target, wand);
+                }
             }
         }
     }
@@ -155,7 +146,9 @@ public class MagicPerformanceHelper {
     public static float getEffectiveMaxRange(LivingEntity caster, @Nullable ItemStack wand, ISpell spell) {
         SpellConfig config = spell.getConfig();
         if (!config.properties().contains(SpellPropertyInit.MAX_RANGE)) return 0;
-        return MagicPerformanceHelper.getOutgoingMagicDamage(caster, wand, SpellPropertyInit.MAX_RANGE, spell);
+        float cost = config.cost();
+        Optional<Float> maxRange = config.properties().getOptional(SpellPropertyInit.MAX_RANGE);
+        return MagicPerformanceHelper.getEffectiveSpellProperty(caster, wand, cost, maxRange.get(), AttributeInit.LAUNCH);
     }
 
     public static float getEffectiveEffectStrength(LivingEntity caster, @Nullable ItemStack wand, ISpell spell) {

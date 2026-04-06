@@ -1,46 +1,28 @@
 package net.stln.magitech.content.item.tool.toolitem;
 
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
-import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.network.PacketDistributor;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.stln.magitech.Magitech;
-import net.stln.magitech.content.entity.status.AttributeInit;
 import net.stln.magitech.content.item.component.ComponentInit;
 import net.stln.magitech.content.item.component.SpellComponent;
-import net.stln.magitech.content.network.TraitTickPayload;
-import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.feature.magic.spell.ISpell;
-import net.stln.magitech.feature.tool.ToolStats;
-import net.stln.magitech.feature.tool.register.ToolMaterialRegister;
+import net.stln.magitech.feature.tool.property.IToolProperty;
+import net.stln.magitech.feature.tool.property.ToolProperties;
+import net.stln.magitech.feature.tool.property.ToolPropertyLike;
 import net.stln.magitech.feature.tool.tool_type.ToolTypeLike;
-import net.stln.magitech.feature.tool.trait.Trait;
 import net.stln.magitech.feature.tool.trait.TraitHelper;
-import net.stln.magitech.helper.*;
+import net.stln.magitech.helper.ComponentHelper;
+import net.stln.magitech.helper.CuriosHelper;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public abstract class SpellCasterItem extends SynthesisedToolItem {
 
@@ -72,6 +54,7 @@ public abstract class SpellCasterItem extends SynthesisedToolItem {
                 threadbound.set(ComponentInit.SPELL_COMPONENT, spells.setSelected(0));
             }
         }
+        damage(stack, player, level);
         player.awardStat(Stats.ITEM_USED.get(this));
         return InteractionResultHolder.consume(stack);
     }
@@ -128,5 +111,12 @@ public abstract class SpellCasterItem extends SynthesisedToolItem {
     @Override
     public InteractionResult onLeftClick(Player user, InteractionHand hand, Level world) {
         return InteractionResult.PASS;
+    }
+
+    @Override
+    protected void addPropertyTooltip(@NotNull ItemStack stack, List<Component> tooltipComponents, ToolProperties appliedProperties) {
+        for (IToolProperty<?> property : appliedProperties.getCategory().getKeys().stream().map(ToolPropertyLike::asToolProperty).toList()) {
+            property.addRationalTooltip(stack, appliedProperties, tooltipComponents);
+        }
     }
 }

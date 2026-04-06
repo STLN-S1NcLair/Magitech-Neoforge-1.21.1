@@ -1,9 +1,5 @@
 package net.stln.magitech.content.gui;
 
-import io.wispforest.owo.ui.container.Containers;
-import io.wispforest.owo.ui.container.FlowLayout;
-import io.wispforest.owo.ui.core.OwoUIAdapter;
-import io.wispforest.owo.ui.core.Positioning;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -23,11 +19,11 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.content.item.tool.toolitem.SynthesisedToolItem;
+import net.stln.magitech.MagitechRegistries;
 import net.stln.magitech.content.item.tool.toolitem.SpellCasterItem;
+import net.stln.magitech.content.item.tool.toolitem.SynthesisedToolItem;
 import net.stln.magitech.feature.tool.upgrade.Upgrade;
 import net.stln.magitech.feature.tool.upgrade.UpgradeInstance;
-import net.stln.magitech.feature.tool.upgrade.UpgradeRegister;
 import net.stln.magitech.helper.ClientHelper;
 import net.stln.magitech.helper.ComponentHelper;
 import net.stln.magitech.helper.RenderHelper;
@@ -46,14 +42,12 @@ public class ToolUpgradeScreen extends AbstractContainerScreen<ToolUpgradeMenu> 
     ItemStack stack = null;
     private int tickCounter = 0;
     private int currentIndex = 0;
-    private OwoUIAdapter<FlowLayout> uiAdapter;
 
     private final int bgWidth = 176;
-    private final int panelWidth = 160;
 
     public ToolUpgradeScreen(ToolUpgradeMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
-        this.imageWidth = bgWidth + panelWidth;
+        this.imageWidth = bgWidth;
         this.imageHeight = 199;
         this.titleLabelY = 4;
         this.inventoryLabelY = 106;
@@ -64,13 +58,6 @@ public class ToolUpgradeScreen extends AbstractContainerScreen<ToolUpgradeMenu> 
         components.add(Component.translatable("recipe.magitech.tool_upgrade.panel.title").withStyle(Style.EMPTY.withUnderlined(true)));
         components.add(Component.translatable("recipe.magitech.tool_upgrade.panel.text"));
         return components;
-    }
-
-    @Override
-    protected void init() {
-        super.init();
-        this.uiAdapter = OwoUIAdapter.create(this, Containers::verticalFlow);
-        reloadUI();
     }
 
     /**
@@ -123,7 +110,6 @@ public class ToolUpgradeScreen extends AbstractContainerScreen<ToolUpgradeMenu> 
     protected void containerTick() {
         super.containerTick();
         if (stack != menu.container.getItem(0)) {
-            reloadUI();
             stack = menu.container.getItem(0);
         }
         if (!tagItems.isEmpty()) {
@@ -133,13 +119,6 @@ public class ToolUpgradeScreen extends AbstractContainerScreen<ToolUpgradeMenu> 
                 currentIndex = (currentIndex + 1) % tagItems.size();
             }
         }
-    }
-
-    private void reloadUI() {
-        FlowLayout root = this.uiAdapter.rootComponent;
-        root.clearChildren();
-        ToolStatsPanel.addPanel(root, Positioning.absolute(leftPos + bgWidth, topPos), menu.container.getItem(0), Component.translatable("recipe.magitech.tool_stats_panel"), getPanelText());
-        this.uiAdapter.inflateAndMount();
     }
 
     @Override
@@ -186,7 +165,7 @@ public class ToolUpgradeScreen extends AbstractContainerScreen<ToolUpgradeMenu> 
                 if (mouseX >= x && mouseX < x + 117 && mouseY >= i1 && mouseY < i1 + 18) {
                     yOffset += 24;
                 }
-                ResourceLocation id = UpgradeRegister.getId(currentUpgrades.get(i));
+                ResourceLocation id = MagitechRegistries.UPGRADE.getKey(currentUpgrades.get(i));
                 guiGraphics.blit(BG_LOCATION, x, i1, 0, yOffset, 117, 18);
                 guiGraphics.drawString(this.font, Component.translatable("upgrade." + id.getNamespace() + "." + id.getPath()).withColor(0xE0E0E0).append(Component.literal(" Lv." + level).withColor(0xF0D080)), x + 5, i1 + 5, 0xFFFFFF, false);
             }

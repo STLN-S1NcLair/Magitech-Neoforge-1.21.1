@@ -16,9 +16,6 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.stln.magitech.feature.tool.part.ToolPart;
-import net.stln.magitech.feature.tool.part.ToolPartInit;
-import net.stln.magitech.feature.tool.tool_type.ToolType;
 import net.stln.magitech.feature.tool.tool_type.ToolTypeInit;
 
 import javax.annotation.Nullable;

@@ -6,7 +6,6 @@ import net.minecraft.network.chat.MutableComponent;
 import net.neoforged.fml.common.asm.enumextension.IExtensibleEnum;
 import net.neoforged.fml.common.asm.enumextension.NetworkedEnum;
 import net.stln.magitech.feature.element.Element;
-import org.apache.logging.log4j.core.tools.picocli.CommandLine;
 
 import java.awt.*;
 
@@ -14,13 +13,13 @@ import java.awt.*;
 @net.neoforged.fml.common.asm.enumextension.NetworkedEnum(NetworkedEnum.NetworkCheck.BIDIRECTIONAL)
 public enum ToolPropertyCategory implements IExtensibleEnum, IToolPropertyGroup {
     ATTACK("attack", new Color(0xFF4040)),
-    ELEMENT("element", new Color(0xFFFFFF)),
-    HANDLING("handling", new Color(0x40FF80)),
+    ELEMENT("element", new Color(0x40FFD0)),
+    HANDLING("handling", new Color(0x60FF40)),
     CONTINUITY("continuity", new Color(0x40A0FF)),
     RANGE("range", new Color(0xFFE040)),
     UNIQUE("unique", new Color(0x8040FF)),
     DEFENCE("defence", new Color(0x8080A0)),
-    DURATION("duration", new Color(0xFFFFFF));
+    DURABILITY("durability", new Color(0xFFFFFF));
 
     private final String id;
     private final Color color;

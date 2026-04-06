@@ -42,28 +42,28 @@ public class MagitechJeiPlugin implements IModPlugin {
 
     @Override
     public void registerRecipes(@NotNull IRecipeRegistration registration) {
-        registration.addRecipes(PartCuttingRecipeCategory.PART_CUTTING_RECIPE_TYPE, ClientHelper.getAllRecipes(RecipeInit.PART_CUTTING_TYPE));
-        registration.addRecipes(ToolAssemblyRecipeCategory.TOOL_ASSEMBLY_RECIPE_TYPE, ClientHelper.getAllRecipes(RecipeInit.TOOL_ASSEMBLY_TYPE));
-        registration.addRecipes(SpellConversionRecipeCategory.SPELL_CONVERSION_RECIPE_TYPE, ClientHelper.getAllRecipes(RecipeInit.SPELL_CONVERSION_TYPE));
-        registration.addRecipes(ZardiusCrucibleRecipeCategory.ZARDIUS_CRUCIBLE_RECIPE_TYPE, ClientHelper.getAllRecipes(RecipeInit.ZARDIUS_CRUCIBLE_TYPE));
-        registration.addRecipes(AthanorPillarInfusionRecipeCategory.ATHANOR_PILLAR_INFUSION_RECIPE_TYPE, ClientHelper.getAllRecipes(RecipeInit.ATHANOR_PILLAR_INFUSION_TYPE));
-        registration.addRecipes(InfuserInfusionRecipeCategory.INFUSER_INFUSION_RECIPE_TYPE, ClientHelper.getAllRecipes(RecipeInit.INFUSER_INFUSION_TYPE));
+        registration.addRecipes(RecipeHolderTypeInit.PART_CUTTING_TYPE, ClientHelper.getAllRecipes(RecipeInit.PART_CUTTING_TYPE));
+        registration.addRecipes(RecipeHolderTypeInit.TOOL_ASSEMBLY_TYPE, ClientHelper.getAllRecipes(RecipeInit.TOOL_ASSEMBLY_TYPE));
+        registration.addRecipes(RecipeHolderTypeInit.SPELL_CONVERSION_TYPE, ClientHelper.getAllRecipes(RecipeInit.SPELL_CONVERSION_TYPE));
+        registration.addRecipes(RecipeHolderTypeInit.ZARDIUS_CRUCIBLE_TYPE, ClientHelper.getAllRecipes(RecipeInit.ZARDIUS_CRUCIBLE_TYPE));
+        registration.addRecipes(RecipeHolderTypeInit.ATHANOR_PILLAR_INFUSION_TYPE, ClientHelper.getAllRecipes(RecipeInit.ATHANOR_PILLAR_INFUSION_TYPE));
+        registration.addRecipes(RecipeHolderTypeInit.INFUSION_TYPE, ClientHelper.getAllRecipes(RecipeInit.INFUSION_TYPE));
     }
 
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration registration) {
-        registration.addRecipeClickArea(PartCuttingScreen.class, 0, 0, 176, 16, PartCuttingRecipeCategory.PART_CUTTING_RECIPE_TYPE);
-        registration.addRecipeClickArea(ToolAssemblyScreen.class, 0, 0, 176, 16, ToolAssemblyRecipeCategory.TOOL_ASSEMBLY_RECIPE_TYPE);
-        registration.addRecipeClickArea(ToolAssemblyScreen.class, 73, 39, 56, 36, ToolAssemblyRecipeCategory.TOOL_ASSEMBLY_RECIPE_TYPE);
+        registration.addRecipeClickArea(PartCuttingScreen.class, 0, 0, 176, 16, RecipeHolderTypeInit.PART_CUTTING_TYPE);
+        registration.addRecipeClickArea(ToolAssemblyScreen.class, 0, 0, 176, 16, RecipeHolderTypeInit.TOOL_ASSEMBLY_TYPE);
+        registration.addRecipeClickArea(ToolAssemblyScreen.class, 73, 39, 56, 36, RecipeHolderTypeInit.TOOL_ASSEMBLY_TYPE);
     }
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
-        registration.addRecipeCatalyst(BlockInit.ENGINEERING_WORKBENCH.toStack(), PartCuttingRecipeCategory.PART_CUTTING_RECIPE_TYPE);
-        registration.addRecipeCatalyst(BlockInit.ASSEMBLY_WORKBENCH.toStack(), ToolAssemblyRecipeCategory.TOOL_ASSEMBLY_RECIPE_TYPE);
-        registration.addRecipeCatalyst(ItemInit.WAND.toStack(), SpellConversionRecipeCategory.SPELL_CONVERSION_RECIPE_TYPE);
-        registration.addRecipeCatalyst(BlockInit.ZARDIUS_CRUCIBLE_ITEM.toStack(), ZardiusCrucibleRecipeCategory.ZARDIUS_CRUCIBLE_RECIPE_TYPE);
-        registration.addRecipeCatalyst(BlockInit.ATHANOR_PILLAR_ITEM.toStack(), AthanorPillarInfusionRecipeCategory.ATHANOR_PILLAR_INFUSION_RECIPE_TYPE);
-        registration.addRecipeCatalyst(BlockInit.INFUSION_ALTAR_ITEM.toStack(), InfuserInfusionRecipeCategory.INFUSER_INFUSION_RECIPE_TYPE);
+        registration.addRecipeCatalyst(BlockInit.ENGINEERING_WORKBENCH.toStack(), RecipeHolderTypeInit.PART_CUTTING_TYPE);
+        registration.addRecipeCatalyst(BlockInit.ASSEMBLY_WORKBENCH.toStack(), RecipeHolderTypeInit.TOOL_ASSEMBLY_TYPE);
+        registration.addRecipeCatalyst(ItemInit.WAND.toStack(), RecipeHolderTypeInit.SPELL_CONVERSION_TYPE);
+        registration.addRecipeCatalyst(BlockInit.ZARDIUS_CRUCIBLE_ITEM.toStack(), RecipeHolderTypeInit.ZARDIUS_CRUCIBLE_TYPE);
+        registration.addRecipeCatalyst(BlockInit.ATHANOR_PILLAR_ITEM.toStack(), RecipeHolderTypeInit.ATHANOR_PILLAR_INFUSION_TYPE);
+        registration.addRecipeCatalyst(BlockInit.INFUSION_ALTAR_ITEM.toStack(), RecipeHolderTypeInit.INFUSION_TYPE);
     }
 }

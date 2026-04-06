@@ -18,7 +18,7 @@ public class DeferredToolCategory<T extends ToolCategory> extends DeferredHolder
     }
 
     @Override
-    public @NotNull ToolCategory asToolGroup() {
+    public @NotNull ToolCategory asToolCategory() {
         return get();
     }
 }

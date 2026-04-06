@@ -14,7 +14,7 @@ import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.content.gui.overlay.ManaGaugeOverlay;
-import net.stln.magitech.content.gui.overlay.SpellGaugeOverlay;
+import net.stln.magitech.content.gui.overlay.ChargeGaugeOverlay;
 
 import java.util.function.Supplier;
 
@@ -30,7 +30,7 @@ public class GuiInit {
     @OnlyIn(Dist.CLIENT)
     public static void onRegisterOverlays(RegisterGuiLayersEvent event) {
         event.registerAboveAll(Magitech.id("mana_gauge"), new ManaGaugeOverlay());
-        event.registerAboveAll(Magitech.id("spell_gauge"), new SpellGaugeOverlay());
+        event.registerAboveAll(Magitech.id("spell_gauge"), new ChargeGaugeOverlay());
     }
 
     @SubscribeEvent
@@ -44,7 +44,7 @@ public class GuiInit {
         event.register(MANA_STRANDER_MENU.get(), ManaStranderScreen::new);
         event.register(MANA_RECEIVER_MENU.get(), ManaReceiverScreen::new);
         event.register(MANA_COLLECTOR_MENU.get(), ManaCollectorScreen::new);
-        event.register(INFUSER_MENU.get(), InfuserScreen::new);
+        event.register(INFUSION_ALTAR_MENU.get(), InfusionAltarScreen::new);
         event.register(THREADBOUND_MENU.get(), ThreadboundScreen::new);
     }
 
@@ -71,7 +71,7 @@ public class GuiInit {
 
     public static final Supplier<MenuType<ManaCollectorMenu>> MANA_COLLECTOR_MENU = register("mana_collector_menu", ManaCollectorMenu::new);
 
-    public static final Supplier<MenuType<InfuserMenu>> INFUSER_MENU = register("infuser_menu", InfuserMenu::new);
+    public static final Supplier<MenuType<InfusionAltarMenu>> INFUSION_ALTAR_MENU = register("infusion_altar_menu", InfusionAltarMenu::new);
 
     public static final Supplier<MenuType<ThreadboundMenu>> THREADBOUND_MENU = register("threadbound_menu", ThreadboundMenu::new);
 

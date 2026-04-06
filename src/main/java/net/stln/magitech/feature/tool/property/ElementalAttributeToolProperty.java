@@ -14,18 +14,26 @@ import java.util.Map;
 
 public class ElementalAttributeToolProperty extends AttributeToolProperty<Map<Element, Double>> {
 
-    public ElementalAttributeToolProperty(Holder<Attribute> attribute, ToolPropertyCategory group) {
-        super(attribute, group);
+    public ElementalAttributeToolProperty(float order, Holder<Attribute> attribute, ToolPropertyCategory group) {
+        super(order, attribute, group);
     }
 
-    public ElementalAttributeToolProperty(Holder<Attribute> attribute, Color color) {
-        super(attribute, color);
+    public ElementalAttributeToolProperty(float order, Holder<Attribute> attribute, Color color) {
+        super(order, attribute, color);
     }
 
     public static Map<Element, Double> flatValue(double value) {
         Map<Element, Double> result = new HashMap<>();
         for (Element element : Element.values()) {
             result.put(element, value);
+        }
+        return result;
+    }
+
+    public static Map<Element, Double> none() {
+        Map<Element, Double> result = new HashMap<>();
+        for (Element elm : Element.values()) {
+            result.put(elm, scalarIdentity());
         }
         return result;
     }
@@ -106,6 +114,7 @@ public class ElementalAttributeToolProperty extends AttributeToolProperty<Map<El
     }
 
     public Element getElement(Map<Element, Double> a) {
+        if (a == null) return Element.NONE;
         Element maxElement = Element.NONE;
         double max = Double.MIN_VALUE;
         for (Element element : Element.values()) {
@@ -120,7 +129,7 @@ public class ElementalAttributeToolProperty extends AttributeToolProperty<Map<El
 
     @Override
     public void addTooltip(ItemStack stack, ToolProperties properties, List<net.minecraft.network.chat.Component> components) {
-        Element element = this.getElement(properties.get(this));
+        Element element = this.getElement(properties.getOrId(this));
 
         components.add(ToolPropertyHelper.getToolTipComponent(this)
                 .append(element.getDisplayName().append(" ").append(String.valueOf(MathHelper.round(properties.getScalar(this), 2)))
@@ -128,11 +137,21 @@ public class ElementalAttributeToolProperty extends AttributeToolProperty<Map<El
     }
 
     @Override
+    public void addRationalTooltip(ItemStack stack, ToolProperties properties, List<Component> components) {
+        Element element = this.getElement(properties.getOrId(this));
+
+        int value = Math.round(properties.getScalar(this) * 100);
+        components.add(ToolPropertyHelper.getToolTipComponent(this)
+                .append(element.getDisplayName().append(" ").append(Component.literal((value >= 0 ? "+" : "") + value + "%"))
+                        .withColor(element.getTextColor().getRGB())));
+    }
+
+    @Override
     public void addPartTooltip(ItemStack stack, ToolProperties properties, List<Component> components) {
-        Element element = this.getElement(properties.get(this));
+        Element element = this.getElement(properties.getOrId(this));
 
         components.add(ToolPropertyHelper.getToolTipComponent(this)
                 .append(element.getDisplayName().append(" ").append(Component.literal(String.valueOf(MathHelper.round(properties.getScalar(this), 2))).append("x"))
-                        .withColor(getColor().getRGB())));
+                        .withColor(element.getTextColor().getRGB())));
     }
 }

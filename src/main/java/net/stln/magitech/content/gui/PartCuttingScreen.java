@@ -1,9 +1,5 @@
 package net.stln.magitech.content.gui;
 
-import io.wispforest.owo.ui.container.Containers;
-import io.wispforest.owo.ui.container.FlowLayout;
-import io.wispforest.owo.ui.core.OwoUIAdapter;
-import io.wispforest.owo.ui.core.Positioning;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -42,9 +38,7 @@ public class PartCuttingScreen extends AbstractContainerScreen<PartCuttingMenu> 
     private static final int RECIPES_Y = 31;
     ItemStack stack = null;
     private float scrollOffs;
-    private OwoUIAdapter<FlowLayout> uiAdapter;
     private final int bgWidth = 176;
-    private final int panelWidth = 160;
     /**
      * Is {@code true} if the player clicked on the scroll wheel in the GUI.
      */
@@ -59,7 +53,7 @@ public class PartCuttingScreen extends AbstractContainerScreen<PartCuttingMenu> 
     public PartCuttingScreen(PartCuttingMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
         menu.registerUpdateListener(this::containerChanged);
-        this.imageWidth = bgWidth + panelWidth;
+        this.imageWidth = bgWidth;
         this.imageHeight = 199;
         this.titleLabelY = 4;
         this.inventoryLabelY = 106;
@@ -76,23 +70,8 @@ public class PartCuttingScreen extends AbstractContainerScreen<PartCuttingMenu> 
     public void containerTick() {
         super.containerTick();
         if (!menu.resultSlot.getItem().equals(stack)) {
-            reloadUI();
             stack = menu.resultSlot.getItem();
         }
-    }
-
-    @Override
-    protected void init() {
-        super.init();
-        this.uiAdapter = OwoUIAdapter.create(this, Containers::verticalFlow);
-        reloadUI();
-    }
-
-    private void reloadUI() {
-        FlowLayout root = this.uiAdapter.rootComponent;
-        root.clearChildren();
-        ToolStatsPanel.addPartPanel(root, Positioning.absolute(leftPos + bgWidth, topPos), menu.resultSlot.getItem(), Component.translatable("recipe.magitech.tool_stats_panel"), getPanelText());
-        this.uiAdapter.inflateAndMount();
     }
 
     /**

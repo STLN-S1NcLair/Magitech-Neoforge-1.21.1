@@ -29,10 +29,10 @@ public abstract class BeamSpell extends DamageSpell {
         Entity target = CombatHelper.raycastBeamEntity(caster, maxRange, radius);
         Vec3 start = CombatHelper.getBodyPos(caster).add(forward.scale(0.5));
 
+        if (target != null) {
+            hitTarget(level, caster, wand, target);
+        }
         if (!level.isClientSide) {
-            if (target != null) {
-                hitTarget(level, caster, wand, target);
-            }
             List<Entity> entities = CombatHelper.getEntitiesInBox(level, caster, hitPos, new Vec3(1, 1, 1));
             for (Entity entity : entities) {
                 if (entity instanceof ItemEntity item) {

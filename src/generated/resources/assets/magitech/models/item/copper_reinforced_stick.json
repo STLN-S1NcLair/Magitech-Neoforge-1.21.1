@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "magitech:item/part/copper_reinforced_stick"
-  }
-}

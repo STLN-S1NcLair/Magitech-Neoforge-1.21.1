@@ -24,6 +24,7 @@ import net.stln.magitech.Magitech;
 import net.stln.magitech.content.item.tool.toolitem.SynthesisedToolItem;
 import net.stln.magitech.content.network.BreakBlockPayload;
 import net.stln.magitech.feature.tool.tool_type.ToolType;
+import net.stln.magitech.feature.tool.tool_type.ToolTypeInit;
 import net.stln.magitech.helper.BlockHelper;
 import net.stln.magitech.helper.ComponentHelper;
 
@@ -47,44 +48,29 @@ public class BlockBreakEvent {
         Player player = event.getPlayer();
         if (tool.getItem() instanceof SynthesisedToolItem partToolItem && !ComponentHelper.isBroken(tool)) {
 
-            Map<Trait, Integer> traitMap = SynthesisedToolItem.getTraitLevel(SynthesisedToolItem.getTraits(tool));
-            Set<BlockPos> blockList = new HashSet<>();
-            Set<BlockPos> blockList2 = new HashSet<>();
+            List<TraitInstance> instances = TraitHelper.getTrait(tool);
             Set<BlockPos> finalBlockList = new HashSet<>();
             Direction breakDirection = SynthesisedToolItem.getBreakDirection(player.blockInteractionRange(), pos, player);
-            if (partToolItem.getToolType().equals(ToolType.HAMMER)) {
-                addHammerMine(player, tool, pos, blockList, breakDirection);
-            } else if (((SynthesisedToolItem) tool.getItem()).getToolType().equals(ToolType.SCYTHE)) {
-                boolean noCollision = state.getCollisionShape(event.getLevel(), pos).isEmpty();
-                boolean instantBreak = state.getBlock().defaultDestroyTime() == 0.0f;
-                if (noCollision || instantBreak) {
-                    addScytheMine(player, tool, pos, blockList, state.getBlock());
-                } else {
-                    blockList.add(pos);
-                }
-            }
+            ToolType toolType = partToolItem.getToolType();
+            Set<BlockPos> blockList = new HashSet<>(toolType.additionalMine().apply(player, tool, pos, breakDirection));
             blockList.add(pos);
-            blockList2.addAll(blockList);
             finalBlockList.addAll(blockList);
 
-            blockList.forEach(pos1 -> traitMap.forEach((trait, value) -> blockList2.addAll(trait.addAdditionalBlockBreakFirst(player, event.getPlayer().level(), tool, value, partToolItem.getAppliedStats(player, event.getPlayer().level(), tool), event.getLevel().getBlockState(pos1), pos1, 1, breakDirection))));
-            blockList2.forEach(pos1 -> traitMap.forEach((trait, value) -> {
-                if (!event.getLevel().getBlockState(pos1).getBlock().equals(Blocks.AIR)) {
-                    finalBlockList.addAll(trait.addAdditionalBlockBreakSecond(player, event.getPlayer().level(), tool, value, partToolItem.getAppliedStats(player, event.getPlayer().level(), tool), event.getLevel().getBlockState(pos1), pos1, 1, breakDirection));
-                }
-            }));
+            blockList.forEach(pos1 -> instances.forEach((instance) ->
+                    finalBlockList.addAll(instance.trait().additionalBlockBreak(player, event.getPlayer().level(), tool, instance.level(),
+                            partToolItem.getAppliedProperties(player, event.getPlayer().level(), tool), event.getLevel().getBlockState(pos1), pos1, 1, breakDirection))));
             BROKEN_BLOCKS.addAll(finalBlockList);
             if (finalBlockList.size() < 2) {
                 BROKEN_BLOCKS.removeAll(finalBlockList);
             }
             finalBlockList.forEach(pos1 -> {
                 final boolean[] flag = {true};
-                traitMap.forEach((trait, value) -> {
+                instances.forEach((instance) -> {
                     if (pos1 != pos) {
-                        BreakBlockPayload payload = new BreakBlockPayload(pos1, pos, player.getUUID(), trait.emitEffect(player, event.getPlayer().level(), tool, value, partToolItem.getAppliedStats(player, event.getPlayer().level(), tool), event.getLevel().getBlockState(pos1), pos1, 1, false), flag[0]);
+                        BreakBlockPayload payload = new BreakBlockPayload(pos1, pos, player.getUUID(), flag[0]);
                         PacketDistributor.sendToAllPlayers(payload);
                         if (flag[0]) {
-                            trait.onBreakBlock(player, event.getPlayer().level(), tool, value, partToolItem.getAppliedStats(player, event.getPlayer().level(), tool), event.getLevel().getBlockState(pos1), pos1, 1, false);
+                            instance.trait().onBreakBlock(player, event.getPlayer().level(), tool, instance.level(), partToolItem.getAppliedProperties(player, event.getPlayer().level(), tool), event.getLevel().getBlockState(pos1), pos1, 1, false);
 
                             if (player instanceof ServerPlayer serverPlayer) {
                                 serverPlayer.gameMode.destroyBlock(pos1);
@@ -92,49 +78,16 @@ public class BlockBreakEvent {
                             flag[0] = false;
                         }
                     } else {
-                        BreakBlockPayload payload = new BreakBlockPayload(pos1, pos, player.getUUID(), trait.emitEffect(player, event.getPlayer().level(), tool, value, partToolItem.getAppliedStats(player, event.getPlayer().level(), tool), state, pos1, 1, true), flag[0]);
+                        BreakBlockPayload payload = new BreakBlockPayload(pos1, pos, player.getUUID(), flag[0]);
                         PacketDistributor.sendToAllPlayers(payload);
                         if (flag[0]) {
-                            trait.onBreakBlock(player, event.getPlayer().level(), tool, value, partToolItem.getAppliedStats(player, event.getPlayer().level(), tool), state, pos1, 1, true);
+                            instance.trait().onBreakBlock(player, event.getPlayer().level(), tool, instance.level(), partToolItem.getAppliedProperties(player, event.getPlayer().level(), tool), state, pos1, 1, true);
                             flag[0] = false;
                         }
                     }
                 });
             });
         }
-    }
-
-    public static void addHammerMine(Player player, ItemStack stack, BlockPos pos, Set<BlockPos> blockPosList, Direction direction) {
-        int x = 0;
-        int y = 0;
-        int z = 0;
-        switch (direction) {
-            case UP, DOWN -> {
-                x = 1;
-                z = 1;
-            }
-            case NORTH, SOUTH -> {
-                x = 1;
-                y = 1;
-            }
-            case EAST, WEST -> {
-                y = 1;
-                z = 1;
-            }
-        }
-        for (int i = -x; i <= x; i++) {
-            for (int j = -y; j <= y; j++) {
-                for (int k = -z; k <= z; k++) {
-                    if (((SynthesisedToolItem) stack.getItem()).isCorrectTool(stack, player.level().getBlockState(pos.offset(i, j, k)), (SynthesisedToolItem) stack.getItem(), ((SynthesisedToolItem) stack.getItem()).getAppliedStats(player, player.level(), stack))) {
-                        blockPosList.add(pos.offset(i, j, k));
-                    }
-                }
-            }
-        }
-    }
-
-    public static void addScytheMine(Player player, ItemStack stack, BlockPos pos, Set<BlockPos> blockPosList, Block targetBlock) {
-        blockPosList.addAll(BlockHelper.getConnectedBlocks(player.level(), pos, targetBlock, 20));
     }
 
     @SubscribeEvent
@@ -144,14 +97,14 @@ public class BlockBreakEvent {
         BlockState state = event.getState();
         List<ItemEntity> drops = event.getDrops();
         Entity entity = event.getBreaker();
-        Map<Trait, Integer> traitMap = SynthesisedToolItem.getTraitLevel(SynthesisedToolItem.getTraits(tool));
+        List<TraitInstance> instances = TraitHelper.getTrait(tool);
         if (entity instanceof Player player && tool.getItem() instanceof SynthesisedToolItem partToolItem && !ComponentHelper.isBroken(tool)) {
             AtomicReference<ArrayList<ItemStack>> lootStack = new AtomicReference<>(new ArrayList<>());
             AtomicReference<ArrayList<ItemStack>> setLootStack = new AtomicReference<>(new ArrayList<>());
             lootStack.set(drops.stream().map(ItemEntity::getItem).collect(Collectors.toCollection(ArrayList::new)));
-            traitMap.forEach((trait, value) -> trait.modifyEnchantmentOnBlockLooting(player, player.level(), tool, value, partToolItem.getAppliedStats(player, player.level(), tool), state, pos, lootStack.get()));
+            instances.forEach((instance) -> instance.trait().modifyEnchantmentOnBlockLooting(player, player.level(), tool, instance.level(), partToolItem.getAppliedProperties(player, player.level(), tool), state, pos, lootStack.get()));
             final double[] expMul = {1.0};
-            traitMap.forEach((trait, value) -> expMul[0] *= trait.modifyExpOnBlockLooting(player, player.level(), tool, value, partToolItem.getAppliedStats(player, player.level(), tool), state, pos, lootStack.get(), event.getDroppedExperience()));
+            instances.forEach((instance) -> expMul[0] *= instance.trait().modifyExpOnBlockLooting(player, player.level(), tool, instance.level(), partToolItem.getAppliedProperties(player, player.level(), tool), state, pos, lootStack.get(), event.getDroppedExperience()));
             event.setDroppedExperience((int) (event.getDroppedExperience() * expMul[0]));
 
             LootParams.Builder builder = new LootParams.Builder((ServerLevel) entity.level())
@@ -162,8 +115,8 @@ public class BlockBreakEvent {
 
             lootStack.set(new ArrayList<>(state.getDrops(builder)));
 
-            traitMap.forEach((trait, value) -> lootStack.get().addAll(trait.addItemOnBlockLooting(player, player.level(), tool, value, partToolItem.getAppliedStats(player, player.level(), tool), state, pos, lootStack.get())));
-            traitMap.forEach((trait, value) -> setLootStack.set(new ArrayList<>(trait.setItemOnBlockLooting(player, player.level(), tool, value, partToolItem.getAppliedStats(player, player.level(), tool), state, pos, lootStack.get()))));
+            instances.forEach((instance) -> lootStack.get().addAll(instance.trait().addItemOnBlockLooting(player, player.level(), tool, instance.level(), partToolItem.getAppliedProperties(player, player.level(), tool), state, pos, lootStack.get())));
+            instances.forEach((instance) -> setLootStack.set(new ArrayList<>(instance.trait().setItemOnBlockLooting(player, player.level(), tool, instance.level(), partToolItem.getAppliedProperties(player, player.level(), tool), state, pos, lootStack.get()))));
             Vec3 center = pos.getCenter();
             if (setLootStack.get() != null && !setLootStack.get().isEmpty()) {
                 event.getDrops().clear();

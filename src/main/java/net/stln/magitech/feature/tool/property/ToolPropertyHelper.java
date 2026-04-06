@@ -8,12 +8,12 @@ public class ToolPropertyHelper {
 
     // 計算不能な値はaを継承
     public static ToolProperties simpleAdd(ToolProperties a, ToolProperties b) {
-        ToolCategory group = a.getGroup();
-        if (group != b.getGroup()) {
+        ToolCategory group = a.getCategory();
+        if (group != b.getCategory()) {
             group = ToolCategoryInit.ALL.get();
         }
         ToolProperties result = new ToolProperties(group);
-        for (ToolPropertyLike<?> key : group.keys()) {
+        for (ToolPropertyLike<?> key : group.getKeys()) {
             if (key.asToolProperty() instanceof CalculableToolProperty<?> calKey) {
                 addAndSet(calKey, a, b, result);
             }
@@ -33,12 +33,12 @@ public class ToolPropertyHelper {
 
     // 計算不能な値はaを継承
     public static ToolProperties simpleMul(ToolProperties a, ToolProperties b) {
-        ToolCategory group = a.getGroup();
-        if (group != b.getGroup()) {
+        ToolCategory group = a.getCategory();
+        if (group != b.getCategory()) {
             group = ToolCategoryInit.ALL.get();
         }
         ToolProperties result = new ToolProperties(group);
-        for (ToolPropertyLike<?> key : group.keys()) {
+        for (ToolPropertyLike<?> key : group.getKeys()) {
             if (key.asToolProperty() instanceof CalculableToolProperty<?> calKey) {
                 mulAndSet(calKey, a, b, result);
             }
@@ -51,16 +51,16 @@ public class ToolPropertyHelper {
         T valB = b.getOrDefault(calKey, calKey.identity());
 
         // calKey自体に計算ロジックがある
-        T summedValue = calKey.add(valA, valB);
+        T summedValue = calKey.mul(valA, valB);
 
         result.set(calKey, summedValue);
     }
 
     // 計算不能な値はaを継承
     public static ToolProperties scalarMul(ToolProperties a, float b) {
-        ToolCategory group = a.getGroup();
+        ToolCategory group = a.getCategory();
         ToolProperties result = new ToolProperties(group);
-        for (ToolPropertyLike<?> key : group.keys()) {
+        for (ToolPropertyLike<?> key : group.getKeys()) {
             if (key.asToolProperty() instanceof CalculableToolProperty<?> calKey) {
                 scalarMulAndSet(calKey, a, b, result);
             }

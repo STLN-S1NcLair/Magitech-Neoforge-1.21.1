@@ -25,7 +25,7 @@ import java.util.Optional;
 @net.neoforged.fml.common.asm.enumextension.NamedEnum()
 @net.neoforged.fml.common.asm.enumextension.NetworkedEnum(NetworkedEnum.NetworkCheck.BIDIRECTIONAL)
 public enum Element implements StringRepresentable, IExtensibleEnum {
-    MANA("mana", new Color(0xA0FFD0), new Color(0xA0FFA0), new Color(0x00F0D0), new Color(0x005060), DamageTypeInit.MANA_DAMAGE, Optional.empty()),
+    MANA("mana", new Color(0xA0FFD0), new Color(0xA0FFA0), new Color(0x00F0D0), new Color(0x005060), DamageTypeInit.MANA_DAMAGE, Optional.of(AttributeInit.MANA_SPELL_POWER)),
     EMBER("ember", new Color(0xFF2000), new Color(0xFFA000), new Color(0xFF2000), new Color(0x400000), DamageTypeInit.EMBER_DAMAGE, Optional.of(AttributeInit.EMBER_SPELL_POWER)),
     GLACE("glace", new Color(0x00FFF0), new Color(0x60FFE0), new Color(0x40A0FF), new Color(0x002840), DamageTypeInit.GLACE_DAMAGE, Optional.of(AttributeInit.GLACE_SPELL_POWER)),
     SURGE("surge", new Color(0x3000FF), new Color(0x3030FF), new Color(0x8080FF), new Color(0x000840), DamageTypeInit.SURGE_DAMAGE, Optional.of(AttributeInit.SURGE_SPELL_POWER)),
@@ -34,7 +34,7 @@ public enum Element implements StringRepresentable, IExtensibleEnum {
     MAGIC("magic", new Color(0xFF00C0), new Color(0xFF20C0), new Color(0xFF0040), new Color(0x400020), DamageTypeInit.MAGIC_DAMAGE, Optional.of(AttributeInit.MAGIC_SPELL_POWER)),
     FLOW("flow", new Color(0xA0FF40), new Color(0x40FF40), new Color(0xE0FF20), new Color(0x104000), DamageTypeInit.FLOW_DAMAGE, Optional.of(AttributeInit.FLOW_SPELL_POWER)),
     HOLLOW("hollow", new Color(0xA000F0), new Color(0xA000F0), new Color(0x8000F0), new Color(0x200040), DamageTypeInit.HOLLOW_DAMAGE, Optional.of(AttributeInit.HOLLOW_SPELL_POWER)),
-    LOGOS("logos", new Color(0x333333), new Color(0x333333), new Color(0x000000), new Color(0xA0A0A0), DamageTypeInit.LOGOS_DAMAGE, Optional.empty()),
+    LOGOS("logos", new Color(0x333333), new Color(0x333333), new Color(0x000000), new Color(0xA0A0A0), DamageTypeInit.LOGOS_DAMAGE, Optional.of(AttributeInit.LOGOS_SPELL_POWER)),
     NONE("none", new Color(0xFFFFFF), new Color(0xFFFFFF), new Color(0xFFE0D0), new Color(0x404040), DamageTypes.PLAYER_ATTACK, Optional.empty());
 
     public static final Codec<Element> CODEC = StringRepresentable.fromEnum(Element::values);

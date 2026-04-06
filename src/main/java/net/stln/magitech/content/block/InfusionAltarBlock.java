@@ -4,9 +4,12 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -27,7 +30,7 @@ import org.joml.Vector3f;
 
 import javax.annotation.Nullable;
 
-public class InfusionAltarBlock extends ManaContainerBlock {
+public class InfusionAltarBlock extends ManaContainerBlock implements IPedestalBlock {
     public static final MapCodec<InfusionAltarBlock> CODEC = simpleCodec(InfusionAltarBlock::new);
 
     protected InfusionAltarBlock(Properties properties) {
@@ -64,6 +67,11 @@ public class InfusionAltarBlock extends ManaContainerBlock {
     @Override
     public @org.jetbrains.annotations.Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
         return createTicker(level, blockEntityType, BlockInit.INFUSION_ALTAR_ENTITY.get());
+    }
+
+    @Override
+    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+        return interact(stack, state, level, pos, player, hand, hitResult);
     }
 
     @Override

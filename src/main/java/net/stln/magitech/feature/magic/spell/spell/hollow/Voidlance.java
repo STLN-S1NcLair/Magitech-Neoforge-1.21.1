@@ -67,8 +67,8 @@ public class Voidlance extends BeamSpell {
                     Vec3 hit = CombatHelper.raycastBeam(caster, (double) 24 / Math.pow(order, 2), start, dir, beamradius);
                     Entity target = CombatHelper.raycastBeamEntity(caster, (double) 24 / Math.pow(order, 2), start, dir, beamradius);
 
+                    hitTarget(level, caster, wand, target);
                     if (!level.isClientSide) {
-                        hitTarget(level, caster, wand, target);
                         SoundHelper.broadcastSound(level, caster, hit, getConfig().endSound());
                     } else {
                         addBeamVFX(level, caster, end, hit);

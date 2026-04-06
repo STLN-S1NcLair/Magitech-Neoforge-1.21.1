@@ -45,9 +45,9 @@ public class TraitHelper {
         int max = trait.getMaxLevel();
         String bar = "|".repeat(level);
         if (max == -1) {
-            return trait.getComponent().append(Component.literal(String.format("# [ %02d ] " + bar, level)));
+            return trait.getComponent().append(Component.literal(String.format(" [ %02d ] " + bar, level)));
         } else {
-            return trait.getComponent().append(Component.literal(String.format("# [ %02d / %02d ] " + bar, level, max)));
+            return trait.getComponent().append(Component.literal(String.format(" [ %02d / %02d ] " + bar, level, max)));
         }
     }
 }

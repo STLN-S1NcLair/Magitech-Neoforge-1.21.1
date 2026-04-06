@@ -1,0 +1,66 @@
+package net.stln.magitech.content.recipe.input;
+
+import net.minecraft.world.entity.player.StackedContents;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeInput;
+import net.neoforged.neoforge.common.crafting.SizedIngredient;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public record BaseAndIngredientsRecipeInput(ItemStack base, List<ItemStack> stacks) implements RecipeInput {
+    @Override
+    public @NotNull ItemStack getItem(int index) {
+        return stacks.get(index);
+    }
+
+    @Override
+    public int size() {
+        return this.stacks.size();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return base.isEmpty() && this.stacks.isEmpty();
+    }
+
+    public int ingredientCount() {
+        int i = 0;
+        for (ItemStack stack : stacks) {
+            if (!stack.isEmpty()) {
+                i++;
+            }
+        }
+        return i;
+    }
+
+    public StackedContents stackedContents() {
+        final StackedContents stackedContents = new StackedContents();
+
+        for (ItemStack itemstack : stacks) {
+            if (!itemstack.isEmpty()) {
+                stackedContents.accountStack(itemstack, 1);
+            }
+        }
+        return stackedContents;
+    }
+
+    public boolean test(SizedIngredient baseIng, List<SizedIngredient> ingredients) {
+        if (!baseIng.test(this.base)) {
+            return false;
+        }
+        List<ItemStack> copyInputs = new ArrayList<>(new ArrayList<>(this.stacks).stream().filter(stack -> !stack.isEmpty()).toList());
+        List<SizedIngredient> copyIngs = new ArrayList<>(ingredients);
+        for (SizedIngredient ingredient : ingredients) {
+            for (ItemStack stack : copyInputs) {
+                if (ingredient.test(stack)) {
+                    copyInputs.remove(stack);
+                    copyIngs.remove(ingredient);
+                    break;
+                }
+            }
+        }
+        return copyIngs.isEmpty() && copyInputs.isEmpty();
+    }
+}

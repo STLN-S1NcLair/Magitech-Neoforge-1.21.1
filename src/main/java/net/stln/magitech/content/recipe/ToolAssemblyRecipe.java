@@ -21,7 +21,6 @@ import net.stln.magitech.content.item.tool.toolitem.SynthesisedToolItem;
 import net.stln.magitech.content.recipe.input.MultiStackRecipeInput;
 import net.stln.magitech.feature.tool.material.ToolMaterial;
 import net.stln.magitech.feature.tool.part.ToolPart;
-import net.stln.magitech.feature.tool.register.ToolMaterialRegister;
 import net.stln.magitech.feature.tool.tool_type.ToolType;
 import net.stln.magitech.helper.ComponentHelper;
 import org.jetbrains.annotations.NotNull;
@@ -90,7 +89,7 @@ public class ToolAssemblyRecipe implements Recipe<MultiStackRecipeInput> {
             }
             List<ToolPart> partList = new ArrayList<>();
             for (int i = 0; i < size; i++) {
-                partList.add(ToolMaterialRegister.getToolPartFromIndex(type, i));
+                partList.add(type.parts().get(i).part().asToolPart());
             }
             for (int i = 0; i < input.size(); i++) {
                 if (input.getItem(i).getItem() instanceof PartItem partItem && input.getItem(i).has(ComponentInit.MATERIAL_COMPONENT.get())) {

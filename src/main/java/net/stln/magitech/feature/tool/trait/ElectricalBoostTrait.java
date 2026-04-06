@@ -2,6 +2,7 @@ package net.stln.magitech.feature.tool.trait;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -13,13 +14,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.content.entity.mob_effect.MobEffectInit;
-import net.stln.magitech.effect.visual.particle.particle_option.PowerupParticleEffect;
-import net.stln.magitech.feature.tool.ToolStats;
 import net.stln.magitech.feature.tool.property.ToolProperties;
-import net.stln.magitech.feature.tool.property.modifier.ToolPropertyModifier;
-import net.stln.magitech.helper.EffectHelper;
+import net.stln.magitech.helper.TickScheduler;
 import net.stln.magitech.helper.TraitMobEffectHelper;
-import org.joml.Vector3f;
 
 import java.awt.*;
 import java.util.List;
@@ -49,7 +46,9 @@ public class ElectricalBoostTrait extends Trait {
 
     private static void extendCharge(Player player, Level level, int traitLevel) {
         if (!level.isClientSide) {
+            TickScheduler.schedule(1, () -> {
             TraitMobEffectHelper.extendTraitMobEffectAmplifier(player, MobEffectInit.CHARGE, 1, traitLevel * 2 + 1, 60);
+            }, false);
         }
     }
 
@@ -74,7 +73,7 @@ public class ElectricalBoostTrait extends Trait {
     }
 
     @Override
-    public Component getName() {
-        return Component.translatable("trait.magitech.electrical_boost");
+    public ResourceLocation getKey() {
+        return Magitech.id("electrical_boost");
     }
 }

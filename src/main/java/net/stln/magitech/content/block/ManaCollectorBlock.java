@@ -137,6 +137,12 @@ public class ManaCollectorBlock extends ManaContainerBlock implements SimpleWate
         return new ManaCollectorBlockEntity(pos, state);
     }
 
+    // ★ EntityBlockの実装: Tick処理を紐付ける
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+        return createTicker(level, type, BlockInit.MANA_COLLECTOR_ENTITY.get());
+    }
+
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         if (level.isClientSide) {
@@ -148,19 +154,6 @@ public class ManaCollectorBlock extends ManaContainerBlock implements SimpleWate
             }
             return InteractionResult.CONSUME;
         }
-    }
-
-    // ★ EntityBlockの実装: Tick処理を紐付ける
-    @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return createBothSideTicker(level, type, BlockInit.MANA_COLLECTOR_ENTITY.get());
-    }
-
-    @javax.annotation.Nullable
-    protected static <T extends BlockEntity> BlockEntityTicker<T> createBothSideTicker(
-            Level level, BlockEntityType<T> serverType, BlockEntityType<? extends ManaCollectorBlockEntity> clientType
-    ) {
-        return level.isClientSide ? createTickerHelper(serverType, clientType, ManaCollectorBlockEntity::clientTicker) : createTickerHelper(serverType, clientType, ManaContainerBlockEntity::ticker);
     }
 
     @Override

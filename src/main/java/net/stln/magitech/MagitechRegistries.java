@@ -12,6 +12,7 @@ import net.stln.magitech.feature.tool.part.ToolPart;
 import net.stln.magitech.feature.tool.property.IToolProperty;
 import net.stln.magitech.feature.tool.tool_category.ToolCategory;
 import net.stln.magitech.feature.tool.tool_type.ToolType;
+import net.stln.magitech.feature.tool.upgrade.Upgrade;
 
 public final class MagitechRegistries {
     public static final Registry<ISpell> SPELL = new RegistryBuilder<>(Keys.SPELL).sync(true).create();
@@ -20,6 +21,7 @@ public final class MagitechRegistries {
     public static final Registry<ToolType> TOOL_TYPE = new RegistryBuilder<>(Keys.TOOL_TYPE).sync(true).create();
     public static final Registry<IToolProperty<?>> TOOL_PROPERTY = new RegistryBuilder<>(Keys.TOOL_PROPERTY).sync(true).create();
     public static final Registry<ToolMaterial> TOOL_MATERIAL = new RegistryBuilder<>(Keys.TOOL_MATERIAL).sync(true).create();
+    public static final Registry<Upgrade> UPGRADE = new RegistryBuilder<>(Keys.UPGRADE).sync(true).create();
     public static final Registry<FluidContainerMatcher> FLUID_CONTAINER_MATCHER = new RegistryBuilder<>(Keys.FLUID_CONTAINER_MATCHER).sync(true).create();
 
     private MagitechRegistries() {
@@ -33,6 +35,7 @@ public final class MagitechRegistries {
             event.register(TOOL_TYPE);
             event.register(TOOL_PROPERTY);
             event.register(TOOL_MATERIAL);
+            event.register(UPGRADE);
             event.register(FLUID_CONTAINER_MATCHER);
         });
         Magitech.LOGGER.info("Registering Spells for" + Magitech.MOD_ID);
@@ -41,10 +44,11 @@ public final class MagitechRegistries {
     public static final class Keys {
         public static final ResourceKey<? extends Registry<ISpell>> SPELL = ResourceKey.createRegistryKey(Magitech.id("spell"));
         public static final ResourceKey<? extends Registry<ToolPart>> TOOL_PART = ResourceKey.createRegistryKey(Magitech.id("tool_part"));
-        public static final ResourceKey<? extends Registry<ToolCategory>> TOOL_CATEGORY = ResourceKey.createRegistryKey(Magitech.id("tool_group"));
+        public static final ResourceKey<? extends Registry<ToolCategory>> TOOL_CATEGORY = ResourceKey.createRegistryKey(Magitech.id("tool_category"));
         public static final ResourceKey<? extends Registry<ToolType>> TOOL_TYPE = ResourceKey.createRegistryKey(Magitech.id("tool_type"));
         public static final ResourceKey<? extends Registry<IToolProperty<?>>> TOOL_PROPERTY = ResourceKey.createRegistryKey(Magitech.id("tool_property"));
         public static final ResourceKey<? extends Registry<ToolMaterial>> TOOL_MATERIAL = ResourceKey.createRegistryKey(Magitech.id("tool_material"));
+        public static final ResourceKey<? extends Registry<Upgrade>> UPGRADE = ResourceKey.createRegistryKey(Magitech.id("upgrade"));
         public static final ResourceKey<? extends Registry<FluidContainerMatcher>> FLUID_CONTAINER_MATCHER = ResourceKey.createRegistryKey(Magitech.id("alchemical_flask_containable"));
 
         private Keys() {

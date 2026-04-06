@@ -47,6 +47,6 @@ public class ManaRelayBlock extends NodeBlock implements IManaRelay {
 
     @Override
     public int getRange() {
-        return 3;
+        return 4;
     }
 }

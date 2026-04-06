@@ -121,7 +121,7 @@ public class HydreluxEntity extends BombSpellProjectileEntity {
     // パーティクルが表示されないバグの防止用
     @Override
     protected boolean isFinalHit() {
-        return pierce == 0;
+        return getPierce() == 0;
     }
 
     @Override

@@ -1,7 +1,9 @@
 package net.stln.magitech.helper;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -14,6 +16,21 @@ import java.util.List;
 import java.util.Optional;
 
 public class CombatHelper {
+
+    public static void applyDamage(@Nullable LivingEntity caster, Entity target, DamageSource source, float effectiveDamage) {
+        if (target.level().isClientSide) return;
+        if (!target.isInvulnerableTo(source) && target instanceof LivingEntity living) {
+            float targetHealth = living.getHealth();
+            living.setLastHurtByMob(caster);
+            if (caster instanceof Player player) {
+                player.awardStat(Stats.DAMAGE_DEALT, Math.round((targetHealth - living.getHealth()) * 10));
+            }
+            if (caster != null) {
+                caster.setLastHurtMob(target);
+            }
+        }
+        target.hurt(source, effectiveDamage);
+    }
 
     public static Vec3 findSurface(Level level, Vec3 origin) {
         int x = Mth.floor(origin.x);

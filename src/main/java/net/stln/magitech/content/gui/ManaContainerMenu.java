@@ -19,14 +19,14 @@ public abstract class ManaContainerMenu extends AbstractContainerMenu {
     private final LongContainerData data;
     protected boolean hasProduction = false;
     protected boolean hasConsumption = false;
-    protected int inventoryOffsetY = 117;
+    protected int inventoryOffsetY;
 
     public ManaContainerMenu(MenuType<?> menuType, int containerId, Inventory playerInventory) {
         this(menuType, containerId, playerInventory, ContainerLevelAccess.NULL, new SimpleLongContainerData(6));
     }
 
     public ManaContainerMenu(MenuType<?> menuType, int containerId, Inventory playerInventory, final ContainerLevelAccess access, LongContainerData containerData) {
-        this(menuType, containerId, playerInventory, access, containerData, 117);
+        this(menuType, containerId, playerInventory, access, containerData, 79);
     }
 
     public ManaContainerMenu(MenuType<?> menuType, int containerId, Inventory playerInventory, final ContainerLevelAccess access, LongContainerData containerData, int inventoryOffsetY) {

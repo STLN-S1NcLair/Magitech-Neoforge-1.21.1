@@ -9,7 +9,8 @@ public record TraitInstance(@NotNull Trait trait, int level) {
     }
 
     public TraitInstance addLevel(int value) {
-        return new TraitInstance(trait, level + value);
+        int maxLevel = trait.getMaxLevel();
+        return new TraitInstance(trait, Math.min(level + value, maxLevel == -1 ? Integer.MAX_VALUE: maxLevel));
     }
 
     public TraitInstance increment() {

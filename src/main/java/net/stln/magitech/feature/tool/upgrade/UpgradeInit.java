@@ -1,47 +1,33 @@
 package net.stln.magitech.feature.tool.upgrade;
 
+import net.neoforged.bus.api.IEventBus;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.feature.element.Element;
-import net.stln.magitech.feature.tool.ToolStats;
-import net.stln.magitech.feature.tool.material.MiningLevel;
+import net.stln.magitech.feature.tool.property.ToolPropertyCategory;
+import net.stln.magitech.feature.tool.property.modifier.RationalToolPropertyModifier;
+import net.stln.magitech.feature.tool.tool_category.ToolCategoryInit;
+import net.stln.magitech.registry.DeferredUpgrade;
+import net.stln.magitech.registry.DeferredUpgradeRegister;
+import org.jetbrains.annotations.NotNull;
 
 public class UpgradeInit {
 
-    public static final Upgrade ATTACK_UPGRADE = new SimpleUpgrade(new ToolStats(0.1F, 0, 0, 0, 0, 0, 0, 0, Element.NONE, MiningLevel.NONE, 0));
-    public static final Upgrade ELEMENTAL_ATTACK_UPGRADE = new SimpleUpgrade(new ToolStats(0, 0.1F, 0, 0, 0, 0, 0, 0, Element.NONE, MiningLevel.NONE, 0));
-    public static final Upgrade SPEED_UPGRADE = new SimpleUpgrade(new ToolStats(0, 0, 0.1F, 0, 0, 0, 0, 0, Element.NONE, MiningLevel.NONE, 0));
-    public static final Upgrade MINING_UPGRADE = new SimpleUpgrade(new ToolStats(0, 0, 0, 0.1F, 0, 0, 0, 0, Element.NONE, MiningLevel.NONE, 0));
-    public static final Upgrade DEFENCE_UPGRADE = new SimpleUpgrade(new ToolStats(0, 0, 0, 0, 0.1F, 0, 0, 0, Element.NONE, MiningLevel.NONE, 0));
-    public static final Upgrade RANGE_UPGRADE = new SimpleUpgrade(new ToolStats(0, 0, 0, 0, 0, 0.1F, 0, 0, Element.NONE, MiningLevel.NONE, 0));
-    public static final Upgrade SWEEP_UPGRADE = new SimpleUpgrade(new ToolStats(0, 0, 0, 0, 0, 0, 0.1F, 0, Element.NONE, MiningLevel.NONE, 0));
-    public static final Upgrade DURABILITY_UPGRADE = new SimpleUpgrade(new ToolStats(0, 0, 0, 0, 0, 0, 0, 0.1F, Element.NONE, MiningLevel.NONE, 0));
+    public static final DeferredUpgradeRegister REGISTER = new DeferredUpgradeRegister(Magitech.MOD_ID);
 
-    public static final Upgrade CASTER_POWER_UPGRADE = new SimpleUpgrade(new ToolStats(0.1F, 0, 0, 0, 0, 0, 0, 0, Element.NONE, MiningLevel.NONE, 0));
-    public static final Upgrade CASTER_ELEMENTAL_POWER_UPGRADE = new SimpleUpgrade(new ToolStats(0, 0.1F, 0, 0, 0, 0, 0, 0, Element.NONE, MiningLevel.NONE, 0));
-    public static final Upgrade CASTER_CHARGE_UPGRADE = new SimpleUpgrade(new ToolStats(0, 0, 0.1F, 0, 0, 0, 0, 0, Element.NONE, MiningLevel.NONE, 0));
-    public static final Upgrade CASTER_COOLDOWN_UPGRADE = new SimpleUpgrade(new ToolStats(0, 0, 0, 0.1F, 0, 0, 0, 0, Element.NONE, MiningLevel.NONE, 0));
-    public static final Upgrade CASTER_DEFENCE_UPGRADE = new SimpleUpgrade(new ToolStats(0, 0, 0, 0, 0.1F, 0, 0, 0, Element.NONE, MiningLevel.NONE, 0));
-    public static final Upgrade CASTER_PROJECTILE_SPEED_UPGRADE = new SimpleUpgrade(new ToolStats(0, 0, 0, 0, 0, 0.1F, 0, 0, Element.NONE, MiningLevel.NONE, 0));
-    public static final Upgrade CASTER_EFFICIENCY_UPGRADE = new SimpleUpgrade(new ToolStats(0, 0, 0, 0, 0, 0, 0.1F, 0, Element.NONE, MiningLevel.NONE, 0));
-    public static final Upgrade CASTER_DURABILITY_UPGRADE = new SimpleUpgrade(new ToolStats(0, 0, 0, 0, 0, 0, 0, 0.1F, Element.NONE, MiningLevel.NONE, 0));
+    private static <T extends Upgrade> @NotNull DeferredUpgrade<T> register(@NotNull String path, @NotNull T upgrade) {
+        return REGISTER.register(path, () -> upgrade);
+    }
 
-    public static void registerUpgrades() {
+    public static final DeferredUpgrade<Upgrade> ATTACK_UPGRADE = register("attack_upgrade", new SingleUpgrade(new RationalToolPropertyModifier(ToolPropertyCategory.ATTACK, 0.05F), ToolCategoryInit.ALL));
+    public static final DeferredUpgrade<Upgrade> ELEMENTAL_UPGRADE = register("element_upgrade", new SingleUpgrade(new RationalToolPropertyModifier(ToolPropertyCategory.ELEMENT, 0.05F), ToolCategoryInit.ALL));
+    public static final DeferredUpgrade<Upgrade> HANDLING_UPGRADE = register("handling_upgrade", new SingleUpgrade(new RationalToolPropertyModifier(ToolPropertyCategory.HANDLING, 0.05F), ToolCategoryInit.ALL));
+    public static final DeferredUpgrade<Upgrade> CONTINUITY_UPGRADE = register("continuity_upgrade", new SingleUpgrade(new RationalToolPropertyModifier(ToolPropertyCategory.CONTINUITY, 0.05F), ToolCategoryInit.ALL));
+    public static final DeferredUpgrade<Upgrade> RANGE_UPGRADE = register("range_upgrade", new SingleUpgrade(new RationalToolPropertyModifier(ToolPropertyCategory.DEFENCE, 0.05F), ToolCategoryInit.ALL));
+    public static final DeferredUpgrade<Upgrade> SWEEP_UPGRADE = register("unique_upgrade", new SingleUpgrade(new RationalToolPropertyModifier(ToolPropertyCategory.RANGE, 0.05F), ToolCategoryInit.ALL));
+    public static final DeferredUpgrade<Upgrade> DEFENCE_UPGRADE = register("defence_upgrade", new SingleUpgrade(new RationalToolPropertyModifier(ToolPropertyCategory.UNIQUE, 0.05F), ToolCategoryInit.ALL));
+    public static final DeferredUpgrade<Upgrade> DURABILITY_UPGRADE = register("durability_upgrade", new SingleUpgrade(new RationalToolPropertyModifier(ToolPropertyCategory.DURABILITY, 0.05F), ToolCategoryInit.ALL));
+
+    public static void registerUpgrades(IEventBus bus) {
         Magitech.LOGGER.info("Registering Upgrades for " + Magitech.MOD_ID);
-        UpgradeRegister.registerId(Magitech.id("damage_upgrade"), ATTACK_UPGRADE);
-        UpgradeRegister.registerId(Magitech.id("elemental_damage_upgrade"), ELEMENTAL_ATTACK_UPGRADE);
-        UpgradeRegister.registerId(Magitech.id("speed_upgrade"), SPEED_UPGRADE);
-        UpgradeRegister.registerId(Magitech.id("mining_upgrade"), MINING_UPGRADE);
-        UpgradeRegister.registerId(Magitech.id("defence_upgrade"), DEFENCE_UPGRADE);
-        UpgradeRegister.registerId(Magitech.id("range_upgrade"), RANGE_UPGRADE);
-        UpgradeRegister.registerId(Magitech.id("sweep_upgrade"), SWEEP_UPGRADE);
-        UpgradeRegister.registerId(Magitech.id("durability_upgrade"), DURABILITY_UPGRADE);
-        UpgradeRegister.registerSpellCasterId(Magitech.id("caster_power_upgrade"), CASTER_POWER_UPGRADE);
-        UpgradeRegister.registerSpellCasterId(Magitech.id("caster_elemental_power_upgrade"), CASTER_ELEMENTAL_POWER_UPGRADE);
-        UpgradeRegister.registerSpellCasterId(Magitech.id("caster_charge_upgrade"), CASTER_CHARGE_UPGRADE);
-        UpgradeRegister.registerSpellCasterId(Magitech.id("caster_cooldown_upgrade"), CASTER_COOLDOWN_UPGRADE);
-        UpgradeRegister.registerSpellCasterId(Magitech.id("caster_defence_upgrade"), CASTER_DEFENCE_UPGRADE);
-        UpgradeRegister.registerSpellCasterId(Magitech.id("caster_projectile_speed_upgrade"), CASTER_PROJECTILE_SPEED_UPGRADE);
-        UpgradeRegister.registerSpellCasterId(Magitech.id("caster_efficiency_upgrade"), CASTER_EFFICIENCY_UPGRADE);
-        UpgradeRegister.registerSpellCasterId(Magitech.id("caster_durability_upgrade"), CASTER_DURABILITY_UPGRADE);
+        REGISTER.register(bus);
     }
 }

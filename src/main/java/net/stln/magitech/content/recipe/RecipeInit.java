@@ -23,7 +23,7 @@ public class RecipeInit {
     public static final Supplier<ToolAssemblyRecipe.Serializer<ToolAssemblyRecipe>> TOOL_ASSEMBLY_SERIALIZER = registerSerializer("tool_assembly", () -> new ToolAssemblyRecipe.Serializer<>(ToolAssemblyRecipe::new));
     public static final Supplier<ToolMaterialRecipe.Serializer<ToolMaterialRecipe>> TOOL_MATERIAL_SERIALIZER = registerSerializer("tool_material", () -> new ToolMaterialRecipe.Serializer<>(ToolMaterialRecipe::new));
     public static final Supplier<RecipeSerializer<ZardiusCrucibleRecipe>> ZARDIUS_CRUCIBLE_SERIALIZER = registerSerializer("zardius_crucible", ZardiusCrucibleRecipe.CODEC, ZardiusCrucibleRecipe.STREAM_CODEC);
-    public static final Supplier<RecipeSerializer<InfuserInfusionRecipe>> INFUSER_INFUSION_SERIALIZER = registerSerializer("infuser_infusion", () -> new InfuserInfusionRecipe.Serializer<>(InfuserInfusionRecipe::new));
+    public static final Supplier<RecipeSerializer<InfusionRecipe>> INFUSION_SERIALIZER = registerSerializer("infusion", () -> new InfusionRecipe.Serializer<>(InfusionRecipe::new));
     // Types
     public static final DeferredRegister<RecipeType<?>> TYPES = DeferredRegister.create(Registries.RECIPE_TYPE, Magitech.MOD_ID);
     public static final Supplier<RecipeType<AthanorPillarInfusionRecipe>> ATHANOR_PILLAR_INFUSION_TYPE = registerType("athanor_pillar_infusion");
@@ -32,7 +32,7 @@ public class RecipeInit {
     public static final Supplier<RecipeType<ToolAssemblyRecipe>> TOOL_ASSEMBLY_TYPE = registerType("tool_assembly");
     public static final Supplier<RecipeType<ToolMaterialRecipe>> TOOL_MATERIAL_TYPE = registerType("tool_material");
     public static final Supplier<RecipeType<ZardiusCrucibleRecipe>> ZARDIUS_CRUCIBLE_TYPE = registerType("zardius_crucible");
-    public static final Supplier<RecipeType<InfuserInfusionRecipe>> INFUSER_INFUSION_TYPE = registerType("infuser_infusion");
+    public static final Supplier<RecipeType<InfusionRecipe>> INFUSION_TYPE = registerType("infusion");
 
     private static <T extends RecipeSerializer<?>> @NotNull Supplier<T> registerSerializer(@NotNull String name, @NotNull Supplier<T> supplier) {
         return SERIALIZERS.register(name, supplier);

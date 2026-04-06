@@ -7,14 +7,14 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.stln.magitech.MagitechRegistries;
-import net.stln.magitech.feature.tool.ToolStats;
 import net.stln.magitech.feature.tool.property.ToolProperties;
 import net.stln.magitech.feature.tool.trait.Trait;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
+import java.util.function.Supplier;
 
-public record ToolMaterial(ToolProperties properties, Trait trait) implements ToolMaterialLike {
+public record ToolMaterial(float order, Supplier<ToolProperties> properties, Trait trait) implements ToolMaterialLike {
     public static final Codec<ToolMaterial> CODEC = MagitechRegistries.TOOL_MATERIAL.byNameCodec();
     public static final StreamCodec<RegistryFriendlyByteBuf, ToolMaterial> STREAM_CODEC = ByteBufCodecs.registry(MagitechRegistries.Keys.TOOL_MATERIAL);
 

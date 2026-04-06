@@ -19,28 +19,28 @@ public class DefaultComponentInit {
 
     @SubscribeEvent
     public static void modifyDefault(net.neoforged.neoforge.event.ModifyDefaultComponentsEvent event) {
-        event.modify(ItemInit.DAGGER, builder -> builder.set(ComponentInit.PART_MATERIAL_COMPONENT.get(), new PartMaterialComponent(MaterialInit.WOOD, MaterialInit.IRON, MaterialInit.DEEPSLATE)).build());
-        event.modify(ItemInit.LIGHT_SWORD, builder -> builder.set(ComponentInit.PART_MATERIAL_COMPONENT.get(), new PartMaterialComponent(MaterialInit.WOOD, MaterialInit.IRON, MaterialInit.DEEPSLATE, MaterialInit.TOURMALINE)).build());
-        event.modify(ItemInit.HEAVY_SWORD, builder -> builder.set(ComponentInit.PART_MATERIAL_COMPONENT.get(), new PartMaterialComponent(MaterialInit.WOOD, MaterialInit.IRON, MaterialInit.TOURMALINE, MaterialInit.DEEPSLATE)).build());
-        event.modify(ItemInit.PICKAXE, builder -> builder.set(ComponentInit.PART_MATERIAL_COMPONENT.get(), new PartMaterialComponent(MaterialInit.WOOD, MaterialInit.IRON, MaterialInit.TOURMALINE)).build());
-        event.modify(ItemInit.HAMMER, builder -> builder.set(ComponentInit.PART_MATERIAL_COMPONENT.get(), new PartMaterialComponent(MaterialInit.WOOD, MaterialInit.DEEPSLATE, MaterialInit.IRON, MaterialInit.TOURMALINE)).build());
-        event.modify(ItemInit.AXE, builder -> builder.set(ComponentInit.PART_MATERIAL_COMPONENT.get(), new PartMaterialComponent(MaterialInit.WOOD, MaterialInit.IRON, MaterialInit.DEEPSLATE, MaterialInit.TOURMALINE)).build());
-        event.modify(ItemInit.SHOVEL, builder -> builder.set(ComponentInit.PART_MATERIAL_COMPONENT.get(), new PartMaterialComponent(MaterialInit.WOOD, MaterialInit.IRON, MaterialInit.DEEPSLATE, MaterialInit.TOURMALINE)).build());
-        event.modify(ItemInit.SCYTHE, builder -> builder.set(ComponentInit.PART_MATERIAL_COMPONENT.get(), new PartMaterialComponent(MaterialInit.DEEPSLATE, MaterialInit.WOOD, MaterialInit.IRON, MaterialInit.TOURMALINE)).build());
-        event.modify(ItemInit.WAND, builder -> builder.set(ComponentInit.PART_MATERIAL_COMPONENT.get(), new PartMaterialComponent(MaterialInit.IRON, MaterialInit.WOOD, MaterialInit.DEEPSLATE, MaterialInit.TOURMALINE)).build());
+        event.modify(ItemInit.DAGGER, builder -> builder.set(ComponentInit.PART_MATERIAL_COMPONENT.get(), new PartMaterialComponent(MaterialInit.SAMPLE, MaterialInit.SAMPLE, MaterialInit.SAMPLE)).build());
+        event.modify(ItemInit.LIGHT_SWORD, builder -> builder.set(ComponentInit.PART_MATERIAL_COMPONENT.get(), new PartMaterialComponent(MaterialInit.SAMPLE, MaterialInit.SAMPLE, MaterialInit.SAMPLE, MaterialInit.SAMPLE)).build());
+        event.modify(ItemInit.HEAVY_SWORD, builder -> builder.set(ComponentInit.PART_MATERIAL_COMPONENT.get(), new PartMaterialComponent(MaterialInit.SAMPLE, MaterialInit.SAMPLE, MaterialInit.SAMPLE, MaterialInit.SAMPLE)).build());
+        event.modify(ItemInit.PICKAXE, builder -> builder.set(ComponentInit.PART_MATERIAL_COMPONENT.get(), new PartMaterialComponent(MaterialInit.SAMPLE, MaterialInit.SAMPLE, MaterialInit.SAMPLE)).build());
+        event.modify(ItemInit.HAMMER, builder -> builder.set(ComponentInit.PART_MATERIAL_COMPONENT.get(), new PartMaterialComponent(MaterialInit.SAMPLE, MaterialInit.SAMPLE, MaterialInit.SAMPLE, MaterialInit.SAMPLE)).build());
+        event.modify(ItemInit.AXE, builder -> builder.set(ComponentInit.PART_MATERIAL_COMPONENT.get(), new PartMaterialComponent(MaterialInit.SAMPLE, MaterialInit.SAMPLE, MaterialInit.SAMPLE, MaterialInit.SAMPLE)).build());
+        event.modify(ItemInit.SHOVEL, builder -> builder.set(ComponentInit.PART_MATERIAL_COMPONENT.get(), new PartMaterialComponent(MaterialInit.SAMPLE, MaterialInit.SAMPLE, MaterialInit.SAMPLE, MaterialInit.SAMPLE)).build());
+        event.modify(ItemInit.SCYTHE, builder -> builder.set(ComponentInit.PART_MATERIAL_COMPONENT.get(), new PartMaterialComponent(MaterialInit.SAMPLE, MaterialInit.SAMPLE, MaterialInit.SAMPLE, MaterialInit.SAMPLE)).build());
+        event.modify(ItemInit.WAND, builder -> builder.set(ComponentInit.PART_MATERIAL_COMPONENT.get(), new PartMaterialComponent(MaterialInit.SAMPLE, MaterialInit.SAMPLE, MaterialInit.SAMPLE, MaterialInit.SAMPLE)).build());
 
-        event.modify(ItemInit.LIGHT_BLADE, builder -> builder.set(ComponentInit.MATERIAL_COMPONENT.get(), new MaterialComponent(MaterialInit.IRON)).set(ComponentInit.UPGRADE_COMPONENT.get(), UpgradeComponent.EMPTY).build());
-        event.modify(ItemInit.HEAVY_BLADE, builder -> builder.set(ComponentInit.MATERIAL_COMPONENT.get(), new MaterialComponent(MaterialInit.IRON)).set(ComponentInit.UPGRADE_COMPONENT.get(), UpgradeComponent.EMPTY).build());
-        event.modify(ItemInit.LIGHT_HANDLE, builder -> builder.set(ComponentInit.MATERIAL_COMPONENT.get(), new MaterialComponent(MaterialInit.IRON)).set(ComponentInit.UPGRADE_COMPONENT.get(), UpgradeComponent.EMPTY).build());
-        event.modify(ItemInit.HEAVY_HANDLE, builder -> builder.set(ComponentInit.MATERIAL_COMPONENT.get(), new MaterialComponent(MaterialInit.IRON)).set(ComponentInit.UPGRADE_COMPONENT.get(), UpgradeComponent.EMPTY).build());
-        event.modify(ItemInit.TOOL_BINDING, builder -> builder.set(ComponentInit.MATERIAL_COMPONENT.get(), new MaterialComponent(MaterialInit.IRON)).set(ComponentInit.UPGRADE_COMPONENT.get(), UpgradeComponent.EMPTY).build());
-        event.modify(ItemInit.HANDGUARD, builder -> builder.set(ComponentInit.MATERIAL_COMPONENT.get(), new MaterialComponent(MaterialInit.IRON)).set(ComponentInit.UPGRADE_COMPONENT.get(), UpgradeComponent.EMPTY).build());
-        event.modify(ItemInit.STRIKE_HEAD, builder -> builder.set(ComponentInit.MATERIAL_COMPONENT.get(), new MaterialComponent(MaterialInit.IRON)).set(ComponentInit.UPGRADE_COMPONENT.get(), UpgradeComponent.EMPTY).build());
-        event.modify(ItemInit.SPIKE_HEAD, builder -> builder.set(ComponentInit.MATERIAL_COMPONENT.get(), new MaterialComponent(MaterialInit.IRON)).set(ComponentInit.UPGRADE_COMPONENT.get(), UpgradeComponent.EMPTY).build());
-        event.modify(ItemInit.REINFORCED_ROD, builder -> builder.set(ComponentInit.MATERIAL_COMPONENT.get(), new MaterialComponent(MaterialInit.IRON)).set(ComponentInit.UPGRADE_COMPONENT.get(), UpgradeComponent.EMPTY).build());
-        event.modify(ItemInit.PLATE, builder -> builder.set(ComponentInit.MATERIAL_COMPONENT.get(), new MaterialComponent(MaterialInit.IRON)).set(ComponentInit.UPGRADE_COMPONENT.get(), UpgradeComponent.EMPTY).build());
-        event.modify(ItemInit.CATALYST, builder -> builder.set(ComponentInit.MATERIAL_COMPONENT.get(), new MaterialComponent(MaterialInit.IRON)).set(ComponentInit.UPGRADE_COMPONENT.get(), UpgradeComponent.EMPTY).build());
-        event.modify(ItemInit.CONDUCTOR, builder -> builder.set(ComponentInit.MATERIAL_COMPONENT.get(), new MaterialComponent(MaterialInit.IRON)).set(ComponentInit.UPGRADE_COMPONENT.get(), UpgradeComponent.EMPTY).build());
+        event.modify(ItemInit.LIGHT_BLADE, builder -> builder.set(ComponentInit.MATERIAL_COMPONENT.get(), new MaterialComponent(MaterialInit.SAMPLE)).set(ComponentInit.UPGRADE_COMPONENT.get(), UpgradeComponent.EMPTY).build());
+        event.modify(ItemInit.HEAVY_BLADE, builder -> builder.set(ComponentInit.MATERIAL_COMPONENT.get(), new MaterialComponent(MaterialInit.SAMPLE)).set(ComponentInit.UPGRADE_COMPONENT.get(), UpgradeComponent.EMPTY).build());
+        event.modify(ItemInit.LIGHT_HANDLE, builder -> builder.set(ComponentInit.MATERIAL_COMPONENT.get(), new MaterialComponent(MaterialInit.SAMPLE)).set(ComponentInit.UPGRADE_COMPONENT.get(), UpgradeComponent.EMPTY).build());
+        event.modify(ItemInit.HEAVY_HANDLE, builder -> builder.set(ComponentInit.MATERIAL_COMPONENT.get(), new MaterialComponent(MaterialInit.SAMPLE)).set(ComponentInit.UPGRADE_COMPONENT.get(), UpgradeComponent.EMPTY).build());
+        event.modify(ItemInit.TOOL_BINDING, builder -> builder.set(ComponentInit.MATERIAL_COMPONENT.get(), new MaterialComponent(MaterialInit.SAMPLE)).set(ComponentInit.UPGRADE_COMPONENT.get(), UpgradeComponent.EMPTY).build());
+        event.modify(ItemInit.HANDGUARD, builder -> builder.set(ComponentInit.MATERIAL_COMPONENT.get(), new MaterialComponent(MaterialInit.SAMPLE)).set(ComponentInit.UPGRADE_COMPONENT.get(), UpgradeComponent.EMPTY).build());
+        event.modify(ItemInit.STRIKE_HEAD, builder -> builder.set(ComponentInit.MATERIAL_COMPONENT.get(), new MaterialComponent(MaterialInit.SAMPLE)).set(ComponentInit.UPGRADE_COMPONENT.get(), UpgradeComponent.EMPTY).build());
+        event.modify(ItemInit.SPIKE_HEAD, builder -> builder.set(ComponentInit.MATERIAL_COMPONENT.get(), new MaterialComponent(MaterialInit.SAMPLE)).set(ComponentInit.UPGRADE_COMPONENT.get(), UpgradeComponent.EMPTY).build());
+        event.modify(ItemInit.REINFORCED_ROD, builder -> builder.set(ComponentInit.MATERIAL_COMPONENT.get(), new MaterialComponent(MaterialInit.SAMPLE)).set(ComponentInit.UPGRADE_COMPONENT.get(), UpgradeComponent.EMPTY).build());
+        event.modify(ItemInit.PLATE, builder -> builder.set(ComponentInit.MATERIAL_COMPONENT.get(), new MaterialComponent(MaterialInit.SAMPLE)).set(ComponentInit.UPGRADE_COMPONENT.get(), UpgradeComponent.EMPTY).build());
+        event.modify(ItemInit.CATALYST, builder -> builder.set(ComponentInit.MATERIAL_COMPONENT.get(), new MaterialComponent(MaterialInit.SAMPLE)).set(ComponentInit.UPGRADE_COMPONENT.get(), UpgradeComponent.EMPTY).build());
+        event.modify(ItemInit.CONDUCTOR, builder -> builder.set(ComponentInit.MATERIAL_COMPONENT.get(), new MaterialComponent(MaterialInit.SAMPLE)).set(ComponentInit.UPGRADE_COMPONENT.get(), UpgradeComponent.EMPTY).build());
 
         setComponentsForThreadbound(event, ItemInit.GLISTENING_LEXICON, Magitech.id("glistening_lexicon"));
         setComponentsForThreadbound(event, ItemInit.MATERIALS_AND_TOOLCRAFT_DESIGN, Magitech.id("materials_and_toolcraft_design"));

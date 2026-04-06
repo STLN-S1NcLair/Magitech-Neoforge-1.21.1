@@ -1,4 +1,4 @@
-// 1.21.1	2026-02-25T08:11:38.6017771	Block States: magitech
+// 1.21.1	2026-04-04T12:04:08.2927246	Block States: magitech
 90f039d3c8040909582f040c2be7f09eca62a0a8 assets/magitech/blockstates/alchecrysite.json
 e2e47f25d85025ef83b8b30154421755d7d8c139 assets/magitech/blockstates/alchecrysite_bricks.json
 36896c4c599cbeeb6b3e9441de7d2de5fa12cb4d assets/magitech/blockstates/alchecrysite_brick_slab.json
@@ -78,6 +78,7 @@ c594e6a34e09014678350c1b93f29c8a86e34cd4 assets/magitech/blockstates/mystwood_tr
 0446e306f55479399c85494a427c2061c43ff6d8 assets/magitech/blockstates/mystwood_wall_hanging_sign.json
 c79b783ac0bc61b26c8cc93c7bab2471a38d60ca assets/magitech/blockstates/mystwood_wall_sign.json
 5775f712cc369176d6a860f466225a9e18f8971d assets/magitech/blockstates/mystwood_wood.json
+27fe62723340f35973cf3a17f2c0b29c97a39e61 assets/magitech/blockstates/pedestal_pylon.json
 8b75e7dbed96d274269674ee7a25a8e772778da4 assets/magitech/blockstates/polished_alchecrysite.json
 4d63808c8c023a13e385ec001f45a1d907fa477c assets/magitech/blockstates/polished_alchecrysite_slab.json
 7beaee3a834426455dd6b96e60200a5abc77436f assets/magitech/blockstates/polished_alchecrysite_stairs.json
@@ -351,6 +352,7 @@ e278cb362435bd435d7556f3b04a032b5aa59d01 assets/magitech/models/item/mystwood_fe
 4e8e816d3ddcabecd3f437622fd2543780271041 assets/magitech/models/item/mystwood_stairs.json
 e6102628d028291c675e192e5dd0b9674051331a assets/magitech/models/item/mystwood_trapdoor.json
 ff3e6d0de1c7f656c60aa02aa9019c51f8ea8c99 assets/magitech/models/item/mystwood_wood.json
+a074d7c483f9cc26be3b1b8208ad755074fdebd2 assets/magitech/models/item/pedestal_pylon.json
 81a42d22c1b8c909decf741a392819a09d7096ba assets/magitech/models/item/polished_alchecrysite.json
 ccfc94681e4c0de1dd9577e261b7d4f54860660d assets/magitech/models/item/polished_alchecrysite_slab.json
 fb06da2aefaea7790ea1bf9ae8835f3568b3b02f assets/magitech/models/item/polished_alchecrysite_stairs.json

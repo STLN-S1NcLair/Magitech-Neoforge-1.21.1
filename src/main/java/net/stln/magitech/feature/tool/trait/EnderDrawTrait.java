@@ -1,6 +1,7 @@
 package net.stln.magitech.feature.tool.trait;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
@@ -10,9 +11,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.stln.magitech.Magitech;
 import net.stln.magitech.effect.visual.particle.particle_option.SquareFieldParticleEffect;
 import net.stln.magitech.effect.visual.particle.particle_option.UnstableSquareParticleEffect;
-import net.stln.magitech.feature.tool.ToolStats;
 import net.stln.magitech.feature.tool.property.ToolProperties;
 import net.stln.magitech.helper.EffectHelper;
 import org.joml.Vector3f;
@@ -55,7 +56,7 @@ public class EnderDrawTrait extends Trait {
     }
 
     @Override
-    public Component getName() {
-        return Component.translatable("trait.magitech.ender_draw");
+    public ResourceLocation getKey() {
+        return Magitech.id("ender_draw");
     }
 }

@@ -16,33 +16,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import net.stln.magitech.content.block.block_entity.AlchemetricPylonBlockEntity;
 
-public class AlchemetricPylonBlockEntityRenderer implements BlockEntityRenderer<AlchemetricPylonBlockEntity> {
+public class AlchemetricPylonBlockEntityRenderer extends PedestalBlockEntityRenderer<AlchemetricPylonBlockEntity> {
     public AlchemetricPylonBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
-
-    }
-
-    @Override
-    public void render(AlchemetricPylonBlockEntity pBlockEntity, float pPartialTick, PoseStack pPoseStack,
-                       MultiBufferSource pBufferSource, int pPackedLight, int pPackedOverlay) {
-        ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
-        ItemStack stack = pBlockEntity.inventory.getStackInSlot(0);
-
-        pPoseStack.pushPose();
-        pPoseStack.translate(0.5f, 1.1f, 0.5f);
-        pPoseStack.scale(0.5f, 0.5f, 0.5f);
-
-        if (pBlockEntity.getLevel() != null) {
-            pPoseStack.mulPose(Axis.YP.rotationDegrees((pBlockEntity.tickCounter + pPartialTick) / 2 % 360));
-        }
-
-        itemRenderer.renderStatic(stack, ItemDisplayContext.FIXED, getLightLevel(pBlockEntity.getLevel(),
-                pBlockEntity.getBlockPos()), OverlayTexture.NO_OVERLAY, pPoseStack, pBufferSource, pBlockEntity.getLevel(), 1);
-        pPoseStack.popPose();
-    }
-
-    private int getLightLevel(Level level, BlockPos pos) {
-        int bLight = level.getBrightness(LightLayer.BLOCK, pos);
-        int sLight = level.getBrightness(LightLayer.SKY, pos);
-        return LightTexture.pack(bLight, sLight);
+        super(context, 1.1F);
     }
 }

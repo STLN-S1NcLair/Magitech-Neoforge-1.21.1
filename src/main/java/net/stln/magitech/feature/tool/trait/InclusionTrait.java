@@ -1,18 +1,13 @@
 package net.stln.magitech.feature.tool.trait;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
-import net.stln.magitech.effect.visual.particle.particle_option.PowerupParticleEffect;
-import net.stln.magitech.feature.tool.ToolStats;
+import net.stln.magitech.Magitech;
 import net.stln.magitech.feature.tool.property.ToolProperties;
-import org.joml.Vector3f;
 
 import java.awt.*;
 
@@ -32,8 +27,8 @@ public class InclusionTrait extends Trait {
     }
 
     @Override
-    public Component getName() {
-        return Component.translatable("trait.magitech.inclusion");
+    public ResourceLocation getKey() {
+        return Magitech.id("inclusion");
     }
 
 }

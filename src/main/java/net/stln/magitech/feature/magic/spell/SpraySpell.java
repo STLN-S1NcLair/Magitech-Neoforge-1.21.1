@@ -30,9 +30,7 @@ public class SpraySpell extends DamageSpell {
                 if (!SpellHelper.canSee(level, caster, targetBodyPos, offset)) {
                     continue;
                 }
-                if (!level.isClientSide) {
-                    hitTarget(level, caster, wand, SpellPropertyInit.CONTINUOUS_DAMAGE, target);
-                }
+                hitTarget(level, caster, wand, SpellPropertyInit.CONTINUOUS_DAMAGE, target);
             }
             additionalSprayProcess(level, caster, wand, attackList);
         }

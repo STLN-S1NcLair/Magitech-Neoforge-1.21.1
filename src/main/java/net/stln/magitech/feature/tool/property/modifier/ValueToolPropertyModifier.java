@@ -1,10 +1,13 @@
 package net.stln.magitech.feature.tool.property.modifier;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.stln.magitech.feature.tool.property.*;
+import net.stln.magitech.feature.tool.property.CalculableToolProperty;
+import net.stln.magitech.feature.tool.property.IToolProperty;
+import net.stln.magitech.feature.tool.property.IToolPropertyGroup;
+import net.stln.magitech.feature.tool.property.ToolProperties;
 
-import java.awt.*;
 import java.util.Map;
 
 public abstract class ValueToolPropertyModifier<T> implements ToolPropertyModifier {
@@ -20,7 +23,7 @@ public abstract class ValueToolPropertyModifier<T> implements ToolPropertyModifi
 
     @Override
     public ToolProperties apply(ToolProperties base) {
-        ToolProperties properties = new ToolProperties(base.getGroup());
+        ToolProperties properties = new ToolProperties(base.getCategory());
         if (enabled) {
             for (Map.Entry<IToolProperty<?>, Object> entry : base.getValues().entrySet()) {
                 if (!(entry.getKey() instanceof CalculableToolProperty<?> prop)) continue;
@@ -46,9 +49,16 @@ public abstract class ValueToolPropertyModifier<T> implements ToolPropertyModifi
 
     @Override
     public MutableComponent getDisplayText() {
-        MutableComponent component = propertyCategory.getDisplayText().append("+" + value.toString());
+        String value = this.value.toString();
+        MutableComponent component = Component.empty().append(propertyCategory.getDisplayText())
+                .append(Component.literal(" +" + value).withColor(propertyCategory.getColor().getRGB()));
         if (!enabled) {
             component = component.withColor(0x808080).withStyle(ChatFormatting.STRIKETHROUGH);
+            for (Component cp : component.getSiblings()) {
+                if (cp instanceof MutableComponent mutable) {
+                    mutable = mutable.withColor(0x808080).withStyle(ChatFormatting.STRIKETHROUGH);
+                }
+            }
         }
         return component;
     }

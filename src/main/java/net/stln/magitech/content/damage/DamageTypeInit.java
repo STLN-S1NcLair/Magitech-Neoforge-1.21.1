@@ -3,15 +3,7 @@ package net.stln.magitech.content.damage;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageType;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.content.item.tool.toolitem.SynthesisedToolItem;
-import net.stln.magitech.feature.tool.ToolStats;
-import net.stln.magitech.feature.tool.property.ToolProperties;
-import net.stln.magitech.feature.tool.property.ToolPropertyInit;
-import net.stln.magitech.helper.DataMapHelper;
 
 public class DamageTypeInit {
 

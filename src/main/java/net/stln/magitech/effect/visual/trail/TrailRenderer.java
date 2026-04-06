@@ -30,11 +30,17 @@ public class TrailRenderer {
     public static final int LONG_TRAIL = 1;
     public static final int HIGHLIGHT_TRAIL = 2;
 
+    private static long lastTick = 0;
+
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void clientTick(ClientTickEvent.Pre event) {
         Level level = Minecraft.getInstance().level;
-        tick(level);
+        long current = level == null ? 0 : level.getGameTime();
+        if (!Minecraft.getInstance().isPaused() && current != lastTick) {
+            tick(level);
+        }
+        lastTick = current;
     }
 
     public static void tick(Level level) {

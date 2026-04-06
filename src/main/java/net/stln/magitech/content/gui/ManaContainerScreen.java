@@ -1,9 +1,6 @@
 package net.stln.magitech.content.gui;
 
-import io.wispforest.owo.ui.container.Containers;
-import io.wispforest.owo.ui.container.FlowLayout;
-import io.wispforest.owo.ui.core.OwoUIAdapter;
-import io.wispforest.owo.ui.core.Positioning;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
@@ -12,30 +9,25 @@ import net.minecraft.world.entity.player.Inventory;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.stln.magitech.Magitech;
+import net.stln.magitech.helper.ManaContainerHelper;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @OnlyIn(Dist.CLIENT)
 public abstract class ManaContainerScreen<T extends ManaContainerMenu> extends AbstractContainerScreen<T> {
 
     private static final ResourceLocation GAUGE_LOCATION = Magitech.id("mana");
-    private OwoUIAdapter<FlowLayout> uiAdapter;
     private final int bgWidth = 176;
-    protected int panelWidth = 152;
-    protected int panelHeight = 34;
-    private InitializableOffsetScrollContainer<io.wispforest.owo.ui.core.Component> scrollComponent = null;
 
     public ManaContainerScreen(T menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
         this.imageWidth = bgWidth;
-        this.imageHeight = 199;
+        this.imageHeight = 161;
         this.titleLabelY = 4;
-        this.inventoryLabelY = 106;
-    }
-
-    @Override
-    public void containerTick() {
-        super.containerTick();
-        reloadUI();
+        this.inventoryLabelY = 68;
     }
 
     /**
@@ -52,28 +44,30 @@ public abstract class ManaContainerScreen<T extends ManaContainerMenu> extends A
         this.renderTooltip(guiGraphics, mouseX, mouseY);
     }
 
+    protected final int gaugeX = 11;
+    protected final int gaugeY = 31;
+    protected final int gaugeWidth = 154;
+    protected final int gaugeHeight = 16;
+
     @Override
     protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
         int i = this.leftPos;
         int j = this.topPos;
         guiGraphics.blit(getBgTexture(), i, j, 0, 0, this.bgWidth, this.imageHeight);
-        renderGauge(guiGraphics, i + 11, j + 31, 154, 16, this.menu.getManaRatio());
+        renderGauge(guiGraphics, i + gaugeX, j + gaugeY, gaugeWidth, gaugeHeight, this.menu.getManaRatio());
     }
 
     @Override
-    protected void init() {
-        super.init();
-        this.uiAdapter = OwoUIAdapter.create(this, Containers::verticalFlow);
-        reloadUI();
-    }
+    protected void renderTooltip(GuiGraphics guiGraphics, int x, int y) {
+        super.renderTooltip(guiGraphics, x, y);
 
-    private void reloadUI() {
-        FlowLayout root = this.uiAdapter.rootComponent;
-        double scrollOffset = scrollComponent == null ? 0 : scrollComponent.getScrollOffset();
-        double scrollPosition = scrollComponent == null ? 0 : scrollComponent.getScrollPosition();
-        root.clearChildren();
-        scrollComponent = ManaContainerPanel.addPanel(root, Positioning.absolute(leftPos + 13, topPos + 51), this.menu, scrollOffset, scrollPosition, panelWidth, panelHeight);
-        this.uiAdapter.inflateAndMount();
+        if (x >= leftPos + gaugeX && x < leftPos + gaugeX + gaugeWidth && y >= topPos + gaugeY && y < topPos + gaugeY + gaugeHeight) {
+            List<Component> components = new ArrayList<>();
+            int titleColor = 0x5a9e91;
+            int color = 0xcdffde;
+            ManaContainerHelper.addManaContainerBlockInfo(menu.getMana(), menu.getMaxMana(), menu.getFlowRate(), menu.getMaxManaFlow(), menu.getProductionRate(), menu.getConsumptionRate(), components, color, titleColor, menu.hasProduction, menu.hasConsumption);
+            guiGraphics.renderTooltip(Minecraft.getInstance().font, components, Optional.empty(), x, y);
+        }
     }
 
     protected void renderGauge(GuiGraphics guiGraphics, int x, int y, int wid, int hei, double ratio) {

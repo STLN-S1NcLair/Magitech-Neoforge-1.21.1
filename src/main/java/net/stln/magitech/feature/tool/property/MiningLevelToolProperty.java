@@ -1,18 +1,16 @@
 package net.stln.magitech.feature.tool.property;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.ItemStack;
 import net.stln.magitech.feature.tool.material.MiningLevel;
-import net.stln.magitech.helper.MathHelper;
 
 import java.awt.*;
 import java.util.List;
 
 public class MiningLevelToolProperty extends ToolProperty<MiningLevel> implements CalculableToolProperty<MiningLevel> {
 
-    public MiningLevelToolProperty(Color color) {
-        super(color);
+    public MiningLevelToolProperty(float order, Color color) {
+        super(order, color);
     }
 
     // 最高Tierを返す
@@ -48,17 +46,22 @@ public class MiningLevelToolProperty extends ToolProperty<MiningLevel> implement
 
     @Override
     public void addTooltip(ItemStack stack, ToolProperties properties, List<Component> components) {
-        MiningLevel miningLevel = properties.get(this);
+        MiningLevel miningLevel = properties.getOrId(this);
         components.add(ToolPropertyHelper.getToolTipComponent(this)
-                .append(miningLevel.getDisplayName())
-                        .withColor(miningLevel.getColor()));
+                .append(miningLevel.getDisplayName()
+                        .withColor(miningLevel.getColor())));
+    }
+
+    @Override
+    public void addRationalTooltip(ItemStack stack, ToolProperties properties, List<Component> components) {
+        addTooltip(stack, properties, components);
     }
 
     @Override
     public void addPartTooltip(ItemStack stack, ToolProperties properties, List<Component> components) {
-        MiningLevel miningLevel = properties.get(this);
+        MiningLevel miningLevel = properties.getOrId(this);
         components.add(ToolPropertyHelper.getToolTipComponent(this)
-                .append(miningLevel.getDisplayName())
-                .withColor(miningLevel.getColor()));
+                .append(miningLevel.getDisplayName()
+                        .withColor(miningLevel.getColor())));
     }
 }

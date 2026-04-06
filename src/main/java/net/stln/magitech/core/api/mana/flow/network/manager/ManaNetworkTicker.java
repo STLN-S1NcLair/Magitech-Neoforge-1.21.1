@@ -1,5 +1,6 @@
 package net.stln.magitech.core.api.mana.flow.network.manager;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -13,7 +14,7 @@ public class ManaNetworkTicker {
     @SubscribeEvent
     public static void tickNetworkManager(LevelTickEvent.Post event) {
         Level level = event.getLevel();
-        if (level.isClientSide()) return;
+        if (level.isClientSide() || !level.getServer().tickRateManager().runsNormally()) return;
         ManaNetworkManager.get((ServerLevel) level).tick(level);
     }
 }

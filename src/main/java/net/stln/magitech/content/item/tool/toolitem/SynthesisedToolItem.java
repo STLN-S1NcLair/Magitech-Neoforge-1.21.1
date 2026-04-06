@@ -1,5 +1,6 @@
 package net.stln.magitech.content.item.tool.toolitem;
 
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
@@ -14,15 +15,14 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.EquipmentSlotGroup;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -37,6 +37,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.ItemAbility;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -47,11 +48,12 @@ import net.stln.magitech.content.item.LeftClickOverrideItem;
 import net.stln.magitech.content.item.component.ComponentInit;
 import net.stln.magitech.content.network.TierUpToastPayload;
 import net.stln.magitech.content.network.TraitTickPayload;
+import net.stln.magitech.effect.visual.preset.LineVFX;
+import net.stln.magitech.effect.visual.preset.TrailVFX;
 import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.feature.tool.ToolHelper;
 import net.stln.magitech.feature.tool.material.MiningLevel;
 import net.stln.magitech.feature.tool.material.ToolMaterial;
-import net.stln.magitech.feature.tool.part.ToolPart;
 import net.stln.magitech.feature.tool.property.*;
 import net.stln.magitech.feature.tool.property.modifier.CrossRefToolPropertyModifier;
 import net.stln.magitech.feature.tool.property.modifier.ToolPropertyModifier;
@@ -60,10 +62,15 @@ import net.stln.magitech.feature.tool.tool_category.ToolCategoryInit;
 import net.stln.magitech.feature.tool.tool_type.MineType;
 import net.stln.magitech.feature.tool.tool_type.ToolType;
 import net.stln.magitech.feature.tool.tool_type.ToolTypeLike;
+import net.stln.magitech.feature.tool.trait.Trait;
 import net.stln.magitech.feature.tool.trait.TraitHelper;
 import net.stln.magitech.feature.tool.trait.TraitInstance;
 import net.stln.magitech.feature.tool.upgrade.UpgradeInstance;
-import net.stln.magitech.helper.*;
+import net.stln.magitech.helper.ClientHelper;
+import net.stln.magitech.helper.CombatHelper;
+import net.stln.magitech.helper.ComponentHelper;
+import net.stln.magitech.helper.DataMapHelper;
+import net.stln.magitech.registry.DeferredToolProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -93,17 +100,17 @@ public abstract class SynthesisedToolItem extends Item implements LeftClickOverr
         if (!materials.isEmpty()) {
             SynthesisedToolItem item = (SynthesisedToolItem) stack.getItem();
             ToolType toolType = item.getToolType();
-            ToolProperties baseProperties = toolType.defaultProperties();
-            ToolCategory group = baseProperties.getGroup();
-            ToolProperties result = baseProperties.copy();
+            ToolProperties baseProperties = toolType.defaultProperties().get();
+            ToolCategory category = baseProperties.getCategory();
+            ToolProperties result = new ToolProperties(category);
 
             List<ToolType.PartData> parts = toolType.parts();
             for (int i = 0; i < materials.size(); i++) {
                 ToolMaterial toolMaterial = materials.get(i);
                 ToolType.PartData toolPart = parts.get(i);
                 float weight = toolPart.weight();
-                ToolProperties materialProp = group.cast(toolMaterial.properties());
-                result = ToolPropertyHelper.simpleAdd(result, ToolPropertyHelper.scalarMul(materialProp, weight));
+                ToolProperties materialProp = category.cast(toolMaterial.properties().get());
+                result = ToolPropertyHelper.simpleAdd(result, ToolPropertyHelper.scalarMul(ToolPropertyHelper.simpleMul(baseProperties, materialProp), weight / parts.size()));
             }
             return result;
         } else return new ToolProperties(ToolCategoryInit.NONE);
@@ -115,7 +122,6 @@ public abstract class SynthesisedToolItem extends Item implements LeftClickOverr
         if (!stack.has(ComponentInit.BROKEN_COMPONENT)) {
             stack.set(ComponentInit.BROKEN_COMPONENT, false);
         }
-        ToolCategory group = defaultProperties.getGroup();
         List<UpgradeInstance> upgrades = ComponentHelper.getUpgrades(stack);
         ToolProperties result = defaultProperties.copy();
         List<ToolPropertyModifier> selfRef = new ArrayList<>();
@@ -162,8 +168,9 @@ public abstract class SynthesisedToolItem extends Item implements LeftClickOverr
         for (ToolPropertyModifier modifier : selfRef) {
             result = ToolPropertyHelper.simpleAdd(result, modifier.apply(upgradedProp));
         }
+        ToolProperties selfRefProps = result.copy();
         for (ToolPropertyModifier modifier : crossRef) {
-            result = ToolPropertyHelper.simpleAdd(result, modifier.apply(upgradedProp));
+            result = ToolPropertyHelper.simpleAdd(result, modifier.apply(selfRefProps));
         }
         return result;
     }
@@ -172,7 +179,7 @@ public abstract class SynthesisedToolItem extends Item implements LeftClickOverr
         if (ComponentHelper.isBroken(stack)) {
             return false;
         }
-        int miningLevel = ((MiningLevel) properties.get(ToolPropertyInit.MINING_LEVEL)).getTier();
+        int miningLevel = ((MiningLevel) properties.getOrId(ToolPropertyInit.MINING_LEVEL.get())).getTier();
         if (state.getTags().anyMatch(Predicate.isEqual(BlockTags.INCORRECT_FOR_NETHERITE_TOOL)) && miningLevel <= MiningLevel.NETHERITE.getTier()) {
             return false;
         }
@@ -207,13 +214,14 @@ public abstract class SynthesisedToolItem extends Item implements LeftClickOverr
         if (stack.has(ComponentInit.PROGRESSION_COMPONENT)) {
             ComponentHelper.updateProgression(stack, 0, integer -> integer + 1);
             int progression = ComponentHelper.getProgression(stack);
+            double coefficient = getUpgradedProperties(stack).getOrId(ToolPropertyInit.MAX_PROGRESSION_COEFFICIENT.get());
             int maxProgression = ComponentHelper.getMaxProgression(stack);
             if (progression >= maxProgression) {
                 ComponentHelper.updateTier(stack, 0, integer -> integer + 1);
                 ComponentHelper.updateUpgradePoint(stack, value -> value + 1);
                 ComponentHelper.updateProgression(stack, 0, integer -> 0);
                 int tier = ComponentHelper.getTier(stack);
-                int newMax = ToolHelper.getDefaultMaxProgression(tier);
+                int newMax = (int) (ToolHelper.getDefaultMaxProgression(tier) * coefficient);
                 ComponentHelper.updateMaxProgression(stack, newMax, integer -> newMax);
                 if (entity instanceof Player player) {
                     if (!level.isClientSide) {
@@ -269,7 +277,7 @@ public abstract class SynthesisedToolItem extends Item implements LeftClickOverr
                     Holder<Attribute> attribute = attributeToolProperty.getAttribute(appliedProperties);
                     ResourceLocation typeKey = MagitechRegistries.TOOL_TYPE.getKey(this.getToolType());
                     ResourceLocation key = MagitechRegistries.TOOL_PROPERTY.getKey(attributeToolProperty);
-                    entries.add(new ItemAttributeModifiers.Entry(attribute, new AttributeModifier(key.withPrefix("_" + typeKey.getPath()), attributeToolProperty.apply(appliedProperties), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND));
+                    entries.add(new ItemAttributeModifiers.Entry(attribute, new AttributeModifier(key.withPrefix(typeKey.getPath() + "_"), attributeToolProperty.apply(appliedProperties), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND));
                 }
             }
 
@@ -286,15 +294,15 @@ public abstract class SynthesisedToolItem extends Item implements LeftClickOverr
     }
 
     protected void setInitialProperties(ItemStack stack, ToolProperties properties) {
-        int tier = (int) properties.get(ToolPropertyInit.TIER);
-        int upgradePoint = (int) properties.get(ToolPropertyInit.UPGRADE_POINT);
-        int progression = (int) properties.get(ToolPropertyInit.PROGRESSION);
-        double coefficient = (double) properties.get(ToolPropertyInit.MAX_PROGRESSION_COEFFICIENT);
-        int maxProgression = (int) (ToolHelper.getDefaultMaxProgression(tier) * coefficient);
-        int duration = (int) properties.get(ToolPropertyInit.DURATION);
+        int tier = Math.toIntExact(Math.round(properties.getOrId(ToolPropertyInit.TIER.get())));
+        int upgradePoint = properties.getOrId(ToolPropertyInit.UPGRADE_POINT.get());
+        int progression = properties.getOrId(ToolPropertyInit.PROGRESSION.get());
+        double coefficient = properties.getOrId(ToolPropertyInit.MAX_PROGRESSION_COEFFICIENT.get());
+        int maxProgression = Math.toIntExact(Math.round(ToolHelper.getDefaultMaxProgression(tier) * coefficient));
+        int duration = properties.getOrId(ToolPropertyInit.DURABILITY.get()).intValue();
 
         // 熟練度が最大以上ならTierを上げ続ける
-        while (maxProgression <= progression) {
+        while (maxProgression <= progression && maxProgression > 0) {
             progression -= maxProgression;
             tier++;
             upgradePoint++;
@@ -321,8 +329,12 @@ public abstract class SynthesisedToolItem extends Item implements LeftClickOverr
 
     @Override
     public void postHurtEnemy(ItemStack stack, @NotNull LivingEntity target, @NotNull LivingEntity attacker) {
-        stack.hurtAndBreak(1, attacker, EquipmentSlot.MAINHAND);
-        progress(stack, attacker.level(), attacker);
+        damage(stack, attacker, attacker.level());
+    }
+
+    protected void damage(ItemStack stack, @NotNull LivingEntity entity, Level level) {
+        stack.hurtAndBreak(1, entity, EquipmentSlot.MAINHAND);
+        progress(stack, level, entity);
     }
 
     @Override
@@ -376,21 +388,53 @@ public abstract class SynthesisedToolItem extends Item implements LeftClickOverr
         ToolProperties appliedProperties = getAppliedProperties(player, player.level(), stack);
         setInitialProperties(stack, appliedProperties);
 
-        tooltipComponents.add(Component.empty());
-        if (ComponentHelper.isBroken(stack)) {
-            tooltipComponents.add(Component.translatable("tool.magitech.broken").withColor(0xFF8080));
-        }
+        List<TraitInstance> traits = TraitHelper.getTrait(stack);
 
-        for (IToolProperty<?> property: appliedProperties.getValues().keySet()) {
+        if (Screen.hasShiftDown()) {
+
+            for (TraitInstance instance : traits) {
+                tooltipComponents.add(TraitHelper.getTooltip(instance));
+
+                for (ToolPropertyModifier mod : instance.trait().modifyProperty(player, player.level(), stack, instance.level(), appliedProperties)) {
+                    tooltipComponents.add(mod.getDisplayText());
+                }
+                tooltipComponents.add(Component.empty());
+            }
+        } else if (Screen.hasControlDown()) {
+
+            for (TraitInstance instance : traits) {
+                Trait trait = instance.trait();
+                tooltipComponents.add(trait.getComponent());
+                trait.addDescription(tooltipComponents);
+                tooltipComponents.add(Component.empty());
+            }
+
+        } else {
+
+            tooltipComponents.add(Component.translatable("tooltip.magitech.tool.shift").withColor(0x808080));
+            tooltipComponents.add(Component.translatable("tooltip.magitech.tool.ctrl").withColor(0x808080));
+
+            tooltipComponents.add(Component.empty());
+
+            if (ComponentHelper.isBroken(stack)) {
+                tooltipComponents.add(Component.translatable("tool.magitech.broken").withColor(0xFF8080));
+            }
+
+            addPropertyTooltip(stack, tooltipComponents, appliedProperties);
+
+            tooltipComponents.add(Component.empty());
+
+            TraitHelper.getTrait(stack).forEach(((instance) -> {
+                tooltipComponents.add(TraitHelper.getTooltip(instance));
+            }
+            ));
+        }
+    }
+
+    protected void addPropertyTooltip(@NotNull ItemStack stack, List<Component> tooltipComponents, ToolProperties appliedProperties) {
+        for (IToolProperty<?> property : appliedProperties.getCategory().getKeys().stream().map(ToolPropertyLike::asToolProperty).toList()) {
             property.addTooltip(stack, appliedProperties, tooltipComponents);
         }
-
-        tooltipComponents.add(Component.empty());
-
-        TraitHelper.getTrait(stack).forEach(((instance) -> {
-            tooltipComponents.add(TraitHelper.getTooltip(instance));
-        }
-        ));
     }
 
     public void traitAction(Level level, Player player, InteractionHand usedHand) {
@@ -435,7 +479,7 @@ public abstract class SynthesisedToolItem extends Item implements LeftClickOverr
         // falseを優先
         TraitHelper.getTrait(stack).forEach((instance) -> {
             Boolean isCorrect = instance.trait().modifyCorrectTool(stack, instance.level(), state);
-            if (isCorrect != false) {
+            if (isCorrect == null) {
                 flag[0] = isCorrect;
             }
         });
@@ -444,7 +488,7 @@ public abstract class SynthesisedToolItem extends Item implements LeftClickOverr
         }
         ToolType toolType = partToolItem.getToolType();
         for (MineType mineType : toolType.mineType().types()) {
-            if (state.getTags().anyMatch(Predicate.isEqual(mineType.getMinable()))) {
+            if (state.getTags().anyMatch(key -> mineType.getMinable().contains(key))) {
                 return hasCorrectTier(stack, state, properties);
             }
         }
@@ -490,7 +534,7 @@ public abstract class SynthesisedToolItem extends Item implements LeftClickOverr
         Vec3 maxReachPos = playerEyePos.add(forward.scale(mul));
 
         if (CombatHelper.getEntityHitResult(user, playerEyePos, maxReachPos, world) != null || getPlayerPOVHitResult(world, user, ClipContext.Fluid.NONE).getType() != BlockHitResult.Type.BLOCK) {
-            float pitch = (float) getAppliedProperties(user, world, user.getItemInHand(hand)).get(ToolPropertyInit.ATTACK_SPEED) * 0.5F;
+            float pitch = getAppliedProperties(user, world, user.getItemInHand(hand)).getOrId(ToolPropertyInit.ATTACK_SPEED.get()).floatValue() * 0.5F;
             if (user.getAttackStrengthScale(0.5F) > 0.7F) {
                 world.playSound(user, user.getX(), user.getY(), user.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP, SoundSource.PLAYERS, 1.0F, pitch);
                 sweepAttack(world, hand, user);
@@ -503,14 +547,17 @@ public abstract class SynthesisedToolItem extends Item implements LeftClickOverr
         return InteractionResult.PASS;
     }
 
-    public void sweepAttack(Level world, InteractionHand hand, Player user) {
+    public void sweepAttack(Level level, InteractionHand hand, Player user) {
         ItemStack stack = user.getItemInHand(hand);
-        ToolProperties stats = getAppliedProperties(user, world, stack);
-        float swp = (float) stats.get(ToolPropertyInit.SWEEP);
-        sweepVFX(world, user, swp, stats);
+        ToolProperties stats = getAppliedProperties(user, level, stack);
+        float swp = stats.getOrId(ToolPropertyInit.SWEEP.get()).floatValue();
+        if (level.isClientSide) {
+            sweepVFX(level, user, swp, stats);
+        }
 
         Vec3 center = CombatHelper.getAttackTargetPosition(user, user.entityInteractionRange(), 2, 0.0);
-        List<Entity> attackList = CombatHelper.getEntitiesInBox(world, user, center, new Vec3(swp, swp / 3.0F, swp));
+        List<Entity> attackList = new ArrayList<>(CombatHelper.getEntitiesInBox(level, user, center, new Vec3(swp, swp / 3.0F, swp)).stream()
+                .filter(entity -> level.clip(new ClipContext(CombatHelper.getBodyPos(entity), CombatHelper.getBodyPos(user), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, user)).getType() != HitResult.Type.BLOCK).toList());
         attackList.removeIf(e -> !(e instanceof LivingEntity livingEntity) || e == user || !user.canAttack(livingEntity) || e.isInvulnerable());
 
         float cooldown = ((AdjustableAttackStrengthEntity) user).getLastAttackedTicks();
@@ -519,12 +566,11 @@ public abstract class SynthesisedToolItem extends Item implements LeftClickOverr
                 ((AdjustableAttackStrengthEntity) user).setLastAttackedTicks((int) cooldown);
                 applyElementDamage(user, target, stack);
                 user.attack(target);
-                callTraitDamageEntity(world, user, target, stack);
+                callTraitDamageEntity(level, user, target, stack);
             }
         }
         if (!attackList.isEmpty() && !user.level().isClientSide) {
-            stack.hurtAndBreak(1, user, EquipmentSlot.MAINHAND);
-            progress(stack, world, user);
+            damage(stack, user, level);
         }
 
         user.resetAttackStrengthTicker();
@@ -533,7 +579,7 @@ public abstract class SynthesisedToolItem extends Item implements LeftClickOverr
     public void applyElementDamage(Player attacker, Entity target, ItemStack stack) {
         ToolProperties appliedProperties = getAppliedProperties(attacker, attacker.level(), stack);
         ElementalAttributeToolProperty prop = (ElementalAttributeToolProperty) ToolPropertyInit.ELEMENTAL_DAMAGE.asToolProperty();
-        Element element = prop.getElement(appliedProperties.get(prop));
+        Element element = prop.getElement(appliedProperties.getOrId(prop));
 
         float baseDamage = (float) (attacker.getAttribute(AttributeInit.ELEMENTAL_DAMAGE).getValue());
 
@@ -556,6 +602,7 @@ public abstract class SynthesisedToolItem extends Item implements LeftClickOverr
         DamageSource elementalDamageSource = attacker.damageSources().source(damageType, attacker);
 
         float effectiveDamage = baseDamage * DataMapHelper.getElementMultiplier(target, element);
+        target.invulnerableTime = 0;
         if (target instanceof LivingEntity livingEntity) {
             float targetHealth = livingEntity.getHealth();
             if (!target.isInvulnerableTo(elementalDamageSource)) {
@@ -571,36 +618,28 @@ public abstract class SynthesisedToolItem extends Item implements LeftClickOverr
         target.invulnerableTime = 0;
     }
 
-    private static void sweepVFX(Level world, Player user, float swp, ToolProperties properties) {
-//        Vec3 effectCenter = CombatHelper.getAttackTargetPosition(user, user.entityInteractionRange(), 0.5, swp * 0.7F);
-//
-//        int color = properties.getElement().getTextColor().getRGB();
-//        float red = ((float) ((color & 0xFF0000) >> 16)) / 255;
-//        float green = ((float) ((color & 0x00FF00) >> 8)) / 255;
-//        float blue = ((float) (color & 0x0000FF)) / 255;
-//        float red2 = red * red;
-//        float green2 = green * green;
-//        float blue2 = blue * blue;
-//
-//        if (properties.getElement() == Element.EMBER) {
-//            EffectHelper.sweepEffect(user, world, () -> new FlameParticleEffect(new Vector3f(1, 1, 1), new Vector3f(1, 1, 1), 2F, 1, 0, world.random.nextInt(5, 8), 0.9F), 0, effectCenter, -45.0, 45.0, 50, swp * 0.7F, (user.getRandom().nextFloat() - 0.5) * 45.0, false);
-//        } else if (properties.getElement() == Element.GLACE) {
-//            EffectHelper.sweepEffect(user, world, () -> new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, 0, world.random.nextInt(50, 60), 0.99F), 0, effectCenter, -45.0, 45.0, 50, swp * 0.7F, (user.getRandom().nextFloat() - 0.5) * 45.0, false);
-//        } else if (properties.getElement() == Element.SURGE) {
-//            EffectHelper.sweepEffect(user, world, () -> new SparkParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 3, 0, world.random.nextInt(5, 15), 0.99F), 0, effectCenter, -45.0, 45.0, 50, swp * 0.7F, (user.getRandom().nextFloat() - 0.5) * 45.0, false);
-//        } else if (properties.getElement() == Element.PHANTOM) {
-//            EffectHelper.sweepEffect(user, world, () -> new MembraneParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, 0, world.random.nextInt(10, 40), 0.85F), 0, effectCenter, -45.0, 45.0, 50, swp * 0.7F, (user.getRandom().nextFloat() - 0.5) * 45.0, false);
-//        } else if (properties.getElement() == Element.TREMOR) {
-//            EffectHelper.sweepEffect(user, world, () -> new WaveParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, 0, world.random.nextInt(5, 10), 0.9F), 0, effectCenter, -45.0, 45.0, 50, swp * 0.7F, (user.getRandom().nextFloat() - 0.5) * 45.0, false);
-//        } else if (properties.getElement() == Element.MAGIC) {
-//            EffectHelper.sweepEffect(user, world, () -> new RuneParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, 0, world.random.nextInt(5, 20), 0.9F), 0, effectCenter, -45.0, 45.0, 50, swp * 0.7F, (user.getRandom().nextFloat() - 0.5) * 45.0, false);
-//        } else if (properties.getElement() == Element.FLOW) {
-//            EffectHelper.sweepEffect(user, world, () -> new BlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, 0, world.random.nextInt(10, 30), 0.87F), 0, effectCenter, -45.0, 45.0, 50, swp * 0.7F, (user.getRandom().nextFloat() - 0.5) * 45.0, false);
-//        } else if (properties.getElement() == Element.HOLLOW) {
-//            EffectHelper.sweepEffect(user, world, () -> new VoidGlowParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 2F, 1, 0, world.random.nextInt(1, 21), 1.0F), 0, effectCenter, -45.0, 45.0, 50, swp * 0.7F, (user.getRandom().nextFloat() - 0.5) * 45.0, false);
-//        } else {
-//            EffectHelper.sweepEffect(user, world, () -> new SquareParticleEffect(new Vector3f(red, green, blue), new Vector3f(red2, green2, blue2), 1F, 1, 0, 15, 1.0F), 0.01, effectCenter, -45.0, 45.0, 100, swp * 0.7F, (user.getRandom().nextFloat() - 0.5) * 45.0, false);
-//        }
+    private static void sweepVFX(Level level, Player user, float swp, ToolProperties properties) {
+        float radius = swp * 0.7F;
+        Vec3 effectCenter = CombatHelper.getAttackTargetPosition(user, user.entityInteractionRange(), 0.5, radius);
+
+        float startDeg = -45.0F;
+        float endDeg = 45.0F;
+
+        RandomSource random = level.random;
+        if (random.nextFloat() < (user.getMainArm() == HumanoidArm.LEFT ? 0.8F : 0.2F)) {
+            startDeg *= -1;
+            endDeg *= -1;
+        }
+        float slopeDeg = Mth.randomBetween(random, -10F, 10F);
+
+        if (random.nextFloat() < 0.2F) {
+            slopeDeg = Mth.randomBetween(random, 30F, 90F);
+        }
+
+        ElementalAttributeToolProperty elementalDamage = ToolPropertyInit.ELEMENTAL_DAMAGE.get();
+        Element element = elementalDamage.getElement(properties.get(elementalDamage));
+        TrailVFX.arcTrail(level, effectCenter, user.getRotationVector(), startDeg, endDeg, slopeDeg, 0.5F, radius, 20F, 20, element);
+        LineVFX.arcLinedSquare(level, effectCenter, user.getRotationVector(), element, startDeg, endDeg, slopeDeg, radius, 7.0F, 0.07F, 0.02F);
     }
 
     // ENCHANTS

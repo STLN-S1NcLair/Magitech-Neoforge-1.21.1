@@ -19,6 +19,7 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.items.ItemStackHandler;
 import net.stln.magitech.content.block.BlockInit;
 import net.stln.magitech.content.block.ManaVesselBlock;
 import net.stln.magitech.content.gui.ManaVesselMenu;
@@ -38,10 +39,10 @@ public class ManaVesselBlockEntity extends ManaContainerBlockEntity implements G
     public static final int INPUT = 0;
     public static final int OUTPUT = 1;
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-    public NonNullList<ItemStack> items = NonNullList.withSize(2, ItemStack.EMPTY);
+    public ItemStackHandler inventory = new ItemStackHandler(2);
 
     public ManaVesselBlockEntity(BlockPos pos, BlockState blockState) {
-        super(BlockInit.MANA_VESSEL_ENTITY.get(), pos, blockState, 3000000, 3000);
+        super(BlockInit.MANA_VESSEL_ENTITY.get(), pos, blockState, 200000, 3000);
     }
 
     @Override
@@ -57,8 +58,8 @@ public class ManaVesselBlockEntity extends ManaContainerBlockEntity implements G
     }
 
     public void clearContents() {
-        for (int i = 0; i < items.size(); i++) {
-            items.set(i, ItemStack.EMPTY);
+        for (int i = 0; i < inventory.getSlots(); i++) {
+            inventory.setStackInSlot(i, ItemStack.EMPTY);
             setChanged();
         }
     }
@@ -66,8 +67,8 @@ public class ManaVesselBlockEntity extends ManaContainerBlockEntity implements G
     @Override
     public void tick(Level level, BlockPos pos, BlockState state) {
         super.tick(level, pos, state);
-        ItemStack source = items.get(INPUT);
-        ItemStack sink = items.get(OUTPUT);
+        ItemStack source = inventory.getStackInSlot(INPUT);
+        ItemStack sink = inventory.getStackInSlot(OUTPUT);
         IBasicManaHandler sinkHandler = source.getCapability(ManaCapabilities.MANA_CONTAINER_ITEM, null);
         IBasicManaHandler sourceHandler = sink.getCapability(ManaCapabilities.MANA_CONTAINER_ITEM, null);
         IBasicManaHandler handler = this.getManaHandler(null);
@@ -76,9 +77,9 @@ public class ManaVesselBlockEntity extends ManaContainerBlockEntity implements G
     }
 
     public void drops() {
-        SimpleContainer inv = new SimpleContainer(items.size());
-        for (int i = 0; i < items.size(); i++) {
-            inv.setItem(i, items.get(i));
+        SimpleContainer inv = new SimpleContainer(inventory.getSlots());
+        for (int i = 0; i < inventory.getSlots(); i++) {
+            inv.setItem(i, inventory.getStackInSlot(i));
         }
 
         Containers.dropContents(this.level, this.worldPosition, inv);
@@ -87,13 +88,13 @@ public class ManaVesselBlockEntity extends ManaContainerBlockEntity implements G
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
-        ContainerHelper.saveAllItems(tag, this.items, registries);
+        tag.put("inventory", inventory.serializeNBT(registries));
     }
 
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
-        ContainerHelper.loadAllItems(tag, this.items, registries);
+        inventory.deserializeNBT(registries, tag.getCompound("inventory"));
     }
 
     @Nullable
@@ -119,12 +120,18 @@ public class ManaVesselBlockEntity extends ManaContainerBlockEntity implements G
 
     @Override
     protected NonNullList<ItemStack> getItems() {
-        return this.items;
+        NonNullList<ItemStack> stacks = NonNullList.withSize(inventory.getSlots(), ItemStack.EMPTY);
+        for (int i = 0; i < inventory.getSlots(); i++) {
+            stacks.set(i, inventory.getStackInSlot(i));
+        }
+        return stacks;
     }
 
     @Override
     protected void setItems(NonNullList<ItemStack> items) {
-        this.items = items;
+        for (int i = 0; i < inventory.getSlots(); i++) {
+            inventory.setStackInSlot(i, items.get(i));
+        }
     }
 
     public int getContainerSize() {

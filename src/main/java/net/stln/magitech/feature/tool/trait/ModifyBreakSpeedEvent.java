@@ -11,10 +11,14 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.stln.magitech.Magitech;
+import net.stln.magitech.content.entity.status.AttributeInit;
 import net.stln.magitech.content.item.tool.toolitem.SynthesisedToolItem;
 import net.stln.magitech.feature.tool.ToolStats;
+import net.stln.magitech.feature.tool.property.ToolProperties;
 import net.stln.magitech.feature.tool.tool_type.ToolType;
+import net.stln.magitech.feature.tool.tool_type.ToolTypeInit;
 
+import java.util.List;
 import java.util.Optional;
 
 @EventBusSubscriber(modid = Magitech.MOD_ID)
@@ -31,14 +35,14 @@ public class ModifyBreakSpeedEvent {
         Direction direction = SynthesisedToolItem.getBreakDirection(player.blockInteractionRange(), blockPosOptional.orElse(BlockPos.ZERO), player);
         if (stack.getItem() instanceof SynthesisedToolItem partToolItem) {
 
-            ToolStats stats = partToolItem.getAppliedStats(player, level, stack);
-            if (partToolItem.isCorrectTool(stack, state, partToolItem, stats) && blockPosOptional.isPresent()) {
+            ToolProperties properties = partToolItem.getAppliedProperties(player, level, stack);
+            if (partToolItem.isCorrectTool(stack, state, partToolItem, properties) && blockPosOptional.isPresent()) {
                 BlockPos pos = blockPosOptional.get();
-                final float[] speed = {stats.getStats().get(ToolStats.MIN_STAT)};
-                SynthesisedToolItem.getTraitLevel(SynthesisedToolItem.getTraits(stack)).forEach((trait, integer) -> {
-                    speed[0] *= trait.modifyMiningSpeed(player, level, stack, integer, stats, state, pos);
+                final float[] speed = {(float) player.getAttribute(AttributeInit.MINING_SPEED).getValue()};
+                TraitHelper.getTrait(stack).forEach((instance) -> {
+                    speed[0] *= instance.trait().modifyMiningSpeed(player, level, stack, instance.level(), properties, state, pos);
                 });
-                if (partToolItem.getToolType() == ToolType.HAMMER) {
+                if (partToolItem.getToolType() == ToolTypeInit.HAMMER.asToolType()) {
                     speed[0] = getHammerMineSpeed(player, stack, pos, direction, speed[0]);
                 }
                 event.setNewSpeed(speed[0] * defaultSpeed);
@@ -66,10 +70,11 @@ public class ModifyBreakSpeedEvent {
                 z = 1;
             }
         }
+        SynthesisedToolItem item = (SynthesisedToolItem) stack.getItem();
         for (int i = -x; i <= x; i++) {
             for (int j = -y; j <= y; j++) {
                 for (int k = -z; k <= z; k++) {
-                    if (((SynthesisedToolItem) stack.getItem()).isCorrectTool(stack, player.level().getBlockState(pos.offset(i, j, k)), (SynthesisedToolItem) stack.getItem(), ((SynthesisedToolItem) stack.getItem()).getAppliedStats(player, player.level(), stack))) {
+                    if ((item).isCorrectTool(stack, player.level().getBlockState(pos.offset(i, j, k)), item, (item).getAppliedProperties(player, player.level(), stack))) {
                         hard += player.level().getBlockState(pos.offset(i, j, k)).getDestroySpeed(player.level(), pos.offset(i, j, k));
                         count++;
                     }

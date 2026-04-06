@@ -4,7 +4,6 @@ import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.item.ItemStack;
-import net.stln.magitech.feature.tool.ToolStats;
 import net.stln.magitech.helper.MathHelper;
 
 import java.awt.*;
@@ -12,12 +11,12 @@ import java.util.List;
 
 public class SimpleAttributeToolProperty extends AttributeToolProperty<Double> {
 
-    public SimpleAttributeToolProperty(Holder<Attribute> attribute, ToolPropertyCategory group) {
-        super(attribute, group);
+    public SimpleAttributeToolProperty(float order, Holder<Attribute> attribute, ToolPropertyCategory group) {
+        super(order, attribute, group);
     }
 
-    public SimpleAttributeToolProperty(Holder<Attribute> attribute, Color color) {
-        super(attribute, color);
+    public SimpleAttributeToolProperty(float order, Holder<Attribute> attribute, Color color) {
+        super(order, attribute, color);
     }
 
     @Override
@@ -42,7 +41,7 @@ public class SimpleAttributeToolProperty extends AttributeToolProperty<Double> {
 
     @Override
     public float scalarValue(Double a) {
-        return a.floatValue();
+        return a == null ? 0F : a.floatValue();
     }
 
     @Override
@@ -54,6 +53,14 @@ public class SimpleAttributeToolProperty extends AttributeToolProperty<Double> {
     public void addTooltip(ItemStack stack, ToolProperties properties, List<net.minecraft.network.chat.Component> components) {
         components.add(ToolPropertyHelper.getToolTipComponent(this)
                 .append(Component.literal(String.valueOf(MathHelper.round(properties.getScalar(this), 2)))
+                        .withColor(getColor().getRGB())));
+    }
+
+    @Override
+    public void addRationalTooltip(ItemStack stack, ToolProperties properties, List<Component> components) {
+        int value = Math.round(properties.getScalar(this) * 100 - 100);
+        components.add(ToolPropertyHelper.getToolTipComponent(this)
+                .append(Component.literal((value >= 0 ? "+" : "") + value + "%")
                         .withColor(getColor().getRGB())));
     }
 

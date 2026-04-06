@@ -1,9 +1,5 @@
 package net.stln.magitech.content.gui;
 
-import io.wispforest.owo.ui.container.Containers;
-import io.wispforest.owo.ui.container.FlowLayout;
-import io.wispforest.owo.ui.core.OwoUIAdapter;
-import io.wispforest.owo.ui.core.Positioning;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
@@ -24,13 +20,11 @@ import java.util.List;
 public class ToolRepairingScreen extends AbstractContainerScreen<ToolRepairingMenu> {
     private static final ResourceLocation CRAFTING_TABLE_LOCATION = Magitech.id("textures/gui/tool_repairing.png");
     ItemStack stack = null;
-    private OwoUIAdapter<FlowLayout> uiAdapter;
     private final int bgWidth = 176;
-    private final int panelWidth = 160;
 
     public ToolRepairingScreen(ToolRepairingMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
-        this.imageWidth = bgWidth + panelWidth;
+        this.imageWidth = bgWidth;
         this.imageHeight = 199;
         this.titleLabelY = 4;
         this.inventoryLabelY = 106;
@@ -47,23 +41,8 @@ public class ToolRepairingScreen extends AbstractContainerScreen<ToolRepairingMe
     public void containerTick() {
         super.containerTick();
         if (stack != menu.slots.get(0).getItem()) {
-            reloadUI();
             stack = menu.slots.get(0).getItem();
         }
-    }
-
-    @Override
-    protected void init() {
-        super.init();
-        this.uiAdapter = OwoUIAdapter.create(this, Containers::verticalFlow);
-        reloadUI();
-    }
-
-    private void reloadUI() {
-        FlowLayout root = this.uiAdapter.rootComponent;
-        root.clearChildren();
-        ToolStatsPanel.addPanel(root, Positioning.absolute(leftPos + bgWidth, topPos), menu.slots.get(0).getItem(), Component.translatable("recipe.magitech.tool_stats_panel"), getPanelText());
-        this.uiAdapter.inflateAndMount();
     }
 
     /**

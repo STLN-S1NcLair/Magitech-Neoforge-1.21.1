@@ -4,5 +4,5 @@ import org.jetbrains.annotations.NotNull;
 
 @FunctionalInterface
 public interface ToolCategoryLike {
-    @NotNull ToolCategory asToolGroup();
+    @NotNull ToolCategory asToolCategory();
 }

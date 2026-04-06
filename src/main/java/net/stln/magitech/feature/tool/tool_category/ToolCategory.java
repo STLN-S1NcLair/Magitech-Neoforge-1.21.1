@@ -5,23 +5,35 @@ import net.stln.magitech.feature.tool.property.ToolProperties;
 import net.stln.magitech.feature.tool.property.ToolPropertyLike;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
-public record ToolCategory(List<ToolPropertyLike<?>> keys) implements ToolCategoryLike {
+public record ToolCategory(Supplier<List<ToolPropertyLike<?>>> keys) implements ToolCategoryLike {
 
     public ToolProperties cast(ToolProperties properties) {
-        Map<IToolProperty<?>, Object> map = properties.getValues();
-        for (IToolProperty<?> key : map.keySet()) {
-            if (!keys.contains(key)) {
+        Map<IToolProperty<?>, Object> map = new HashMap<>(properties.getValues());
+        for (IToolProperty<?> key : new HashSet<>(map.keySet())) {
+            if (!getProps().contains(key)) {
                 map.remove(key);
             }
         }
         return new ToolProperties(this, map);
     }
 
+    public List<ToolPropertyLike<?>> getKeys() {
+        return keys.get();
+    }
+
+    public List<? extends IToolProperty<?>> getProps() {
+        return getKeys().stream().map(ToolPropertyLike::asToolProperty).toList();
+    }
+
     @Override
-    public @NotNull ToolCategory asToolGroup() {
+    public @NotNull ToolCategory asToolCategory() {
         return this;
     }
 }

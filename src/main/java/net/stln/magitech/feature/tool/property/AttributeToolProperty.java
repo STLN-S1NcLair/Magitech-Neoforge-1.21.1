@@ -3,6 +3,8 @@ package net.stln.magitech.feature.tool.property;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.stln.magitech.helper.MathHelper;
 
@@ -12,13 +14,13 @@ import java.util.List;
 public abstract class AttributeToolProperty<T> extends ToolProperty<T> implements CalculableToolProperty<T> {
     Holder<Attribute> attribute;
 
-    public AttributeToolProperty(Holder<Attribute> attribute, ToolPropertyCategory group) {
-        super(group);
+    public AttributeToolProperty(float order, Holder<Attribute> attribute, ToolPropertyCategory group) {
+        super(order, group);
         this.attribute = attribute;
     }
 
-    public AttributeToolProperty(Holder<Attribute> attribute, Color color) {
-        super(color);
+    public AttributeToolProperty(float order, Holder<Attribute> attribute, Color color) {
+        super(order, color);
         this.attribute = attribute;
     }
 
@@ -29,10 +31,17 @@ public abstract class AttributeToolProperty<T> extends ToolProperty<T> implement
     public double apply(ToolProperties properties) {
         if (!properties.getValues().containsKey(this)) return 0.0;
 
-        Attribute attribute = this.getAttribute(properties).value();
-        double defaultVal = attribute.getDefaultValue();
+        Holder<Attribute> holder = this.getAttribute(properties);
+        Attribute attribute = holder.value();
+        AttributeSupplier build = Player.createAttributes().build();
+        double defaultVal = getDefaultValue(build, holder, attribute);
+
         // デフォルト値を差し引いて適用
-        return this.scalarValue(properties.get(this)) - defaultVal;
+        return this.scalarValue(properties.getOrId(this)) - defaultVal;
+    }
+
+    protected double getDefaultValue(AttributeSupplier build, Holder<Attribute> holder, Attribute attribute) {
+        return build.hasAttribute(holder) ? build.getValue(holder) : attribute.getDefaultValue();
     }
 
     @Override

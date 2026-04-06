@@ -39,7 +39,6 @@ import net.stln.magitech.feature.magic.spell.SpellInit;
 import net.stln.magitech.feature.tool.material.MaterialInit;
 import net.stln.magitech.feature.tool.part.ToolPartInit;
 import net.stln.magitech.feature.tool.property.ToolPropertyInit;
-import net.stln.magitech.feature.tool.register.ToolMaterialRegister;
 import net.stln.magitech.feature.tool.tool_category.ToolCategoryInit;
 import net.stln.magitech.feature.tool.tool_type.ToolTypeInit;
 import net.stln.magitech.feature.tool.upgrade.UpgradeInit;
@@ -82,14 +81,13 @@ public class Magitech {
 
         // Core Feature
         Element.registerElements();
-        MaterialInit.registerMaterials(modEventBus);
-        SpellInit.registerSpells(modEventBus);
-        ToolMaterialRegister.init();
-        ToolPartInit.registerToolParts(modEventBus);
         ToolPropertyInit.registerToolProperties(modEventBus);
         ToolCategoryInit.registerToolCategories(modEventBus);
+        MaterialInit.registerMaterials(modEventBus);
+        SpellInit.registerSpells(modEventBus);
+        ToolPartInit.registerToolParts(modEventBus);
         ToolTypeInit.registerToolTypes(modEventBus);
-        UpgradeInit.registerUpgrades();
+        UpgradeInit.registerUpgrades(modEventBus);
 
         // Generation
         LootFunctionInit.registerFunctions(modEventBus);

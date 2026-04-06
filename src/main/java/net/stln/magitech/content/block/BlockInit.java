@@ -102,6 +102,15 @@ public class BlockInit {
                     ZardiusCrucibleBlockEntity::new, BlockInit.ZARDIUS_CRUCIBLE.get()).build(null));
 
 
+    public static final DeferredBlock<PedestalPylonBlock> PEDESTAL_PYLON = BLOCKS.registerBlock("pedestal_pylon",
+            PedestalPylonBlock::new,
+            BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).sound(SoundType.CHERRY_WOOD));
+    public static final DeferredItem<BlockItem> PEDESTAL_PYLON_ITEM = ItemInit.ITEMS.register("pedestal_pylon", key -> new TooltipTextBlockItem(PEDESTAL_PYLON.get(), new Item.Properties()));
+    public static final Supplier<BlockEntityType<PedestalPylonBlockEntity>> PEDESTAL_PYLON_ENTITY =
+            BLOCK_ENITIES.register("pedestal_pylon", () -> BlockEntityType.Builder.of(
+                    PedestalPylonBlockEntity::new, BlockInit.PEDESTAL_PYLON.get()).build(null));
+
+
     public static final DeferredBlock<AlchemetricPylonBlock> ALCHEMETRIC_PYLON = BLOCKS.registerBlock("alchemetric_pylon",
             AlchemetricPylonBlock::new,
             BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(ALCHECRYSITE_SOUND));

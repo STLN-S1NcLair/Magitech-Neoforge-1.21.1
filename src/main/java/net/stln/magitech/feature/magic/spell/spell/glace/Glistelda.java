@@ -67,8 +67,8 @@ public class Glistelda extends DamageSpell {
         }
         TickScheduler.schedule(duration, () -> {
             for (Entity entity : entities) {
+                hitTarget(level, caster, wand, entity);
                 if (!level.isClientSide) {
-                    hitTarget(level, caster, wand, entity);
                     SoundHelper.broadcastSound(level, entity, Optional.of(SoundInit.GLISTELDA_BREAK));
                 } else {
                     addTargetAttackVFX(level, caster, entity);

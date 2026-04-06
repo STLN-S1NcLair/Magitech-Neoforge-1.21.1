@@ -12,12 +12,12 @@ import java.util.List;
 
 public class ProgressionToolProperty extends InitialIntegerToolProperty {
 
-    public ProgressionToolProperty(ToolPropertyCategory group) {
-        super(group);
+    public ProgressionToolProperty(float order, ToolPropertyCategory group) {
+        super(order, group);
     }
 
-    public ProgressionToolProperty() {
-        super(Color.WHITE);
+    public ProgressionToolProperty(float order) {
+        super(order, Color.WHITE);
     }
 
     @Override
@@ -33,6 +33,11 @@ public class ProgressionToolProperty extends InitialIntegerToolProperty {
         components.add(ToolPropertyHelper.getToolTipComponent(this)
                 .append(Component.literal(String.valueOf(progression)).withColor(0xFFFFFF)).append(" / ").append(Component.literal(String.valueOf(maxProgression))
                         .withColor(tierColor)));
+    }
+
+    @Override
+    public void addRationalTooltip(ItemStack stack, ToolProperties properties, List<Component> components) {
+        addTooltip(stack, properties, components);
     }
 
     @Override

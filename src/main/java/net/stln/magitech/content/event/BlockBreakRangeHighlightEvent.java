@@ -33,7 +33,6 @@ import net.stln.magitech.feature.tool.property.ToolProperties;
 import net.stln.magitech.feature.tool.tool_type.ToolType;
 import net.stln.magitech.feature.tool.tool_type.ToolTypeInit;
 import net.stln.magitech.feature.tool.trait.BlockBreakEvent;
-import net.stln.magitech.feature.tool.trait.Trait;
 import net.stln.magitech.feature.tool.trait.TraitHelper;
 import net.stln.magitech.feature.tool.trait.TraitInstance;
 import net.stln.magitech.helper.ComponentHelper;
@@ -60,21 +59,23 @@ public class BlockBreakRangeHighlightEvent {
 
     @SubscribeEvent
     public static void render(RenderLevelStageEvent event) {
-        Minecraft mc = Minecraft.getInstance();
-        LocalPlayer player = mc.player;
-        Level level = mc.level;
-        if (player == null || level == null) return;
+        if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_ENTITIES) {
+            Minecraft mc = Minecraft.getInstance();
+            LocalPlayer player = mc.player;
+            Level level = mc.level;
+            if (player == null || level == null) return;
 
-        HitResult hr = mc.hitResult;
-        if (!(hr instanceof BlockHitResult)) return;
-        BlockPos target = ((BlockHitResult) hr).getBlockPos();
+            HitResult hr = mc.hitResult;
+            if (!(hr instanceof BlockHitResult)) return;
+            BlockPos target = ((BlockHitResult) hr).getBlockPos();
 
-        if (!shouldShowOverlay(player, target)) return;
+            if (!shouldShowOverlay(player, target)) return;
 
-        Collection<BlockPos> predicted = calculatePredictedPositions(player, level, target);
-        if (predicted.size() < 2) return;
+            Collection<BlockPos> predicted = calculatePredictedPositions(player, level, target);
+            if (predicted.size() < 2) return;
 
-        renderPredicted(event.getPoseStack(), Minecraft.getInstance().renderBuffers().bufferSource(), mc.gameRenderer.getMainCamera(), predicted);
+            renderPredicted(event.getPoseStack(), Minecraft.getInstance().renderBuffers().bufferSource(), mc.gameRenderer.getMainCamera(), predicted);
+        }
     }
 
     private static boolean shouldShowOverlay(LocalPlayer player, BlockPos target) {
@@ -89,8 +90,6 @@ public class BlockBreakRangeHighlightEvent {
             return Collections.emptyList();
         }
         List<TraitInstance> traits = TraitHelper.getTrait(stack);
-
-        Set<BlockPos> blockList = new HashSet<>();
         Direction breakDir;
         try {
             breakDir = SynthesisedToolItem.getBreakDirection(player.blockInteractionRange(), pos, player);
@@ -105,18 +104,8 @@ public class BlockBreakRangeHighlightEvent {
             }
         }
 
-        if (item.getToolType().equals(ToolTypeInit.HAMMER)) {
-            BlockBreakEvent.addHammerMine(player, stack, pos, blockList, breakDir);
-        } else if (item.getToolType().equals(ToolTypeInit.SCYTHE)) {
-            boolean noCollision = level.getBlockState(pos).getCollisionShape(level, pos).isEmpty();
-            boolean instant = level.getBlockState(pos).getBlock().defaultDestroyTime() == 0.0f;
-            if (noCollision || instant) {
-                BlockBreakEvent.addScytheMine(player, stack, pos, blockList, level.getBlockState(pos).getBlock());
-            } else {
-                blockList.add(pos);
-            }
-        }
-        blockList.add(pos);
+        ToolType toolType = item.getToolType();
+        Set<BlockPos> blockList = new HashSet<>(toolType.additionalMine().apply(player, stack, pos, breakDir));
 
         ToolProperties appliedProperties = item.getAppliedProperties(player, level, stack);
 

@@ -3,6 +3,8 @@ package net.stln.magitech.helper;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.Vec3;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
 public class VectorHelper {
 
@@ -24,5 +26,30 @@ public class VectorHelper {
     // 爆発用ランダムvector
     public static Vec3 blastRandom(RandomSource rand) {
         return random(rand).lerp(randScaledRandom(rand), 0.5F);
+    }
+
+    /**
+     * 指定した軸と角度で回転を適用する
+     *
+     * @param vector       回転させる3Dベクトル
+     * @param axis         回転軸（正規化された Vec3f）
+     * @param angleDegrees 回転角度（度単位）
+     * @return 回転後のベクトル
+     */
+    public static Vec3 rotateVector(Vec3 vector, Vec3 axis, double angleDegrees) {
+        // 角度をラジアンに変換
+        double angleRadians = org.joml.Math.toRadians(angleDegrees);
+
+        // クォータニオンを作成（回転軸 + 角度）
+        Quaternionf rotation = new Quaternionf(axis.x, axis.y, axis.z, angleRadians);
+
+        // Vec3 → Vec3f（Minecraftのクォータニオン適用用）
+        Vector3f vec = new Vector3f((float) vector.x, (float) vector.y, (float) vector.z);
+
+        // クォータニオンを適用（回転）
+        vec.rotate(rotation);
+
+        // 回転後の Vec3f → Vec3 に戻す
+        return new Vec3(vec.x, vec.y, vec.z);
     }
 }

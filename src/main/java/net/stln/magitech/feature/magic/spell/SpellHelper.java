@@ -14,6 +14,7 @@ import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.stln.magitech.content.entity.status.AttributeInit;
 import net.stln.magitech.content.recipe.RecipeInit;
 import net.stln.magitech.content.recipe.input.SpellRecipeInput;
 import net.stln.magitech.feature.magic.MagicPerformanceHelper;
@@ -60,18 +61,22 @@ public class SpellHelper {
         return createDamagePropertyTooltip(spell, caster, wand, key, 2);
     }
 
+    public static <T extends Number> MutableComponent createProjectileSpeedPropertyTooltip(ISpell spell, LivingEntity caster, @Nullable ItemStack wand, SpellProperty<T> key) {
+        return createPropertyTooltip(spell, caster, wand, key, AttributeInit.LAUNCH);
+    }
+
     public static <T extends Number> MutableComponent createRangePropertyTooltip(ISpell spell, LivingEntity caster, @Nullable ItemStack wand, SpellProperty<T> key) {
-        return createDamagePropertyTooltip(spell, caster, wand, key, 2).append("m");
+        return createPropertyTooltip(spell, caster, wand, key, AttributeInit.LAUNCH).append("m");
     }
 
     public static <T extends Number> MutableComponent createDurationPropertyTooltip(ISpell spell, LivingEntity caster, @Nullable ItemStack wand, SpellProperty<T> key) {
         if (spell.getConfig().properties().contains(key)) {
-            return createTooltip(MagicPerformanceHelper.getOutgoingMagicDamage(caster, wand, key, spell) / 20, key, 2).append("s");
+            return createTooltip(MagicPerformanceHelper.getEffectiveSpellProperty(caster, wand, spell, key, AttributeInit.LAUNCH) / 20, key, 2).append("s");
         }
         return Component.empty();
     }
 
-    public static MutableComponent createPropertyTooltip(ISpell spell, LivingEntity caster, @Nullable ItemStack wand, SpellProperty<Float> key, Holder<Attribute> coefficientAttribute) {
+    public static <T extends Number> MutableComponent createPropertyTooltip(ISpell spell, LivingEntity caster, @Nullable ItemStack wand, SpellProperty<T> key, Holder<Attribute> coefficientAttribute) {
         if (spell.getConfig().properties().contains(key)) {
             return createTooltip(MagicPerformanceHelper.getEffectiveSpellProperty(caster, wand, spell, key, coefficientAttribute), key, 2);
         }

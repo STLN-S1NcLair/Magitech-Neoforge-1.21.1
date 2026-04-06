@@ -9,12 +9,12 @@ import java.util.List;
 
 public abstract class InitialToolProperty<T> extends ToolProperty<T> implements CalculableToolProperty<T> {
 
-    public InitialToolProperty(ToolPropertyCategory group) {
-        super(group);
+    public InitialToolProperty(float order, ToolPropertyCategory group) {
+        super(order, group);
     }
 
-    public InitialToolProperty(Color color) {
-        super(color);
+    public InitialToolProperty(float order, Color color) {
+        super(order, color);
     }
 
     @Override

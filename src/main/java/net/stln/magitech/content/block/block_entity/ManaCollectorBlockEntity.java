@@ -18,6 +18,8 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.content.block.BlockInit;
@@ -32,7 +34,6 @@ import org.joml.Vector3f;
 
 public class ManaCollectorBlockEntity extends ManaMachineBlockEntity {
 
-    private final int tickCount = 0;
     protected long collectionRate = 1000;
 
     public ManaCollectorBlockEntity(BlockPos pos, BlockState blockState) {
@@ -50,11 +51,9 @@ public class ManaCollectorBlockEntity extends ManaMachineBlockEntity {
         return saveWithoutMetadata(pRegistries);
     }
 
-    public static void clientTicker(Level level, BlockPos pos, BlockState state, ManaCollectorBlockEntity blockEntity) {
-        blockEntity.clientTick(level, pos, state);
-    }
-
+    @Override
     public void clientTick(Level level, BlockPos pos, BlockState state) {
+        super.clientTick(level, pos, state);
         Vec3 center = pos.getCenter();
         RandomSource random = level.getRandom();
         for (int i = 0; i < 2; i++) {
@@ -120,6 +119,7 @@ public class ManaCollectorBlockEntity extends ManaMachineBlockEntity {
     protected void setItems(NonNullList<ItemStack> items) {
     }
 
+    @Override
     public int getContainerSize() {
         return 0;
     }

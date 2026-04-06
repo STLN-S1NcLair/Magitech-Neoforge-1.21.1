@@ -4,12 +4,12 @@ import java.awt.*;
 
 public abstract class InitialIntegerToolProperty extends InitialToolProperty<Integer> {
 
-    public InitialIntegerToolProperty(ToolPropertyCategory group) {
-        super(group);
+    public InitialIntegerToolProperty(float order, ToolPropertyCategory group) {
+        super(order, group);
     }
 
-    public InitialIntegerToolProperty(Color color) {
-        super(color);
+    public InitialIntegerToolProperty(float order, Color color) {
+        super(order, color);
     }
 
     @Override

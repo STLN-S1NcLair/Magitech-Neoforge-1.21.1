@@ -53,11 +53,10 @@ public class Arclume extends BlinkSpell {
 
         SoundHelper.broadcastSound(level, caster, surface, this.getConfig().endSound());
 
-        if (!level.isClientSide) {
-            for (Entity target : entities) {
-                hitTarget(level, caster, wand, target);
-            }
-        } else {
+        for (Entity target : entities) {
+            hitTarget(level, caster, wand, target);
+        }
+        if (level.isClientSide) {
             addLightningVFX(level, caster, lightningTop, surface);
         }
     }
