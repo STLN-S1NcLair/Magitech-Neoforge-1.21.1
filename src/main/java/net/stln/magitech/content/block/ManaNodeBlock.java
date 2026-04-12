@@ -8,8 +8,11 @@ import java.util.Set;
 
 public class ManaNodeBlock extends NodeBlock implements IManaNode {
 
-    public ManaNodeBlock(Properties properties) {
+    protected final int range;
+
+    public ManaNodeBlock(Properties properties, int range) {
         super(properties);
+        this.range = range;
     }
 
     @Override
@@ -19,6 +22,6 @@ public class ManaNodeBlock extends NodeBlock implements IManaNode {
 
     @Override
     public int getRange() {
-        return 3;
+        return range;
     }
 }

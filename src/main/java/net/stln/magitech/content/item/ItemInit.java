@@ -180,6 +180,7 @@ public class ItemInit {
     public static final DeferredItem<Item> AEGIS_WEAVE = ITEMS.registerItem("aegis_weave", TooltipTextItem::new);
     public static final DeferredItem<Item> FLUORITE = ITEMS.registerItem("fluorite", TooltipTextItem::new);
     public static final DeferredItem<Item> MANA_CHARGED_FLUORITE = ITEMS.registerItem("mana_charged_fluorite", ManaChargedFluoriteItem::new);
+    public static final DeferredItem<Item> HIGH_PURITY_FLUORITE = ITEMS.registerItem("high_purity_fluorite", TooltipTextItem::new);
     public static final DeferredItem<Item> TOURMALINE = ITEMS.registerItem("tourmaline", TooltipTextItem::new);
     public static final DeferredItem<Item> EMBER_CRYSTAL = ITEMS.registerItem("ember_crystal", TooltipTextItem::new);
     public static final DeferredItem<Item> GLACE_CRYSTAL = ITEMS.registerItem("glace_crystal", TooltipTextItem::new);

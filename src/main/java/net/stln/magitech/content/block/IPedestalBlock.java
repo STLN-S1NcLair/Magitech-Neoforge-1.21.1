@@ -27,6 +27,9 @@ public interface IPedestalBlock {
                 level.playSound(player, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 0.5f, 2f);
 
             } else if (stack.isEmpty()) { // インベントリにアイテムを入れる
+                if (player.isCrouching()) {
+                    return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+                }
                 player.setItemInHand(InteractionHand.MAIN_HAND, altarStack);
                 altar.clearContents();
                 level.playSound(player, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 0.5f, 1f);

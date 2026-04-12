@@ -1,0 +1,16 @@
+{
+  "type": "magitech:infusion",
+  "base": {
+    "ingredient": {
+      "item": "magitech:mana_charged_fluorite"
+    },
+    "count": 2
+  },
+  "ingredients": [
+  ],
+  "mana": 40000,
+  "result": {
+    "id": "magitech:high_purity_fluorite",
+    "count": 1
+  }
+}

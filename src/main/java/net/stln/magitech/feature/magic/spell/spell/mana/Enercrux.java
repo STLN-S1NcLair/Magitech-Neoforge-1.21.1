@@ -5,6 +5,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.content.sound.SoundInit;
 import net.stln.magitech.core.api.mana.flow.ManaTransferHelper;
@@ -15,10 +16,12 @@ import net.stln.magitech.effect.visual.preset.PointVFX;
 import net.stln.magitech.effect.visual.preset.TrailVFX;
 import net.stln.magitech.effect.visual.spawner.BeamParticles;
 import net.stln.magitech.feature.element.Element;
+import net.stln.magitech.feature.magic.MagicPerformanceHelper;
 import net.stln.magitech.feature.magic.spell.BeamSpell;
 import net.stln.magitech.feature.magic.spell.SpellConfig;
 import net.stln.magitech.feature.magic.spell.SpellShape;
 import net.stln.magitech.feature.magic.spell.property.SpellPropertyInit;
+import net.stln.magitech.helper.CombatHelper;
 import org.jetbrains.annotations.Nullable;
 
 public class Enercrux extends BeamSpell {
@@ -37,7 +40,11 @@ public class Enercrux extends BeamSpell {
 
     @Override
     protected void additionalBeamProcess(Level level, LivingEntity caster, @Nullable ItemStack wand, @Nullable Entity target, Vec3 hitPos) {
-        if (ManaTransferHelper.getManaContainer(level, BlockPos.containing(hitPos), null) instanceof IBasicManaHandler handler) {
+        float radius = MagicPerformanceHelper.getEffectiveBeamRadius(caster, wand, this);
+        float maxRange = MagicPerformanceHelper.getEffectiveMaxRange(caster, wand, this);
+        Vec3 forward = Vec3.directionFromRotation(caster.getRotationVector());
+        BlockHitResult blockHit = CombatHelper.getBeamBlockHit(caster, maxRange, radius, forward);
+        if (ManaTransferHelper.getManaContainer(level, blockHit.getBlockPos(), null) instanceof IBasicManaHandler handler) {
             handler.addMana(10000L);
         }
     }

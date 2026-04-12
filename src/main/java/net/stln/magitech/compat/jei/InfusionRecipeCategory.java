@@ -30,14 +30,14 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
-public class InfuserInfusionRecipeCategory extends AbstractMagitechRecipeCategory<RecipeHolder<InfusionRecipe>> {
+public class InfusionRecipeCategory extends AbstractMagitechRecipeCategory<RecipeHolder<InfusionRecipe>> {
     public static final ResourceLocation TEXTURE = Magitech.id("textures/gui/jei_widgets.png");
 
-    public InfuserInfusionRecipeCategory(IDrawable icon) {
+    public InfusionRecipeCategory(IDrawable icon) {
         super(icon);
     }
 
-    public InfuserInfusionRecipeCategory(IGuiHelper helper) {
+    public InfusionRecipeCategory(IGuiHelper helper) {
         this(helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(BlockInit.INFUSION_ALTAR)));
     }
 
@@ -73,12 +73,12 @@ public class InfuserInfusionRecipeCategory extends AbstractMagitechRecipeCategor
 
     @Override
     public int getWidth() {
-        return 117;
+        return 155;
     }
 
     @Override
     public int getHeight() {
-        return 34;
+        return 80;
     }
 
     @Override

@@ -60,6 +60,18 @@ public class SquareParticles {
         return squareGravityParticle(level, pos, element, -0.2F);
     }
 
+    public static ParticleEffectSpawner squareShrinkParticle(Level level, Vec3 pos, Element element) {
+        ParticleEffectSpawner spawner = squareParticle(level, pos, element);
+        PresetHelper.modify(spawner, builder -> builder.modifyScaleData(genericParticleData -> builder.setScaleData(GenericParticleData.create(genericParticleData.middleValue, genericParticleData.endingValue))));
+        return spawner;
+    }
+
+    public static ParticleEffectSpawner squareShrinkGravityParticle(Level level, Vec3 pos, Element element, float acceleration) {
+        ParticleEffectSpawner spawner = squareGravityParticle(level, pos, element, acceleration);
+        PresetHelper.modify(spawner, builder -> builder.modifyScaleData(genericParticleData -> builder.setScaleData(GenericParticleData.create(genericParticleData.middleValue, genericParticleData.endingValue))));
+        return spawner;
+    }
+
     public static ParticleEffectSpawner squareBlastParticle(Level level, Vec3 pos, Element element) {
         ParticleEffectSpawner spawner = squareParticle(level, pos, element);
         PresetHelper.bigger(spawner, 4.0F);

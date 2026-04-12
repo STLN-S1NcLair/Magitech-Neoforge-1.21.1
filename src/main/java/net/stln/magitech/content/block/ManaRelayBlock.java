@@ -14,6 +14,9 @@ import net.stln.magitech.helper.VoxelShapeHelper;
 import java.util.Set;
 
 public class ManaRelayBlock extends NodeBlock implements IManaRelay {
+
+    protected final int range;
+
     public static final VoxelShape SHAPE_UP = Shapes.or(
             Block.box(4, 3, 4, 12, 11, 12),
             Block.box(2, 0, 2, 14, 3, 14)
@@ -24,8 +27,9 @@ public class ManaRelayBlock extends NodeBlock implements IManaRelay {
     public static final VoxelShape SHAPE_EAST = VoxelShapeHelper.rotateShape(SHAPE_UP, Direction.UP, Direction.EAST);
     public static final VoxelShape SHAPE_WEST = VoxelShapeHelper.rotateShape(SHAPE_UP, Direction.UP, Direction.WEST);
 
-    public ManaRelayBlock(Properties properties) {
+    public ManaRelayBlock(Properties properties, int range) {
         super(properties);
+        this.range = range;
     }
 
     @Override

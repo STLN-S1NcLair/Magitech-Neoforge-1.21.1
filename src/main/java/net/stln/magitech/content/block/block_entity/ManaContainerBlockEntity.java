@@ -28,9 +28,9 @@ import java.util.Set;
 
 public abstract class ManaContainerBlockEntity extends BaseContainerBlockEntity implements IManaContainerBlockEntity, IWiredEndpointManaContainer {
 
-    protected long mana;
     protected long maxMana;
     protected long maxFlow;
+    protected long mana;
     // そのTick内に移動した合計量 (毎Tickリセット)
     protected long currentTickTransfer = 0;
     // 表示用の滑らかな平均流量 (保存不要)
@@ -69,23 +69,15 @@ public abstract class ManaContainerBlockEntity extends BaseContainerBlockEntity 
         }
     };
 
-    public ManaContainerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState, long mana, long maxMana, long maxManaFlow) {
+    public ManaContainerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState, long mana) {
         super(type, pos, blockState);
+        this.maxMana = ((ManaContainerBlock) getBlockState().getBlock()).getMaxMana();
+        this.maxFlow = ((ManaContainerBlock) getBlockState().getBlock()).getMaxFlow();
         this.mana = mana;
-        this.maxMana = maxMana;
-        this.maxFlow = maxManaFlow;
-    }
-
-    public ManaContainerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState, long maxMana, long maxManaFlow) {
-        this(type, pos, blockState, 0, maxMana, maxManaFlow);
-    }
-
-    public ManaContainerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState, long maxMana) {
-        this(type, pos, blockState, 0, maxMana, Long.MAX_VALUE);
     }
 
     public ManaContainerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
-        this(type, pos, blockState, 0, 1000, 1000);
+        this(type, pos, blockState, 0);
     }
 
     // 充填率バイアス、入出力可否はgetFlowRuleで取得する

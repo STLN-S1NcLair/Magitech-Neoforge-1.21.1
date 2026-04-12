@@ -18,6 +18,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.content.block.BlockInit;
@@ -34,8 +35,12 @@ import java.util.List;
 
 public class ManaReceiverBlockEntity extends ManaMachineBlockEntity {
 
+    public ManaReceiverBlockEntity(BlockPos pos, BlockState blockState, long mana) {
+        super(BlockInit.MANA_RECEIVER_ENTITY.get(), pos, blockState, mana);
+    }
+
     public ManaReceiverBlockEntity(BlockPos pos, BlockState blockState) {
-        super(BlockInit.MANA_RECEIVER_ENTITY.get(), pos, blockState, 500000, 5000);
+        this(pos, blockState, 0);
     }
 
     @Nullable

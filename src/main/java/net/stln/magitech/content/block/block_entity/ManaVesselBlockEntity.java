@@ -41,8 +41,12 @@ public class ManaVesselBlockEntity extends ManaContainerBlockEntity implements G
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     public ItemStackHandler inventory = new ItemStackHandler(2);
 
+    public ManaVesselBlockEntity(BlockPos pos, BlockState blockState, long mana) {
+        super(BlockInit.MANA_VESSEL_ENTITY.get(), pos, blockState, mana);
+    }
+
     public ManaVesselBlockEntity(BlockPos pos, BlockState blockState) {
-        super(BlockInit.MANA_VESSEL_ENTITY.get(), pos, blockState, 200000, 3000);
+        this(pos, blockState, 0);
     }
 
     @Override

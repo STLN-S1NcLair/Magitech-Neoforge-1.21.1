@@ -8,6 +8,14 @@ import org.joml.Vector3f;
 
 public class VectorHelper {
 
+    // 一様分布なxz平面上のベクトルを取得
+    public static Vec3 randomXZ(RandomSource rand) {
+        double theta = Mth.randomBetween(rand, 0, Mth.TWO_PI);
+        double x = Math.sin(theta);
+        double z = Math.cos(theta);
+        return new Vec3(x, 0, z);
+    }
+
     // 一様分布な3次元ベクトルを取得
     public static Vec3 random(RandomSource rand) {
         double theta = Mth.randomBetween(rand, 0, Mth.TWO_PI);

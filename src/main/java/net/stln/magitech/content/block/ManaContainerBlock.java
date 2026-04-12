@@ -16,8 +16,13 @@ import javax.annotation.Nullable;
 
 public abstract class ManaContainerBlock extends BaseEntityBlock {
 
-    protected ManaContainerBlock(Properties properties) {
+    protected final long maxMana;
+    protected final long maxFlow;
+
+    protected ManaContainerBlock(Properties properties, long maxMana, long maxFlow) {
         super(properties);
+        this.maxMana = maxMana;
+        this.maxFlow = maxFlow;
     }
 
     @javax.annotation.Nullable
@@ -43,6 +48,14 @@ public abstract class ManaContainerBlock extends BaseEntityBlock {
         if (level != null && !level.isClientSide && level instanceof ServerLevel serverLevel) {
             ManaNetworkManager.get(serverLevel).requestRebuild(serverLevel, worldPosition, removal);
         }
+    }
+
+    public long getMaxMana() {
+        return maxMana;
+    }
+
+    public long getMaxFlow() {
+        return maxFlow;
     }
 
     /* BLOCK ENTITY */

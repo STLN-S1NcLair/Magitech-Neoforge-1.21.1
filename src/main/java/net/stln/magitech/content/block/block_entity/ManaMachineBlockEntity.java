@@ -45,20 +45,12 @@ public abstract class ManaMachineBlockEntity extends ManaContainerBlockEntity im
         }
     };
 
-    public ManaMachineBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState, long mana, long maxMana, long maxManaFlow) {
-        super(type, pos, blockState, mana, maxMana, maxManaFlow);
-    }
-
-    public ManaMachineBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState, long maxMana, long maxManaFlow) {
-        super(type, pos, blockState, 0, maxMana, maxManaFlow);
-    }
-
-    public ManaMachineBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState, long maxMana) {
-        super(type, pos, blockState, 0, maxMana, Long.MAX_VALUE);
+    public ManaMachineBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState, long mana) {
+        super(type, pos, blockState, mana);
     }
 
     public ManaMachineBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
-        super(type, pos, blockState, 0, 1000, 1000);
+        this(type, pos, blockState, 0);
     }
 
     @Override

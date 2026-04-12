@@ -36,8 +36,12 @@ public class ManaCollectorBlockEntity extends ManaMachineBlockEntity {
 
     protected long collectionRate = 1000;
 
+    public ManaCollectorBlockEntity(BlockPos pos, BlockState blockState, long mana) {
+        super(BlockInit.MANA_COLLECTOR_ENTITY.get(), pos, blockState, mana);
+    }
+
     public ManaCollectorBlockEntity(BlockPos pos, BlockState blockState) {
-        super(BlockInit.MANA_COLLECTOR_ENTITY.get(), pos, blockState, 40000, 5000);
+        this(pos, blockState, 0);
     }
 
     @Nullable

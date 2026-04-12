@@ -15,6 +15,11 @@ public class PresetHelper {
         return spawner;
     }
 
+    public static ParticleEffectSpawner modifyBloomTransparency(ParticleEffectSpawner spawner, float value) {
+        spawner.getBloomBuilder().modifyTransparencyData(genericParticleData -> genericParticleData.multiplyValue(value));
+        return spawner;
+    }
+
     public static ParticleEffectSpawner bigger(ParticleEffectSpawner spawner, float value) {
         return modify(spawner, builder -> builder.modifyScaleData(data -> data.multiplyValue(value)));
     }
@@ -27,8 +32,12 @@ public class PresetHelper {
         return bigger(spawner, 0.5F);
     }
 
+    public static ParticleEffectSpawner longer(ParticleEffectSpawner spawner, float value) {
+        return modify(spawner, builder -> builder.modifyLifetime(data -> (int) (data * value)));
+    }
+
     public static ParticleEffectSpawner longer(ParticleEffectSpawner spawner) {
-        return modify(spawner, builder -> builder.modifyLifetime(data -> data * 2));
+        return longer(spawner, 2.0F);
     }
 
     public static ParticleEffectSpawner friction(ParticleEffectSpawner spawner, float friction) {

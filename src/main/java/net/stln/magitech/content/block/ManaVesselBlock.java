@@ -34,10 +34,13 @@ public class ManaVesselBlock extends ManaContainerBlock {
 
     public static final EnumProperty<Direction.Axis> AXIS = BlockStateProperties.AXIS;
     public static final MapCodec<ManaVesselBlock> CODEC = simpleCodec(ManaVesselBlock::new);
-    private static final Component CONTAINER_TITLE = Component.translatable("block.magitech.mana_vessel");
+
+    protected ManaVesselBlock(Properties properties, int maxMana, int maxFlow) {
+        super(properties, maxMana, maxFlow);
+    }
 
     protected ManaVesselBlock(Properties properties) {
-        super(properties);
+        this(properties, 0, 0);
     }
 
     @Override

@@ -19,7 +19,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
@@ -27,21 +27,20 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import net.neoforged.neoforge.items.ItemStackHandler;
-import net.stln.magitech.Magitech;
 import net.stln.magitech.content.block.BlockInit;
 import net.stln.magitech.content.gui.InfusionAltarMenu;
-import net.stln.magitech.content.recipe.AthanorPillarInfusionRecipe;
 import net.stln.magitech.content.recipe.InfusionRecipe;
 import net.stln.magitech.content.recipe.RecipeInit;
 import net.stln.magitech.content.recipe.input.BaseAndIngredientsRecipeInput;
-import net.stln.magitech.content.recipe.input.GroupedMultiStackRecipeInput;
-import net.stln.magitech.content.recipe.input.MultiStackRecipeInput;
 import net.stln.magitech.core.api.mana.flow.ManaFlowRule;
+import net.stln.magitech.core.api.mana.handler.MachineBlockEntityManaHandler;
 import net.stln.magitech.effect.visual.preset.AreaVFX;
+import net.stln.magitech.effect.visual.preset.BehaviorPreset;
 import net.stln.magitech.effect.visual.preset.PointVFX;
 import net.stln.magitech.effect.visual.preset.PresetHelper;
 import net.stln.magitech.effect.visual.spawner.SquareParticles;
 import net.stln.magitech.feature.element.Element;
+import net.stln.magitech.helper.VectorHelper;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -92,8 +91,12 @@ public class InfusionAltarBlockEntity extends ManaMachineBlockEntity implements 
     };
 
 
+    public InfusionAltarBlockEntity(BlockPos pos, BlockState blockState, long mana) {
+        super(BlockInit.INFUSION_ALTAR_ENTITY.get(), pos, blockState, mana);
+    }
+
     public InfusionAltarBlockEntity(BlockPos pos, BlockState blockState) {
-        super(BlockInit.INFUSION_ALTAR_ENTITY.get(), pos, blockState, 50000, 3000);
+        this(pos, blockState, 0);
     }
 
     public void clearContents() {
@@ -127,6 +130,7 @@ public class InfusionAltarBlockEntity extends ManaMachineBlockEntity implements 
         }
         RecipeHolder<InfusionRecipe> recipe = optional.get();
         progress++;
+        level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
         if (level.isClientSide) {
             progressVFX();
         }
@@ -144,13 +148,16 @@ public class InfusionAltarBlockEntity extends ManaMachineBlockEntity implements 
             RecipeManager manager = level.getRecipeManager();
             Optional<RecipeHolder<InfusionRecipe>> recipeHolder = manager.getRecipeFor(RecipeInit.INFUSION_TYPE.get(), input, level);
             if (recipeHolder.isPresent()) {
+                InfusionRecipe recipe = recipeHolder.get().value();
+                if (this.getMana() < recipe.getMana()) return Optional.empty();
+
                 List<BlockPos> pedestalPositions = new ArrayList<>();
                 for (BlockPos pos : getPedestalPositions()) {
                     if (level.getBlockEntity(pos) instanceof IPedestalBlockEntity pedestal) {
                         ItemStackHandler inv = pedestal.getInventory();
                         boolean hasItem = false;
                         for (int i = 0; i < inv.getSlots(); i++) {
-                            if (!inv.getStackInSlot(i).isEmpty()) {
+                            if (!inv.getStackInSlot(i).isEmpty() && stacks.contains(inv.getStackInSlot(i))) {
                                 hasItem = true;
                                 break;
                             }
@@ -239,10 +246,19 @@ public class InfusionAltarBlockEntity extends ManaMachineBlockEntity implements 
                 stack.shrink(ingredient.count());
             }
 
+            for (BlockPos pedPos : pedestalPositions) {
+                BlockState state = level.getBlockState(pedPos);
+                level.sendBlockUpdated(pedPos, state, state, 3);
+            }
+
             // 結果を出力
             ItemStack result = recipe.assemble(input, level.registryAccess());
             Vec3 spawnPos = this.getBlockPos().getCenter().add(0, 1, 0);
             level.addFreshEntity(new ItemEntity(level, spawnPos.x, spawnPos.y, spawnPos.z, result));
+
+            // マナを消費
+            MachineBlockEntityManaHandler handler = getManaHandler(null);
+            handler.consumeMana(recipe.getMana());
         } else {
             craftVFX();
         }
@@ -291,22 +307,62 @@ public class InfusionAltarBlockEntity extends ManaMachineBlockEntity implements 
     }
 
     protected void progressVFX() {
-        float theta = Mth.lerp(((float) tickCounter % 160) / 160, 0, Mth.TWO_PI);
+        float theta = Mth.lerp(((float) tickCounter % 200) / 200, 0, Mth.TWO_PI);
         final int amount = 3;
         theta += Mth.TWO_PI / amount * (tickCounter % amount);
         Vec3 dir = new Vec3(Math.cos(theta), 0, Math.sin(theta));
-        Vec3 base = this.getBlockPos().getBottomCenter().add(0, 1.25, 0);
+        Vec3 dir2 = dir.multiply(-1, 1, 1);
+        Vec3 base = this.getBlockPos().getBottomCenter().add(0, 1.3, 0);
         Vec3 pos = base.add(dir.scale(0.2));
-        PointVFX.spray(level, pos, Element.MANA, (lvl, vec, elm) -> PresetHelper.smaller(PresetHelper.longer(SquareParticles.squareParticle(lvl, vec, elm))), dir.add(0, 1, 0).normalize(), 1, 0.01F, 0F);
+        Vec3 pos2 = base.add(dir2.scale(0.4)).subtract(0, 0.3, 0);
+
+        // 上の浮遊する光
+        PointVFX.spray(level, pos, Element.MANA, (lvl, vec, elm) -> PresetHelper.modifyBloomTransparency(
+                PresetHelper.smaller(PresetHelper.longer(SquareParticles.squareParticle(lvl, vec, elm), 2.0F)), 0.5F),
+                dir, 1, 0.0F, 0F);
+
+        // 下側の祭壇からの光
+        PointVFX.spray(level, pos2, Element.MANA, (lvl, vec, elm) -> PresetHelper.modifyBloomTransparency(
+                PresetHelper.modify(PresetHelper.smaller(PresetHelper.longer(SquareParticles.squareShrinkParticle(lvl, vec, elm), 1.5F)), builder -> builder.addTickActor(BehaviorPreset.toDestination(base))),0.5F),
+                dir2.scale(-1).add(0, 1, 0).normalize(), 1, 0.025F, 0F);
+
+        // アイテム位置にブルーム
         if (tickCounter % 3 == 0) {
-            PointVFX.spray(level, base, Element.MANA, (lvl, vec, elm) -> SquareParticles.squareParticle(lvl, vec, elm), new Vec3(0, 0, 0), 1, 0.05F, 0F);
+            PointVFX.spray(level, base, Element.MANA, SquareParticles::squareParticle, new Vec3(0, 0, 0), 1, 0.05F, 0F);
+        }
+
+        for (BlockPos pedPos : pedestalPositions) {
+            Vec3 pedTop = Vec3.atBottomCenterOf(pedPos).add(0, 1.1, 0);
+            Vec3 to = base.subtract(pedTop).normalize();
+            float distance = (float) base.distanceTo(pedTop);
+
+            // 台座から祭壇に流れる光
+            PointVFX.spray(level, pedTop, Element.MANA, (lvl, vec, elm) -> PresetHelper.modifyBloomTransparency(
+                            PresetHelper.modify(PresetHelper.smaller(PresetHelper.longer(SquareParticles.squareParticle(lvl, vec, elm), distance * 2)),
+                                    builder -> builder.addTickActor(BehaviorPreset.toDestination(base, 0.99F, 1.0F, 1.0F))),0.5F),
+                    to, 1, 0.0F, 0F);
+
+            // 台座から出る光
+            PointVFX.ring(level, pedTop.subtract(0, 0.3, 0), Element.MANA, (lvl, vec, elm) -> PresetHelper.smaller(SquareParticles.squareParticle(lvl, vec, elm)),
+                    new Vec3(0, 1, 0), 1, 0.02F, 0.3F, 0F);
+
+            // 台座上のアイテム位置にブルーム
+            if (tickCounter % 3 == 0) {
+                PointVFX.spray(level, pedTop, Element.MANA, SquareParticles::squareParticle, new Vec3(0, 0, 0), 1, 0.05F, 0F);
+            }
         }
     }
 
     protected void craftVFX() {
         Vec3 pos = this.getBlockPos().getBottomCenter().add(0, 1, 0);
-        AreaVFX.areaLight(level, Element.MANA, pos, 0.3F, 0.2F, 20);
-        PointVFX.spray(level, pos, Element.MANA, (lvl, vec, elm) -> PresetHelper.bigger(SquareParticles.squareGravityParticle(lvl, vec, elm, 0.1F)), new Vec3(0, 1, 0), 10, 0.15F, 0.1F);
+        // 円形の光
+        AreaVFX.areaLight(level, Element.MANA, pos, 0.4F, 0.3F, 20);
+        // 上に飛ぶスプラッシュ
+        PointVFX.spray(level, pos, Element.MANA, (lvl, vec, elm) -> PresetHelper.modifyBloomTransparency(PresetHelper.longer(PresetHelper.bigger(SquareParticles.squareShrinkGravityParticle(lvl, vec, elm, 0.1F))), 0.5F),
+                new Vec3(0, 1, 0), 10, 0.15F, 0.1F);
+        // 祭壇から出る光
+        PointVFX.ring(level, pos, Element.MANA, (lvl, vec, elm) -> PresetHelper.longer(SquareParticles.squareParticle(lvl, vec, elm), 3.0F),
+                new Vec3(0, 1, 0), 10, 0.03F, 0.4F, 0.03F);
     }
 
     public void drops() {

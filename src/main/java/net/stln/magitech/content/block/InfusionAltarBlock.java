@@ -33,8 +33,12 @@ import javax.annotation.Nullable;
 public class InfusionAltarBlock extends ManaContainerBlock implements IPedestalBlock {
     public static final MapCodec<InfusionAltarBlock> CODEC = simpleCodec(InfusionAltarBlock::new);
 
+    protected InfusionAltarBlock(Properties properties, int maxMana, int maxFlow) {
+        super(properties, maxMana, maxFlow);
+    }
+
     protected InfusionAltarBlock(Properties properties) {
-        super(properties);
+        this(properties, 0, 0);
     }
 
     @Override

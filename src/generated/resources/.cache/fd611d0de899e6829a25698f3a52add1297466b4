@@ -1,4 +1,4 @@
-// 1.21.1	2026-03-29T13:32:26.4846665	Item Models: magitech
+// 1.21.1	2026-04-11T17:06:53.9062326	Item Models: magitech
 b6e580466ba37335919256eafa6aebae2f80e029 assets/magitech/models/item/abyssite.json
 274500810da06625023fb41abd2b7f8c7faa471e assets/magitech/models/item/aegis_weave.json
 cad688c75659b5b6fd8b036274e31ffaa27cf17c assets/magitech/models/item/aether_lifter.json
@@ -694,6 +694,7 @@ a02276b1d706e4dae89dfe573d702b1a85265da0 assets/magitech/models/item/healing_pot
 71f603cba1d07721fd7a0d3387f01832bde834ab assets/magitech/models/item/heavy_blade.json
 a93679b0b4dfb6240f616064ec03f52b84b2f057 assets/magitech/models/item/heavy_handle.json
 e680d4f533c78b2d6ec635f50c47cabdf7812c4e assets/magitech/models/item/heavy_sword.json
+44fcdd3b812c18d1216eea02ab95f7efd37126c7 assets/magitech/models/item/high_purity_fluorite.json
 6773d934a3b7233e9c00797c26b53503055014c2 assets/magitech/models/item/hollow_crystal.json
 43b8f201a1a1f82fc0ef255d9cab1a76267d12f9 assets/magitech/models/item/hollow_potion_flask.json
 65e118688ab0510a35c5b2555393770982542b0b assets/magitech/models/item/iron_axe_heavy_handle.json

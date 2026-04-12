@@ -53,11 +53,12 @@ public class ManaReceiverBlock extends ManaContainerBlock implements SimpleWater
 
     public static final MapCodec<ManaReceiverBlock> CODEC = simpleCodec(ManaReceiverBlock::new);
 
-    public ManaReceiverBlock(Properties properties) {
-        super(properties);
-        this.registerDefaultState(
-                this.stateDefinition.any().setValue(FACING, Direction.UP).setValue(WATERLOGGED, Boolean.valueOf(false))
-        );
+    public ManaReceiverBlock(Properties properties, int maxMana, int maxFlow) {
+        super(properties, maxMana, maxFlow);
+    }
+
+    protected ManaReceiverBlock(Properties properties) {
+        this(properties, 0, 0);
     }
 
     @Override

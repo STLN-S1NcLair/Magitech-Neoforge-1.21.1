@@ -11,6 +11,11 @@ public class ManaContainerHelper {
         components.add(Component.translatable("gui.magitech.max_flow").append(": ").withColor(titleColor).append(Component.literal(EnergyFormatter.formatValue(maxFlow) + "/t").withColor(color)));
     }
 
+    public static void addManaContainerBlockItemInfo(long maxMana, long maxFlow, List<Component> components, int color, int titleColor) {
+        components.add(Component.translatable("gui.magitech.mana_capacity").append(": ").withColor(titleColor).append(Component.literal(EnergyFormatter.formatValue(maxMana)).withColor(color)));
+        components.add(Component.translatable("gui.magitech.max_flow").append(": ").withColor(titleColor).append(Component.literal(EnergyFormatter.formatValue(maxFlow) + "/t").withColor(color)));
+    }
+
     public static void addManaContainerBlockInfo(long mana, long maxMana, long flow, long maxFlow, long production, long consumption, List<Component> components, int color, int titleColor, boolean hasProduction, boolean hasConsumption) {
         components.add(Component.translatable("gui.magitech.mana_capacity").withColor(titleColor));
         components.add(EnergyFormatter.formatEnergy(mana, maxMana).withColor(color));

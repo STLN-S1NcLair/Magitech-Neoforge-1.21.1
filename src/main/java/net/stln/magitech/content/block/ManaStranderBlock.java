@@ -53,11 +53,12 @@ public class ManaStranderBlock extends ManaContainerBlock implements SimpleWater
 
     public static final MapCodec<ManaStranderBlock> CODEC = simpleCodec(ManaStranderBlock::new);
 
-    public ManaStranderBlock(Properties properties) {
-        super(properties);
-        this.registerDefaultState(
-                this.stateDefinition.any().setValue(FACING, Direction.UP).setValue(WATERLOGGED, Boolean.valueOf(false))
-        );
+    public ManaStranderBlock(Properties properties, int maxMana, int maxFlow) {
+        super(properties, maxMana, maxFlow);
+    }
+
+    protected ManaStranderBlock(Properties properties) {
+        this(properties, 0, 0);
     }
 
     @Override

@@ -57,6 +57,7 @@ public class CreativeTabInit {
                 output.accept(ItemInit.AEGIS_WEAVE.get());
                 output.accept(ItemInit.FLUORITE.get());
                 output.accept(ItemInit.MANA_CHARGED_FLUORITE.get());
+                output.accept(ItemInit.HIGH_PURITY_FLUORITE.get());
                 output.accept(ItemInit.TOURMALINE.get());
                 output.accept(ItemInit.EMBER_CRYSTAL.get());
                 output.accept(ItemInit.GLACE_CRYSTAL.get());

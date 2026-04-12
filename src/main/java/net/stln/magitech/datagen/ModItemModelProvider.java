@@ -69,6 +69,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ItemInit.AEGIS_WEAVE.get());
         basicItem(ItemInit.FLUORITE.get());
         basicItem(ItemInit.MANA_CHARGED_FLUORITE.get());
+        basicItem(ItemInit.HIGH_PURITY_FLUORITE.get());
         basicItem(ItemInit.TOURMALINE.get());
         basicItem(ItemInit.EMBER_CRYSTAL.get());
         basicItem(ItemInit.GLACE_CRYSTAL.get());

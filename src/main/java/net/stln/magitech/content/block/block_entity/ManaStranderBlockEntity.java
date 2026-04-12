@@ -20,6 +20,7 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -38,8 +39,12 @@ public class ManaStranderBlockEntity extends ManaMachineBlockEntity {
     private final int tickCount = 0;
     private static final long MANA_PARCEL_ENERGY = 50000;
 
+    public ManaStranderBlockEntity(BlockPos pos, BlockState blockState, long mana) {
+        super(BlockInit.MANA_STRANDER_ENTITY.get(), pos, blockState, mana);
+    }
+
     public ManaStranderBlockEntity(BlockPos pos, BlockState blockState) {
-        super(BlockInit.MANA_STRANDER_ENTITY.get(), pos, blockState, 100000, 5000);
+        this(pos, blockState, 0);
     }
 
     @Nullable

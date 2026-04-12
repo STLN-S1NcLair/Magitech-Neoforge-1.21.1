@@ -1,0 +1,28 @@
+{
+  "type": "magitech:infusion",
+  "base": {
+    "ingredient": {
+      "item": "magitech:vesperite"
+    },
+    "count": 8
+  },
+  "ingredients": [
+    {
+      "ingredient": {
+        "tag": "c:gems/fluorite"
+      },
+      "count": 8
+    },
+    {
+      "ingredient": {
+        "item": "minecraft:gold_ingot"
+      },
+      "count": 1
+    }
+  ],
+  "mana": 5000,
+  "result": {
+    "id": "magitech:alchecrysite",
+    "count": 8
+  }
+}

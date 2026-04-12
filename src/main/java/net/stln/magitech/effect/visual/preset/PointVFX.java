@@ -60,10 +60,25 @@ public class PointVFX {
     }
 
     public static void ring(Level level, Vec3 pos, Element element, Function3<Level, Vec3, Element, ParticleEffectSpawner> supplier, Vec3 direction, int amount, float speed, float radius, float randomness) {
+        Vec3 normalizedDirection = direction.normalize();
+
+        // directionに垂直な2つの軸を計算
+        Vec3 perpendicular1;
+        if (Math.abs(normalizedDirection.x) < 0.9) {
+            perpendicular1 = new Vec3(0, -normalizedDirection.z, normalizedDirection.y).normalize();
+        } else {
+            perpendicular1 = new Vec3(-normalizedDirection.y, normalizedDirection.x, 0).normalize();
+        }
+        Vec3 perpendicular2 = normalizedDirection.cross(perpendicular1).normalize();
+
         for (int i = 0; i < amount; i++) {
-            Vec3 random = VectorHelper.randScaledRandom(level.random);
-            Vec3 motion = random.scale(randomness).add(direction.scale(speed));
-            ParticleEffectSpawner spawner = supplier.apply(level, pos.add(random.scale(radius)), element);
+            Vec3 randomXZ = VectorHelper.randomXZ(level.random);
+
+            // XZ平面のランダムベクトルをdirectionに垂直な平面に変換
+            Vec3 rotatedRandom = perpendicular1.scale(randomXZ.x).add(perpendicular2.scale(randomXZ.z));
+
+            Vec3 motion = VectorHelper.randScaledRandom(level.random).scale(randomness).add(direction.scale(speed));
+            ParticleEffectSpawner spawner = supplier.apply(level, pos.add(rotatedRandom.scale(radius)), element);
             PresetHelper.modify(spawner, builder -> builder.setMotion(motion));
             spawner.spawnParticles();
         }

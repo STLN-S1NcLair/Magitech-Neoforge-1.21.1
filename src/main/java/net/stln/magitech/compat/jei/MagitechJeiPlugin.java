@@ -36,7 +36,7 @@ public class MagitechJeiPlugin implements IModPlugin {
                 new SpellConversionRecipeCategory(guiHelper),
                 new ZardiusCrucibleRecipeCategory(guiHelper),
                 new AthanorPillarInfusionRecipeCategory(guiHelper),
-                new InfuserInfusionRecipeCategory(guiHelper)
+                new InfusionRecipeCategory(guiHelper)
         );
     }
 

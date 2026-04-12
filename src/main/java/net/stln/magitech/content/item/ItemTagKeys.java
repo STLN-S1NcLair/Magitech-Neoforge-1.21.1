@@ -9,7 +9,7 @@ import net.stln.magitech.Magitech;
 public class ItemTagKeys {
 
     public static final TagKey<Item> THREAD_BOUND = TagKey.create(Registries.ITEM, Magitech.id("threadbound"));
-    public static final TagKey<Item> PART_TOOL = TagKey.create(Registries.ITEM, Magitech.id("part_tool"));
+    public static final TagKey<Item> SYNTHESISED_TOOL = TagKey.create(Registries.ITEM, Magitech.id("synthesised_tool"));
     public static final TagKey<Item> REPAIR_COMPONENT = TagKey.create(Registries.ITEM, Magitech.id("repair_component"));
     public static final TagKey<Item> UPGRADE_MATERIAL_0 = TagKey.create(Registries.ITEM, Magitech.id("upgrade_material_0"));
     public static final TagKey<Item> UPGRADE_MATERIAL_5 = TagKey.create(Registries.ITEM, Magitech.id("upgrade_material_5"));
