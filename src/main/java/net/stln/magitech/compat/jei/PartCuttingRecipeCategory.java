@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PartCuttingRecipeCategory extends AbstractMagitechRecipeCategory<RecipeHolder<PartCuttingRecipe>> {
-    public static final ResourceLocation TEXTURE = Magitech.id("textures/gui/jei_widgets.png");
+    public static final ResourceLocation TEXTURE = Magitech.id("textures/gui/jei/part_cutting_recipe.png");
 
     public PartCuttingRecipeCategory(IDrawable icon) {
         super(icon);
@@ -68,19 +68,17 @@ public class PartCuttingRecipeCategory extends AbstractMagitechRecipeCategory<Re
     @Override
     public void draw(@NotNull RecipeHolder<PartCuttingRecipe> recipe, @NotNull IRecipeSlotsView recipeSlotsView, @NotNull GuiGraphics guiGraphics, double mouseX, double mouseY) {
         super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
-        guiGraphics.blit(TEXTURE, 18, 4, 0, 0, 18, 18);
-        guiGraphics.blit(TEXTURE, 40, 8, 0, 18, 21, 10);
-        guiGraphics.blit(TEXTURE, 65, 4, 36, 0, 18, 18);
+        guiGraphics.blit(TEXTURE, 0, 0, 0, 0, 112, 50);
     }
 
     @Override
     public int getWidth() {
-        return 101;
+        return 112;
     }
 
     @Override
     public int getHeight() {
-        return 26;
+        return 50;
     }
 
     @Override
@@ -94,11 +92,11 @@ public class PartCuttingRecipeCategory extends AbstractMagitechRecipeCategory<Re
                 inputs.add(itemStack.copyWithCount(recipe.value().inputCount()));
             }
         }
-        builder.addSlot(RecipeIngredientRole.INPUT, 19, 5).addItemStacks(inputs);
+        builder.addSlot(RecipeIngredientRole.INPUT, 16, 16).addItemStacks(inputs);
 
         ItemStack resultStack = recipe.value().getResultItem(access).copy();
         resultStack.set(ComponentInit.MATERIAL_COMPONENT, new MaterialComponent(MaterialInit.SAMPLE));
 
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 66, 5).addItemStack(resultStack);
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 80, 16).addItemStack(resultStack);
     }
 }

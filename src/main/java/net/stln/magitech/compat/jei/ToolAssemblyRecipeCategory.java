@@ -38,7 +38,8 @@ import java.util.List;
 import java.util.Random;
 
 public class ToolAssemblyRecipeCategory extends AbstractMagitechRecipeCategory<RecipeHolder<ToolAssemblyRecipe>> {
-    public static final ResourceLocation TEXTURE = Magitech.id("textures/gui/jei_widgets.png");
+    public static final ResourceLocation TEXTURE = Magitech.id("textures/gui/jei/tool_assembly_recipe.png");
+    public static final ResourceLocation WIDGETS = Magitech.id("textures/gui/jei/jei_widgets.png");
 
     public ToolAssemblyRecipeCategory(IDrawable icon) {
         super(icon);
@@ -73,50 +74,28 @@ public class ToolAssemblyRecipeCategory extends AbstractMagitechRecipeCategory<R
         super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
         int partCount = recipe.value().getIngredients().size();
 
+        guiGraphics.blit(TEXTURE, 0, 0, 0, 0, 128, 122);
+
         for (int i = 0; i < partCount; i++) {
-            int x, y;
+            int x = 55 + i * 17, y = 15;
+            x -= (partCount - 1) * 17 / 2; // 中央寄せのためにX座標を調整
 
-            if (partCount <= 3) {
-                // 横並び：中央寄せ、下にずらす（Y + 9）
-                int totalWidth = partCount * 18;
-                int startX = 19 + (54 - totalWidth) / 2; // 54 = 3スロット分の幅
-                x = startX + i * 18;
-                y = 4 + 9; // 通常より9下げる
-            } else if (partCount == 4) {
-                // 2x2グリッド：中央寄せ
-                int row = i / 2;
-                int col = i % 2;
-                x = 19 + col * 18 + 9; // 横方向中央に調整（+9）
-                y = 4 + row * 18;
-            } else {
-                // デフォルト：3列グリッド
-                int row = i / 3;
-                int col = i % 3;
-                x = 19 + col * 18;
-                y = 4 + row * 18;
-            }
-
-            guiGraphics.blit(TEXTURE, x, y, 0, 0, 18, 18);
+            guiGraphics.blit(WIDGETS, x, y, 0, 0, 18, 20);
         }
-
-        guiGraphics.blit(TEXTURE, 76, 17, 0, 18, 21, 10);
-        guiGraphics.blit(TEXTURE, 101, 13, 36, 0, 18, 18);
     }
 
     @Override
     public int getWidth() {
-        return 137;
+        return 128;
     }
 
     @Override
     public int getHeight() {
-        return 44;
+        return 122;
     }
 
     @Override
     protected void setRecipe(@NotNull IRecipeLayoutBuilder builder, @NotNull RecipeHolder<ToolAssemblyRecipe> recipe, @NotNull IFocusGroup focuses, @NotNull RecipeManager recipeManager, @NotNull RegistryAccess access) {
-        List<ToolMaterial> materials = ClientHelper.getAllCraftableMaterials();
-
         List<Ingredient> ingredients = recipe.value().getIngredients();
 
         List<ItemStack> results = new ArrayList<>();
@@ -150,33 +129,14 @@ public class ToolAssemblyRecipeCategory extends AbstractMagitechRecipeCategory<R
         int partSize = recipe.value().getIngredients().size();
 
         for (int i = 0; i < partSize; i++) {
-            int x, y;
-
-            if (partSize <= 3) {
-                // 横並び：中央寄せ、下にずらす（Y + 9）
-                int totalWidth = partSize * 18;
-                int startX = 19 + (54 - totalWidth) / 2; // 54 = 3スロット分の幅
-                x = startX + i * 18;
-                y = 4 + 9; // 通常より9下げる
-            } else if (partSize == 4) {
-                // 2x2グリッド：中央寄せ
-                int row = i / 2;
-                int col = i % 2;
-                x = 19 + col * 18 + 9; // 横方向中央に調整（+9）
-                y = 4 + row * 18;
-            } else {
-                // デフォルト：3列グリッド
-                int row = i / 3;
-                int col = i % 3;
-                x = 19 + col * 18;
-                y = 4 + row * 18;
-            }
+            int x = 55 + i * 17, y = 15;
+            x -= (partSize - 1) * 17 / 2; // 中央寄せのためにX座標を調整
 
             builder.addSlot(RecipeIngredientRole.INPUT, x + 1, y + 1).addItemStack(partInputStacks.get(i));
         }
 
         // 出力スロット（すべての組み合わせ）
         Collections.shuffle(results);
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 102, 14).addItemStacks(results);
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 56, 88).addItemStacks(results);
     }
 }

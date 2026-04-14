@@ -27,7 +27,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class SpellConversionRecipeCategory extends AbstractMagitechRecipeCategory<RecipeHolder<SpellConversionRecipe>> {
-    public static final ResourceLocation TEXTURE = Magitech.id("textures/gui/jei_widgets.png");
+    public static final ResourceLocation TEXTURE = Magitech.id("textures/gui/jei/spell_conversion_recipe.png");
 
     public SpellConversionRecipeCategory(IDrawable icon) {
         super(icon);
@@ -60,31 +60,28 @@ public class SpellConversionRecipeCategory extends AbstractMagitechRecipeCategor
     @Override
     public void draw(@NotNull RecipeHolder<SpellConversionRecipe> recipe, @NotNull IRecipeSlotsView recipeSlotsView, @NotNull GuiGraphics guiGraphics, double mouseX, double mouseY) {
         super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
-        guiGraphics.blit(TEXTURE, 18, 12, 0, 0, 18, 18);
-        guiGraphics.blit(recipe.value().spell().getIconId(), 38, 5, 0, 0, 32, 32, 32, 32);
-        guiGraphics.blit(TEXTURE, 68, 24, 18, 0, 18, 18);
-        guiGraphics.blit(TEXTURE, 74, 16, 0, 18, 21, 10);
-        guiGraphics.blit(TEXTURE, 99, 12, 36, 0, 18, 18);
+        guiGraphics.blit(TEXTURE, 0, 0, 0, 0, 144, 82);
+        guiGraphics.blit(recipe.value().spell().getIconId(), 56, 40, 0, 0, 32, 32, 32, 32);
     }
 
     @Override
     public int getWidth() {
-        return 135;
+        return 144;
     }
 
     @Override
     public int getHeight() {
-        return 42;
+        return 82;
     }
 
     @Override
     protected void setRecipe(@NotNull IRecipeLayoutBuilder builder, @NotNull RecipeHolder<SpellConversionRecipe> recipe, @NotNull IFocusGroup focuses, @NotNull RecipeManager recipeManager, @NotNull RegistryAccess access) {
-        builder.addSlot(RecipeIngredientRole.INPUT, 19, 13).addIngredients(recipe.value().ingredient());
+        builder.addSlot(RecipeIngredientRole.INPUT, 16, 16).addIngredients(recipe.value().ingredient());
 
         ItemStack threadPage = new ItemStack(ItemInit.THREAD_PAGE.get());
         ComponentHelper.setThreadPage(threadPage, recipe.value().spell());
-        builder.addSlot(RecipeIngredientRole.INPUT, 69, 25).addItemStack(threadPage);
+        builder.addSlot(RecipeIngredientRole.INPUT, 32, 48).addItemStack(threadPage);
 
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 100, 13).addItemStack(recipe.value().getResultItem(access));
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 112, 16).addItemStack(recipe.value().getResultItem(access));
     }
 }
