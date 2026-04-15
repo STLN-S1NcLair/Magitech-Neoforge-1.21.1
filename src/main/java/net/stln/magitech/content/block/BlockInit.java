@@ -133,13 +133,13 @@ public class BlockInit {
 
     public static final DeferredBlock<ManaNodeBlock> MANA_NODE = BLOCKS.registerBlock("mana_node",
             properties -> new ManaNodeBlock(properties, 3),
-            BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(CRYSTAL_SOUND).lightLevel((blockState) -> 10));
+            BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(CRYSTAL_SOUND).lightLevel((blockState) -> 5));
     public static final DeferredItem<BlockItem> MANA_NODE_ITEM = ItemInit.ITEMS.register("mana_node", key -> new TooltipTextManaWirelessConnectorBlockItem(MANA_NODE.get(), new Item.Properties()));
 
 
     public static final DeferredBlock<ManaRelayBlock> MANA_RELAY = BLOCKS.registerBlock("mana_relay",
             properties -> new ManaRelayBlock(properties, 4),
-            BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(CRYSTAL_SOUND).lightLevel((blockState) -> 10));
+            BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(CRYSTAL_SOUND).lightLevel((blockState) -> 5));
     public static final DeferredItem<BlockItem> MANA_RELAY_ITEM = ItemInit.ITEMS.register("mana_relay", key -> new TooltipTextManaWirelessConnectorBlockItem(MANA_RELAY.get(), new Item.Properties()));
 
 

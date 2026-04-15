@@ -1,0 +1,22 @@
+{
+  "type": "magitech:infusion",
+  "base": {
+    "ingredient": {
+      "tag": "magitech:aspect_crystal_base"
+    },
+    "count": 2
+  },
+  "ingredients": [
+    {
+      "ingredient": {
+        "item": "minecraft:lava_bucket"
+      },
+      "count": 1
+    }
+  ],
+  "mana": 80000,
+  "result": {
+    "id": "magitech:ember_crystal",
+    "count": 2
+  }
+}

@@ -1,5 +1,6 @@
 package net.stln.magitech.content.block;
 
+import com.mojang.datafixers.util.Function3;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
@@ -26,7 +27,12 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.stln.magitech.content.block.block_entity.InfusionAltarBlockEntity;
 import net.stln.magitech.effect.visual.particle.particle_option.SquareParticleEffect;
+import net.stln.magitech.effect.visual.preset.PointVFX;
+import net.stln.magitech.effect.visual.preset.PresetHelper;
+import net.stln.magitech.effect.visual.spawner.SquareParticles;
+import net.stln.magitech.feature.element.Element;
 import org.joml.Vector3f;
+import team.lodestar.lodestone.systems.particle.ParticleEffectSpawner;
 
 import javax.annotation.Nullable;
 
@@ -94,17 +100,11 @@ public class InfusionAltarBlock extends ManaContainerBlock implements IPedestalB
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
         super.animateTick(state, level, pos, random);
-        Vec3 center = pos.getCenter();
-        double x = center.x + Mth.nextDouble(random, -0.4, 0.4);
-        double y = center.y + Mth.nextDouble(random, -0.4, 0.4);
-        double z = center.z + Mth.nextDouble(random, -0.4, 0.4);
-        level.addParticle(new SquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 1.0F, 3, 0, 15, 1.0F), x, y, z, 0, 0, 0);
-        for (int i = 0; i < 2; i++) {
-            double x2 = center.x + Mth.nextDouble(random, -0.3, 0.3);
-            double y2 = center.y + Mth.nextDouble(random, -0.3, 0.3);
-            double z2 = center.z + Mth.nextDouble(random, -0.3, 0.3);
-            level.addParticle(new SquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 0.5F, 1, Mth.nextFloat(random, -0.1F, 0.1F), 15, 1.0F), x2, y2, z2, 0, 0.03, 0);
-        }
+        Vec3 dir = new Vec3(0, 1, 0);
+        Function3<Level, Vec3, Element, ParticleEffectSpawner> topSup = (lvl, vec, elm) -> PresetHelper.longer(SquareParticles.squareParticle(lvl, vec, elm));
+        Function3<Level, Vec3, Element, ParticleEffectSpawner> supplier = (lvl, vec, elm) -> PresetHelper.longer(SquareParticles.squareShrinkParticle(lvl, vec, elm));
+        PointVFX.ring(level, pos.getCenter().add(dir.scale(0.5)), Element.MANA, topSup, dir, 1, 0.03F, 0.0F, 0.0F);
+        PointVFX.ring(level, pos.getCenter().add(dir.scale(0.5)), Element.MANA, supplier, dir.reverse(), 1, 0.05F, 0.05F, 0.0F);
     }
 
     @Override

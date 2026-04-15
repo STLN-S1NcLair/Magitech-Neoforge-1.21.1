@@ -2,26 +2,20 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "N": {
-      "item": "minecraft:gold_nugget"
-    },
     "V": {
       "item": "magitech:vesperite"
     },
     "M": {
       "item": "magitech:mystwood_planks"
-    },
-    "F": {
-      "item": "magitech:fluorite_block"
     }
   },
   "pattern": [
     "VMV",
-    "NFN",
-    "VMV"
+    " M ",
+    "MVM"
   ],
   "result": {
     "count": 1,
-    "id": "magitech:mana_vessel"
+    "id": "magitech:pedestal_pylon"
   }
 }

@@ -80,7 +80,7 @@ public class SpellConversionRecipeCategory extends AbstractMagitechRecipeCategor
 
         ItemStack threadPage = new ItemStack(ItemInit.THREAD_PAGE.get());
         ComponentHelper.setThreadPage(threadPage, recipe.value().spell());
-        builder.addSlot(RecipeIngredientRole.INPUT, 32, 48).addItemStack(threadPage);
+        builder.addSlot(RecipeIngredientRole.CATALYST, 32, 48).addItemStack(threadPage);
 
         builder.addSlot(RecipeIngredientRole.OUTPUT, 112, 16).addItemStack(recipe.value().getResultItem(access));
     }

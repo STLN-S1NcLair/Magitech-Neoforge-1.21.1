@@ -2,20 +2,23 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "I": {
-      "item": "minecraft:iron_nugget"
+    "N": {
+      "item": "minecraft:gold_nugget"
     },
-    "A": {
-      "item": "magitech:polished_alchecrysite"
+    "V": {
+      "item": "magitech:vesperite"
+    },
+    "M": {
+      "item": "magitech:mystwood_planks"
     },
     "F": {
       "tag": "c:gems/fluorite"
     }
   },
   "pattern": [
-    " I ",
-    "IFI",
-    " A "
+    " V ",
+    "MFM",
+    "NVN"
   ],
   "result": {
     "count": 1,

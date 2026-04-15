@@ -113,22 +113,6 @@ public class ManaStranderBlock extends ManaContainerBlock implements SimpleWater
                 : super.updateShape(state, direction, neighborState, level, pos, neighborPos);
     }
 
-    @Override
-    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
-        super.animateTick(state, level, pos, random);
-        Vec3 center = pos.getCenter();
-        double x = center.x + Mth.nextDouble(random, -0.6, 0.6);
-        double y = center.y + Mth.nextDouble(random, -0.6, 0.6);
-        double z = center.z + Mth.nextDouble(random, -0.6, 0.6);
-        level.addParticle(new SquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 1.0F, 3, 0, 15, 1.0F), x, y, z, 0, 0, 0);
-        for (int i = 0; i < 2; i++) {
-            double x2 = center.x + Mth.nextDouble(random, -0.5, 0.5);
-            double y2 = center.y + Mth.nextDouble(random, -0.5, 0.5);
-            double z2 = center.z + Mth.nextDouble(random, -0.5, 0.5);
-            level.addParticle(new SquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 0.5F, 1, Mth.nextFloat(random, -0.1F, 0.1F), 15, 1.0F), x2, y2, z2, 0, 0.03, 0);
-        }
-    }
-
     // ★ EntityBlockの実装: BlockEntityを生成する
     @Nullable
     @Override

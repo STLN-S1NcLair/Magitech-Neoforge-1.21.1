@@ -9,13 +9,13 @@
   "ingredients": [
     {
       "ingredient": {
-        "tag": "minecraft:coals"
+        "item": "minecraft:ender_pearl"
       },
       "count": 2
     }
   ],
-  "mana": 50000,
+  "mana": 40000,
   "result": {
-    "id": "magitech:ember_crystal"
+    "id": "magitech:hollow_crystal"
   }
 }

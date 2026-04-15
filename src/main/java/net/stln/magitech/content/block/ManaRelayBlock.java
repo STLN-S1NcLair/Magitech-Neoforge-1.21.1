@@ -1,15 +1,25 @@
 package net.stln.magitech.content.block;
 
+import com.mojang.datafixers.util.Function3;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Vec3i;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.stln.magitech.core.api.mana.flow.network.connectable.IManaRelay;
+import net.stln.magitech.effect.visual.preset.PointVFX;
+import net.stln.magitech.effect.visual.preset.PresetHelper;
+import net.stln.magitech.effect.visual.spawner.SquareParticles;
+import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.helper.VoxelShapeHelper;
+import team.lodestar.lodestone.systems.particle.ParticleEffectSpawner;
 
 import java.util.Set;
 
@@ -52,5 +62,14 @@ public class ManaRelayBlock extends NodeBlock implements IManaRelay {
     @Override
     public int getRange() {
         return 4;
+    }
+
+    @Override
+    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+        super.animateTick(state, level, pos, random);
+        Vec3i normal = state.getValue(FACING).getNormal();
+        Vec3 dir = new Vec3(normal.getX(), normal.getY(), normal.getZ());
+        Function3<Level, Vec3, Element, ParticleEffectSpawner> supplier = (lvl, vec, elm) -> PresetHelper.longer(SquareParticles.squareShrinkParticle(lvl, vec, elm));
+        PointVFX.spray(level, pos.getCenter(), Element.MANA, supplier, dir, 1, 0.03F, 0.02F);
     }
 }

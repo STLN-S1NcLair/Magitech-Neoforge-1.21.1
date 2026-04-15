@@ -1,0 +1,21 @@
+{
+  "type": "magitech:infusion",
+  "base": {
+    "ingredient": {
+      "tag": "magitech:aspect_crystal_base"
+    },
+    "count": 1
+  },
+  "ingredients": [
+    {
+      "ingredient": {
+        "tag": "minecraft:coals"
+      },
+      "count": 8
+    }
+  ],
+  "mana": 40000,
+  "result": {
+    "id": "magitech:ember_crystal"
+  }
+}

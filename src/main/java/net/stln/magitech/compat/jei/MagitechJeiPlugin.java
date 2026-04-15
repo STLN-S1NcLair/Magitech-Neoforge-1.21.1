@@ -65,5 +65,6 @@ public class MagitechJeiPlugin implements IModPlugin {
         registration.addRecipeCatalyst(BlockInit.ZARDIUS_CRUCIBLE_ITEM.toStack(), RecipeHolderTypeInit.ZARDIUS_CRUCIBLE_TYPE);
         registration.addRecipeCatalyst(BlockInit.ATHANOR_PILLAR_ITEM.toStack(), RecipeHolderTypeInit.ATHANOR_PILLAR_INFUSION_TYPE);
         registration.addRecipeCatalyst(BlockInit.INFUSION_ALTAR_ITEM.toStack(), RecipeHolderTypeInit.INFUSION_TYPE);
+        registration.addRecipeCatalyst(BlockInit.PEDESTAL_PYLON_ITEM.toStack(), RecipeHolderTypeInit.INFUSION_TYPE);
     }
 }

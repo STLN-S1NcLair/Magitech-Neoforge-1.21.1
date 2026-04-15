@@ -12,16 +12,16 @@
       "item": "magitech:mystwood_planks"
     },
     "F": {
-      "item": "magitech:fluorite_block"
+      "tag": "c:gems/fluorite"
     }
   },
   "pattern": [
-    "VMV",
-    "NFN",
-    "VMV"
+    "VFV",
+    "NMN",
+    "MVM"
   ],
   "result": {
     "count": 1,
-    "id": "magitech:mana_vessel"
+    "id": "magitech:infusion_altar"
   }
 }

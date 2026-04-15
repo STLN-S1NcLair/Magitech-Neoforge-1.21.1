@@ -44,7 +44,7 @@ public class ManaChargedFluoriteItem extends TooltipTextItem {
                 }
                 level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundInit.CRYSTAL_BREAK.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
                 EffectHelper.entityEffect(level, new PowerupParticleEffect(new Vector3f(0.9F, 1.0F, 0.7F), new Vector3f(0.3F, 1.0F, 0.9F), 1F, 1, 0, 15, 1.0F), player, 20);
-                handler.addMana(45000);
+                handler.addMana(40000);
                 return InteractionResultHolder.success(stack);
             }
         }
@@ -62,7 +62,7 @@ public class ManaChargedFluoriteItem extends TooltipTextItem {
             if (!player.isCreative()) {
                 stack.setCount(stack.getCount() - 1);
             }
-            handler.addMana(45000);
+            handler.addMana(40000);
             level.playSound(player, pos, SoundInit.CRYSTAL_BREAK.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
             for (int i = 0; i < 40; i++) {
                 double x = pos.getCenter().x + Mth.nextDouble(player.getRandom(), -0.75, 0.75);

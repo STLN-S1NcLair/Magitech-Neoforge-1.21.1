@@ -1,0 +1,21 @@
+{
+  "type": "magitech:infusion",
+  "base": {
+    "ingredient": {
+      "tag": "magitech:aspect_crystal_base"
+    },
+    "count": 1
+  },
+  "ingredients": [
+    {
+      "ingredient": {
+        "item": "minecraft:lapis_lazuli"
+      },
+      "count": 4
+    }
+  ],
+  "mana": 40000,
+  "result": {
+    "id": "magitech:tremor_crystal"
+  }
+}

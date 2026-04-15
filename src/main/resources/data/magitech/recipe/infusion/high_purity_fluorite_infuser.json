@@ -8,7 +8,7 @@
   },
   "ingredients": [
   ],
-  "mana": 40000,
+  "mana": 10000,
   "result": {
     "id": "magitech:high_purity_fluorite",
     "count": 1

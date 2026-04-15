@@ -9,9 +9,21 @@
   "ingredients": [
     {
       "ingredient": {
-        "tag": "c:gems/fluorite"
+        "item": "magitech:high_purity_fluorite"
       },
-      "count": 8
+      "count": 4
+    },
+    {
+      "ingredient": {
+        "tag": "c:gems/citrine"
+      },
+      "count": 2
+    },
+    {
+      "ingredient": {
+        "tag": "c:gems/tourmaline"
+      },
+      "count": 4
     },
     {
       "ingredient": {
@@ -20,7 +32,7 @@
       "count": 1
     }
   ],
-  "mana": 5000,
+  "mana": 10000,
   "result": {
     "id": "magitech:alchecrysite",
     "count": 8

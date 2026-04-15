@@ -1,5 +1,6 @@
 package net.stln.magitech.content.block;
 
+import com.mojang.datafixers.util.Function3;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -26,7 +27,12 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.content.block.block_entity.ManaVesselBlockEntity;
 import net.stln.magitech.effect.visual.particle.particle_option.SquareParticleEffect;
+import net.stln.magitech.effect.visual.preset.PointVFX;
+import net.stln.magitech.effect.visual.preset.PresetHelper;
+import net.stln.magitech.effect.visual.spawner.SquareParticles;
+import net.stln.magitech.feature.element.Element;
 import org.joml.Vector3f;
+import team.lodestar.lodestone.systems.particle.ParticleEffectSpawner;
 
 import javax.annotation.Nullable;
 
@@ -114,46 +120,15 @@ public class ManaVesselBlock extends ManaContainerBlock {
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
         super.animateTick(state, level, pos, random);
-        Vec3 center = pos.getCenter();
-        for (int i = 0; i < 2; i++) {
-            double x = center.x + Mth.nextDouble(random, -0.6, 0.6);
-            double y = center.y + Mth.nextDouble(random, -0.6, 0.6);
-            double z = center.z + Mth.nextDouble(random, -0.6, 0.6);
-            level.addParticle(new SquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 1.0F, 3, 0, 15, 1.0F), x, y, z, 0, 0, 0);
-        }
-        for (int i = 0; i < 2; i++) {
-            int direction = i == 0 ? -1 : 1;
-            double v = 0.5 * direction;
-
-            double x = center.x + Mth.nextDouble(random, -0.2, 0.2);
-            double y = center.y + v;
-            double z = center.z + Mth.nextDouble(random, -0.2, 0.2);
-            double dx = 0;
-            double dy = 0.03 * direction;
-            double dz = 0;
-            if (state.getValue(AXIS) == Direction.Axis.X) {
-                x = center.x + v;
-                y = center.y + Mth.nextDouble(random, -0.2, 0.2);
-                z = center.z + Mth.nextDouble(random, -0.2, 0.2);
-                dx = 0.03 * direction;
-                dy = 0;
-                dz = 0;
-            } else if (state.getValue(AXIS) == Direction.Axis.Z) {
-                x = center.x + Mth.nextDouble(random, -0.2, 0.2);
-                y = center.y + Mth.nextDouble(random, -0.2, 0.2);
-                z = center.z + v;
-                dx = 0;
-                dy = 0;
-                dz = 0.03 * direction;
-            }
-            level.addParticle(new SquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 1.0F, 3, Mth.nextFloat(random, -0.1F, 0.1F), 15, 1.0F), x, y, z, dx, dy, dz);
-        }
-        for (int i = 0; i < 4; i++) {
-            double x2 = center.x + Mth.nextDouble(random, -0.5, 0.5);
-            double y2 = center.y + Mth.nextDouble(random, -0.5, 0.5);
-            double z2 = center.z + Mth.nextDouble(random, -0.5, 0.5);
-            level.addParticle(new SquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 0.5F, 1, Mth.nextFloat(random, -0.1F, 0.1F), 15, 1.0F), x2, y2, z2, 0, 0.03, 0);
-        }
+        Vec3 dir = switch (state.getValue(AXIS).choose(0, 1, 2)) {
+            case 0 -> new Vec3(1, 0, 0);
+            case 1 -> new Vec3(0, 1, 0);
+            case 2 -> new Vec3(0, 0, 1);
+            default -> Vec3.ZERO;
+        };
+        Function3<Level, Vec3, Element, ParticleEffectSpawner> supplier = (lvl, vec, elm) -> PresetHelper.longer(SquareParticles.squareShrinkParticle(lvl, vec, elm));
+        PointVFX.ring(level, pos.getCenter().add(dir.scale(0.5)), Element.MANA, supplier, dir, 1, 0.05F, 0.05F, 0.0F);
+        PointVFX.ring(level, pos.getCenter().add(dir.scale(-0.5)), Element.MANA, supplier, dir.reverse(), 1, 0.05F, 0.05F, 0.0F);
     }
 
     @Override
