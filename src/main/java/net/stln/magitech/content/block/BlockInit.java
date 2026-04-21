@@ -101,7 +101,7 @@ public class BlockInit {
     // 動作機械
 
     public static final DeferredBlock<InfusionAltarBlock> INFUSION_ALTAR = BLOCKS.registerBlock("infusion_altar",
-            properties -> new InfusionAltarBlock(properties, 50000, 3000),
+            properties -> new InfusionAltarBlock(properties, 50000, 2000),
             BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_PLANKS).lightLevel((blockState) -> 5).noOcclusion());
     public static final DeferredItem<BlockItem> INFUSION_ALTAR_ITEM = ItemInit.ITEMS.register("infusion_altar", key -> new TooltipTextManaContainerBlockItem(INFUSION_ALTAR.get(), new Item.Properties()));
     public static final Supplier<BlockEntityType<InfusionAltarBlockEntity>> INFUSION_ALTAR_ENTITY =

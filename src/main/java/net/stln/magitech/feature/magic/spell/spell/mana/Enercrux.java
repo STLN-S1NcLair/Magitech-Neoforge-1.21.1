@@ -44,7 +44,7 @@ public class Enercrux extends BeamSpell {
         float maxRange = MagicPerformanceHelper.getEffectiveMaxRange(caster, wand, this);
         Vec3 forward = Vec3.directionFromRotation(caster.getRotationVector());
         BlockHitResult blockHit = CombatHelper.getBeamBlockHit(caster, maxRange, radius, forward);
-        if (ManaTransferHelper.getManaContainer(level, blockHit.getBlockPos(), null) instanceof IBasicManaHandler handler) {
+        if (blockHit != null && ManaTransferHelper.getManaContainer(level, blockHit.getBlockPos(), null) instanceof IBasicManaHandler handler) {
             handler.addMana(10000L);
         }
     }

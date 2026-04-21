@@ -344,6 +344,16 @@
       "magitech:mana_node"
     ]
   },
+  "infusion_altar": {
+    "sounds": [
+      "magitech:infusion_altar"
+    ]
+  },
+  "infusion_altar_craft": {
+    "sounds": [
+      "magitech:infusion_altar_craft"
+    ]
+  },
   "mana_parcel": {
     "sounds": [
       "magitech:mana_parcel"

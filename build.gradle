@@ -173,8 +173,9 @@ dependencies {
 
     runtimeOnly "curse.maven:appleskin-248787:${appleskin_id}"
     runtimeOnly "curse.maven:auth-me-356643:6177873"
-    runtimeOnly "curse.maven:xaeros-world-map-317780:6538359"
-    runtimeOnly "curse.maven:xaeros-minimap-263420:6515043"
+    runtimeOnly "maven.modrinth:xaeros-world-map:arbQPyvf"
+    runtimeOnly "maven.modrinth:open-parties-and-claims:c2oTZgsF"
+    runtimeOnly "maven.modrinth:xaeros-minimap:CatMvRfN"
     runtimeOnly "curse.maven:advancements-reloaded-1113876:5835520"
     runtimeOnly "maven.modrinth:cloth-config:izKINKFg"
 
@@ -185,7 +186,9 @@ dependencies {
 //    runtimeOnly "maven.modrinth:emi-ores:1jY6MIrK"
 
     runtimeOnly "maven.modrinth:emi:ouSj7NfF"
-    runtimeOnly "maven.modrinth:create:tS7ygzAE"
+    runtimeOnly "maven.modrinth:create:n7NADxiG"
+    runtimeOnly "maven.modrinth:create-aeronautics:FIeWE7UC"
+    runtimeOnly "maven.modrinth:sable:ZYLSN31S"
     runtimeOnly "maven.modrinth:sodium:Pb3OXVqC"
 //    runtimeOnly "maven.modrinth:iris:t3ruzodq"
 
@@ -195,6 +198,7 @@ dependencies {
     runtimeOnly "maven.modrinth:irons-spells-n-spellbooks:Cu7ovsnN"
     runtimeOnly "maven.modrinth:supplementaries:i5gsy1xF"
     runtimeOnly "maven.modrinth:moonlight:QiGuwr5v"
+    runtimeOnly "maven.modrinth:artifacts:rGPw090r"
 
 //    runtimeOnly("curse.maven:selene-499980:6818413")
 //    runtimeOnly("curse.maven:cloth-config-348521:5729127")

@@ -99,27 +99,6 @@ public class WeaverEntity extends Monster implements GeoEntity, RangedAttackMob 
         this.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
     }
 
-    @Nullable
-    @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
-        spawnGroupData = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
-        RandomSource randomsource = level.getRandom();
-        this.populateDefaultEquipmentSlots(randomsource, difficulty);
-        this.populateDefaultEquipmentEnchantments(level, randomsource, difficulty);
-        this.setCanPickUpLoot(randomsource.nextFloat() < 0.55F * difficulty.getSpecialMultiplier());
-        if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
-            LocalDate localdate = LocalDate.now();
-            int i = localdate.getDayOfMonth();
-            int j = localdate.getMonth().getValue();
-            if (j == 10 && i == 31 && randomsource.nextFloat() < 0.25F) {
-                this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(randomsource.nextFloat() < 0.1F ? Blocks.JACK_O_LANTERN : Blocks.CARVED_PUMPKIN));
-                this.armorDropChances[EquipmentSlot.HEAD.getIndex()] = 0.0F;
-            }
-        }
-
-        return spawnGroupData;
-    }
-
     protected int getHardAttackInterval() {
         return 20;
     }

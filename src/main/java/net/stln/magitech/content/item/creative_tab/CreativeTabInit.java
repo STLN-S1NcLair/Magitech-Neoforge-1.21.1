@@ -24,7 +24,6 @@ import net.stln.magitech.feature.tool.tool_type.ToolTypeLike;
 import net.stln.magitech.registry.RegistryHelper;
 
 import java.util.List;
-import java.util.Map;
 
 public class CreativeTabInit {
 
@@ -73,7 +72,7 @@ public class CreativeTabInit {
                 output.accept(ItemInit.CITRINE.get());
                 output.accept(ItemInit.RAW_ZINC.get());
                 output.accept(ItemInit.ZINC_INGOT.get());
-                output.accept(ItemInit.CHROMIUM_INGOT.get());
+                output.accept(ItemInit.FLUXIUM_INGOT.get());
                 output.accept(ItemInit.REDSTONE_CRYSTAL.get());
                 output.accept(ItemInit.POLISHED_REDSTONE_CRYSTAL.get());
                 output.accept(ItemInit.SULFUR.get());

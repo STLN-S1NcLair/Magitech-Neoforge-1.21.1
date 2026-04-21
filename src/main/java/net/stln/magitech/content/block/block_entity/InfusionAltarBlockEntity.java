@@ -9,6 +9,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Containers;
 import net.minecraft.world.SimpleContainer;
@@ -19,7 +20,6 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
@@ -32,6 +32,7 @@ import net.stln.magitech.content.gui.InfusionAltarMenu;
 import net.stln.magitech.content.recipe.InfusionRecipe;
 import net.stln.magitech.content.recipe.RecipeInit;
 import net.stln.magitech.content.recipe.input.BaseAndIngredientsRecipeInput;
+import net.stln.magitech.content.sound.SoundInit;
 import net.stln.magitech.core.api.mana.flow.ManaFlowRule;
 import net.stln.magitech.core.api.mana.handler.MachineBlockEntityManaHandler;
 import net.stln.magitech.effect.visual.preset.AreaVFX;
@@ -40,7 +41,6 @@ import net.stln.magitech.effect.visual.preset.PointVFX;
 import net.stln.magitech.effect.visual.preset.PresetHelper;
 import net.stln.magitech.effect.visual.spawner.SquareParticles;
 import net.stln.magitech.feature.element.Element;
-import net.stln.magitech.helper.VectorHelper;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -133,6 +133,8 @@ public class InfusionAltarBlockEntity extends ManaMachineBlockEntity implements 
         level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
         if (level.isClientSide) {
             progressVFX();
+        } else {
+            playInfusionSound();
         }
         if (progress >= maxProgress) {
             craft(recipe);
@@ -259,6 +261,7 @@ public class InfusionAltarBlockEntity extends ManaMachineBlockEntity implements 
             // マナを消費
             MachineBlockEntityManaHandler handler = getManaHandler(null);
             handler.consumeMana(recipe.getMana());
+            playCraftSound();
         } else {
             craftVFX();
         }
@@ -304,6 +307,16 @@ public class InfusionAltarBlockEntity extends ManaMachineBlockEntity implements 
         }
 
         return false;
+    }
+
+    private void playInfusionSound() {
+        if (progress % 30 == 1) {
+            level.playSound(null, this.getBlockPos(), SoundInit.INFUSION_ALTAR.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+        }
+    }
+
+    private void playCraftSound() {
+        level.playSound(null, this.getBlockPos(), SoundInit.INFUSION_ALTAR_CRAFT.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
     }
 
     protected void progressVFX() {

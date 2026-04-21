@@ -19,14 +19,13 @@ public class EntityVFX {
                 Vec3 randomBody = EffectHelper.getRandomBody(entity, heightSection);
                 ParticleEffectSpawner spawner = PowerupParticles.powerupParticle(level, randomBody, element.getPrimary(), element.getSecondary());
                 PresetHelper.modify(spawner, builder -> {
-                    builder.addTickActor(BehaviorPreset.toDestination(entity, 0.995F, 0.0F, 1.0F, false))
-//                            .addMotion(entity.getDeltaMovement().add(0, entity.isNoGravity() ? -entity.getGravity() : 0, 0).scale(0.8F))
-                            .setBehavior(new YRotOnlyParticleBehavior());
+                    builder.addTickActor(BehaviorPreset.toDestination(entity, 0.995F, 0.0F, 1.0F, false));
                 });
                 spawner.spawnParticles();
             }
         }
     }
+
     public static void powerupAura(Level level, Element element, Entity entity, float amount) {
         powerupAura(level, element, entity, Section.firstHalf(), amount);
     }
@@ -37,8 +36,7 @@ public class EntityVFX {
                 Vec3 randomBody = EffectHelper.getRandomBody(entity, heightSection);
                 ParticleEffectSpawner spawner = PowerupParticles.powerupParticle(level, randomBody, trait.getPrimary(), trait.getSecondary());
                 PresetHelper.modify(spawner, builder -> {
-                    builder.addTickActor(BehaviorPreset.toDestination(entity, 0.995F, 0.0F, 1.0F, false))
-                            .setBehavior(new YRotOnlyParticleBehavior());
+                    builder.addTickActor(BehaviorPreset.toDestination(entity, 0.995F, 0.0F, 1.0F, false));
                 });
                 spawner.spawnParticles();
             }

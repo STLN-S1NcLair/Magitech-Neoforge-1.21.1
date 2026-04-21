@@ -340,7 +340,7 @@ public class CombatHelper {
         double blockHitDist = blockHit.getType() == HitResult.Type.MISS ? maxReachLength + 1 : blockHit.getLocation().distanceTo(playerEyePos);
         double entityHitDist = entityHit != null ? entityHit.getLocation().distanceTo(playerEyePos) : maxReachLength + 1;
 
-        if (blockHitDist > entityHitDist) {
+        if (blockHitDist > entityHitDist && entityHit != null) {
             return entityHit.getEntity();
         }
         return null;
@@ -391,7 +391,7 @@ public class CombatHelper {
         double blockHitDist = blockHit.getType() == HitResult.Type.MISS ? maxReachLength + 1 : blockHit.getLocation().distanceTo(start);
         double entityHitDist = entityHit != null ? entityHit.getLocation().distanceTo(start) : maxReachLength + 1;
 
-        if (blockHitDist > entityHitDist) {
+        if (entityHit != null && blockHitDist > entityHitDist) {
             return entityHit.getEntity();
         }
         return null;

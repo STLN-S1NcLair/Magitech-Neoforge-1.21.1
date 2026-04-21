@@ -199,7 +199,7 @@ public class ItemInit {
     public static final DeferredItem<Item> SULFUR = ITEMS.registerItem("sulfur", TooltipTextItem::new);
     public static final DeferredItem<Item> RAW_ZINC = ITEMS.registerItem("raw_zinc", TooltipTextItem::new);
     public static final DeferredItem<Item> ZINC_INGOT = ITEMS.registerItem("zinc_ingot", TooltipTextItem::new);
-    public static final DeferredItem<Item> CHROMIUM_INGOT = ITEMS.registerItem("chromium_ingot", TooltipTextItem::new);
+    public static final DeferredItem<Item> FLUXIUM_INGOT = ITEMS.registerItem("fluxium_ingot", TooltipTextItem::new);
     public static final DeferredItem<Item> ENDER_METAL_INGOT = ITEMS.registerItem("ender_metal_ingot", TooltipTextItem::new);
     public static final DeferredItem<Item> NETHER_STAR_BRILLIANCE = ITEMS.registerItem("nether_star_brilliance", TooltipTextItem::new);
     public static final DeferredItem<Item> RADIANT_STEEL_INGOT = ITEMS.registerItem("radiant_steel_ingot", TooltipTextItem::new);

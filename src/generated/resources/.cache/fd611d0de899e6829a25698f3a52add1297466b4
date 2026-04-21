@@ -1,4 +1,4 @@
-// 1.21.1	2026-04-11T17:06:53.9062326	Item Models: magitech
+// 1.21.1	2026-04-17T22:57:09.6626153	Item Models: magitech
 b6e580466ba37335919256eafa6aebae2f80e029 assets/magitech/models/item/abyssite.json
 274500810da06625023fb41abd2b7f8c7faa471e assets/magitech/models/item/aegis_weave.json
 cad688c75659b5b6fd8b036274e31ffaa27cf17c assets/magitech/models/item/aether_lifter.json
@@ -164,7 +164,6 @@ a06a4f2a0e3c8befc07d542bf4ea276202d309fa assets/magitech/models/item/charcoal_bi
 d42ad5438be9d47ccc1f2d28d2a6a5512a8919a1 assets/magitech/models/item/charcoal_birch_sapling.json
 a429ae66ab13ef7a144bca727b81820cd63a0c2c assets/magitech/models/item/charcoal_birch_sign.json
 cabcf9fbcab875e3df5aadd237bed10a82b7e7cb assets/magitech/models/item/chargebind_ring.json
-0f409a5f7c2b16cde5abbf799d6e1c9af26bac8d assets/magitech/models/item/chromium_ingot.json
 65d7874c7ef3141cba6dbc417102c63896e863c6 assets/magitech/models/item/citrine.json
 ffb0380244eff37130678acd73b4870055f5351d assets/magitech/models/item/citrine_axe_heavy_handle.json
 d1d652e45f1141f2d35a93bcba25b25daa640ab2 assets/magitech/models/item/citrine_axe_light_blade.json
@@ -545,6 +544,7 @@ f70dde773cb3e3af36fb1a3097ccb3820a4684e8 assets/magitech/models/item/fluorite_wa
 dd8f8cbc871a145c17379c7f667fd47eb9113f9c assets/magitech/models/item/fluorite_wand_light_handle.json
 87484e142bb28c4048c5bc5abe08e31604394b2f assets/magitech/models/item/fluorite_wand_tool_binding.json
 a462024c687e2cd3f514a3dca2f23bb80a1f020b assets/magitech/models/item/fluxbound_ring.json
+a1f85768cae8d6e96ec5a3681ebcf14b9b771c05 assets/magitech/models/item/fluxium_ingot.json
 06812b6426c4411c12964bc47e1f13fbc6daaf5f assets/magitech/models/item/frigidite.json
 2465b6cf86061b5c6a74ae61af60ec61553764c7 assets/magitech/models/item/galevent_ring.json
 023881733e5141be24eb2b9016d6fb270798301a assets/magitech/models/item/glace_crystal.json

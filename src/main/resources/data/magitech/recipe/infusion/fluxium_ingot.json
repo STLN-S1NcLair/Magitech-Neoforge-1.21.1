@@ -1,0 +1,28 @@
+{
+  "type": "magitech:infusion",
+  "base": {
+    "ingredient": {
+      "item": "minecraft:iron_ingot"
+    },
+    "count": 4
+  },
+  "ingredients": [
+    {
+      "ingredient": {
+        "tag": "magitech:aggregated_strand"
+      },
+      "count": 1
+    },
+    {
+      "ingredient": {
+        "tag": "c:ingots/zinc"
+      },
+      "count": 8
+    }
+  ],
+  "mana": 10000,
+  "result": {
+    "id": "magitech:fluxium_ingot",
+    "count": 8
+  }
+}

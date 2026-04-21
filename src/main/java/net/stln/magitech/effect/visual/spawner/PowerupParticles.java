@@ -5,6 +5,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.effect.visual.particle.ParticleInit;
+import net.stln.magitech.effect.visual.preset.YRotOnlyParticleBehavior;
 import team.lodestar.lodestone.registry.common.particle.LodestoneParticleTypes;
 import team.lodestar.lodestone.systems.particle.ParticleEffectSpawner;
 import team.lodestar.lodestone.systems.particle.builder.WorldParticleBuilder;
@@ -39,6 +40,7 @@ public class PowerupParticles {
                 .setFriction(0.99F)
                 .addMotion(0, acceleration, 0)
                 .addTickActor(behavior)
+                .setBehavior(new YRotOnlyParticleBehavior())
                 .setForceSpawn(true)
                 .enableNoClip()
                 .setLifetime(lifetime);
@@ -49,6 +51,7 @@ public class PowerupParticles {
                 .setFriction(0.99F)
                 .addMotion(0, acceleration, 0)
                 .addTickActor(behavior)
+                .setBehavior(new YRotOnlyParticleBehavior())
                 .setForceSpawn(true)
                 .enableNoClip()
                 .setLifetime(lifetime);

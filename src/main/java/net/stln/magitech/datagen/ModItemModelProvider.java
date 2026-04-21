@@ -8,7 +8,6 @@ import net.neoforged.neoforge.client.model.generators.ModelProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.MagitechRegistries;
 import net.stln.magitech.content.block.BlockInit;
 import net.stln.magitech.content.item.ItemInit;
 import net.stln.magitech.feature.tool.material.ToolMaterial;
@@ -18,9 +17,6 @@ import net.stln.magitech.feature.tool.part.ToolPartLike;
 import net.stln.magitech.feature.tool.tool_type.ToolType;
 import net.stln.magitech.feature.tool.tool_type.ToolTypeLike;
 import net.stln.magitech.registry.RegistryHelper;
-
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class ModItemModelProvider extends ItemModelProvider {
     public ModItemModelProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
@@ -88,7 +84,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ItemInit.SULFUR.get());
         basicItem(ItemInit.RAW_ZINC.get());
         basicItem(ItemInit.ZINC_INGOT.get());
-        basicItem(ItemInit.CHROMIUM_INGOT.get());
+        basicItem(ItemInit.FLUXIUM_INGOT.get());
         basicItem(ItemInit.ENDER_METAL_INGOT.get());
         basicItem(ItemInit.NETHER_STAR_BRILLIANCE.get());
         basicItem(ItemInit.RADIANT_STEEL_INGOT.get());

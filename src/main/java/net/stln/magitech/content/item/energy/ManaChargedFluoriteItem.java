@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -13,6 +14,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.content.item.tooltip_item.TooltipTextItem;
 import net.stln.magitech.content.sound.SoundInit;
 import net.stln.magitech.core.api.mana.ManaCapabilities;
@@ -20,9 +22,14 @@ import net.stln.magitech.core.api.mana.flow.ManaTransferHelper;
 import net.stln.magitech.core.api.mana.handler.EntityManaHandler;
 import net.stln.magitech.core.api.mana.handler.IBasicManaHandler;
 import net.stln.magitech.effect.visual.particle.particle_option.PowerupParticleEffect;
+import net.stln.magitech.effect.visual.preset.EntityVFX;
+import net.stln.magitech.effect.visual.preset.PresetHelper;
+import net.stln.magitech.effect.visual.spawner.PowerupParticles;
+import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.helper.EffectHelper;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
+import team.lodestar.lodestone.systems.particle.ParticleEffectSpawner;
 
 import java.util.List;
 
@@ -64,11 +71,13 @@ public class ManaChargedFluoriteItem extends TooltipTextItem {
             }
             handler.addMana(40000);
             level.playSound(player, pos, SoundInit.CRYSTAL_BREAK.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
-            for (int i = 0; i < 40; i++) {
-                double x = pos.getCenter().x + Mth.nextDouble(player.getRandom(), -0.75, 0.75);
-                double y = pos.getCenter().y + Mth.nextDouble(player.getRandom(), -0.75, 0.75);
-                double z = pos.getCenter().z + Mth.nextDouble(player.getRandom(), -0.75, 0.75);
-                level.addParticle(new PowerupParticleEffect(new Vector3f(0.9F, 1.0F, 0.7F), new Vector3f(0.3F, 1.0F, 0.9F), 1F, 1, 0, 15, 1.0F), x, y, z, 0, 0, 0);
+            Element element = Element.MANA;
+            RandomSource random = level.random;
+            for (int i = 0; i < 50; i++) {
+                Vec3 randomBody = pos.getCenter().add(new Vec3(Mth.nextFloat(random, -1, 1), Mth.nextFloat(random, -1, 1), Mth.nextFloat(random, -1, 1)).scale(0.6));
+                ParticleEffectSpawner spawner = PowerupParticles.powerupParticle(level, randomBody, element.getPrimary(), element.getSecondary());
+                PresetHelper.modify(spawner, builder -> builder.multiplyFriction(Mth.nextFloat(random, 0.6F, 1.0F)));
+                spawner.spawnParticles();
             }
             return InteractionResult.SUCCESS;
         }

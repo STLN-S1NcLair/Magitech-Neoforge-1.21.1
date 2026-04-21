@@ -104,7 +104,7 @@ public class InfusionAltarBlock extends ManaContainerBlock implements IPedestalB
         Function3<Level, Vec3, Element, ParticleEffectSpawner> topSup = (lvl, vec, elm) -> PresetHelper.longer(SquareParticles.squareParticle(lvl, vec, elm));
         Function3<Level, Vec3, Element, ParticleEffectSpawner> supplier = (lvl, vec, elm) -> PresetHelper.longer(SquareParticles.squareShrinkParticle(lvl, vec, elm));
         PointVFX.ring(level, pos.getCenter().add(dir.scale(0.5)), Element.MANA, topSup, dir, 1, 0.03F, 0.0F, 0.0F);
-        PointVFX.ring(level, pos.getCenter().add(dir.scale(0.5)), Element.MANA, supplier, dir.reverse(), 1, 0.05F, 0.05F, 0.0F);
+        PointVFX.ring(level, pos.getCenter().add(dir.scale(-0.5)), Element.MANA, supplier, dir.reverse(), 1, 0.05F, 0.05F, 0.0F);
     }
 
     @Override
