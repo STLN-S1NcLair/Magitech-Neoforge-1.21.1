@@ -87,14 +87,25 @@ public class ItemInit {
             )),
             new Item.Properties().stacksTo(1));
 
-    public static final DeferredItem<RingItem> MANA_RING = ITEMS.registerItem("mana_ring",
+    public static final DeferredItem<RingItem> FLUXIUM_RING = ITEMS.registerItem("fluxium_ring",
             (properties) -> new RingItem(properties).attributeModifier(Map.of(
-                    AttributeInit.MAX_MANA, new AttributeModifier(Magitech.id("ring"), 50, AttributeModifier.Operation.ADD_VALUE),
-                    AttributeInit.MANA_REGEN, new AttributeModifier(Magitech.id("ring"), 1, AttributeModifier.Operation.ADD_VALUE)
+                    Attributes.ARMOR, new AttributeModifier(Magitech.id("ring"), 1.0, AttributeModifier.Operation.ADD_VALUE)
             )),
             new Item.Properties().stacksTo(1));
 
-    public static final DeferredItem<RingItem> GALEVENT_RING = ITEMS.registerItem("galevent_ring",
+    public static final DeferredItem<RingItem> MANA_RING = ITEMS.registerItem("mana_ring",
+            (properties) -> new RingItem(properties).attributeModifier(Map.of(
+                    AttributeInit.MAX_MANA, new AttributeModifier(Magitech.id("ring"), 50, AttributeModifier.Operation.ADD_VALUE)
+            )),
+            new Item.Properties().stacksTo(1));
+
+    public static final DeferredItem<RingItem> ARDOR_RING = ITEMS.registerItem("ardor_ring",
+            (properties) -> new RingItem(properties).attributeModifier(Map.of(
+                    Attributes.MAX_HEALTH, new AttributeModifier(Magitech.id("ring"), 4, AttributeModifier.Operation.ADD_VALUE)
+            )),
+            new Item.Properties().stacksTo(1));
+
+    public static final DeferredItem<RingItem> QUENCH_RING = ITEMS.registerItem("quench_ring",
             (properties) -> new RingItem(properties).attributeModifier(Map.of(
                     AttributeInit.COOLDOWN_SPEED, new AttributeModifier(Magitech.id("ring"), 0.3, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
             )),
@@ -106,7 +117,31 @@ public class ItemInit {
             )),
             new Item.Properties().stacksTo(1));
 
-    public static final DeferredItem<RingItem> TORSION_RING = ITEMS.registerItem("torsion_ring",
+    public static final DeferredItem<RingItem> CELERITAS_RING = ITEMS.registerItem("celeritas_ring",
+            (properties) -> new RingItem(properties).attributeModifier(Map.of(
+                    Attributes.MOVEMENT_SPEED, new AttributeModifier(Magitech.id("ring"), 0.15, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+            )),
+            new Item.Properties().stacksTo(1));
+
+    public static final DeferredItem<RingItem> CRACK_RING = ITEMS.registerItem("crack_ring",
+            (properties) -> new RingItem(properties).attributeModifier(Map.of(
+                    Attributes.BLOCK_INTERACTION_RANGE, new AttributeModifier(Magitech.id("ring"), 1.0, AttributeModifier.Operation.ADD_VALUE)
+            )),
+            new Item.Properties().stacksTo(1));
+
+    public static final DeferredItem<RingItem> PROTECTION_RING = ITEMS.registerItem("protection_ring",
+            (properties) -> new RingItem(properties).attributeModifier(Map.of(
+                    Attributes.ARMOR, new AttributeModifier(Magitech.id("ring"), 4.0, AttributeModifier.Operation.ADD_VALUE)
+            )),
+            new Item.Properties().stacksTo(1));
+
+    public static final DeferredItem<RingItem> UPDRAFT_RING = ITEMS.registerItem("updraft_ring",
+            (properties) -> new RingItem(properties).attributeModifier(Map.of(
+                    Attributes.SAFE_FALL_DISTANCE, new AttributeModifier(Magitech.id("ring"), 2.0, AttributeModifier.Operation.ADD_VALUE)
+            )),
+            new Item.Properties().stacksTo(1));
+
+    public static final DeferredItem<RingItem> DISTORTION_RING = ITEMS.registerItem("distortion_ring",
             (properties) -> new RingItem(properties).attributeModifier(Map.of(
                     AttributeInit.LAUNCH, new AttributeModifier(Magitech.id("ring"), 0.6, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
             )),
@@ -200,6 +235,7 @@ public class ItemInit {
     public static final DeferredItem<Item> RAW_ZINC = ITEMS.registerItem("raw_zinc", TooltipTextItem::new);
     public static final DeferredItem<Item> ZINC_INGOT = ITEMS.registerItem("zinc_ingot", TooltipTextItem::new);
     public static final DeferredItem<Item> FLUXIUM_INGOT = ITEMS.registerItem("fluxium_ingot", TooltipTextItem::new);
+    public static final DeferredItem<Item> FLUXIUM_NUGGET = ITEMS.registerItem("fluxium_nugget", TooltipTextItem::new);
     public static final DeferredItem<Item> ENDER_METAL_INGOT = ITEMS.registerItem("ender_metal_ingot", TooltipTextItem::new);
     public static final DeferredItem<Item> NETHER_STAR_BRILLIANCE = ITEMS.registerItem("nether_star_brilliance", TooltipTextItem::new);
     public static final DeferredItem<Item> RADIANT_STEEL_INGOT = ITEMS.registerItem("radiant_steel_ingot", TooltipTextItem::new);

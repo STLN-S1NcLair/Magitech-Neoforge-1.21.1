@@ -189,10 +189,10 @@ dependencies {
     runtimeOnly "maven.modrinth:create:n7NADxiG"
     runtimeOnly "maven.modrinth:create-aeronautics:FIeWE7UC"
     runtimeOnly "maven.modrinth:sable:ZYLSN31S"
-    runtimeOnly "maven.modrinth:sodium:Pb3OXVqC"
+//    runtimeOnly "maven.modrinth:sodium:Pb3OXVqC"
 //    runtimeOnly "maven.modrinth:iris:t3ruzodq"
 
-    runtimeOnly "maven.modrinth:mekanism:yY7vZB47"
+    runtimeOnly "maven.modrinth:mekanism:5KzzycBT"
     runtimeOnly "maven.modrinth:malum:BIbVs1fo"
     runtimeOnly "maven.modrinth:ars-nouveau:jQHRV6Y0"
     runtimeOnly "maven.modrinth:irons-spells-n-spellbooks:Cu7ovsnN"

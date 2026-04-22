@@ -44,10 +44,16 @@ public class CreativeTabInit {
                 output.accept(ThreadboundGenerator.generateThreadbound(ItemInit.ARCANE_ENGINEERING_COMPENDIUM.get(), allSpells));
                 output.accept(ItemInit.AETHER_LIFTER.get());
                 output.accept(ItemInit.FLAMGLIDE_STRIDER.get());
+                output.accept(ItemInit.FLUXIUM_RING.get());
                 output.accept(ItemInit.MANA_RING.get());
-                output.accept(ItemInit.GALEVENT_RING.get());
+                output.accept(ItemInit.ARDOR_RING.get());
+                output.accept(ItemInit.QUENCH_RING.get());
                 output.accept(ItemInit.CHARGEBIND_RING.get());
-                output.accept(ItemInit.TORSION_RING.get());
+                output.accept(ItemInit.CELERITAS_RING.get());
+                output.accept(ItemInit.CRACK_RING.get());
+                output.accept(ItemInit.PROTECTION_RING.get());
+                output.accept(ItemInit.UPDRAFT_RING.get());
+                output.accept(ItemInit.DISTORTION_RING.get());
                 output.accept(ItemInit.UMBRAL_RING.get());
                 output.accept(ItemInit.DAWN_RING.get());
                 output.accept(ItemInit.FLUXBOUND_RING.get());
@@ -73,6 +79,7 @@ public class CreativeTabInit {
                 output.accept(ItemInit.RAW_ZINC.get());
                 output.accept(ItemInit.ZINC_INGOT.get());
                 output.accept(ItemInit.FLUXIUM_INGOT.get());
+                output.accept(ItemInit.FLUXIUM_NUGGET.get());
                 output.accept(ItemInit.REDSTONE_CRYSTAL.get());
                 output.accept(ItemInit.POLISHED_REDSTONE_CRYSTAL.get());
                 output.accept(ItemInit.SULFUR.get());

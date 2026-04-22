@@ -30,10 +30,16 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ItemInit.THE_FIRE_THAT_THINKS.get());
         basicItem(ItemInit.APPLIED_ARCANE_CIRCUITRY.get());
         basicItem(ItemInit.ARCANE_ENGINEERING_COMPENDIUM.get());
+        basicItem(ItemInit.FLUXIUM_RING.get());
         basicItem(ItemInit.MANA_RING.get());
-        basicItem(ItemInit.GALEVENT_RING.get());
+        basicItem(ItemInit.ARDOR_RING.get());
+        basicItem(ItemInit.QUENCH_RING.get());
         basicItem(ItemInit.CHARGEBIND_RING.get());
-        basicItem(ItemInit.TORSION_RING.get());
+        basicItem(ItemInit.CRACK_RING.get());
+        basicItem(ItemInit.CELERITAS_RING.get());
+        basicItem(ItemInit.PROTECTION_RING.get());
+        basicItem(ItemInit.UPDRAFT_RING.get());
+        basicItem(ItemInit.DISTORTION_RING.get());
         basicItem(ItemInit.UMBRAL_RING.get());
         basicItem(ItemInit.DAWN_RING.get());
         basicItem(ItemInit.FLUXBOUND_RING.get());
@@ -85,6 +91,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ItemInit.RAW_ZINC.get());
         basicItem(ItemInit.ZINC_INGOT.get());
         basicItem(ItemInit.FLUXIUM_INGOT.get());
+        basicItem(ItemInit.FLUXIUM_NUGGET.get());
         basicItem(ItemInit.ENDER_METAL_INGOT.get());
         basicItem(ItemInit.NETHER_STAR_BRILLIANCE.get());
         basicItem(ItemInit.RADIANT_STEEL_INGOT.get());

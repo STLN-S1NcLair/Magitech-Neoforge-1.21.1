@@ -1,10 +1,16 @@
 {
   "replace": false,
   "values": [
+    "magitech:fluxium_ring",
     "magitech:mana_ring",
-    "magitech:galevent_ring",
+    "magitech:ardor_ring",
+    "magitech:quench_ring",
     "magitech:chargebind_ring",
-    "magitech:torsion_ring",
+    "magitech:celeritas_ring",
+    "magitech:crack_ring",
+    "magitech:protection_ring",
+    "magitech:updraft_ring",
+    "magitech:distortion_ring",
     "magitech:umbral_ring",
     "magitech:dawn_ring",
     "magitech:fluxbound_ring"
