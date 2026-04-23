@@ -1,0 +1,22 @@
+{
+  "type": "magitech:infusion",
+  "base": {
+    "ingredient": {
+      "item": "magitech:fluxium_ring"
+    },
+    "count": 1
+  },
+  "ingredients": [
+    {
+      "ingredient": {
+        "item": "magitech:aggregated_noctis"
+      },
+      "count": 4
+    }
+  ],
+  "mana": 40000,
+  "result": {
+    "id": "magitech:umbral_ring",
+    "count": 1
+  }
+}
