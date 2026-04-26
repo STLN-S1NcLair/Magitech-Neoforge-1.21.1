@@ -2,28 +2,46 @@
   "type": "magitech:zardius_crucible",
   "ingredients": [
     {
-      "item": "magitech:alchaefabric"
+      "ingredient": {
+        "item": "magitech:alchaefabric"
+      },
+      "count": 1
     },
     {
-    "item": "minecraft:obsidian"
+      "ingredient": {
+        "item": "minecraft:obsidian"
+      },
+      "count": 1
     },
     {
-      "item": "magitech:glace_crystal"
+      "ingredient": {
+        "item": "magitech:glace_crystal"
+      },
+      "count": 1
     },
     {
-      "item": "magitech:phantom_crystal"
+      "ingredient": {
+        "item": "magitech:phantom_crystal"
+      },
+      "count": 1
     },
     {
-    "item": "minecraft:chain"
+      "ingredient": {
+        "item": "minecraft:chain"
+      },
+      "count": 1
     },
     {
-      "item": "minecraft:gold_ingot"
+      "ingredient": {
+        "item": "minecraft:gold_ingot"
+      },
+      "count": 2
     },
     {
-      "item": "minecraft:gold_ingot"
-    },
-    {
-      "item": "minecraft:diamond"
+      "ingredient": {
+        "item": "minecraft:diamond"
+      },
+      "count": 1
     }
   ],
   "fluid_ingredient": {

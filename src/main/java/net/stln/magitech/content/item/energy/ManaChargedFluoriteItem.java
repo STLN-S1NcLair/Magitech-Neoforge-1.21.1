@@ -15,6 +15,7 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
+import net.stln.magitech.content.item.tooltip_item.AspectCrystalItem;
 import net.stln.magitech.content.item.tooltip_item.TooltipTextItem;
 import net.stln.magitech.content.sound.SoundInit;
 import net.stln.magitech.core.api.mana.ManaCapabilities;
@@ -33,9 +34,9 @@ import team.lodestar.lodestone.systems.particle.ParticleEffectSpawner;
 
 import java.util.List;
 
-public class ManaChargedFluoriteItem extends TooltipTextItem {
+public class ManaChargedFluoriteItem extends AspectCrystalItem {
     public ManaChargedFluoriteItem(Properties properties) {
-        super(properties);
+        super(properties, Element.MANA);
     }
 
     @Override

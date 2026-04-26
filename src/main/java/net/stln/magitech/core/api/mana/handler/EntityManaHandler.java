@@ -9,7 +9,7 @@ public record EntityManaHandler(LivingEntity entity) implements IBasicManaHandle
 
     @Override
     public ManaFlowRule getManaFlowRule() {
-        return ManaFlowRule.BothWays(0.0F);
+        return ManaFlowRule.bothWays(0.0F);
     }
 
     @Override

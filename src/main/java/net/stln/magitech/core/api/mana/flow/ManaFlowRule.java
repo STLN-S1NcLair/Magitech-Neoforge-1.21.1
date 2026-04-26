@@ -2,19 +2,19 @@ package net.stln.magitech.core.api.mana.flow;
 
 public record ManaFlowRule(float flowBias, boolean canExtract, boolean canInsert) {
 
-    public static ManaFlowRule BothWays(float flowBias) {
+    public static ManaFlowRule bothWays(float flowBias) {
         return new ManaFlowRule(flowBias, true, true);
     }
 
-    public static ManaFlowRule InsertOnly(float flowBias) {
+    public static ManaFlowRule insertOnly(float flowBias) {
         return new ManaFlowRule(flowBias, false, true);
     }
 
-    public static ManaFlowRule ExtractOnly(float flowBias) {
+    public static ManaFlowRule extractOnly(float flowBias) {
         return new ManaFlowRule(flowBias, true, false);
     }
 
-    public static ManaFlowRule None() {
+    public static ManaFlowRule none() {
         return new ManaFlowRule(0.0F, false, false);
     }
 

@@ -124,9 +124,9 @@ public class BlockInit {
     public static final DeferredItem<BlockItem> MANA_JUNCTION_ITEM = ItemInit.ITEMS.register("mana_junction", key -> new TooltipTextBlockItem(MANA_JUNCTION.get(), new Item.Properties()));
 
     public static final DeferredBlock<ZardiusCrucibleBlock> ZARDIUS_CRUCIBLE = BLOCKS.registerBlock("zardius_crucible",
-            ZardiusCrucibleBlock::new,
+            properties -> new ZardiusCrucibleBlock(properties, 50000, 5000),
             BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(SoundType.NETHERITE_BLOCK).noOcclusion());
-    public static final DeferredItem<BlockItem> ZARDIUS_CRUCIBLE_ITEM = ItemInit.ITEMS.register("zardius_crucible", key -> new TooltipTextBlockItem(ZARDIUS_CRUCIBLE.get(), new Item.Properties()));
+    public static final DeferredItem<BlockItem> ZARDIUS_CRUCIBLE_ITEM = ItemInit.ITEMS.register("zardius_crucible", key -> new TooltipTextManaContainerBlockItem(ZARDIUS_CRUCIBLE.get(), new Item.Properties()));
     public static final Supplier<BlockEntityType<ZardiusCrucibleBlockEntity>> ZARDIUS_CRUCIBLE_ENTITY =
             BLOCK_ENITIES.register("zardius_crucible", () -> BlockEntityType.Builder.of(
                     ZardiusCrucibleBlockEntity::new, BlockInit.ZARDIUS_CRUCIBLE.get()).build(null));

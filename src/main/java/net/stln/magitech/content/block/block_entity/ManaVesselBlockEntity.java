@@ -9,7 +9,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.Containers;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -145,8 +144,8 @@ public class ManaVesselBlockEntity extends ManaContainerBlockEntity implements G
     @Override
     public ManaFlowRule getManaFlowRule(BlockState state, Direction side) {
         if (side == null || side.getAxis() == state.getValue(ManaVesselBlock.AXIS)) {
-            return ManaFlowRule.BothWays(0.0F);
+            return ManaFlowRule.bothWays(0.0F);
         }
-        return ManaFlowRule.None();
+        return ManaFlowRule.none();
     }
 }

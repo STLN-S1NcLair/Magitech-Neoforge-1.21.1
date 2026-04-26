@@ -35,6 +35,7 @@ import net.stln.magitech.content.recipe.input.BaseAndIngredientsRecipeInput;
 import net.stln.magitech.content.sound.SoundInit;
 import net.stln.magitech.core.api.mana.flow.ManaFlowRule;
 import net.stln.magitech.core.api.mana.handler.MachineBlockEntityManaHandler;
+import net.stln.magitech.effect.sound.SoundHelper;
 import net.stln.magitech.effect.visual.preset.AreaVFX;
 import net.stln.magitech.effect.visual.preset.BehaviorPreset;
 import net.stln.magitech.effect.visual.preset.PointVFX;
@@ -316,7 +317,7 @@ public class InfusionAltarBlockEntity extends ManaMachineBlockEntity implements 
     }
 
     private void playCraftSound() {
-        level.playSound(null, this.getBlockPos(), SoundInit.INFUSION_ALTAR_CRAFT.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+        SoundHelper.broadcastSound(this.level, this.getBlockPos().getCenter(), SoundInit.INFUSION_ALTAR_CRAFT.get(), SoundSource.BLOCKS);
     }
 
     protected void progressVFX() {
@@ -480,8 +481,8 @@ public class InfusionAltarBlockEntity extends ManaMachineBlockEntity implements 
     @Override
     public ManaFlowRule getManaFlowRule(BlockState state, Direction side) {
         if (side == null || side == Direction.DOWN) {
-            return ManaFlowRule.BothWays(-1.0F);
+            return ManaFlowRule.bothWays(-1.0F);
         }
-        return ManaFlowRule.None();
+        return ManaFlowRule.none();
     }
 }

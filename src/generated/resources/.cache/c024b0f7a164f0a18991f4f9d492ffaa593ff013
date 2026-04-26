@@ -1,4 +1,4 @@
-// 1.21.1	2026-04-04T12:04:08.2927246	Block States: magitech
+// 1.21.1	2026-04-24T08:32:30.0220427	Block States: magitech
 90f039d3c8040909582f040c2be7f09eca62a0a8 assets/magitech/blockstates/alchecrysite.json
 e2e47f25d85025ef83b8b30154421755d7d8c139 assets/magitech/blockstates/alchecrysite_bricks.json
 36896c4c599cbeeb6b3e9441de7d2de5fa12cb4d assets/magitech/blockstates/alchecrysite_brick_slab.json
@@ -101,7 +101,7 @@ cd93879603b88ccdb9e8d7bb0550fa10cd12c164 assets/magitech/blockstates/stripped_ce
 87717f75ba7f0208be3dc26c9ac3d26e3649ee1b assets/magitech/blockstates/vesperite_slab.json
 2bd03cfba55cc20d5c222780abb59d36d3b95866 assets/magitech/blockstates/vesperite_stairs.json
 694c3a02994b2d9f347a170f3781f9aaf5be5b54 assets/magitech/blockstates/vesperite_wall.json
-0756cf9ff0c820d58cddd40a471465145d351b0a assets/magitech/blockstates/zardius_crucible.json
+ae961f1496f85e38eb022ba0dce16c46bc33c220 assets/magitech/blockstates/zardius_crucible.json
 cebb57fe8e0613008418efa90cc1bc1f7eec1dbf assets/magitech/blockstates/zinc_ore.json
 bfa606da4e3b4a8444d45feb40bf45c8c2aa5068 assets/magitech/models/block/alchecrysite.json
 acae25ef2f330cafe72837c15c02c160ae71da59 assets/magitech/models/block/alchecrysite_bricks.json

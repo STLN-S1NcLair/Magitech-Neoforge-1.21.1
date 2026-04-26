@@ -2,22 +2,34 @@
   "type": "magitech:zardius_crucible",
   "ingredients": [
     {
+      "ingredient": {
       "item": "minecraft:ender_pearl"
+      },
+      "count": 1
     },
     {
+      "ingredient": {
       "item": "minecraft:iron_ingot"
+      },
+      "count": 2
     },
     {
-      "item": "minecraft:iron_ingot"
-    },
-    {
+      "ingredient": {
       "item": "minecraft:gold_ingot"
+      },
+      "count": 1
     },
     {
+      "ingredient": {
       "item": "minecraft:copper_ingot"
+      },
+      "count": 1
     },
     {
+      "ingredient": {
       "item": "magitech:hollow_crystal"
+      },
+      "count": 1
     }
   ],
   "fluid_ingredient": {

@@ -20,6 +20,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
+import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.content.block.BlockInit;
 import net.stln.magitech.content.recipe.ZardiusCrucibleRecipe;
@@ -120,7 +121,7 @@ public class ZardiusCrucibleRecipeCategory extends AbstractMagitechRecipeCategor
     @Override
     protected void setRecipe(@NotNull IRecipeLayoutBuilder builder, @NotNull RecipeHolder<ZardiusCrucibleRecipe> recipe, @NotNull IFocusGroup focuses, @NotNull RecipeManager recipeManager, @NotNull RegistryAccess access) {
 
-        List<Ingredient> ingredients = recipe.value().getIngredients();
+        List<SizedIngredient> ingredients = recipe.value().getSizedIngredients();
 
         for (int i = 0; i < ingredients.size(); i++) {
             int x, y;
@@ -154,10 +155,10 @@ public class ZardiusCrucibleRecipeCategory extends AbstractMagitechRecipeCategor
             }
 
             builder.addSlot(RecipeIngredientRole.INPUT, x + 1, y + 1)
-                    .addIngredients(ingredients.get(i));
+                    .addItemStacks(List.of(ingredients.get(i).getItems()));
         }
         builder.addSlot(RecipeIngredientRole.INPUT, 74, 14)
-                .addIngredients(NeoForgeTypes.FLUID_STACK, Arrays.stream(recipe.value().fluidIngredient().getFluids()).toList()).addRichTooltipCallback((recipeSlotView, tooltip) -> {
+                .addIngredients(NeoForgeTypes.FLUID_STACK, Arrays.stream(recipe.value().getFluidIngredient().getFluids()).toList()).addRichTooltipCallback((recipeSlotView, tooltip) -> {
                     recipeSlotView.getDisplayedIngredient(NeoForgeTypes.FLUID_STACK).ifPresent(fluid -> {
                         int amount = fluid.getAmount();
                         // mB単位で表示
@@ -168,13 +169,13 @@ public class ZardiusCrucibleRecipeCategory extends AbstractMagitechRecipeCategor
             builder.addSlot(RecipeIngredientRole.OUTPUT, 121, 14)
                     .addItemStack(recipe.value().getResultItem(access));
         }
-        recipe.value().resultFluid().ifPresent(fluidStack -> builder.addSlot(RecipeIngredientRole.OUTPUT, 139, 14)
-                .addIngredient(NeoForgeTypes.FLUID_STACK, fluidStack).addRichTooltipCallback((recipeSlotView, tooltip) -> {
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 139, 14)
+                .addIngredient(NeoForgeTypes.FLUID_STACK, recipe.value().getResultFluid()).addRichTooltipCallback((recipeSlotView, tooltip) -> {
                     recipeSlotView.getDisplayedIngredient(NeoForgeTypes.FLUID_STACK).ifPresent(fluid -> {
                         int amount = fluid.getAmount();
                         // mB単位で表示
                         tooltip.add(Component.literal(amount + " mB").withColor(0x808080));
                     });
-                }));
+                });
     }
 }

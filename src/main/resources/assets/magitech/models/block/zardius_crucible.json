@@ -1,9 +1,11 @@
 {
+	"format_version": "1.21.6",
 	"credit": "Made with Blockbench",
-    "ambientocclusion": false,
+	"ambientocclusion": false,
 	"textures": {
 		"0": "magitech:block/zardius_crucible_side",
 		"1": "magitech:block/zardius_crucible_top",
+		"2": "magitech:block/zardius_crucible_connector",
 		"particle": "magitech:block/zardius_crucible_side"
 	},
 	"elements": [
@@ -59,7 +61,7 @@
 			"to": [2, 16, 14],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
 			"faces": {
-				"north": {"uv": [14, 0, 16, 12], "texture": "#0"},
+				"north": {"uv": [14, 0, 16, 12], "texture": "#2"},
 				"east": {"uv": [2, 0, 16, 12], "texture": "#0"},
 				"west": {"uv": [0, 0, 14, 12], "texture": "#0"},
 				"up": {"uv": [0, 0, 2, 14], "texture": "#1"},
@@ -94,9 +96,9 @@
 			"to": [16, 16, 2],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
 			"faces": {
-				"north": {"uv": [0, 0, 14, 12], "texture": "#0"},
+				"north": {"uv": [0, 0, 14, 12], "texture": "#2"},
 				"east": {"uv": [14, 0, 16, 12], "texture": "#0"},
-				"south": {"uv": [2, 0, 16, 12], "texture": "#0"},
+				"south": {"uv": [2, 0, 16, 12], "texture": "#2"},
 				"up": {"uv": [2, 0, 16, 2], "texture": "#1"},
 				"down": {"uv": [2, 14, 16, 16], "texture": "#1"}
 			}
@@ -152,7 +154,7 @@
 			"to": [14, 4, 14],
 			"rotation": {"angle": 0, "axis": "y", "origin": [0, 4, 14]},
 			"faces": {
-				"north": {"uv": [2, 12, 14, 14], "texture": "#0"},
+				"north": {"uv": [2, 12, 14, 14], "texture": "#2"},
 				"east": {"uv": [2, 12, 14, 14], "texture": "#0"},
 				"south": {"uv": [2, 12, 14, 14], "texture": "#0"},
 				"west": {"uv": [2, 12, 14, 14], "texture": "#0"},
@@ -177,7 +179,7 @@
 			"scale": [0.4, 0.4, 0.4]
 		},
 		"firstperson_lefthand": {
-			"rotation": [0, 225, 0],
+			"rotation": [0, -135, 0],
 			"scale": [0.4, 0.4, 0.4]
 		},
 		"ground": {
@@ -185,7 +187,7 @@
 			"scale": [0.25, 0.25, 0.25]
 		},
 		"gui": {
-			"rotation": [30, 225, 0],
+			"rotation": [30, -135, 0],
 			"scale": [0.625, 0.625, 0.625]
 		},
 		"fixed": {

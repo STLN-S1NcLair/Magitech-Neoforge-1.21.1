@@ -61,6 +61,6 @@ public class ManaContainerItemManaHandler implements IItemManaHandler {
 
     @Override
     public ManaFlowRule getManaFlowRule() {
-        return ManaFlowRule.BothWays(0.0F);
+        return ManaFlowRule.bothWays(0.0F);
     }
 }

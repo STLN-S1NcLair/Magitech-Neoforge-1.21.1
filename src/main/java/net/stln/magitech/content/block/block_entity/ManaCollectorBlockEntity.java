@@ -18,8 +18,6 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.content.block.BlockInit;
@@ -131,8 +129,8 @@ public class ManaCollectorBlockEntity extends ManaMachineBlockEntity {
     @Override
     public ManaFlowRule getManaFlowRule(BlockState state, Direction side) {
         if (side == null || side == state.getValue(ManaStranderBlock.FACING).getOpposite()) {
-            return ManaFlowRule.BothWays(1.0F);
+            return ManaFlowRule.bothWays(1.0F);
         }
-        return ManaFlowRule.None();
+        return ManaFlowRule.none();
     }
 }

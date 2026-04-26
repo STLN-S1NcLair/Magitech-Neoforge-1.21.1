@@ -26,9 +26,11 @@ import net.stln.magitech.content.item.fluid.potion.*;
 import net.stln.magitech.content.item.tool.ToolBeltItem;
 import net.stln.magitech.content.item.tool.partitem.*;
 import net.stln.magitech.content.item.tool.toolitem.*;
+import net.stln.magitech.content.item.tooltip_item.AspectCrystalItem;
 import net.stln.magitech.content.item.tooltip_item.TooltipTextBoatItem;
 import net.stln.magitech.content.item.tooltip_item.TooltipTextItem;
 import net.stln.magitech.content.item.tooltip_item.TooltipTextPlaceableItem;
+import net.stln.magitech.feature.element.Element;
 
 import java.util.Map;
 
@@ -217,14 +219,14 @@ public class ItemInit {
     public static final DeferredItem<Item> MANA_CHARGED_FLUORITE = ITEMS.registerItem("mana_charged_fluorite", ManaChargedFluoriteItem::new);
     public static final DeferredItem<Item> HIGH_PURITY_FLUORITE = ITEMS.registerItem("high_purity_fluorite", TooltipTextItem::new);
     public static final DeferredItem<Item> TOURMALINE = ITEMS.registerItem("tourmaline", TooltipTextItem::new);
-    public static final DeferredItem<Item> EMBER_CRYSTAL = ITEMS.registerItem("ember_crystal", TooltipTextItem::new);
-    public static final DeferredItem<Item> GLACE_CRYSTAL = ITEMS.registerItem("glace_crystal", TooltipTextItem::new);
-    public static final DeferredItem<Item> SURGE_CRYSTAL = ITEMS.registerItem("surge_crystal", TooltipTextItem::new);
-    public static final DeferredItem<Item> PHANTOM_CRYSTAL = ITEMS.registerItem("phantom_crystal", TooltipTextItem::new);
-    public static final DeferredItem<Item> TREMOR_CRYSTAL = ITEMS.registerItem("tremor_crystal", TooltipTextItem::new);
-    public static final DeferredItem<Item> MAGIC_CRYSTAL = ITEMS.registerItem("magic_crystal", TooltipTextItem::new);
-    public static final DeferredItem<Item> FLOW_CRYSTAL = ITEMS.registerItem("flow_crystal", TooltipTextItem::new);
-    public static final DeferredItem<Item> HOLLOW_CRYSTAL = ITEMS.registerItem("hollow_crystal", TooltipTextItem::new);
+    public static final DeferredItem<Item> EMBER_CRYSTAL = ITEMS.registerItem("ember_crystal", p -> new AspectCrystalItem(p, Element.EMBER));
+    public static final DeferredItem<Item> GLACE_CRYSTAL = ITEMS.registerItem("glace_crystal", p -> new AspectCrystalItem(p, Element.GLACE));
+    public static final DeferredItem<Item> SURGE_CRYSTAL = ITEMS.registerItem("surge_crystal", p -> new AspectCrystalItem(p, Element.SURGE));
+    public static final DeferredItem<Item> PHANTOM_CRYSTAL = ITEMS.registerItem("phantom_crystal", p -> new AspectCrystalItem(p, Element.PHANTOM));
+    public static final DeferredItem<Item> TREMOR_CRYSTAL = ITEMS.registerItem("tremor_crystal", p -> new AspectCrystalItem(p, Element.TREMOR));
+    public static final DeferredItem<Item> MAGIC_CRYSTAL = ITEMS.registerItem("magic_crystal", p -> new AspectCrystalItem(p, Element.MAGIC));
+    public static final DeferredItem<Item> FLOW_CRYSTAL = ITEMS.registerItem("flow_crystal", p -> new AspectCrystalItem(p, Element.FLOW));
+    public static final DeferredItem<Item> HOLLOW_CRYSTAL = ITEMS.registerItem("hollow_crystal", p -> new AspectCrystalItem(p, Element.HOLLOW));
     public static final DeferredItem<Item> AGGREGATED_NOCTIS = ITEMS.registerItem("aggregated_noctis", TooltipTextItem::new);
     public static final DeferredItem<Item> AGGREGATED_LUMINIS = ITEMS.registerItem("aggregated_luminis", TooltipTextItem::new);
     public static final DeferredItem<Item> AGGREGATED_FLUXIA = ITEMS.registerItem("aggregated_fluxia", TooltipTextItem::new);

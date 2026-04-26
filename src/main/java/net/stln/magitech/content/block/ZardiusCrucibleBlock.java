@@ -2,11 +2,14 @@ package net.stln.magitech.content.block;
 
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -23,6 +26,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
@@ -34,8 +38,9 @@ import net.stln.magitech.helper.TickScheduler;
 
 import javax.annotation.Nullable;
 
-public class ZardiusCrucibleBlock extends BaseEntityBlock {
+public class ZardiusCrucibleBlock extends ManaContainerBlock {
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
+    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final VoxelShape SHAPE = Shapes.or(
             Block.box(0, 0, 14, 4, 4, 16),
             Block.box(0, 4, 14, 14, 16, 16),
@@ -53,11 +58,15 @@ public class ZardiusCrucibleBlock extends BaseEntityBlock {
     );
     public static final MapCodec<ZardiusCrucibleBlock> CODEC = simpleCodec(ZardiusCrucibleBlock::new);
 
-    public ZardiusCrucibleBlock(Properties properties) {
-        super(properties);
+    public ZardiusCrucibleBlock(Properties properties, long maxMana, long maxFlow) {
+        super(properties, maxMana, maxFlow);
         this.registerDefaultState(
-                this.stateDefinition.any().setValue(LIT, Boolean.valueOf(false))
+                this.stateDefinition.any().setValue(LIT, Boolean.valueOf(false)).setValue(FACING, Direction.NORTH)
         );
+    }
+
+    public ZardiusCrucibleBlock(Properties properties) {
+        this(properties, 0, 0);
     }
 
     @Override
@@ -74,7 +83,7 @@ public class ZardiusCrucibleBlock extends BaseEntityBlock {
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
         boolean flag = fluidstate.getType() == Fluids.WATER;
-        return this.defaultBlockState().setValue(LIT, Boolean.valueOf(false));
+        return this.defaultBlockState().setValue(LIT, Boolean.valueOf(false)).setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
     @Override
@@ -100,15 +109,15 @@ public class ZardiusCrucibleBlock extends BaseEntityBlock {
     private void addBoilEffect(BlockState pState, Level pLevel, BlockPos pPos, RandomSource pRandom) {
         ZardiusCrucibleBlockEntity blockEntity = (ZardiusCrucibleBlockEntity) pLevel.getBlockEntity(pPos);
         for (int i = 0; i < 2; i++) {
-            if (!blockEntity.fluidTank.isEmpty()) {
-                ParticleOptions option;
-                float height = (float) blockEntity.getFluidAnim(blockEntity, 0) / blockEntity.fluidTank.getCapacity() * 0.75f + 0.2f;
+            if (blockEntity != null && blockEntity.tank.getTanks() > 0) {
+                FluidState tankFluidState = blockEntity.tank.getFluidInTank(0).getFluid().defaultFluidState();
+                float height = (float) blockEntity.getFluidAnim(blockEntity, 0) / Math.max(1, blockEntity.tank.getTankCapacity(0)) * 0.75f + 0.2f;
 
                 double d0 = (double) pPos.getX() + (double) pRandom.nextFloat() * 0.8 + 0.1;
                 double d1 = (double) pPos.getY() + height;
                 double d2 = (double) pPos.getZ() + (double) pRandom.nextFloat() * 0.8 + 0.1;
 
-                if (blockEntity.fluidTank.getFluid().getFluid().isSame(Fluids.LAVA)) {
+                if (tankFluidState.getType().isSame(Fluids.LAVA)) {
                     pLevel.addParticle(ParticleTypes.LAVA, d0, d1, d2,
                             pRandom.nextGaussian() * 0.005D, pRandom.nextGaussian() * 0.005D, pRandom.nextGaussian() * 0.005D);
                 } else {
@@ -123,7 +132,7 @@ public class ZardiusCrucibleBlock extends BaseEntityBlock {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(LIT);
+        builder.add(LIT).add(FACING);
     }
 
     /* BLOCK ENTITY */
@@ -137,6 +146,24 @@ public class ZardiusCrucibleBlock extends BaseEntityBlock {
     @Override
     public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
         return new ZardiusCrucibleBlockEntity(blockPos, blockState);
+    }
+
+    @Override
+    public @org.jetbrains.annotations.Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
+        return createTicker(level, blockEntityType, BlockInit.ZARDIUS_CRUCIBLE_ENTITY.get());
+    }
+
+    @Override
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+        if (level.isClientSide) {
+            return InteractionResult.SUCCESS;
+        } else {
+            BlockEntity blockentity = level.getBlockEntity(pos);
+            if (blockentity instanceof ZardiusCrucibleBlockEntity) {
+                player.openMenu((MenuProvider) blockentity);
+            }
+            return InteractionResult.CONSUME;
+        }
     }
 
     @Override
@@ -156,21 +183,9 @@ public class ZardiusCrucibleBlock extends BaseEntityBlock {
         BlockEntity entity = level.getBlockEntity(pos);
         if (entity instanceof ZardiusCrucibleBlockEntity zardiusCrucibleBlockEntity) {
             ItemStack itemInHand = player.getItemInHand(hand);
-            zardiusCrucibleBlockEntity.addItem(player, itemInHand, 1);
+            zardiusCrucibleBlockEntity.addItem(player, itemInHand, itemInHand.getCount());
             return ItemInteractionResult.SUCCESS;
         }
-        return ItemInteractionResult.CONSUME;
-    }
-
-    @org.jetbrains.annotations.Nullable
-    @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
-        return createTickerHelper(pBlockEntityType, BlockInit.ZARDIUS_CRUCIBLE_ENTITY.get(), (pLevel1, pPos, pState1, pBlockEntity) -> {
-            if (pLevel1.isClientSide) {
-                pBlockEntity.clientTick(pLevel1, pPos, pState1);
-            } else {
-                pBlockEntity.serverTick(pLevel1, pPos, pState1);
-            }
-        });
+        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 }

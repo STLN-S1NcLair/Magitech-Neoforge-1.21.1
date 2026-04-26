@@ -22,7 +22,7 @@ public class RecipeInit {
     public static final Supplier<RecipeSerializer<SpellConversionRecipe>> SPELL_CONVERSION_SERIALIZER = registerSerializer("spell_conversion", SpellConversionRecipe.CODEC, SpellConversionRecipe.STREAM_CODEC);
     public static final Supplier<ToolAssemblyRecipe.Serializer<ToolAssemblyRecipe>> TOOL_ASSEMBLY_SERIALIZER = registerSerializer("tool_assembly", () -> new ToolAssemblyRecipe.Serializer<>(ToolAssemblyRecipe::new));
     public static final Supplier<ToolMaterialRecipe.Serializer<ToolMaterialRecipe>> TOOL_MATERIAL_SERIALIZER = registerSerializer("tool_material", () -> new ToolMaterialRecipe.Serializer<>(ToolMaterialRecipe::new));
-    public static final Supplier<RecipeSerializer<ZardiusCrucibleRecipe>> ZARDIUS_CRUCIBLE_SERIALIZER = registerSerializer("zardius_crucible", ZardiusCrucibleRecipe.CODEC, ZardiusCrucibleRecipe.STREAM_CODEC);
+    public static final Supplier<RecipeSerializer<ZardiusCrucibleRecipe>> ZARDIUS_CRUCIBLE_SERIALIZER = registerSerializer("zardius_crucible", () -> new ZardiusCrucibleRecipe.Serializer<>(ZardiusCrucibleRecipe::new));
     public static final Supplier<RecipeSerializer<InfusionRecipe>> INFUSION_SERIALIZER = registerSerializer("infusion", () -> new InfusionRecipe.Serializer<>(InfusionRecipe::new));
     // Types
     public static final DeferredRegister<RecipeType<?>> TYPES = DeferredRegister.create(Registries.RECIPE_TYPE, Magitech.MOD_ID);

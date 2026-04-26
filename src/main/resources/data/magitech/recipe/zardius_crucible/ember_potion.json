@@ -2,16 +2,28 @@
   "type": "magitech:zardius_crucible",
   "ingredients": [
     {
+      "ingredient": {
       "item": "magitech:aggregated_fluxia"
+      },
+      "count": 1
     },
     {
+      "ingredient": {
       "item": "magitech:ember_crystal"
+      },
+      "count": 1
     },
     {
-      "tag": "c:coal"
+      "ingredient": {
+      "tag": "minecraft:coals"
+      },
+      "count": 1
     },
     {
+      "ingredient": {
       "tag": "c:gems/citrine"
+      },
+      "count": 1
     }
   ],
   "fluid_ingredient": {

@@ -31,7 +31,7 @@ public class TexturedProgressElement extends Element {
         this.text = text;
         this.textureLocation = textureLocation;
         // エネルギーバーなどの標準的なサイズ (幅は可変、高さ14px)
-        this.size = new Vec2(100, 14);
+        this.size = new Vec2(120, 14);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class TexturedProgressElement extends Element {
 
         // --- 1. 枠（背景）の描画 ---
         // Jadeのエネルギーバーと同様の配色（暗い背景 + 枠線）を再現します
-        int borderColor = 0x80FFFFFF; // 枠の色
+        int borderColor = 0x60FFFFFF; // 枠の色
         int bgColor = 0x30303030;     // バーの背景（空の部分）の色
 
 //        // 全体を枠色で塗りつぶし

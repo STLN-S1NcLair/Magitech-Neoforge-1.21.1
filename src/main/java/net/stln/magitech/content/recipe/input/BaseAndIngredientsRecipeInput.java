@@ -50,17 +50,6 @@ public record BaseAndIngredientsRecipeInput(ItemStack base, List<ItemStack> stac
         if (!baseIng.test(this.base)) {
             return false;
         }
-        List<ItemStack> copyInputs = new ArrayList<>(new ArrayList<>(this.stacks).stream().filter(stack -> !stack.isEmpty()).toList());
-        List<SizedIngredient> copyIngs = new ArrayList<>(ingredients);
-        for (SizedIngredient ingredient : ingredients) {
-            for (ItemStack stack : copyInputs) {
-                if (ingredient.test(stack)) {
-                    copyInputs.remove(stack);
-                    copyIngs.remove(ingredient);
-                    break;
-                }
-            }
-        }
-        return copyIngs.isEmpty() && copyInputs.isEmpty();
+        return IngredientHelper.testSizedIngs(this.stacks, ingredients);
     }
 }

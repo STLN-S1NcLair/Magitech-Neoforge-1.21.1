@@ -35,6 +35,7 @@ public class OreSurfaceFeature extends Feature<NoneFeatureConfiguration> {
         for (int dx = 0; dx < 16; dx++) {
             for (int dz = 0; dz < 16; dz++) {
                 for (int dy = level.getMinBuildHeight(); dy < level.getMaxBuildHeight(); dy++) {
+                    if (level.getRandom().nextFloat() > propability) continue;
                     pos.set(chunkPos.getMinBlockX() + dx, dy, chunkPos.getMinBlockZ() + dz);
                     BlockState state = level.getBlockState(pos);
 
@@ -47,7 +48,7 @@ public class OreSurfaceFeature extends Feature<NoneFeatureConfiguration> {
                     if (isTargetBlock) {
                         for (Direction dir : Direction.values()) {
                             BlockPos facePos = pos.relative(dir);
-                            if ((level.getBlockState(facePos).isAir() || level.getBlockState(facePos).is(Blocks.WATER)) && level.getRandom().nextFloat() < propability) {
+                            if ((level.getBlockState(facePos).isAir() || level.getBlockState(facePos).is(Blocks.WATER))) {
                                 BlockState blockState = blockToPlace;
                                 if (blockToPlace.hasProperty(BlockStateProperties.FACING)) {
                                     blockState = blockState.setValue(BlockStateProperties.FACING, dir);

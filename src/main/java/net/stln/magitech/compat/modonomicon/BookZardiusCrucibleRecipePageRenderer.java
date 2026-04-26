@@ -61,14 +61,14 @@ public class BookZardiusCrucibleRecipePageRenderer extends BookRecipePageRendere
         recipe.value().getIngredients().forEach(ing -> {
             if (ing.getItems().length > 0) inputs.add(Arrays.stream(ing.getItems()).toList());
         });
-        inputFluids.addAll(Arrays.stream(recipe.value().fluidIngredient().getFluids()).toList());
+        inputFluids.addAll(Arrays.stream(recipe.value().getFluidIngredient().getFluids()).toList());
 
         RegistryAccess registries = Minecraft.getInstance().level != null ? Minecraft.getInstance().level.registryAccess() : null;
         if (registries == null) {
             return;
         }
         ItemStack output = recipe.value().getResultItem(registries);
-        FluidStack outputFluid = recipe.value().resultFluid().orElse(FluidStack.EMPTY);
+        FluidStack outputFluid = recipe.value().getResultFluid();
 
 
         for (int i = 0; i < inputs.size(); i++) {

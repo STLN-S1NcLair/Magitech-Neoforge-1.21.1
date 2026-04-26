@@ -24,6 +24,7 @@ import net.minecraft.world.level.material.FluidState;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
+import net.stln.magitech.capability.FallbackFluidTank;
 import net.stln.magitech.content.block.ZardiusCrucibleBlock;
 import net.stln.magitech.content.block.block_entity.ZardiusCrucibleBlockEntity;
 import org.jetbrains.annotations.NotNull;
@@ -54,7 +55,7 @@ public class ZardiusCrucibleBlockEntityRenderer implements BlockEntityRenderer<Z
     @Override
     public void render(ZardiusCrucibleBlockEntity blockEntity, float partialTick, @NotNull PoseStack poseStack, @NotNull MultiBufferSource bufferSource, int pPackedLight, int pPackedOverlay) {
         NonNullList<ItemStack> itemStack = blockEntity.getRenderStack();
-        FluidTank fluidTank = blockEntity.fluidTank;
+        FallbackFluidTank fluidTank = blockEntity.tank;
         int leng = itemStack.size();
 
         float renderCount = (blockEntity.tickCounter + partialTick) % 500;
@@ -94,7 +95,7 @@ public class ZardiusCrucibleBlockEntityRenderer implements BlockEntityRenderer<Z
                     blockEntity.getBlockPos()), OverlayTexture.NO_OVERLAY, poseStack, bufferSource, blockEntity.getLevel(), 1);
             poseStack.popPose();
         }
-        FluidStack fluidStack = new FluidStack(fluidTank.getFluid().getFluid(), 1);
+        FluidStack fluidStack = new FluidStack(fluidTank.getFluidInTank(0).getFluid(), 1);
         if (fluidStack.isEmpty() && height > 0) {
             fluidStack = blockEntity.oldFluidStack;
         } else if (!fluidStack.isEmpty()) {
