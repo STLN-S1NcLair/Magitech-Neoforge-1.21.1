@@ -109,8 +109,19 @@ public class ZardiusCrucibleBlockEntity extends ManaMachineBlockEntity {
         return this.tank.getTanks() == 1 && !lastFluid().isEmpty();
     }
 
+    private boolean canCraftWithTwoTanks(ZardiusCrucibleRecipe recipe) {
+        if (tank.getTanks() != 2) return false;
+        FluidStack inputFluid = tank.getFluidInTank(0);
+        FluidStack outputFluid = tank.getFluidInTank(1);
+        boolean inputOk = recipe.getFluidIngredient().test(inputFluid);
+        boolean outputOk = outputFluid.isEmpty() || FluidStack.isSameFluid(outputFluid, recipe.getResultFluid());
+        int outputCapacity = tank.getTankCapacity(1) - outputFluid.getAmount();
+        boolean enoughSpace = outputCapacity >= recipe.getResultFluid().getAmount();
+        return inputOk && outputOk && enoughSpace;
+    }
+
     private void processRecipe(Level level, BlockPos pos, BlockState state, ZardiusCrucibleRecipe recipe, CrucibleRecipeInput input) {
-        if (!hasSingleCraftFluid()) {
+        if (!(hasSingleCraftFluid() || canCraftWithTwoTanks(recipe))) {
             this.craftingTime = 0;
             BlockState offState = state.setValue(ZardiusCrucibleBlock.LIT, false);
             level.setBlock(pos, offState, 3);
@@ -119,13 +130,11 @@ public class ZardiusCrucibleBlockEntity extends ManaMachineBlockEntity {
         }
 
         BlockState newState;
-        // 火がついているか判定
         if (state.getBlock() instanceof ZardiusCrucibleBlock crucibleBlock && crucibleBlock.isOnFire(state, level, pos)) {
             if (this.getMana() < recipe.getMana()) {
                 this.craftingTime = 0;
                 newState = state.setValue(ZardiusCrucibleBlock.LIT, false);
             } else {
-                // 時間を進める
                 if (this.craftingTime < this.maxCraftingTime) {
                     this.craftingTime++;
                     newState = state.setValue(ZardiusCrucibleBlock.LIT, true);
@@ -134,17 +143,7 @@ public class ZardiusCrucibleBlockEntity extends ManaMachineBlockEntity {
                         this.craftingTime = 0;
                         newState = state.setValue(ZardiusCrucibleBlock.LIT, false);
                     } else {
-                        ItemStack result = recipe.assemble(input, level.registryAccess());
-                        FluidStack primaryFluid = lastFluid();
-                        if (!primaryFluid.isEmpty()) {
-                            this.tank.drain(primaryFluid.copyWithAmount(recipe.getFluidIngredient().amount()), IFluidHandler.FluidAction.EXECUTE);
-                        }
-                        this.tank.fill(recipe.getResultFluid(), IFluidHandler.FluidAction.EXECUTE);
-                        ItemEntity itemEntity = new ItemEntity(level, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, result);
-                        level.addFreshEntity(itemEntity);
-                        this.craftingTime = 0;
-                        level.playSound(null, pos, SoundEvents.BREWING_STAND_BREW, SoundSource.BLOCKS, 1.0f, 0.6f + (level.random.nextFloat() * 0.8f));
-                        newState = state.setValue(ZardiusCrucibleBlock.LIT, false);
+                        newState = executeCrafting(level, pos, state, recipe, input);
                     }
                 }
             }
@@ -154,6 +153,34 @@ public class ZardiusCrucibleBlockEntity extends ManaMachineBlockEntity {
         }
         level.setBlock(pos, newState, 3);
         setChanged();
+    }
+
+    /**
+     * クラフト実行処理（液体操作・アイテム出力・サウンド・状態更新）
+     */
+    private BlockState executeCrafting(Level level, BlockPos pos, BlockState state, ZardiusCrucibleRecipe recipe, CrucibleRecipeInput input) {
+        // 液体操作
+        if (tank.getTanks() == 2 && canCraftWithTwoTanks(recipe)) {
+            FluidStack inputFluid = tank.getFluidInTank(0);
+            tank.drain(new FluidStack(inputFluid.getFluid(), recipe.getFluidIngredient().amount(), inputFluid.getTag()), IFluidHandler.FluidAction.EXECUTE);
+            tank.fill(recipe.getResultFluid(), IFluidHandler.FluidAction.EXECUTE);
+        } else {
+            FluidStack primaryFluid = lastFluid();
+            if (!primaryFluid.isEmpty()) {
+                this.tank.drain(primaryFluid.copyWithAmount(recipe.getFluidIngredient().amount()), IFluidHandler.FluidAction.EXECUTE);
+            }
+            this.tank.fill(recipe.getResultFluid(), IFluidHandler.FluidAction.EXECUTE);
+        }
+        // アイテム出力
+        ItemStack result = recipe.assemble(input, level.registryAccess());
+        ItemEntity itemEntity = new ItemEntity(level, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, result);
+        level.addFreshEntity(itemEntity);
+        // サウンド
+        level.playSound(null, pos, SoundEvents.BREWING_STAND_BREW, SoundSource.BLOCKS, 1.0f, 0.6f + (level.random.nextFloat() * 0.8f));
+        // 状態更新
+        this.craftingTime = 0;
+        setChanged();
+        return state.setValue(ZardiusCrucibleBlock.LIT, false);
     }
 
     private boolean consumeRecipeIngredients(List<SizedIngredient> ingredients) {
@@ -369,8 +396,8 @@ public class ZardiusCrucibleBlockEntity extends ManaMachineBlockEntity {
         if (!itemList.isEmpty()) {
             for (ItemEntity itemEntity : itemList) {
                 ItemStack stack = itemEntity.getItem();
-                if (this.addItemStack(stack, 1)) {
-                    itemEntity.setItem(stack);
+                if (this.addItemStack(stack, stack.getCount())) { // スタック全体を入れる
+                    itemEntity.setItem(ItemStack.EMPTY);
                     setChanged();
                 }
             }
@@ -510,14 +537,19 @@ public class ZardiusCrucibleBlockEntity extends ManaMachineBlockEntity {
     }
 
     private boolean addItemStack(ItemStack pItemStack, int count) {
-        for (int i = 0; i < 8; i++) {
+        int remaining = count;
+        for (int i = 0; i < 8 && remaining > 0; i++) {
             if (this.inventory.getStackInSlot(i).isEmpty()) {
-                this.inventory.setStackInSlot(i, pItemStack.split(count));
+                int toInsert = Math.min(remaining, pItemStack.getMaxStackSize());
+                ItemStack insertStack = pItemStack.copy();
+                insertStack.setCount(toInsert);
+                this.inventory.setStackInSlot(i, insertStack);
+                remaining -= toInsert;
                 setChanged();
-                return true;
             }
         }
-        return false;
+        pItemStack.setCount(remaining);
+        return remaining < count; // 1つでも入ったらtrue
     }
 
     public void clearContents() {
