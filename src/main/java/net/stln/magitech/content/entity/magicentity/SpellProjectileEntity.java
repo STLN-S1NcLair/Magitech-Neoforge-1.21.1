@@ -149,13 +149,16 @@ public abstract class SpellProjectileEntity extends AbstractSpellProjectileEntit
 
     protected void onHit(HitResult result) {
         discardOrReflect(result);
-        damageEntity(result);
+        boolean validHit = isValidHit(result);
+        if (validHit) {
+            damageEntity(result);
+        }
         if (!this.level().isClientSide) {
-            if (isValidHit(result)) {
+            if (validHit) {
                 playHitSound();
             }
         } else {
-            if (isValidHit(result)) {
+            if (validHit) {
                 spawnHitParticle();
             }
         }
