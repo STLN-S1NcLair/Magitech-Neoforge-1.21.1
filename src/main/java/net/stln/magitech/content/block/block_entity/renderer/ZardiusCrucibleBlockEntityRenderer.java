@@ -234,12 +234,12 @@ public class ZardiusCrucibleBlockEntityRenderer implements BlockEntityRenderer<Z
             return;
         }
 
-        float ratio = (float) amount0 / totalAmount;
-        // Animate split ratio when fluid balance changes.
-        float animatedRatio = blockEntity.getSplitRatioAnim(ratio, partialTick);
+        float ratio = Mth.clamp((float) amount0 / totalAmount, 0.0f, 1.0f);
+        // 補間値が一時的に範囲外に出ても描画が壊れないように 0..1 に固定する。
+        float animatedRatio = Mth.clamp(blockEntity.getSplitRatioAnim(ratio, partialTick), 0.0f, 1.0f);
 
         // Use a fixed split direction for all crucibles.
-        float splitX = SURFACE_MIN + (SURFACE_MAX - SURFACE_MIN) * animatedRatio;
+        float splitX = Mth.clamp(SURFACE_MIN + (SURFACE_MAX - SURFACE_MIN) * animatedRatio, SURFACE_MIN, SURFACE_MAX);
         drawSurfaceRect(data0.builder(), poseStack, data0.sprite(), SURFACE_MIN, splitX, y, SURFACE_MIN, SURFACE_MAX, data0.lightLevel(), data0.tintColor());
         drawBoundaryX(data0, poseStack, splitX, FLUID_Y_BASE, y, false);
         renderMixOverlay(poseStack, blockEntity, data0, y, false);

@@ -193,6 +193,14 @@ public class BlockInit {
             BLOCK_ENITIES.register("athanor_pillar", () -> BlockEntityType.Builder.of(
                     AthanorPillarBlockEntity::new, BlockInit.ATHANOR_PILLAR.get()).build(null));
 
+    // トラップデバイス
+
+
+    public static final DeferredBlock<TrapHatchBlock> TRAP_HATCH = BLOCKS.registerBlock("trap_hatch",
+            TrapHatchBlock::new,
+            BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_TRAPDOOR));
+    public static final DeferredItem<BlockItem> TRAP_HATCH_ITEM = ItemInit.ITEMS.register("trap_hatch", key -> new TooltipTextBlockItem(TRAP_HATCH.get(), new Item.Properties()));
+
 
     // Normal Blocks
 

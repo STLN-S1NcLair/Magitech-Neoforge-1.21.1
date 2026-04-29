@@ -2,27 +2,37 @@
   "type": "magitech:zardius_crucible",
   "ingredients": [
     {
+      "ingredient": {
       "item": "minecraft:book"
+      },
+      "count": 1
     },
     {
+      "ingredient": {
     "item": "minecraft:gold_ingot"
+      },
+      "count": 1
     },
     {
+      "ingredient": {
       "tag": "c:gems/fluorite"
+      },
+      "count": 8
     },
     {
-      "tag": "c:gems/fluorite"
-    },
-    {
+      "ingredient": {
       "item": "magitech:alchecrysite"
+      },
+      "count": 8
     },
     {
-      "item": "magitech:alchecrysite"
-    },
-    {
+      "ingredient": {
       "tag": "c:gems/tourmaline"
+      },
+      "count": 1
     }
   ],
+  "mana": 40000,
   "fluid_ingredient": {
     "fluid": "minecraft:water",
     "amount": 2000

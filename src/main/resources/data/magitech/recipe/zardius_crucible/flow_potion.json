@@ -2,22 +2,35 @@
   "type": "magitech:zardius_crucible",
   "ingredients": [
     {
+      "ingredient": {
       "item": "magitech:aggregated_luminis"
+      },
+      "count": 1
     },
     {
+      "ingredient": {
       "item": "magitech:flow_crystal"
+      },
+      "count": 1
     },
     {
+      "ingredient": {
       "tag": "minecraft:saplings"
+      },
+      "count": 1
     },
     {
+      "ingredient": {
       "item": "minecraft:dripstone_block"
-    }
+      },
+      "count": 1
+    },
   ],
   "fluid_ingredient": {
     "fluid": "magitech:mana_potion",
     "amount": 1000
   },
+  "mana": 10000,
   "fluid_result": {
     "id": "magitech:flow_potion",
     "amount": 1000

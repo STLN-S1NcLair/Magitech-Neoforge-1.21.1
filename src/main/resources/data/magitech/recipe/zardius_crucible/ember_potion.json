@@ -30,6 +30,7 @@
     "fluid": "magitech:mana_potion",
     "amount": 1000
   },
+  "mana": 10000,
   "fluid_result": {
     "id": "magitech:ember_potion",
     "amount": 1000

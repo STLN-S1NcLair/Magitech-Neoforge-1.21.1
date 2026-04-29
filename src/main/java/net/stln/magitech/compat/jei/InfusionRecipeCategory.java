@@ -12,22 +12,18 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.IRecipeManager;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.content.block.BlockInit;
 import net.stln.magitech.content.recipe.InfusionRecipe;
-import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.helper.EnergyFormatter;
-import net.stln.magitech.helper.RenderHelper;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -36,7 +32,7 @@ import java.util.List;
 public class InfusionRecipeCategory extends AbstractMagitechRecipeCategory<RecipeHolder<InfusionRecipe>> {
     public static final ResourceLocation TEXTURE = Magitech.id("textures/gui/jei/infusion_recipe.png");
     public static final ResourceLocation WIDGETS = Magitech.id("textures/gui/jei/jei_widgets.png");
-    protected static long gaugeMaxMana = 100000; // 表示用の最大マナ量
+    protected static long GAUGE_MAX_MANA = 100000; // 表示用の最大マナ量
 
     public InfusionRecipeCategory(IDrawable icon) {
         super(icon);
@@ -81,7 +77,7 @@ public class InfusionRecipeCategory extends AbstractMagitechRecipeCategory<Recip
             guiGraphics.blit(WIDGETS, x, y, 0, 0, 18, 20);
         }
 
-        int height = (int) ((double) mana / gaugeMaxMana * 72);
+        int height = (int) ((double) mana / GAUGE_MAX_MANA * 72);
         guiGraphics.blit(TEXTURE, 96, 40 + 72 - height, 128, 0, 16, height);
     }
 

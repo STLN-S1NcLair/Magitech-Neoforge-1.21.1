@@ -3,6 +3,7 @@ package net.stln.magitech.compat.jei;
 import com.mojang.serialization.Codec;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.gui.builder.ITooltipBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.ICodecHelper;
@@ -23,8 +24,10 @@ import net.minecraft.world.item.crafting.RecipeManager;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.content.block.BlockInit;
+import net.stln.magitech.content.recipe.InfusionRecipe;
 import net.stln.magitech.content.recipe.ZardiusCrucibleRecipe;
 import net.stln.magitech.helper.ClientHelper;
+import net.stln.magitech.helper.EnergyFormatter;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -32,7 +35,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ZardiusCrucibleRecipeCategory extends AbstractMagitechRecipeCategory<RecipeHolder<ZardiusCrucibleRecipe>> {
-    public static final ResourceLocation TEXTURE = Magitech.id("textures/gui/jei_widgets.png");
+    public static final ResourceLocation TEXTURE = Magitech.id("textures/gui/jei/zardius_crucible_recipe.png");
+    public static final ResourceLocation WIDGETS = Magitech.id("textures/gui/jei_widgets.png");
+    protected static long GAUGE_MAX_MANA = 100000; // 表示用の最大マナ量
 
     public ZardiusCrucibleRecipeCategory(IDrawable icon) {
         super(icon);
@@ -65,99 +70,55 @@ public class ZardiusCrucibleRecipeCategory extends AbstractMagitechRecipeCategor
     @Override
     public void draw(@NotNull RecipeHolder<ZardiusCrucibleRecipe> recipe, @NotNull IRecipeSlotsView recipeSlotsView, @NotNull GuiGraphics guiGraphics, double mouseX, double mouseY) {
         super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
-        int size = recipe.value().getIngredients().size();
+        int size = recipe.value().getSizedIngredients().size();
+        long mana = recipe.value().getMana();
 
-        for (int i = 0; i < (size == 0 ? 8 : size); i++) {
-            int x, y;
+        guiGraphics.blit(TEXTURE, 0, 0, 0, 0, 128, 170);
 
-            if (size <= 3) {
-                // 横1列（中央寄せ、Y + 9）
-                int totalWidth = size * 18;
-                int startX = 19 + (36 - totalWidth) / 2; // 中央寄せ（基準幅36）
-                x = startX + i * 18;
-                y = 4 + 9;
-            } else if (size == 4) {
-                // 2x2 グリッド（中央寄せ）
-                int row = i / 2;
-                int col = i % 2;
-                x = 19 + col * 18; // 横方向中央に調整
-                y = 4 + row * 18;
-            } else if (size < 7) {
-                // 2列3行（左→右→下に）
-                int row = i / 3;
-                int col = i % 3;
-                int totalWidth = 3 * 18;
-                x = 19 + col * 18 + (36 - totalWidth) / 2;
-                y = 4 + row * 18;
-            } else {
-                // 2列で縦並び（なるべく均等）
-                int row = i / 4;
-                int col = i % 4;
-                int totalWidth = 4 * 18;
-                x = 19 + col * 18 + (36 - totalWidth) / 2;
-                y = 4 + row * 18;
-            }
+        for (int i = 0; i < size; i++) {
+            int x = 15, y = 67 + i * 17;
+            y -= (size - 1) * 17 / 2; // 中央寄せのためにX座標を調整
 
-            guiGraphics.blit(TEXTURE, x, y, 0, 0, 18, 18);
+            guiGraphics.blit(WIDGETS, x, y, 0, 0, 18, 20);
         }
-        guiGraphics.blit(TEXTURE, 73, 13, 18, 0, 18, 18);
-        guiGraphics.blit(TEXTURE, 95, 17, 0, 18, 21, 10);
-        var access = ClientHelper.getRegistryAccess();
-        if (access == null) return;
-        guiGraphics.blit(TEXTURE, 120, 13, 36, 0, 18, 18);
-        guiGraphics.blit(TEXTURE, 138, 13, 54, 0, 18, 18);
+
+        int height = (int) ((double) mana / GAUGE_MAX_MANA * 72);
+        guiGraphics.blit(TEXTURE, 96, 40 + 72 - height, 128, 0, 16, height);
+    }
+
+    @Override
+    public void getTooltip(ITooltipBuilder tooltip, RecipeHolder<ZardiusCrucibleRecipe> recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
+        super.getTooltip(tooltip, recipe, recipeSlotsView, mouseX, mouseY);
+        if (mouseX >= 96 && mouseX <= 112 && mouseY >= 40 && mouseY <= 112) {
+            tooltip.add(Component.translatable("recipe.magitech.required_mana").append(Component.literal(": " + EnergyFormatter.formatValue(recipe.value().getMana()))).withColor(0xcdffde));
+        }
     }
 
     @Override
     public int getWidth() {
-        return 155;
+        return 128;
     }
 
     @Override
     public int getHeight() {
-        return 44;
+        return 170;
     }
 
     @Override
     protected void setRecipe(@NotNull IRecipeLayoutBuilder builder, @NotNull RecipeHolder<ZardiusCrucibleRecipe> recipe, @NotNull IFocusGroup focuses, @NotNull RecipeManager recipeManager, @NotNull RegistryAccess access) {
-
         List<SizedIngredient> ingredients = recipe.value().getSizedIngredients();
+        int size = ingredients.size();
+        ItemStack result = recipe.value().getResultItem(access);
 
-        for (int i = 0; i < ingredients.size(); i++) {
-            int x, y;
+        for (int i = 0; i < size; i++) {
+            int x = 16, y = 68 + i * 17;
+            y -= (size - 1) * 17 / 2; // 中央寄せのためにX座標を調整
 
-            if (ingredients.size() <= 3) {
-                // 横1列（中央寄せ、Y + 9）
-                int totalWidth = ingredients.size() * 18;
-                int startX = 19 + (36 - totalWidth) / 2; // 中央寄せ（基準幅36）
-                x = startX + i * 18;
-                y = 4 + 9;
-            } else if (ingredients.size() == 4) {
-                // 2x2 グリッド（中央寄せ）
-                int row = i / 2;
-                int col = i % 2;
-                x = 19 + col * 18; // 横方向中央に調整
-                y = 4 + row * 18;
-            } else if (ingredients.size() < 7) {
-                // 2列3行（左→右→下に）
-                int row = i / 3;
-                int col = i % 3;
-                int totalWidth = 3 * 18;
-                x = 19 + col * 18 + (36 - totalWidth) / 2;
-                y = 4 + row * 18;
-            } else {
-                // 2列で縦並び（なるべく均等）
-                int row = i / 4;
-                int col = i % 4;
-                int totalWidth = 4 * 18;
-                x = 19 + col * 18 + (36 - totalWidth) / 2;
-                y = 4 + row * 18;
-            }
-
-            builder.addSlot(RecipeIngredientRole.INPUT, x + 1, y + 1)
-                    .addItemStacks(List.of(ingredients.get(i).getItems()));
+            builder.addSlot(RecipeIngredientRole.INPUT, x, y).addItemStacks(List.of(ingredients.get(i).getItems()));
         }
-        builder.addSlot(RecipeIngredientRole.INPUT, 74, 14)
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 56, 136).addItemStack(result);
+
+        builder.addSlot(RecipeIngredientRole.INPUT, 56, 32)
                 .addIngredients(NeoForgeTypes.FLUID_STACK, Arrays.stream(recipe.value().getFluidIngredient().getFluids()).toList()).addRichTooltipCallback((recipeSlotView, tooltip) -> {
                     recipeSlotView.getDisplayedIngredient(NeoForgeTypes.FLUID_STACK).ifPresent(fluid -> {
                         int amount = fluid.getAmount();
@@ -165,11 +126,7 @@ public class ZardiusCrucibleRecipeCategory extends AbstractMagitechRecipeCategor
                         tooltip.add(Component.literal(amount + " mB").withColor(0x808080));
                     });
                 });
-        if (!recipe.value().getResultItem(access).isEmpty()) {
-            builder.addSlot(RecipeIngredientRole.OUTPUT, 121, 14)
-                    .addItemStack(recipe.value().getResultItem(access));
-        }
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 139, 14)
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 56, 104)
                 .addIngredient(NeoForgeTypes.FLUID_STACK, recipe.value().getResultFluid()).addRichTooltipCallback((recipeSlotView, tooltip) -> {
                     recipeSlotView.getDisplayedIngredient(NeoForgeTypes.FLUID_STACK).ifPresent(fluid -> {
                         int amount = fluid.getAmount();

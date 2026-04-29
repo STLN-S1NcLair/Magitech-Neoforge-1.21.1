@@ -2,27 +2,31 @@
   "type": "magitech:zardius_crucible",
   "ingredients": [
     {
+      "ingredient": {
       "tag": "c:gems/mana_charged_fluorite"
+      },
+      "count": 2
     },
     {
+      "ingredient": {
       "item": "magitech:tourmaline"
+      },
+      "count": 4
     },
     {
-      "item": "magitech:tourmaline"
-    },
-    {
+      "ingredient": {
       "item": "minecraft:glass"
-    },
-    {
-      "item": "minecraft:glass"
+      },
+      "count": 4
     }
   ],
   "fluid_ingredient": {
     "fluid": "magitech:mana_potion",
     "amount": 1000
   },
+  "mana": 10000,
   "result": {
     "id": "magitech:mana_insulating_glass",
-    "count": 2
+    "count": 6
   }
 }

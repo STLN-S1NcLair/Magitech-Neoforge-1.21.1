@@ -2,18 +2,31 @@
   "type": "magitech:zardius_crucible",
   "ingredients": [
     {
+      "ingredient": {
       "item": "magitech:aggregated_noctis"
+      },
+      "count": 1
     },
     {
+      "ingredient": {
       "item": "magitech:tremor_crystal"
+      },
+      "count": 1
     },
     {
+      "ingredient": {
       "item": "minecraft:deepslate"
+      },
+      "count": 1
     },
     {
+      "ingredient": {
       "tag": "c:gems/lapis"
+      },
+      "count": 1
     }
   ],
+  "mana": 10000,
   "fluid_ingredient": {
     "fluid": "magitech:mana_potion",
     "amount": 1000

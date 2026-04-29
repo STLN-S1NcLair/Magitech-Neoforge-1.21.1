@@ -2,22 +2,23 @@
   "type": "magitech:zardius_crucible",
   "ingredients": [
     {
-      "tag": "c:gems/mana_charged_fluorite"
-    },
-    {
-      "tag": "c:gems/mana_charged_fluorite"
-    },
-    {
+      "ingredient": {
       "item": "magitech:mana_berries"
+      },
+      "count": 1
     },
     {
+      "ingredient": {
       "item": "magitech:mana_berries"
+      },
+      "count": 1
     }
   ],
   "fluid_ingredient": {
     "fluid": "minecraft:water",
     "amount": 1000
   },
+  "mana": 20000,
   "fluid_result": {
     "id": "magitech:mana_potion",
     "amount": 1000

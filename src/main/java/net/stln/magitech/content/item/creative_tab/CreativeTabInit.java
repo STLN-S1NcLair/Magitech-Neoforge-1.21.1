@@ -147,6 +147,7 @@ public class CreativeTabInit {
                 output.accept(BlockInit.MANA_COLLECTOR_ITEM.get());
                 output.accept(BlockInit.MANA_JUNCTION_ITEM.get());
                 output.accept(BlockInit.INFUSION_ALTAR_ITEM.get());
+                output.accept(BlockInit.TRAP_HATCH_ITEM.get());
                 output.accept(BlockInit.FLUORITE_ORE_ITEM.get());
                 output.accept(BlockInit.DEEPSLATE_FLUORITE_ORE_ITEM.get());
                 output.accept(BlockInit.ZINC_ORE_ITEM.get());

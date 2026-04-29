@@ -2,22 +2,35 @@
   "type": "magitech:zardius_crucible",
   "ingredients": [
     {
+      "ingredient": {
       "item": "magitech:aggregated_luminis"
+      },
+      "count": 1
     },
     {
+      "ingredient": {
       "item": "magitech:phantom_crystal"
+      },
+      "count": 1
     },
     {
+      "ingredient": {
       "item": "minecraft:phantom_membrane"
+      },
+      "count": 1
     },
     {
+      "ingredient": {
       "tag": "c:gems/fluorite"
+      },
+      "count": 1
     }
   ],
   "fluid_ingredient": {
     "fluid": "magitech:mana_potion",
     "amount": 1000
   },
+  "mana": 10000,
   "fluid_result": {
     "id": "magitech:phantom_potion",
     "amount": 1000

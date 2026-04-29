@@ -2,19 +2,23 @@
   "type": "magitech:zardius_crucible",
   "ingredients": [
     {
+      "ingredient": {
       "item": "magitech:celifern_planks"
+      },
+      "count": 1
     },
     {
+      "ingredient": {
       "tag": "c:gems/sulfur"
-    },
-    {
-      "tag": "c:gems/sulfur"
+      },
+      "count": 2
     }
   ],
   "fluid_ingredient": {
     "fluid": "magitech:mana_potion",
     "amount": 1000
   },
+  "mana": 10000,
   "result": {
     "id": "minecraft:charcoal",
     "count": 1

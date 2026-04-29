@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "opened=false": {
+      "model": "magitech:block/trap_hatch"
+    },
+    "opened=true": {
+      "model": "magitech:block/trap_hatch_open"
+    }
+  }
+}

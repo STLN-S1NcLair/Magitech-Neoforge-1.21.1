@@ -2,22 +2,35 @@
   "type": "magitech:zardius_crucible",
   "ingredients": [
     {
+      "ingredient": {
       "item": "magitech:aggregated_noctis"
+      },
+      "count": 1
     },
     {
+      "ingredient": {
       "item": "magitech:hollow_crystal"
+      },
+      "count": 1
     },
     {
+      "ingredient": {
       "item": "minecraft:ender_pearl"
+      },
+      "count": 1
     },
     {
+      "ingredient": {
       "item": "minecraft:warped_fungus"
-    }
+      },
+      "count": 1
+    },
   ],
   "fluid_ingredient": {
     "fluid": "magitech:mana_potion",
     "amount": 1000
   },
+  "mana": 10000,
   "fluid_result": {
     "id": "magitech:hollow_potion",
     "amount": 1000

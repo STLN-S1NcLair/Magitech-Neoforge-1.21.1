@@ -2,18 +2,31 @@
   "type": "magitech:zardius_crucible",
   "ingredients": [
     {
+      "ingredient": {
       "item": "magitech:aggregated_luminis"
+      },
+      "count": 1
     },
     {
+      "ingredient": {
       "item": "magitech:surge_crystal"
+      },
+      "count": 1
     },
     {
+      "ingredient": {
       "tag": "c:ingots/copper"
+      },
+      "count": 1
     },
     {
+      "ingredient": {
       "tag": "c:gems/redstone_crystal"
+      },
+      "count": 1
     }
   ],
+  "mana": 10000,
   "fluid_ingredient": {
     "fluid": "magitech:mana_potion",
     "amount": 1000

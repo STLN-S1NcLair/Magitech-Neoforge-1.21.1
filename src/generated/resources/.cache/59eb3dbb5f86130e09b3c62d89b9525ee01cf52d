@@ -1,4 +1,4 @@
-// 1.21.1	2026-04-04T12:04:08.2997358	Loot Tables
+// 1.21.1	2026-04-29T10:40:45.187392	Loot Tables
 d5c7ba896003b8f86835f7808a6a42840e7bb806 data/magitech/loot_table/blocks/alchecrysite.json
 0ec67ee2f0a83abcc8fc58cd95f43106109fca3e data/magitech/loot_table/blocks/alchecrysite_bricks.json
 f0dfbc1457dc98d193c135916b33deca6e65c407 data/magitech/loot_table/blocks/alchecrysite_brick_slab.json
@@ -101,6 +101,7 @@ b51a462b847a60303fd6d5a7290bf95c24f15ecd data/magitech/loot_table/blocks/strippe
 3c7a2c67d8ae048f563799ed5b8811fc2d8665e3 data/magitech/loot_table/blocks/sulfur_crystal_cluster.json
 09bda6905b76d6f568380832546a4144fbd4a3d0 data/magitech/loot_table/blocks/tool_hanger.json
 862dd084d0d8682a746abff7fd9e5073aaa581e2 data/magitech/loot_table/blocks/tourmaline_ore.json
+8d5845b564d68f966fdc278db30d9c3d0cc09485 data/magitech/loot_table/blocks/trap_hatch.json
 a8e206916edfa491763366e3d3ae1a948c7c8536 data/magitech/loot_table/blocks/upgrade_workbench.json
 b901c697204cc8a42fd16e1db5482f95a8321679 data/magitech/loot_table/blocks/vesperite.json
 ab2d8c1e72df4ecef6635d8d61d1618453dc30bf data/magitech/loot_table/blocks/vesperite_slab.json
