@@ -19,6 +19,7 @@ public class BlockRendererInit {
         event.registerBlockEntityRenderer(BlockInit.ZARDIUS_CRUCIBLE_ENTITY.get(), ZardiusCrucibleBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(BlockInit.MANA_VESSEL_ENTITY.get(), ManaVesselBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(BlockInit.INFUSION_ALTAR_ENTITY.get(), InfusionAltarBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(BlockInit.ENHANCED_MANA_VESSEL_ENTITY.get(), EnhancedManaVesselBlockEntityRenderer::new);
     }
 
 }

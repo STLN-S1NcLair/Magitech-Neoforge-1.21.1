@@ -167,6 +167,15 @@ public class BlockInit {
             BLOCK_ENITIES.register("mana_receiver", () -> BlockEntityType.Builder.of(
                     ManaReceiverBlockEntity::new, BlockInit.MANA_RECEIVER.get()).build(null));
 
+
+    public static final DeferredBlock<EnhancedManaVesselBlock> ENHANCED_MANA_VESSEL = BLOCKS.registerBlock("enhanced_mana_vessel",
+            properties -> new EnhancedManaVesselBlock(properties, 5000000, 5000),
+            BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK).sound(SoundType.NETHERITE_BLOCK).lightLevel((blockState) -> 5).noOcclusion());
+    public static final DeferredItem<BlockItem> ENHANCED_MANA_VESSEL_ITEM = ItemInit.ITEMS.register("enhanced_mana_vessel", key -> new TooltipTextManaContainerBlockItem(ENHANCED_MANA_VESSEL.get(), new Item.Properties()));
+    public static final Supplier<BlockEntityType<EnhancedManaVesselBlockEntity>> ENHANCED_MANA_VESSEL_ENTITY =
+            BLOCK_ENITIES.register("enhanced_mana_vessel", () -> BlockEntityType.Builder.of(
+                    EnhancedManaVesselBlockEntity::new, BlockInit.ENHANCED_MANA_VESSEL.get()).build(null));
+
     // 台座
 
     public static final DeferredBlock<PedestalPylonBlock> PEDESTAL_PYLON = BLOCKS.registerBlock("pedestal_pylon",
@@ -198,7 +207,7 @@ public class BlockInit {
 
     public static final DeferredBlock<TrapHatchBlock> TRAP_HATCH = BLOCKS.registerBlock("trap_hatch",
             TrapHatchBlock::new,
-            BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_TRAPDOOR));
+            BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_TRAPDOOR).sound(SoundType.NETHERITE_BLOCK));
     public static final DeferredItem<BlockItem> TRAP_HATCH_ITEM = ItemInit.ITEMS.register("trap_hatch", key -> new TooltipTextBlockItem(TRAP_HATCH.get(), new Item.Properties()));
 
 

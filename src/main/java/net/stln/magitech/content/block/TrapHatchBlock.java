@@ -4,6 +4,7 @@ import net.minecraft.core.GlobalPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.FallingBlockEntity;
@@ -16,6 +17,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -23,7 +25,11 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.stln.magitech.effect.sound.SoundHelper;
 import net.stln.magitech.helper.CombatHelper;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.HashMap;
+import java.util.Set;
 import java.util.List;
 import java.util.Map;
 
@@ -64,6 +70,15 @@ public class TrapHatchBlock extends Block {
 
     @Override
     protected VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        // 開いているときは物理衝突なし、閉じているときは上部でぶつかる。
+        if (state.getValue(OPENED)) {
+            return Shapes.empty();
+        }
+        return CLOSED_SHAPE;
+    }
+
+    @Override
+    protected VoxelShape getBlockSupportShape(BlockState state, BlockGetter level, BlockPos pos) {
         // 開いているときは物理衝突なし、閉じているときは上部でぶつかる。
         if (state.getValue(OPENED)) {
             return Shapes.empty();
@@ -131,25 +146,65 @@ public class TrapHatchBlock extends Block {
 
     private void triggerLinkedHatches(ServerLevel level, BlockPos origin) {
         long openUntil = level.getGameTime() + HOLD_TICKS;
-        for (int dx = -LINK_RANGE; dx <= LINK_RANGE; dx++) {
-            for (int dz = -LINK_RANGE; dz <= LINK_RANGE; dz++) {
-                BlockPos targetPos = origin.offset(dx, 0, dz);
-                BlockState targetState = level.getBlockState(targetPos);
-                if (!targetState.is(this)) {
+        List<BlockPos> linkedHatches = collectLinkedHatches(level, origin);
+
+        for (BlockPos targetPos : linkedHatches) {
+            BlockState targetState = level.getBlockState(targetPos);
+            OPEN_UNTIL.put(globalKey(level, targetPos), openUntil);
+
+            if (!targetState.getValue(OPENED)) {
+                setOpened(level, targetPos, targetState, true);
+                fallBlock(level, targetPos.above());
+                fallBlock(level, targetPos.above(2));
+            }
+
+            level.scheduleTick(targetPos, this, HOLD_TICKS);
+        }
+    }
+
+    private List<BlockPos> collectLinkedHatches(ServerLevel level, BlockPos origin) {
+        List<BlockPos> result = new ArrayList<>();
+        Set<BlockPos> visited = new HashSet<>();
+        ArrayDeque<BlockPos> queue = new ArrayDeque<>();
+
+        BlockPos start = origin.immutable();
+        if (!level.getBlockState(start).is(this)) {
+            return result;
+        }
+
+        queue.add(start);
+        visited.add(start);
+
+        while (!queue.isEmpty()) {
+            BlockPos current = queue.poll();
+            result.add(current);
+
+            // 同一Y面で4近傍のみを辿り、連結している TrapHatch だけを対象化する。
+            BlockPos[] neighbors = new BlockPos[]{
+                    current.north(),
+                    current.south(),
+                    current.east(),
+                    current.west()
+            };
+
+            for (BlockPos next : neighbors) {
+                if (next.getY() != origin.getY()) {
                     continue;
                 }
-
-                OPEN_UNTIL.put(globalKey(level, targetPos), openUntil);
-
-                if (!targetState.getValue(OPENED)) {
-                    setOpened(level, targetPos, targetState, true);
-                    fallBlock(level, targetPos.above());
-                    fallBlock(level, targetPos.above(2));
+                if (Math.abs(next.getX() - origin.getX()) > LINK_RANGE || Math.abs(next.getZ() - origin.getZ()) > LINK_RANGE) {
+                    continue;
                 }
-
-                level.scheduleTick(targetPos, this, HOLD_TICKS);
+                if (!visited.add(next)) {
+                    continue;
+                }
+                if (!level.getBlockState(next).is(this)) {
+                    continue;
+                }
+                queue.add(next.immutable());
             }
         }
+
+        return result;
     }
 
     private void setOpened(ServerLevel level, BlockPos pos, BlockState state, boolean opened) {
@@ -169,7 +224,24 @@ public class TrapHatchBlock extends Block {
 
     private static void fallBlock(Level level, BlockPos pos) {
         BlockState state = level.getBlockState(pos);
-        if (state.isAir() || state.getDestroySpeed(level, pos) <= 0) return;
+        PushReaction reaction = state.getPistonPushReaction();
+        boolean canPush = reaction == PushReaction.NORMAL || reaction == PushReaction.PUSH_ONLY;
+        if (state.isAir() || state.getDestroySpeed(level, pos) <= 0 || state.getTags().anyMatch(tag -> tag == BlockTags.INCORRECT_FOR_IRON_TOOL)) {
+            return;
+        }
+
+        if (reaction == PushReaction.DESTROY) {
+            // 素手破壊と同じ loot table を使って通常ドロップを出す。
+            Block.dropResources(state, level, pos);
+            level.removeBlock(pos, false);
+            level.levelEvent(null, 2001, pos, Block.getId(state));
+            return;
+        }
+
+        if (!canPush) {
+            return;
+        }
+
         FallingBlockEntity fallingblockentity = FallingBlockEntity.fall(level, pos, state);
         level.addFreshEntity(fallingblockentity);
     }

@@ -3,7 +3,7 @@
 	"textures": {
 		"0": "magitech:block/athanor_pillar_side",
 		"1": "magitech:block/athanor_pillar_top",
-		"2": "magitech:block/athanor_pillar_bottom",
+		"2": "magitech:block/alchecrysite_connector",
 		"particle": "magitech:block/athanor_pillar_side"
 	},
 	"elements": [

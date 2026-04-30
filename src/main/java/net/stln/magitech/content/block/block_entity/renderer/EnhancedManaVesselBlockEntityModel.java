@@ -5,9 +5,9 @@ import net.stln.magitech.Magitech;
 import net.stln.magitech.content.block.block_entity.ManaVesselBlockEntity;
 import software.bernie.geckolib.model.GeoModel;
 
-public class ManaVesselBlockEntityModel extends GeoModel<ManaVesselBlockEntity> {
+public class EnhancedManaVesselBlockEntityModel extends GeoModel<ManaVesselBlockEntity> {
     // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-    public static final ResourceLocation TEXTURE = Magitech.id("textures/block/mana_vessel_crystal.png");
+    public static final ResourceLocation TEXTURE = Magitech.id("textures/block/ehnahced_mana_vessel_crystal.png");
     public static final ResourceLocation GEO = Magitech.id("geo/block/mana_vessel.geo.json");
 
     @Override

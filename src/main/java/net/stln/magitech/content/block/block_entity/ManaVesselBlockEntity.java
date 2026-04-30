@@ -17,6 +17,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.stln.magitech.content.block.BlockInit;
@@ -40,8 +41,12 @@ public class ManaVesselBlockEntity extends ManaContainerBlockEntity implements G
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     public ItemStackHandler inventory = new ItemStackHandler(2);
 
+    public ManaVesselBlockEntity(BlockEntityType<? extends ManaVesselBlockEntity> type, BlockPos pos, BlockState blockState, long mana) {
+        super(type, pos, blockState, mana);
+    }
+
     public ManaVesselBlockEntity(BlockPos pos, BlockState blockState, long mana) {
-        super(BlockInit.MANA_VESSEL_ENTITY.get(), pos, blockState, mana);
+        this(BlockInit.MANA_VESSEL_ENTITY.get(), pos, blockState, mana);
     }
 
     public ManaVesselBlockEntity(BlockPos pos, BlockState blockState) {
