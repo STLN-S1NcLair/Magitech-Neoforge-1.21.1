@@ -1,10 +1,13 @@
 {
 	"format_version": "1.9.0",
 	"credit": "Made with Blockbench",
+	"ambientocclusion": false,
+	"render_type": "minecraft:cutout",
 	"textures": {
 		"1": "magitech:block/enhanced_mana_vessel_inside",
 		"2": "magitech:block/enhanced_mana_vessel_side",
-		"3": "magitech:block/alchecrysite_connector"
+		"3": "magitech:block/alchecrysite_connector",
+		"particle": "magitech:block/enhanced_mana_vessel_side"
 	},
 	"elements": [
 		{

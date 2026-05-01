@@ -130,11 +130,13 @@ public class ZardiusCrucibleBlockEntity extends ManaMachineBlockEntity {
         if (recipe.getResultFluid().isEmpty()) {
             return true;
         }
+        // 火がついているか判定
 
         CompoundTag snapshot = new CompoundTag();
         this.tank.save(level.registryAccess(), snapshot);
 
         FallbackFluidTank simulatedTank = new FallbackFluidTank(2, this.tank.getCapacity());
+                // 時間を進める
         simulatedTank.load(level.registryAccess(), snapshot);
 
         int requiredAmount = recipe.getFluidIngredient().amount();

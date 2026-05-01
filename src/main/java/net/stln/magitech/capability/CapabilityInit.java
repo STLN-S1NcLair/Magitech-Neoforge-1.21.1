@@ -35,6 +35,7 @@ public class CapabilityInit {
         registerManaContainerBlockEntity(event, BlockInit.MANA_RECEIVER_ENTITY.get());
         registerManaContainerBlockEntity(event, BlockInit.MANA_COLLECTOR_ENTITY.get());
         registerManaContainerBlockEntity(event, BlockInit.INFUSION_ALTAR_ENTITY.get());
+        registerManaContainerBlockEntity(event, BlockInit.ENHANCED_MANA_VESSEL_ENTITY.get());
         registerManaContainerBlockEntity(event, BlockInit.ZARDIUS_CRUCIBLE_ENTITY.get());
 
         // アイテムへの登録
