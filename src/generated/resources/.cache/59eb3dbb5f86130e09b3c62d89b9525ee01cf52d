@@ -1,4 +1,4 @@
-// 1.21.1	2026-05-01T06:44:03.6964397	Loot Tables
+// 1.21.1	2026-05-01T19:41:13.3605813	Loot Tables
 d5c7ba896003b8f86835f7808a6a42840e7bb806 data/magitech/loot_table/blocks/alchecrysite.json
 0ec67ee2f0a83abcc8fc58cd95f43106109fca3e data/magitech/loot_table/blocks/alchecrysite_bricks.json
 f0dfbc1457dc98d193c135916b33deca6e65c407 data/magitech/loot_table/blocks/alchecrysite_brick_slab.json
@@ -10,7 +10,6 @@ bdc19fd3a1c711ab4cfa41135e7b351dc0d9c96d data/magitech/loot_table/blocks/alchecr
 a80804f1859160a206820788833b0704a0dd3746 data/magitech/loot_table/blocks/alchecrysite_wall.json
 ced8b9818eb0db97283928bf3d2dc489376d234e data/magitech/loot_table/blocks/alchemetric_pylon.json
 a93326eddb209d94898266caa955f988d15a4adf data/magitech/loot_table/blocks/assembly_workbench.json
-c091173fbb90bbe6db5428d8b03f7e8fb24fd0a7 data/magitech/loot_table/blocks/athanor_pillar.json
 c60ebaac19a89e9a87b94ac2651f9b0c17407dc3 data/magitech/loot_table/blocks/celifern_button.json
 468c6a13e45314757f7aa9688f49f20f0e32541f data/magitech/loot_table/blocks/celifern_door.json
 9d9f6c9071b763981632c8314ec74215280df3d4 data/magitech/loot_table/blocks/celifern_fence.json
@@ -57,6 +56,7 @@ c4f39039fc19bf226693833c0c1d1b40382e61fc data/magitech/loot_table/blocks/fluorit
 8132ac76b46e0e540c524620f449f72525d0e4aa data/magitech/loot_table/blocks/fluorite_brick_wall.json
 9219220b343385e476349e5eec392e8624d5d079 data/magitech/loot_table/blocks/fluorite_crystal_cluster.json
 646c7512d800aaf5b41d0e6f4bde98bcc438bcd0 data/magitech/loot_table/blocks/fluorite_ore.json
+1110dc139d35fe4993df0a3d1587b31c4eec9bbc data/magitech/loot_table/blocks/infuser.json
 1c53413705e16c0f8ad38d11264a4c46826b4680 data/magitech/loot_table/blocks/infusion_altar.json
 bdb94a9a1d420ced09408ed5d3f442a265e1baa3 data/magitech/loot_table/blocks/mana_berry_bush.json
 2953f41395538778d69668987775953f6775dfe3 data/magitech/loot_table/blocks/mana_collector.json

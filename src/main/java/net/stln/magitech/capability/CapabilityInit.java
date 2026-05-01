@@ -23,7 +23,7 @@ public class CapabilityInit {
     public static void registerCapabilities(RegisterCapabilitiesEvent event) {
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockInit.TOOL_HANGER_ENTITY.get(), (blockEntity, direction) -> blockEntity.inventory);
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockInit.ALCHEMETRIC_PYLON_ENTITY.get(), (blockEntity, direction) -> blockEntity.inventory);
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockInit.ATHANOR_PILLAR_ENTITY.get(), (blockEntity, direction) -> blockEntity.inventory);
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockInit.INFUSER_ENTITY.get(), (blockEntity, direction) -> blockEntity.inventory);
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockInit.PEDESTAL_PYLON_ENTITY.get(), (blockEntity, direction) -> blockEntity.inventory);
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockInit.INFUSION_ALTAR_ENTITY.get(), (blockEntity, direction) -> blockEntity.inventory);
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockInit.ZARDIUS_CRUCIBLE_ENTITY.get(), (blockEntity, direction) -> blockEntity.inventory);
@@ -36,6 +36,7 @@ public class CapabilityInit {
         registerManaContainerBlockEntity(event, BlockInit.MANA_COLLECTOR_ENTITY.get());
         registerManaContainerBlockEntity(event, BlockInit.INFUSION_ALTAR_ENTITY.get());
         registerManaContainerBlockEntity(event, BlockInit.ENHANCED_MANA_VESSEL_ENTITY.get());
+        registerManaContainerBlockEntity(event, BlockInit.INFUSER_ENTITY.get());
         registerManaContainerBlockEntity(event, BlockInit.ZARDIUS_CRUCIBLE_ENTITY.get());
 
         // アイテムへの登録

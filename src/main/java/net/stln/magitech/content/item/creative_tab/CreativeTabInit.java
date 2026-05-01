@@ -138,7 +138,7 @@ public class CreativeTabInit {
                 output.accept(BlockInit.ZARDIUS_CRUCIBLE_ITEM.get());
                 output.accept(BlockInit.PEDESTAL_PYLON_ITEM.get());
                 output.accept(BlockInit.ALCHEMETRIC_PYLON_ITEM.get());
-                output.accept(BlockInit.ATHANOR_PILLAR_ITEM.get());
+                output.accept(BlockInit.INFUSER_ITEM.get());
                 output.accept(BlockInit.MANA_NODE_ITEM.get());
                 output.accept(BlockInit.MANA_RELAY_ITEM.get());
                 output.accept(BlockInit.MANA_VESSEL_ITEM.get());

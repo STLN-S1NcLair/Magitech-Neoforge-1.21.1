@@ -20,7 +20,7 @@ public class EnhancedManaVesselMenu extends ManaVesselMenu {
     }
 
     public EnhancedManaVesselMenu(int containerId, Inventory playerInventory, Container container, final ContainerLevelAccess access, LongContainerData containerData) {
-        super(containerId, playerInventory, container, access, containerData);
+        super(GuiInit.ENHANCED_MANA_VESSEL_MENU.get(), containerId, playerInventory, container, access, containerData);
     }
 
     @Override

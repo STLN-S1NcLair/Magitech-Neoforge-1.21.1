@@ -45,6 +45,8 @@ public class GuiInit {
         event.register(MANA_RECEIVER_MENU.get(), ManaReceiverScreen::new);
         event.register(MANA_COLLECTOR_MENU.get(), ManaCollectorScreen::new);
         event.register(INFUSION_ALTAR_MENU.get(), InfusionAltarScreen::new);
+        event.register(ENHANCED_MANA_VESSEL_MENU.get(), EnhancedManaVesselScreen::new);
+        event.register(INFUSER_MENU.get(), InfuserScreen::new);
         event.register(THREADBOUND_MENU.get(), ThreadboundScreen::new);
     }
 
@@ -64,6 +66,10 @@ public class GuiInit {
     public static final Supplier<MenuType<ToolUpgradeMenu>> TOOL_UPGRADE_MENU = register("tool_upgrade_menu", ToolUpgradeMenu::new);
 
     public static final Supplier<MenuType<ManaVesselMenu>> MANA_VESSEL_MENU = register("mana_vessel_menu", ManaVesselMenu::new);
+
+    public static final Supplier<MenuType<EnhancedManaVesselMenu>> ENHANCED_MANA_VESSEL_MENU = register("enhanced_mana_vessel_menu", EnhancedManaVesselMenu::new);
+
+    public static final Supplier<MenuType<InfuserMenu>> INFUSER_MENU = register("infuser_menu", InfuserMenu::new);
 
     public static final Supplier<MenuType<ManaStranderMenu>> MANA_STRANDER_MENU = register("mana_strander_menu", ManaStranderMenu::new);
 

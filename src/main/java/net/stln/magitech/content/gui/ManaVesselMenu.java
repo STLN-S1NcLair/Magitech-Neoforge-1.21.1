@@ -24,7 +24,11 @@ public class ManaVesselMenu extends ManaContainerMenu {
     }
 
     public ManaVesselMenu(int containerId, Inventory playerInventory, Container container, final ContainerLevelAccess access, LongContainerData containerData) {
-        super(GuiInit.MANA_VESSEL_MENU.get(), containerId, playerInventory, access, containerData, 99);
+        this(GuiInit.MANA_VESSEL_MENU.get(), containerId, playerInventory, container, access, containerData);
+    }
+
+    public ManaVesselMenu(MenuType<? extends ManaVesselMenu> menuType, int containerId, Inventory playerInventory, Container container, ContainerLevelAccess access, LongContainerData containerData) {
+        super(menuType, containerId, playerInventory, access, containerData, 99);
         this.container = container;
         this.receiveSlot = this.addSlot(new Slot(container, ManaVesselBlockEntity.INPUT, 131, 51));
         this.extractSlot = this.addSlot(new Slot(container, ManaVesselBlockEntity.OUTPUT, 149, 51));

@@ -24,7 +24,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         sideBottomTopBlockWithItem(BlockInit.UPGRADE_WORKBENCH.get());
         horizontalHandModeledBlockWithItem(BlockInit.TOOL_HANGER.get());
         handModeledBlockWithItem(BlockInit.ALCHEMETRIC_PYLON.get());
-        handModeledBlockWithItem(BlockInit.ATHANOR_PILLAR.get());
+        handModeledBlockWithItem(BlockInit.INFUSER.get());
         horizontalHandModeledBlockWithItem(BlockInit.ZARDIUS_CRUCIBLE.get());
         handModeledBlockWithItem(BlockInit.PEDESTAL_PYLON.get());
         directionalHandModeledBlockWithItem(BlockInit.MANA_NODE.get());

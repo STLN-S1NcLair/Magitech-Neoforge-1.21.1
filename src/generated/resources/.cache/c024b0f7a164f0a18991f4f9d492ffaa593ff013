@@ -1,4 +1,4 @@
-// 1.21.1	2026-05-01T06:44:03.6889227	Block States: magitech
+// 1.21.1	2026-05-01T19:41:13.3500174	Block States: magitech
 90f039d3c8040909582f040c2be7f09eca62a0a8 assets/magitech/blockstates/alchecrysite.json
 e2e47f25d85025ef83b8b30154421755d7d8c139 assets/magitech/blockstates/alchecrysite_bricks.json
 36896c4c599cbeeb6b3e9441de7d2de5fa12cb4d assets/magitech/blockstates/alchecrysite_brick_slab.json
@@ -10,7 +10,6 @@ ddefb899b57d6ded8487a99b859eb3b69d9fd6b8 assets/magitech/blockstates/alchecrysit
 c3df1e1d882631a1fdec194db1c3a562c4da3617 assets/magitech/blockstates/alchecrysite_wall.json
 859fa13fad4469e63d67cc316dfc6c992d955920 assets/magitech/blockstates/alchemetric_pylon.json
 5ce7eb210e9e22866c3e81a9d0e1384befa0eab2 assets/magitech/blockstates/assembly_workbench.json
-25a8e91832488b4106d98c18c0bf6da53a97e30d assets/magitech/blockstates/athanor_pillar.json
 304474776b58c23747ffaf1e0fbdf8eb26c1b7ef assets/magitech/blockstates/celifern_button.json
 6d08c7c8b6de98b3adb566952b8ad9ac3468e94a assets/magitech/blockstates/celifern_door.json
 5930b3f9fe17e4c1d68fcaf24d770b496e8f9320 assets/magitech/blockstates/celifern_fence.json
@@ -56,6 +55,7 @@ bce9aceeb73bb08c14f847b4ba75e9d3bb9c5a5a assets/magitech/blockstates/charcoal_bi
 9bcfa04c3f44f5dec7118c3c7fc28b273dcc22f2 assets/magitech/blockstates/fluorite_brick_stairs.json
 7be2966f86fcf68b17e9bd43df7e753c6cdcd040 assets/magitech/blockstates/fluorite_brick_wall.json
 23b24625ce85ce68a3043507db1070ade2249322 assets/magitech/blockstates/fluorite_ore.json
+3ee1813261afa5751ddf86da2fc6a3ad74b030dd assets/magitech/blockstates/infuser.json
 f3295a8c1bca5a8f7dbea9324984392163e06110 assets/magitech/blockstates/infusion_altar.json
 23f055c364e04e1a3428a8c33f1a99bf43e8c033 assets/magitech/blockstates/mana_collector.json
 6e3af8d17523823327619be97b9b98fa23e09b28 assets/magitech/blockstates/mana_junction.json
@@ -302,7 +302,6 @@ acfe20142a5b41864ff09496af9f7692bb716ae0 assets/magitech/models/item/alchecrysit
 df18ddf86376c32ef56d42891660bc62df7687cb assets/magitech/models/item/alchecrysite_wall.json
 5d40bc3f4dac790935d86e10a74ecabb41b922dd assets/magitech/models/item/alchemetric_pylon.json
 5aece203fcfa9761378fea0532e7645046eecb7d assets/magitech/models/item/assembly_workbench.json
-c64bd10671f33b6a5a5a05d507d30ed9fbdb9894 assets/magitech/models/item/athanor_pillar.json
 7e67924b3a553da30ef4f39c4b462c8f05196ca8 assets/magitech/models/item/celifern_button.json
 5ffa2c16fbdc4aea4050af474996eb28b92d5dcb assets/magitech/models/item/celifern_fence.json
 5543066c5b4fef889d563072a9c3c07f268d9678 assets/magitech/models/item/celifern_fence_gate.json
@@ -336,6 +335,7 @@ cf3da1d781b993c8e258005071653e15fb914a1a assets/magitech/models/item/fluorite_br
 d7a4b1fb97de8531a033107078a9ff7873e9ea14 assets/magitech/models/item/fluorite_brick_stairs.json
 7c8694a6ee631a86acf2ccc5d29301c0d41e6efa assets/magitech/models/item/fluorite_brick_wall.json
 154846b3063706a90adf80a7d0ca0d5f4dc79b24 assets/magitech/models/item/fluorite_ore.json
+cc853472569ef50af1564bf24357c8a500a5fca0 assets/magitech/models/item/infuser.json
 88199259250eff6f51a759ec1d7a1ba022e489ee assets/magitech/models/item/infusion_altar.json
 06ebf526b2c6a43fa82168be2963e6e750be33b0 assets/magitech/models/item/mana_collector.json
 f9d0e15497388ceb13b52eda36cfd44252c0c06e assets/magitech/models/item/mana_junction.json

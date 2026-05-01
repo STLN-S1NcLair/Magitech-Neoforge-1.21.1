@@ -2,8 +2,8 @@
 	"format_version": "1.9.0",
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "magitech:block/mana_container_connect",
-		"particle": "magitech:block/mana_container_connect"
+		"0": "magitech:block/alchecrysite_connector",
+		"particle": "magitech:block/alchecrysite_connector"
 	},
 	"elements": [
 		{

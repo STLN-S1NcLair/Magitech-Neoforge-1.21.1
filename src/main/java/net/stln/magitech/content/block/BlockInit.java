@@ -108,6 +108,14 @@ public class BlockInit {
             BLOCK_ENITIES.register("infusion_altar", () -> BlockEntityType.Builder.of(
                     InfusionAltarBlockEntity::new, BlockInit.INFUSION_ALTAR.get()).build(null));
 
+    public static final DeferredBlock<InfuserBlock> INFUSER = BLOCKS.registerBlock("infuser",
+            properties -> new InfuserBlock(properties, 1000000, 5000),
+            BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(ALCHECRYSITE_SOUND));
+    public static final DeferredItem<BlockItem> INFUSER_ITEM = ItemInit.ITEMS.register("infuser", key -> new TooltipTextBlockItem(INFUSER.get(), new Item.Properties()));
+    public static final Supplier<BlockEntityType<InfuserBlockEntity>> INFUSER_ENTITY =
+            BLOCK_ENITIES.register("infuser", () -> BlockEntityType.Builder.of(
+                    InfuserBlockEntity::new, BlockInit.INFUSER.get()).build(null));
+
     public static final DeferredBlock<ManaCollectorBlock> MANA_COLLECTOR = BLOCKS.registerBlock("mana_collector",
             properties -> new ManaCollectorBlock(properties, 40000, 5000),
             BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(SoundType.NETHERITE_BLOCK).lightLevel((blockState) -> 5).noOcclusion());
@@ -167,7 +175,6 @@ public class BlockInit {
             BLOCK_ENITIES.register("mana_receiver", () -> BlockEntityType.Builder.of(
                     ManaReceiverBlockEntity::new, BlockInit.MANA_RECEIVER.get()).build(null));
 
-
     public static final DeferredBlock<EnhancedManaVesselBlock> ENHANCED_MANA_VESSEL = BLOCKS.registerBlock("enhanced_mana_vessel",
             properties -> new EnhancedManaVesselBlock(properties, 5000000, 5000),
             BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK).sound(SoundType.NETHERITE_BLOCK).lightLevel((blockState) -> 5).noOcclusion());
@@ -193,14 +200,6 @@ public class BlockInit {
     public static final Supplier<BlockEntityType<AlchemetricPylonBlockEntity>> ALCHEMETRIC_PYLON_ENTITY =
             BLOCK_ENITIES.register("alchemetric_pylon", () -> BlockEntityType.Builder.of(
                     AlchemetricPylonBlockEntity::new, BlockInit.ALCHEMETRIC_PYLON.get()).build(null));
-
-    public static final DeferredBlock<AthanorPillarBlock> ATHANOR_PILLAR = BLOCKS.registerBlock("athanor_pillar",
-            AthanorPillarBlock::new,
-            BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(ALCHECRYSITE_SOUND));
-    public static final DeferredItem<BlockItem> ATHANOR_PILLAR_ITEM = ItemInit.ITEMS.register("athanor_pillar", key -> new TooltipTextBlockItem(ATHANOR_PILLAR.get(), new Item.Properties()));
-    public static final Supplier<BlockEntityType<AthanorPillarBlockEntity>> ATHANOR_PILLAR_ENTITY =
-            BLOCK_ENITIES.register("athanor_pillar", () -> BlockEntityType.Builder.of(
-                    AthanorPillarBlockEntity::new, BlockInit.ATHANOR_PILLAR.get()).build(null));
 
     // トラップデバイス
 

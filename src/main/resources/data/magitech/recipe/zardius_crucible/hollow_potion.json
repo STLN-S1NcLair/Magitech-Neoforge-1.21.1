@@ -24,7 +24,7 @@
       "item": "minecraft:warped_fungus"
       },
       "count": 1
-    },
+    }
   ],
   "fluid_ingredient": {
     "fluid": "magitech:mana_potion",

@@ -23,11 +23,7 @@ import net.minecraft.world.item.crafting.RecipeManager;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.content.block.BlockInit;
 import net.stln.magitech.content.recipe.AthanorPillarInfusionRecipe;
-import net.stln.magitech.content.recipe.RecipeInit;
-import net.stln.magitech.content.recipe.ToolMaterialRecipe;
 import net.stln.magitech.feature.element.Element;
-import net.stln.magitech.feature.tool.material.ToolMaterial;
-import net.stln.magitech.helper.ClientHelper;
 import net.stln.magitech.helper.EnergyFormatter;
 import net.stln.magitech.helper.RenderHelper;
 import org.jetbrains.annotations.NotNull;
@@ -43,7 +39,7 @@ public class AthanorPillarInfusionRecipeCategory extends AbstractMagitechRecipeC
     }
 
     public AthanorPillarInfusionRecipeCategory(IGuiHelper helper) {
-        this(helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(BlockInit.ATHANOR_PILLAR)));
+        this(helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(BlockInit.INFUSER)));
     }
 
     @Override
