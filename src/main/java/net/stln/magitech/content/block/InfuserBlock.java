@@ -67,13 +67,6 @@ public class InfuserBlock extends InfusionAltarBlock {
         return CODEC;
     }
 
-    /* BLOCK ENTITY */
-
-    @Override
-    protected RenderShape getRenderShape(BlockState state) {
-        return RenderShape.MODEL;
-    }
-
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {

@@ -33,7 +33,8 @@ import team.lodestar.lodestone.systems.particle.ParticleEffectSpawner;
 
 import javax.annotation.Nullable;
 
-public class EnhancedManaVesselBlock extends ManaVesselBlock {
+public class EnhancedManaVesselBlock extends AbstractManaVesselBlock {
+    public static final MapCodec<EnhancedManaVesselBlock> CODEC = simpleCodec(EnhancedManaVesselBlock::new);
 
     protected EnhancedManaVesselBlock(Properties properties, int maxMana, int maxFlow) {
         super(properties, maxMana, maxFlow);
@@ -41,6 +42,11 @@ public class EnhancedManaVesselBlock extends ManaVesselBlock {
 
     protected EnhancedManaVesselBlock(Properties properties) {
         this(properties, 0, 0);
+    }
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
     }
 
     @Nullable
