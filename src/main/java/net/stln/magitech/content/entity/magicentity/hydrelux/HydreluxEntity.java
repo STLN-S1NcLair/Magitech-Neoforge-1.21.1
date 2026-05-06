@@ -156,7 +156,7 @@ public class HydreluxEntity extends BombSpellProjectileEntity {
         LineVFX.spreadLinedSquare(level, old, pos, element, new Section(0F, 1F), 1F, 0.2F, 0.05F);
         LineVFX.spreadLined(level, old, pos, element, ElementParticles::leafParticle, new Section(0F, 1F), 2F, 0.1F, 0.05F);
         if (vacuumTick > 0) {
-            PointVFX.vortex(level, pos, element, SquareParticles::squareBlastParticle, 5, 0.0F, 3.0F);
+            PointVFX.vortex(level, pos, element, SquareParticles::squareBlastParticle, 5, getExplosionRadius(), 0.0F, 1.0F);
         }
     }
 

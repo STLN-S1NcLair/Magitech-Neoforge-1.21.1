@@ -1,12 +1,11 @@
 package net.stln.magitech.feature.tool.trait;
 
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.effect.visual.particle.particle_option.PowerupParticleEffect;
+import net.stln.magitech.effect.visual.preset.EntityVFX;
 import net.stln.magitech.feature.tool.property.ToolProperties;
 import net.stln.magitech.helper.EffectHelper;
 import org.joml.Vector3f;
@@ -18,7 +17,7 @@ public class GrowthTrait extends Trait {
     @Override
     public void inventoryTick(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties, boolean isHost) {
         if (effectEnabled(player, level, stack, traitLevel, properties)) {
-            EffectHelper.entityEffect(level, new PowerupParticleEffect(new Vector3f(0.8F, 1.0F, 0.5F), new Vector3f(0.4F, 0.5F, 0.25F), 1F, 1, 0, 15, 1.0F), player, 1);
+            EntityVFX.powerupAura(level, this, player, 0.5F);
             if (level.getGameTime() % (300 / traitLevel) == 0 && !level.isClientSide && isHost) {
                 stack.setDamageValue(Math.max(0, stack.getDamageValue() - 1));
             }

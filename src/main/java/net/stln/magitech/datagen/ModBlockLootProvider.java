@@ -46,9 +46,16 @@ public class ModBlockLootProvider extends BlockLootSubProvider {
         dropSelf(BlockInit.MANA_STRANDER.get());
         dropSelf(BlockInit.MANA_RECEIVER.get());
         dropSelf(BlockInit.MANA_COLLECTOR.get());
+        dropSelf(BlockInit.ENTANGLER.get());
+        dropSelf(BlockInit.DETANGLER.get());
         dropSelf(BlockInit.MANA_JUNCTION.get());
         dropSelf(BlockInit.INFUSION_ALTAR.get());
+        dropSelf(BlockInit.ENHANCED_MANA_NODE.get());
+        dropSelf(BlockInit.ENHANCED_MANA_RELAY.get());
         dropSelf(BlockInit.ENHANCED_MANA_VESSEL.get());
+        dropSelf(BlockInit.MANA_PUMP.get());
+//        dropSelf(BlockInit.CREATIVE_MANA_SOURCE.get());
+//        dropSelf(BlockInit.CREATIVE_MANA_SINK.get());
         dropSelf(BlockInit.TRAP_HATCH.get());
         add(BlockInit.FLUORITE_ORE.get(),
                 block -> createOreDrop(BlockInit.FLUORITE_ORE.get(), ItemInit.FLUORITE.get()));

@@ -21,6 +21,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.stln.magitech.content.block.BlockInit;
@@ -35,8 +36,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class ManaStranderBlockEntity extends ManaMachineBlockEntity {
 
-    private final int tickCount = 0;
-    private static final long MANA_PARCEL_ENERGY = 50000;
+    private static final long MANA_PARCEL_ENERGY = 100000;
 
     public ManaStranderBlockEntity(BlockPos pos, BlockState blockState, long mana) {
         super(BlockInit.MANA_STRANDER_ENTITY.get(), pos, blockState, mana);
@@ -65,12 +65,12 @@ public class ManaStranderBlockEntity extends ManaMachineBlockEntity {
 
     private void shootManaParcel(Level level, BlockPos pos, BlockState state) {
         MachineBlockEntityManaHandler handler = getManaHandler(null);
-        if (handler.getMana() >= MANA_PARCEL_ENERGY) {
+        if (!state.getValue(BlockStateProperties.POWERED) && handler.getMana() >= MANA_PARCEL_ENERGY) {
             handler.consumeMana(MANA_PARCEL_ENERGY);
             Direction direction = state.getValue(ManaStranderBlock.FACING);
-            Vec3 summonPos = pos.getCenter();
+            Vec3 summonPos = pos.getCenter().add(Vec3.atLowerCornerOf(direction.getNormal()).scale(0.25F));
             Entity entity = new ManaParcelEntity(level, summonPos, MANA_PARCEL_ENERGY);
-            entity.setDeltaMovement(Vec3.atLowerCornerOf(direction.getNormal()).scale(0.5F));
+            entity.setDeltaMovement(Vec3.atLowerCornerOf(direction.getNormal()).scale(0.25F));
             entity.setPos(summonPos.subtract(0, entity.getBbHeight() / 2, 0));
             level.addFreshEntity(entity);
             PacketDistributor.sendToPlayersTrackingChunk(

@@ -54,8 +54,6 @@ public class MobEffectInit {
     public static final DeferredHolder<MobEffect, MobEffect> SEIZE = STATUS_EFFECTS.register("seize", id -> new CustomMobEffect(MobEffectCategory.HARMFUL, 0xFFFFC0)
             .addAttributeModifier(Attributes.MOVEMENT_SPEED, id, -1, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
 
-    public static final DeferredHolder<MobEffect, MobEffect> ECHOLOCATION = STATUS_EFFECTS.register("echolocation", id -> new EcholocationMobEffect(MobEffectCategory.BENEFICIAL, 0x004040));
-
     public static final DeferredHolder<MobEffect, MobEffect> VOIDROT = STATUS_EFFECTS.register("voidrot", id -> new VoidrotMobEffect(MobEffectCategory.HARMFUL, 0x400080));
 
     public static final DeferredHolder<MobEffect, MobEffect> PHASELOCK = STATUS_EFFECTS.register("phase_lock", id -> new PhaseLockMobEffect(MobEffectCategory.HARMFUL, 0x200040));

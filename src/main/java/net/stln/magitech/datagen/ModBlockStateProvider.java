@@ -5,8 +5,11 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
+import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
+import net.neoforged.neoforge.client.model.generators.ModelProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.content.block.BlockInit;
@@ -30,12 +33,19 @@ public class ModBlockStateProvider extends BlockStateProvider {
         directionalHandModeledBlockWithItem(BlockInit.MANA_NODE.get());
         directionalHandModeledBlockWithItem(BlockInit.MANA_RELAY.get());
         axisHandModeledBlockWithInventoryModelItem(BlockInit.MANA_VESSEL.get());
-        directionalHandModeledBlockWithItem(BlockInit.MANA_STRANDER.get());
-        directionalHandModeledBlockWithItem(BlockInit.MANA_RECEIVER.get());
-        directionalHandModeledBlockWithItem(BlockInit.MANA_COLLECTOR.get());
+        directionalPoweredHandModeledBlockWithItem(BlockInit.MANA_STRANDER.get());
+        directionalPoweredHandModeledBlockWithItem(BlockInit.MANA_RECEIVER.get());
+        directionalPoweredHandModeledBlockWithItem(BlockInit.MANA_COLLECTOR.get());
+        directionalPoweredHandModeledBlockWithItem(BlockInit.ENTANGLER.get());
+        directionalPoweredHandModeledBlockWithItem(BlockInit.DETANGLER.get());
         handModeledBlockWithItem(BlockInit.MANA_JUNCTION.get());
         handModeledBlockWithItem(BlockInit.INFUSION_ALTAR.get());
+        directionalHandModeledBlockWithItem(BlockInit.ENHANCED_MANA_NODE.get());
+        directionalHandModeledBlockWithItem(BlockInit.ENHANCED_MANA_RELAY.get());
         axisHandModeledBlockWithInventoryModelItem(BlockInit.ENHANCED_MANA_VESSEL.get());
+        directionalHandModeledBlockWithItem(BlockInit.MANA_PUMP.get());
+        axisBlockWithItem(BlockInit.CREATIVE_MANA_SOURCE.get(), "creative_mana_source", "creative_connector");
+        axisBlockWithItem(BlockInit.CREATIVE_MANA_SINK.get(), "creative_mana_sink", "creative_connector");
         blockWithItem(BlockInit.FLUORITE_ORE.get());
         blockWithItem(BlockInit.DEEPSLATE_FLUORITE_ORE.get());
         blockWithItem(BlockInit.TOURMALINE_ORE.get());
@@ -152,26 +162,55 @@ public class ModBlockStateProvider extends BlockStateProvider {
         blockItem(block);
     }
 
+    private void directionalPoweredHandModeledBlockWithItem(Block block) {
+        ModelFile.ExistingModelFile defaultModel = new ModelFile.ExistingModelFile(blockTexture(block), this.models().existingFileHelper);
+        ModelFile.ExistingModelFile poweredModel = new ModelFile.ExistingModelFile(blockTexture(block).withSuffix("_powered"), this.models().existingFileHelper);
+        getVariantBuilder(block).forAllStates(state -> {
+            Direction direction = state.getValue(BlockStateProperties.FACING);
+            boolean powered = state.getValue(BlockStateProperties.POWERED);
+            ModelFile model = powered ? poweredModel : defaultModel;
+            int rotationX = direction == Direction.DOWN ? 180 : direction == Direction.UP ? 0 : 90;
+            int rotationY = switch (direction) {
+                case NORTH -> 0;
+                case EAST -> 90;
+                case SOUTH -> 180;
+                case WEST -> 270;
+                default -> 0;
+            };
+            return ConfiguredModel.builder()
+                    .modelFile(model)
+                    .rotationX(rotationX)
+                    .rotationY(rotationY)
+                    .build();
+        });
+        blockItem(block);
+    }
+
     private void axisHandModeledBlockWithItem(Block block) {
         ModelFile.ExistingModelFile existingModelFile = new ModelFile.ExistingModelFile(blockTexture(block), this.models().existingFileHelper);
-        axisBlock(block, existingModelFile, existingModelFile);
+        axisBlock(block, existingModelFile);
         blockItem(block);
     }
 
     private void axisHandModeledBlockWithInventoryModelItem(Block block) {
         ModelFile.ExistingModelFile existingModelFile = new ModelFile.ExistingModelFile(blockTexture(block), this.models().existingFileHelper);
-        axisBlock(block, existingModelFile, existingModelFile);
+        axisBlock(block, existingModelFile);
         simpleBlockItem(block, new ModelFile.UncheckedModelFile(blockTexture(block).withSuffix("_inventory")));
     }
 
-    public void axisBlock(Block block, ModelFile vertical, ModelFile horizontal) {
+    private void axisBlockWithItem(Block block, String side, String top) {
+        axisBlock(block, models().cubeColumn(getName(block), Magitech.id(side).withPrefix(ModelProvider.BLOCK_FOLDER + "/"), Magitech.id(top).withPrefix(ModelProvider.BLOCK_FOLDER + "/")));
+        blockItem(block);
+    }
+
+    public void axisBlock(Block block, ModelFile model) {
         getVariantBuilder(block)
                 .partialState().with(RotatedPillarBlock.AXIS, Direction.Axis.Y)
-                .modelForState().modelFile(vertical).addModel()
+                .modelForState().modelFile(model).addModel()
                 .partialState().with(RotatedPillarBlock.AXIS, Direction.Axis.Z)
-                .modelForState().modelFile(horizontal).rotationX(90).addModel()
+                .modelForState().modelFile(model).rotationX(90).addModel()
                 .partialState().with(RotatedPillarBlock.AXIS, Direction.Axis.X)
-                .modelForState().modelFile(horizontal).rotationX(90).rotationY(90).addModel();
+                .modelForState().modelFile(model).rotationX(90).rotationY(90).addModel();
     }
 
 

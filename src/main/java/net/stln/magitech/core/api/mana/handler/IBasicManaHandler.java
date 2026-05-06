@@ -27,7 +27,14 @@ public interface IBasicManaHandler extends IManaHandler {
      */
     default long getEffectiveMana() {
         // 実効マナ = 現在量 + (最大容量 * バイアス)
-        long effective = getMana() + (long) (getMaxMana() * getManaFlowRule().flowBias());
+        long biasAmount = (long) (getMaxMana() * getManaFlowRule().flowBias());
+
+        long effective;
+        try {
+            effective = Math.addExact(getMana(), biasAmount);
+        } catch (ArithmeticException e) {
+            effective = biasAmount >= 0 ? Long.MAX_VALUE : Long.MIN_VALUE;
+        }
 
         // 負の値になると総量計算がおかしくなるため、0以上にする
         // (逆に上限突破は許容する)

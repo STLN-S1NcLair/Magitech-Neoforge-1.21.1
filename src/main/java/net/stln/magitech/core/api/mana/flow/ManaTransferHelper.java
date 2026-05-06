@@ -9,6 +9,8 @@ import net.stln.magitech.core.api.mana.handler.IBlockManaHandler;
 import net.stln.magitech.core.api.mana.handler.IManaHandler;
 import org.jetbrains.annotations.Nullable;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -47,8 +49,8 @@ public class ManaTransferHelper {
         Set<IBasicManaHandler> validSinks = new HashSet<>();
 
         // --- ステップ1: 参加者の選定と、ネットワーク全体の目標値計算 ---
-        long totalMana = source.getEffectiveMana();
-        long totalCapacity = source.getMaxMana();
+        BigDecimal totalMana = BigDecimal.valueOf(source.getEffectiveMana());
+        BigDecimal totalCapacity = BigDecimal.valueOf(source.getMaxMana());
 
         // 配分候補リスト
         Set<IBasicManaHandler> sendSet = new HashSet<>();
@@ -58,63 +60,68 @@ public class ManaTransferHelper {
             if (sink.getEffectiveFillRatio() < source.getEffectiveFillRatio() - 0.001f && sink.fillRatio() < 1.0F) {
                 sendSet.add(sink);
 
-                totalMana += sink.getEffectiveMana();
-                totalCapacity += sink.getMaxMana();
+                totalMana = totalMana.add(BigDecimal.valueOf(sink.getEffectiveMana()));
+                totalCapacity = totalCapacity.add(BigDecimal.valueOf(sink.getMaxMana()));
             }
         }
 
         if (sendSet.isEmpty()) return Set.of();
 
+        if (totalCapacity.signum() <= 0) return Set.of();
+
         // ネットワーク全体の目標充填率
-        double targetRatio = (double) totalMana / totalCapacity;
+        BigDecimal targetRatioDecimal = totalMana.divide(totalCapacity, MathContext.DECIMAL128);
+        BigDecimal clampedTargetRatio = targetRatioDecimal.max(BigDecimal.ZERO).min(BigDecimal.ONE);
 
         // --- ステップ2: 各ターゲットの「要望量(Demand)」を計算 ---
 
         // Key: ターゲット, Value: そのターゲットが欲しがっている量(MaxFlow考慮済み)
-        Map<IBasicManaHandler, Long> demands = new HashMap<>();
-        long totalDemand = 0;
+        Map<IBasicManaHandler, BigDecimal> demands = new HashMap<>();
+        BigDecimal totalDemand = BigDecimal.ZERO;
 
         for (IBasicManaHandler target : sendSet) {
 
             // 目標量まであといくら必要か
-            long targetIdeal = (long) (target.getMaxMana() * targetRatio);
-            long required = targetIdeal - target.getEffectiveMana();
+            BigDecimal targetIdeal = BigDecimal.valueOf(target.getMaxMana()).multiply(clampedTargetRatio, MathContext.DECIMAL128);
+            BigDecimal required = targetIdeal.subtract(BigDecimal.valueOf(target.getEffectiveMana()));
 
-            if (required > 0) {
+            if (required.signum() > 0) {
                 // ターゲット側の受入流量制限 (Pipeの太さ)
-                long demand = Math.min(required, target.getMaxFlow());
+                BigDecimal demand = required.min(BigDecimal.valueOf(target.getMaxFlow()));
 
                 demands.put(target, demand);
-                totalDemand += demand;
+                totalDemand = totalDemand.add(demand);
             }
         }
 
-        if (totalDemand <= 0) return Set.of();
+        if (totalDemand.signum() <= 0) return Set.of();
 
         // --- ステップ3: ソースの「供給能力(Supply)」と「分配比率(Ratio)」の計算 ---
 
         // ソースが維持すべき理想量
-        long sourceIdeal = (long) (source.getMaxMana() * targetRatio);
+        BigDecimal sourceIdeal = BigDecimal.valueOf(source.getMaxMana()).multiply(clampedTargetRatio, MathContext.DECIMAL128);
         // 放出可能な余剰分
-        long excessMana = source.getEffectiveMana() - sourceIdeal;
+        BigDecimal excessMana = BigDecimal.valueOf(source.getEffectiveMana()).subtract(sourceIdeal);
 
         // 実際に放出できる量 = Min(余剰分, ソースの最大流量)
-        long distributableMana = Math.min(excessMana, source.getMaxFlow());
+        BigDecimal distributableMana = excessMana.min(BigDecimal.valueOf(source.getMaxFlow()));
 
-        if (distributableMana <= 0) return Set.of();
+        if (distributableMana.signum() <= 0) return Set.of();
 
         // 充足率 (1.0 = 全員の要望を満たせる, 0.5 = 半分しかあげられない)
-        double supplyRatio = (double) distributableMana / totalDemand;
+        BigDecimal supplyRatio = distributableMana.divide(totalDemand, MathContext.DECIMAL128)
+                .max(BigDecimal.ZERO)
+                .min(BigDecimal.ONE);
 
-        // 1.0を超えないようにキャップ (需要より供給が多い場合は1.0)
-        supplyRatio = Math.min(supplyRatio, 1.0d);
-
-        for (Map.Entry<IBasicManaHandler, Long> entry : demands.entrySet()) {
+        for (Map.Entry<IBasicManaHandler, BigDecimal> entry : demands.entrySet()) {
             IBasicManaHandler target = entry.getKey();
-            long rawDemand = entry.getValue(); // ターゲットが欲しがった量
+            BigDecimal rawDemand = entry.getValue(); // ターゲットが欲しがった量
 
             // 実際に送る量 = 要望量 * 充足率
-            long transferAmount = Math.min(Math.min((long) (rawDemand * supplyRatio), target.getMaxMana() - target.getMana()), source.getMana());
+            BigDecimal transfer = rawDemand.multiply(supplyRatio, MathContext.DECIMAL128)
+                    .min(BigDecimal.valueOf(target.getMaxMana() - target.getMana()))
+                    .min(BigDecimal.valueOf(source.getMana()));
+            long transferAmount = transfer.longValue();
 
             // 閾値判定 (10以下なら送らない)
             if (transferAmount > 10) {

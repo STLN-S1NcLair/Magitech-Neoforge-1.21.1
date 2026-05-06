@@ -16,14 +16,14 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.content.item.tooltip_item.AspectCrystalItem;
-import net.stln.magitech.content.item.tooltip_item.TooltipTextItem;
 import net.stln.magitech.content.sound.SoundInit;
 import net.stln.magitech.core.api.mana.ManaCapabilities;
 import net.stln.magitech.core.api.mana.flow.ManaTransferHelper;
 import net.stln.magitech.core.api.mana.handler.EntityManaHandler;
 import net.stln.magitech.core.api.mana.handler.IBasicManaHandler;
-import net.stln.magitech.effect.visual.particle.particle_option.PowerupParticleEffect;
+import net.stln.magitech.effect.visual.Section;
 import net.stln.magitech.effect.visual.preset.EntityVFX;
+import net.stln.magitech.effect.visual.preset.PointVFX;
 import net.stln.magitech.effect.visual.preset.PresetHelper;
 import net.stln.magitech.effect.visual.spawner.PowerupParticles;
 import net.stln.magitech.feature.element.Element;
@@ -51,7 +51,7 @@ public class ManaChargedFluoriteItem extends AspectCrystalItem {
                     stack.setCount(stack.getCount() - 1);
                 }
                 level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundInit.CRYSTAL_BREAK.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
-                EffectHelper.entityEffect(level, new PowerupParticleEffect(new Vector3f(0.9F, 1.0F, 0.7F), new Vector3f(0.3F, 1.0F, 0.9F), 1F, 1, 0, 15, 1.0F), player, 20);
+                EntityVFX.powerupAura(level, Element.MANA, player, Section.cover(), 40);
                 handler.addMana(40000);
                 return InteractionResultHolder.success(stack);
             }
@@ -65,7 +65,6 @@ public class ManaChargedFluoriteItem extends AspectCrystalItem {
         BlockPos pos = context.getClickedPos();
         Level level = context.getLevel();
         Player player = context.getPlayer();
-        BlockEntity entity = level.getBlockEntity(pos);
         if (ManaTransferHelper.getManaContainer(level, pos, null) instanceof IBasicManaHandler handler) {
             if (!player.isCreative()) {
                 stack.setCount(stack.getCount() - 1);

@@ -46,7 +46,10 @@ public class GuiInit {
         event.register(MANA_COLLECTOR_MENU.get(), ManaCollectorScreen::new);
         event.register(INFUSION_ALTAR_MENU.get(), InfusionAltarScreen::new);
         event.register(ENHANCED_MANA_VESSEL_MENU.get(), EnhancedManaVesselScreen::new);
+        event.register(MANA_PUMP_MENU.get(), ManaPumpScreen::new);
         event.register(INFUSER_MENU.get(), InfuserScreen::new);
+        event.register(CREATIVE_MANA_SOURCE_MENU.get(), CreativeManaSourceScreen::new);
+        event.register(CREATIVE_MANA_SINK_MENU.get(), CreativeManaSinkScreen::new);
         event.register(THREADBOUND_MENU.get(), ThreadboundScreen::new);
     }
 
@@ -67,10 +70,6 @@ public class GuiInit {
 
     public static final Supplier<MenuType<ManaVesselMenu>> MANA_VESSEL_MENU = register("mana_vessel_menu", ManaVesselMenu::new);
 
-    public static final Supplier<MenuType<EnhancedManaVesselMenu>> ENHANCED_MANA_VESSEL_MENU = register("enhanced_mana_vessel_menu", EnhancedManaVesselMenu::new);
-
-    public static final Supplier<MenuType<InfuserMenu>> INFUSER_MENU = register("infuser_menu", InfuserMenu::new);
-
     public static final Supplier<MenuType<ManaStranderMenu>> MANA_STRANDER_MENU = register("mana_strander_menu", ManaStranderMenu::new);
 
     public static final Supplier<MenuType<ManaReceiverMenu>> MANA_RECEIVER_MENU = register("mana_receiver_menu", ManaReceiverMenu::new);
@@ -78,6 +77,16 @@ public class GuiInit {
     public static final Supplier<MenuType<ManaCollectorMenu>> MANA_COLLECTOR_MENU = register("mana_collector_menu", ManaCollectorMenu::new);
 
     public static final Supplier<MenuType<InfusionAltarMenu>> INFUSION_ALTAR_MENU = register("infusion_altar_menu", InfusionAltarMenu::new);
+
+    public static final Supplier<MenuType<EnhancedManaVesselMenu>> ENHANCED_MANA_VESSEL_MENU = register("enhanced_mana_vessel_menu", EnhancedManaVesselMenu::new);
+
+    public static final Supplier<MenuType<ManaPumpMenu>> MANA_PUMP_MENU = register("mana_pump_menu", ManaPumpMenu::new);
+
+    public static final Supplier<MenuType<InfuserMenu>> INFUSER_MENU = register("infuser_menu", InfuserMenu::new);
+
+    public static final Supplier<MenuType<CreativeManaSourceMenu>> CREATIVE_MANA_SOURCE_MENU = register("creative_mana_source_menu", CreativeManaSourceMenu::new);
+
+    public static final Supplier<MenuType<CreativeManaSinkMenu>> CREATIVE_MANA_SINK_MENU = register("creative_mana_sink_menu", CreativeManaSinkMenu::new);
 
     public static final Supplier<MenuType<ThreadboundMenu>> THREADBOUND_MENU = register("threadbound_menu", ThreadboundMenu::new);
 

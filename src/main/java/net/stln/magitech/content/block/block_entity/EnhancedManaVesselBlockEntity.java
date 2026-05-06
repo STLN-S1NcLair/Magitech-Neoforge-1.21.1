@@ -35,7 +35,7 @@ import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class EnhancedManaVesselBlockEntity extends ManaVesselBlockEntity {
+public class EnhancedManaVesselBlockEntity extends AbstractManaVesselBlockEntity {
 
     public EnhancedManaVesselBlockEntity(BlockPos pos, BlockState blockState, long mana) {
         super(BlockInit.ENHANCED_MANA_VESSEL_ENTITY.get(), pos, blockState, mana);

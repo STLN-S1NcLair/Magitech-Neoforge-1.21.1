@@ -15,13 +15,11 @@ public class PageInit {
     public static void registerPages() {
         LoaderRegistry.registerPageLoader(TOOL_ASSEMBLY_RECIPE, (BookPageJsonLoader<?>) BookToolAssemblyRecipePage::fromJson, BookToolAssemblyRecipePage::fromNetwork);
         LoaderRegistry.registerPageLoader(ZARDIUS_CRUCIBLE_RECIPE, (BookPageJsonLoader<?>) BookZardiusCrucibleRecipePage::fromJson, BookZardiusCrucibleRecipePage::fromNetwork);
-        LoaderRegistry.registerPageLoader(ATHANOR_PILLAR_INFUSION_RECIPE, (BookPageJsonLoader<?>) BookAthanorPillarInfusionRecipePage::fromJson, BookAthanorPillarInfusionRecipePage::fromNetwork);
     }
 
     public static void registerRenderers() {
         PageRendererRegistry.registerPageRenderer(TOOL_ASSEMBLY_RECIPE, p -> new BookToolAssemblyRecipePageRenderer((BookToolAssemblyRecipePage) p));
         PageRendererRegistry.registerPageRenderer(ZARDIUS_CRUCIBLE_RECIPE, p -> new BookZardiusCrucibleRecipePageRenderer((BookZardiusCrucibleRecipePage) p));
-        PageRendererRegistry.registerPageRenderer(ATHANOR_PILLAR_INFUSION_RECIPE, p -> new BookAthanorPillarInfusionRecipePageRenderer((BookAthanorPillarInfusionRecipePage) p));
     }
 
 }

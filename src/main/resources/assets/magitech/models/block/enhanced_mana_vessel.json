@@ -4,10 +4,10 @@
 	"ambientocclusion": false,
 	"render_type": "minecraft:cutout",
 	"textures": {
-		"1": "magitech:block/enhanced_mana_vessel_inside",
-		"2": "magitech:block/enhanced_mana_vessel_side",
+		"1": "magitech:block/fluxium_connector",
+		"2": "magitech:block/enhanced_mana_vessel",
 		"3": "magitech:block/alchecrysite_connector",
-		"particle": "magitech:block/enhanced_mana_vessel_side"
+		"particle": "magitech:block/enhanced_mana_vessel"
 	},
 	"elements": [
 		{

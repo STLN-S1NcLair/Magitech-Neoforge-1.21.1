@@ -25,6 +25,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
@@ -40,7 +41,9 @@ import net.stln.magitech.content.recipe.ZardiusCrucibleRecipe;
 import net.stln.magitech.content.recipe.input.CrucibleRecipeInput;
 import net.stln.magitech.core.api.mana.flow.ManaFlowRule;
 import net.stln.magitech.core.api.mana.handler.MachineBlockEntityManaHandler;
-import net.stln.magitech.effect.visual.particle.particle_option.SquareParticleEffect;
+import net.stln.magitech.effect.visual.preset.PointVFX;
+import net.stln.magitech.effect.visual.spawner.SquareParticles;
+import net.stln.magitech.feature.element.Element;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
@@ -391,36 +394,8 @@ public class ZardiusCrucibleBlockEntity extends ManaMachineBlockEntity {
         if (pState.getValue(ZardiusCrucibleBlock.LIT)) {
             int capacity = Math.max(1, tankCapacity());
             float height = (float) lastRenderValue / capacity * 0.75f + 0.2f;
-            for (int i = 0; i < 10; i++) {
-                level.addParticle(new SquareParticleEffect(
-                                new Vector3f(0.5F, 1.0F, 0.5F),
-                                new Vector3f(0.5F, 0.5F, 1.0F),
-                                1.5F,
-                                Mth.randomBetweenInclusive(level.random, 5, 10),
-                                Mth.randomBetween(level.random, -0.05F, 0.05F), 15, 1.0F
-                        ),
-                        pPos.getX() + 0.5 + Mth.randomBetween(level.random, -0.375F, 0.375F),
-                        pPos.getY() + height,
-                        pPos.getZ() + 0.5 + Mth.randomBetween(level.random, -0.375F, 0.375F),
-                        Mth.randomBetween(level.random, -0.075F, 0.075F),
-                        Mth.randomBetween(level.random, 0.05F, 0.2F),
-                        Mth.randomBetween(level.random, -0.075F, 0.075F)
-                );
-                level.addParticle(new SquareParticleEffect(
-                                new Vector3f(1.0F, 0.5F, 1.0F),
-                                new Vector3f(0.5F, 1.0F, 1.0F),
-                                1.5F,
-                                Mth.randomBetweenInclusive(level.random, 5, 10),
-                                Mth.randomBetween(level.random, -0.05F, 0.05F), 15, 1.0F
-                        ),
-                        pPos.getX() + 0.5 + Mth.randomBetween(level.random, -0.375F, 0.375F),
-                        pPos.getY() + height,
-                        pPos.getZ() + 0.5 + Mth.randomBetween(level.random, -0.375F, 0.375F),
-                        Mth.randomBetween(level.random, -0.075F, 0.075F),
-                        Mth.randomBetween(level.random, 0.05F, 0.2F),
-                        Mth.randomBetween(level.random, -0.075F, 0.075F)
-                );
-            }
+            PointVFX.ring(level, Vec3.atCenterOf(pPos).add(0, height, 0), Element.MANA, SquareParticles::squareParticle, new Vec3(0, 1, 0), 10, 0.2f, 0.4f, 0.1f);
+            PointVFX.ring(level, Vec3.atCenterOf(pPos).add(0, height, 0), Element.MANA, (lvl, vec, elm) -> SquareParticles.squareGravityParticle(lvl, vec, elm, 0.2F), new Vec3(0, 1, 0), 10, 0.2f, 0.4f, 0.1f);
         }
     }
 

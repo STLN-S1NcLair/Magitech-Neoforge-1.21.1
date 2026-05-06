@@ -2,11 +2,11 @@
 	"format_version": "1.9.0",
 	"credit": "Made with Blockbench",
 	"textures": {
-		"1": "magitech:block/enhanced_mana_vessel_inside",
-		"2": "magitech:block/enhanced_mana_vessel_side",
+		"1": "magitech:block/fluxium_connector",
+		"2": "magitech:block/enhanced_mana_vessel",
 		"3": "magitech:block/alchecrysite_connector",
 		"4": "magitech:block/enhanced_mana_vessel_crystal",
-		"particle": "magitech:block/enhanced_mana_vessel_crystal"
+		"particle": "magitech:block/enhanced_mana_vessel"
 	},
 	"elements": [
 		{

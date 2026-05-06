@@ -2,7 +2,12 @@ package net.stln.magitech.content.entity.mana.mana_parcel;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.content.entity.EntityInit;
@@ -29,6 +34,8 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class ManaParcelEntity extends SpellProjectileEntity {
+
+    private static final EntityDataAccessor<ItemStack> STACK = SynchedEntityData.defineId(ManaParcelEntity.class, EntityDataSerializers.ITEM_STACK);
 
     private long mana;
 
@@ -58,6 +65,24 @@ public class ManaParcelEntity extends SpellProjectileEntity {
         return SoundInit.MANA_PARCEL;
     }
 
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(STACK, ItemStack.EMPTY);
+    }
+
+    @Override
+    public void onRemovedFromLevel() {
+        super.onRemovedFromLevel();
+        if (this.level().isClientSide) return;
+        Level level = this.level();
+        ItemStack stack = this.getStack();
+        if (stack.isEmpty()) return;
+        Vec3 position = position();
+        ItemEntity item = new ItemEntity(level, position.x, position.y, position.z, stack);
+        level.addFreshEntity(item);
+    }
+
     protected void tickTrail() {
         Element element = getElement();
         Function<VFXBuilders.WorldVFXBuilder, VFXBuilders.WorldVFXBuilder> builderFunc = TrailRenderHelper.defaultBuilderFunc();
@@ -84,7 +109,7 @@ public class ManaParcelEntity extends SpellProjectileEntity {
         Element element = getElement();
         Vec3 pos = position();
         PointVFX.burst(level, pos, element, SquareParticles::squareParticle, 10, 0.2F);
-    };
+    }
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
@@ -95,12 +120,18 @@ public class ManaParcelEntity extends SpellProjectileEntity {
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putLong("mana", this.mana);
+        compound.put("item", this.getStack().saveOptional(this.registryAccess()));
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         this.mana = compound.getLong("mana");
+        if (compound.contains("item", 10)) {
+            this.setStack(ItemStack.parseOptional(this.registryAccess(), compound.getCompound("item")));
+        } else {
+            this.setStack(ItemStack.EMPTY);
+        }
     }
 
     public long getMana() {
@@ -109,5 +140,13 @@ public class ManaParcelEntity extends SpellProjectileEntity {
 
     public void setMana(long mana) {
         this.mana = mana;
+    }
+
+    public ItemStack getStack() {
+        return this.entityData.get(STACK);
+    }
+
+    public void setStack(ItemStack stack) {
+        this.entityData.set(STACK, stack.isEmpty() ? ItemStack.EMPTY : stack.copy());
     }
 }

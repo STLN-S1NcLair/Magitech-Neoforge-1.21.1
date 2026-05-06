@@ -36,7 +36,7 @@ public abstract class AbstractManaVesselBlock extends ManaContainerBlock {
 
     public static final EnumProperty<Direction.Axis> AXIS = BlockStateProperties.AXIS;
 
-    protected AbstractManaVesselBlock(Properties properties, int maxMana, int maxFlow) {
+    protected AbstractManaVesselBlock(Properties properties, long maxMana, long maxFlow) {
         super(properties, maxMana, maxFlow);
     }
 
@@ -99,8 +99,10 @@ public abstract class AbstractManaVesselBlock extends ManaContainerBlock {
             return InteractionResult.SUCCESS;
         } else {
             BlockEntity blockentity = level.getBlockEntity(pos);
-            if (blockentity instanceof ManaVesselBlockEntity) {
-                player.openMenu((MenuProvider) blockentity);
+            // CreativeManaSourceBlockEntity 等、ManaVessel 系の派生ブロックエンティティは
+            // MenuProvider を実装しているので、具体型ではなく MenuProvider で判定する。
+            if (blockentity instanceof MenuProvider provider) {
+                player.openMenu(provider);
             }
             return InteractionResult.CONSUME;
         }

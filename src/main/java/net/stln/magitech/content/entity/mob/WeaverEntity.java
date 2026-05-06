@@ -32,7 +32,18 @@ import net.stln.magitech.content.entity.RangedSpellAttackGoal;
 import net.stln.magitech.content.entity.magicentity.ignisca.IgniscaEntity;
 import net.stln.magitech.content.network.RangedEntityAttackPayload;
 import net.stln.magitech.content.sound.SoundInit;
+import net.stln.magitech.effect.visual.Section;
 import net.stln.magitech.effect.visual.particle.particle_option.*;
+import net.stln.magitech.effect.visual.preset.LineVFX;
+import net.stln.magitech.effect.visual.preset.PointVFX;
+import net.stln.magitech.effect.visual.preset.PresetHelper;
+import net.stln.magitech.effect.visual.preset.TrailVFX;
+import net.stln.magitech.effect.visual.spawner.BeamParticles;
+import net.stln.magitech.effect.visual.spawner.ElementParticles;
+import net.stln.magitech.effect.visual.spawner.RingParticles;
+import net.stln.magitech.effect.visual.spawner.SquareParticles;
+import net.stln.magitech.feature.element.Element;
+import net.stln.magitech.feature.magic.spell.property.SpellPropertyInit;
 import net.stln.magitech.helper.CombatHelper;
 import net.stln.magitech.helper.EffectHelper;
 import net.stln.magitech.helper.TickScheduler;
@@ -128,43 +139,22 @@ public class WeaverEntity extends Monster implements GeoEntity, RangedAttackMob 
     }
 
     private void addLightning(Level level, LivingEntity target) {
-        final Vec3[] surface = {null};
-
 
         Vec3 position = target.position();
-        Vec3 oldSurface = CombatHelper.findSurface(level(), position);
-
-        level().addParticle(new SquareFieldParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(0.5F, 0.5F, 1.0F), 1.0F, this.getRandom().nextInt(3, 6), 0, 15, 1.0F), position.x, position.y + 0.1, position.z, 0, 0, 0);
-
-        for (int i = 0; i < 40; i++) {
-            Vector3f fromColor = new Vector3f(1.0F, 1.0F, 1.0F);
-            Vector3f toColor = new Vector3f(0.5F, 0.5F, 1.0F);
-            float scale = 1.0F;
-            float rotSpeed = 0.0F;
-            double x = oldSurface.x + Mth.randomBetween(this.getRandom(), -0.4F, 0.4F);
-            double y = oldSurface.y + Mth.randomBetween(this.getRandom(), -0.4F, 1.4F);
-            double z = oldSurface.z + Mth.randomBetween(this.getRandom(), -0.4F, 0.4F);
-            double vy = (this.getRandom().nextFloat()) / 5;
-            int twinkle = this.getRandom().nextInt(2, 4);
-            level().addParticle(new UnstableSquareParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed, 15, 1.0F), x, y, z, 0, vy, 0);
-        }
-
-
-        TickScheduler.schedule(2, () -> {
-            surface[0] = CombatHelper.findSurface(level, target.position());
-        }, level.isClientSide);
+        Vec3 surface = CombatHelper.findSurface(level(), position);
+        Element element = Element.SURGE;
 
         for (int j = 0; j < 3; j++) {
+            Vec3 lightningTop = surface.add(0, Mth.randomBetween(level.random, 5, 20), 0);
             TickScheduler.schedule(5 + 10 * j, () -> {
 
-                if (this.isAlive() && target.isAlive() && surface[0] != null && this.level() != null) {
-                    level().addParticle(new SquareFieldParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(0.5F, 0.5F, 1.0F), 1.0F, this.getRandom().nextInt(3, 6), 0, 15, 1.0F), surface[0].x, surface[0].y + 0.1, surface[0].z, 0, 0, 0);
+                if (this.isAlive() && target.isAlive()) {
+                    PointVFX.burst(level, surface.add(0, 0.1F, 0), Element.SURGE, (lvl, p, elm) -> PresetHelper.bigger(PresetHelper.longer(RingParticles.ringReversedParticle(lvl, p, new Vec3(0, 1, 0), elm))), 1, 0.0F);
                 }
 
-                Vec3 lightningTop = surface[0].add(0, Mth.randomBetween(this.getRandom(), 5, 20), 0);
-                List<Entity> entities = CombatHelper.getEntitiesInBox(level, this, surface[0], new Vec3(2, 2, 2));
+                List<Entity> entities = CombatHelper.getEntitiesInBox(level, this, surface, new Vec3(2, 2, 2));
 
-                level.playSound(this, BlockPos.containing(surface[0]), SoundInit.ARCLUME.get(), SoundSource.HOSTILE, 1.0F, 0.8F + (this.getRandom().nextFloat() * 0.6F));
+                level.playSound(this, BlockPos.containing(surface), SoundInit.ARCLUME.get(), SoundSource.HOSTILE, 1.0F, 0.8F + (this.getRandom().nextFloat() * 0.6F));
 
                 if (!level.isClientSide) {
                     DamageSource elementalDamageSource = this.damageSources().source(DamageTypeInit.SURGE_DAMAGE, this);
@@ -180,37 +170,10 @@ public class WeaverEntity extends Monster implements GeoEntity, RangedAttackMob 
                 }
 
                 if (level.isClientSide) {
-                    level.addParticle(new ZapParticleEffect(new Vector3f(1), new Vector3f(1), lightningTop.toVector3f(), 2F, 3, 0, level.random.nextInt(2, 5), 1.0F), surface[0].x, surface[0].y, surface[0].z,
-                            0, 0, 0);
-                    Vector3f fromColor = new Vector3f(1.0F, 1.0F, 1.0F);
-                    Vector3f toColor = new Vector3f(0.5F, 0.5F, 1.0F);
-                    float scale = 1.0F;
-                    float rotSpeed = 0.0F;
-                    int particleAmount = 20;
-
-                    for (int i = 0; i < particleAmount; i++) {
-                        int twinkle = this.getRandom().nextInt(2, 4);
-
-                        double x = lightningTop.x;
-                        double y = lightningTop.y;
-                        double z = lightningTop.z;
-                        double vx = (this.getRandom().nextFloat() - 0.5) / 10;
-                        double vy = (this.getRandom().nextFloat() - 0.5) / 10;
-                        double vz = (this.getRandom().nextFloat() - 0.5) / 10;
-                        level.addParticle(new SquareParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed, 15, 1.0F), x, y, z, vx, vy, vz);
-                    }
-
-                    for (int i = 0; i < particleAmount; i++) {
-                        int twinkle = this.getRandom().nextInt(2, 4);
-
-                        double x = surface[0].x + Mth.randomBetween(this.getRandom(), -0.2F, 0.2F);
-                        double y = surface[0].y + Mth.randomBetween(this.getRandom(), -0.2F, 0.2F);
-                        double z = surface[0].z + Mth.randomBetween(this.getRandom(), -0.2F, 0.2F);
-                        double vx = (this.getRandom().nextFloat() - 0.5) / 2;
-                        double vy = (this.getRandom().nextFloat() - 0.5);
-                        double vz = (this.getRandom().nextFloat() - 0.5) / 2;
-                        level.addParticle(new UnstableSquareParticleEffect(fromColor, toColor, scale, twinkle, rotSpeed, 15, 1.0F), x, y, z, vx, vy, vz);
-                    }
+                    TrailVFX.zapTrail(level, surface, lightningTop, 0.5F, 1.0F, 0.5F, 20, element);
+                    PointVFX.burst(level, lightningTop, element, SquareParticles::squareParticle, 10, 0.05F);
+                    PointVFX.burst(level, surface, element, SquareParticles::squareGravityParticle, 20, 0.5F);
+                    PointVFX.zap(level, surface, element, 4, 0.25F, 2F, 2F, 0.5F, 10);
                 }
             }, level.isClientSide);
         }
@@ -221,16 +184,16 @@ public class WeaverEntity extends Monster implements GeoEntity, RangedAttackMob 
 
         TickScheduler.schedule(3, () -> {
 
-            Vec3 hitPos = CombatHelper.raycastBeam(this, 32, 0.3, forward);
+            Vec3 end = CombatHelper.raycastBeam(this, 32, 0.3, forward);
             Entity beamTarget = CombatHelper.raycastBeamEntity(this, 32, 0.3, forward);
             Vec3 start = this.position().add(0, this.getBbHeight() * 0.7, 0).add(forward.scale(0.5));
 
-            EffectHelper.lineEffect(level, new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0, level.random.nextInt(50, 60), 0.99F), start, hitPos, 2, false);
-            level.addParticle(new BeamParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(0.6F, 1.0F, 1.0F), hitPos.toVector3f(), 0.7F, 1, 1, 5, 1), start.x, start.y, start.z, 0, 0, 0);
-            for (int i = 0; i < 20; i++) {
-                level.addParticle(new FrostParticleEffect(new Vector3f(1.0F, 1.0F, 1.0F), new Vector3f(1.0F, 1.0F, 1.0F), 1.0F, 1, 0, level.random.nextInt(50, 60), 0.99F),
-                        hitPos.x, hitPos.y, hitPos.z, (this.getRandom().nextFloat() - 0.5) / 3, (this.getRandom().nextFloat() - 0.5) / 3, (this.getRandom().nextFloat() - 0.5) / 3);
-            }
+            Element element = Element.GLACE;
+            LineVFX.destinationLinedSquare(level, start, end, element, new Section(0F, 1F), 5, 0.2F, 0.1F);
+            LineVFX.destinationLined(level, start, end, element, ElementParticles::snowParticle, new Section(0F, 1F), 5, 0.1F, 0.1F);
+            BeamParticles.beamParticle(level, start, end, element, 0.1F);
+            PointVFX.burst(level, end, element, ((lev, pos, elm) -> SquareParticles.squareGravityParticle(level, pos, elm, 0.2F)), 30, 0.3F);
+            PointVFX.burst(level, end, element, ElementParticles::snowParticle, 20, 0.3F);
 
             level.playSound(this, this.blockPosition(), SoundInit.FROST_BREAK.get(), SoundSource.HOSTILE, 1.0F, 0.6F + (this.getRandom().nextFloat() * 0.6F));
 

@@ -1,16 +1,5 @@
 package net.stln.magitech.feature.tool.trait;
 
-import dev.kosmx.playerAnim.api.firstPerson.FirstPersonConfiguration;
-import dev.kosmx.playerAnim.api.firstPerson.FirstPersonMode;
-import dev.kosmx.playerAnim.api.layered.IAnimation;
-import dev.kosmx.playerAnim.api.layered.KeyframeAnimationPlayer;
-import dev.kosmx.playerAnim.api.layered.ModifierLayer;
-import dev.kosmx.playerAnim.api.layered.modifier.AbstractFadeModifier;
-import dev.kosmx.playerAnim.core.data.KeyframeAnimation;
-import dev.kosmx.playerAnim.core.util.Ease;
-import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
-import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
-import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -26,15 +15,11 @@ import net.stln.magitech.content.entity.mob_effect.MobEffectInit;
 import net.stln.magitech.content.sound.SoundInit;
 import net.stln.magitech.effect.sound.SoundHelper;
 import net.stln.magitech.effect.visual.Section;
-import net.stln.magitech.effect.visual.particle.particle_option.BeamParticleEffect;
-import net.stln.magitech.effect.visual.particle.particle_option.SparkParticleEffect;
-import net.stln.magitech.effect.visual.particle.particle_option.ZapParticleEffect;
 import net.stln.magitech.effect.visual.preset.LineVFX;
 import net.stln.magitech.effect.visual.preset.TrailVFX;
 import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.feature.tool.property.ToolProperties;
 import net.stln.magitech.helper.*;
-import org.joml.Vector3f;
 
 import java.awt.*;
 import java.util.Optional;

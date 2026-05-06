@@ -19,6 +19,7 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.content.block.BlockInit;
 import net.stln.magitech.content.block.ManaStranderBlock;
@@ -60,8 +61,11 @@ public class ManaReceiverBlockEntity extends ManaMachineBlockEntity {
     }
 
     private void checkManaParcel(Level level, BlockPos pos, BlockState state) {
+        if (state.getValue(ManaStranderBlock.POWERED)) return;
+
         MachineBlockEntityManaHandler handler = getManaHandler(null);
-        List<Entity> entities = CombatHelper.getEntitiesInBox(level, null, pos.getCenter(), new Vec3(0.5, 0.5, 0.5));
+        Vec3 offset = Vec3.atLowerCornerOf(state.getValue(BlockStateProperties.FACING).getNormal()).reverse().scale(0.25);
+        List<Entity> entities = CombatHelper.getEntitiesInBox(level, null, pos.getCenter().add(offset), new Vec3(0.5, 0.5, 0.5));
         for (Entity entity : entities) {
             if (entity instanceof ManaParcelEntity manaParcel) {
                 handler.produceMana(manaParcel.getMana());

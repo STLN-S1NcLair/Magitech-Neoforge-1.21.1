@@ -1,9 +1,10 @@
 package net.stln.magitech.content.block;
 
+import com.mojang.datafixers.util.Function3;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.util.Mth;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
@@ -30,20 +31,26 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.stln.magitech.content.block.block_entity.ManaReceiverBlockEntity;
-import net.stln.magitech.effect.visual.particle.particle_option.SquareParticleEffect;
+import net.stln.magitech.effect.visual.preset.PointVFX;
+import net.stln.magitech.effect.visual.preset.PresetHelper;
+import net.stln.magitech.effect.visual.spawner.SquareParticles;
+import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.helper.VoxelShapeHelper;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector3f;
+import team.lodestar.lodestone.systems.particle.ParticleEffectSpawner;
 
 public class ManaReceiverBlock extends ManaContainerBlock implements SimpleWaterloggedBlock {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
+    public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final VoxelShape SHAPE_UP = Shapes.or(
-            Block.box(0, 0, 0, 16, 16, 2),
-            Block.box(0, 0, 0, 2, 16, 16),
-            Block.box(0, 0, 0, 16, 2, 16),
-            Block.box(0, 0, 14, 16, 16, 16),
-            Block.box(14, 0, 0, 16, 16, 16)
+            Block.box(0, 0, 0, 16, 4, 16),
+            Block.box(2, 4, 2, 14, 8, 14),
+            Block.box(1, 8, 1, 15, 10, 3),
+            Block.box(1, 8, 13, 15, 10, 15),
+            Block.box(1, 8, 1, 3, 10, 15),
+            Block.box(13, 8, 1, 15, 10, 15),
+            Block.box(4, 4, 4, 12, 8, 12)
     );
     public static final VoxelShape SHAPE_DOWN = VoxelShapeHelper.rotateShape(SHAPE_UP, Direction.UP, Direction.DOWN);
     public static final VoxelShape SHAPE_NORTH = VoxelShapeHelper.rotateShape(SHAPE_UP, Direction.UP, Direction.NORTH);
@@ -55,6 +62,7 @@ public class ManaReceiverBlock extends ManaContainerBlock implements SimpleWater
 
     public ManaReceiverBlock(Properties properties, int maxMana, int maxFlow) {
         super(properties, maxMana, maxFlow);
+        registerDefaultState(defaultBlockState().setValue(FACING, Direction.UP).setValue(POWERED, false).setValue(WATERLOGGED, false));
     }
 
     protected ManaReceiverBlock(Properties properties) {
@@ -97,7 +105,7 @@ public class ManaReceiverBlock extends ManaContainerBlock implements SimpleWater
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
         boolean flag = fluidstate.getType() == Fluids.WATER;
-        return this.defaultBlockState().setValue(FACING, context.getNearestLookingDirection().getOpposite()).setValue(WATERLOGGED, Boolean.valueOf(flag));
+        return this.defaultBlockState().setValue(FACING, context.getNearestLookingDirection().getOpposite());
     }
 
     @Override
@@ -116,17 +124,9 @@ public class ManaReceiverBlock extends ManaContainerBlock implements SimpleWater
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
         super.animateTick(state, level, pos, random);
-        Vec3 center = pos.getCenter();
-        double x = center.x + Mth.nextDouble(random, -0.6, 0.6);
-        double y = center.y + Mth.nextDouble(random, -0.6, 0.6);
-        double z = center.z + Mth.nextDouble(random, -0.6, 0.6);
-        level.addParticle(new SquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 1.0F, 3, 0, 15, 1.0F), x, y, z, 0, 0, 0);
-        for (int i = 0; i < 2; i++) {
-            double x2 = center.x + Mth.nextDouble(random, -0.5, 0.5);
-            double y2 = center.y + Mth.nextDouble(random, -0.5, 0.5);
-            double z2 = center.z + Mth.nextDouble(random, -0.5, 0.5);
-            level.addParticle(new SquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 0.5F, 1, Mth.nextFloat(random, -0.1F, 0.1F), 15, 1.0F), x2, y2, z2, 0, 0.03, 0);
-        }
+        Vec3 dir = Vec3.atLowerCornerOf(state.getValue(FACING).getNormal()).reverse();
+        Function3<Level, Vec3, Element, ParticleEffectSpawner> supplier = (lvl, vec, elm) -> PresetHelper.longer(SquareParticles.squareShrinkParticle(lvl, vec, elm));
+        PointVFX.ring(level, pos.getCenter().add(dir.scale(0.5)), Element.MANA, supplier, dir, 1, 0.05F, 0.05F, 0.0F);
     }
 
     // ★ EntityBlockの実装: BlockEntityを生成する
@@ -161,7 +161,21 @@ public class ManaReceiverBlock extends ManaContainerBlock implements SimpleWater
     }
 
     @Override
+    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean movedByPiston) {
+        if (level instanceof ServerLevel serverlevel) {
+            this.checkPowered(state, serverlevel, pos);
+        }
+    }
+
+    public void checkPowered(BlockState state, ServerLevel level, BlockPos pos) {
+        boolean powered = level.hasNeighborSignal(pos);
+        if (powered != state.getValue(POWERED)) {
+            level.setBlock(pos, state.setValue(POWERED, powered), 3);
+        }
+    }
+
+    @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING, WATERLOGGED);
+        builder.add(FACING, POWERED, WATERLOGGED);
     }
 }

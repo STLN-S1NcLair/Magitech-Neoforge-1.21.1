@@ -35,7 +35,6 @@ public class MagitechJeiPlugin implements IModPlugin {
                 new ToolAssemblyRecipeCategory(guiHelper),
                 new SpellConversionRecipeCategory(guiHelper),
                 new ZardiusCrucibleRecipeCategory(guiHelper),
-                new AthanorPillarInfusionRecipeCategory(guiHelper),
                 new InfusionRecipeCategory(guiHelper)
         );
     }
@@ -46,7 +45,6 @@ public class MagitechJeiPlugin implements IModPlugin {
         registration.addRecipes(RecipeHolderTypeInit.TOOL_ASSEMBLY_TYPE, ClientHelper.getAllRecipes(RecipeInit.TOOL_ASSEMBLY_TYPE));
         registration.addRecipes(RecipeHolderTypeInit.SPELL_CONVERSION_TYPE, ClientHelper.getAllRecipes(RecipeInit.SPELL_CONVERSION_TYPE));
         registration.addRecipes(RecipeHolderTypeInit.ZARDIUS_CRUCIBLE_TYPE, ClientHelper.getAllRecipes(RecipeInit.ZARDIUS_CRUCIBLE_TYPE));
-        registration.addRecipes(RecipeHolderTypeInit.ATHANOR_PILLAR_INFUSION_TYPE, ClientHelper.getAllRecipes(RecipeInit.ATHANOR_PILLAR_INFUSION_TYPE));
         registration.addRecipes(RecipeHolderTypeInit.INFUSION_TYPE, ClientHelper.getAllRecipes(RecipeInit.INFUSION_TYPE));
     }
 
@@ -63,8 +61,8 @@ public class MagitechJeiPlugin implements IModPlugin {
         registration.addRecipeCatalyst(BlockInit.ASSEMBLY_WORKBENCH.toStack(), RecipeHolderTypeInit.TOOL_ASSEMBLY_TYPE);
         registration.addRecipeCatalyst(ItemInit.WAND.toStack(), RecipeHolderTypeInit.SPELL_CONVERSION_TYPE);
         registration.addRecipeCatalyst(BlockInit.ZARDIUS_CRUCIBLE_ITEM.toStack(), RecipeHolderTypeInit.ZARDIUS_CRUCIBLE_TYPE);
-        registration.addRecipeCatalyst(BlockInit.INFUSER_ITEM.toStack(), RecipeHolderTypeInit.ATHANOR_PILLAR_INFUSION_TYPE);
         registration.addRecipeCatalyst(BlockInit.INFUSION_ALTAR_ITEM.toStack(), RecipeHolderTypeInit.INFUSION_TYPE);
+        registration.addRecipeCatalyst(BlockInit.INFUSER_ITEM.toStack(), RecipeHolderTypeInit.INFUSION_TYPE);
         registration.addRecipeCatalyst(BlockInit.PEDESTAL_PYLON_ITEM.toStack(), RecipeHolderTypeInit.INFUSION_TYPE);
     }
 }

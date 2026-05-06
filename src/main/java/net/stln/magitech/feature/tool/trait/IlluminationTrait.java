@@ -2,10 +2,11 @@ package net.stln.magitech.feature.tool.trait;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -19,9 +20,11 @@ import net.minecraft.world.level.block.LightBlock;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.effect.visual.particle.particle_option.PowerupParticleEffect;
+import net.stln.magitech.effect.visual.preset.PresetHelper;
+import net.stln.magitech.effect.visual.spawner.PowerupParticles;
 import net.stln.magitech.feature.tool.property.ToolProperties;
 import org.joml.Vector3f;
+import team.lodestar.lodestone.systems.particle.ParticleEffectSpawner;
 
 import java.awt.*;
 
@@ -42,9 +45,12 @@ public class IlluminationTrait extends Trait {
                 stack.hurtAndBreak(5, player, hand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
             }
             level.setBlock(placePos, Blocks.LIGHT.defaultBlockState().setValue(LightBlock.LEVEL, 15), 3);
+            RandomSource random = level.random;
             for (int i = 0; i < 20; i++) {
-                level.addParticle(new PowerupParticleEffect(new Vector3f(1.0F, 0.8F, 0.5F), new Vector3f(1.0F, 0.6F, 0.3F), 1F, 1, 0, 15, 1.0F),
-                        placePos.getX() + player.getRandom().nextFloat(), placePos.getY() + player.getRandom().nextFloat(), placePos.getZ() + player.getRandom().nextFloat(), 0, 0, 0);
+                Vec3 randomBody = pos.getCenter().add(new Vec3(Mth.nextFloat(random, -1, 1), Mth.nextFloat(random, -1, 1), Mth.nextFloat(random, -1, 1)).scale(0.6));
+                ParticleEffectSpawner spawner = PowerupParticles.powerupParticle(level, randomBody, getPrimary(), getSecondary());
+                PresetHelper.modify(spawner, builder -> builder.multiplyFriction(Mth.nextFloat(random, 0.6F, 1.0F)));
+                spawner.spawnParticles();
             }
 
             level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.FIRECHARGE_USE, SoundSource.PLAYERS, 1.0F, 0.7F + (player.getRandom().nextFloat() * 0.6F));

@@ -34,7 +34,7 @@ public abstract class ManaContainerBlockEntity extends BaseContainerBlockEntity 
     // そのTick内に移動した合計量 (毎Tickリセット)
     protected long currentTickTransfer = 0;
     // 表示用の滑らかな平均流量 (保存不要)
-    protected float averageFlow = 0;
+    protected double averageFlow = 0;
 
     // キャッシュ(ネットワーク軽量化のため、毎Tickの再探索を避ける)
     protected Map<Direction, Set<IBasicManaHandler>> cachedSinks = null;
@@ -162,10 +162,10 @@ public abstract class ManaContainerBlockEntity extends BaseContainerBlockEntity 
         float factor = 0.05f;
 
         // 計算式: 新しい平均 = (今の平均 * (1 - 係数)) + (今回の値 * 係数)
-        this.averageFlow = (this.averageFlow * (1.0f - factor)) + (this.currentTickTransfer * factor);
+        this.averageFlow = (this.averageFlow * (1.0 - factor)) + (this.currentTickTransfer * factor);
 
         // 完全に停止したときに 0.001 みたいな小さな値が残るのを防ぐ
-        if (Math.abs(this.averageFlow) < 0.1f) {
+        if (Math.abs(this.averageFlow) < 0.1) {
             this.averageFlow = 0;
         }
     }
@@ -210,7 +210,7 @@ public abstract class ManaContainerBlockEntity extends BaseContainerBlockEntity 
         this.currentTickTransfer = currentTickTransfer;
     }
 
-    public int getFlowRate() {
+    public long getFlowRate() {
         return Math.round(this.averageFlow);
     }
 

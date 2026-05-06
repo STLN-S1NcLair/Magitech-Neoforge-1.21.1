@@ -1,6 +1,7 @@
 package net.stln.magitech.effect.visual.preset;
 
 import com.mojang.datafixers.util.Function3;
+import com.mojang.datafixers.util.Function4;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.effect.visual.spawner.SquareParticles;
@@ -9,27 +10,38 @@ import net.stln.magitech.helper.VectorHelper;
 import team.lodestar.lodestone.systems.particle.ParticleEffectSpawner;
 import team.lodestar.lodestone.systems.particle.world.LodestoneWorldParticle;
 
+import java.awt.*;
 import java.util.function.Consumer;
 
 public class PointVFX {
-    public static void vortex(Level level, Vec3 pos, Element element, Function3<Level, Vec3, Element, ParticleEffectSpawner> supplier, int amount, float acceleration, float randomness) {
+    public static void vortex(Level level, Vec3 pos, Element element, Function3<Level, Vec3, Element, ParticleEffectSpawner> supplier, int amount, float radius, float acceleration, float randomness) {
         for (int i = 0; i < amount; i++) {
             Vec3 motion = VectorHelper.random(level.random).scale(randomness);
+            Vec3 randomPos = pos.add(VectorHelper.random(level.random).scale(radius));
             Consumer<LodestoneWorldParticle> behavior = BehaviorPreset.toDestination(pos, acceleration);
-            ParticleEffectSpawner spawner = supplier.apply(level, pos, element);
+            ParticleEffectSpawner spawner = supplier.apply(level, randomPos, element);
             PresetHelper.modify(spawner, builder -> builder.setMotion(motion).addTickActor(behavior));
             spawner.spawnParticles();
         }
     }
 
-    public static void vortexSquare(Level level, Vec3 pos, Element element, int amount, float acceleration, float randomness) {
-        vortex(level, pos, element, SquareParticles::squareParticle, amount, acceleration, randomness);
+    public static void vortexSquare(Level level, Vec3 pos, Element element, int amount, float acceleration, float radius, float randomness) {
+        vortex(level, pos, element, SquareParticles::squareParticle, amount, acceleration, radius, randomness);
     }
 
     public static void burst(Level level, Vec3 pos, Element element, Function3<Level, Vec3, Element, ParticleEffectSpawner> supplier, int amount, float randomness) {
         for (int i = 0; i < amount; i++) {
             Vec3 motion = VectorHelper.blastRandom(level.random).scale(randomness);
             ParticleEffectSpawner spawner = supplier.apply(level, pos, element);
+            PresetHelper.modify(spawner, builder -> builder.setMotion(motion));
+            spawner.spawnParticles();
+        }
+    }
+
+    public static void burst(Level level, Vec3 pos, Color primary, Color secondary, Function4<Level, Vec3, Color, Color, ParticleEffectSpawner> supplier, int amount, float randomness) {
+        for (int i = 0; i < amount; i++) {
+            Vec3 motion = VectorHelper.blastRandom(level.random).scale(randomness);
+            ParticleEffectSpawner spawner = supplier.apply(level, pos, primary, secondary);
             PresetHelper.modify(spawner, builder -> builder.setMotion(motion));
             spawner.spawnParticles();
         }

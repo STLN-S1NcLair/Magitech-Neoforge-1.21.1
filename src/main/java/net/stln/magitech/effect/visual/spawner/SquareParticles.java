@@ -16,15 +16,21 @@ import team.lodestar.lodestone.systems.particle.data.color.ColorParticleData;
 import team.lodestar.lodestone.systems.particle.data.spin.SpinParticleData;
 import team.lodestar.lodestone.systems.particle.world.options.WorldParticleOptions;
 
+import java.awt.*;
+
 public class SquareParticles {
 
     public static ParticleEffectSpawner squareParticle(Level level, Vec3 pos, Element element) {
+        return squareParticle(level, pos, element.getPrimary(), element.getSecondary());
+    }
+
+    public static ParticleEffectSpawner squareParticle(Level level, Vec3 pos, Color primary, Color secondary) {
         RandomSource random = level.getRandom();
         SpinParticleData spinParticleData = SpinParticleData.createRandomDirection(random, Mth.nextFloat(random, 0F, 0.1F)).randomSpinOffset(random).build();
         WorldParticleOptions options = new WorldParticleOptions(ParticleInit.LD_SQUARE);
         WorldParticleOptions bloomOptions = new WorldParticleOptions(LodestoneParticleTypes.WISP_PARTICLE);
-        ColorParticleData colorParticleData = ColorParticleData.create(element.getPrimary(), element.getSecondary()).build();
-        ColorParticleData bloomColorParticleData = ColorParticleData.create(element.getPrimary(), element.getSecondary()).build();
+        ColorParticleData colorParticleData = ColorParticleData.create(primary, secondary).build();
+        ColorParticleData bloomColorParticleData = ColorParticleData.create(primary, secondary).build();
         bloomColorParticleData.multiplyCoefficient(1.5F);
         int lifetime = random.nextInt(10, 20);
         WorldParticleBuilder builder = WorldParticleBuilder.create(options)

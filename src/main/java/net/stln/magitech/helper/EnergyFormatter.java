@@ -3,12 +3,21 @@ package net.stln.magitech.helper;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.text.DecimalFormat;
 
 public class EnergyFormatter {
 
     // 小数点以下2桁まで表示するフォーマッタ
     private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0.0");
+
+    private static final BigDecimal KILO = BigDecimal.valueOf(1_000L);
+    private static final BigDecimal MEGA = BigDecimal.valueOf(1_000_000L);
+    private static final BigDecimal GIGA = BigDecimal.valueOf(1_000_000_000L);
+    private static final BigDecimal TERA = BigDecimal.valueOf(1_000_000_000_000L);
+    private static final BigDecimal PETA = BigDecimal.valueOf(1_000_000_000_000_000L);
+    private static final BigDecimal EXA = BigDecimal.valueOf(1_000_000_000_000_000_000L);
 
     /**
      * kJ単位のエネルギー量を、SI接頭辞（M, G, T, P）を使った短い形式に変換します。
@@ -33,29 +42,31 @@ public class EnergyFormatter {
 
     // 単体の値をフォーマットするメソッド
     public static String formatValue(long val) {
-        if (Math.abs(val) >= 1_000_000_000_000_000_000L) {
-            return DECIMAL_FORMAT.format(val / 1_000_000_000_000.0) + " EJ";
+        if (val == Long.MAX_VALUE || val == Long.MIN_VALUE) {
+            return "∞ J";
         }
-        if (Math.abs(val) >= 1_000_000_000_000_000L) {
-            return DECIMAL_FORMAT.format(val / 1_000_000_000_000.0) + " PJ";
+        BigDecimal valDecimal = BigDecimal.valueOf(val);
+        BigDecimal abs = valDecimal.abs();
+        if (abs.compareTo(EXA) >= 0) {
+            return DECIMAL_FORMAT.format(valDecimal.divide(EXA, MathContext.DECIMAL64)) + " EJ";
         }
-        if (Math.abs(val) >= 1_000_000_000_000L) {
-            return DECIMAL_FORMAT.format(val / 1_000_000_000_000.0) + " TJ";
+        if (abs.compareTo(PETA) >= 0) {
+            return DECIMAL_FORMAT.format(valDecimal.divide(PETA, MathContext.DECIMAL64)) + " PJ";
         }
-        // 1,000,000,000 kJ = 1 TJ (Tera)
-        if (Math.abs(val) >= 1_000_000_000L) {
-            return DECIMAL_FORMAT.format(val / 1_000_000_000.0) + " GJ";
+        if (abs.compareTo(TERA) >= 0) {
+            return DECIMAL_FORMAT.format(valDecimal.divide(TERA, MathContext.DECIMAL64)) + " TJ";
         }
-        // 1,000,000 kJ = 1 GJ (Giga)
-        if (Math.abs(val) >= 1_000_000L) {
-            return DECIMAL_FORMAT.format(val / 1_000_000.0) + " MJ";
+        if (abs.compareTo(GIGA) >= 0) {
+            return DECIMAL_FORMAT.format(valDecimal.divide(GIGA, MathContext.DECIMAL64)) + " GJ";
         }
-        // 1,000 kJ = 1 MJ (Mega)
-        if (Math.abs(val) >= 1_000L) {
-            return DECIMAL_FORMAT.format(val / 1_000.0) + " kJ";
+        if (abs.compareTo(MEGA) >= 0) {
+            return DECIMAL_FORMAT.format(valDecimal.divide(MEGA, MathContext.DECIMAL64)) + " MJ";
+        }
+        if (abs.compareTo(KILO) >= 0) {
+            return DECIMAL_FORMAT.format(valDecimal.divide(KILO, MathContext.DECIMAL64)) + " kJ";
         }
 
-        // それ未満はそのまま kJ
+        // それ未満はそのまま J
         return val + " J";
     }
 }

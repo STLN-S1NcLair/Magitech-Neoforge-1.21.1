@@ -6,7 +6,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.stln.magitech.content.entity.mob_effect.MobEffectInit;
 import net.stln.magitech.content.item.fluid.DrinkableFlaskItem;
-import net.stln.magitech.effect.visual.particle.particle_option.PowerupParticleEffect;
+import net.stln.magitech.effect.visual.Section;
+import net.stln.magitech.effect.visual.preset.EntityVFX;
+import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.helper.EffectHelper;
 import org.joml.Vector3f;
 
@@ -19,6 +21,6 @@ public class GlacePotionFlaskItem extends DrinkableFlaskItem {
     @Override
     protected void applyEffects(Level level, LivingEntity entity, ItemStack stack) {
         entity.addEffect(new MobEffectInstance(MobEffectInit.GLACE_POWER, 2400, 0));
-        EffectHelper.entityEffect(level, new PowerupParticleEffect(new Vector3f(0.8F, 1.0F, 1.0F), new Vector3f(0.5F, 0.7F, 1.0F), 1F, 1, 0, 15, 1.0F), entity, 20);
+        EntityVFX.powerupAura(level, Element.GLACE, entity, Section.cover(), 40);
     }
 }

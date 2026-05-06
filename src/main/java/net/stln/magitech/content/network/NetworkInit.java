@@ -115,5 +115,10 @@ public class NetworkInit {
                 ShootManaParcelTransferPayload.STREAM_CODEC,
                 ShootManaParcelTransferPayloadHandler::handleDataOnMainS2C
         );
+        registrar.playToClient(
+                EntanglerEntanglePayload.TYPE,
+                EntanglerEntanglePayload.STREAM_CODEC,
+                EntanglerEntanglePayLoadHandler::handleDataOnMainS2C
+        );
     }
 }

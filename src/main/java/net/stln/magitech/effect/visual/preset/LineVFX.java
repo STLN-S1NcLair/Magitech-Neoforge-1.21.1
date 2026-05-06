@@ -1,6 +1,7 @@
 package net.stln.magitech.effect.visual.preset;
 
 import com.mojang.datafixers.util.Function3;
+import com.mojang.datafixers.util.Function4;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec2;
@@ -17,6 +18,7 @@ import team.lodestar.lodestone.systems.particle.world.LodestoneWorldParticle;
 import team.lodestar.lodestone.systems.rendering.VFXBuilders;
 import team.lodestar.lodestone.systems.rendering.trail.TrailPointBuilder;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -54,6 +56,21 @@ public class LineVFX {
             Consumer<LodestoneWorldParticle> behavior = BehaviorPreset.toDestination(end, 1.0F);
             Vec3 lerped = start.lerp(end, progress);
             ParticleEffectSpawner spawner = supplier.apply(level, lerped, element);
+            PresetHelper.modify(spawner, builder -> builder.setMotion(motion).addTickActor(behavior));
+            spawner.spawnParticles();
+        }
+    }
+
+    public static void destinationLined(Level level, Vec3 start, Vec3 end, Color primary, Color secondary, Function4<Level, Vec3, Color, Color, ParticleEffectSpawner> supplier, Section section, float density, float speed, float randomness) {
+        double dist = start.distanceTo(end);
+        int amount = Mth.ceil(density * dist * section.ratio()) + 1;
+        Vec3 direction = end.subtract(start).normalize();
+        for (int i = 0; i < amount; i++) {
+            double progress = section.ratio() * i / amount + section.start();
+            Vec3 motion = direction.scale(speed).add(VectorHelper.random(level.random).scale(randomness));
+            Consumer<LodestoneWorldParticle> behavior = BehaviorPreset.toDestination(end, 1.0F);
+            Vec3 lerped = start.lerp(end, progress);
+            ParticleEffectSpawner spawner = supplier.apply(level, lerped, primary, secondary);
             PresetHelper.modify(spawner, builder -> builder.setMotion(motion).addTickActor(behavior));
             spawner.spawnParticles();
         }

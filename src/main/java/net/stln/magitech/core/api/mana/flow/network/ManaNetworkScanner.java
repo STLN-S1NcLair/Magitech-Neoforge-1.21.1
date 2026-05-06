@@ -11,6 +11,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.stln.magitech.Magitech;
 import net.stln.magitech.core.api.mana.flow.ManaTransferHelper;
 import net.stln.magitech.core.api.mana.flow.network.connectable.IManaConnectable;
 import net.stln.magitech.core.api.mana.flow.network.connectable.IManaWaypoint;
@@ -183,7 +184,7 @@ public class ManaNetworkScanner {
                     if (targetBlock instanceof IManaWirelessWaypoint waypoint && waypoint.getConnectableModes(targetState).contains(ConnectionMode.WIRELESS)) {
                         int targetRange = waypoint.getRange();
                         Vec3i offset = nextPos.subtract(pos);
-                        if (targetRange < Math.max(offset.getX(), Math.max(offset.getY(), offset.getZ()))) {
+                        if (targetRange < Math.max(Math.abs(offset.getX()), Math.max(Math.abs(offset.getY()), Math.abs(offset.getZ())))) {
                             continue; // 相手の範囲外
                         }
 

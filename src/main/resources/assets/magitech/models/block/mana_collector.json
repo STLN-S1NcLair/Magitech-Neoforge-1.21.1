@@ -6,8 +6,8 @@
 		"0": "magitech:block/mana_collector",
 		"1": "magitech:block/mana_collector_top",
 		"2": "magitech:block/mana_collector_inside",
-		"3": "magitech:block/mana_container_connect",
-		"4": "magitech:block/mana_collector_base",
+		"3": "magitech:block/alchecrysite_connector",
+		"4": "magitech:block/fluxium_connector",
 		"particle": "magitech:block/mana_collector"
 	},
 	"elements": [

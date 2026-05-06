@@ -9,7 +9,6 @@ import org.jetbrains.annotations.NotNull;
 
 public class RecipeHolderTypeInit {
 
-    public static final RecipeType<RecipeHolder<AthanorPillarInfusionRecipe>> ATHANOR_PILLAR_INFUSION_TYPE = createJeiHolderType("athanor_pillar_infusion", AthanorPillarInfusionRecipe.class);
     public static final RecipeType<RecipeHolder<PartCuttingRecipe>> PART_CUTTING_TYPE = createJeiHolderType("part_cutting", PartCuttingRecipe.class);
     public static final RecipeType<RecipeHolder<SpellConversionRecipe>> SPELL_CONVERSION_TYPE = createJeiHolderType("spell_conversion", SpellConversionRecipe.class);
     public static final RecipeType<RecipeHolder<ToolAssemblyRecipe>> TOOL_ASSEMBLY_TYPE = createJeiHolderType("tool_assembly", ToolAssemblyRecipe.class);

@@ -1,5 +1,6 @@
 package net.stln.magitech.content.block.block_entity;
 
+import com.mojang.datafixers.util.Function3;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -9,7 +10,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -26,9 +26,13 @@ import net.stln.magitech.content.block.ManaStranderBlock;
 import net.stln.magitech.content.gui.ManaCollectorMenu;
 import net.stln.magitech.core.api.mana.flow.ManaFlowRule;
 import net.stln.magitech.core.api.mana.handler.MachineBlockEntityManaHandler;
-import net.stln.magitech.effect.visual.particle.particle_option.SquareParticleEffect;
+import net.stln.magitech.effect.visual.preset.PointVFX;
+import net.stln.magitech.effect.visual.preset.PresetHelper;
+import net.stln.magitech.effect.visual.spawner.SquareParticles;
+import net.stln.magitech.feature.element.Element;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector3f;
+import team.lodestar.lodestone.systems.particle.ParticleEffectSpawner;
+import team.lodestar.lodestone.systems.particle.builder.WorldParticleBuilder;
 
 public class ManaCollectorBlockEntity extends ManaMachineBlockEntity {
 
@@ -59,13 +63,8 @@ public class ManaCollectorBlockEntity extends ManaMachineBlockEntity {
         Vec3 center = pos.getCenter();
         RandomSource random = level.getRandom();
         for (int i = 0; i < 2; i++) {
-            double x2 = center.x + Mth.nextDouble(random, -3, 3);
-            double y2 = center.y + Mth.nextDouble(random, -3, 3);
-            double z2 = center.z + Mth.nextDouble(random, -3, 3);
-            double dx = (center.x - x2) / 10;
-            double dy = (center.y - y2) / 10;
-            double dz = (center.z - z2) / 10;
-            level.addParticle(new SquareParticleEffect(new Vector3f(0.8F, 1.0F, 0.7F), new Vector3f(0.0F, 1.0F, 0.9F), 0.5F, random.nextInt(5, 10), Mth.nextFloat(random, -0.1F, 0.1F), 15, 1.05F), x2, y2, z2, dx, dy, dz);
+            Function3<Level, Vec3, Element, ParticleEffectSpawner> particle = (lvl, vec, elm) -> PresetHelper.smaller(PresetHelper.modify(SquareParticles.squareParticle(lvl, vec ,elm), WorldParticleBuilder::enableNoClip));
+            PointVFX.vortex(level, pos.getCenter(), Element.MANA, particle, 1, 2.0F, 0.9F, 3.0F);
         }
     }
 

@@ -24,8 +24,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.content.sound.SoundInit;
-import net.stln.magitech.effect.visual.particle.particle_option.SquareFieldParticleEffect;
-import net.stln.magitech.effect.visual.particle.particle_option.SquareParticleEffect;
+import net.stln.magitech.effect.visual.preset.PointVFX;
+import net.stln.magitech.effect.visual.preset.PresetHelper;
+import net.stln.magitech.effect.visual.spawner.RingParticles;
+import net.stln.magitech.effect.visual.spawner.SquareParticles;
+import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.helper.CombatHelper;
 import net.stln.magitech.helper.TickScheduler;
 import org.joml.Vector3f;
@@ -65,49 +68,36 @@ public class AetherLifterItem extends TooltipArmorItem implements GeoItem {
                     playerAnimationData.replaceAnimationWithFade(AbstractFadeModifier.standardFadeIn(4, Ease.INOUTSINE), new KeyframeAnimationPlayer((KeyframeAnimation) PlayerAnimationRegistry.getAnimation(Magitech.id("double_jump")))
                             .setFirstPersonMode(FirstPersonMode.THIRD_PERSON_MODEL).setFirstPersonConfiguration(new FirstPersonConfiguration(false, false, true, true)));
                 }
-
-                Vector3f phantomCol = new Vector3f(1.0F, 1.0F, 0.5F);
-                Vector3f hollowCol = new Vector3f(0.3F, 0.0F, 1.0F);
                 Vec3 position = player.position();
                 Vec3 surface = CombatHelper.findSurface(level, position);
                 for (int i = 0; i < 10; i++) {
-                    double x = player.getX() + Mth.nextDouble(player.getRandom(), -player.getBbWidth(), player.getBbWidth());
-                    double y = player.getY() + Mth.nextDouble(player.getRandom(), -0.25, 0.25);
-                    double z = player.getZ() + Mth.nextDouble(player.getRandom(), -player.getBbWidth(), player.getBbWidth());
                     if (player.getRandom().nextBoolean()) {
-                        level.addParticle(new SquareParticleEffect(hollowCol, phantomCol, 1.0F, player.getRandom().nextInt(3, 6), 0, 15, 1.0F), x, y, z, 0, 0.05, 0);
+                        PointVFX.burst(level, position, Element.HOLLOW, SquareParticles::squareParticle, 1, 0.0F);
                     } else {
-                        level.addParticle(new SquareParticleEffect(phantomCol, hollowCol, 1.0F, player.getRandom().nextInt(3, 6), 0, 15, 1.0F), x, y, z, 0, 0.05, 0);
+                        PointVFX.burst(level, position, Element.PHANTOM, SquareParticles::squareParticle, 1, 0.0F);
                     }
                 }
                 for (int i = 0; i < position.distanceTo(surface) * 5; i++) {
                     Vec3 lerped = surface.lerp(position, i / position.distanceTo(surface) / 5);
-                    double x = lerped.x + Mth.nextDouble(player.getRandom(), -player.getBbWidth(), player.getBbWidth()) / 2;
-                    double y = lerped.y + Mth.nextDouble(player.getRandom(), -0.25, 0.25);
-                    double z = lerped.z + Mth.nextDouble(player.getRandom(), -player.getBbWidth(), player.getBbWidth()) / 2;
                     if (player.getRandom().nextBoolean()) {
-                        level.addParticle(new SquareParticleEffect(hollowCol, phantomCol, 1.0F, player.getRandom().nextInt(3, 6), 0, 15, 1.0F), x, y, z, 0, 0.05, 0);
+                        PointVFX.burst(level, lerped, Element.HOLLOW, SquareParticles::squareParticle, 1, 0.0F);
                     } else {
-                        level.addParticle(new SquareParticleEffect(phantomCol, hollowCol, 1.0F, player.getRandom().nextInt(3, 6), 0, 15, 1.0F), x, y, z, 0, 0.05, 0);
+                        PointVFX.burst(level, lerped, Element.PHANTOM, SquareParticles::squareParticle, 1, 0.0F);
                     }
                 }
+                Vec3 up = new Vec3(0, 1, 0);
                 if (player.getRandom().nextBoolean()) {
-                    level.addParticle(new SquareFieldParticleEffect(hollowCol, phantomCol, 1.0F, 1, 0, 15, 1.0F),
-                            player.getX() + Mth.nextDouble(player.getRandom(), -0.1, 0.1), player.getY() + Mth.nextDouble(player.getRandom(), -0.1, 0.1), player.getZ() + Mth.nextDouble(player.getRandom(), -0.1, 0.1), 0, 0, 0);
+                    PointVFX.burst(level, position.add(0, 0.1F, 0), Element.HOLLOW, (lvl, p, elm) -> PresetHelper.bigger(PresetHelper.longer(RingParticles.ringReversedParticle(lvl, p, up, elm))), 1, 0.0F);
                 } else {
-                    level.addParticle(new SquareFieldParticleEffect(phantomCol, hollowCol, 1.0F, 1, 0, 15, 1.0F),
-                            player.getX() + Mth.nextDouble(player.getRandom(), -0.1, 0.1), player.getY() + Mth.nextDouble(player.getRandom(), -0.1, 0.1), player.getZ() + Mth.nextDouble(player.getRandom(), -0.1, 0.1), 0, 0, 0);
+                    PointVFX.burst(level, position.add(0, 0.1F, 0), Element.PHANTOM, (lvl, p, elm) -> PresetHelper.bigger(PresetHelper.longer(RingParticles.ringReversedParticle(lvl, p, up, elm))), 1, 0.0F);
                 }
                 for (int i = 0; i < 10; i++) {
                     for (int j = 0; j < 3; j++) {
                         TickScheduler.schedule(i + 1, () -> {
-                            double x = player.getX() + Mth.nextDouble(player.getRandom(), -0.1, 0.1);
-                            double y = player.getY() + Mth.nextDouble(player.getRandom(), -0.1, 0.1);
-                            double z = player.getZ() + Mth.nextDouble(player.getRandom(), -0.1, 0.1);
                             if (player.getRandom().nextBoolean()) {
-                                level.addParticle(new SquareParticleEffect(hollowCol, phantomCol, 1.0F, player.getRandom().nextInt(3, 6), 0, 15, 1.0F), x, y, z, 0, 0.05, 0);
+                                PointVFX.burst(level, position, Element.HOLLOW, SquareParticles::squareParticle, 1, 0.0F);
                             } else {
-                                level.addParticle(new SquareParticleEffect(phantomCol, hollowCol, 1.0F, player.getRandom().nextInt(3, 6), 0, 15, 1.0F), x, y, z, 0, 0.05, 0);
+                                PointVFX.burst(level, position, Element.PHANTOM, SquareParticles::squareParticle, 1, 0.0F);
                             }
                         }, level.isClientSide);
                     }

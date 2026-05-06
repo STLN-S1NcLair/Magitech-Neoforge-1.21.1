@@ -21,7 +21,14 @@ public interface IManaHandler {
 
     // 制限を無視してやり取りする
     default void addMana(long amount) {
-        setMana(getMana() + amount);
+        long current = getMana();
+        long next;
+        try {
+            next = Math.addExact(current, amount);
+        } catch (ArithmeticException e) {
+            next = amount >= 0 ? Long.MAX_VALUE : Long.MIN_VALUE;
+        }
+        setMana(next);
     }
 
     default boolean isFull() {

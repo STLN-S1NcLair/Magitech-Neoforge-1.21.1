@@ -17,7 +17,6 @@ import net.stln.magitech.helper.SimpleLongContainerData;
 public class ManaVesselMenu extends ManaContainerMenu {
     final Slot receiveSlot;
     final Slot extractSlot;
-    private final Container container;
 
     public ManaVesselMenu(int containerId, Inventory playerInventory) {
         this(containerId, playerInventory, new SimpleContainer(2), ContainerLevelAccess.NULL, new SimpleLongContainerData(6));
@@ -29,7 +28,6 @@ public class ManaVesselMenu extends ManaContainerMenu {
 
     public ManaVesselMenu(MenuType<? extends ManaVesselMenu> menuType, int containerId, Inventory playerInventory, Container container, ContainerLevelAccess access, LongContainerData containerData) {
         super(menuType, containerId, playerInventory, access, containerData, 99);
-        this.container = container;
         this.receiveSlot = this.addSlot(new Slot(container, ManaVesselBlockEntity.INPUT, 131, 51));
         this.extractSlot = this.addSlot(new Slot(container, ManaVesselBlockEntity.OUTPUT, 149, 51));
     }
@@ -46,18 +44,15 @@ public class ManaVesselMenu extends ManaContainerMenu {
     public ItemStack quickMoveStack(Player player, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
-        if (slot != null && slot.hasItem()) {
+        if (slot.hasItem()) {
             ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
-            if (index < 2) {
-                if (!this.moveItemStackTo(itemstack1, 2, 38, true)) {
+            // 先頭36スロットがプレイヤー、末尾2スロットが装置。
+            if (index < 36) {
+                if (!this.moveItemStackTo(itemstack1, 36, 38, false)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (index < 29) {
-                if (!this.moveItemStackTo(itemstack1, 29, 38, false)) {
-                    return ItemStack.EMPTY;
-                }
-            } else if (index < 38 && !this.moveItemStackTo(itemstack1, 2, 29, false)) {
+            } else if (!this.moveItemStackTo(itemstack1, 0, 36, true)) {
                 return ItemStack.EMPTY;
             }
 

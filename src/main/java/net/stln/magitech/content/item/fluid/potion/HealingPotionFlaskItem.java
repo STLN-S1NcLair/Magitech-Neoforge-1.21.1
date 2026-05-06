@@ -4,9 +4,13 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.stln.magitech.content.item.fluid.DrinkableFlaskItem;
-import net.stln.magitech.effect.visual.particle.particle_option.PowerupParticleEffect;
+import net.stln.magitech.effect.visual.Section;
+import net.stln.magitech.effect.visual.preset.EntityVFX;
+import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.helper.EffectHelper;
 import org.joml.Vector3f;
+
+import java.awt.*;
 
 public class HealingPotionFlaskItem extends DrinkableFlaskItem {
 
@@ -17,6 +21,6 @@ public class HealingPotionFlaskItem extends DrinkableFlaskItem {
     @Override
     protected void applyEffects(Level level, LivingEntity entity, ItemStack stack) {
         entity.heal(8.0F);
-        EffectHelper.entityEffect(level, new PowerupParticleEffect(new Vector3f(0.9F, 1.0F, 0.7F), new Vector3f(0.3F, 1.0F, 0.1F), 1F, 1, 0, 15, 1.0F), entity, 20);
+        EntityVFX.powerupAura(level, new Color(0x40FF80), new Color(0x80FF00), entity, Section.cover(), 40);
     }
 }
