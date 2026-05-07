@@ -32,6 +32,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class ManaCollectorBlock extends ManaContainerBlock implements SimpleWaterloggedBlock {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
+    public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final VoxelShape SHAPE_UP = Shapes.or(
             Block.box(0, 0, 0, 16, 4, 16),
@@ -51,6 +52,7 @@ public class ManaCollectorBlock extends ManaContainerBlock implements SimpleWate
 
     public ManaCollectorBlock(Properties properties, int maxMana, int maxFlow) {
         super(properties, maxMana, maxFlow);
+        registerDefaultState(defaultBlockState().setValue(FACING, Direction.UP).setValue(POWERED, false).setValue(WATERLOGGED, false));
     }
 
     protected ManaCollectorBlock(Properties properties) {
@@ -91,22 +93,33 @@ public class ManaCollectorBlock extends ManaContainerBlock implements SimpleWate
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
-        boolean flag = fluidstate.getType() == Fluids.WATER;
-        return this.defaultBlockState().setValue(FACING, context.getNearestLookingDirection().getOpposite()).setValue(WATERLOGGED, Boolean.valueOf(flag));
+        boolean water = WaterloggedBlockUtil.isWaterAtPlacement(context);
+        return this.defaultBlockState()
+                .setValue(FACING, context.getNearestLookingDirection().getOpposite())
+                .setValue(POWERED, false)
+                .setValue(WATERLOGGED, water);
     }
 
     @Override
     protected BlockState updateShape(
             BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos
     ) {
-        if (state.getValue(WATERLOGGED)) {
-            level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
-        }
+        WaterloggedBlockUtil.scheduleWaterTickIfNeeded(state, WATERLOGGED, level, pos);
+        return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
+    }
 
-        return direction == state.getValue(FACING).getOpposite() && !state.canSurvive(level, pos)
-                ? Blocks.AIR.defaultBlockState()
-                : super.updateShape(state, direction, neighborState, level, pos, neighborPos);
+    @Override
+    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean movedByPiston) {
+        if (level instanceof net.minecraft.server.level.ServerLevel serverlevel) {
+            this.checkPowered(state, serverlevel, pos);
+        }
+    }
+
+    public void checkPowered(BlockState state, net.minecraft.server.level.ServerLevel level, BlockPos pos) {
+        boolean powered = level.hasNeighborSignal(pos);
+        if (powered != state.getValue(POWERED)) {
+            level.setBlock(pos, state.setValue(POWERED, powered), 3);
+        }
     }
 
     @Nullable
@@ -140,6 +153,6 @@ public class ManaCollectorBlock extends ManaContainerBlock implements SimpleWate
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING, WATERLOGGED);
+        builder.add(FACING, POWERED, WATERLOGGED);
     }
 }

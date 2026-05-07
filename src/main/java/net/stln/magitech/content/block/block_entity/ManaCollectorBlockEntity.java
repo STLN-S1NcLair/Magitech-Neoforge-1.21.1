@@ -19,6 +19,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.content.block.BlockInit;
 import net.stln.magitech.content.block.ManaCollectorBlock;
@@ -60,8 +61,12 @@ public class ManaCollectorBlockEntity extends ManaMachineBlockEntity {
     @Override
     public void clientTick(Level level, BlockPos pos, BlockState state) {
         super.clientTick(level, pos, state);
-        Vec3 center = pos.getCenter();
-        RandomSource random = level.getRandom();
+
+        collectManaVFX(level, pos, state);
+    }
+
+    private static void collectManaVFX(Level level, BlockPos pos, BlockState state) {
+        if (state.getValue(BlockStateProperties.POWERED)) return;
         for (int i = 0; i < 2; i++) {
             Function3<Level, Vec3, Element, ParticleEffectSpawner> particle = (lvl, vec, elm) -> PresetHelper.smaller(PresetHelper.modify(SquareParticles.squareParticle(lvl, vec ,elm), WorldParticleBuilder::enableNoClip));
             PointVFX.vortex(level, pos.getCenter(), Element.MANA, particle, 1, 2.0F, 0.9F, 3.0F);
@@ -75,6 +80,7 @@ public class ManaCollectorBlockEntity extends ManaMachineBlockEntity {
     }
 
     protected void collectMana(Level level, BlockPos pos, BlockState state) {
+        if (state.getValue(BlockStateProperties.POWERED)) return; // レッドストーン信号がある場合は動作しない
         MachineBlockEntityManaHandler handler = getManaHandler(null);
         int collectorCount = 1;
         // 周囲を探索

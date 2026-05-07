@@ -18,6 +18,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.stln.magitech.content.block.AbstractManaPumpBlock;
 import net.stln.magitech.content.block.ManaVesselBlock;
@@ -71,7 +72,7 @@ public abstract class AbstractManaPumpBlockEntity extends ManaContainerBlockEnti
 
     @Override
     public ManaFlowRule getManaFlowRule(BlockState state, Direction side) {
-        if (side == null) {
+        if (side == null || state.getValue(BlockStateProperties.POWERED)) {
             return ManaFlowRule.bothWays(0.0F);
         }
         if (side == state.getValue(AbstractManaPumpBlock.FACING)) {

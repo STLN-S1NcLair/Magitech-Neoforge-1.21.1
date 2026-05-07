@@ -1,0 +1,7 @@
+{
+	"parent": "magitech:block/mana_receiver",
+	"textures": {
+		"1": "magitech:block/mana_receiver_powered",
+		"particle": "magitech:block/mana_receiver_powered"
+	}
+}

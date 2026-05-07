@@ -43,6 +43,7 @@ import team.lodestar.lodestone.systems.particle.ParticleEffectSpawner;
 
 public class EntanglerBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
+    public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final VoxelShape SHAPE_UP = Shapes.or(
             Block.box(0, 0, 0, 16, 4, 16),
@@ -65,6 +66,10 @@ public class EntanglerBlock extends BaseEntityBlock implements SimpleWaterlogged
 
     public EntanglerBlock(Properties properties) {
         super(properties);
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(FACING, Direction.UP)
+                .setValue(POWERED, false)
+                .setValue(WATERLOGGED, false));
     }
 
     @Override
@@ -111,22 +116,19 @@ public class EntanglerBlock extends BaseEntityBlock implements SimpleWaterlogged
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
-        boolean flag = fluidstate.getType() == Fluids.WATER;
-        return this.defaultBlockState().setValue(FACING, context.getNearestLookingDirection().getOpposite()).setValue(WATERLOGGED, Boolean.valueOf(flag));
+        boolean water = WaterloggedBlockUtil.isWaterAtPlacement(context);
+        return this.defaultBlockState()
+                .setValue(FACING, context.getNearestLookingDirection().getOpposite())
+                .setValue(POWERED, false)
+                .setValue(WATERLOGGED, water);
     }
 
     @Override
     protected BlockState updateShape(
             BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos
     ) {
-        if (state.getValue(WATERLOGGED)) {
-            level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
-        }
-
-        return direction == state.getValue(FACING).getOpposite() && !state.canSurvive(level, pos)
-                ? Blocks.AIR.defaultBlockState()
-                : super.updateShape(state, direction, neighborState, level, pos, neighborPos);
+        WaterloggedBlockUtil.scheduleWaterTickIfNeeded(state, WATERLOGGED, level, pos);
+        return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
     }
 
     // ★ EntityBlockの実装: BlockEntityを生成する
@@ -166,7 +168,21 @@ public class EntanglerBlock extends BaseEntityBlock implements SimpleWaterlogged
     }
 
     @Override
+    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean movedByPiston) {
+        if (level instanceof net.minecraft.server.level.ServerLevel serverlevel) {
+            this.checkPowered(state, serverlevel, pos);
+        }
+    }
+
+    public void checkPowered(BlockState state, net.minecraft.server.level.ServerLevel level, BlockPos pos) {
+        boolean powered = level.hasNeighborSignal(pos);
+        if (powered != state.getValue(POWERED)) {
+            level.setBlock(pos, state.setValue(POWERED, powered), 3);
+        }
+    }
+
+    @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING, WATERLOGGED);
+        builder.add(FACING, POWERED, WATERLOGGED);
     }
 }

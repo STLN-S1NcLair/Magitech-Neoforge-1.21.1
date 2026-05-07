@@ -64,6 +64,7 @@ public class ManaStranderBlockEntity extends ManaMachineBlockEntity {
     }
 
     private void shootManaParcel(Level level, BlockPos pos, BlockState state) {
+        if (state.getValue(BlockStateProperties.POWERED)) return; // レッドストーン信号がある場合は動作しない
         MachineBlockEntityManaHandler handler = getManaHandler(null);
         if (!state.getValue(BlockStateProperties.POWERED) && handler.getMana() >= MANA_PARCEL_ENERGY) {
             handler.consumeMana(MANA_PARCEL_ENERGY);

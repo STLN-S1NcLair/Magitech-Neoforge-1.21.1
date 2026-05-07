@@ -65,6 +65,7 @@ public class DetanglerBlockEntity extends BlockEntity {
     }
 
     private void checkManaParcel(Level level, BlockPos pos, BlockState state) {
+        if (state.getValue(BlockStateProperties.POWERED)) return; // レッドストーン信号がある場合は動作しない
         List<Entity> entities = CombatHelper.getEntitiesInBox(level, null, pos.getCenter(), new Vec3(0.8, 0.8, 0.8));
         for (Entity entity : entities) {
             if (entity instanceof ManaParcelEntity manaParcel) {

@@ -1,0 +1,6 @@
+{
+	"parent": "magitech:block/detangler",
+	"textures": {
+		"1": "magitech:block/detangler_powered"
+	}
+}
