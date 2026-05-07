@@ -29,6 +29,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.stln.magitech.content.block.block_entity.ItemCollectorBlockEntity;
 import net.stln.magitech.content.block.block_entity.ManaCollectorBlockEntity;
 import net.stln.magitech.effect.visual.preset.PointVFX;
 import net.stln.magitech.effect.visual.preset.PresetHelper;
@@ -38,50 +39,25 @@ import net.stln.magitech.helper.VoxelShapeHelper;
 import org.jetbrains.annotations.Nullable;
 import team.lodestar.lodestone.systems.particle.ParticleEffectSpawner;
 
-public class ManaCollectorBlock extends ManaContainerBlock implements SimpleWaterloggedBlock {
+public class ItemCollectorBlock extends ManaContainerBlock implements SimpleWaterloggedBlock {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-    public static final VoxelShape SHAPE_UP = Shapes.or(
-            Block.box(0, 0, 0, 16, 4, 16),
-            Block.box(2, 4, 2, 14, 15, 14),
-            Block.box(1, 14, 1, 15, 16, 3),
-            Block.box(1, 14, 1, 3, 16, 15),
-            Block.box(13, 14, 1, 15, 16, 15),
-            Block.box(1, 14, 13, 15, 16, 15)
-    );
-    public static final VoxelShape SHAPE_DOWN = VoxelShapeHelper.rotateShape(SHAPE_UP, Direction.UP, Direction.DOWN);
-    public static final VoxelShape SHAPE_NORTH = VoxelShapeHelper.rotateShape(SHAPE_UP, Direction.UP, Direction.NORTH);
-    public static final VoxelShape SHAPE_SOUTH = VoxelShapeHelper.rotateShape(SHAPE_UP, Direction.UP, Direction.SOUTH);
-    public static final VoxelShape SHAPE_EAST = VoxelShapeHelper.rotateShape(SHAPE_UP, Direction.UP, Direction.EAST);
-    public static final VoxelShape SHAPE_WEST = VoxelShapeHelper.rotateShape(SHAPE_UP, Direction.UP, Direction.WEST);
 
-    public static final MapCodec<ManaCollectorBlock> CODEC = simpleCodec(ManaCollectorBlock::new);
+    public static final MapCodec<ItemCollectorBlock> CODEC = simpleCodec(ItemCollectorBlock::new);
 
-    public ManaCollectorBlock(Properties properties, int maxMana, int maxFlow) {
+    public ItemCollectorBlock(Properties properties, int maxMana, int maxFlow) {
         super(properties, maxMana, maxFlow);
         registerDefaultState(defaultBlockState().setValue(FACING, Direction.UP).setValue(POWERED, false).setValue(WATERLOGGED, false));
     }
 
-    protected ManaCollectorBlock(Properties properties) {
+    protected ItemCollectorBlock(Properties properties) {
         this(properties, 0, 0);
     }
 
     @Override
     protected MapCodec<? extends BaseEntityBlock> codec() {
         return CODEC;
-    }
-
-    @Override
-    protected VoxelShape getShape(BlockState p_154346_, BlockGetter p_154347_, BlockPos p_154348_, CollisionContext p_154349_) {
-        return switch (p_154346_.getValue(FACING)) {
-            case UP -> SHAPE_UP;
-            case DOWN -> SHAPE_DOWN;
-            case NORTH -> SHAPE_NORTH;
-            case SOUTH -> SHAPE_SOUTH;
-            case EAST -> SHAPE_EAST;
-            case WEST -> SHAPE_WEST;
-        };
     }
 
     @Override
@@ -133,7 +109,7 @@ public class ManaCollectorBlock extends ManaContainerBlock implements SimpleWate
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
         super.animateTick(state, level, pos, random);
-        Vec3 dir = Vec3.atLowerCornerOf(state.getValue(FACING).getNormal()).reverse();
+        Vec3 dir = Vec3.atLowerCornerOf(state.getValue(FACING).getNormal());
         Function3<Level, Vec3, Element, ParticleEffectSpawner> supplier = (lvl, vec, elm) -> PresetHelper.longer(SquareParticles.squareShrinkParticle(lvl, vec, elm));
         PointVFX.ring(level, pos.getCenter().add(dir.scale(0.5)), Element.MANA, supplier, dir, 1, 0.05F, 0.05F, 0.0F);
     }
@@ -141,12 +117,12 @@ public class ManaCollectorBlock extends ManaContainerBlock implements SimpleWate
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new ManaCollectorBlockEntity(pos, state);
+        return new ItemCollectorBlockEntity(pos, state);
     }
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return createTicker(level, type, BlockInit.MANA_COLLECTOR_ENTITY.get());
+        return createTicker(level, type, BlockInit.ITEM_COLLECTOR_ENTITY.get());
     }
 
     @Override
@@ -155,7 +131,7 @@ public class ManaCollectorBlock extends ManaContainerBlock implements SimpleWate
             return InteractionResult.SUCCESS;
         } else {
             BlockEntity blockentity = level.getBlockEntity(pos);
-            if (blockentity instanceof ManaCollectorBlockEntity) {
+            if (blockentity instanceof ItemCollectorBlockEntity) {
                 player.openMenu((MenuProvider) blockentity);
             }
             return InteractionResult.CONSUME;

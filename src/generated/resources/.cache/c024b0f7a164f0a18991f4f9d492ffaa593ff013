@@ -1,4 +1,4 @@
-// 1.21.1	2026-05-07T10:29:16.590422	Block States: magitech
+// 1.21.1	2026-05-07T20:58:09.7176765	Block States: magitech
 90f039d3c8040909582f040c2be7f09eca62a0a8 assets/magitech/blockstates/alchecrysite.json
 e2e47f25d85025ef83b8b30154421755d7d8c139 assets/magitech/blockstates/alchecrysite_bricks.json
 36896c4c599cbeeb6b3e9441de7d2de5fa12cb4d assets/magitech/blockstates/alchecrysite_brick_slab.json
@@ -63,10 +63,11 @@ d9e407bb6919a124a140bc2d5e049594e24a32d7 assets/magitech/blockstates/entangler.j
 23b24625ce85ce68a3043507db1070ade2249322 assets/magitech/blockstates/fluorite_ore.json
 3ee1813261afa5751ddf86da2fc6a3ad74b030dd assets/magitech/blockstates/infuser.json
 f3295a8c1bca5a8f7dbea9324984392163e06110 assets/magitech/blockstates/infusion_altar.json
+2df234e66e74270b93795b378be3577cfd9d9e6a assets/magitech/blockstates/item_collector.json
 9c9de7cbc900464c7a61722c94ddaac18ab06d3d assets/magitech/blockstates/mana_collector.json
 6e3af8d17523823327619be97b9b98fa23e09b28 assets/magitech/blockstates/mana_junction.json
 ea5f32c600326878c156f8e6005a468090ac5787 assets/magitech/blockstates/mana_node.json
-0ece75c220e292ec90c6425aed0cd84adb39b318 assets/magitech/blockstates/mana_pump.json
+52903fc6df998517b9e1fd11c4e6800e2c1b2162 assets/magitech/blockstates/mana_pump.json
 8543f5a0b5ece88cca2396a8335e237d120eabed assets/magitech/blockstates/mana_receiver.json
 6cdea5097e4c6a6a65aca88d53c1a132cc0cee3d assets/magitech/blockstates/mana_relay.json
 a862e6a1cd9d9dc43edd85763bfe1089b113ceb5 assets/magitech/blockstates/mana_strander.json
@@ -352,6 +353,7 @@ d7a4b1fb97de8531a033107078a9ff7873e9ea14 assets/magitech/models/item/fluorite_br
 154846b3063706a90adf80a7d0ca0d5f4dc79b24 assets/magitech/models/item/fluorite_ore.json
 cc853472569ef50af1564bf24357c8a500a5fca0 assets/magitech/models/item/infuser.json
 88199259250eff6f51a759ec1d7a1ba022e489ee assets/magitech/models/item/infusion_altar.json
+62bdb36499f370792a935fd456c52c1e464dd86b assets/magitech/models/item/item_collector.json
 06ebf526b2c6a43fa82168be2963e6e750be33b0 assets/magitech/models/item/mana_collector.json
 f9d0e15497388ceb13b52eda36cfd44252c0c06e assets/magitech/models/item/mana_junction.json
 d31f0296a75ebce6a226f7ccb718d34b37a4dd08 assets/magitech/models/item/mana_node.json

@@ -147,6 +147,7 @@ public class CreativeTabInit {
                 output.accept(BlockInit.MANA_COLLECTOR_ITEM.get());
                 output.accept(BlockInit.ENTANGLER_ITEM.get());
                 output.accept(BlockInit.DETANGLER_ITEM.get());
+                output.accept(BlockInit.ITEM_COLLECTOR_ITEM.get());
                 output.accept(BlockInit.MANA_JUNCTION_ITEM.get());
                 output.accept(BlockInit.INFUSION_ALTAR_ITEM.get());
                 output.accept(BlockInit.ENHANCED_MANA_NODE_ITEM.get());

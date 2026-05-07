@@ -15,8 +15,6 @@ import net.stln.magitech.effect.visual.Section;
 import net.stln.magitech.effect.visual.preset.LineVFX;
 import net.stln.magitech.effect.visual.spawner.SquareParticles;
 import net.stln.magitech.feature.tool.property.ToolProperties;
-import net.stln.magitech.helper.EffectHelper;
-import org.joml.Vector3f;
 
 import java.awt.*;
 import java.util.List;
@@ -39,7 +37,7 @@ public class EnderDrawTrait extends Trait {
                 if (item != null) {
                     Vec3 playerPos = new Vec3(player.getX(), player.getY(0.5F), player.getZ());
                     Vec3 itemPos = new Vec3(item.getX(), item.getY(0.5F), item.getZ());
-                    LineVFX.destinationLined(level, itemPos, playerPos, getPrimary(), getSecondary(), SquareParticles::squareParticle, Section.cover(), 10, 0.2F, 0.0F);
+                    LineVFX.destinationLinedColor(level, itemPos, playerPos, getPrimary(), getSecondary(), SquareParticles::squareParticleColored, Section.cover(), 10, 0.2F, 0.0F);
                     level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_TELEPORT, SoundSource.PLAYERS);
                     item.setPos(player.getPosition(0F));
                     item.setDeltaMovement(0, 0, 0);

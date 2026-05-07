@@ -21,10 +21,10 @@ import java.awt.*;
 public class SquareParticles {
 
     public static ParticleEffectSpawner squareParticle(Level level, Vec3 pos, Element element) {
-        return squareParticle(level, pos, element.getPrimary(), element.getSecondary());
+        return squareParticleColored(level, pos, element.getPrimary(), element.getSecondary());
     }
 
-    public static ParticleEffectSpawner squareParticle(Level level, Vec3 pos, Color primary, Color secondary) {
+    public static ParticleEffectSpawner squareParticleColored(Level level, Vec3 pos, Color primary, Color secondary) {
         RandomSource random = level.getRandom();
         SpinParticleData spinParticleData = SpinParticleData.createRandomDirection(random, Mth.nextFloat(random, 0F, 0.1F)).randomSpinOffset(random).build();
         WorldParticleOptions options = new WorldParticleOptions(ParticleInit.LD_SQUARE);

@@ -7,22 +7,14 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.effect.visual.Section;
-import net.stln.magitech.effect.visual.TrailRenderHelper;
 import net.stln.magitech.effect.visual.spawner.SquareParticles;
-import net.stln.magitech.effect.visual.trail.TrailData;
-import net.stln.magitech.effect.visual.trail.TrailRenderer;
 import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.helper.VectorHelper;
 import team.lodestar.lodestone.systems.particle.ParticleEffectSpawner;
 import team.lodestar.lodestone.systems.particle.world.LodestoneWorldParticle;
-import team.lodestar.lodestone.systems.rendering.VFXBuilders;
-import team.lodestar.lodestone.systems.rendering.trail.TrailPointBuilder;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 
 public class LineVFX {
@@ -61,7 +53,7 @@ public class LineVFX {
         }
     }
 
-    public static void destinationLined(Level level, Vec3 start, Vec3 end, Color primary, Color secondary, Function4<Level, Vec3, Color, Color, ParticleEffectSpawner> supplier, Section section, float density, float speed, float randomness) {
+    public static void destinationLinedColor(Level level, Vec3 start, Vec3 end, Color primary, Color secondary, Function4<Level, Vec3, Color, Color, ParticleEffectSpawner> supplier, Section section, float density, float speed, float randomness) {
         double dist = start.distanceTo(end);
         int amount = Mth.ceil(density * dist * section.ratio()) + 1;
         Vec3 direction = end.subtract(start).normalize();

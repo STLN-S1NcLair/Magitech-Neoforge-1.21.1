@@ -1,4 +1,4 @@
-// 1.21.1	2026-05-05T20:55:18.2008615	Loot Tables
+// 1.21.1	2026-05-07T20:58:09.7251779	Loot Tables
 d5c7ba896003b8f86835f7808a6a42840e7bb806 data/magitech/loot_table/blocks/alchecrysite.json
 0ec67ee2f0a83abcc8fc58cd95f43106109fca3e data/magitech/loot_table/blocks/alchecrysite_bricks.json
 f0dfbc1457dc98d193c135916b33deca6e65c407 data/magitech/loot_table/blocks/alchecrysite_brick_slab.json
@@ -62,6 +62,7 @@ c4f39039fc19bf226693833c0c1d1b40382e61fc data/magitech/loot_table/blocks/fluorit
 646c7512d800aaf5b41d0e6f4bde98bcc438bcd0 data/magitech/loot_table/blocks/fluorite_ore.json
 1110dc139d35fe4993df0a3d1587b31c4eec9bbc data/magitech/loot_table/blocks/infuser.json
 1c53413705e16c0f8ad38d11264a4c46826b4680 data/magitech/loot_table/blocks/infusion_altar.json
+1dc68d98992b93b71945f7bb6970b1c7825c0d03 data/magitech/loot_table/blocks/item_collector.json
 bdb94a9a1d420ced09408ed5d3f442a265e1baa3 data/magitech/loot_table/blocks/mana_berry_bush.json
 2953f41395538778d69668987775953f6775dfe3 data/magitech/loot_table/blocks/mana_collector.json
 9ffa64b829ae2a3c83aa46c2d7a5f825175a13d8 data/magitech/loot_table/blocks/mana_junction.json

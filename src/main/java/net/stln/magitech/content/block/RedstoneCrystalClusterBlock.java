@@ -3,17 +3,13 @@ package net.stln.magitech.content.block;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.effect.visual.preset.PointVFX;
 import net.stln.magitech.effect.visual.spawner.SquareParticles;
-import net.stln.magitech.feature.element.Element;
-import org.joml.Vector3f;
 
 import java.awt.*;
 
@@ -44,7 +40,7 @@ public class RedstoneCrystalClusterBlock extends CrystalClusterBlock {
 
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
-        PointVFX.burst(level, pos.getCenter(), new Color(0xFF3000), new Color(0x800000), SquareParticles::squareParticle, 2, 0.5F);
+        PointVFX.burstColored(level, pos.getCenter(), new Color(0xFF3000), new Color(0x800000), SquareParticles::squareParticleColored, 2, 0.5F);
     }
 
     @Override

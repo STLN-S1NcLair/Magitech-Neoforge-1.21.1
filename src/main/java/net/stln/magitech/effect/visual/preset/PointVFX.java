@@ -38,7 +38,7 @@ public class PointVFX {
         }
     }
 
-    public static void burst(Level level, Vec3 pos, Color primary, Color secondary, Function4<Level, Vec3, Color, Color, ParticleEffectSpawner> supplier, int amount, float randomness) {
+    public static void burstColored(Level level, Vec3 pos, Color primary, Color secondary, Function4<Level, Vec3, Color, Color, ParticleEffectSpawner> supplier, int amount, float randomness) {
         for (int i = 0; i < amount; i++) {
             Vec3 motion = VectorHelper.blastRandom(level.random).scale(randomness);
             ParticleEffectSpawner spawner = supplier.apply(level, pos, primary, secondary);

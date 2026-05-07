@@ -120,5 +120,10 @@ public class NetworkInit {
                 EntanglerEntanglePayload.STREAM_CODEC,
                 EntanglerEntanglePayLoadHandler::handleDataOnMainS2C
         );
+        registrar.playToClient(
+                ItemCollectorCollectPayload.TYPE,
+                ItemCollectorCollectPayload.STREAM_CODEC,
+                ItemCollectorCollectPayLoadHandler::handleDataOnMainS2C
+        );
     }
 }

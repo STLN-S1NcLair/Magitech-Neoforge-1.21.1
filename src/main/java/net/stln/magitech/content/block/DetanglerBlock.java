@@ -145,7 +145,6 @@ public class DetanglerBlock extends BaseEntityBlock implements SimpleWaterlogged
     protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
         if (state.getBlock() != newState.getBlock()) {
             if (level.getBlockEntity(pos) instanceof DetanglerBlockEntity blockEntity) {
-                blockEntity.drops();
                 level.updateNeighbourForOutputSignal(pos, this);
             }
         }

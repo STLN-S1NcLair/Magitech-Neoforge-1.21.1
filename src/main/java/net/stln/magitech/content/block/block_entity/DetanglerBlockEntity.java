@@ -24,6 +24,7 @@ import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.stln.magitech.content.block.BlockInit;
+import net.stln.magitech.content.block.ManaCollectorBlock;
 import net.stln.magitech.content.entity.mana.mana_parcel.ManaParcelEntity;
 import net.stln.magitech.content.network.EntanglerEntanglePayload;
 import net.stln.magitech.content.sound.SoundInit;
@@ -34,14 +35,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class DetanglerBlockEntity extends BlockEntity {
-
-    // ItemStackHandlerの変更を監視してサーバ側で同期を取る
-    public final ItemStackHandler inventory = new ItemStackHandler(1) {
-        @Override
-        protected void onContentsChanged(int slot) {
-            DetanglerBlockEntity.this.onInventoryChanged();
-        }
-    };
 
     public DetanglerBlockEntity(BlockPos pos, BlockState blockState) {
         super(BlockInit.DETANGLER_ENTITY.get(), pos, blockState);
@@ -61,136 +54,38 @@ public class DetanglerBlockEntity extends BlockEntity {
 
     public void tick(Level level, BlockPos pos, BlockState state) {
         checkManaParcel(level, pos, state);
-        insertItem(level, pos, state);
     }
 
     private void checkManaParcel(Level level, BlockPos pos, BlockState state) {
         if (state.getValue(BlockStateProperties.POWERED)) return; // レッドストーン信号がある場合は動作しない
+        Direction direction = state.getValue(ManaCollectorBlock.FACING);
+        IItemHandler itemHandler = level.getCapability(Capabilities.ItemHandler.BLOCK, pos.relative(direction.getOpposite()), direction);
+        if (itemHandler == null) return; // アイテムハンドラーがない場合は動作しない
         List<Entity> entities = CombatHelper.getEntitiesInBox(level, null, pos.getCenter(), new Vec3(0.8, 0.8, 0.8));
         for (Entity entity : entities) {
-            if (entity instanceof ManaParcelEntity manaParcel) {
-                ItemStack stackInSlot = inventory.getStackInSlot(0);
-                if (!manaParcel.getStack().isEmpty() && stackInSlot.getCount() < stackInSlot.getMaxStackSize()) {
-                    if (!level.isClientSide) {
-                        ItemStack stack = manaParcel.getStack();
-                        stack = inventory.insertItem(0, stack, false);
-                        manaParcel.setStack(stack);
-                        level.playSound(null, pos, SoundInit.MANA_PARCEL.get(), SoundSource.BLOCKS, 0.3F, Mth.randomBetween(level.random, 0.5F, 1.0F));
-                        PacketDistributor.sendToAllPlayers(new EntanglerEntanglePayload(pos));
+            if (!level.isClientSide && entity instanceof ManaParcelEntity manaParcel && !manaParcel.getStack().isEmpty()) {
+                ItemStack stack = manaParcel.getStack();
+                for (int i = 0; i < itemHandler.getSlots(); i++) {
+                    stack = itemHandler.insertItem(i, stack, false);
+                    if (stack.isEmpty()) {
+                        break;
                     }
                 }
+                manaParcel.setStack(stack);
+                level.playSound(null, pos, SoundInit.MANA_PARCEL.get(), SoundSource.BLOCKS, 0.3F, Mth.randomBetween(level.random, 0.5F, 1.0F));
+                PacketDistributor.sendToAllPlayers(new EntanglerEntanglePayload(pos));
             }
         }
-    }
-
-    private void insertItem(Level level, BlockPos pos, BlockState state) {
-        if (level.getGameTime() % 5 == 0) {
-            Direction direction = state.getValue(BlockStateProperties.FACING).getOpposite();
-            IItemHandler handler = level.getCapability(Capabilities.ItemHandler.BLOCK, pos.offset(direction.getNormal()), direction);
-            if (handler == null) return;
-            if (!level.isClientSide) {
-                ItemStack stack = inventory.getStackInSlot(0);
-                for (int i = 0; i < handler.getSlots(); i++) {
-                    if (stack.isEmpty()) break;
-                    stack = handler.insertItem(i, stack, false);
-                }
-                inventory.setStackInSlot(0, stack);
-            }
-        }
-    }
-
-    // Container メソッド実装 - ItemStackHandler へ直接委譲して、GUI側の操作を実体に反映
-    private void onInventoryChanged() {
-        this.setChanged();
-        if (this.level != null && !this.level.isClientSide) {
-            this.level.sendBlockUpdated(this.worldPosition, this.getBlockState(), this.getBlockState(), 3);
-        }
-    }
-
-    public int getContainerSize() {
-        return this.inventory.getSlots();
-    }
-
-    public boolean isEmpty() {
-        for (int i = 0; i < this.inventory.getSlots(); i++) {
-            if (!this.inventory.getStackInSlot(i).isEmpty()) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public ItemStack getItem(int index) {
-        return this.inventory.getStackInSlot(index);
-    }
-
-    public ItemStack removeItem(int index, int count) {
-        ItemStack stack = this.inventory.extractItem(index, count, false);
-        if (!stack.isEmpty()) {
-            this.onInventoryChanged();
-        }
-        return stack;
-    }
-
-    public ItemStack removeItemNoUpdate(int index) {
-        ItemStack stack = this.inventory.getStackInSlot(index);
-        if (stack.isEmpty()) {
-            return ItemStack.EMPTY;
-        }
-        this.inventory.setStackInSlot(index, ItemStack.EMPTY);
-        this.onInventoryChanged();
-        return stack;
-    }
-
-    protected NonNullList<ItemStack> getItems() {
-        NonNullList<ItemStack> stacks = NonNullList.withSize(inventory.getSlots(), ItemStack.EMPTY);
-        for (int i = 0; i < inventory.getSlots(); i++) {
-            stacks.set(i, inventory.getStackInSlot(i));
-        }
-        return stacks;
-    }
-
-    protected void setItems(NonNullList<ItemStack> items) {
-        for (int i = 0; i < inventory.getSlots(); i++) {
-            inventory.setStackInSlot(i, items.get(i));
-        }
-    }
-
-    public void setItem(int index, ItemStack stack) {
-        this.inventory.setStackInSlot(index, stack.copyWithCount(Math.min(stack.getCount(), this.getMaxStackSize())));
-        this.onInventoryChanged();
-    }
-
-    private int getMaxStackSize() {
-        return 99;
-    }
-
-    public void clearContent() {
-        for (int i = 0; i < this.inventory.getSlots(); i++) {
-            this.inventory.setStackInSlot(i, ItemStack.EMPTY);
-        }
-        this.onInventoryChanged();
-    }
-
-    public void drops() {
-        SimpleContainer inv = new SimpleContainer(inventory.getSlots());
-        for (int i = 0; i < inventory.getSlots(); i++) {
-            inv.setItem(i, inventory.getStackInSlot(i));
-        }
-
-        Containers.dropContents(this.level, this.worldPosition, inv);
     }
 
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
-        tag.put("inventory", inventory.serializeNBT(registries));
     }
 
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
-        inventory.deserializeNBT(registries, tag.getCompound("inventory"));
     }
 
     @Nullable

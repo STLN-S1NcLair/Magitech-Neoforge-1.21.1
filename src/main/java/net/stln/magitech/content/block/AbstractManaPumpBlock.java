@@ -4,6 +4,7 @@ import com.mojang.datafixers.util.Function3;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
@@ -17,6 +18,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
@@ -33,11 +35,12 @@ import javax.annotation.Nullable;
 public abstract class AbstractManaPumpBlock extends ManaContainerBlock implements SimpleWaterloggedBlock {
 
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
+    public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
     public static final net.minecraft.world.level.block.state.properties.BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     protected AbstractManaPumpBlock(Properties properties, int maxMana, int maxFlow) {
         super(properties, maxMana, maxFlow);
-        registerDefaultState(defaultBlockState().setValue(FACING, Direction.UP).setValue(WATERLOGGED, false));
+        registerDefaultState(defaultBlockState().setValue(FACING, Direction.UP).setValue(POWERED, false).setValue(WATERLOGGED, false));
     }
 
     protected AbstractManaPumpBlock(Properties properties) {
@@ -117,14 +120,15 @@ public abstract class AbstractManaPumpBlock extends ManaContainerBlock implement
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING, WATERLOGGED);
+        builder.add(FACING, POWERED, WATERLOGGED);
     }
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         boolean water = WaterloggedBlockUtil.isWaterAtPlacement(context);
         return this.defaultBlockState()
-                .setValue(FACING, context.getNearestLookingDirection())
+                .setValue(FACING, context.getNearestLookingDirection().getOpposite())
+                .setValue(POWERED, false)
                 .setValue(WATERLOGGED, water);
     }
 
@@ -162,6 +166,20 @@ public abstract class AbstractManaPumpBlock extends ManaContainerBlock implement
                 player.openMenu((MenuProvider) blockentity);
             }
             return InteractionResult.CONSUME;
+        }
+    }
+
+    @Override
+    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean movedByPiston) {
+        if (level instanceof ServerLevel serverlevel) {
+            this.checkPowered(state, serverlevel, pos);
+        }
+    }
+
+    public void checkPowered(BlockState state, ServerLevel level, BlockPos pos) {
+        boolean powered = level.hasNeighborSignal(pos);
+        if (powered != state.getValue(POWERED)) {
+            level.setBlock(pos, state.setValue(POWERED, powered), 3);
         }
     }
 

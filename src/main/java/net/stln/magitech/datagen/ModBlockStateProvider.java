@@ -38,12 +38,13 @@ public class ModBlockStateProvider extends BlockStateProvider {
         directionalPoweredHandModeledBlockWithItem(BlockInit.MANA_COLLECTOR.get());
         directionalPoweredHandModeledBlockWithItem(BlockInit.ENTANGLER.get());
         directionalPoweredHandModeledBlockWithItem(BlockInit.DETANGLER.get());
+        directionalPoweredHandModeledBlockWithItem(BlockInit.ITEM_COLLECTOR.get());
         handModeledBlockWithItem(BlockInit.MANA_JUNCTION.get());
         handModeledBlockWithItem(BlockInit.INFUSION_ALTAR.get());
         directionalHandModeledBlockWithItem(BlockInit.ENHANCED_MANA_NODE.get());
         directionalHandModeledBlockWithItem(BlockInit.ENHANCED_MANA_RELAY.get());
         axisHandModeledBlockWithInventoryModelItem(BlockInit.ENHANCED_MANA_VESSEL.get());
-        directionalHandModeledBlockWithItem(BlockInit.MANA_PUMP.get());
+        directionalPoweredHandModeledBlockWithItem(BlockInit.MANA_PUMP.get());
         axisBlockWithItem(BlockInit.CREATIVE_MANA_SOURCE.get(), "creative_mana_source", "creative_connector");
         axisBlockWithItem(BlockInit.CREATIVE_MANA_SINK.get(), "creative_mana_sink", "creative_connector");
         blockWithItem(BlockInit.FLUORITE_ORE.get());

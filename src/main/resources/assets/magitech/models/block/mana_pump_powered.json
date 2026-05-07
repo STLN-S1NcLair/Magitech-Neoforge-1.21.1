@@ -1,0 +1,7 @@
+{
+	"parent": "magitech:block/mana_pump",
+	"textures": {
+		"0": "magitech:block/mana_pump_powered",
+		"particle": "magitech:block/mana_pump_powered"
+	}
+}
