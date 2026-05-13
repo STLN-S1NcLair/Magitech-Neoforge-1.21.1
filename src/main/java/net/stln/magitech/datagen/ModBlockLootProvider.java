@@ -105,6 +105,7 @@ public class ModBlockLootProvider extends BlockLootSubProvider {
         add(BlockInit.FLUORITE_BRICK_SLAB.get(),
                 block -> createSlabItemTable(BlockInit.FLUORITE_BRICK_SLAB.get()));
         dropSelf(BlockInit.FLUORITE_BRICK_WALL.get());
+        dropSelf(BlockInit.MANA_INSULATING_GLASS.get());
         dropSelf(BlockInit.CELIFERN_LOG.get());
         dropSelf(BlockInit.CELIFERN_WOOD.get());
         dropSelf(BlockInit.STRIPPED_CELIFERN_LOG.get());

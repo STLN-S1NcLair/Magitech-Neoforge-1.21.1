@@ -24,7 +24,7 @@
       "item": "minecraft:dripstone_block"
       },
       "count": 1
-    },
+    }
   ],
   "fluid_ingredient": {
     "fluid": "magitech:mana_potion",

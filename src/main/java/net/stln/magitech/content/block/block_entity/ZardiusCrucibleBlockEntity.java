@@ -393,9 +393,9 @@ public class ZardiusCrucibleBlockEntity extends ManaMachineBlockEntity {
         }
         if (pState.getValue(ZardiusCrucibleBlock.LIT)) {
             int capacity = Math.max(1, tankCapacity());
-            float height = (float) lastRenderValue / capacity * 0.75f + 0.2f;
-            PointVFX.ring(level, Vec3.atCenterOf(pPos).add(0, height, 0), Element.MANA, SquareParticles::squareParticle, new Vec3(0, 1, 0), 10, 0.2f, 0.4f, 0.1f);
-            PointVFX.ring(level, Vec3.atCenterOf(pPos).add(0, height, 0), Element.MANA, (lvl, vec, elm) -> SquareParticles.squareGravityParticle(lvl, vec, elm, 0.2F), new Vec3(0, 1, 0), 10, 0.2f, 0.4f, 0.1f);
+            float height = (float) lastRenderValue / capacity * 0.3f + 0.2f;
+            PointVFX.ring(level, Vec3.atBottomCenterOf(pPos).add(0, height, 0), Element.MANA, SquareParticles::squareParticle, new Vec3(0, 1, 0), 10, 0.2f, 0.3f, 0.1f);
+            PointVFX.ring(level, Vec3.atBottomCenterOf(pPos).add(0, height, 0), Element.MANA, (lvl, vec, elm) -> SquareParticles.squareGravityParticle(lvl, vec, elm, 0.2F), new Vec3(0, 1, 0), 10, 0.2f, 0.3f, 0.1f);
         }
     }
 

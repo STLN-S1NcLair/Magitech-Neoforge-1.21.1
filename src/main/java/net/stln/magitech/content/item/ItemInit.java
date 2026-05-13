@@ -249,7 +249,6 @@ public class ItemInit {
     public static final DeferredItem<Item> POLISHED_RESONITE = ITEMS.registerItem("polished_resonite", TooltipTextItem::new);
     public static final DeferredItem<Item> ABYSSITE = ITEMS.registerItem("abyssite", TooltipTextItem::new);
     public static final DeferredItem<Item> POLISHED_ABYSSITE = ITEMS.registerItem("polished_abyssite", TooltipTextItem::new);
-    public static final DeferredItem<Item> MANA_INSULATING_GLASS = ITEMS.registerItem("mana_insulating_glass", TooltipTextItem::new);
     public static final DeferredItem<Item> SULFURIC_ACID_BATTERY = ITEMS.registerItem("sulfuric_acid_battery", TooltipTextItem::new);
     public static final DeferredItem<Item> MANA_DEEXCITER_CORE = ITEMS.registerItem("mana_deexciter_core", TooltipTextItem::new);
     public static final DeferredItem<Item> ASPECT_COLLECTOR = ITEMS.registerItem("aspect_collector", TooltipTextItem::new);

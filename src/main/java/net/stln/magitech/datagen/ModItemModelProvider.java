@@ -103,7 +103,6 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ItemInit.POLISHED_RESONITE.get());
         basicItem(ItemInit.ABYSSITE.get());
         basicItem(ItemInit.POLISHED_ABYSSITE.get());
-        basicItem(ItemInit.MANA_INSULATING_GLASS.get());
         basicItem(ItemInit.SULFURIC_ACID_BATTERY.get());
         basicItem(ItemInit.MANA_DEEXCITER_CORE.get());
         basicItem(ItemInit.ASPECT_COLLECTOR.get());

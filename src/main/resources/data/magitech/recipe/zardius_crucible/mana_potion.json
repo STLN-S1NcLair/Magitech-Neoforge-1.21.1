@@ -5,13 +5,7 @@
       "ingredient": {
       "item": "magitech:mana_berries"
       },
-      "count": 1
-    },
-    {
-      "ingredient": {
-      "item": "magitech:mana_berries"
-      },
-      "count": 1
+      "count": 2
     }
   ],
   "fluid_ingredient": {

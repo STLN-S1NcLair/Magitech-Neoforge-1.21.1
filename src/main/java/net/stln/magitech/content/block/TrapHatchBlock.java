@@ -1,5 +1,6 @@
 package net.stln.magitech.content.block;
 
+import net.minecraft.core.Direction;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -8,16 +9,20 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.FallingBlockEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.material.PushReaction;
+import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -36,6 +41,7 @@ import java.util.Map;
 public class TrapHatchBlock extends Block {
 
     public static final BooleanProperty OPENED = BooleanProperty.create("opened");
+    public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final VoxelShape CLOSED_SHAPE = Block.box(0, 13, 0, 16, 16, 16);
     private static final VoxelShape OPENED_SHAPE = Shapes.or(Block.box(0, 8, 0, 3, 16, 16), Block.box(13, 8, 0, 16, 16, 16));
     private static final int LINK_RANGE = 32;
@@ -47,7 +53,7 @@ public class TrapHatchBlock extends Block {
 
     public TrapHatchBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(OPENED, Boolean.FALSE));
+        this.registerDefaultState(this.stateDefinition.any().setValue(OPENED, Boolean.FALSE).setValue(WATERLOGGED, false));
     }
 
     @Override
@@ -84,6 +90,20 @@ public class TrapHatchBlock extends Block {
             return Shapes.empty();
         }
         return CLOSED_SHAPE;
+    }
+
+    @Override
+    protected boolean isPathfindable(BlockState state, PathComputationType pathComputationType) {
+        switch (pathComputationType) {
+            case LAND:
+                return state.getValue(OPENED);
+            case WATER:
+                return state.getValue(WATERLOGGED);
+            case AIR:
+                return state.getValue(OPENED);
+            default:
+                return false;
+        }
     }
 
     @Override
@@ -226,11 +246,14 @@ public class TrapHatchBlock extends Block {
         BlockState state = level.getBlockState(pos);
         PushReaction reaction = state.getPistonPushReaction();
         boolean canPush = reaction == PushReaction.NORMAL || reaction == PushReaction.PUSH_ONLY;
-        if (state.isAir() || state.getDestroySpeed(level, pos) <= 0 || state.getTags().anyMatch(tag -> tag == BlockTags.INCORRECT_FOR_IRON_TOOL)) {
+        List<ItemStack> drops = Block.getDrops(state, (ServerLevel) level, pos, level.getBlockEntity(pos));
+        boolean cantMine = state.getTags().anyMatch(tag -> tag == BlockTags.INCORRECT_FOR_IRON_TOOL)
+                || !state.requiresCorrectToolForDrops() && drops.isEmpty();
+        if (state.isAir() || state.getDestroySpeed(level, pos) <= 0 || cantMine) {
             return;
         }
 
-        if (reaction == PushReaction.DESTROY) {
+        if (reaction == PushReaction.DESTROY || !drops.isEmpty() && drops.stream().noneMatch(stack -> stack.is(state.getBlock().asItem()))) {
             // 素手破壊と同じ loot table を使って通常ドロップを出す。
             Block.dropResources(state, level, pos);
             level.removeBlock(pos, false);
@@ -248,11 +271,20 @@ public class TrapHatchBlock extends Block {
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        return this.defaultBlockState();
+        boolean water = WaterloggedBlockUtil.isWaterAtPlacement(context);
+        return this.defaultBlockState().setValue(WATERLOGGED, water);
+    }
+
+    @Override
+    protected BlockState updateShape(
+            BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos
+    ) {
+        WaterloggedBlockUtil.scheduleWaterTickIfNeeded(state, WATERLOGGED, level, pos);
+        return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(OPENED);
+        builder.add(OPENED, WATERLOGGED);
     }
 }

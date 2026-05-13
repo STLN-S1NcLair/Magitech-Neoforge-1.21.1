@@ -77,6 +77,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         stairsBlockWithItem(BlockInit.FLUORITE_BRICK_STAIRS.get(), BlockInit.FLUORITE_BRICKS.get());
         slabBlockWithItem(BlockInit.FLUORITE_BRICK_SLAB.get(), BlockInit.FLUORITE_BRICKS.get());
         wallBlockWithItem(BlockInit.FLUORITE_BRICK_WALL.get(), BlockInit.FLUORITE_BRICKS.get());
+        glassBlockWithItem(BlockInit.MANA_INSULATING_GLASS.get());
         logBlockWithItem(BlockInit.CELIFERN_LOG.get());
         woodBlockWithItem(BlockInit.CELIFERN_WOOD.get());
         logBlockWithItem(BlockInit.STRIPPED_CELIFERN_LOG.get());
@@ -297,5 +298,13 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
     private void blockWithItem(Block block) {
         simpleBlockWithItem(block, cubeAll(block));
+    }
+
+    private void glassBlockWithItem(Block block) {
+        ModelFile.ExistingModelFile glassParent = new ModelFile.ExistingModelFile(ResourceLocation.parse("minecraft:block/glass"), this.models().existingFileHelper);
+        simpleBlockWithItem(block, models().getBuilder(getName(block))
+                .parent(glassParent)
+                .texture("all", blockTexture(block))
+                .renderType("translucent"));
     }
 }

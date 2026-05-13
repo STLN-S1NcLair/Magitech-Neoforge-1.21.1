@@ -94,7 +94,6 @@ public class CreativeTabInit {
                 output.accept(ItemInit.POLISHED_RESONITE.get());
                 output.accept(ItemInit.ABYSSITE.get());
                 output.accept(ItemInit.POLISHED_ABYSSITE.get());
-                output.accept(ItemInit.MANA_INSULATING_GLASS.get());
                 output.accept(ItemInit.SULFURIC_ACID_BATTERY.get());
                 output.accept(ItemInit.MANA_DEEXCITER_CORE.get());
                 output.accept(ItemInit.ASPECT_COLLECTOR.get());
@@ -191,6 +190,7 @@ public class CreativeTabInit {
                 output.accept(BlockInit.FLUORITE_BRICK_STAIRS_ITEM.get());
                 output.accept(BlockInit.FLUORITE_BRICK_SLAB_ITEM.get());
                 output.accept(BlockInit.FLUORITE_BRICK_WALL_ITEM.get());
+                output.accept(BlockInit.MANA_INSULATING_GLASS_ITEM.get());
                 output.accept(BlockInit.CELIFERN_LOG_ITEM.get());
                 output.accept(BlockInit.CELIFERN_WOOD_ITEM.get());
                 output.accept(BlockInit.STRIPPED_CELIFERN_LOG_ITEM.get());

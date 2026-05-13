@@ -477,6 +477,10 @@ public class BlockInit {
             BlockBehaviour.Properties.ofFullCopy(Blocks.STONE_BRICK_WALL).sound(CRYSTAL_SOUND)
     ));
     public static final DeferredItem<BlockItem> FLUORITE_BRICK_WALL_ITEM = ItemInit.ITEMS.register("fluorite_brick_wall", key -> new TooltipTextBlockItem(FLUORITE_BRICK_WALL.get(), new Item.Properties()));
+    public static final DeferredBlock<Block> MANA_INSULATING_GLASS = BLOCKS.register("mana_insulating_glass", key -> new TransparentBlock(
+            BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).sound(CRYSTAL_SOUND)
+    ));
+    public static final DeferredItem<BlockItem> MANA_INSULATING_GLASS_ITEM = ItemInit.ITEMS.register("mana_insulating_glass", key -> new TooltipTextBlockItem(MANA_INSULATING_GLASS.get(), new Item.Properties()));
     public static final BlockSetType CELIFERN_SET_TYPE = BlockSetType.register(new BlockSetType("magitech:celifern"));
     public static final WoodType CELIFERN_WOOD_TYPE = WoodType.register(new WoodType("magitech:celifern", CELIFERN_SET_TYPE));
     public static final DeferredBlock<Block> CELIFERN_FENCE_GATE = BLOCKS.register("celifern_fence_gate", key -> new FenceGateBlock(

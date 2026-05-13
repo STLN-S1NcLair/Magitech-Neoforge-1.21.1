@@ -1,4 +1,4 @@
-// 1.21.1	2026-05-07T20:58:09.7176765	Block States: magitech
+// 1.21.1	2026-05-14T08:02:49.5740268	Block States: magitech
 90f039d3c8040909582f040c2be7f09eca62a0a8 assets/magitech/blockstates/alchecrysite.json
 e2e47f25d85025ef83b8b30154421755d7d8c139 assets/magitech/blockstates/alchecrysite_bricks.json
 36896c4c599cbeeb6b3e9441de7d2de5fa12cb4d assets/magitech/blockstates/alchecrysite_brick_slab.json
@@ -65,6 +65,7 @@ d9e407bb6919a124a140bc2d5e049594e24a32d7 assets/magitech/blockstates/entangler.j
 f3295a8c1bca5a8f7dbea9324984392163e06110 assets/magitech/blockstates/infusion_altar.json
 2df234e66e74270b93795b378be3577cfd9d9e6a assets/magitech/blockstates/item_collector.json
 9c9de7cbc900464c7a61722c94ddaac18ab06d3d assets/magitech/blockstates/mana_collector.json
+25e0889cfd719a12ab671336fdf800ee9ac57b5a assets/magitech/blockstates/mana_insulating_glass.json
 6e3af8d17523823327619be97b9b98fa23e09b28 assets/magitech/blockstates/mana_junction.json
 ea5f32c600326878c156f8e6005a468090ac5787 assets/magitech/blockstates/mana_node.json
 52903fc6df998517b9e1fd11c4e6800e2c1b2162 assets/magitech/blockstates/mana_pump.json
@@ -226,6 +227,7 @@ e625b366b657ff90755529b2de7ab1c82c18339c assets/magitech/models/block/fluorite_b
 25e495e2741b39882aaa1393a4d06605e0f47955 assets/magitech/models/block/fluorite_brick_wall_side.json
 53f992edf2c0618c3f77a7e14e31fe5b2221a2c5 assets/magitech/models/block/fluorite_brick_wall_side_tall.json
 a69a3e63a5ba0696b81431c9bc0ecba98f95f29c assets/magitech/models/block/fluorite_ore.json
+bc98651904ee8ba547c69faa602d4b190a9e1f03 assets/magitech/models/block/mana_insulating_glass.json
 52eac14149f22aa8214ddd6bdd111e993c0b2f9d assets/magitech/models/block/mystwood_button.json
 35050f784e8dc94b660a1e8792582f7c777f5401 assets/magitech/models/block/mystwood_button_inventory.json
 f84652357dc82f86917eb33d440aa1de69a69e4e assets/magitech/models/block/mystwood_button_pressed.json
@@ -355,6 +357,7 @@ cc853472569ef50af1564bf24357c8a500a5fca0 assets/magitech/models/item/infuser.jso
 88199259250eff6f51a759ec1d7a1ba022e489ee assets/magitech/models/item/infusion_altar.json
 62bdb36499f370792a935fd456c52c1e464dd86b assets/magitech/models/item/item_collector.json
 06ebf526b2c6a43fa82168be2963e6e750be33b0 assets/magitech/models/item/mana_collector.json
+a0e9063bbcd2945cc516b3130ed3e501c3055496 assets/magitech/models/item/mana_insulating_glass.json
 f9d0e15497388ceb13b52eda36cfd44252c0c06e assets/magitech/models/item/mana_junction.json
 d31f0296a75ebce6a226f7ccb718d34b37a4dd08 assets/magitech/models/item/mana_node.json
 01cb417a714f1e2f5121759c6471700d1d650be4 assets/magitech/models/item/mana_pump.json
