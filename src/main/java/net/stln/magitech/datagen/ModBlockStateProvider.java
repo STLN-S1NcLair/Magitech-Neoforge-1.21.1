@@ -39,6 +39,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         directionalPoweredHandModeledBlockWithItem(BlockInit.ENTANGLER.get());
         directionalPoweredHandModeledBlockWithItem(BlockInit.DETANGLER.get());
         directionalPoweredHandModeledBlockWithItem(BlockInit.ITEM_COLLECTOR.get());
+        horizontalHandModeledBlockWithItem(BlockInit.EMBER_SMELTER.get());
         handModeledBlockWithItem(BlockInit.MANA_JUNCTION.get());
         handModeledBlockWithItem(BlockInit.INFUSION_ALTAR.get());
         directionalHandModeledBlockWithItem(BlockInit.ENHANCED_MANA_NODE.get());

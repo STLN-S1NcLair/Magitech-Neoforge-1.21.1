@@ -27,6 +27,7 @@ import net.stln.magitech.content.item.tooltip_item.TooltipTextManaWirelessConnec
 import net.stln.magitech.content.item.tooltip_item.TooltipTextSignItem;
 import net.stln.magitech.content.sound.SoundInit;
 import net.stln.magitech.worldgen.tree.TreeGrowerInit;
+import team.lodestar.lodestone.systems.block.LodestoneHorizontalBlock;
 import team.lodestar.lodestone.systems.block.LodestoneLogBlock;
 
 import java.util.function.Supplier;
@@ -155,6 +156,15 @@ public class BlockInit {
     public static final Supplier<BlockEntityType<ItemCollectorBlockEntity>> ITEM_COLLECTOR_ENTITY =
             BLOCK_ENITIES.register("item_collector", () -> BlockEntityType.Builder.of(
                     ItemCollectorBlockEntity::new, BlockInit.ITEM_COLLECTOR.get()).build(null));
+
+    public static final DeferredBlock<Block> EMBER_SMELTER = BLOCKS.registerBlock("ember_smelter",
+//            properties -> new ItemCollectorBlock(properties, 50000, 5000),
+            LodestoneHorizontalBlock::new,
+            BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(SoundType.NETHERITE_BLOCK).lightLevel((blockState) -> 5).noOcclusion());
+    public static final DeferredItem<BlockItem> EMBER_SMELTER_ITEM = ItemInit.ITEMS.register("ember_smelter", key -> new TooltipTextBlockItem(EMBER_SMELTER.get(), new Item.Properties()));
+    public static final Supplier<BlockEntityType<ItemCollectorBlockEntity>> EMBER_SMELTER_ENTITY =
+            BLOCK_ENITIES.register("ember_smelter", () -> BlockEntityType.Builder.of(
+                    ItemCollectorBlockEntity::new, BlockInit.EMBER_SMELTER.get()).build(null));
 
     // マナ輸送
 

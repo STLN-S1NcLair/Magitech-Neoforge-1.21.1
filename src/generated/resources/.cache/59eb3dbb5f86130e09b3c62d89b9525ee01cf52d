@@ -1,4 +1,4 @@
-// 1.21.1	2026-05-14T07:44:32.9460108	Loot Tables
+// 1.21.1	2026-05-16T13:34:27.0760931	Loot Tables
 d5c7ba896003b8f86835f7808a6a42840e7bb806 data/magitech/loot_table/blocks/alchecrysite.json
 0ec67ee2f0a83abcc8fc58cd95f43106109fca3e data/magitech/loot_table/blocks/alchecrysite_bricks.json
 f0dfbc1457dc98d193c135916b33deca6e65c407 data/magitech/loot_table/blocks/alchecrysite_brick_slab.json
@@ -48,6 +48,7 @@ c2b33a08155add6016052dc6b88af1a0894c0fac data/magitech/loot_table/blocks/charcoa
 7b3d941575a96aad56356ebaae5e510caa6a3a53 data/magitech/loot_table/blocks/deepslate_tourmaline_ore.json
 33d981bb0107949ceb47f987b945974f7fb07c48 data/magitech/loot_table/blocks/deepslate_zinc_ore.json
 93e0108195125b9b0be26ce371ff52e1c8f9ac00 data/magitech/loot_table/blocks/detangler.json
+972af0c8176f06fdd5c57b77cc86b18090913819 data/magitech/loot_table/blocks/ember_smelter.json
 2ebef7308961521dc7cc283868e86f8749fd4d4b data/magitech/loot_table/blocks/engineering_workbench.json
 5356b4fe7368aa480f6e0a4eeb988a18da31b4ca data/magitech/loot_table/blocks/enhanced_mana_node.json
 150423ad83fd2e8fbd90ef50da3fea707da092d4 data/magitech/loot_table/blocks/enhanced_mana_relay.json

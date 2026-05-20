@@ -17,7 +17,7 @@ public abstract class ManaMachineBlockEntity extends ManaContainerBlockEntity im
     private float averageConsumption = 0;
 
 
-    public final LongContainerData dataAccess = new LongContainerData() {
+    public LongContainerData dataAccess = new LongContainerData() {
 
         @Override
         public long getLong(int index) {

@@ -1,0 +1,11 @@
+{
+	"parent": "magitech:block/ember_smelter",
+	"textures": {
+		"1": "magitech:block/ember_smelter_active",
+		"2": "magitech:block/ember_smelter_side_active",
+		"3": "magitech:block/alchecrysite_machine_case",
+		"4": "magitech:block/alchecrysite_connector",
+		"5": "magitech:block/ember_smelter_inside_active",
+		"particle": "magitech:block/ember_smelter_active"
+	}
+}
