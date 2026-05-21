@@ -13,6 +13,7 @@ import net.neoforged.neoforge.client.model.generators.ModelProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.content.block.BlockInit;
+import net.stln.magitech.content.block.BlockStatePropertyInit;
 
 public class ModBlockStateProvider extends BlockStateProvider {
     public ModBlockStateProvider(PackOutput output, ExistingFileHelper exFileHelper) {
@@ -39,7 +40,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         directionalPoweredHandModeledBlockWithItem(BlockInit.ENTANGLER.get());
         directionalPoweredHandModeledBlockWithItem(BlockInit.DETANGLER.get());
         directionalPoweredHandModeledBlockWithItem(BlockInit.ITEM_COLLECTOR.get());
-        horizontalHandModeledBlockWithItem(BlockInit.EMBER_SMELTER.get());
+        horizontalActiveHandModeledBlockWithItem(BlockInit.EMBER_SMELTER.get());
         handModeledBlockWithItem(BlockInit.MANA_JUNCTION.get());
         handModeledBlockWithItem(BlockInit.INFUSION_ALTAR.get());
         directionalHandModeledBlockWithItem(BlockInit.ENHANCED_MANA_NODE.get());
@@ -183,6 +184,28 @@ public class ModBlockStateProvider extends BlockStateProvider {
             return ConfiguredModel.builder()
                     .modelFile(model)
                     .rotationX(rotationX)
+                    .rotationY(rotationY)
+                    .build();
+        });
+        blockItem(block);
+    }
+
+    private void horizontalActiveHandModeledBlockWithItem(Block block) {
+        ModelFile.ExistingModelFile defaultModel = new ModelFile.ExistingModelFile(blockTexture(block), this.models().existingFileHelper);
+        ModelFile.ExistingModelFile activeModel = new ModelFile.ExistingModelFile(blockTexture(block).withSuffix("_active"), this.models().existingFileHelper);
+        getVariantBuilder(block).forAllStates(state -> {
+            Direction direction = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
+            boolean active = state.getValue(BlockStatePropertyInit.ACTIVE);
+            ModelFile model = active ? activeModel : defaultModel;
+            int rotationY = switch (direction) {
+                case NORTH -> 0;
+                case EAST -> 90;
+                case SOUTH -> 180;
+                case WEST -> 270;
+                default -> 0;
+            };
+            return ConfiguredModel.builder()
+                    .modelFile(model)
                     .rotationY(rotationY)
                     .build();
         });

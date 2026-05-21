@@ -49,6 +49,7 @@ public class GuiInit {
         event.register(ENHANCED_MANA_VESSEL_MENU.get(), EnhancedManaVesselScreen::new);
         event.register(MANA_PUMP_MENU.get(), ManaPumpScreen::new);
         event.register(INFUSER_MENU.get(), InfuserScreen::new);
+        event.register(EMBER_SMELTER_MENU.get(), EmberSmelterScreen::new);
         event.register(CREATIVE_MANA_SOURCE_MENU.get(), CreativeManaSourceScreen::new);
         event.register(CREATIVE_MANA_SINK_MENU.get(), CreativeManaSinkScreen::new);
         event.register(THREADBOUND_MENU.get(), ThreadboundScreen::new);
@@ -86,6 +87,8 @@ public class GuiInit {
     public static final Supplier<MenuType<ManaPumpMenu>> MANA_PUMP_MENU = register("mana_pump_menu", ManaPumpMenu::new);
 
     public static final Supplier<MenuType<InfuserMenu>> INFUSER_MENU = register("infuser_menu", InfuserMenu::new);
+
+    public static final Supplier<MenuType<EmberSmelterMenu>> EMBER_SMELTER_MENU = register("ember_smelter_menu", EmberSmelterMenu::new);
 
     public static final Supplier<MenuType<CreativeManaSourceMenu>> CREATIVE_MANA_SOURCE_MENU = register("creative_mana_source_menu", CreativeManaSourceMenu::new);
 

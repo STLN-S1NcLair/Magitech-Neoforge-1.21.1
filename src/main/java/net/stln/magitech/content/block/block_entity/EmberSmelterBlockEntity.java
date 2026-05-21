@@ -21,11 +21,13 @@ import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.stln.magitech.content.block.BlockInit;
 import net.stln.magitech.content.block.BlockStatePropertyInit;
 import net.stln.magitech.content.block.ManaVesselBlock;
 import net.stln.magitech.content.block.ZardiusCrucibleBlock;
+import net.stln.magitech.content.gui.EmberSmelterMenu;
 import net.stln.magitech.content.gui.InfuserMenu;
 import net.stln.magitech.content.gui.ManaVesselMenu;
 import net.stln.magitech.content.item.ItemInit;
@@ -33,6 +35,9 @@ import net.stln.magitech.core.api.mana.ManaCapabilities;
 import net.stln.magitech.core.api.mana.flow.ManaFlowRule;
 import net.stln.magitech.core.api.mana.flow.ManaTransferHelper;
 import net.stln.magitech.core.api.mana.handler.IBasicManaHandler;
+import net.stln.magitech.effect.visual.preset.PointVFX;
+import net.stln.magitech.effect.visual.spawner.SquareParticles;
+import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.helper.LongContainerData;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
@@ -48,9 +53,11 @@ public class EmberSmelterBlockEntity extends ManaMachineBlockEntity {
     public static final int FUEL = 0;
     public static final int INPUT = 1;
     public static final int OUTPUT = 2;
-    private static final int MAX_FUEL = 8;
+    public static final int MAX_FUEL = 8;
+    public static final int MAX_PROGRESS = 10;
 
-    private int fuel = 0;
+    protected int fuel = 0;
+    protected int progress = 0;
     // ItemStackHandlerの変更を監視してサーバ側で同期を取る
     public final ItemStackHandler inventory = new ItemStackHandler(3) {
         @Override
@@ -61,7 +68,7 @@ public class EmberSmelterBlockEntity extends ManaMachineBlockEntity {
         @Override
         public boolean isItemValid(int slot, ItemStack stack) {
             if (slot == FUEL) {
-                return stack.is(ItemInit.EMBER_CRYSTAL);
+                return isFuel(stack);
             }
             return super.isItemValid(slot, stack);
         }
@@ -69,7 +76,7 @@ public class EmberSmelterBlockEntity extends ManaMachineBlockEntity {
     };
 
     public EmberSmelterBlockEntity(BlockPos pos, BlockState blockState, long mana) {
-        super(BlockInit.MANA_VESSEL_ENTITY.get(), pos, blockState, mana);
+        super(BlockInit.EMBER_SMELTER_ENTITY.get(), pos, blockState, mana);
         dataAccess = new LongContainerData() {
 
             @Override
@@ -80,6 +87,7 @@ public class EmberSmelterBlockEntity extends ManaMachineBlockEntity {
                     case 2 -> EmberSmelterBlockEntity.this.getFlowRate();
                     case 3 -> EmberSmelterBlockEntity.this.getMaxFlow();
                     case 4 -> EmberSmelterBlockEntity.this.getFuel();
+                    case 5 -> EmberSmelterBlockEntity.this.getProgress();
                     default -> 0;
                 };
             }
@@ -93,7 +101,7 @@ public class EmberSmelterBlockEntity extends ManaMachineBlockEntity {
 
             @Override
             public int getLongCount() {
-                return 4;
+                return 6;
             }
         };
     }
@@ -106,7 +114,7 @@ public class EmberSmelterBlockEntity extends ManaMachineBlockEntity {
     public void tick(Level level, BlockPos pos, BlockState state) {
         super.tick(level, pos, state);
         ItemStack fuelItem = inventory.getStackInSlot(FUEL);
-        if (fuelItem.is(ItemInit.EMBER_CRYSTAL) && fuel == 0) {
+        if (isFuel(fuelItem) && fuel == 0) {
             fuelItem.shrink(1);
             fuel = MAX_FUEL;
         }
@@ -116,17 +124,12 @@ public class EmberSmelterBlockEntity extends ManaMachineBlockEntity {
             if (holder.isPresent()) {
                 SmeltingRecipe recipe = holder.get().value();
                 ItemStack result = recipe.getResultItem(level.registryAccess());
-                if (ItemStack.isSameItemSameComponents(result, inventory.getStackInSlot(OUTPUT))) {
-                    if (inventory.getStackInSlot(OUTPUT).getCount() + result.getCount() <= result.getMaxStackSize()) {
-                        inventory.extractItem(INPUT, 1, false);
-                        inventory.insertItem(OUTPUT, result.copy(), false);
-                        fuel--;
-                        getManaHandler(null).produceMana((long) (recipe.getExperience() * 10000)); // 経験値をマナに変換して生成
+                if (canProgress(result)) {
+                    if (progress >= MAX_PROGRESS) {
+                        craft(recipe, result);
+                    } else {
+                        progress++;
                     }
-                } else if (inventory.getStackInSlot(OUTPUT).isEmpty()) {
-                    inventory.extractItem(INPUT, 1, false);
-                    inventory.insertItem(OUTPUT, result.copy(), false);
-                    fuel--;
                 }
             }
             if (!state.getValue(BlockStatePropertyInit.ACTIVE)) {
@@ -139,6 +142,38 @@ public class EmberSmelterBlockEntity extends ManaMachineBlockEntity {
                 setChanged();
             }
         }
+    }
+
+    @Override
+    public void clientTick(Level level, BlockPos pos, BlockState state) {
+        super.clientTick(level, pos, state);
+        if (state.getValue(BlockStatePropertyInit.ACTIVE)) {
+            // 燃焼中のパーティクルを生成
+            PointVFX.spray(level, pos.getCenter().add(0, -0.2, 0), Element.EMBER, SquareParticles::squareShrinkParticle, new Vec3(0, 1, 0), 1, 0.05F, 0.02F);
+        }
+    }
+
+    public static boolean isFuel(ItemStack stack) {
+        return stack.is(ItemInit.EMBER_CRYSTAL);
+    }
+
+    @Override
+    public boolean canPlaceItem(int slot, ItemStack stack) {
+        return inventory.isItemValid(slot, stack);
+    }
+
+    protected boolean canProgress(ItemStack result) {
+        if (ItemStack.isSameItemSameComponents(result, inventory.getStackInSlot(OUTPUT))) {
+            return inventory.getStackInSlot(OUTPUT).getCount() + result.getCount() <= result.getMaxStackSize();
+        } else return inventory.getStackInSlot(OUTPUT).isEmpty();
+    }
+
+    private void craft(SmeltingRecipe recipe, ItemStack result) {
+        inventory.extractItem(INPUT, 1, false);
+        inventory.insertItem(OUTPUT, result.copy(), false);
+        fuel--;
+        getManaHandler(null).produceMana((long) (recipe.getExperience() * 10000)); // 経験値をマナに変換して生成
+        progress = 0;
     }
 
     public void drops() {
@@ -235,6 +270,7 @@ public class EmberSmelterBlockEntity extends ManaMachineBlockEntity {
         super.saveAdditional(tag, registries);
         tag.put("inventory", inventory.serializeNBT(registries));
         tag.putInt("fuel", fuel);
+        tag.putInt("progress", progress);
     }
 
     @Override
@@ -242,6 +278,7 @@ public class EmberSmelterBlockEntity extends ManaMachineBlockEntity {
         super.loadAdditional(tag, registries);
         inventory.deserializeNBT(registries, tag.getCompound("inventory"));
         fuel = tag.getInt("fuel");
+        progress = tag.getInt("progress");
     }
 
     @Nullable
@@ -257,7 +294,7 @@ public class EmberSmelterBlockEntity extends ManaMachineBlockEntity {
 
     @Override
     public AbstractContainerMenu createMenu(int containerId, Inventory inventory, Player player) {
-        return new ManaVesselMenu(containerId, inventory, this, ContainerLevelAccess.create(level, this.getBlockPos()), this.dataAccess);
+        return new EmberSmelterMenu(containerId, inventory, this, ContainerLevelAccess.create(level, this.getBlockPos()), this.dataAccess);
     }
 
     @Override
@@ -269,10 +306,13 @@ public class EmberSmelterBlockEntity extends ManaMachineBlockEntity {
         return fuel;
     }
 
+    public int getProgress() {
+        return progress;
+    }
 
     @Override
     public ManaFlowRule getManaFlowRule(BlockState state, Direction side) {
-        if (side == null || side.getAxis() == state.getValue(ManaVesselBlock.AXIS)) {
+        if (side == null || side.getAxis() == Direction.Axis.Y) {
             return ManaFlowRule.bothWays(1.0F);
         }
         return ManaFlowRule.none();

@@ -22,6 +22,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
+import net.stln.magitech.content.block.block_entity.EmberSmelterBlockEntity;
 import net.stln.magitech.content.block.block_entity.ManaVesselBlockEntity;
 import net.stln.magitech.effect.visual.preset.PointVFX;
 import net.stln.magitech.effect.visual.preset.PresetHelper;
@@ -59,18 +60,18 @@ public class EmberSmelterBlock extends ManaContainerBlock {
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         return this.defaultBlockState()
-                .setValue(HORIZONTAL_FACING, context.getHorizontalDirection());
+                .setValue(HORIZONTAL_FACING, context.getHorizontalDirection().getOpposite());
     }
 
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return new ManaVesselBlockEntity(blockPos, blockState);
+        return new EmberSmelterBlockEntity(blockPos, blockState);
     }
 
     @Override
     public @org.jetbrains.annotations.Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return createTicker(level, blockEntityType, BlockInit.MANA_VESSEL_ENTITY.get());
+        return createTicker(level, blockEntityType, BlockInit.EMBER_SMELTER_ENTITY.get());
     }
 
     @Override
@@ -98,8 +99,8 @@ public class EmberSmelterBlock extends ManaContainerBlock {
     @Override
     protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
         if (state.getBlock() != newState.getBlock()) {
-            if (level.getBlockEntity(pos) instanceof ManaVesselBlockEntity manaVesselBlockEntity) {
-                manaVesselBlockEntity.drops();
+            if (level.getBlockEntity(pos) instanceof EmberSmelterBlockEntity entity) {
+                entity.drops();
                 level.updateNeighbourForOutputSignal(pos, this);
             }
         }

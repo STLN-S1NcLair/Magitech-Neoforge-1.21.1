@@ -16,7 +16,7 @@ import net.stln.magitech.helper.SimpleLongContainerData;
 public abstract class ManaContainerMenu extends AbstractContainerMenu {
     private final Level level;
     private final ContainerLevelAccess access;
-    private final LongContainerData data;
+    protected final LongContainerData data;
     protected boolean hasProduction = false;
     protected boolean hasConsumption = false;
     protected int inventoryOffsetY;

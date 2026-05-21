@@ -157,14 +157,13 @@ public class BlockInit {
             BLOCK_ENITIES.register("item_collector", () -> BlockEntityType.Builder.of(
                     ItemCollectorBlockEntity::new, BlockInit.ITEM_COLLECTOR.get()).build(null));
 
-    public static final DeferredBlock<Block> EMBER_SMELTER = BLOCKS.registerBlock("ember_smelter",
-//            properties -> new ItemCollectorBlock(properties, 50000, 5000),
-            LodestoneHorizontalBlock::new,
+    public static final DeferredBlock<EmberSmelterBlock> EMBER_SMELTER = BLOCKS.registerBlock("ember_smelter",
+            properties -> new EmberSmelterBlock(properties, 100000, 5000),
             BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(SoundType.NETHERITE_BLOCK).lightLevel((blockState) -> 5).noOcclusion());
     public static final DeferredItem<BlockItem> EMBER_SMELTER_ITEM = ItemInit.ITEMS.register("ember_smelter", key -> new TooltipTextBlockItem(EMBER_SMELTER.get(), new Item.Properties()));
-    public static final Supplier<BlockEntityType<ItemCollectorBlockEntity>> EMBER_SMELTER_ENTITY =
+    public static final Supplier<BlockEntityType<EmberSmelterBlockEntity>> EMBER_SMELTER_ENTITY =
             BLOCK_ENITIES.register("ember_smelter", () -> BlockEntityType.Builder.of(
-                    ItemCollectorBlockEntity::new, BlockInit.EMBER_SMELTER.get()).build(null));
+                    EmberSmelterBlockEntity::new, BlockInit.EMBER_SMELTER.get()).build(null));
 
     // マナ輸送
 

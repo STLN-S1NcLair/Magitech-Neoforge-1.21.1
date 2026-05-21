@@ -1,4 +1,4 @@
-// 1.21.1	2026-05-16T13:34:27.0647013	Block States: magitech
+// 1.21.1	2026-05-21T20:15:12.3791294	Block States: magitech
 90f039d3c8040909582f040c2be7f09eca62a0a8 assets/magitech/blockstates/alchecrysite.json
 e2e47f25d85025ef83b8b30154421755d7d8c139 assets/magitech/blockstates/alchecrysite_bricks.json
 36896c4c599cbeeb6b3e9441de7d2de5fa12cb4d assets/magitech/blockstates/alchecrysite_brick_slab.json
@@ -50,7 +50,7 @@ bce9aceeb73bb08c14f847b4ba75e9d3bb9c5a5a assets/magitech/blockstates/charcoal_bi
 2011c707e28cea7f5b093510350c6d52783ae282 assets/magitech/blockstates/deepslate_tourmaline_ore.json
 5e4cecaf6ffa432d93f10e91cd33a85880193b27 assets/magitech/blockstates/deepslate_zinc_ore.json
 817e88151197b530a2fdd4ee871fc38d93c6f56b assets/magitech/blockstates/detangler.json
-8a7c294e3fe9fa131b5c4b9c8cdcb17c7a1fdcf2 assets/magitech/blockstates/ember_smelter.json
+71543ff0ed5b8851d61beca628c51830fc8b6e1c assets/magitech/blockstates/ember_smelter.json
 367e4d49452580b29f6ca0f71a343fddc0fc0d90 assets/magitech/blockstates/engineering_workbench.json
 24b1f32f1be99916f4c86bbda266cf140d50ddc2 assets/magitech/blockstates/enhanced_mana_node.json
 1b0810ca14bc3d0435283f0493dadf3cc326cde7 assets/magitech/blockstates/enhanced_mana_relay.json
