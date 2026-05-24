@@ -14,7 +14,8 @@ public class RecipeHolderTypeInit {
     public static final RecipeType<RecipeHolder<ToolAssemblyRecipe>> TOOL_ASSEMBLY_TYPE = createJeiHolderType("tool_assembly", ToolAssemblyRecipe.class);
     public static final RecipeType<RecipeHolder<ToolMaterialRecipe>> TOOL_MATERIAL_TYPE = createJeiHolderType("tool_material", ToolMaterialRecipe.class);
     public static final RecipeType<RecipeHolder<ZardiusCrucibleRecipe>> ZARDIUS_CRUCIBLE_TYPE = createJeiHolderType("zardius_crucible", ZardiusCrucibleRecipe.class);
-    public static final RecipeType<RecipeHolder<InfusionRecipe>> INFUSION_TYPE = createJeiHolderType("infuser_infusion", InfusionRecipe.class);
+    public static final RecipeType<RecipeHolder<InfusionRecipe>> INFUSION_TYPE = createJeiHolderType("infusion", InfusionRecipe.class);
+    public static final RecipeType<RecipeHolder<CrushingRecipe>> CRUSHING_TYPE = createJeiHolderType("crushing", CrushingRecipe.class);
 
     private static <T extends Recipe<?>> @NotNull RecipeType<RecipeHolder<T>> createJeiHolderType(@NotNull String name, Class<T> t) {
         Class<? extends RecipeHolder<T>> holderClass = (Class<? extends RecipeHolder<T>>) (Class<?>) RecipeHolder.class;

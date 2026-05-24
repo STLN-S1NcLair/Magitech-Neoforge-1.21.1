@@ -21,6 +21,8 @@ public class BlockRendererInit {
         event.registerBlockEntityRenderer(BlockInit.INFUSION_ALTAR_ENTITY.get(), InfusionAltarBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(BlockInit.ENHANCED_MANA_VESSEL_ENTITY.get(), EnhancedManaVesselBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(BlockInit.ENTANGLER_ENTITY.get(), EntanglerBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(BlockInit.EMBER_SMELTER_ENTITY.get(), EmberSmelterBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(BlockInit.CRUSHER_ENTITY.get(), CrusherBlockEntityRenderer::new);
     }
 
 }

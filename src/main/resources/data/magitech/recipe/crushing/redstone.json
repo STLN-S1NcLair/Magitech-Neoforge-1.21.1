@@ -1,0 +1,13 @@
+{
+  "type": "magitech:crushing",
+  "ingredient": {
+    "ingredient": {
+      "item": "magitech:redstone_crystal"
+    },
+    "count": 1
+  },
+  "result": {
+    "id": "minecraft:redstone",
+    "count": 3
+  }
+}

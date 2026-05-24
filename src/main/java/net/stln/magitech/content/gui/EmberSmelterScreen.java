@@ -28,9 +28,14 @@ public class EmberSmelterScreen extends ManaContainerScreen<EmberSmelterMenu> {
         int j = this.topPos;
         int fuel = this.menu.getFuel();
         int progress = this.menu.getProgress();
-        float fuelRatio = (fuel + 1 - (float) progress / EmberSmelterBlockEntity.MAX_PROGRESS) / (float) EmberSmelterBlockEntity.MAX_FUEL;
+        float progressRatio = (progress + (progress == 0 ? 0 : partialTick)) / EmberSmelterBlockEntity.MAX_PROGRESS;
+        float fuelRatio = (fuel + 1 - progressRatio) / (float) EmberSmelterBlockEntity.MAX_FUEL;
         int fireHeight = (int) (fuelRatio * 16);
+        guiGraphics.blit(getBgTexture(), i + 63, j + 60, 176, 16, (int) (50 * progressRatio), 16);
         guiGraphics.blit(getBgTexture(), i + 80, j + 60 + 16 - fireHeight, 176, 16 - fireHeight, 16, fireHeight);
+        if (fuel > 0) {
+            guiGraphics.blit(getBgTexture(), i + 84, j + 77, 192, 0, 8, 2);
+        }
     }
 
     @Override

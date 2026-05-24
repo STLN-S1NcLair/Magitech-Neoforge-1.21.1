@@ -50,6 +50,7 @@ public class GuiInit {
         event.register(MANA_PUMP_MENU.get(), ManaPumpScreen::new);
         event.register(INFUSER_MENU.get(), InfuserScreen::new);
         event.register(EMBER_SMELTER_MENU.get(), EmberSmelterScreen::new);
+        event.register(CRUSHER_MENU.get(), CrusherScreen::new);
         event.register(CREATIVE_MANA_SOURCE_MENU.get(), CreativeManaSourceScreen::new);
         event.register(CREATIVE_MANA_SINK_MENU.get(), CreativeManaSinkScreen::new);
         event.register(THREADBOUND_MENU.get(), ThreadboundScreen::new);
@@ -89,6 +90,8 @@ public class GuiInit {
     public static final Supplier<MenuType<InfuserMenu>> INFUSER_MENU = register("infuser_menu", InfuserMenu::new);
 
     public static final Supplier<MenuType<EmberSmelterMenu>> EMBER_SMELTER_MENU = register("ember_smelter_menu", EmberSmelterMenu::new);
+
+    public static final Supplier<MenuType<CrusherMenu>> CRUSHER_MENU = register("crusher_menu", CrusherMenu::new);
 
     public static final Supplier<MenuType<CreativeManaSourceMenu>> CREATIVE_MANA_SOURCE_MENU = register("creative_mana_source_menu", CreativeManaSourceMenu::new);
 

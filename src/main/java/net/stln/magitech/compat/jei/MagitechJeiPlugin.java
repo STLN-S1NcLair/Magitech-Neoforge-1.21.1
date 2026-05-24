@@ -2,6 +2,7 @@ package net.stln.magitech.compat.jei;
 
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.constants.RecipeTypes;
 import mezz.jei.api.registration.IGuiHandlerRegistration;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
@@ -35,7 +36,8 @@ public class MagitechJeiPlugin implements IModPlugin {
                 new ToolAssemblyRecipeCategory(guiHelper),
                 new SpellConversionRecipeCategory(guiHelper),
                 new ZardiusCrucibleRecipeCategory(guiHelper),
-                new InfusionRecipeCategory(guiHelper)
+                new InfusionRecipeCategory(guiHelper),
+                new CrushingRecipeCategory(guiHelper)
         );
     }
 
@@ -46,6 +48,7 @@ public class MagitechJeiPlugin implements IModPlugin {
         registration.addRecipes(RecipeHolderTypeInit.SPELL_CONVERSION_TYPE, ClientHelper.getAllRecipes(RecipeInit.SPELL_CONVERSION_TYPE));
         registration.addRecipes(RecipeHolderTypeInit.ZARDIUS_CRUCIBLE_TYPE, ClientHelper.getAllRecipes(RecipeInit.ZARDIUS_CRUCIBLE_TYPE));
         registration.addRecipes(RecipeHolderTypeInit.INFUSION_TYPE, ClientHelper.getAllRecipes(RecipeInit.INFUSION_TYPE));
+        registration.addRecipes(RecipeHolderTypeInit.CRUSHING_TYPE, ClientHelper.getAllRecipes(RecipeInit.CRUSHING_TYPE));
     }
 
     @Override
@@ -64,5 +67,7 @@ public class MagitechJeiPlugin implements IModPlugin {
         registration.addRecipeCatalyst(BlockInit.INFUSION_ALTAR_ITEM.toStack(), RecipeHolderTypeInit.INFUSION_TYPE);
         registration.addRecipeCatalyst(BlockInit.INFUSER_ITEM.toStack(), RecipeHolderTypeInit.INFUSION_TYPE);
         registration.addRecipeCatalyst(BlockInit.PEDESTAL_PYLON_ITEM.toStack(), RecipeHolderTypeInit.INFUSION_TYPE);
+        registration.addRecipeCatalyst(BlockInit.EMBER_SMELTER_ITEM.toStack(), RecipeTypes.SMELTING);
+        registration.addRecipeCatalyst(BlockInit.CRUSHER_ITEM.toStack(), RecipeHolderTypeInit.CRUSHING_TYPE);
     }
 }

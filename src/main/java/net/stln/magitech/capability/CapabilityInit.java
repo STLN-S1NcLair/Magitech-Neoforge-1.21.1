@@ -29,6 +29,8 @@ public class CapabilityInit {
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockInit.ZARDIUS_CRUCIBLE_ENTITY.get(), (blockEntity, direction) -> blockEntity.inventory);
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, BlockInit.ZARDIUS_CRUCIBLE_ENTITY.get(), (blockEntity, direction) -> blockEntity.tank);
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockInit.ENTANGLER_ENTITY.get(), (blockEntity, direction) -> blockEntity.inventory);
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockInit.EMBER_SMELTER_ENTITY.get(), (blockEntity, direction) -> blockEntity.inventory);
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockInit.CRUSHER_ENTITY.get(), (blockEntity, direction) -> blockEntity.inventory);
 
         // ブロックエンティティへの登録
         registerManaContainerBlockEntity(event, BlockInit.MANA_VESSEL_ENTITY.get());
@@ -43,6 +45,8 @@ public class CapabilityInit {
         registerManaContainerBlockEntity(event, BlockInit.CREATIVE_MANA_SOURCE_ENTITY.get());
         registerManaContainerBlockEntity(event, BlockInit.CREATIVE_MANA_SINK_ENTITY.get());
         registerManaContainerBlockEntity(event, BlockInit.ZARDIUS_CRUCIBLE_ENTITY.get());
+        registerManaContainerBlockEntity(event, BlockInit.EMBER_SMELTER_ENTITY.get());
+        registerManaContainerBlockEntity(event, BlockInit.CRUSHER_ENTITY.get());
 
         // アイテムへの登録
         registerManaContainerItem(event, (ManaContainerItem) ItemInit.MANA_CELL.get());

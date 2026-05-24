@@ -1,4 +1,4 @@
-// 1.21.1	2026-05-21T20:15:12.3791294	Block States: magitech
+// 1.21.1	2026-05-24T20:05:46.3082671	Block States: magitech
 90f039d3c8040909582f040c2be7f09eca62a0a8 assets/magitech/blockstates/alchecrysite.json
 e2e47f25d85025ef83b8b30154421755d7d8c139 assets/magitech/blockstates/alchecrysite_bricks.json
 36896c4c599cbeeb6b3e9441de7d2de5fa12cb4d assets/magitech/blockstates/alchecrysite_brick_slab.json
@@ -46,6 +46,7 @@ ecc40408e8eae366c7a7d1d037eac903843b3811 assets/magitech/blockstates/charcoal_bi
 bce9aceeb73bb08c14f847b4ba75e9d3bb9c5a5a assets/magitech/blockstates/charcoal_birch_wood.json
 3ee6059ce9a088dc758a02ff95a896c249342fc2 assets/magitech/blockstates/creative_mana_sink.json
 3dc5ee9118ef091a0dc649431a6e70d950b19f5f assets/magitech/blockstates/creative_mana_source.json
+996e263323240b353b31401b1ebf0e6763280fee assets/magitech/blockstates/crusher.json
 25b3ef46543d8246fe4e703b6f255919ce7eb501 assets/magitech/blockstates/deepslate_fluorite_ore.json
 2011c707e28cea7f5b093510350c6d52783ae282 assets/magitech/blockstates/deepslate_tourmaline_ore.json
 5e4cecaf6ffa432d93f10e91cd33a85880193b27 assets/magitech/blockstates/deepslate_zinc_ore.json
@@ -339,6 +340,7 @@ ddf0a743defba996b9d0432787fba88d47918365 assets/magitech/models/item/charcoal_bi
 d67b4fbeca90432117ca98f41f3bdef6976fd7bf assets/magitech/models/item/charcoal_birch_wood.json
 33bee250c39d014123467e28506d730c4990ce65 assets/magitech/models/item/creative_mana_sink.json
 f3ca4d562b04b7dded442f4f0bb7128969c71490 assets/magitech/models/item/creative_mana_source.json
+796216be231d4bb39d379f0c47216044c475ea02 assets/magitech/models/item/crusher.json
 81c523408bed397ad37874258933689484d720b5 assets/magitech/models/item/deepslate_fluorite_ore.json
 f336b4f91e4b3af2cc4ec59b69bba441b0be0772 assets/magitech/models/item/deepslate_tourmaline_ore.json
 13defdaf7109cd458d123452e75945e4cfd3b153 assets/magitech/models/item/deepslate_zinc_ore.json

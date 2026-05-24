@@ -41,6 +41,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         directionalPoweredHandModeledBlockWithItem(BlockInit.DETANGLER.get());
         directionalPoweredHandModeledBlockWithItem(BlockInit.ITEM_COLLECTOR.get());
         horizontalActiveHandModeledBlockWithItem(BlockInit.EMBER_SMELTER.get());
+        handModeledBlockWithItem(BlockInit.CRUSHER.get());
         handModeledBlockWithItem(BlockInit.MANA_JUNCTION.get());
         handModeledBlockWithItem(BlockInit.INFUSION_ALTAR.get());
         directionalHandModeledBlockWithItem(BlockInit.ENHANCED_MANA_NODE.get());
@@ -207,6 +208,19 @@ public class ModBlockStateProvider extends BlockStateProvider {
             return ConfiguredModel.builder()
                     .modelFile(model)
                     .rotationY(rotationY)
+                    .build();
+        });
+        blockItem(block);
+    }
+
+    private void activeHandModeledBlockWithItem(Block block) {
+        ModelFile.ExistingModelFile defaultModel = new ModelFile.ExistingModelFile(blockTexture(block), this.models().existingFileHelper);
+        ModelFile.ExistingModelFile activeModel = new ModelFile.ExistingModelFile(blockTexture(block).withSuffix("_active"), this.models().existingFileHelper);
+        getVariantBuilder(block).forAllStates(state -> {
+            boolean active = state.getValue(BlockStatePropertyInit.ACTIVE);
+            ModelFile model = active ? activeModel : defaultModel;
+            return ConfiguredModel.builder()
+                    .modelFile(model)
                     .build();
         });
         blockItem(block);

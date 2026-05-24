@@ -136,7 +136,7 @@ public class BlockInit {
     public static final DeferredBlock<EntanglerBlock> ENTANGLER = BLOCKS.registerBlock("entangler",
             EntanglerBlock::new,
             BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(SoundType.NETHERITE_BLOCK).lightLevel((blockState) -> 5).noOcclusion());
-    public static final DeferredItem<BlockItem> ENTANGLER_ITEM = ItemInit.ITEMS.register("entangler", key -> new TooltipTextBlockItem(ENTANGLER.get(), new Item.Properties()));
+    public static final DeferredItem<BlockItem> ENTANGLER_ITEM = ItemInit.ITEMS.register("entangler", key -> new TooltipTextManaContainerBlockItem(ENTANGLER.get(), new Item.Properties()));
     public static final Supplier<BlockEntityType<EntanglerBlockEntity>> ENTANGLER_ENTITY =
             BLOCK_ENITIES.register("entangler", () -> BlockEntityType.Builder.of(
                     EntanglerBlockEntity::new, BlockInit.ENTANGLER.get()).build(null));
@@ -144,7 +144,7 @@ public class BlockInit {
     public static final DeferredBlock<DetanglerBlock> DETANGLER = BLOCKS.registerBlock("detangler",
             DetanglerBlock::new,
             BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(SoundType.NETHERITE_BLOCK).lightLevel((blockState) -> 5).noOcclusion());
-    public static final DeferredItem<BlockItem> DETANGLER_ITEM = ItemInit.ITEMS.register("detangler", key -> new TooltipTextBlockItem(DETANGLER.get(), new Item.Properties()));
+    public static final DeferredItem<BlockItem> DETANGLER_ITEM = ItemInit.ITEMS.register("detangler", key -> new TooltipTextManaContainerBlockItem(DETANGLER.get(), new Item.Properties()));
     public static final Supplier<BlockEntityType<DetanglerBlockEntity>> DETANGLER_ENTITY =
             BLOCK_ENITIES.register("detangler", () -> BlockEntityType.Builder.of(
                     DetanglerBlockEntity::new, BlockInit.DETANGLER.get()).build(null));
@@ -152,18 +152,26 @@ public class BlockInit {
     public static final DeferredBlock<ItemCollectorBlock> ITEM_COLLECTOR = BLOCKS.registerBlock("item_collector",
             properties -> new ItemCollectorBlock(properties, 50000, 5000),
             BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(SoundType.NETHERITE_BLOCK).lightLevel((blockState) -> 5).noOcclusion());
-    public static final DeferredItem<BlockItem> ITEM_COLLECTOR_ITEM = ItemInit.ITEMS.register("item_collector", key -> new TooltipTextBlockItem(ITEM_COLLECTOR.get(), new Item.Properties()));
+    public static final DeferredItem<BlockItem> ITEM_COLLECTOR_ITEM = ItemInit.ITEMS.register("item_collector", key -> new TooltipTextManaContainerBlockItem(ITEM_COLLECTOR.get(), new Item.Properties()));
     public static final Supplier<BlockEntityType<ItemCollectorBlockEntity>> ITEM_COLLECTOR_ENTITY =
             BLOCK_ENITIES.register("item_collector", () -> BlockEntityType.Builder.of(
                     ItemCollectorBlockEntity::new, BlockInit.ITEM_COLLECTOR.get()).build(null));
 
     public static final DeferredBlock<EmberSmelterBlock> EMBER_SMELTER = BLOCKS.registerBlock("ember_smelter",
-            properties -> new EmberSmelterBlock(properties, 100000, 5000),
+            properties -> new EmberSmelterBlock(properties, 1000000, 5000),
             BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(SoundType.NETHERITE_BLOCK).lightLevel((blockState) -> 5).noOcclusion());
-    public static final DeferredItem<BlockItem> EMBER_SMELTER_ITEM = ItemInit.ITEMS.register("ember_smelter", key -> new TooltipTextBlockItem(EMBER_SMELTER.get(), new Item.Properties()));
+    public static final DeferredItem<BlockItem> EMBER_SMELTER_ITEM = ItemInit.ITEMS.register("ember_smelter", key -> new TooltipTextManaContainerBlockItem(EMBER_SMELTER.get(), new Item.Properties()));
     public static final Supplier<BlockEntityType<EmberSmelterBlockEntity>> EMBER_SMELTER_ENTITY =
             BLOCK_ENITIES.register("ember_smelter", () -> BlockEntityType.Builder.of(
                     EmberSmelterBlockEntity::new, BlockInit.EMBER_SMELTER.get()).build(null));
+
+    public static final DeferredBlock<CrusherBlock> CRUSHER = BLOCKS.registerBlock("crusher",
+            properties -> new CrusherBlock(properties, 500000, 5000),
+            BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(SoundType.NETHERITE_BLOCK).lightLevel((blockState) -> 5).noOcclusion());
+    public static final DeferredItem<BlockItem> CRUSHER_ITEM = ItemInit.ITEMS.register("crusher", key -> new TooltipTextManaContainerBlockItem(CRUSHER.get(), new Item.Properties()));
+    public static final Supplier<BlockEntityType<CrusherBlockEntity>> CRUSHER_ENTITY =
+            BLOCK_ENITIES.register("crusher", () -> BlockEntityType.Builder.of(
+                    CrusherBlockEntity::new, BlockInit.CRUSHER.get()).build(null));
 
     // マナ輸送
 

@@ -10,36 +10,28 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.stln.magitech.content.block.BlockInit;
+import net.stln.magitech.content.block.block_entity.CrusherBlockEntity;
 import net.stln.magitech.content.block.block_entity.EmberSmelterBlockEntity;
 import net.stln.magitech.helper.LongContainerData;
 import net.stln.magitech.helper.SimpleLongContainerData;
 
-public class EmberSmelterMenu extends ManaContainerMenu {
+public class CrusherMenu extends ManaContainerMenu {
     final Slot inputSlot;
     final Slot outputSlot;
-    final Slot fuelSlot;
 
-    public EmberSmelterMenu(int containerId, Inventory playerInventory) {
-        // EmberSmelterBlockEntity.dataAccess.getLongCount() == 8
-        this(containerId, playerInventory, new SimpleContainer(3), ContainerLevelAccess.NULL, new SimpleLongContainerData(8));
+    public CrusherMenu(int containerId, Inventory playerInventory) {
+        this(containerId, playerInventory, new SimpleContainer(2), ContainerLevelAccess.NULL, new SimpleLongContainerData(7));
     }
 
-    public EmberSmelterMenu(int containerId, Inventory playerInventory, Container container, final ContainerLevelAccess access, LongContainerData containerData) {
-        this(GuiInit.EMBER_SMELTER_MENU.get(), containerId, playerInventory, container, access, containerData);
+    public CrusherMenu(int containerId, Inventory playerInventory, Container container, final ContainerLevelAccess access, LongContainerData containerData) {
+        this(GuiInit.CRUSHER_MENU.get(), containerId, playerInventory, container, access, containerData);
     }
 
-    public EmberSmelterMenu(MenuType<? extends EmberSmelterMenu> menuType, int containerId, Inventory playerInventory, Container container, ContainerLevelAccess access, LongContainerData containerData) {
+    public CrusherMenu(MenuType<? extends CrusherMenu> menuType, int containerId, Inventory playerInventory, Container container, ContainerLevelAccess access, LongContainerData containerData) {
         super(menuType, containerId, playerInventory, access, containerData, 117);
-        this.hasProduction = true;
-        // moveItemStackTo は追加順で探索するため、燃料スロットを先に登録して優先投入させる
-        this.fuelSlot = this.addSlot(new Slot(container, EmberSmelterBlockEntity.FUEL, 11, 60) {
-            @Override
-            public boolean mayPlace(ItemStack stack) {
-                return EmberSmelterBlockEntity.isFuel(stack);
-            }
-        });
-        this.inputSlot = this.addSlot(new Slot(container, EmberSmelterBlockEntity.INPUT, 43, 60));
-        this.outputSlot = this.addSlot(new Slot(container, EmberSmelterBlockEntity.OUTPUT, 117, 60) {
+        this.hasConsumption = true;
+        this.inputSlot = this.addSlot(new Slot(container, CrusherBlockEntity.INPUT, 43, 60));
+        this.outputSlot = this.addSlot(new Slot(container, CrusherBlockEntity.OUTPUT, 117, 60) {
             @Override
             public boolean mayPlace(ItemStack stack) {
                 return false;
@@ -49,7 +41,7 @@ public class EmberSmelterMenu extends ManaContainerMenu {
 
     @Override
     protected Block getBlock() {
-        return BlockInit.EMBER_SMELTER.get();
+        return BlockInit.CRUSHER.get();
     }
 
     /**
@@ -62,9 +54,9 @@ public class EmberSmelterMenu extends ManaContainerMenu {
         if (slot.hasItem()) {
             ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
-            // 先頭36スロットがプレイヤー、末尾3スロットが装置。
+            // 先頭36スロットがプレイヤー、末尾2スロットが装置。
             if (index < 36) {
-                if (!this.moveItemStackTo(itemstack1, 36, 39, false)) {
+                if (!this.moveItemStackTo(itemstack1, 36, 38, false)) {
                     return ItemStack.EMPTY;
                 }
             } else if (!this.moveItemStackTo(itemstack1, 0, 36, true)) {
@@ -87,11 +79,7 @@ public class EmberSmelterMenu extends ManaContainerMenu {
         return itemstack;
     }
 
-    public int getFuel() {
-        return (int) this.data.getLong(6);
-    }
-
     public int getProgress() {
-        return (int) this.data.getLong(7);
+        return (int) this.data.getLong(6);
     }
 }

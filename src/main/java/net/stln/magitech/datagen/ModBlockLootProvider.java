@@ -50,6 +50,7 @@ public class ModBlockLootProvider extends BlockLootSubProvider {
         dropSelf(BlockInit.DETANGLER.get());
         dropSelf(BlockInit.ITEM_COLLECTOR.get());
         dropSelf(BlockInit.EMBER_SMELTER.get());
+        dropSelf(BlockInit.CRUSHER.get());
         dropSelf(BlockInit.MANA_JUNCTION.get());
         dropSelf(BlockInit.INFUSION_ALTAR.get());
         dropSelf(BlockInit.ENHANCED_MANA_NODE.get());

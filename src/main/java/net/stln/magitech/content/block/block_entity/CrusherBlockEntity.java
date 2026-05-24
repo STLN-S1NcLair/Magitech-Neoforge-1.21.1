@@ -1,6 +1,5 @@
 package net.stln.magitech.content.block.block_entity;
 
-import mezz.jei.api.constants.RecipeTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -17,24 +16,20 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.items.ItemStackHandler;
+import net.stln.magitech.Magitech;
 import net.stln.magitech.content.block.BlockInit;
 import net.stln.magitech.content.block.BlockStatePropertyInit;
-import net.stln.magitech.content.block.ManaVesselBlock;
-import net.stln.magitech.content.block.ZardiusCrucibleBlock;
-import net.stln.magitech.content.gui.EmberSmelterMenu;
-import net.stln.magitech.content.gui.InfuserMenu;
-import net.stln.magitech.content.gui.ManaVesselMenu;
-import net.stln.magitech.content.item.ItemInit;
-import net.stln.magitech.core.api.mana.ManaCapabilities;
+import net.stln.magitech.content.block.CrusherBlock;
+import net.stln.magitech.content.gui.CrusherMenu;
+import net.stln.magitech.content.recipe.CrushingRecipe;
+import net.stln.magitech.content.recipe.RecipeInit;
 import net.stln.magitech.core.api.mana.flow.ManaFlowRule;
-import net.stln.magitech.core.api.mana.flow.ManaTransferHelper;
-import net.stln.magitech.core.api.mana.handler.IBasicManaHandler;
 import net.stln.magitech.effect.visual.preset.PointVFX;
 import net.stln.magitech.effect.visual.spawner.SquareParticles;
 import net.stln.magitech.feature.element.Element;
@@ -45,51 +40,50 @@ import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.PlayState;
+import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.Optional;
 
-public class EmberSmelterBlockEntity extends ManaMachineBlockEntity {
-    public static final int FUEL = 0;
-    public static final int INPUT = 1;
-    public static final int OUTPUT = 2;
-    public static final int MAX_FUEL = 8;
-    public static final int MAX_PROGRESS = 10;
+public class CrusherBlockEntity extends ManaMachineBlockEntity implements GeoBlockEntity {
+    public static final int INPUT = 0;
+    public static final int OUTPUT = 1;
+    public static final int MAX_PROGRESS = 100;
+    public static final long MANA_PER_TICK = 500;
+    private static final int ACTIVE_ANIMATION_TICKS = 40;
+    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
-    protected int fuel = 0;
+    private static final RawAnimation ACTIVE_A = RawAnimation.begin().thenPlay("active_a");
+    private static final RawAnimation ACTIVE_B = RawAnimation.begin().thenPlay("active_b");
+
     protected int progress = 0;
+    private int activeAnimationTick = 0;
+    private boolean activeAnimationVariant = false;
+    private boolean stoppingAnimation = false;
+    private boolean wasActiveClient = false;
     // ItemStackHandlerの変更を監視してサーバ側で同期を取る
-    public final ItemStackHandler inventory = new ItemStackHandler(3) {
+    public final ItemStackHandler inventory = new ItemStackHandler(2) {
         @Override
         protected void onContentsChanged(int slot) {
-            EmberSmelterBlockEntity.this.onInventoryChanged();
-        }
-
-        @Override
-        public boolean isItemValid(int slot, ItemStack stack) {
-            if (slot == FUEL) {
-                return isFuel(stack);
-            }
-            return super.isItemValid(slot, stack);
+            CrusherBlockEntity.this.onInventoryChanged();
         }
 
     };
 
-    public EmberSmelterBlockEntity(BlockPos pos, BlockState blockState, long mana) {
-        super(BlockInit.EMBER_SMELTER_ENTITY.get(), pos, blockState, mana);
-        dataAccess = new LongContainerData() {
+    public CrusherBlockEntity(BlockPos pos, BlockState blockState, long mana) {
+        super(BlockInit.CRUSHER_ENTITY.get(), pos, blockState, mana);
+        this.dataAccess = new LongContainerData() {
 
             @Override
             public long getLong(int index) {
                 return switch (index) {
-                    case 0 -> EmberSmelterBlockEntity.this.getMana();
-                    case 1 -> EmberSmelterBlockEntity.this.getMaxMana();
-                    case 2 -> EmberSmelterBlockEntity.this.getFlowRate();
-                    case 3 -> EmberSmelterBlockEntity.this.getMaxFlow();
-                    case 4 -> EmberSmelterBlockEntity.this.getProductionRate();
-                    case 5 -> EmberSmelterBlockEntity.this.getConsumptionRate();
-                    case 6 -> EmberSmelterBlockEntity.this.getFuel();
-                    case 7 -> EmberSmelterBlockEntity.this.getProgress();
+                    case 0 -> CrusherBlockEntity.this.getMana();
+                    case 1 -> CrusherBlockEntity.this.getMaxMana();
+                    case 2 -> CrusherBlockEntity.this.getFlowRate();
+                    case 3 -> CrusherBlockEntity.this.getMaxFlow();
+                    case 4 -> CrusherBlockEntity.this.getProductionRate();
+                    case 5 -> CrusherBlockEntity.this.getConsumptionRate();
+                    case 6 -> CrusherBlockEntity.this.getProgress();
                     default -> 0;
                 };
             }
@@ -97,55 +91,79 @@ public class EmberSmelterBlockEntity extends ManaMachineBlockEntity {
             @Override
             public void setLong(int index, long value) {
                 if (index == 0) {
-                    EmberSmelterBlockEntity.this.mana = Math.clamp(value, 0, EmberSmelterBlockEntity.this.maxMana);
+                    CrusherBlockEntity.this.mana = Math.clamp(value, 0, CrusherBlockEntity.this.maxMana);
                 }
             }
 
             @Override
             public int getLongCount() {
-                return 8;
+                return 7;
             }
         };
     }
 
-    public EmberSmelterBlockEntity(BlockPos pos, BlockState blockState) {
+    public CrusherBlockEntity(BlockPos pos, BlockState blockState) {
         this(pos, blockState, 0);
+    }
+
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+        controllers.add(new AnimationController<>(this, "crusher_controller", 0, (controllerState) -> {
+            if (this.level != null) {
+                BlockState state = this.level.getBlockState(this.worldPosition);
+                if (!(state.getBlock() instanceof CrusherBlock)) return PlayState.STOP;
+                if (state.getValue(BlockStatePropertyInit.ACTIVE) || this.stoppingAnimation) {
+                    controllerState.setAndContinue(this.activeAnimationVariant ? ACTIVE_B : ACTIVE_A);
+                    return PlayState.CONTINUE;
+                }
+            }
+            return PlayState.STOP;
+        }));
+    }
+
+    @Override
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
+        return this.cache;
     }
 
     @Override
     public void tick(Level level, BlockPos pos, BlockState state) {
         super.tick(level, pos, state);
-        ItemStack fuelItem = inventory.getStackInSlot(FUEL);
-        if (isFuel(fuelItem) && fuel == 0) {
-            fuelItem.shrink(1);
-            fuel = MAX_FUEL;
-        }
-        if (fuel > 0) {
-            ItemStack input = inventory.getStackInSlot(INPUT);
-            Optional<RecipeHolder<SmeltingRecipe>> holder = level.getRecipeManager().getRecipeFor(RecipeType.SMELTING, new SingleRecipeInput(input), level);
-            if (holder.isPresent()) {
-                SmeltingRecipe recipe = holder.get().value();
-                ItemStack result = recipe.getResultItem(level.registryAccess());
-                if (canProgress(result)) {
+        ItemStack input = inventory.getStackInSlot(INPUT);
+        Optional<RecipeHolder<CrushingRecipe>> holder = level.getRecipeManager().getRecipeFor(RecipeInit.CRUSHING_TYPE.get(), new SingleRecipeInput(input), level);
+        boolean shouldStop = false;
+        if (holder.isPresent()) {
+            CrushingRecipe recipe = holder.get().value();
+            ItemStack result = recipe.getResultItem(level.registryAccess());
+            if (canProgress(result)) {
+                if (getMana() >= MANA_PER_TICK) {
+                    Magitech.LOGGER.debug(getMana() + " / " + MANA_PER_TICK);
                     if (progress >= MAX_PROGRESS) {
                         craft(recipe, result);
                     } else {
                         progress++;
+                        getManaHandler(null).consumeMana(MANA_PER_TICK);
+                    }
+                    if (!state.getValue(BlockStatePropertyInit.ACTIVE)) {
+                        level.setBlock(pos, state.setValue(BlockStatePropertyInit.ACTIVE, true), 3);
+                        setChanged();
                     }
                 } else {
-                    progress = 0;
+                    if (state.getValue(BlockStatePropertyInit.ACTIVE)) {
+                        level.setBlock(pos, state.setValue(BlockStatePropertyInit.ACTIVE, false), 3);
+                        setChanged();
+                    }
                 }
             } else {
-                progress = 0;
-            }
-            if (!state.getValue(BlockStatePropertyInit.ACTIVE)) {
-                level.setBlock(pos, state.setValue(BlockStatePropertyInit.ACTIVE, true), 3);
-                setChanged();
+                shouldStop = true;
             }
         } else {
+            shouldStop = true;
+        }
+        if (shouldStop) {
             if (state.getValue(BlockStatePropertyInit.ACTIVE)) {
                 level.setBlock(pos, state.setValue(BlockStatePropertyInit.ACTIVE, false), 3);
-                progress = 0;
+                this.progress = 0;
                 setChanged();
             }
         }
@@ -154,14 +172,33 @@ public class EmberSmelterBlockEntity extends ManaMachineBlockEntity {
     @Override
     public void clientTick(Level level, BlockPos pos, BlockState state) {
         super.clientTick(level, pos, state);
+        boolean active = state.getValue(BlockStatePropertyInit.ACTIVE);
+        if (active) {
+            this.stoppingAnimation = false;
+            if (!this.wasActiveClient) {
+                this.activeAnimationTick = 0;
+                this.activeAnimationVariant = !this.activeAnimationVariant;
+            }
+            this.activeAnimationTick++;
+            if (this.activeAnimationTick >= ACTIVE_ANIMATION_TICKS) {
+                this.activeAnimationTick = 0;
+                this.activeAnimationVariant = !this.activeAnimationVariant;
+            }
+        } else if (this.wasActiveClient) {
+            this.stoppingAnimation = this.activeAnimationTick > 0;
+        } else if (this.stoppingAnimation) {
+            this.activeAnimationTick++;
+            if (this.activeAnimationTick >= ACTIVE_ANIMATION_TICKS) {
+                this.activeAnimationTick = 0;
+                this.stoppingAnimation = false;
+            }
+        }
+        this.wasActiveClient = active;
+
         if (state.getValue(BlockStatePropertyInit.ACTIVE)) {
             // 燃焼中のパーティクルを生成
             PointVFX.spray(level, pos.getCenter().add(0, -0.2, 0), Element.EMBER, SquareParticles::squareShrinkParticle, new Vec3(0, 1, 0), 1, 0.05F, 0.02F);
         }
-    }
-
-    public static boolean isFuel(ItemStack stack) {
-        return stack.is(ItemInit.EMBER_CRYSTAL);
     }
 
     @Override
@@ -175,11 +212,9 @@ public class EmberSmelterBlockEntity extends ManaMachineBlockEntity {
         } else return inventory.getStackInSlot(OUTPUT).isEmpty();
     }
 
-    private void craft(SmeltingRecipe recipe, ItemStack result) {
-        inventory.extractItem(INPUT, 1, false);
+    private void craft(CrushingRecipe recipe, ItemStack result) {
+        inventory.extractItem(INPUT, recipe.getSizedIngredient().count(), false);
         inventory.insertItem(OUTPUT, result.copy(), false);
-        fuel--;
-        getManaHandler(null).produceMana((long) (recipe.getExperience() * 500000)); // 経験値をマナに変換して生成
         progress = 0;
     }
 
@@ -276,7 +311,6 @@ public class EmberSmelterBlockEntity extends ManaMachineBlockEntity {
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
         tag.put("inventory", inventory.serializeNBT(registries));
-        tag.putInt("fuel", fuel);
         tag.putInt("progress", progress);
     }
 
@@ -284,7 +318,6 @@ public class EmberSmelterBlockEntity extends ManaMachineBlockEntity {
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
         inventory.deserializeNBT(registries, tag.getCompound("inventory"));
-        fuel = tag.getInt("fuel");
         progress = tag.getInt("progress");
     }
 
@@ -301,16 +334,12 @@ public class EmberSmelterBlockEntity extends ManaMachineBlockEntity {
 
     @Override
     public AbstractContainerMenu createMenu(int containerId, Inventory inventory, Player player) {
-        return new EmberSmelterMenu(containerId, inventory, this, ContainerLevelAccess.create(level, this.getBlockPos()), this.dataAccess);
+        return new CrusherMenu(containerId, inventory, this, ContainerLevelAccess.create(level, this.getBlockPos()), this.dataAccess);
     }
 
     @Override
     protected Component getDefaultName() {
-        return Component.translatable("block.magitech.ember_smelter");
-    }
-
-    public int getFuel() {
-        return fuel;
+        return Component.translatable("block.magitech.crusher");
     }
 
     public int getProgress() {
@@ -320,7 +349,7 @@ public class EmberSmelterBlockEntity extends ManaMachineBlockEntity {
     @Override
     public ManaFlowRule getManaFlowRule(BlockState state, Direction side) {
         if (side == null || side.getAxis() == Direction.Axis.Y) {
-            return ManaFlowRule.bothWays(1.0F);
+            return ManaFlowRule.bothWays(-1.0F);
         }
         return ManaFlowRule.none();
     }
