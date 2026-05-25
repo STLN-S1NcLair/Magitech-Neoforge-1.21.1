@@ -136,7 +136,7 @@ public class BlockInit {
     public static final DeferredBlock<EntanglerBlock> ENTANGLER = BLOCKS.registerBlock("entangler",
             EntanglerBlock::new,
             BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(SoundType.NETHERITE_BLOCK).lightLevel((blockState) -> 5).noOcclusion());
-    public static final DeferredItem<BlockItem> ENTANGLER_ITEM = ItemInit.ITEMS.register("entangler", key -> new TooltipTextManaContainerBlockItem(ENTANGLER.get(), new Item.Properties()));
+    public static final DeferredItem<BlockItem> ENTANGLER_ITEM = ItemInit.ITEMS.register("entangler", key -> new TooltipTextBlockItem(ENTANGLER.get(), new Item.Properties()));
     public static final Supplier<BlockEntityType<EntanglerBlockEntity>> ENTANGLER_ENTITY =
             BLOCK_ENITIES.register("entangler", () -> BlockEntityType.Builder.of(
                     EntanglerBlockEntity::new, BlockInit.ENTANGLER.get()).build(null));
@@ -144,7 +144,7 @@ public class BlockInit {
     public static final DeferredBlock<DetanglerBlock> DETANGLER = BLOCKS.registerBlock("detangler",
             DetanglerBlock::new,
             BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(SoundType.NETHERITE_BLOCK).lightLevel((blockState) -> 5).noOcclusion());
-    public static final DeferredItem<BlockItem> DETANGLER_ITEM = ItemInit.ITEMS.register("detangler", key -> new TooltipTextManaContainerBlockItem(DETANGLER.get(), new Item.Properties()));
+    public static final DeferredItem<BlockItem> DETANGLER_ITEM = ItemInit.ITEMS.register("detangler", key -> new TooltipTextBlockItem(DETANGLER.get(), new Item.Properties()));
     public static final Supplier<BlockEntityType<DetanglerBlockEntity>> DETANGLER_ENTITY =
             BLOCK_ENITIES.register("detangler", () -> BlockEntityType.Builder.of(
                     DetanglerBlockEntity::new, BlockInit.DETANGLER.get()).build(null));
