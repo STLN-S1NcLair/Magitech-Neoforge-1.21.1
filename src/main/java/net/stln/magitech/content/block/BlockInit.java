@@ -173,6 +173,14 @@ public class BlockInit {
             BLOCK_ENITIES.register("crusher", () -> BlockEntityType.Builder.of(
                     CrusherBlockEntity::new, BlockInit.CRUSHER.get()).build(null));
 
+    public static final DeferredBlock<CompressorBlock> COMPRESSOR = BLOCKS.registerBlock("compressor",
+            properties -> new CompressorBlock(properties, 500000, 5000),
+            BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(SoundType.NETHERITE_BLOCK).lightLevel((blockState) -> 5).noOcclusion());
+    public static final DeferredItem<BlockItem> COMPRESSOR_ITEM = ItemInit.ITEMS.register("compressor", key -> new TooltipTextManaContainerBlockItem(COMPRESSOR.get(), new Item.Properties()));
+    public static final Supplier<BlockEntityType<CompressorBlockEntity>> COMPRESSOR_ENTITY =
+            BLOCK_ENITIES.register("compressor", () -> BlockEntityType.Builder.of(
+                    CompressorBlockEntity::new, BlockInit.COMPRESSOR.get()).build(null));
+
     // マナ輸送
 
     public static final DeferredBlock<ManaNodeBlock> MANA_NODE = BLOCKS.registerBlock("mana_node",

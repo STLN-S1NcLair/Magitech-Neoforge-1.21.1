@@ -1,4 +1,4 @@
-// 1.21.1	2026-05-24T20:05:46.3283646	Loot Tables
+// 1.21.1	2026-05-26T21:36:19.6775492	Loot Tables
 d5c7ba896003b8f86835f7808a6a42840e7bb806 data/magitech/loot_table/blocks/alchecrysite.json
 0ec67ee2f0a83abcc8fc58cd95f43106109fca3e data/magitech/loot_table/blocks/alchecrysite_bricks.json
 f0dfbc1457dc98d193c135916b33deca6e65c407 data/magitech/loot_table/blocks/alchecrysite_brick_slab.json
@@ -44,6 +44,7 @@ ade0f29ead97a2e8981905eece0d954ab232d953 data/magitech/loot_table/blocks/charcoa
 04bd28410cf4d1af3e7dd94248c0c39be53538f9 data/magitech/loot_table/blocks/charcoal_birch_wall_hanging_sign.json
 ef22bdc049fa97d6290d048e29d022cef8848a3b data/magitech/loot_table/blocks/charcoal_birch_wall_sign.json
 c2b33a08155add6016052dc6b88af1a0894c0fac data/magitech/loot_table/blocks/charcoal_birch_wood.json
+f63b765076072758bea8ef17054f93aef89afdd2 data/magitech/loot_table/blocks/compressor.json
 d89419b4edc2a1ee6506d21b58babe7c9cf9e73d data/magitech/loot_table/blocks/crusher.json
 00930429f4d75a1826d368b1228bbfd65e499322 data/magitech/loot_table/blocks/deepslate_fluorite_ore.json
 7b3d941575a96aad56356ebaae5e510caa6a3a53 data/magitech/loot_table/blocks/deepslate_tourmaline_ore.json

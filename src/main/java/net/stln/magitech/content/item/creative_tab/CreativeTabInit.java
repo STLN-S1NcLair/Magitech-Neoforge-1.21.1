@@ -99,6 +99,9 @@ public class CreativeTabInit {
                 output.accept(ItemInit.ASPECT_COLLECTOR.get());
                 output.accept(ItemInit.BOOTS_FRAME.get());
                 output.accept(ItemInit.MANA_CELL.get());
+                output.accept(ItemInit.QUARTZ_PLANT.get());
+                output.accept(ItemInit.RESTRAINT_QUARTZ_DUST.get());
+                output.accept(ItemInit.RESTRAINT_QUARTZ.get());
                 output.accept(ItemInit.MANA_BERRIES.get());
                 output.accept(ItemInit.MANA_PIE.get());
                 output.accept(ItemInit.ALCHEMICAL_FLASK.get());
@@ -149,6 +152,7 @@ public class CreativeTabInit {
                 output.accept(BlockInit.ITEM_COLLECTOR_ITEM.get());
                 output.accept(BlockInit.EMBER_SMELTER_ITEM.get());
                 output.accept(BlockInit.CRUSHER_ITEM.get());
+                output.accept(BlockInit.COMPRESSOR_ITEM.get());
                 output.accept(BlockInit.MANA_JUNCTION_ITEM.get());
                 output.accept(BlockInit.INFUSION_ALTAR_ITEM.get());
                 output.accept(BlockInit.ENHANCED_MANA_NODE_ITEM.get());

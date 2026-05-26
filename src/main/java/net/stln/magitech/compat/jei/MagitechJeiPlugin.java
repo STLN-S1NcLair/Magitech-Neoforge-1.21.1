@@ -21,7 +21,6 @@ import org.jetbrains.annotations.NotNull;
 public class MagitechJeiPlugin implements IModPlugin {
     public static final ResourceLocation PLUGIN_UID = Magitech.id("jei_plugin");
 
-    // TODO: getRegistryName, getCodecを各カテゴリーに実装
 
     @Override
     public @NotNull ResourceLocation getPluginUid() {
@@ -37,7 +36,8 @@ public class MagitechJeiPlugin implements IModPlugin {
                 new SpellConversionRecipeCategory(guiHelper),
                 new ZardiusCrucibleRecipeCategory(guiHelper),
                 new InfusionRecipeCategory(guiHelper),
-                new CrushingRecipeCategory(guiHelper)
+                new CrushingRecipeCategory(guiHelper),
+                new CompressingRecipeCategory(guiHelper)
         );
     }
 
@@ -49,6 +49,7 @@ public class MagitechJeiPlugin implements IModPlugin {
         registration.addRecipes(RecipeHolderTypeInit.ZARDIUS_CRUCIBLE_TYPE, ClientHelper.getAllRecipes(RecipeInit.ZARDIUS_CRUCIBLE_TYPE));
         registration.addRecipes(RecipeHolderTypeInit.INFUSION_TYPE, ClientHelper.getAllRecipes(RecipeInit.INFUSION_TYPE));
         registration.addRecipes(RecipeHolderTypeInit.CRUSHING_TYPE, ClientHelper.getAllRecipes(RecipeInit.CRUSHING_TYPE));
+        registration.addRecipes(RecipeHolderTypeInit.COMPRESSING_TYPE, ClientHelper.getAllRecipes(RecipeInit.COMPRESSING_TYPE));
     }
 
     @Override
@@ -69,5 +70,6 @@ public class MagitechJeiPlugin implements IModPlugin {
         registration.addRecipeCatalyst(BlockInit.PEDESTAL_PYLON_ITEM.toStack(), RecipeHolderTypeInit.INFUSION_TYPE);
         registration.addRecipeCatalyst(BlockInit.EMBER_SMELTER_ITEM.toStack(), RecipeTypes.SMELTING);
         registration.addRecipeCatalyst(BlockInit.CRUSHER_ITEM.toStack(), RecipeHolderTypeInit.CRUSHING_TYPE);
+        registration.addRecipeCatalyst(BlockInit.COMPRESSOR_ITEM.toStack(), RecipeHolderTypeInit.COMPRESSING_TYPE);
     }
 }

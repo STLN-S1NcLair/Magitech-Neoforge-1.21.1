@@ -256,6 +256,9 @@ public class ItemInit {
 
     public static final DeferredItem<Item> MANA_CELL = ITEMS.registerItem("mana_cell", properties -> new ManaContainerItem(new Item.Properties().stacksTo(1)));
 
+    public static final DeferredItem<Item> QUARTZ_PLANT = ITEMS.registerItem("quartz_plant", TooltipTextItem::new);
+    public static final DeferredItem<Item> RESTRAINT_QUARTZ_DUST = ITEMS.registerItem("restraint_quartz_dust", TooltipTextItem::new);
+    public static final DeferredItem<Item> RESTRAINT_QUARTZ = ITEMS.registerItem("restraint_quartz", TooltipTextItem::new);
     public static final DeferredItem<Item> MANA_BERRIES = ITEMS.registerItem("mana_berries", (properties) -> new TooltipTextPlaceableItem(BlockInit.MANA_BERRY_BUSH.get(), properties.food(FoodInit.MANA_BERRIES)));
     public static final DeferredItem<Item> MANA_PIE = ITEMS.registerItem("mana_pie", TooltipTextItem::new, new Item.Properties().food(FoodInit.MANA_PIE));
     public static final DeferredItem<Item> ALCHEMICAL_FLASK = ITEMS.registerItem("alchemical_flask", AlchemicalFlaskItem::new);

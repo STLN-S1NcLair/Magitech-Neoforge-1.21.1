@@ -25,9 +25,9 @@ import net.neoforged.neoforge.items.ItemStackHandler;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.content.block.BlockInit;
 import net.stln.magitech.content.block.BlockStatePropertyInit;
-import net.stln.magitech.content.block.CrusherBlock;
-import net.stln.magitech.content.gui.CrusherMenu;
-import net.stln.magitech.content.recipe.CrushingRecipe;
+import net.stln.magitech.content.block.CompressorBlock;
+import net.stln.magitech.content.gui.CompressorMenu;
+import net.stln.magitech.content.recipe.CompressingRecipe;
 import net.stln.magitech.content.recipe.RecipeInit;
 import net.stln.magitech.core.api.mana.flow.ManaFlowRule;
 import net.stln.magitech.effect.visual.preset.PointVFX;
@@ -45,12 +45,12 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.Optional;
 
-public class CrusherBlockEntity extends ManaMachineBlockEntity implements GeoBlockEntity {
+public class CompressorBlockEntity extends ManaMachineBlockEntity implements GeoBlockEntity {
     public static final int INPUT = 0;
     public static final int OUTPUT = 1;
     public static final int MAX_PROGRESS = 100;
     public static final long MANA_PER_TICK = 500;
-    private static final int ACTIVE_ANIMATION_TICKS = 40;
+    private static final int ACTIVE_ANIMATION_TICKS = 100;
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
     private static final RawAnimation ACTIVE_A = RawAnimation.begin().thenPlay("active_a");
@@ -65,25 +65,25 @@ public class CrusherBlockEntity extends ManaMachineBlockEntity implements GeoBlo
     public final ItemStackHandler inventory = new ItemStackHandler(2) {
         @Override
         protected void onContentsChanged(int slot) {
-            CrusherBlockEntity.this.onInventoryChanged();
+            CompressorBlockEntity.this.onInventoryChanged();
         }
 
     };
 
-    public CrusherBlockEntity(BlockPos pos, BlockState blockState, long mana) {
-        super(BlockInit.CRUSHER_ENTITY.get(), pos, blockState, mana);
+    public CompressorBlockEntity(BlockPos pos, BlockState blockState, long mana) {
+        super(BlockInit.COMPRESSOR_ENTITY.get(), pos, blockState, mana);
         this.dataAccess = new LongContainerData() {
 
             @Override
             public long getLong(int index) {
                 return switch (index) {
-                    case 0 -> CrusherBlockEntity.this.getMana();
-                    case 1 -> CrusherBlockEntity.this.getMaxMana();
-                    case 2 -> CrusherBlockEntity.this.getFlowRate();
-                    case 3 -> CrusherBlockEntity.this.getMaxFlow();
-                    case 4 -> CrusherBlockEntity.this.getProductionRate();
-                    case 5 -> CrusherBlockEntity.this.getConsumptionRate();
-                    case 6 -> CrusherBlockEntity.this.getProgress();
+                    case 0 -> CompressorBlockEntity.this.getMana();
+                    case 1 -> CompressorBlockEntity.this.getMaxMana();
+                    case 2 -> CompressorBlockEntity.this.getFlowRate();
+                    case 3 -> CompressorBlockEntity.this.getMaxFlow();
+                    case 4 -> CompressorBlockEntity.this.getProductionRate();
+                    case 5 -> CompressorBlockEntity.this.getConsumptionRate();
+                    case 6 -> CompressorBlockEntity.this.getProgress();
                     default -> 0;
                 };
             }
@@ -91,7 +91,7 @@ public class CrusherBlockEntity extends ManaMachineBlockEntity implements GeoBlo
             @Override
             public void setLong(int index, long value) {
                 if (index == 0) {
-                    CrusherBlockEntity.this.mana = Math.clamp(value, 0, CrusherBlockEntity.this.maxMana);
+                    CompressorBlockEntity.this.mana = Math.clamp(value, 0, CompressorBlockEntity.this.maxMana);
                 }
             }
 
@@ -102,16 +102,16 @@ public class CrusherBlockEntity extends ManaMachineBlockEntity implements GeoBlo
         };
     }
 
-    public CrusherBlockEntity(BlockPos pos, BlockState blockState) {
+    public CompressorBlockEntity(BlockPos pos, BlockState blockState) {
         this(pos, blockState, 0);
     }
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "crusher_controller", 0, (controllerState) -> {
+        controllers.add(new AnimationController<>(this, "compressor_controller", 0, (controllerState) -> {
             if (this.level != null) {
                 BlockState state = this.level.getBlockState(this.worldPosition);
-                if (!(state.getBlock() instanceof CrusherBlock)) return PlayState.STOP;
+                if (!(state.getBlock() instanceof CompressorBlock)) return PlayState.STOP;
                 if (state.getValue(BlockStatePropertyInit.ACTIVE) || this.stoppingAnimation) {
                     controllerState.setAndContinue(this.activeAnimationVariant ? ACTIVE_B : ACTIVE_A);
                     return PlayState.CONTINUE;
@@ -130,14 +130,13 @@ public class CrusherBlockEntity extends ManaMachineBlockEntity implements GeoBlo
     public void tick(Level level, BlockPos pos, BlockState state) {
         super.tick(level, pos, state);
         ItemStack input = inventory.getStackInSlot(INPUT);
-        Optional<RecipeHolder<CrushingRecipe>> holder = level.getRecipeManager().getRecipeFor(RecipeInit.CRUSHING_TYPE.get(), new SingleRecipeInput(input), level);
+        Optional<RecipeHolder<CompressingRecipe>> holder = level.getRecipeManager().getRecipeFor(RecipeInit.COMPRESSING_TYPE.get(), new SingleRecipeInput(input), level);
         boolean shouldStop = false;
         if (holder.isPresent()) {
-            CrushingRecipe recipe = holder.get().value();
+            CompressingRecipe recipe = holder.get().value();
             ItemStack result = recipe.getResultItem(level.registryAccess());
             if (canProgress(result)) {
                 if (getMana() >= MANA_PER_TICK) {
-                    Magitech.LOGGER.debug(getMana() + " / " + MANA_PER_TICK);
                     if (progress >= MAX_PROGRESS) {
                         craft(recipe, result);
                     } else {
@@ -207,7 +206,7 @@ public class CrusherBlockEntity extends ManaMachineBlockEntity implements GeoBlo
         } else return inventory.getStackInSlot(OUTPUT).isEmpty();
     }
 
-    private void craft(CrushingRecipe recipe, ItemStack result) {
+    private void craft(CompressingRecipe recipe, ItemStack result) {
         inventory.extractItem(INPUT, recipe.getSizedIngredient().count(), false);
         inventory.insertItem(OUTPUT, result.copy(), false);
         progress = 0;
@@ -329,12 +328,12 @@ public class CrusherBlockEntity extends ManaMachineBlockEntity implements GeoBlo
 
     @Override
     public AbstractContainerMenu createMenu(int containerId, Inventory inventory, Player player) {
-        return new CrusherMenu(containerId, inventory, this, ContainerLevelAccess.create(level, this.getBlockPos()), this.dataAccess);
+        return new CompressorMenu(containerId, inventory, this, ContainerLevelAccess.create(level, this.getBlockPos()), this.dataAccess);
     }
 
     @Override
     protected Component getDefaultName() {
-        return Component.translatable("block.magitech.crusher");
+        return Component.translatable("block.magitech.compressor");
     }
 
     public int getProgress() {

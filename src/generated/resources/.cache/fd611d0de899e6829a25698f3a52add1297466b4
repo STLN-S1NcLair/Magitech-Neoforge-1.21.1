@@ -1,4 +1,4 @@
-// 1.21.1	2026-05-14T07:44:32.9288061	Item Models: magitech
+// 1.21.1	2026-05-25T19:47:54.7042056	Item Models: magitech
 b6e580466ba37335919256eafa6aebae2f80e029 assets/magitech/models/item/abyssite.json
 274500810da06625023fb41abd2b7f8c7faa471e assets/magitech/models/item/aegis_weave.json
 cad688c75659b5b6fd8b036274e31ffaa27cf17c assets/magitech/models/item/aether_lifter.json
@@ -946,6 +946,7 @@ fc63f9378571dd7796bc774b0f0857d47bd5b0cf assets/magitech/models/item/quartz_ligh
 90dad8624c1a91021fc6437e393fe7a6a59ca424 assets/magitech/models/item/quartz_pickaxe_heavy_handle.json
 3c5100c421b50b482a6a85af2c31dfc62881f538 assets/magitech/models/item/quartz_pickaxe_spike_head.json
 5cc7f59dc9f38628f96cdb1ee7c9fd2c00b37d44 assets/magitech/models/item/quartz_pickaxe_tool_binding.json
+0055379202ec88057b238f672bad70826a158561 assets/magitech/models/item/quartz_plant.json
 3f472c24e832ccc0b719cb71cea404b4f209c75b assets/magitech/models/item/quartz_plate.json
 aaeb3fa010c5d5f78d003b70f46a35a81a645a0b assets/magitech/models/item/quartz_reinforced_rod.json
 60e8f332f5ca82d3a2c99493f8e978f1b14db92b assets/magitech/models/item/quartz_scythe_heavy_blade.json
@@ -1061,6 +1062,8 @@ fb630895b8d4eef3a0a7b9bc71646ede5579f40c assets/magitech/models/item/redstone_wa
 7952ee4538047139ddc714d865118b83ef136223 assets/magitech/models/item/redstone_wand_tool_binding.json
 9158f31b97f212be836d2d858aa2794e8791aa1a assets/magitech/models/item/reinforced_rod.json
 5ff440c38c4392e254f29c44880f447deb014bd3 assets/magitech/models/item/resonite.json
+e4b328fb3a9dabc547eb0f42561c0f6f9307b188 assets/magitech/models/item/restraint_quartz.json
+0f3da858b2da03e9ef2aac5fe80699a1b80f5978 assets/magitech/models/item/restraint_quartz_dust.json
 322f28dcf5d8c3b9bdef2f3560d349dff705afc5 assets/magitech/models/item/sample_axe_heavy_handle.json
 6c807c54e9d7227821d48a54e69ca35d30838365 assets/magitech/models/item/sample_axe_light_blade.json
 7b931517a577d51981729ae1e1e761830bc47b44 assets/magitech/models/item/sample_axe_strike_head.json

@@ -23,6 +23,7 @@ public class BlockRendererInit {
         event.registerBlockEntityRenderer(BlockInit.ENTANGLER_ENTITY.get(), EntanglerBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(BlockInit.EMBER_SMELTER_ENTITY.get(), EmberSmelterBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(BlockInit.CRUSHER_ENTITY.get(), CrusherBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(BlockInit.COMPRESSOR_ENTITY.get(), CompressorBlockEntityRenderer::new);
     }
 
 }

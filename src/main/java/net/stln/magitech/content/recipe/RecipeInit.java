@@ -24,6 +24,7 @@ public class RecipeInit {
     public static final Supplier<RecipeSerializer<ZardiusCrucibleRecipe>> ZARDIUS_CRUCIBLE_SERIALIZER = registerSerializer("zardius_crucible", () -> new ZardiusCrucibleRecipe.Serializer<>(ZardiusCrucibleRecipe::new));
     public static final Supplier<RecipeSerializer<InfusionRecipe>> INFUSION_SERIALIZER = registerSerializer("infusion", () -> new InfusionRecipe.Serializer<>(InfusionRecipe::new));
     public static final Supplier<RecipeSerializer<CrushingRecipe>> CRUSHING_SERIALIZER = registerSerializer("crushing", () -> new CrushingRecipe.Serializer<>(CrushingRecipe::new));
+    public static final Supplier<RecipeSerializer<CompressingRecipe>> COMPRESSING_SERIALIZER = registerSerializer("compressing", () -> new CompressingRecipe.Serializer<>(CompressingRecipe::new));
     // Types
     public static final DeferredRegister<RecipeType<?>> TYPES = DeferredRegister.create(Registries.RECIPE_TYPE, Magitech.MOD_ID);
     public static final Supplier<RecipeType<PartCuttingRecipe>> PART_CUTTING_TYPE = registerType("part_cutting");
@@ -33,6 +34,7 @@ public class RecipeInit {
     public static final Supplier<RecipeType<ZardiusCrucibleRecipe>> ZARDIUS_CRUCIBLE_TYPE = registerType("zardius_crucible");
     public static final Supplier<RecipeType<InfusionRecipe>> INFUSION_TYPE = registerType("infusion");
     public static final Supplier<RecipeType<CrushingRecipe>> CRUSHING_TYPE = registerType("crushing");
+    public static final Supplier<RecipeType<CompressingRecipe>> COMPRESSING_TYPE = registerType("compressing");
 
     private static <T extends RecipeSerializer<?>> @NotNull Supplier<T> registerSerializer(@NotNull String name, @NotNull Supplier<T> supplier) {
         return SERIALIZERS.register(name, supplier);

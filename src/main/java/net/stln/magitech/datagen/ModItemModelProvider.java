@@ -108,6 +108,9 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ItemInit.ASPECT_COLLECTOR.get());
         basicItem(ItemInit.BOOTS_FRAME.get());
         basicItem(ItemInit.MANA_CELL.get());
+        basicItem(ItemInit.QUARTZ_PLANT.get());
+        basicItem(ItemInit.RESTRAINT_QUARTZ_DUST.get());
+        basicItem(ItemInit.RESTRAINT_QUARTZ.get());
         basicItem(ItemInit.MANA_BERRIES.get());
         basicItem(ItemInit.MANA_PIE.get());
         basicItem(ItemInit.ALCHEMICAL_FLASK.get());
