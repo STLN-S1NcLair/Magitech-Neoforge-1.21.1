@@ -758,6 +758,13 @@ public class BlockInit {
                             .lightLevel(p_187431_ -> 5)
             )
     );
+    public static final DeferredBlock<Block> QUARTZ_PLANT_BUSH = BLOCKS.register(
+            "quartz_plant_bush",
+            () -> new QuartzPlantBushBlock(
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.SWEET_BERRY_BUSH)
+                            .lightLevel(p_187431_ -> 5)
+            )
+    );
     public static final DeferredBlock<Block> MISTALIA_PETALS = BLOCKS.register(
             "mistalia_petals",
             () -> new MistaliaPetalsBlock(

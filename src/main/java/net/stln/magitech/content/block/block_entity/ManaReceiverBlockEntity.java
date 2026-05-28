@@ -28,6 +28,7 @@ import net.stln.magitech.content.gui.ManaReceiverMenu;
 import net.stln.magitech.content.sound.SoundInit;
 import net.stln.magitech.core.api.mana.flow.ManaFlowRule;
 import net.stln.magitech.core.api.mana.handler.MachineBlockEntityManaHandler;
+import net.stln.magitech.effect.sound.SoundHelper;
 import net.stln.magitech.helper.CombatHelper;
 import org.jetbrains.annotations.Nullable;
 
@@ -70,7 +71,7 @@ public class ManaReceiverBlockEntity extends ManaMachineBlockEntity {
             if (entity instanceof ManaParcelEntity manaParcel) {
                 handler.produceMana(manaParcel.getMana());
                 manaParcel.discard();
-                level.playSound(null, pos, SoundInit.MANA_PARCEL.get(), SoundSource.BLOCKS, 0.3F, Mth.randomBetween(level.random, 0.5F, 1.0F));
+                SoundHelper.broadcastSound(level, pos.getCenter(), SoundInit.MANA_PARCEL.get(), SoundSource.BLOCKS);
             }
         }
     }

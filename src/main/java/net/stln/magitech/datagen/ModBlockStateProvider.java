@@ -6,6 +6,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.SweetBerryBushBlock;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
@@ -133,6 +134,8 @@ public class ModBlockStateProvider extends BlockStateProvider {
         hangingSignBlock(BlockInit.MYSTWOOD_HANGING_SIGN.get(), BlockInit.MYSTWOOD_WALL_HANGING_SIGN.get(), BlockInit.STRIPPED_MYSTWOOD_LOG.get());
         grassBlockWithItem(BlockInit.SCORCHED_GRASS_SOIL.get(), BlockInit.SCORCHED_SOIL.get());
         blockWithItem(BlockInit.SCORCHED_SOIL.get());
+        manaBerryBushBlock(BlockInit.MANA_BERRY_BUSH.get());
+        manaBerryBushBlock(BlockInit.QUARTZ_PLANT_BUSH.get());
     }
 
     private String getName(Block block) {
@@ -325,6 +328,23 @@ public class ModBlockStateProvider extends BlockStateProvider {
     private void saplingBlock(Block block) {
         simpleBlock(block,
                 models().cross(getName(block), blockTexture(block)).renderType("cutout"));
+    }
+
+    private void manaBerryBushBlock(Block block) {
+        ModelFile stage0 = models().cross(getName(block) + "_stage0", blockTexture(block).withSuffix("_stage0")).renderType("cutout");
+        ModelFile stage1 = models().cross(getName(block) + "_stage1", blockTexture(block).withSuffix("_stage1")).renderType("cutout");
+        ModelFile stage2 = models().cross(getName(block) + "_stage2", blockTexture(block).withSuffix("_stage2")).renderType("cutout");
+        ModelFile stage3 = models().cross(getName(block) + "_stage3", blockTexture(block).withSuffix("_stage3")).renderType("cutout");
+
+        getVariantBuilder(block)
+                .partialState().with(SweetBerryBushBlock.AGE, 0)
+                .modelForState().modelFile(stage0).addModel()
+                .partialState().with(SweetBerryBushBlock.AGE, 1)
+                .modelForState().modelFile(stage1).addModel()
+                .partialState().with(SweetBerryBushBlock.AGE, 2)
+                .modelForState().modelFile(stage2).addModel()
+                .partialState().with(SweetBerryBushBlock.AGE, 3)
+                .modelForState().modelFile(stage3).addModel();
     }
 
     private void signBlock(Block sign, Block wallSign, Block fullTextureBlock) {

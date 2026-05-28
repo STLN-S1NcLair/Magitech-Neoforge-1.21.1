@@ -1,0 +1,46 @@
+{
+  "type": "magitech:infusion",
+  "base": {
+    "ingredient": {
+      "item": "minecraft:leather_boots"
+    },
+    "count": 1
+  },
+  "ingredients": [
+    {
+      "ingredient": {
+        "item": "magitech:high_purity_fluorite"
+      },
+      "count": 16
+    },
+    {
+      "ingredient": {
+        "item": "magitech:ember_crystal"
+      },
+      "count": 16
+    },
+    {
+      "ingredient": {
+        "item": "magitech:flow_crystal"
+      },
+      "count": 16
+    },
+    {
+      "ingredient": {
+        "item": "magitech:aegis_weave"
+      },
+      "count": 8
+    },
+    {
+      "ingredient": {
+        "item": "magitech:fluxium_ingot"
+      },
+      "count": 16
+    }
+  ],
+  "mana": 500000,
+  "result": {
+    "id": "magitech:flamglide_strider",
+    "count": 1
+  }
+}

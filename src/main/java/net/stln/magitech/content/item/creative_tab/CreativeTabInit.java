@@ -95,9 +95,6 @@ public class CreativeTabInit {
                 output.accept(ItemInit.ABYSSITE.get());
                 output.accept(ItemInit.POLISHED_ABYSSITE.get());
                 output.accept(ItemInit.SULFURIC_ACID_BATTERY.get());
-                output.accept(ItemInit.MANA_DEEXCITER_CORE.get());
-                output.accept(ItemInit.ASPECT_COLLECTOR.get());
-                output.accept(ItemInit.BOOTS_FRAME.get());
                 output.accept(ItemInit.MANA_CELL.get());
                 output.accept(ItemInit.QUARTZ_PLANT.get());
                 output.accept(ItemInit.RESTRAINT_QUARTZ_DUST.get());

@@ -250,13 +250,10 @@ public class ItemInit {
     public static final DeferredItem<Item> ABYSSITE = ITEMS.registerItem("abyssite", TooltipTextItem::new);
     public static final DeferredItem<Item> POLISHED_ABYSSITE = ITEMS.registerItem("polished_abyssite", TooltipTextItem::new);
     public static final DeferredItem<Item> SULFURIC_ACID_BATTERY = ITEMS.registerItem("sulfuric_acid_battery", TooltipTextItem::new);
-    public static final DeferredItem<Item> MANA_DEEXCITER_CORE = ITEMS.registerItem("mana_deexciter_core", TooltipTextItem::new);
-    public static final DeferredItem<Item> ASPECT_COLLECTOR = ITEMS.registerItem("aspect_collector", TooltipTextItem::new);
-    public static final DeferredItem<Item> BOOTS_FRAME = ITEMS.registerItem("boots_frame", TooltipTextItem::new);
 
     public static final DeferredItem<Item> MANA_CELL = ITEMS.registerItem("mana_cell", properties -> new ManaContainerItem(new Item.Properties().stacksTo(1)));
 
-    public static final DeferredItem<Item> QUARTZ_PLANT = ITEMS.registerItem("quartz_plant", TooltipTextItem::new);
+    public static final DeferredItem<Item> QUARTZ_PLANT = ITEMS.registerItem("quartz_plant", (properties) -> new TooltipTextPlaceableItem(BlockInit.QUARTZ_PLANT_BUSH.get(), properties));
     public static final DeferredItem<Item> RESTRAINT_QUARTZ_DUST = ITEMS.registerItem("restraint_quartz_dust", TooltipTextItem::new);
     public static final DeferredItem<Item> RESTRAINT_QUARTZ = ITEMS.registerItem("restraint_quartz", TooltipTextItem::new);
     public static final DeferredItem<Item> MANA_BERRIES = ITEMS.registerItem("mana_berries", (properties) -> new TooltipTextPlaceableItem(BlockInit.MANA_BERRY_BUSH.get(), properties.food(FoodInit.MANA_BERRIES)));

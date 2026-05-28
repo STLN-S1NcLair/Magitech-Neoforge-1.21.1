@@ -32,6 +32,7 @@ import net.stln.magitech.content.network.ShootManaParcelTransferPayload;
 import net.stln.magitech.content.sound.SoundInit;
 import net.stln.magitech.core.api.mana.flow.ManaFlowRule;
 import net.stln.magitech.core.api.mana.handler.MachineBlockEntityManaHandler;
+import net.stln.magitech.effect.sound.SoundHelper;
 import org.jetbrains.annotations.Nullable;
 
 public class ManaStranderBlockEntity extends ManaMachineBlockEntity {
@@ -79,7 +80,7 @@ public class ManaStranderBlockEntity extends ManaMachineBlockEntity {
                     new ChunkPos(pos),
                     new ShootManaParcelTransferPayload(pos, direction)
             );
-            level.playSound(null, pos, SoundInit.MANA_PARCEL.get(), SoundSource.BLOCKS, 0.3F, Mth.randomBetween(level.random, 0.5F, 1.0F));
+            SoundHelper.broadcastSound(level, pos.getCenter(), SoundInit.MANA_PARCEL.get(), SoundSource.BLOCKS);
         }
     }
 

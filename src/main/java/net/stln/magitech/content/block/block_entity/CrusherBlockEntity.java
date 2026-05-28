@@ -4,6 +4,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.particles.ItemParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
@@ -20,7 +22,6 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.content.block.BlockInit;
@@ -30,9 +31,6 @@ import net.stln.magitech.content.gui.CrusherMenu;
 import net.stln.magitech.content.recipe.CrushingRecipe;
 import net.stln.magitech.content.recipe.RecipeInit;
 import net.stln.magitech.core.api.mana.flow.ManaFlowRule;
-import net.stln.magitech.effect.visual.preset.PointVFX;
-import net.stln.magitech.effect.visual.spawner.SquareParticles;
-import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.helper.LongContainerData;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
@@ -174,6 +172,7 @@ public class CrusherBlockEntity extends ManaMachineBlockEntity implements GeoBlo
         super.clientTick(level, pos, state);
         boolean active = state.getValue(BlockStatePropertyInit.ACTIVE);
         if (active) {
+            spawnCraftParticles();
             this.stoppingAnimation = false;
             if (!this.wasActiveClient) {
                 this.activeAnimationTick = 0;
@@ -194,6 +193,27 @@ public class CrusherBlockEntity extends ManaMachineBlockEntity implements GeoBlo
             }
         }
         this.wasActiveClient = active;
+    }
+
+    public void spawnCraftParticles() {
+        ItemStack itemStack = inventory.getStackInSlot(INPUT);
+        if (this.level == null || itemStack.isEmpty()) {
+            return;
+        }
+
+        double x = this.worldPosition.getX() + 0.5;
+        double y = this.worldPosition.getY() + 0.5;
+        double z = this.worldPosition.getZ() + 0.5;
+
+        ItemParticleOption particleOption = new ItemParticleOption(ParticleTypes.ITEM, itemStack);
+
+        for (int i = 0; i < 2; i++) {
+            double velocityX = (this.level.random.nextDouble() - 0.5) * 0.2;
+            double velocityY = this.level.random.nextDouble() * 0.2;
+            double velocityZ = (this.level.random.nextDouble() - 0.5) * 0.2;
+
+            this.level.addParticle(particleOption, x, y, z, velocityX, velocityY, velocityZ);
+        }
     }
 
     @Override

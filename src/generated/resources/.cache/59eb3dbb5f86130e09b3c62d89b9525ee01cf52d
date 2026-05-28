@@ -1,4 +1,4 @@
-// 1.21.1	2026-05-26T21:36:19.6775492	Loot Tables
+// 1.21.1	2026-05-27T19:29:10.9209565	Loot Tables
 d5c7ba896003b8f86835f7808a6a42840e7bb806 data/magitech/loot_table/blocks/alchecrysite.json
 0ec67ee2f0a83abcc8fc58cd95f43106109fca3e data/magitech/loot_table/blocks/alchecrysite_bricks.json
 f0dfbc1457dc98d193c135916b33deca6e65c407 data/magitech/loot_table/blocks/alchecrysite_brick_slab.json
@@ -97,6 +97,7 @@ a73a4b10f6f6a11f2849fda81bdd7a12fadaed9c data/magitech/loot_table/blocks/pedesta
 d46ac21898599ff408d7852759d25bb8fe9b4f4b data/magitech/loot_table/blocks/polished_alchecrysite_slab.json
 24b4999a753dc5a4581f823d0f684b97797153e9 data/magitech/loot_table/blocks/polished_alchecrysite_stairs.json
 cf90021140fd37e659e1fff4773f516a7a8158fc data/magitech/loot_table/blocks/polished_alchecrysite_wall.json
+4e2c5a63b43856d27ac979c6bdfd9f8dd723809a data/magitech/loot_table/blocks/quartz_plant_bush.json
 5652abcd64bec1c42727cef2d2fce0552b372c63 data/magitech/loot_table/blocks/raw_zinc_block.json
 0ab3109763df048b6192c4182091f43a987c0774 data/magitech/loot_table/blocks/redstone_crystal_cluster.json
 ee4d27cc09724133c7a23d0375fb913676a0c365 data/magitech/loot_table/blocks/repairing_workbench.json

@@ -4,6 +4,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.particles.ItemParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
@@ -20,19 +22,17 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.items.ItemStackHandler;
+import net.neoforged.neoforge.network.PacketDistributor;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.content.block.BlockInit;
 import net.stln.magitech.content.block.BlockStatePropertyInit;
 import net.stln.magitech.content.block.CompressorBlock;
 import net.stln.magitech.content.gui.CompressorMenu;
+import net.stln.magitech.content.network.CompressorCraftPayload;
 import net.stln.magitech.content.recipe.CompressingRecipe;
 import net.stln.magitech.content.recipe.RecipeInit;
 import net.stln.magitech.core.api.mana.flow.ManaFlowRule;
-import net.stln.magitech.effect.visual.preset.PointVFX;
-import net.stln.magitech.effect.visual.spawner.SquareParticles;
-import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.helper.LongContainerData;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
@@ -50,17 +50,15 @@ public class CompressorBlockEntity extends ManaMachineBlockEntity implements Geo
     public static final int OUTPUT = 1;
     public static final int MAX_PROGRESS = 100;
     public static final long MANA_PER_TICK = 500;
-    private static final int ACTIVE_ANIMATION_TICKS = 100;
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
-    private static final RawAnimation ACTIVE_A = RawAnimation.begin().thenPlay("active_a");
-    private static final RawAnimation ACTIVE_B = RawAnimation.begin().thenPlay("active_b");
+    private static final RawAnimation ACTIVE = RawAnimation.begin().thenPlay("active");
 
     protected int progress = 0;
-    private int activeAnimationTick = 0;
-    private boolean activeAnimationVariant = false;
-    private boolean stoppingAnimation = false;
-    private boolean wasActiveClient = false;
+    // animation control flags
+    private boolean animationRequested = false;
+    private boolean animationInProgress = false;
+    private int lastClientProgress = 0;
     // ItemStackHandlerの変更を監視してサーバ側で同期を取る
     public final ItemStackHandler inventory = new ItemStackHandler(2) {
         @Override
@@ -109,14 +107,30 @@ public class CompressorBlockEntity extends ManaMachineBlockEntity implements Geo
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "compressor_controller", 0, (controllerState) -> {
-            if (this.level != null) {
-                BlockState state = this.level.getBlockState(this.worldPosition);
-                if (!(state.getBlock() instanceof CompressorBlock)) return PlayState.STOP;
-                if (state.getValue(BlockStatePropertyInit.ACTIVE) || this.stoppingAnimation) {
-                    controllerState.setAndContinue(this.activeAnimationVariant ? ACTIVE_B : ACTIVE_A);
+            if (this.level == null) return PlayState.STOP;
+            BlockState state = this.level.getBlockState(this.worldPosition);
+            if (!(state.getBlock() instanceof CompressorBlock)) return PlayState.STOP;
+
+            // If an animation was requested for this craft cycle, start it and mark it in progress
+            if (animationRequested) {
+                controllerState.resetCurrentAnimation();
+                controllerState.setAnimation(ACTIVE);
+                animationRequested = false;
+                animationInProgress = true;
+                return PlayState.CONTINUE;
+            }
+
+            // While animation is in progress, keep the controller running until it naturally finishes
+            if (animationInProgress) {
+                if (controllerState.getAnimationTick() > 0) {
                     return PlayState.CONTINUE;
+                } else {
+                    // animation finished
+                    animationInProgress = false;
+                    return PlayState.STOP;
                 }
             }
+
             return PlayState.STOP;
         }));
     }
@@ -141,6 +155,10 @@ public class CompressorBlockEntity extends ManaMachineBlockEntity implements Geo
                         craft(recipe, result);
                     } else {
                         progress++;
+                        if (progress == 40 && this.level != null && !this.level.isClientSide) {
+                            this.setChanged();
+                            this.level.sendBlockUpdated(this.worldPosition, this.getBlockState(), this.getBlockState(), 3);
+                        }
                         getManaHandler(null).consumeMana(MANA_PER_TICK);
                     }
                     if (!state.getValue(BlockStatePropertyInit.ACTIVE)) {
@@ -163,6 +181,10 @@ public class CompressorBlockEntity extends ManaMachineBlockEntity implements Geo
             if (state.getValue(BlockStatePropertyInit.ACTIVE)) {
                 level.setBlock(pos, state.setValue(BlockStatePropertyInit.ACTIVE, false), 3);
                 this.progress = 0;
+                if (this.level != null && !this.level.isClientSide) {
+                    this.setChanged();
+                    this.level.sendBlockUpdated(this.worldPosition, this.getBlockState(), this.getBlockState(), 3);
+                }
                 setChanged();
             }
         }
@@ -171,28 +193,14 @@ public class CompressorBlockEntity extends ManaMachineBlockEntity implements Geo
     @Override
     public void clientTick(Level level, BlockPos pos, BlockState state) {
         super.clientTick(level, pos, state);
-        boolean active = state.getValue(BlockStatePropertyInit.ACTIVE);
-        if (active) {
-            this.stoppingAnimation = false;
-            if (!this.wasActiveClient) {
-                this.activeAnimationTick = 0;
-                this.activeAnimationVariant = !this.activeAnimationVariant;
-            }
-            this.activeAnimationTick++;
-            if (this.activeAnimationTick >= ACTIVE_ANIMATION_TICKS) {
-                this.activeAnimationTick = 0;
-                this.activeAnimationVariant = !this.activeAnimationVariant;
-            }
-        } else if (this.wasActiveClient) {
-            this.stoppingAnimation = this.activeAnimationTick > 0;
-        } else if (this.stoppingAnimation) {
-            this.activeAnimationTick++;
-            if (this.activeAnimationTick >= ACTIVE_ANIMATION_TICKS) {
-                this.activeAnimationTick = 0;
-                this.stoppingAnimation = false;
-            }
+        if (state.getValue(BlockStatePropertyInit.ACTIVE) && this.lastClientProgress < 40 && this.progress >= 40) {
+            animationRequested = true;
         }
-        this.wasActiveClient = active;
+        if (!state.getValue(BlockStatePropertyInit.ACTIVE)) {
+            this.lastClientProgress = 0;
+        } else {
+            this.lastClientProgress = this.progress;
+        }
     }
 
     @Override
@@ -210,6 +218,33 @@ public class CompressorBlockEntity extends ManaMachineBlockEntity implements Geo
         inventory.extractItem(INPUT, recipe.getSizedIngredient().count(), false);
         inventory.insertItem(OUTPUT, result.copy(), false);
         progress = 0;
+        // sync progress reset so client can stop animation immediately
+        if (this.level != null && !this.level.isClientSide) {
+            this.setChanged();
+            this.level.sendBlockUpdated(this.worldPosition, this.getBlockState(), this.getBlockState(), 3);
+        }
+        PacketDistributor.sendToAllPlayers(new CompressorCraftPayload(worldPosition));
+    }
+
+    public void spawnCraftCompleteParticles() {
+        ItemStack itemStack = inventory.getStackInSlot(INPUT);
+        if (this.level == null || itemStack.isEmpty()) {
+            return;
+        }
+
+        double x = this.worldPosition.getX() + 0.5;
+        double y = this.worldPosition.getY() + 0.25;
+        double z = this.worldPosition.getZ() + 0.5;
+
+        ItemParticleOption particleOption = new ItemParticleOption(ParticleTypes.ITEM, itemStack);
+
+        for (int i = 0; i < 10; i++) {
+            double velocityX = (this.level.random.nextDouble() - 0.5) * 0.3;
+            double velocityY = this.level.random.nextDouble() * 0.2;
+            double velocityZ = (this.level.random.nextDouble() - 0.5) * 0.3;
+
+            this.level.addParticle(particleOption, x, y, z, velocityX, velocityY, velocityZ);
+        }
     }
 
     public void drops() {

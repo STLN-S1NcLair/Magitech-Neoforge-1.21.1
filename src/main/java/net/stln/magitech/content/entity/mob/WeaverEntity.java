@@ -62,8 +62,8 @@ import java.util.List;
 
 public class WeaverEntity extends Monster implements GeoEntity, RangedAttackMob {
 
-    private static final int HARD_ATTACK_INTERVAL = 20;
-    private static final int NORMAL_ATTACK_INTERVAL = 40;
+    private static final int HARD_ATTACK_INTERVAL = 40;
+    private static final int NORMAL_ATTACK_INTERVAL = 80;
 
     private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
     private static final RawAnimation WALK = RawAnimation.begin().thenLoop("walk");
@@ -82,7 +82,7 @@ public class WeaverEntity extends Monster implements GeoEntity, RangedAttackMob 
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(4, new RangedSpellAttackGoal<>(this, 1.0, 15.0F, NORMAL_ATTACK_INTERVAL, HARD_ATTACK_INTERVAL)); // 魔法攻撃専用ゴール
+        this.goalSelector.addGoal(4, new RangedSpellAttackGoal<>(this, 0.5, 8.0F, NORMAL_ATTACK_INTERVAL, HARD_ATTACK_INTERVAL)); // 魔法攻撃専用ゴール
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0));
         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
@@ -108,14 +108,6 @@ public class WeaverEntity extends Monster implements GeoEntity, RangedAttackMob 
     protected void populateDefaultEquipmentSlots(RandomSource random, DifficultyInstance difficulty) {
         super.populateDefaultEquipmentSlots(random, difficulty);
         this.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
-    }
-
-    protected int getHardAttackInterval() {
-        return 20;
-    }
-
-    protected int getAttackInterval() {
-        return 40;
     }
 
     @Override

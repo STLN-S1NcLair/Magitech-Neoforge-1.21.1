@@ -79,32 +79,33 @@ public class FlamglideStriderItem extends TooltipArmorItem implements GeoItem {
                 Vec3 surface = CombatHelper.findSurface(level, position);
                 for (int i = 0; i < 10; i++) {
                     if (player.getRandom().nextBoolean()) {
-                        PointVFX.burst(level, position, Element.HOLLOW, SquareParticles::squareParticle, 1, 0.0F);
+                        PointVFX.burst(level, position, Element.EMBER, SquareParticles::squareParticle, 1, 0.1F);
                     } else {
-                        PointVFX.burst(level, position, Element.PHANTOM, SquareParticles::squareParticle, 1, 0.0F);
+                        PointVFX.burst(level, position, Element.FLOW, SquareParticles::squareParticle, 1, 0.1F);
                     }
                 }
                 for (int i = 0; i < position.distanceTo(surface) * 5; i++) {
                     Vec3 lerped = surface.lerp(position, i / position.distanceTo(surface) / 5);
                     if (player.getRandom().nextBoolean()) {
-                        PointVFX.burst(level, lerped, Element.HOLLOW, SquareParticles::squareParticle, 1, 0.0F);
+                        PointVFX.burst(level, lerped, Element.EMBER, SquareParticles::squareParticle, 1, 0.1F);
                     } else {
-                        PointVFX.burst(level, lerped, Element.PHANTOM, SquareParticles::squareParticle, 1, 0.0F);
+                        PointVFX.burst(level, lerped, Element.FLOW, SquareParticles::squareParticle, 1, 0.1F);
                     }
                 }
                 Vec3 up = new Vec3(0, 1, 0);
                 if (player.getRandom().nextBoolean()) {
-                    PointVFX.burst(level, position.add(0, 0.1F, 0), Element.HOLLOW, (lvl, p, elm) -> PresetHelper.bigger(PresetHelper.longer(RingParticles.ringReversedParticle(lvl, p, up, elm))), 1, 0.0F);
+                    PointVFX.burst(level, position.add(0, 0.1F, 0), Element.EMBER, (lvl, p, elm) -> PresetHelper.bigger(PresetHelper.longer(RingParticles.ringReversedParticle(lvl, p, up, elm))), 1, 0.0F);
                 } else {
-                    PointVFX.burst(level, position.add(0, 0.1F, 0), Element.PHANTOM, (lvl, p, elm) -> PresetHelper.bigger(PresetHelper.longer(RingParticles.ringReversedParticle(lvl, p, up, elm))), 1, 0.0F);
+                    PointVFX.burst(level, position.add(0, 0.1F, 0), Element.FLOW, (lvl, p, elm) -> PresetHelper.bigger(PresetHelper.longer(RingParticles.ringReversedParticle(lvl, p, up, elm))), 1, 0.0F);
                 }
                 for (int i = 0; i < 10; i++) {
                     for (int j = 0; j < 3; j++) {
                         TickScheduler.schedule(i + 1, () -> {
+                            Vec3 pos = player.position();
                             if (player.getRandom().nextBoolean()) {
-                                PointVFX.burst(level, position, Element.HOLLOW, SquareParticles::squareParticle, 1, 0.0F);
+                                PointVFX.burst(level, pos, Element.EMBER, SquareParticles::squareParticle, 1, 0.0F);
                             } else {
-                                PointVFX.burst(level, position, Element.PHANTOM, SquareParticles::squareParticle, 1, 0.0F);
+                                PointVFX.burst(level, pos, Element.FLOW, SquareParticles::squareParticle, 1, 0.0F);
                             }
                         }, level.isClientSide);
                     }

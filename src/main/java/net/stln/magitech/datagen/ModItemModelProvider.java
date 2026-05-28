@@ -104,9 +104,6 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ItemInit.ABYSSITE.get());
         basicItem(ItemInit.POLISHED_ABYSSITE.get());
         basicItem(ItemInit.SULFURIC_ACID_BATTERY.get());
-        basicItem(ItemInit.MANA_DEEXCITER_CORE.get());
-        basicItem(ItemInit.ASPECT_COLLECTOR.get());
-        basicItem(ItemInit.BOOTS_FRAME.get());
         basicItem(ItemInit.MANA_CELL.get());
         basicItem(ItemInit.QUARTZ_PLANT.get());
         basicItem(ItemInit.RESTRAINT_QUARTZ_DUST.get());

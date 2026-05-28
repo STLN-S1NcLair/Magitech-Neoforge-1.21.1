@@ -125,5 +125,10 @@ public class NetworkInit {
                 ItemCollectorCollectPayload.STREAM_CODEC,
                 ItemCollectorCollectPayLoadHandler::handleDataOnMainS2C
         );
+        registrar.playToClient(
+                CompressorCraftPayload.TYPE,
+                CompressorCraftPayload.STREAM_CODEC,
+                CompressorCraftPayLoadHandler::handleDataOnMainS2C
+        );
     }
 }

@@ -28,6 +28,7 @@ import net.stln.magitech.content.block.ManaCollectorBlock;
 import net.stln.magitech.content.entity.mana.mana_parcel.ManaParcelEntity;
 import net.stln.magitech.content.network.EntanglerEntanglePayload;
 import net.stln.magitech.content.sound.SoundInit;
+import net.stln.magitech.effect.sound.SoundHelper;
 import net.stln.magitech.helper.CombatHelper;
 import net.stln.magitech.helper.ItemHelper;
 import org.jetbrains.annotations.Nullable;
@@ -72,7 +73,7 @@ public class DetanglerBlockEntity extends BlockEntity {
                     }
                 }
                 manaParcel.setStack(stack);
-                level.playSound(null, pos, SoundInit.MANA_PARCEL.get(), SoundSource.BLOCKS, 0.3F, Mth.randomBetween(level.random, 0.5F, 1.0F));
+                SoundHelper.broadcastSound(level, pos.getCenter(), SoundInit.MANA_PARCEL.get(), SoundSource.BLOCKS);
                 PacketDistributor.sendToAllPlayers(new EntanglerEntanglePayload(pos));
             }
         }

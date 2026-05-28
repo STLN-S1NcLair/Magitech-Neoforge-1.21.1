@@ -177,21 +177,8 @@ public class ModBlockLootProvider extends BlockLootSubProvider {
         dropSelf(BlockInit.SCORCHED_SOIL.get());
         add(BlockInit.MISTALIA_PETALS.get(),
                 block -> createPetalsDrops(BlockInit.MISTALIA_PETALS.get()));
-        HolderLookup.RegistryLookup<Enchantment> registrylookup = this.registries.lookupOrThrow(Registries.ENCHANTMENT);
-        this.add(BlockInit.MANA_BERRY_BUSH.get(), block -> this.applyExplosionDecay(
-                block, LootTable.lootTable().withPool(LootPool.lootPool().when(
-                                        LootItemBlockStatePropertyCondition.hasBlockStateProperties(BlockInit.MANA_BERRY_BUSH.get())
-                                                .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(SweetBerryBushBlock.AGE, 3))
-                                ).add(LootItem.lootTableItem(ItemInit.MANA_BERRIES.get()))
-                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(2.0F, 3.0F)))
-                                .apply(ApplyBonusCount.addUniformBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE)))
-                ).withPool(LootPool.lootPool().when(
-                                        LootItemBlockStatePropertyCondition.hasBlockStateProperties(BlockInit.MANA_BERRY_BUSH.get())
-                                                .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(SweetBerryBushBlock.AGE, 2))
-                                ).add(LootItem.lootTableItem(ItemInit.MANA_BERRIES.get()))
-                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F)))
-                                .apply(ApplyBonusCount.addUniformBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE)))
-                )));
+        add(BlockInit.MANA_BERRY_BUSH.get(), block -> createBushDrops(BlockInit.MANA_BERRY_BUSH.get(), ItemInit.MANA_BERRIES.get()));
+        add(BlockInit.QUARTZ_PLANT_BUSH.get(), block -> createBushDrops(BlockInit.QUARTZ_PLANT_BUSH.get(), ItemInit.QUARTZ_PLANT.get()));
 
     }
 
@@ -201,6 +188,25 @@ public class ModBlockLootProvider extends BlockLootSubProvider {
                 this.applyExplosionDecay(pBlock, LootItem.lootTableItem(item)
                         .apply(SetItemCountFunction.setCount(UniformGenerator.between(minDrops, maxDrops)))
                         .apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE)))));
+    }
+
+    protected LootTable.Builder createBushDrops(Block block, Item item) {
+        HolderLookup.RegistryLookup<Enchantment> registrylookup = this.registries.lookupOrThrow(Registries.ENCHANTMENT);
+        return this.applyExplosionDecay(
+                block, LootTable.lootTable().withPool(LootPool.lootPool().when(
+                                        LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+                                                .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(SweetBerryBushBlock.AGE, 3))
+                                ).add(LootItem.lootTableItem(item))
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(2.0F, 3.0F)))
+                                .apply(ApplyBonusCount.addUniformBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE)))
+                ).withPool(LootPool.lootPool().when(
+                                        LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+                                                .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(SweetBerryBushBlock.AGE, 2))
+                                ).add(LootItem.lootTableItem(item))
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F)))
+                                .apply(ApplyBonusCount.addUniformBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE)))
+                )
+        );
     }
 
     @Override
