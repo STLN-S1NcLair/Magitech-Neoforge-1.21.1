@@ -30,7 +30,7 @@ public class CreativeTabInit {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Magitech.MOD_ID);
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MAGITECH_TAB = CREATIVE_MODE_TABS.register("magitech_tab", () -> CreativeModeTab.builder()
-            .title(Component.translatable("itemGroup.magitech.magitech"))
+            .title(Component.translatable("tab.magitech.magitech"))
             .icon(() -> ItemInit.GLISTENING_LEXICON.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
                 var registries = parameters.holders();
@@ -81,19 +81,10 @@ public class CreativeTabInit {
                 output.accept(ItemInit.FLUXIUM_INGOT.get());
                 output.accept(ItemInit.FLUXIUM_NUGGET.get());
                 output.accept(ItemInit.REDSTONE_CRYSTAL.get());
-                output.accept(ItemInit.POLISHED_REDSTONE_CRYSTAL.get());
                 output.accept(ItemInit.SULFUR.get());
                 output.accept(ItemInit.ENDER_METAL_INGOT.get());
                 output.accept(ItemInit.NETHER_STAR_BRILLIANCE.get());
                 output.accept(ItemInit.RADIANT_STEEL_INGOT.get());
-                output.accept(ItemInit.FRIGIDITE.get());
-                output.accept(ItemInit.POLISHED_FRIGIDITE.get());
-                output.accept(ItemInit.TRANSLUCIUM.get());
-                output.accept(ItemInit.POLISHED_TRANSLUCIUM.get());
-                output.accept(ItemInit.RESONITE.get());
-                output.accept(ItemInit.POLISHED_RESONITE.get());
-                output.accept(ItemInit.ABYSSITE.get());
-                output.accept(ItemInit.POLISHED_ABYSSITE.get());
                 output.accept(ItemInit.SULFURIC_ACID_BATTERY.get());
                 output.accept(ItemInit.MANA_CELL.get());
                 output.accept(ItemInit.QUARTZ_PLANT.get());
@@ -125,7 +116,7 @@ public class CreativeTabInit {
             }).build());
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MAGITECH_BLOCK_TAB = CREATIVE_MODE_TABS.register("magitech_block_tab", () -> CreativeModeTab.builder()
-            .title(Component.translatable("itemGroup.magitech.magitech_block"))
+            .title(Component.translatable("tab.magitech.magitech_block"))
             .icon(() -> BlockInit.ALCHECRYSITE_ITEM.get().getDefaultInstance())
             .withTabsBefore(MAGITECH_TAB.getKey())
             .displayItems((parameters, output) -> {
@@ -134,31 +125,6 @@ public class CreativeTabInit {
                 output.accept(BlockInit.REPAIRING_WORKBENCH_ITEM.get());
                 output.accept(BlockInit.UPGRADE_WORKBENCH_ITEM.get());
                 output.accept(BlockInit.TOOL_HANGER_ITEM.get());
-                output.accept(BlockInit.ZARDIUS_CRUCIBLE_ITEM.get());
-                output.accept(BlockInit.PEDESTAL_PYLON_ITEM.get());
-                output.accept(BlockInit.ALCHEMETRIC_PYLON_ITEM.get());
-                output.accept(BlockInit.INFUSER_ITEM.get());
-                output.accept(BlockInit.MANA_NODE_ITEM.get());
-                output.accept(BlockInit.MANA_RELAY_ITEM.get());
-                output.accept(BlockInit.MANA_VESSEL_ITEM.get());
-                output.accept(BlockInit.MANA_STRANDER_ITEM.get());
-                output.accept(BlockInit.MANA_RECEIVER_ITEM.get());
-                output.accept(BlockInit.MANA_COLLECTOR_ITEM.get());
-                output.accept(BlockInit.ENTANGLER_ITEM.get());
-                output.accept(BlockInit.DETANGLER_ITEM.get());
-                output.accept(BlockInit.ITEM_COLLECTOR_ITEM.get());
-                output.accept(BlockInit.EMBER_SMELTER_ITEM.get());
-                output.accept(BlockInit.CRUSHER_ITEM.get());
-                output.accept(BlockInit.COMPRESSOR_ITEM.get());
-                output.accept(BlockInit.MANA_JUNCTION_ITEM.get());
-                output.accept(BlockInit.INFUSION_ALTAR_ITEM.get());
-                output.accept(BlockInit.ENHANCED_MANA_NODE_ITEM.get());
-                output.accept(BlockInit.ENHANCED_MANA_RELAY_ITEM.get());
-                output.accept(BlockInit.ENHANCED_MANA_VESSEL_ITEM.get());
-                output.accept(BlockInit.MANA_PUMP_ITEM.get());
-                output.accept(BlockInit.CREATIVE_MANA_SOURCE_ITEM.get());
-                output.accept(BlockInit.CREATIVE_MANA_SINK_ITEM.get());
-                output.accept(BlockInit.TRAP_HATCH_ITEM.get());
                 output.accept(BlockInit.FLUORITE_ORE_ITEM.get());
                 output.accept(BlockInit.DEEPSLATE_FLUORITE_ORE_ITEM.get());
                 output.accept(BlockInit.ZINC_ORE_ITEM.get());
@@ -247,10 +213,42 @@ public class CreativeTabInit {
                 output.accept(BlockInit.SCORCHED_SOIL_ITEM.get());
             }).build());
 
-    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MAGITECH_TOOL_TAB = CREATIVE_MODE_TABS.register("magitech_tool_tab", () -> CreativeModeTab.builder()
-            .title(Component.translatable("itemGroup.magitech.magitech_tool"))
-            .icon(() -> SynthesisedToolGenerator.generateTool(ToolTypeInit.LIGHT_SWORD.asToolType(), MaterialInit.WOOD, MaterialInit.FLUORITE, MaterialInit.DEEPSLATE, MaterialInit.GOLD))
+    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MAGITECH_MACHINE_TAB = CREATIVE_MODE_TABS.register("magitech_machine_tab", () -> CreativeModeTab.builder()
+            .title(Component.translatable("tab.magitech.magitech_machine"))
+            .icon(() -> BlockInit.INFUSION_ALTAR_ITEM.get().getDefaultInstance())
             .withTabsBefore(MAGITECH_BLOCK_TAB.getKey())
+            .displayItems((parameters, output) -> {
+                output.accept(BlockInit.ZARDIUS_CRUCIBLE_ITEM.get());
+                output.accept(BlockInit.PEDESTAL_PYLON_ITEM.get());
+                output.accept(BlockInit.ALCHEMETRIC_PYLON_ITEM.get());
+                output.accept(BlockInit.INFUSER_ITEM.get());
+                output.accept(BlockInit.MANA_NODE_ITEM.get());
+                output.accept(BlockInit.MANA_RELAY_ITEM.get());
+                output.accept(BlockInit.MANA_VESSEL_ITEM.get());
+                output.accept(BlockInit.MANA_STRANDER_ITEM.get());
+                output.accept(BlockInit.MANA_RECEIVER_ITEM.get());
+                output.accept(BlockInit.MANA_COLLECTOR_ITEM.get());
+                output.accept(BlockInit.ENTANGLER_ITEM.get());
+                output.accept(BlockInit.DETANGLER_ITEM.get());
+                output.accept(BlockInit.ITEM_COLLECTOR_ITEM.get());
+                output.accept(BlockInit.CRUSHER_ITEM.get());
+                output.accept(BlockInit.COMPRESSOR_ITEM.get());
+                output.accept(BlockInit.EMBER_SMELTER_ITEM.get());
+                output.accept(BlockInit.MANA_JUNCTION_ITEM.get());
+                output.accept(BlockInit.INFUSION_ALTAR_ITEM.get());
+                output.accept(BlockInit.ENHANCED_MANA_NODE_ITEM.get());
+                output.accept(BlockInit.ENHANCED_MANA_RELAY_ITEM.get());
+                output.accept(BlockInit.ENHANCED_MANA_VESSEL_ITEM.get());
+                output.accept(BlockInit.MANA_PUMP_ITEM.get());
+                output.accept(BlockInit.CREATIVE_MANA_SOURCE_ITEM.get());
+                output.accept(BlockInit.CREATIVE_MANA_SINK_ITEM.get());
+                output.accept(BlockInit.TRAP_HATCH_ITEM.get());
+            }).build());
+
+    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MAGITECH_TOOL_TAB = CREATIVE_MODE_TABS.register("magitech_tool_tab", () -> CreativeModeTab.builder()
+            .title(Component.translatable("tab.magitech.magitech_tool"))
+            .icon(() -> SynthesisedToolGenerator.generateTool(ToolTypeInit.LIGHT_SWORD.asToolType(), MaterialInit.WOOD, MaterialInit.FLUORITE, MaterialInit.DEEPSLATE, MaterialInit.GOLD))
+            .withTabsBefore(MAGITECH_MACHINE_TAB.getKey())
             .displayItems((parameters, output) -> {
                 for (ToolTypeLike type : RegistryHelper.registeredToolTypes()) {
                     for (ToolMaterialLike material : RegistryHelper.registeredToolMaterials()) {
@@ -261,7 +259,7 @@ public class CreativeTabInit {
 
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MAGITECH_PART_TAB = CREATIVE_MODE_TABS.register("magitech_part_tab", () -> CreativeModeTab.builder()
-            .title(Component.translatable("itemGroup.magitech.magitech_part"))
+            .title(Component.translatable("tab.magitech.magitech_part"))
             .icon(() -> SynthesisedToolGenerator.generatePart(ToolPartInit.LIGHT_BLADE.asToolPart(), MaterialInit.FLUORITE))
             .withTabsBefore(MAGITECH_TOOL_TAB.getKey())
             .displayItems((parameters, output) -> {
@@ -274,7 +272,7 @@ public class CreativeTabInit {
 
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MAGITECH_SPELL_TAB = CREATIVE_MODE_TABS.register("magitech_spell_tab", () -> CreativeModeTab.builder()
-            .title(Component.translatable("itemGroup.magitech.magitech_spell"))
+            .title(Component.translatable("tab.magitech.magitech_spell"))
             .icon(() -> ThreadboundGenerator.generateThreadPage(SpellInit.ENERCRUX))
             .withTabsBefore(MAGITECH_PART_TAB.getKey())
             .displayItems((parameters, output) -> {
@@ -334,6 +332,31 @@ public class CreativeTabInit {
 
                 output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.ENERCRUX));
 
+            }).build());
+
+
+    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MAGITECH_TEST_TAB = CREATIVE_MODE_TABS.register("magitech_test_tab", () -> CreativeModeTab.builder()
+            .title(Component.translatable("tab.magitech.magitech_test"))
+            .icon(() -> ItemInit.POLISHED_ARCEUM.get().getDefaultInstance())
+            .withTabsBefore(MAGITECH_SPELL_TAB.getKey())
+            .displayItems((parameters, output) -> {
+                output.accept(ItemInit.POLISHED_REDSTONE_CRYSTAL.get());
+                output.accept(ItemInit.VULCANITE.get());
+                output.accept(ItemInit.POLISHED_VULCANITE.get());
+                output.accept(ItemInit.FRIGIDITE.get());
+                output.accept(ItemInit.POLISHED_FRIGIDITE.get());
+                output.accept(ItemInit.FULMINITE.get());
+                output.accept(ItemInit.POLISHED_FULMINITE.get());
+                output.accept(ItemInit.TRANSLUCIUM.get());
+                output.accept(ItemInit.POLISHED_TRANSLUCIUM.get());
+                output.accept(ItemInit.RESONITE.get());
+                output.accept(ItemInit.POLISHED_RESONITE.get());
+                output.accept(ItemInit.ARCEUM.get());
+                output.accept(ItemInit.POLISHED_ARCEUM.get());
+                output.accept(ItemInit.TERRADITE.get());
+                output.accept(ItemInit.POLISHED_TERRADITE.get());
+                output.accept(ItemInit.ABYSSITE.get());
+                output.accept(ItemInit.POLISHED_ABYSSITE.get());
             }).build());
 
     public static void registerCreativeTabs(IEventBus eventBus) {

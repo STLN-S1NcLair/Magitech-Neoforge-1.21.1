@@ -1,4 +1,4 @@
-// 1.21.1	2026-05-27T19:29:10.9209565	Loot Tables
+// 1.21.1	2026-05-29T23:02:41.8771125	Loot Tables
 d5c7ba896003b8f86835f7808a6a42840e7bb806 data/magitech/loot_table/blocks/alchecrysite.json
 0ec67ee2f0a83abcc8fc58cd95f43106109fca3e data/magitech/loot_table/blocks/alchecrysite_bricks.json
 f0dfbc1457dc98d193c135916b33deca6e65c407 data/magitech/loot_table/blocks/alchecrysite_brick_slab.json
@@ -121,4 +121,4 @@ ab2d8c1e72df4ecef6635d8d61d1618453dc30bf data/magitech/loot_table/blocks/vesperi
 9cb6efc6a72ba1044a17b2d3c8f66339f155e80d data/magitech/loot_table/blocks/vesperite_wall.json
 ecaa5a057a4f74638d467635af23e62f127a6fb9 data/magitech/loot_table/blocks/zardius_crucible.json
 088052d24a41a18b3070011d5add8d871eb32988 data/magitech/loot_table/blocks/zinc_ore.json
-17f705bf740c6eefbde3a72401926a7663046d38 data/magitech/loot_table/entities/weaver.json
+64ef8053b50fe3424d904f2d01e15c5ccd4a72a1 data/magitech/loot_table/entities/weaver.json

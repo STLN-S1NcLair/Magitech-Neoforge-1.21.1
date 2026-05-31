@@ -3,6 +3,35 @@
   "pools": [
     {
       "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "magitech:aggregated_luminis"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "magitech:aggregated_fluxia"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "magitech:aggregated_noctis"
+        }
+      ],
+      "functions": [
+        {
+          "count": {
+            "type": "minecraft:uniform",
+            "max": 1.0,
+            "min": 0.0
+          },
+          "enchantment": "minecraft:looting",
+          "function": "minecraft:enchanted_count_increase"
+        }
+      ],
+      "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 0.0,
       "conditions": [
         {
           "condition": "minecraft:time_check",

@@ -9,12 +9,6 @@
     },
     {
       "ingredient": {
-      "tag": "c:gems/mana_charged_fluorite"
-      },
-      "count": 1
-    },
-    {
-      "ingredient": {
       "tag": "c:foods/raw_meat"
       },
       "count": 1

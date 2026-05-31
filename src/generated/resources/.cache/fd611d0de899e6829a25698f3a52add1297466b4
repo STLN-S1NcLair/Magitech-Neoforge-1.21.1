@@ -1,4 +1,4 @@
-// 1.21.1	2026-05-25T19:47:54.7042056	Item Models: magitech
+// 1.21.1	2026-05-30T12:14:10.2190741	Item Models: magitech
 b6e580466ba37335919256eafa6aebae2f80e029 assets/magitech/models/item/abyssite.json
 274500810da06625023fb41abd2b7f8c7faa471e assets/magitech/models/item/aegis_weave.json
 cad688c75659b5b6fd8b036274e31ffaa27cf17c assets/magitech/models/item/aether_lifter.json
@@ -55,8 +55,8 @@ f86b4bafabc55abbf9333f1f36b27856f7b5f5f8 assets/magitech/models/item/amethyst_wa
 02d9f89bb97900bb7fdffb47162d45018e7b939b assets/magitech/models/item/amethyst_wand_tool_binding.json
 a6c4b9af033f131f88a571f0f920e2d5ef5bd456 assets/magitech/models/item/applied_arcane_circuitry.json
 9eaa5ec21b464995177f33181f406530e74194ca assets/magitech/models/item/arcane_engineering_compendium.json
+5a24a6e999120ac0ff0a87935a6e0ba0225a7321 assets/magitech/models/item/arceum.json
 280f1acb853bf031ae343fa48b94f696a12a29b2 assets/magitech/models/item/ardor_ring.json
-dda2f14f6bccfc11c9536f4feb138f5b0f881c3f assets/magitech/models/item/aspect_collector.json
 d58a702f080629d78abb887db8d0726a4089b5f6 assets/magitech/models/item/axe.json
 a836b008206f62cd013361d18bb467423fc75cc6 assets/magitech/models/item/bone_axe_heavy_handle.json
 1540f059de423042bb16e0da29f8bd1350fbd768 assets/magitech/models/item/bone_axe_light_blade.json
@@ -104,7 +104,6 @@ f85853a235fdc387dda45b732e997ec7c36d7716 assets/magitech/models/item/bone_tool_b
 c2b8408883571b3e1308bf1ef234865b154edb58 assets/magitech/models/item/bone_wand_conductor.json
 2501871cec67fef508367ea864acfbe0171724ad assets/magitech/models/item/bone_wand_light_handle.json
 73483ef87b11be0f336f732d2c41d5c6ae77108a assets/magitech/models/item/bone_wand_tool_binding.json
-6cab8fb421cb50d85597fc6e5a4f18a47ca99008 assets/magitech/models/item/boots_frame.json
 146aa0fa1b78d2de2b12e18e18edd8f133e6fb2c assets/magitech/models/item/calcite_axe_heavy_handle.json
 f1fdf4a0e2177a205ce4f0b3cb64d47f8cdcfd64 assets/magitech/models/item/calcite_axe_light_blade.json
 fa177f42d77c00f69d3dc945ef46085dea67c9de assets/magitech/models/item/calcite_axe_strike_head.json
@@ -552,6 +551,7 @@ a1f85768cae8d6e96ec5a3681ebcf14b9b771c05 assets/magitech/models/item/fluxium_ing
 dab9e46ef4a4ca74f98949203b1caf84f4bca132 assets/magitech/models/item/fluxium_nugget.json
 1a7111648341b164dfcb603158f4513177893e1c assets/magitech/models/item/fluxium_ring.json
 06812b6426c4411c12964bc47e1f13fbc6daaf5f assets/magitech/models/item/frigidite.json
+d17a0fb2d36199610822c2014b2a4afc4a8a4558 assets/magitech/models/item/fulminite.json
 023881733e5141be24eb2b9016d6fb270798301a assets/magitech/models/item/glace_crystal.json
 1c974855584fda97c98db21b1ac2e985d82ab855 assets/magitech/models/item/glace_potion_flask.json
 03876184a3efd288b070d9bf2477c583b8811d12 assets/magitech/models/item/glass_axe_heavy_handle.json
@@ -803,7 +803,6 @@ bfcc7eee2f1c127af996ce81c2c1e8d465c3f85d assets/magitech/models/item/light_sword
 6e77e448e0645d8609c0ee3cec0643102e5978da assets/magitech/models/item/mana_berries.json
 482c9002a21b48ee329f7fd81be350cd8d4254da assets/magitech/models/item/mana_cell.json
 a4eb262981514e64121967e4cf98ed9a9af90048 assets/magitech/models/item/mana_charged_fluorite.json
-d0392a2314934b78d703aa5909e2d2a944991a38 assets/magitech/models/item/mana_deexciter_core.json
 11cba26ffb258eaabe01e6fd2f42b76b4d629f2b assets/magitech/models/item/mana_pie.json
 02bc5ab1c6c07a96c7b78358216eb2956845873b assets/magitech/models/item/mana_potion_flask.json
 68cebe46cb739b3442f6e599bbbc31b56826e93c assets/magitech/models/item/mana_ring.json
@@ -912,10 +911,14 @@ af1bf328df5b46836ad6cf20a47b92240b62fc90 assets/magitech/models/item/netherite_w
 55b055c96660eb069c190e23feaa360782f360e6 assets/magitech/models/item/pickaxe.json
 5387b866a14803c25e0bf38ff7ed120da4752d0a assets/magitech/models/item/plate.json
 af3524eebbef5cac04a9b5abe546e67a9c5d0475 assets/magitech/models/item/polished_abyssite.json
+dc447b9b2ed0f51cd0db9f84cf4fa181e27c5437 assets/magitech/models/item/polished_arceum.json
 45453f009870bd3f0539ad9b02889a231c7392ed assets/magitech/models/item/polished_frigidite.json
+64c101e4f5e1fa19b4a502064739f1f6ca45db32 assets/magitech/models/item/polished_fulminite.json
 365d456bfeaaee8a84335b3b91381a3ecac132fb assets/magitech/models/item/polished_redstone_crystal.json
 0a48a48ba38ec93c48fabd0bffcbd17eb8afebe2 assets/magitech/models/item/polished_resonite.json
+e3dcc5a1cd96929b1519123be4aafa8b7d81eb38 assets/magitech/models/item/polished_terradite.json
 9a5ac0234607469d23256db1204e994b6b9939a1 assets/magitech/models/item/polished_translucium.json
+829350c11a54c27dae774ed7e1aca9d385a171d2 assets/magitech/models/item/polished_vulcanite.json
 e513813a0c580fb14d39bb17de450174416cc39f assets/magitech/models/item/protection_ring.json
 53ea05ac50242b542b74cfbfcd9232ab049a25e2 assets/magitech/models/item/quartz_axe_heavy_handle.json
 f6e7b14b48884c770df02e82d7f6b7811a7fcc97 assets/magitech/models/item/quartz_axe_light_blade.json
@@ -1257,6 +1260,7 @@ c096bfde976a5cb00298f1d1ace282e4e3ab8635 assets/magitech/models/item/sulfuric_ac
 3714fb5791922beadedd11cdb04ca88b55ef77f0 assets/magitech/models/item/sulfuric_acid_flask.json
 353a3449907ac748e5358b9b401cbbfceb0dd3bb assets/magitech/models/item/surge_crystal.json
 45ce79873cfe34068dd61ee6068418e321f82c5f assets/magitech/models/item/surge_potion_flask.json
+eb4c893d45df49972464a5b3bca37a17241720f5 assets/magitech/models/item/terradite.json
 762ee7528d47862f3186e1f64d86996ffc9f3c07 assets/magitech/models/item/the_fire_that_thinks.json
 29cf3d4177ee68509a84bfd074170834dddaa1aa assets/magitech/models/item/tool_belt.json
 645380594aa5eb396bdf1d3a0614826796e49809 assets/magitech/models/item/tool_binding.json
@@ -1312,6 +1316,7 @@ be646cc4dbac784487d6c0025cab88810ba2202f assets/magitech/models/item/tourmaline_
 978c96b1da9a16699143ef3c8cefee554180b3d9 assets/magitech/models/item/tremor_potion_flask.json
 f70b913bfd70c996e09c2850397ee83976d75e2b assets/magitech/models/item/umbral_ring.json
 09ad62b86a2b3b0f1ef54a5dcbca8b075262e94a assets/magitech/models/item/updraft_ring.json
+45aa135afe57b26d4927aceaa285cf19d30aa22c assets/magitech/models/item/vulcanite.json
 2d3fcc52a410e14121563efbeb84aff1ada184da assets/magitech/models/item/wand.json
 8871fdb445767d40bdb9f3bbad6be4271550e39b assets/magitech/models/item/water_flask.json
 f91d96d21b633763bd12a34e4069eb50b5d1540e assets/magitech/models/item/wood_axe_heavy_handle.json

@@ -77,7 +77,7 @@ public class InfusionRecipeCategory extends AbstractMagitechRecipeCategory<Recip
             guiGraphics.blit(WIDGETS, x, y, 0, 0, 18, 20);
         }
 
-        int height = (int) ((double) mana / GAUGE_MAX_MANA * 72);
+        int height = (int) (Math.min((double) mana / GAUGE_MAX_MANA * 72, 72));
         guiGraphics.blit(TEXTURE, 96, 40 + 72 - height, 128, 0, 16, height);
     }
 

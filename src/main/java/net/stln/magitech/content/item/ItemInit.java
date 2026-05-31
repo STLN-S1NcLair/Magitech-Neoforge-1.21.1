@@ -241,14 +241,6 @@ public class ItemInit {
     public static final DeferredItem<Item> ENDER_METAL_INGOT = ITEMS.registerItem("ender_metal_ingot", TooltipTextItem::new);
     public static final DeferredItem<Item> NETHER_STAR_BRILLIANCE = ITEMS.registerItem("nether_star_brilliance", TooltipTextItem::new);
     public static final DeferredItem<Item> RADIANT_STEEL_INGOT = ITEMS.registerItem("radiant_steel_ingot", TooltipTextItem::new);
-    public static final DeferredItem<Item> FRIGIDITE = ITEMS.registerItem("frigidite", TooltipTextItem::new);
-    public static final DeferredItem<Item> POLISHED_FRIGIDITE = ITEMS.registerItem("polished_frigidite", TooltipTextItem::new);
-    public static final DeferredItem<Item> TRANSLUCIUM = ITEMS.registerItem("translucium", TooltipTextItem::new);
-    public static final DeferredItem<Item> POLISHED_TRANSLUCIUM = ITEMS.registerItem("polished_translucium", TooltipTextItem::new);
-    public static final DeferredItem<Item> RESONITE = ITEMS.registerItem("resonite", TooltipTextItem::new);
-    public static final DeferredItem<Item> POLISHED_RESONITE = ITEMS.registerItem("polished_resonite", TooltipTextItem::new);
-    public static final DeferredItem<Item> ABYSSITE = ITEMS.registerItem("abyssite", TooltipTextItem::new);
-    public static final DeferredItem<Item> POLISHED_ABYSSITE = ITEMS.registerItem("polished_abyssite", TooltipTextItem::new);
     public static final DeferredItem<Item> SULFURIC_ACID_BATTERY = ITEMS.registerItem("sulfuric_acid_battery", TooltipTextItem::new);
 
     public static final DeferredItem<Item> MANA_CELL = ITEMS.registerItem("mana_cell", properties -> new ManaContainerItem(new Item.Properties().stacksTo(1)));
@@ -295,6 +287,23 @@ public class ItemInit {
     public static final DeferredItem<Item> MYSTWOOD_BOAT = ITEMS.registerItem("mystwood_boat", properties -> new TooltipTextBoatItem(false, BoatTypeEnumExtension.MYSTWOOD_BOAT_TYPE.getValue(), properties));
 
     public static final DeferredItem<Item> MYSTWOOD_CHEST_BOAT = ITEMS.registerItem("mystwood_chest_boat", properties -> new TooltipTextBoatItem(true, BoatTypeEnumExtension.MYSTWOOD_BOAT_TYPE.getValue(), properties));
+
+    public static final DeferredItem<Item> VULCANITE = ITEMS.registerItem("vulcanite", TooltipTextItem::new);
+    public static final DeferredItem<Item> POLISHED_VULCANITE = ITEMS.registerItem("polished_vulcanite", TooltipTextItem::new);
+    public static final DeferredItem<Item> FRIGIDITE = ITEMS.registerItem("frigidite", TooltipTextItem::new);
+    public static final DeferredItem<Item> POLISHED_FRIGIDITE = ITEMS.registerItem("polished_frigidite", TooltipTextItem::new);
+    public static final DeferredItem<Item> FULMINITE = ITEMS.registerItem("fulminite", TooltipTextItem::new);
+    public static final DeferredItem<Item> POLISHED_FULMINITE = ITEMS.registerItem("polished_fulminite", TooltipTextItem::new);
+    public static final DeferredItem<Item> TRANSLUCIUM = ITEMS.registerItem("translucium", TooltipTextItem::new);
+    public static final DeferredItem<Item> POLISHED_TRANSLUCIUM = ITEMS.registerItem("polished_translucium", TooltipTextItem::new);
+    public static final DeferredItem<Item> RESONITE = ITEMS.registerItem("resonite", TooltipTextItem::new);
+    public static final DeferredItem<Item> POLISHED_RESONITE = ITEMS.registerItem("polished_resonite", TooltipTextItem::new);
+    public static final DeferredItem<Item> ARCEUM = ITEMS.registerItem("arceum", TooltipTextItem::new);
+    public static final DeferredItem<Item> POLISHED_ARCEUM = ITEMS.registerItem("polished_arceum", TooltipTextItem::new);
+    public static final DeferredItem<Item> TERRADITE = ITEMS.registerItem("terradite", TooltipTextItem::new);
+    public static final DeferredItem<Item> POLISHED_TERRADITE = ITEMS.registerItem("polished_terradite", TooltipTextItem::new);
+    public static final DeferredItem<Item> ABYSSITE = ITEMS.registerItem("abyssite", TooltipTextItem::new);
+    public static final DeferredItem<Item> POLISHED_ABYSSITE = ITEMS.registerItem("polished_abyssite", TooltipTextItem::new);
 
     public static void registerItems(IEventBus eventBus) {
         Magitech.LOGGER.info("Registering Items for" + Magitech.MOD_ID);

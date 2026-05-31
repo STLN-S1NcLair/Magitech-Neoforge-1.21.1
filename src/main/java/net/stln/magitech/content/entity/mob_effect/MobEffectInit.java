@@ -24,28 +24,28 @@ public class MobEffectInit {
             .addAttributeModifier(AttributeInit.MANA_REGEN, id, 2, AttributeModifier.Operation.ADD_VALUE));
 
     public static final DeferredHolder<MobEffect, MobEffect> EMBER_POWER = STATUS_EFFECTS.register("ember_power", id -> new CustomMobEffect(MobEffectCategory.BENEFICIAL, Element.EMBER.getTextColor().getRGB())
-            .addAttributeModifier(AttributeInit.EMBER_SPELL_POWER, id, 0.1, AttributeModifier.Operation.ADD_VALUE));
+            .addAttributeModifier(AttributeInit.EMBER_SPELL_POWER, id, 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
 
     public static final DeferredHolder<MobEffect, MobEffect> GLACE_POWER = STATUS_EFFECTS.register("glace_power", id -> new CustomMobEffect(MobEffectCategory.BENEFICIAL, Element.GLACE.getTextColor().getRGB())
-            .addAttributeModifier(AttributeInit.GLACE_SPELL_POWER, id, 0.1, AttributeModifier.Operation.ADD_VALUE));
+            .addAttributeModifier(AttributeInit.GLACE_SPELL_POWER, id, 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
 
     public static final DeferredHolder<MobEffect, MobEffect> SURGE_POWER = STATUS_EFFECTS.register("surge_power", id -> new CustomMobEffect(MobEffectCategory.BENEFICIAL, Element.SURGE.getTextColor().getRGB())
-            .addAttributeModifier(AttributeInit.SURGE_SPELL_POWER, id, 0.1, AttributeModifier.Operation.ADD_VALUE));
+            .addAttributeModifier(AttributeInit.SURGE_SPELL_POWER, id, 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
 
     public static final DeferredHolder<MobEffect, MobEffect> PHANTOM_POWER = STATUS_EFFECTS.register("phantom_power", id -> new CustomMobEffect(MobEffectCategory.BENEFICIAL, Element.PHANTOM.getTextColor().getRGB())
-            .addAttributeModifier(AttributeInit.PHANTOM_SPELL_POWER, id, 0.1, AttributeModifier.Operation.ADD_VALUE));
+            .addAttributeModifier(AttributeInit.PHANTOM_SPELL_POWER, id, 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
 
     public static final DeferredHolder<MobEffect, MobEffect> TREMOR_POWER = STATUS_EFFECTS.register("tremor_power", id -> new CustomMobEffect(MobEffectCategory.BENEFICIAL, Element.TREMOR.getTextColor().getRGB())
-            .addAttributeModifier(AttributeInit.TREMOR_SPELL_POWER, id, 0.1, AttributeModifier.Operation.ADD_VALUE));
+            .addAttributeModifier(AttributeInit.TREMOR_SPELL_POWER, id, 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
 
     public static final DeferredHolder<MobEffect, MobEffect> MAGIC_POWER = STATUS_EFFECTS.register("magic_power", id -> new CustomMobEffect(MobEffectCategory.BENEFICIAL, Element.MAGIC.getTextColor().getRGB())
-            .addAttributeModifier(AttributeInit.MAGIC_SPELL_POWER, id, 0.1, AttributeModifier.Operation.ADD_VALUE));
+            .addAttributeModifier(AttributeInit.MAGIC_SPELL_POWER, id, 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
 
     public static final DeferredHolder<MobEffect, MobEffect> FLOW_POWER = STATUS_EFFECTS.register("flow_power", id -> new CustomMobEffect(MobEffectCategory.BENEFICIAL, Element.FLOW.getTextColor().getRGB())
-            .addAttributeModifier(AttributeInit.FLOW_SPELL_POWER, id, 0.1, AttributeModifier.Operation.ADD_VALUE));
+            .addAttributeModifier(AttributeInit.FLOW_SPELL_POWER, id, 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
 
     public static final DeferredHolder<MobEffect, MobEffect> HOLLOW_POWER = STATUS_EFFECTS.register("hollow_power", id -> new CustomMobEffect(MobEffectCategory.BENEFICIAL, Element.HOLLOW.getTextColor().getRGB())
-            .addAttributeModifier(AttributeInit.HOLLOW_SPELL_POWER, id, 0.1, AttributeModifier.Operation.ADD_VALUE));
+            .addAttributeModifier(AttributeInit.HOLLOW_SPELL_POWER, id, 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
 
     public static final DeferredHolder<MobEffect, MobEffect> LEAP_STEP = STATUS_EFFECTS.register("leap_step", id -> new CustomMobEffect(MobEffectCategory.BENEFICIAL, 0xF0F0FF)
             .addAttributeModifier(Attributes.MOVEMENT_SPEED, id, 0.5, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)

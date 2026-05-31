@@ -33,8 +33,8 @@
     }
   ],
   "fluid_ingredient": {
-    "fluid": "minecraft:water",
-    "amount": 500
+    "fluid": "magitech:hollow_potion",
+    "amount": 250
   },
   "result": {
     "id": "magitech:ender_metal_ingot",
