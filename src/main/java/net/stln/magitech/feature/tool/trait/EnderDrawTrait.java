@@ -27,21 +27,20 @@ public class EnderDrawTrait extends Trait {
             float range = traitLevel * 8;
             Vec3 rangeVec = new Vec3(range, range, range);
             List<Entity> list = level.getEntities(player, new AABB(player.getPosition(0F).subtract(rangeVec), player.getPosition(0F).add(rangeVec)), entity -> entity instanceof ItemEntity);
-            if (!list.isEmpty()) {
-                Entity item = null;
-                for (Entity entity : list) {
-                    if (entity.getPosition(0F).distanceTo(player.getPosition(0F)) > 0.5) {
-                        item = entity;
-                    }
+            Entity item = null;
+            for (Entity entity : list.reversed()) {
+                if (level.getNearestPlayer(entity, 0.5) == null) {
+                    item = entity;
+                    break;
                 }
-                if (item != null) {
-                    Vec3 playerPos = new Vec3(player.getX(), player.getY(0.5F), player.getZ());
-                    Vec3 itemPos = new Vec3(item.getX(), item.getY(0.5F), item.getZ());
-                    LineVFX.destinationLinedColor(level, itemPos, playerPos, getPrimary(), getSecondary(), SquareParticles::squareParticleColored, Section.cover(), 10, 0.2F, 0.0F);
-                    level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_TELEPORT, SoundSource.PLAYERS);
-                    item.setPos(player.getPosition(0F));
-                    item.setDeltaMovement(0, 0, 0);
-                }
+            }
+            if (item != null) {
+                Vec3 playerPos = new Vec3(player.getX(), player.getY(0.5F), player.getZ());
+                Vec3 itemPos = new Vec3(item.getX(), item.getY(0.5F), item.getZ());
+                LineVFX.destinationLinedColor(level, itemPos, playerPos, getPrimary(), getSecondary(), SquareParticles::squareParticleColored, Section.cover(), 10, 0.2F, 0.0F);
+                level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_TELEPORT, SoundSource.PLAYERS);
+                item.setPos(player.getPosition(0F));
+                item.setDeltaMovement(0, 0, 0);
             }
         }
     }
