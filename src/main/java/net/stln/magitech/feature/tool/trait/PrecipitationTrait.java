@@ -36,7 +36,7 @@ public class PrecipitationTrait extends Trait {
 
     @Override
     public boolean effectEnabled(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties) {
-        return player.isInWater() || level.isRainingAt(player.blockPosition());
+        return player.isInWaterOrRain();
     }
 
     @Override
