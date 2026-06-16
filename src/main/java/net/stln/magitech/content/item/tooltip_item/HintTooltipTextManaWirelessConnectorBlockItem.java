@@ -4,16 +4,13 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.block.Block;
-import net.stln.magitech.content.block.ManaContainerBlock;
 import net.stln.magitech.core.api.mana.flow.network.connectable.IManaWirelessWaypoint;
-import net.stln.magitech.helper.EnergyFormatter;
-import net.stln.magitech.helper.ManaContainerHelper;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class TooltipTextManaWirelessConnectorBlockItem extends TooltipTextBlockItem {
-    public TooltipTextManaWirelessConnectorBlockItem(Block block, Properties properties) {
+public class HintTooltipTextManaWirelessConnectorBlockItem extends HintTooltipTextBlockItem {
+    public HintTooltipTextManaWirelessConnectorBlockItem(Block block, Properties properties) {
         super(block, properties);
     }
 

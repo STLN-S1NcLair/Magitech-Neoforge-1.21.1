@@ -3,6 +3,7 @@ package net.stln.magitech.feature.magic.spell;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.stln.magitech.Magitech;
@@ -23,7 +24,9 @@ public abstract class DamageSpell extends Spell {
             if (target instanceof ItemEntity item) {
                 SpellHelper.applyEffectToItem(level, this, item);
             }
-            applyEffectToTarget(level, caster, target);
+            if (!(caster instanceof Player && target instanceof Player ) || level.getServer().isPvpAllowed()) {
+                applyEffectToTarget(level, caster, target);
+            }
         }
     }
 

@@ -24,7 +24,7 @@ public class SpraySpell extends DamageSpell {
             Vec3 forward = Vec3.directionFromRotation(caster.getRotationVector());
             Vec3 bodyPos = CombatHelper.getBodyPos(caster);
             Vec3 offset = bodyPos.add(forward.scale(1));
-            Set<Entity> attackList = SpellHelper.getTargets(level, caster);
+            Set<Entity> attackList = SpellHelper.getSprayTargets(level, caster);
             for (Entity target : attackList) {
                 Vec3 targetBodyPos = CombatHelper.getBodyPos(target);
                 if (!SpellHelper.canSee(level, caster, targetBodyPos, offset)) {

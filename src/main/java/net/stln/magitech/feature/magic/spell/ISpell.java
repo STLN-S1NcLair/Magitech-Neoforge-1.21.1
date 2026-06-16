@@ -45,11 +45,13 @@ public interface ISpell extends SpellLike {
     // スペルの文字情報の取得
     List<Component> getTooltip(Level level, LivingEntity caster, ItemStack stack);
 
+    List<Component> getDescription(Level level, LivingEntity caster, ItemStack stack);
+
     @NotNull ResourceLocation getId();
 
     @NotNull String getDescriptionId();
 
-    @NotNull MutableComponent getDescription();
+    @NotNull MutableComponent getName();
 
     @NotNull ResourceLocation getIconId();
 }

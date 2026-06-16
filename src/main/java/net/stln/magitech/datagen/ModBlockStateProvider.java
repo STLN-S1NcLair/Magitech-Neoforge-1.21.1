@@ -28,7 +28,6 @@ public class ModBlockStateProvider extends BlockStateProvider {
         sideBottomTopBlockWithItem(BlockInit.REPAIRING_WORKBENCH.get());
         sideBottomTopBlockWithItem(BlockInit.UPGRADE_WORKBENCH.get());
         horizontalHandModeledBlockWithItem(BlockInit.TOOL_HANGER.get());
-        handModeledBlockWithItem(BlockInit.ALCHEMETRIC_PYLON.get());
         handModeledBlockWithItem(BlockInit.INFUSER.get());
         horizontalHandModeledBlockWithItem(BlockInit.ZARDIUS_CRUCIBLE.get());
         handModeledBlockWithItem(BlockInit.PEDESTAL_PYLON.get());
@@ -321,7 +320,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
     private void leavesBlockWithItem(Block block) {
         simpleBlockWithItem(block,
                 models().singleTexture(getName(block), ResourceLocation.parse("minecraft:block/leaves"),
-                        "all", blockTexture(block)).renderType("cutout"));
+                        "all", blockTexture(block)));
         blockItem(block);
     }
 

@@ -219,30 +219,29 @@ public class CreativeTabInit {
             .withTabsBefore(MAGITECH_BLOCK_TAB.getKey())
             .displayItems((parameters, output) -> {
                 output.accept(BlockInit.ZARDIUS_CRUCIBLE_ITEM.get());
+                output.accept(BlockInit.INFUSION_ALTAR_ITEM.get());
                 output.accept(BlockInit.PEDESTAL_PYLON_ITEM.get());
-                output.accept(BlockInit.ALCHEMETRIC_PYLON_ITEM.get());
-                output.accept(BlockInit.INFUSER_ITEM.get());
                 output.accept(BlockInit.MANA_NODE_ITEM.get());
                 output.accept(BlockInit.MANA_RELAY_ITEM.get());
                 output.accept(BlockInit.MANA_VESSEL_ITEM.get());
                 output.accept(BlockInit.MANA_STRANDER_ITEM.get());
                 output.accept(BlockInit.MANA_RECEIVER_ITEM.get());
                 output.accept(BlockInit.MANA_COLLECTOR_ITEM.get());
-                output.accept(BlockInit.ENTANGLER_ITEM.get());
-                output.accept(BlockInit.DETANGLER_ITEM.get());
-                output.accept(BlockInit.ITEM_COLLECTOR_ITEM.get());
+                output.accept(BlockInit.INFUSER_ITEM.get());
                 output.accept(BlockInit.CRUSHER_ITEM.get());
                 output.accept(BlockInit.COMPRESSOR_ITEM.get());
                 output.accept(BlockInit.EMBER_SMELTER_ITEM.get());
+                output.accept(BlockInit.ITEM_COLLECTOR_ITEM.get());
                 output.accept(BlockInit.MANA_JUNCTION_ITEM.get());
-                output.accept(BlockInit.INFUSION_ALTAR_ITEM.get());
+                output.accept(BlockInit.ENTANGLER_ITEM.get());
+                output.accept(BlockInit.DETANGLER_ITEM.get());
+                output.accept(BlockInit.MANA_PUMP_ITEM.get());
                 output.accept(BlockInit.ENHANCED_MANA_NODE_ITEM.get());
                 output.accept(BlockInit.ENHANCED_MANA_RELAY_ITEM.get());
                 output.accept(BlockInit.ENHANCED_MANA_VESSEL_ITEM.get());
-                output.accept(BlockInit.MANA_PUMP_ITEM.get());
+                output.accept(BlockInit.TRAP_HATCH_ITEM.get());
                 output.accept(BlockInit.CREATIVE_MANA_SOURCE_ITEM.get());
                 output.accept(BlockInit.CREATIVE_MANA_SINK_ITEM.get());
-                output.accept(BlockInit.TRAP_HATCH_ITEM.get());
             }).build());
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MAGITECH_TOOL_TAB = CREATIVE_MODE_TABS.register("magitech_tool_tab", () -> CreativeModeTab.builder()

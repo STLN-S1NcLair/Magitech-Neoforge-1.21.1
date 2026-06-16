@@ -10,6 +10,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.network.PacketDistributor;
+import net.stln.magitech.Magitech;
 import net.stln.magitech.MagitechRegistries;
 import net.stln.magitech.content.network.SpellCastPayload;
 import net.stln.magitech.content.network.SpellEndPayload;
@@ -221,7 +222,7 @@ public abstract class Spell implements ISpell {
     }
 
     private boolean hasEnoughContinuousMana(LivingEntity caster) {
-        return caster instanceof Player player && player.isCreative() || this.config.continuous() && EntityManaHelper.getMagicMana(caster) >= this.config.costPerTick().get();
+        return caster instanceof Player player && player.isCreative() || !this.config.continuous() || EntityManaHelper.getMagicMana(caster) >= this.config.costPerTick().get();
     }
 
     private void hintCoolingdown(LivingEntity caster) {
@@ -268,6 +269,11 @@ public abstract class Spell implements ISpell {
     }
 
     @Override
+    public List<Component> getDescription(Level level, LivingEntity caster, ItemStack stack) {
+        return List.of(Component.translatable("tooltip.hint." + this.getDescriptionId()).withColor(0xC0C0C0));
+    }
+
+    @Override
     public SpellConfig getConfig() {
         return config;
     }
@@ -285,7 +291,7 @@ public abstract class Spell implements ISpell {
         return getId().toLanguageKey("spell");
     }
 
-    public @NotNull MutableComponent getDescription() {
+    public @NotNull MutableComponent getName() {
         return Component.translatable(getDescriptionId());
     }
 

@@ -65,9 +65,9 @@ public class ThreadBoundItem extends TooltipTextModonomiconItem implements ICuri
             if (abs <= 2 || Screen.hasShiftDown()) {
                 Element element = spell.getConfig().element();
                 if (spells.selected() == i) {
-                    tooltipComponents.add(Component.literal("> ").append(spell.getDescription()).withColor(element.getTextColor().getRGB()));
+                    tooltipComponents.add(Component.literal("> ").append(spell.getName()).withColor(element.getTextColor().getRGB()));
                 } else {
-                    tooltipComponents.add(spell.getDescription().withColor(element.getDark().getRGB()));
+                    tooltipComponents.add(spell.getName().withColor(element.getDark().getRGB()));
                 }
             } else if (abs == 3) {
                 tooltipComponents.add(Component.literal("...").withColor(0x405060));

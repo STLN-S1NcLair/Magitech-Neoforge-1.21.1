@@ -24,7 +24,7 @@ public class ThreadPageItem extends TooltipTextItem {
     @Override
     public @NotNull Component getName(@NotNull ItemStack stack) {
         return ComponentHelper.getThreadPageSpell(stack)
-                .map(spell -> Component.translatable("item.magitech.thread_page", spell.getDescription()))
+                .map(spell -> Component.translatable("item.magitech.thread_page", spell.getName()))
                 .orElseGet(() -> super.getName(stack).copy());
     }
 
@@ -32,8 +32,9 @@ public class ThreadPageItem extends TooltipTextItem {
     @Override
     public void appendHoverText(ItemStack stack, @NotNull TooltipContext context, List<Component> tooltipComponents, @NotNull TooltipFlag tooltipFlag) {
         ComponentHelper.getThreadPageSpell(stack).ifPresent(spell -> {
-            tooltipComponents.add(spell.getDescription().withColor(spell.getConfig().element().getTextColor().getRGB()));
+            tooltipComponents.add(spell.getName().withColor(spell.getConfig().element().getTextColor().getRGB()));
             Player player = ClientHelper.getPlayer();
+            tooltipComponents.addAll(spell.getDescription(player.level(), player, stack));
             if (player == null) return;
             List<Component> componentList = spell.getTooltip(player.level(), player, stack);
             int i = 0;

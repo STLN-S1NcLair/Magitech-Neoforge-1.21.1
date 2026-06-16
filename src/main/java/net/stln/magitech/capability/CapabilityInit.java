@@ -22,7 +22,6 @@ public class CapabilityInit {
     @SubscribeEvent
     public static void registerCapabilities(RegisterCapabilitiesEvent event) {
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockInit.TOOL_HANGER_ENTITY.get(), (blockEntity, direction) -> blockEntity.inventory);
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockInit.ALCHEMETRIC_PYLON_ENTITY.get(), (blockEntity, direction) -> blockEntity.inventory);
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockInit.INFUSER_ENTITY.get(), (blockEntity, direction) -> blockEntity.inventory);
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockInit.PEDESTAL_PYLON_ENTITY.get(), (blockEntity, direction) -> blockEntity.inventory);
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockInit.INFUSION_ALTAR_ENTITY.get(), (blockEntity, direction) -> blockEntity.inventory);

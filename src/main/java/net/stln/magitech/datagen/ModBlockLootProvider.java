@@ -38,7 +38,6 @@ public class ModBlockLootProvider extends BlockLootSubProvider {
         dropSelf(BlockInit.TOOL_HANGER.get());
         dropSelf(BlockInit.ZARDIUS_CRUCIBLE.get());
         dropSelf(BlockInit.PEDESTAL_PYLON.get());
-        dropSelf(BlockInit.ALCHEMETRIC_PYLON.get());
         dropSelf(BlockInit.INFUSER.get());
         dropSelf(BlockInit.MANA_NODE.get());
         dropSelf(BlockInit.MANA_RELAY.get());

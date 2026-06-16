@@ -135,7 +135,7 @@ public class RadialSpellMenuOverlay extends Screen {
             }
             if (selectSpell != null) {
                 float squareEase = Math.min(selectTick * selectTick / 4, 4) * 2;
-                String text = selectSpell.getDescription().getString();
+                String text = selectSpell.getName().getString();
                 List<Component> componentList = selectSpell.getTooltip(player.level(), player, player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof SpellCasterItem ? player.getItemInHand(InteractionHand.MAIN_HAND) : player.getItemInHand(InteractionHand.OFF_HAND));
                 int renderx = (x - font.width(text) / 2);
                 int rendery = (int) (y - 4 + 8 - squareEase - componentList.size() * 5);

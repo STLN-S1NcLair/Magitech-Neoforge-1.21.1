@@ -4,6 +4,7 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 
 import java.util.EnumSet;
@@ -13,8 +14,8 @@ public class RangedSpellAttackGoal<T extends Mob & RangedAttackMob> extends Goal
     private final double moveSpeedAmp;
     private final float maxAttackDistance;
     private int attackTime = -1;
-    private int attackInterval = 40;
-    private int hardAttackInterval = 20;
+    private int attackInterval;
+    private int hardAttackInterval;
 
     private int seeTime;
     private boolean strafingClockwise;
@@ -38,7 +39,7 @@ public class RangedSpellAttackGoal<T extends Mob & RangedAttackMob> extends Goal
 
     @Override
     public void stop() {
-        this.attackTime = -1;
+        this.attackTime = attackInterval;
     }
 
     @Override
@@ -49,9 +50,11 @@ public class RangedSpellAttackGoal<T extends Mob & RangedAttackMob> extends Goal
     @Override
     public void tick() {
         LivingEntity target = this.mob.getTarget();
-        if (target == null) {
+        if (target == null || !mob.canAttack(target, TargetingConditions.DEFAULT)) {
+            mob.setAggressive(false);
             return;
         }
+        mob.setAggressive(true);
 
         double d0 = this.mob.distanceToSqr(target.getX(), target.getY(), target.getZ());
         boolean flag = this.mob.getSensing().hasLineOfSight(target);

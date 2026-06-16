@@ -21,13 +21,9 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.content.block.block_entity.*;
 import net.stln.magitech.content.item.ItemInit;
-import net.stln.magitech.content.item.tooltip_item.TooltipTextBlockItem;
-import net.stln.magitech.content.item.tooltip_item.TooltipTextManaContainerBlockItem;
-import net.stln.magitech.content.item.tooltip_item.TooltipTextManaWirelessConnectorBlockItem;
-import net.stln.magitech.content.item.tooltip_item.TooltipTextSignItem;
+import net.stln.magitech.content.item.tooltip_item.*;
 import net.stln.magitech.content.sound.SoundInit;
 import net.stln.magitech.worldgen.tree.TreeGrowerInit;
-import team.lodestar.lodestone.systems.block.LodestoneHorizontalBlock;
 import team.lodestar.lodestone.systems.block.LodestoneLogBlock;
 
 import java.util.function.Supplier;
@@ -104,7 +100,7 @@ public class BlockInit {
     public static final DeferredBlock<InfusionAltarBlock> INFUSION_ALTAR = BLOCKS.registerBlock("infusion_altar",
             properties -> new InfusionAltarBlock(properties, 50000, 2000),
             BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_PLANKS).lightLevel((blockState) -> 5).noOcclusion());
-    public static final DeferredItem<BlockItem> INFUSION_ALTAR_ITEM = ItemInit.ITEMS.register("infusion_altar", key -> new TooltipTextManaContainerBlockItem(INFUSION_ALTAR.get(), new Item.Properties()));
+    public static final DeferredItem<BlockItem> INFUSION_ALTAR_ITEM = ItemInit.ITEMS.register("infusion_altar", key -> new HintTooltipTextManaContainerBlockItem(INFUSION_ALTAR.get(), new Item.Properties()));
     public static final Supplier<BlockEntityType<InfusionAltarBlockEntity>> INFUSION_ALTAR_ENTITY =
             BLOCK_ENITIES.register("infusion_altar", () -> BlockEntityType.Builder.of(
                     InfusionAltarBlockEntity::new, BlockInit.INFUSION_ALTAR.get()).build(null));
@@ -112,7 +108,7 @@ public class BlockInit {
     public static final DeferredBlock<InfuserBlock> INFUSER = BLOCKS.registerBlock("infuser",
             properties -> new InfuserBlock(properties, 1000000, 5000),
             BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(ALCHECRYSITE_SOUND));
-    public static final DeferredItem<BlockItem> INFUSER_ITEM = ItemInit.ITEMS.register("infuser", key -> new TooltipTextManaContainerBlockItem(INFUSER.get(), new Item.Properties()));
+    public static final DeferredItem<BlockItem> INFUSER_ITEM = ItemInit.ITEMS.register("infuser", key -> new HintTooltipTextManaContainerBlockItem(INFUSER.get(), new Item.Properties()));
     public static final Supplier<BlockEntityType<InfuserBlockEntity>> INFUSER_ENTITY =
             BLOCK_ENITIES.register("infuser", () -> BlockEntityType.Builder.of(
                     InfuserBlockEntity::new, BlockInit.INFUSER.get()).build(null));
@@ -120,7 +116,7 @@ public class BlockInit {
     public static final DeferredBlock<ZardiusCrucibleBlock> ZARDIUS_CRUCIBLE = BLOCKS.registerBlock("zardius_crucible",
             properties -> new ZardiusCrucibleBlock(properties, 50000, 5000),
             BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(SoundType.NETHERITE_BLOCK).noOcclusion());
-    public static final DeferredItem<BlockItem> ZARDIUS_CRUCIBLE_ITEM = ItemInit.ITEMS.register("zardius_crucible", key -> new TooltipTextManaContainerBlockItem(ZARDIUS_CRUCIBLE.get(), new Item.Properties()));
+    public static final DeferredItem<BlockItem> ZARDIUS_CRUCIBLE_ITEM = ItemInit.ITEMS.register("zardius_crucible", key -> new HintTooltipTextManaContainerBlockItem(ZARDIUS_CRUCIBLE.get(), new Item.Properties()));
     public static final Supplier<BlockEntityType<ZardiusCrucibleBlockEntity>> ZARDIUS_CRUCIBLE_ENTITY =
             BLOCK_ENITIES.register("zardius_crucible", () -> BlockEntityType.Builder.of(
                     ZardiusCrucibleBlockEntity::new, BlockInit.ZARDIUS_CRUCIBLE.get()).build(null));
@@ -128,7 +124,7 @@ public class BlockInit {
     public static final DeferredBlock<ManaCollectorBlock> MANA_COLLECTOR = BLOCKS.registerBlock("mana_collector",
             properties -> new ManaCollectorBlock(properties, 50000, 5000),
             BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(SoundType.NETHERITE_BLOCK).lightLevel((blockState) -> 5).noOcclusion());
-    public static final DeferredItem<BlockItem> MANA_COLLECTOR_ITEM = ItemInit.ITEMS.register("mana_collector", key -> new TooltipTextManaContainerBlockItem(MANA_COLLECTOR.get(), new Item.Properties()));
+    public static final DeferredItem<BlockItem> MANA_COLLECTOR_ITEM = ItemInit.ITEMS.register("mana_collector", key -> new HintTooltipTextManaContainerBlockItem(MANA_COLLECTOR.get(), new Item.Properties()));
     public static final Supplier<BlockEntityType<ManaCollectorBlockEntity>> MANA_COLLECTOR_ENTITY =
             BLOCK_ENITIES.register("mana_collector", () -> BlockEntityType.Builder.of(
                     ManaCollectorBlockEntity::new, BlockInit.MANA_COLLECTOR.get()).build(null));
@@ -136,7 +132,7 @@ public class BlockInit {
     public static final DeferredBlock<EntanglerBlock> ENTANGLER = BLOCKS.registerBlock("entangler",
             EntanglerBlock::new,
             BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(SoundType.NETHERITE_BLOCK).lightLevel((blockState) -> 5).noOcclusion());
-    public static final DeferredItem<BlockItem> ENTANGLER_ITEM = ItemInit.ITEMS.register("entangler", key -> new TooltipTextBlockItem(ENTANGLER.get(), new Item.Properties()));
+    public static final DeferredItem<BlockItem> ENTANGLER_ITEM = ItemInit.ITEMS.register("entangler", key -> new HintTooltipTextBlockItem(ENTANGLER.get(), new Item.Properties()));
     public static final Supplier<BlockEntityType<EntanglerBlockEntity>> ENTANGLER_ENTITY =
             BLOCK_ENITIES.register("entangler", () -> BlockEntityType.Builder.of(
                     EntanglerBlockEntity::new, BlockInit.ENTANGLER.get()).build(null));
@@ -144,7 +140,7 @@ public class BlockInit {
     public static final DeferredBlock<DetanglerBlock> DETANGLER = BLOCKS.registerBlock("detangler",
             DetanglerBlock::new,
             BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(SoundType.NETHERITE_BLOCK).lightLevel((blockState) -> 5).noOcclusion());
-    public static final DeferredItem<BlockItem> DETANGLER_ITEM = ItemInit.ITEMS.register("detangler", key -> new TooltipTextBlockItem(DETANGLER.get(), new Item.Properties()));
+    public static final DeferredItem<BlockItem> DETANGLER_ITEM = ItemInit.ITEMS.register("detangler", key -> new HintTooltipTextBlockItem(DETANGLER.get(), new Item.Properties()));
     public static final Supplier<BlockEntityType<DetanglerBlockEntity>> DETANGLER_ENTITY =
             BLOCK_ENITIES.register("detangler", () -> BlockEntityType.Builder.of(
                     DetanglerBlockEntity::new, BlockInit.DETANGLER.get()).build(null));
@@ -152,7 +148,7 @@ public class BlockInit {
     public static final DeferredBlock<ItemCollectorBlock> ITEM_COLLECTOR = BLOCKS.registerBlock("item_collector",
             properties -> new ItemCollectorBlock(properties, 50000, 5000),
             BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(SoundType.NETHERITE_BLOCK).lightLevel((blockState) -> 5).noOcclusion());
-    public static final DeferredItem<BlockItem> ITEM_COLLECTOR_ITEM = ItemInit.ITEMS.register("item_collector", key -> new TooltipTextManaContainerBlockItem(ITEM_COLLECTOR.get(), new Item.Properties()));
+    public static final DeferredItem<BlockItem> ITEM_COLLECTOR_ITEM = ItemInit.ITEMS.register("item_collector", key -> new HintTooltipTextManaContainerBlockItem(ITEM_COLLECTOR.get(), new Item.Properties()));
     public static final Supplier<BlockEntityType<ItemCollectorBlockEntity>> ITEM_COLLECTOR_ENTITY =
             BLOCK_ENITIES.register("item_collector", () -> BlockEntityType.Builder.of(
                     ItemCollectorBlockEntity::new, BlockInit.ITEM_COLLECTOR.get()).build(null));
@@ -160,7 +156,7 @@ public class BlockInit {
     public static final DeferredBlock<EmberSmelterBlock> EMBER_SMELTER = BLOCKS.registerBlock("ember_smelter",
             properties -> new EmberSmelterBlock(properties, 1000000, 5000),
             BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(SoundType.NETHERITE_BLOCK).lightLevel((blockState) -> 5).noOcclusion());
-    public static final DeferredItem<BlockItem> EMBER_SMELTER_ITEM = ItemInit.ITEMS.register("ember_smelter", key -> new TooltipTextManaContainerBlockItem(EMBER_SMELTER.get(), new Item.Properties()));
+    public static final DeferredItem<BlockItem> EMBER_SMELTER_ITEM = ItemInit.ITEMS.register("ember_smelter", key -> new HintTooltipTextManaContainerBlockItem(EMBER_SMELTER.get(), new Item.Properties()));
     public static final Supplier<BlockEntityType<EmberSmelterBlockEntity>> EMBER_SMELTER_ENTITY =
             BLOCK_ENITIES.register("ember_smelter", () -> BlockEntityType.Builder.of(
                     EmberSmelterBlockEntity::new, BlockInit.EMBER_SMELTER.get()).build(null));
@@ -168,7 +164,7 @@ public class BlockInit {
     public static final DeferredBlock<CrusherBlock> CRUSHER = BLOCKS.registerBlock("crusher",
             properties -> new CrusherBlock(properties, 500000, 5000),
             BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(SoundType.NETHERITE_BLOCK).lightLevel((blockState) -> 5).noOcclusion());
-    public static final DeferredItem<BlockItem> CRUSHER_ITEM = ItemInit.ITEMS.register("crusher", key -> new TooltipTextManaContainerBlockItem(CRUSHER.get(), new Item.Properties()));
+    public static final DeferredItem<BlockItem> CRUSHER_ITEM = ItemInit.ITEMS.register("crusher", key -> new HintTooltipTextManaContainerBlockItem(CRUSHER.get(), new Item.Properties()));
     public static final Supplier<BlockEntityType<CrusherBlockEntity>> CRUSHER_ENTITY =
             BLOCK_ENITIES.register("crusher", () -> BlockEntityType.Builder.of(
                     CrusherBlockEntity::new, BlockInit.CRUSHER.get()).build(null));
@@ -176,7 +172,7 @@ public class BlockInit {
     public static final DeferredBlock<CompressorBlock> COMPRESSOR = BLOCKS.registerBlock("compressor",
             properties -> new CompressorBlock(properties, 500000, 5000),
             BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(SoundType.NETHERITE_BLOCK).lightLevel((blockState) -> 5).noOcclusion());
-    public static final DeferredItem<BlockItem> COMPRESSOR_ITEM = ItemInit.ITEMS.register("compressor", key -> new TooltipTextManaContainerBlockItem(COMPRESSOR.get(), new Item.Properties()));
+    public static final DeferredItem<BlockItem> COMPRESSOR_ITEM = ItemInit.ITEMS.register("compressor", key -> new HintTooltipTextManaContainerBlockItem(COMPRESSOR.get(), new Item.Properties()));
     public static final Supplier<BlockEntityType<CompressorBlockEntity>> COMPRESSOR_ENTITY =
             BLOCK_ENITIES.register("compressor", () -> BlockEntityType.Builder.of(
                     CompressorBlockEntity::new, BlockInit.COMPRESSOR.get()).build(null));
@@ -186,18 +182,18 @@ public class BlockInit {
     public static final DeferredBlock<ManaNodeBlock> MANA_NODE = BLOCKS.registerBlock("mana_node",
             properties -> new ManaNodeBlock(properties, 3),
             BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(CRYSTAL_SOUND).lightLevel((blockState) -> 5));
-    public static final DeferredItem<BlockItem> MANA_NODE_ITEM = ItemInit.ITEMS.register("mana_node", key -> new TooltipTextManaWirelessConnectorBlockItem(MANA_NODE.get(), new Item.Properties()));
+    public static final DeferredItem<BlockItem> MANA_NODE_ITEM = ItemInit.ITEMS.register("mana_node", key -> new HintTooltipTextManaWirelessConnectorBlockItem(MANA_NODE.get(), new Item.Properties()));
 
 
     public static final DeferredBlock<ManaRelayBlock> MANA_RELAY = BLOCKS.registerBlock("mana_relay",
             properties -> new ManaRelayBlock(properties, 4),
             BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(CRYSTAL_SOUND).lightLevel((blockState) -> 5));
-    public static final DeferredItem<BlockItem> MANA_RELAY_ITEM = ItemInit.ITEMS.register("mana_relay", key -> new TooltipTextManaWirelessConnectorBlockItem(MANA_RELAY.get(), new Item.Properties()));
+    public static final DeferredItem<BlockItem> MANA_RELAY_ITEM = ItemInit.ITEMS.register("mana_relay", key -> new HintTooltipTextManaWirelessConnectorBlockItem(MANA_RELAY.get(), new Item.Properties()));
 
     public static final DeferredBlock<ManaVesselBlock> MANA_VESSEL = BLOCKS.registerBlock("mana_vessel",
             properties -> new ManaVesselBlock(properties, 200000, 2000),
             BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_PLANKS).lightLevel((blockState) -> 5).noOcclusion());
-    public static final DeferredItem<BlockItem> MANA_VESSEL_ITEM = ItemInit.ITEMS.register("mana_vessel", key -> new TooltipTextManaContainerBlockItem(MANA_VESSEL.get(), new Item.Properties()));
+    public static final DeferredItem<BlockItem> MANA_VESSEL_ITEM = ItemInit.ITEMS.register("mana_vessel", key -> new HintTooltipTextManaContainerBlockItem(MANA_VESSEL.get(), new Item.Properties()));
     public static final Supplier<BlockEntityType<ManaVesselBlockEntity>> MANA_VESSEL_ENTITY =
             BLOCK_ENITIES.register("mana_vessel", () -> BlockEntityType.Builder.of(
                     ManaVesselBlockEntity::new, BlockInit.MANA_VESSEL.get()).build(null));
@@ -205,7 +201,7 @@ public class BlockInit {
     public static final DeferredBlock<ManaStranderBlock> MANA_STRANDER = BLOCKS.registerBlock("mana_strander",
             properties -> new ManaStranderBlock(properties, 150000, 5000),
             BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(SoundType.NETHERITE_BLOCK).lightLevel((blockState) -> 5).noOcclusion());
-    public static final DeferredItem<BlockItem> MANA_STRANDER_ITEM = ItemInit.ITEMS.register("mana_strander", key -> new TooltipTextManaContainerBlockItem(MANA_STRANDER.get(), new Item.Properties()));
+    public static final DeferredItem<BlockItem> MANA_STRANDER_ITEM = ItemInit.ITEMS.register("mana_strander", key -> new HintTooltipTextManaContainerBlockItem(MANA_STRANDER.get(), new Item.Properties()));
     public static final Supplier<BlockEntityType<ManaStranderBlockEntity>> MANA_STRANDER_ENTITY =
             BLOCK_ENITIES.register("mana_strander", () -> BlockEntityType.Builder.of(
                     ManaStranderBlockEntity::new, BlockInit.MANA_STRANDER.get()).build(null));
@@ -213,7 +209,7 @@ public class BlockInit {
     public static final DeferredBlock<ManaReceiverBlock> MANA_RECEIVER = BLOCKS.registerBlock("mana_receiver",
             properties -> new ManaReceiverBlock(properties, 1000000, 5000),
             BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(SoundType.NETHERITE_BLOCK).lightLevel((blockState) -> 5).noOcclusion());
-    public static final DeferredItem<BlockItem> MANA_RECEIVER_ITEM = ItemInit.ITEMS.register("mana_receiver", key -> new TooltipTextManaContainerBlockItem(MANA_RECEIVER.get(), new Item.Properties()));
+    public static final DeferredItem<BlockItem> MANA_RECEIVER_ITEM = ItemInit.ITEMS.register("mana_receiver", key -> new HintTooltipTextManaContainerBlockItem(MANA_RECEIVER.get(), new Item.Properties()));
     public static final Supplier<BlockEntityType<ManaReceiverBlockEntity>> MANA_RECEIVER_ENTITY =
             BLOCK_ENITIES.register("mana_receiver", () -> BlockEntityType.Builder.of(
                     ManaReceiverBlockEntity::new, BlockInit.MANA_RECEIVER.get()).build(null));
@@ -221,23 +217,23 @@ public class BlockInit {
     public static final DeferredBlock<ManaJunctionBlock> MANA_JUNCTION = BLOCKS.registerBlock("mana_junction",
             ManaJunctionBlock::new,
             BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(ALCHECRYSITE_SOUND).lightLevel((blockState) -> 5).noOcclusion());
-    public static final DeferredItem<BlockItem> MANA_JUNCTION_ITEM = ItemInit.ITEMS.register("mana_junction", key -> new TooltipTextBlockItem(MANA_JUNCTION.get(), new Item.Properties()));
+    public static final DeferredItem<BlockItem> MANA_JUNCTION_ITEM = ItemInit.ITEMS.register("mana_junction", key -> new HintTooltipTextBlockItem(MANA_JUNCTION.get(), new Item.Properties()));
 
     public static final DeferredBlock<ManaNodeBlock> ENHANCED_MANA_NODE = BLOCKS.registerBlock("enhanced_mana_node",
             properties -> new ManaNodeBlock(properties, 4),
             BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(CRYSTAL_SOUND).lightLevel((blockState) -> 5));
-    public static final DeferredItem<BlockItem> ENHANCED_MANA_NODE_ITEM = ItemInit.ITEMS.register("enhanced_mana_node", key -> new TooltipTextManaWirelessConnectorBlockItem(ENHANCED_MANA_NODE.get(), new Item.Properties()));
+    public static final DeferredItem<BlockItem> ENHANCED_MANA_NODE_ITEM = ItemInit.ITEMS.register("enhanced_mana_node", key -> new HintTooltipTextManaWirelessConnectorBlockItem(ENHANCED_MANA_NODE.get(), new Item.Properties()));
 
 
     public static final DeferredBlock<ManaRelayBlock> ENHANCED_MANA_RELAY = BLOCKS.registerBlock("enhanced_mana_relay",
             properties -> new ManaRelayBlock(properties, 5),
             BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(CRYSTAL_SOUND).lightLevel((blockState) -> 5));
-    public static final DeferredItem<BlockItem> ENHANCED_MANA_RELAY_ITEM = ItemInit.ITEMS.register("enhanced_mana_relay", key -> new TooltipTextManaWirelessConnectorBlockItem(ENHANCED_MANA_RELAY.get(), new Item.Properties()));
+    public static final DeferredItem<BlockItem> ENHANCED_MANA_RELAY_ITEM = ItemInit.ITEMS.register("enhanced_mana_relay", key -> new HintTooltipTextManaWirelessConnectorBlockItem(ENHANCED_MANA_RELAY.get(), new Item.Properties()));
 
     public static final DeferredBlock<EnhancedManaVesselBlock> ENHANCED_MANA_VESSEL = BLOCKS.registerBlock("enhanced_mana_vessel",
             properties -> new EnhancedManaVesselBlock(properties, 5000000, 5000),
             BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK).sound(SoundType.NETHERITE_BLOCK).lightLevel((blockState) -> 5).noOcclusion());
-    public static final DeferredItem<BlockItem> ENHANCED_MANA_VESSEL_ITEM = ItemInit.ITEMS.register("enhanced_mana_vessel", key -> new TooltipTextManaContainerBlockItem(ENHANCED_MANA_VESSEL.get(), new Item.Properties()));
+    public static final DeferredItem<BlockItem> ENHANCED_MANA_VESSEL_ITEM = ItemInit.ITEMS.register("enhanced_mana_vessel", key -> new HintTooltipTextManaContainerBlockItem(ENHANCED_MANA_VESSEL.get(), new Item.Properties()));
     public static final Supplier<BlockEntityType<EnhancedManaVesselBlockEntity>> ENHANCED_MANA_VESSEL_ENTITY =
             BLOCK_ENITIES.register("enhanced_mana_vessel", () -> BlockEntityType.Builder.of(
                     EnhancedManaVesselBlockEntity::new, BlockInit.ENHANCED_MANA_VESSEL.get()).build(null));
@@ -245,7 +241,7 @@ public class BlockInit {
     public static final DeferredBlock<ManaPumpBlock> MANA_PUMP = BLOCKS.registerBlock("mana_pump",
             properties -> new ManaPumpBlock(properties, 1000000, 5000),
             BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK).sound(SoundType.NETHERITE_BLOCK).lightLevel((blockState) -> 5).noOcclusion());
-    public static final DeferredItem<BlockItem> MANA_PUMP_ITEM = ItemInit.ITEMS.register("mana_pump", key -> new TooltipTextManaContainerBlockItem(MANA_PUMP.get(), new Item.Properties()));
+    public static final DeferredItem<BlockItem> MANA_PUMP_ITEM = ItemInit.ITEMS.register("mana_pump", key -> new HintTooltipTextManaContainerBlockItem(MANA_PUMP.get(), new Item.Properties()));
     public static final Supplier<BlockEntityType<ManaPumpBlockEntity>> MANA_PUMP_ENTITY =
             BLOCK_ENITIES.register("mana_pump", () -> BlockEntityType.Builder.of(
                     ManaPumpBlockEntity::new, BlockInit.MANA_PUMP.get()).build(null));
@@ -253,7 +249,7 @@ public class BlockInit {
     public static final DeferredBlock<CreativeManaSourceBlock> CREATIVE_MANA_SOURCE = BLOCKS.registerBlock("creative_mana_source",
             CreativeManaSourceBlock::new,
             BlockBehaviour.Properties.ofFullCopy(Blocks.COMMAND_BLOCK).sound(SoundType.NETHERITE_BLOCK).lightLevel((blockState) -> 5).noOcclusion());
-    public static final DeferredItem<BlockItem> CREATIVE_MANA_SOURCE_ITEM = ItemInit.ITEMS.register("creative_mana_source", key -> new TooltipTextManaContainerBlockItem(CREATIVE_MANA_SOURCE.get(), new Item.Properties()));
+    public static final DeferredItem<BlockItem> CREATIVE_MANA_SOURCE_ITEM = ItemInit.ITEMS.register("creative_mana_source", key -> new HintTooltipTextManaContainerBlockItem(CREATIVE_MANA_SOURCE.get(), new Item.Properties()));
     public static final Supplier<BlockEntityType<CreativeManaSourceBlockEntity>> CREATIVE_MANA_SOURCE_ENTITY =
             BLOCK_ENITIES.register("creative_mana_source", () -> BlockEntityType.Builder.of(
                     CreativeManaSourceBlockEntity::new, BlockInit.CREATIVE_MANA_SOURCE.get()).build(null));
@@ -261,7 +257,7 @@ public class BlockInit {
     public static final DeferredBlock<CreativeManaSinkBlock> CREATIVE_MANA_SINK = BLOCKS.registerBlock("creative_mana_sink",
             CreativeManaSinkBlock::new,
             BlockBehaviour.Properties.ofFullCopy(Blocks.COMMAND_BLOCK).sound(SoundType.NETHERITE_BLOCK).lightLevel((blockState) -> 5).noOcclusion());
-    public static final DeferredItem<BlockItem> CREATIVE_MANA_SINK_ITEM = ItemInit.ITEMS.register("creative_mana_sink", key -> new TooltipTextManaContainerBlockItem(CREATIVE_MANA_SINK.get(), new Item.Properties()));
+    public static final DeferredItem<BlockItem> CREATIVE_MANA_SINK_ITEM = ItemInit.ITEMS.register("creative_mana_sink", key -> new HintTooltipTextManaContainerBlockItem(CREATIVE_MANA_SINK.get(), new Item.Properties()));
     public static final Supplier<BlockEntityType<CreativeManaSinkBlockEntity>> CREATIVE_MANA_SINK_ENTITY =
             BLOCK_ENITIES.register("creative_mana_sink", () -> BlockEntityType.Builder.of(
                     CreativeManaSinkBlockEntity::new, BlockInit.CREATIVE_MANA_SINK.get()).build(null));
@@ -271,26 +267,17 @@ public class BlockInit {
     public static final DeferredBlock<PedestalPylonBlock> PEDESTAL_PYLON = BLOCKS.registerBlock("pedestal_pylon",
             PedestalPylonBlock::new,
             BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).sound(SoundType.CHERRY_WOOD));
-    public static final DeferredItem<BlockItem> PEDESTAL_PYLON_ITEM = ItemInit.ITEMS.register("pedestal_pylon", key -> new TooltipTextBlockItem(PEDESTAL_PYLON.get(), new Item.Properties()));
+    public static final DeferredItem<BlockItem> PEDESTAL_PYLON_ITEM = ItemInit.ITEMS.register("pedestal_pylon", key -> new HintTooltipTextBlockItem(PEDESTAL_PYLON.get(), new Item.Properties()));
     public static final Supplier<BlockEntityType<PedestalPylonBlockEntity>> PEDESTAL_PYLON_ENTITY =
             BLOCK_ENITIES.register("pedestal_pylon", () -> BlockEntityType.Builder.of(
                     PedestalPylonBlockEntity::new, BlockInit.PEDESTAL_PYLON.get()).build(null));
 
-    public static final DeferredBlock<AlchemetricPylonBlock> ALCHEMETRIC_PYLON = BLOCKS.registerBlock("alchemetric_pylon",
-            AlchemetricPylonBlock::new,
-            BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(ALCHECRYSITE_SOUND));
-    public static final DeferredItem<BlockItem> ALCHEMETRIC_PYLON_ITEM = ItemInit.ITEMS.register("alchemetric_pylon", key -> new TooltipTextBlockItem(ALCHEMETRIC_PYLON.get(), new Item.Properties()));
-    public static final Supplier<BlockEntityType<AlchemetricPylonBlockEntity>> ALCHEMETRIC_PYLON_ENTITY =
-            BLOCK_ENITIES.register("alchemetric_pylon", () -> BlockEntityType.Builder.of(
-                    AlchemetricPylonBlockEntity::new, BlockInit.ALCHEMETRIC_PYLON.get()).build(null));
-
     // トラップデバイス
-
 
     public static final DeferredBlock<TrapHatchBlock> TRAP_HATCH = BLOCKS.registerBlock("trap_hatch",
             TrapHatchBlock::new,
             BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_TRAPDOOR).sound(SoundType.NETHERITE_BLOCK));
-    public static final DeferredItem<BlockItem> TRAP_HATCH_ITEM = ItemInit.ITEMS.register("trap_hatch", key -> new TooltipTextBlockItem(TRAP_HATCH.get(), new Item.Properties()));
+    public static final DeferredItem<BlockItem> TRAP_HATCH_ITEM = ItemInit.ITEMS.register("trap_hatch", key -> new HintTooltipTextBlockItem(TRAP_HATCH.get(), new Item.Properties()));
 
 
     // Normal Blocks

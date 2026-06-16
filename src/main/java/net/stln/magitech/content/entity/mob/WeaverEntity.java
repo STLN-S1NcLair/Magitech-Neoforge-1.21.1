@@ -68,6 +68,8 @@ public class WeaverEntity extends Monster implements GeoEntity, RangedAttackMob 
     private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
     private static final RawAnimation WALK = RawAnimation.begin().thenLoop("walk");
     private static final RawAnimation DAMAGE = RawAnimation.begin().thenPlay("damage");
+    private static final RawAnimation CHARGE = RawAnimation.begin().thenPlay("charge");
+    private static final RawAnimation WALK_CHARGE = RawAnimation.begin().thenPlay("walk_charge");
     private static final RawAnimation SPELL = RawAnimation.begin().thenPlay("spell");
 
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
@@ -82,7 +84,7 @@ public class WeaverEntity extends Monster implements GeoEntity, RangedAttackMob 
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(4, new RangedSpellAttackGoal<>(this, 0.5, 8.0F, NORMAL_ATTACK_INTERVAL, HARD_ATTACK_INTERVAL)); // 魔法攻撃専用ゴール
+        this.goalSelector.addGoal(4, new RangedSpellAttackGoal<>(this, 0.5, 16.0F, NORMAL_ATTACK_INTERVAL, HARD_ATTACK_INTERVAL)); // 魔法攻撃専用ゴール
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0));
         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
@@ -241,7 +243,13 @@ public class WeaverEntity extends Monster implements GeoEntity, RangedAttackMob 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "controller", 0, state -> {
-            if (state.isMoving()) {
+            if (this.isAggressive()) {
+                if (state.isMoving()) {
+                    state.setAndContinue(WALK_CHARGE);
+                } else {
+                    state.setAndContinue(CHARGE);
+                }
+            } else if (state.isMoving()) {
                 state.setAndContinue(WALK);
             } else {
                 state.setAndContinue(IDLE);

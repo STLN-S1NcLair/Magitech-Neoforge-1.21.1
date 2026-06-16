@@ -100,7 +100,7 @@ public class SpellHelper {
 
     // 処理系
 
-    public static @NotNull Set<Entity> getTargets(Level level, LivingEntity caster) {
+    public static @NotNull Set<Entity> getSprayTargets(Level level, LivingEntity caster) {
         Vec3 forward = Vec3.directionFromRotation(caster.getRotationVector());
         Vec3 center = caster.getEyePosition().add(forward);
         Vec3 center2 = center.add(forward.scale(3));
