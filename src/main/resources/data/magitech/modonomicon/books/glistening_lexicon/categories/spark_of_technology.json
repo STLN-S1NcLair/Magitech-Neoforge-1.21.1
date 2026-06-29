@@ -1,0 +1,9 @@
+{
+  "background": "magitech:textures/gui/glistening_lexicon/background.png",
+  "entry_textures": "magitech:textures/gui/glistening_lexicon/entry_textures.png",
+  "icon": {
+      "id": "magitech:thread_page"
+},
+  "name": "book.magitech.glistening_lexicon.spark_of_technology.name",
+  "sort_number": 0
+}

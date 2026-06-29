@@ -1,0 +1,9 @@
+{
+  "background": "magitech:textures/gui/glistening_lexicon/background.png",
+  "entry_textures": "magitech:textures/gui/glistening_lexicon/entry_textures.png",
+  "icon": {
+      "id": "magitech:infusion_altar"
+},
+  "name": "book.magitech.glistening_lexicon.systematic_miracle.name",
+  "sort_number": 1
+}
