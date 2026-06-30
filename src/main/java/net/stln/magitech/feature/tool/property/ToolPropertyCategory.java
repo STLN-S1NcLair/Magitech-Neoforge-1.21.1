@@ -18,7 +18,7 @@ public enum ToolPropertyCategory implements IExtensibleEnum, IToolPropertyGroup 
     CONTINUITY("continuity", new Color(0x40A0FF)),
     RANGE("range", new Color(0xFFE040)),
     UNIQUE("unique", new Color(0x8040FF)),
-    DEFENCE("defence", new Color(0x8080A0)),
+    DEFENSE("defence", new Color(0x8080A0)),
     DURABILITY("durability", new Color(0xFFFFFF));
 
     private final String id;

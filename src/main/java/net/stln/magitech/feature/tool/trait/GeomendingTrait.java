@@ -23,7 +23,7 @@ public class GeomendingTrait extends Trait {
 
     @Override
     public List<ToolPropertyModifier> modifyProperty(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties) {
-        ToolPropertyModifier mod = new RationalToolPropertyModifier(ToolPropertyCategory.DEFENCE, 0.2F * traitLevel);
+        ToolPropertyModifier mod = new RationalToolPropertyModifier(ToolPropertyCategory.DEFENSE, 0.2F * traitLevel);
         return List.of(mod);
     }
 

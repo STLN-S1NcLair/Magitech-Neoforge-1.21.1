@@ -1,0 +1,44 @@
+{
+  "name": "book.magitech.glistening_lexicon.spark_of_technology.magic.name",
+  "icon": {
+    "id": "magitech:thread_page"
+  },
+  "category": "magitech:spark_of_technology",
+  "x": 4,
+  "y": 0,
+  "background_u_index": 1,
+  "background_v_index": 0,
+  "parents": [
+    {
+      "entry": "magitech:spark_of_technology/tool"
+    }
+  ],
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "title": "book.magitech.glistening_lexicon.spark_of_technology.magic.name",
+      "text": "book.magitech.glistening_lexicon.spark_of_technology.magic.0.text"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.glistening_lexicon.spark_of_technology.magic.1.text"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.glistening_lexicon.spark_of_technology.magic.2.text"
+    },
+    {
+      "type": "modonomicon:spotlight",
+      "title": "book.magitech.glistening_lexicon.spark_of_technology.magic.3.title",
+      "text": "book.magitech.glistening_lexicon.spark_of_technology.magic.3.text",
+      "item": {
+        "item": "magitech:thread_page"
+      },
+      "link_recipe" : "true"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.glistening_lexicon.spark_of_technology.magic.4.text"
+    }
+  ]
+}

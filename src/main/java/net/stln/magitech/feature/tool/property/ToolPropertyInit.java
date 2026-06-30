@@ -46,7 +46,7 @@ public class ToolPropertyInit {
     public static final DeferredToolProperty<SimpleAttributeToolProperty> MANA_EFFICIENCY = register("mana_efficiency", f -> new SimpleAttributeToolProperty(f, AttributeInit.MANA_EFFICIENCY, ToolPropertyCategory.UNIQUE));
 
     // 一般プロパティ
-    public static final DeferredToolProperty<SimpleAttributeToolProperty> DEFENSE = register("defense", f -> new SimpleAttributeToolProperty(f, Attributes.ARMOR, ToolPropertyCategory.DEFENCE));
+    public static final DeferredToolProperty<SimpleAttributeToolProperty> DEFENSE = register("defense", f -> new SimpleAttributeToolProperty(f, Attributes.ARMOR, ToolPropertyCategory.DEFENSE));
     public static final DeferredToolProperty<DurationToolProperty> DURABILITY = register("durability", f -> new DurationToolProperty(f, ToolPropertyCategory.DURABILITY));
 
     public static void registerToolProperties(IEventBus bus) {

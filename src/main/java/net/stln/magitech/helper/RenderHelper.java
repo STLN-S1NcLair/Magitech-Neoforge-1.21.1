@@ -10,7 +10,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.stln.magitech.feature.element.Element;
-import net.stln.magitech.feature.tool.ToolStats;
 import net.stln.magitech.feature.tool.property.modifier.ToolPropertyModifier;
 import net.stln.magitech.feature.tool.tool_type.ToolType;
 import net.stln.magitech.feature.tool.upgrade.UpgradeInstance;

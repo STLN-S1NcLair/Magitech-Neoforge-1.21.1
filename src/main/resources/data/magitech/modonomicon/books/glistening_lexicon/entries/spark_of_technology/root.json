@@ -11,7 +11,7 @@
   "pages": [
     {
       "type": "modonomicon:text",
-      "title": "book.magitech.glistening_lexicon.spark_of_technology.root.0.title",
+      "title": "book.magitech.glistening_lexicon.spark_of_technology.root.name",
       "text": "book.magitech.glistening_lexicon.spark_of_technology.root.0.text"
     },
     {

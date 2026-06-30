@@ -112,11 +112,4 @@ public abstract class SpellCasterItem extends SynthesisedToolItem {
     public InteractionResult onLeftClick(Player user, InteractionHand hand, Level world) {
         return InteractionResult.PASS;
     }
-
-    @Override
-    protected void addPropertyTooltip(@NotNull ItemStack stack, List<Component> tooltipComponents, ToolProperties appliedProperties) {
-        for (IToolProperty<?> property : appliedProperties.getCategory().getKeys().stream().map(ToolPropertyLike::asToolProperty).toList()) {
-            property.addRationalTooltip(stack, appliedProperties, tooltipComponents);
-        }
-    }
 }

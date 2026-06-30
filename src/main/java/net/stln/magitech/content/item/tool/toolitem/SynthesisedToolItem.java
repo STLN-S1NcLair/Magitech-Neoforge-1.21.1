@@ -433,7 +433,7 @@ public abstract class SynthesisedToolItem extends Item implements LeftClickOverr
 
     protected void addPropertyTooltip(@NotNull ItemStack stack, List<Component> tooltipComponents, ToolProperties appliedProperties) {
         for (IToolProperty<?> property : appliedProperties.getCategory().getKeys().stream().map(ToolPropertyLike::asToolProperty).toList()) {
-            property.addTooltip(stack, appliedProperties, tooltipComponents);
+            property.appendTooltip(stack, appliedProperties, tooltipComponents);
         }
     }
 

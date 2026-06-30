@@ -13,12 +13,9 @@ import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.content.entity.status.AttributeInit;
 import net.stln.magitech.content.item.tool.toolitem.SynthesisedToolItem;
-import net.stln.magitech.feature.tool.ToolStats;
 import net.stln.magitech.feature.tool.property.ToolProperties;
-import net.stln.magitech.feature.tool.tool_type.ToolType;
 import net.stln.magitech.feature.tool.tool_type.ToolTypeInit;
 
-import java.util.List;
 import java.util.Optional;
 
 @EventBusSubscriber(modid = Magitech.MOD_ID)
