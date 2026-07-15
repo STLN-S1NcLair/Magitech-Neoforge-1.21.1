@@ -1,0 +1,42 @@
+{
+  "name": "book.magitech.glistening_lexicon.spark_of_technology.spell_conversion.name",
+  "icon": {
+    "id": "magitech:mana_charged_fluorite"
+  },
+  "category": "magitech:spark_of_technology",
+  "x": 6,
+  "y": 0,
+  "background_u_index": 1,
+  "background_v_index": 0,
+  "parents": [
+    {
+      "entry": "magitech:spark_of_technology/magic"
+    }
+  ],
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "title": "book.magitech.glistening_lexicon.spark_of_technology.spell_conversion.name",
+      "text": "book.magitech.glistening_lexicon.spark_of_technology.spell_conversion.0.text"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.glistening_lexicon.spark_of_technology.spell_conversion.1.text"
+    },
+    {
+      "type": "magitech:spell_conversion_recipe",
+      "text": "book.magitech.glistening_lexicon.spark_of_technology.spell_conversion.2.text",
+      "recipe_id_1": "magitech:spell_conversion/mystwood"
+    },
+    {
+      "type": "magitech:spell_conversion_recipe",
+      "text": "book.magitech.glistening_lexicon.spark_of_technology.spell_conversion.3.text",
+      "recipe_id_1": "magitech:spell_conversion/vesperite"
+    },
+    {
+      "type": "magitech:spell_conversion_recipe",
+      "text": "book.magitech.glistening_lexicon.spark_of_technology.spell_conversion.4.text",
+      "recipe_id_1": "magitech:spell_conversion/mana_charged_fluorite"
+    }
+  ]
+}

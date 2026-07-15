@@ -1,0 +1,88 @@
+{
+  "name": "book.magitech.glistening_lexicon.systematic_miracle.aspect_crystal.name",
+  "icon": {
+    "id": "magitech:ember_crystal"
+  },
+  "category": "magitech:systematic_miracle",
+  "x": 0,
+  "y": -1,
+  "background_u_index": 1,
+  "background_v_index": 2,
+  "parents": [
+  ],
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "title": "book.magitech.glistening_lexicon.systematic_miracle.aspect_crystal.name",
+      "text": "book.magitech.glistening_lexicon.systematic_miracle.aspect_crystal.0.text"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.glistening_lexicon.systematic_miracle.aspect_crystal.1.text"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.glistening_lexicon.systematic_miracle.aspect_crystal.ember.text"
+    },
+    {
+      "type": "magitech:infusion_recipe",
+      "recipe_id_1": "magitech:infusion/aspect_crystal/ember_crystal_infuser_from_coal"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.glistening_lexicon.systematic_miracle.aspect_crystal.glace.text"
+    },
+    {
+      "type": "magitech:infusion_recipe",
+      "recipe_id_1": "magitech:infusion/aspect_crystal/glace_crystal_infuser_from_calcite"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.glistening_lexicon.systematic_miracle.aspect_crystal.surge.text"
+    },
+    {
+      "type": "magitech:infusion_recipe",
+      "recipe_id_1": "magitech:infusion/aspect_crystal/surge_crystal_infuser_from_copper"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.glistening_lexicon.systematic_miracle.aspect_crystal.phantom.text"
+    },
+    {
+      "type": "magitech:infusion_recipe",
+      "recipe_id_1": "magitech:infusion/aspect_crystal/phantom_crystal_infuser_from_glow_berries"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.glistening_lexicon.systematic_miracle.aspect_crystal.tremor.text"
+    },
+    {
+      "type": "magitech:infusion_recipe",
+      "recipe_id_1": "magitech:infusion/aspect_crystal/tremor_crystal_infuser_from_deepslate"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.glistening_lexicon.systematic_miracle.aspect_crystal.magic.text"
+    },
+    {
+      "type": "magitech:infusion_recipe",
+      "recipe_id_1": "magitech:infusion/aspect_crystal/magic_crystal_infuser_from_amethyst"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.glistening_lexicon.systematic_miracle.aspect_crystal.flow.text"
+    },
+    {
+      "type": "magitech:infusion_recipe",
+      "recipe_id_1": "magitech:infusion/aspect_crystal/flow_crystal_infuser_from_sapling"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.glistening_lexicon.systematic_miracle.aspect_crystal.hollow.text"
+    },
+    {
+      "type": "magitech:infusion_recipe",
+      "recipe_id_1": "magitech:infusion/aspect_crystal/hollow_crystal_infuser_from_ender_pearl"
+    }
+  ]
+}

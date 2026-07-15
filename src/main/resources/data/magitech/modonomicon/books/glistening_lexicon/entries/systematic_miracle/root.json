@@ -1,0 +1,40 @@
+{
+  "name": "book.magitech.glistening_lexicon.systematic_miracle.root.name",
+  "icon": {
+    "id": "magitech:infusion_altar"
+  },
+  "category": "magitech:systematic_miracle",
+  "x": 0,
+  "y": 0,
+  "background_u_index": 0,
+  "background_v_index": 1,
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "title": "book.magitech.glistening_lexicon.systematic_miracle.root.name",
+      "text": "book.magitech.glistening_lexicon.systematic_miracle.root.0.text"
+    },
+    {
+      "type": "modonomicon:crafting_recipe",
+      "text": "book.magitech.glistening_lexicon.systematic_miracle.root.1.text",
+      "recipe_id_1": "magitech:crafting/infusion_altar"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.glistening_lexicon.systematic_miracle.root.2.text"
+    },
+    {
+      "type": "modonomicon:crafting_recipe",
+      "text": "book.magitech.glistening_lexicon.systematic_miracle.root.3.text",
+      "recipe_id_1": "magitech:crafting/pedestal_pylon"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.glistening_lexicon.systematic_miracle.root.4.text"
+    },
+    {
+      "type": "magitech:infusion_recipe",
+      "recipe_id_1": "magitech:infusion/high_purity_fluorite_infuser"
+    }
+  ]
+}

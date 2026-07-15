@@ -1,0 +1,24 @@
+{
+  "name": "book.magitech.glistening_lexicon.systematic_miracle.trait.name",
+  "icon": {
+    "id": "magitech:light_sword"
+  },
+  "category": "magitech:systematic_miracle",
+  "x": -2,
+  "y": 0,
+  "background_u_index": 0,
+  "background_v_index": 1,
+  "parents": [
+  ],
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "title": "book.magitech.glistening_lexicon.systematic_miracle.trait.name",
+      "text": "book.magitech.glistening_lexicon.systematic_miracle.trait.0.text"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.glistening_lexicon.systematic_miracle.trait.1.text"
+    }
+  ]
+}

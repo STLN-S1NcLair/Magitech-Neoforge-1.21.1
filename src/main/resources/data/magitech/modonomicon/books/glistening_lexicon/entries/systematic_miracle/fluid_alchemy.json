@@ -1,0 +1,50 @@
+{
+  "name": "book.magitech.glistening_lexicon.systematic_miracle.fluid_alchemy.name",
+  "icon": {
+    "id": "magitech:mana_potion_flask"
+  },
+  "category": "magitech:systematic_miracle",
+  "x": 0,
+  "y": 2,
+  "background_u_index": 1,
+  "background_v_index": 0,
+  "parents": [
+    {
+      "entry": "magitech:systematic_miracle/root"
+    }
+  ],
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "title": "book.magitech.glistening_lexicon.systematic_miracle.fluid_alchemy.name",
+      "text": "book.magitech.glistening_lexicon.systematic_miracle.fluid_alchemy.0.text"
+    },
+    {
+      "type": "modonomicon:crafting_recipe",
+      "text": "book.magitech.glistening_lexicon.systematic_miracle.fluid_alchemy.1.text",
+      "recipe_id_1": "magitech:crafting/zardius_crucible"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.glistening_lexicon.systematic_miracle.fluid_alchemy.2.text"
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "title1": "fluid_type.magitech.mana_potion",
+      "recipe_id_1": "magitech:zardius_crucible/mana_potion"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.glistening_lexicon.systematic_miracle.fluid_alchemy.3.text"
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "recipe_id_1": "magitech:zardius_crucible/mana_insulating_glass"
+    },
+    {
+      "type": "modonomicon:crafting_recipe",
+      "text": "book.magitech.glistening_lexicon.systematic_miracle.fluid_alchemy.4.text",
+      "recipe_id_1": "magitech:crafting/alchemical_flask"
+    }
+  ]
+}

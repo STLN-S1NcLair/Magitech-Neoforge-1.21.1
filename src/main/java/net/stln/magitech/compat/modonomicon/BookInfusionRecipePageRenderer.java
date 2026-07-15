@@ -2,49 +2,47 @@ package net.stln.magitech.compat.modonomicon;
 
 import com.klikli_dev.modonomicon.client.gui.book.entry.BookEntryScreen;
 import com.klikli_dev.modonomicon.client.render.page.BookRecipePageRenderer;
-import com.klikli_dev.modonomicon.fluid.NeoFluidHolder;
 import com.mojang.blaze3d.systems.RenderSystem;
+import mezz.jei.api.recipe.RecipeIngredientRole;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
-import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 import net.stln.magitech.Magitech;
-import net.stln.magitech.content.block.BlockInit;
-import net.stln.magitech.content.recipe.ZardiusCrucibleRecipe;
+import net.stln.magitech.content.item.ItemInit;
+import net.stln.magitech.content.recipe.InfusionRecipe;
+import net.stln.magitech.helper.ComponentHelper;
 import net.stln.magitech.helper.EnergyFormatter;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class BookZardiusCrucibleRecipePageRenderer extends BookRecipePageRenderer<ZardiusCrucibleRecipe, BookZardiusCrucibleRecipePage> {
+public class BookInfusionRecipePageRenderer extends BookRecipePageRenderer<InfusionRecipe, BookInfusionRecipePage> {
 
 
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "textures/gui/book_zardius_crucible.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Magitech.MOD_ID, "textures/gui/book_infusion.png");
     public static final ResourceLocation WIDGETS = Magitech.id("textures/gui/jei/jei_widgets.png");
     protected static long GAUGE_MAX_MANA = 100000; // 表示用の最大マナ量
 
-    public BookZardiusCrucibleRecipePageRenderer(BookZardiusCrucibleRecipePage page) {
+    public BookInfusionRecipePageRenderer(BookInfusionRecipePage page) {
         super(page);
     }
 
     @Override
     protected int getRecipeHeight() {
-        return 160;
+        return 142;
     }
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    protected void drawRecipe(GuiGraphics guiGraphics, RecipeHolder<ZardiusCrucibleRecipe> recipe, int recipeX, int recipeY, int mouseX, int mouseY, boolean second) {
+    protected void drawRecipe(GuiGraphics guiGraphics, RecipeHolder<InfusionRecipe> recipe, int recipeX, int recipeY, int mouseX, int mouseY, boolean second) {
 
         if (!second) {
             if (!this.page.getTitle1().isEmpty()) {
@@ -60,14 +58,14 @@ public class BookZardiusCrucibleRecipePageRenderer extends BookRecipePageRendere
         RenderSystem.enableBlend();
         int x = recipeX - 12;
         int y = recipeY;
-        guiGraphics.blit(TEXTURE, x, y, 0, 0, 120, 152, 136, 152);
+        guiGraphics.blit(TEXTURE, x, y, 0, 0, 120, 136, 136, 136);
 
         RegistryAccess registries = Minecraft.getInstance().level != null ? Minecraft.getInstance().level.registryAccess() : null;
         if (registries == null) {
             return;
         }
 
-        ZardiusCrucibleRecipe value = recipe.value();
+        InfusionRecipe value = recipe.value();
 
         List<SizedIngredient> ingredients = value.getSizedIngredients();
 
@@ -81,11 +79,11 @@ public class BookZardiusCrucibleRecipePageRenderer extends BookRecipePageRendere
         }
 
         int height = (int) (Math.min((double) value.getMana() / GAUGE_MAX_MANA * 72, 72));
-        guiGraphics.blit(TEXTURE, x + 88, y + 24 + 72 - height, 120, 0, 16, height, 136, 152);
+        guiGraphics.blit(TEXTURE, x + 88, y + 24 + 72 - height, 120, 0, 16, height, 136, 136);
 
-        SizedFluidIngredient fluidIngredient = value.getFluidIngredient();
+        SizedIngredient base = value.getBase();
 
-        this.parentScreen.renderFluidStacks(guiGraphics, x + 51, y + 15, mouseX, mouseY, List.of(fluidIngredient.getFluids()).stream().map(NeoFluidHolder::new).collect(Collectors.toList()));
+        this.parentScreen.renderItemStacks(guiGraphics, x + 52, y + 16, mouseX, mouseY, List.of(base.getItems()));
 
         for (int i = 0; i < size; i++) {
             int wx = x + 16, wy = y + 52 + i * 17;
@@ -94,12 +92,13 @@ public class BookZardiusCrucibleRecipePageRenderer extends BookRecipePageRendere
             this.parentScreen.renderItemStacks(guiGraphics, wx, wy, mouseX, mouseY, List.of(ingredients.get(i).getItems()));
         }
 
-        this.parentScreen.renderFluidStack(guiGraphics, x + 51, y + 87, mouseX, mouseY, new NeoFluidHolder(value.getResultFluid()));
-        this.parentScreen.renderItemStack(guiGraphics, x + 52, y + 120, mouseX, mouseY, value.getResultItem(registries));
+        this.parentScreen.renderItemStack(guiGraphics, x + 52, y + 104, mouseX, mouseY, value.getResultItem(registries));
 
         if (mouseX >= x + 88 && mouseX <= x + 104 && mouseY >= y + 24 && mouseY <= y + 96) {
             guiGraphics.renderComponentTooltip(Minecraft.getInstance().font, List.of(Component.translatable("recipe.magitech.required_mana").append(Component.literal(": " + EnergyFormatter.formatValue(value.getMana()))).withColor(0xcdffde)), mouseX, mouseY);
         }
     }
+
+
 }
 

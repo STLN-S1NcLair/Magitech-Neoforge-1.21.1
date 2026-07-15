@@ -1,0 +1,38 @@
+{
+  "name": "book.magitech.glistening_lexicon.potential_control_of_mana_mechanism.root.name",
+  "icon": {
+    "id": "magitech:fluxium_ingot"
+  },
+  "category": "magitech:potential_control_of_mana_mechanism",
+  "x": 0,
+  "y": 0,
+  "background_u_index": 0,
+  "background_v_index": 1,
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "title": "book.magitech.glistening_lexicon.potential_control_of_mana_mechanism.root.name",
+      "text": "book.magitech.glistening_lexicon.potential_control_of_mana_mechanism.root.0.text"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.glistening_lexicon.potential_control_of_mana_mechanism.root.1.text"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.glistening_lexicon.potential_control_of_mana_mechanism.root.2.text"
+    },
+    {
+      "type": "magitech:infusion_recipe",
+      "recipe_id_1": "magitech:infusion/alchecrysite_infuser"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.glistening_lexicon.potential_control_of_mana_mechanism.root.3.text"
+    },
+    {
+      "type": "magitech:infusion_recipe",
+      "recipe_id_1": "magitech:infusion/fluxium_ingot"
+    }
+  ]
+}

@@ -48,7 +48,7 @@ public abstract class SpellCasterItem extends SynthesisedToolItem {
                     }));
                 } else {
                     player.releaseUsingItem();
-                    return InteractionResultHolder.consume(stack);
+                    return InteractionResultHolder.pass(stack);
                 }
             } else {
                 threadbound.set(ComponentInit.SPELL_COMPONENT, spells.setSelected(0));

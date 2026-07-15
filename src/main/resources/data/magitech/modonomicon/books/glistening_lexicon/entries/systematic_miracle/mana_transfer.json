@@ -1,0 +1,42 @@
+{
+  "name": "book.magitech.glistening_lexicon.systematic_miracle.mana_transfer.name",
+  "icon": {
+    "id": "magitech:mana_vessel"
+  },
+  "category": "magitech:systematic_miracle",
+  "x": 2,
+  "y": 0,
+  "background_u_index": 1,
+  "background_v_index": 0,
+  "parents": [
+    {
+      "entry": "magitech:systematic_miracle/root"
+    }
+  ],
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "title": "book.magitech.glistening_lexicon.systematic_miracle.mana_transfer.name",
+      "text": "book.magitech.glistening_lexicon.systematic_miracle.mana_transfer.0.text"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.glistening_lexicon.systematic_miracle.mana_transfer.1.text"
+    },
+    {
+      "type": "modonomicon:crafting_recipe",
+      "text": "book.magitech.glistening_lexicon.systematic_miracle.mana_transfer.2.text",
+      "recipe_id_1": "magitech:crafting/mana_vessel"
+    },
+    {
+      "type": "modonomicon:crafting_recipe",
+      "text": "book.magitech.glistening_lexicon.systematic_miracle.mana_transfer.3.text",
+      "recipe_id_1": "magitech:crafting/mana_node"
+    },
+    {
+      "type": "modonomicon:crafting_recipe",
+      "text": "book.magitech.glistening_lexicon.systematic_miracle.mana_transfer.4.text",
+      "recipe_id_1": "magitech:crafting/mana_relay"
+    }
+  ]
+}

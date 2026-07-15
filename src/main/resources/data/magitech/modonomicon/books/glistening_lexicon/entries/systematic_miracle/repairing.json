@@ -1,0 +1,37 @@
+{
+  "name": "book.magitech.glistening_lexicon.systematic_miracle.repairing.name",
+  "icon": {
+    "id": "magitech:repairing_workbench"
+  },
+  "category": "magitech:systematic_miracle",
+  "x": -2,
+  "y": 2,
+  "background_u_index": 1,
+  "background_v_index": 0,
+  "parents": [
+    {
+      "entry": "magitech:systematic_miracle/trait"
+    }
+  ],
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "title": "book.magitech.glistening_lexicon.systematic_miracle.repairing.name",
+      "text": "book.magitech.glistening_lexicon.systematic_miracle.repairing.0.text"
+    },
+    {
+      "type": "modonomicon:crafting_recipe",
+      "text": "book.magitech.glistening_lexicon.systematic_miracle.repairing.1.text",
+      "recipe_id_1": "magitech:crafting/repairing_workbench"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.glistening_lexicon.systematic_miracle.repairing.2.text"
+    },
+    {
+      "type": "modonomicon:crafting_recipe",
+      "text": "book.magitech.glistening_lexicon.systematic_miracle.repairing.3.text",
+      "recipe_id_1": "magitech:crafting/upgrade_workbench"
+    }
+  ]
+}

@@ -4,14 +4,19 @@ import com.google.gson.JsonObject;
 import com.klikli_dev.modonomicon.book.BookTextHolder;
 import com.klikli_dev.modonomicon.book.conditions.BookCondition;
 import com.klikli_dev.modonomicon.book.conditions.BookNoneCondition;
+import com.klikli_dev.modonomicon.book.entries.BookContentEntry;
 import com.klikli_dev.modonomicon.book.page.BookRecipePage;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.fluids.FluidStack;
 import net.stln.magitech.content.recipe.RecipeInit;
 import net.stln.magitech.content.recipe.ZardiusCrucibleRecipe;
 
@@ -43,6 +48,14 @@ public class BookZardiusCrucibleRecipePage extends BookRecipePage<ZardiusCrucibl
         }
 
         return recipe.value().getResultItem(level.registryAccess());
+    }
+
+    protected FluidStack getFluidOutput(RecipeHolder<ZardiusCrucibleRecipe> recipe) {
+        if (recipe == null) {
+            return FluidStack.EMPTY;
+        }
+
+        return recipe.value().getResultFluid();
     }
 
     @Override

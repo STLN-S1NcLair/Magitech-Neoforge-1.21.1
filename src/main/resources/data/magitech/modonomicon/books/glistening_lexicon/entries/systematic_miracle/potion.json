@@ -1,0 +1,117 @@
+{
+  "name": "book.magitech.glistening_lexicon.systematic_miracle.potion.name",
+  "icon": {
+    "id": "magitech:ember_potion_flask"
+  },
+  "category": "magitech:systematic_miracle",
+  "x": 0,
+  "y": 4,
+  "background_u_index": 1,
+  "background_v_index": 0,
+  "parents": [
+    {
+      "entry": "magitech:systematic_miracle/fluid_alchemy"
+    }
+  ],
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "title": "book.magitech.glistening_lexicon.systematic_miracle.potion.name",
+      "text": "book.magitech.glistening_lexicon.systematic_miracle.potion.0.text"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.glistening_lexicon.systematic_miracle.potion.1.text"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.glistening_lexicon.systematic_miracle.potion.ember.text"
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "title1": "fluid_type.magitech.ember_potion",
+      "recipe_id_1": "magitech:zardius_crucible/ember_potion"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.glistening_lexicon.systematic_miracle.potion.glace.text"
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "title1": "fluid_type.magitech.glace_potion",
+      "recipe_id_1": "magitech:zardius_crucible/glace_potion"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.glistening_lexicon.systematic_miracle.potion.surge.text"
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "title1": "fluid_type.magitech.surge_potion",
+      "recipe_id_1": "magitech:zardius_crucible/surge_potion"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.glistening_lexicon.systematic_miracle.potion.phantom.text"
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "title1": "fluid_type.magitech.phantom_potion",
+      "recipe_id_1": "magitech:zardius_crucible/phantom_potion"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.glistening_lexicon.systematic_miracle.potion.tremor.text"
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "title1": "fluid_type.magitech.tremor_potion",
+      "recipe_id_1": "magitech:zardius_crucible/tremor_potion"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.glistening_lexicon.systematic_miracle.potion.magic.text"
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "title1": "fluid_type.magitech.magic_potion",
+      "recipe_id_1": "magitech:zardius_crucible/magic_potion"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.glistening_lexicon.systematic_miracle.potion.flow.text"
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "title1": "fluid_type.magitech.flow_potion",
+      "recipe_id_1": "magitech:zardius_crucible/flow_potion"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.glistening_lexicon.systematic_miracle.potion.hollow.text"
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "title1": "fluid_type.magitech.hollow_potion",
+      "recipe_id_1": "magitech:zardius_crucible/hollow_potion"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.glistening_lexicon.systematic_miracle.potion.healing.text"
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "title1": "fluid_type.magitech.healing_potion",
+      "recipe_id_1": "magitech:zardius_crucible/healing_potion"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.glistening_lexicon.systematic_miracle.potion.sulfuric_acid.text"
+    },
+    {
+      "type": "magitech:zardius_crucible_recipe",
+      "title1": "fluid_type.magitech.sulfuric_acid",
+      "recipe_id_1": "magitech:zardius_crucible/sulfuric_acid"
+    }
+  ]
+}
