@@ -2,6 +2,6 @@
   "type": "magitech:part_cutting",
   "input_count": 2,
   "result": {
-    "id": "magitech:reinforced_stick"
+    "id": "magitech:reinforced_rod"
   }
 }

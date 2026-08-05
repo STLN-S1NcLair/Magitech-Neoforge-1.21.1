@@ -36,6 +36,7 @@
     "fluid": "magitech:hollow_potion",
     "amount": 250
   },
+  "mana": 50000,
   "result": {
     "id": "magitech:ender_metal_ingot",
     "count": 5

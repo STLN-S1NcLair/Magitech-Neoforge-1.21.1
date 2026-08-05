@@ -1,0 +1,40 @@
+{
+  "type": "magitech:infusion",
+  "base": {
+    "ingredient": {
+      "item": "minecraft:blast_furnace"
+    },
+    "count": 1
+  },
+  "ingredients": [
+    {
+      "ingredient": {
+        "item": "magitech:high_purity_fluorite"
+      },
+      "count": 4
+    },
+    {
+      "ingredient": {
+        "item": "magitech:alchecrysite"
+      },
+      "count": 2
+    },
+    {
+      "ingredient": {
+        "item": "magitech:fluxium_ingot"
+      },
+      "count": 4
+    },
+    {
+      "ingredient": {
+        "item": "magitech:ember_crystal"
+      },
+      "count": 2
+    }
+  ],
+  "mana": 100000,
+  "result": {
+    "id": "magitech:ember_smelter",
+    "count": 1
+  }
+}

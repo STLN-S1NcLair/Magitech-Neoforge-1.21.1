@@ -53,7 +53,7 @@ public class EmberSmelterBlockEntity extends ManaMachineBlockEntity {
     public static final int FUEL = 0;
     public static final int INPUT = 1;
     public static final int OUTPUT = 2;
-    public static final int MAX_FUEL = 8;
+    public static final int MAX_FUEL = 32;
     public static final int MAX_PROGRESS = 10;
 
     protected int fuel = 0;

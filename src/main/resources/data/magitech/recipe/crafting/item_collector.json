@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "N": {
+      "item": "minecraft:gold_nugget"
+    },
+    "I": {
+      "item": "magitech:fluxium_ingot"
+    },
+    "C": {
+      "tag": "c:ingots/copper"
+    },
+    "A": {
+      "item": "magitech:alchecrysite"
+    },
+    "F": {
+      "item": "magitech:high_purity_fluorite"
+    }
+  },
+  "pattern": [
+    "INI",
+    "CFC",
+    "IAI"
+  ],
+  "result": {
+    "count": 1,
+    "id": "magitech:item_collector"
+  }
+}

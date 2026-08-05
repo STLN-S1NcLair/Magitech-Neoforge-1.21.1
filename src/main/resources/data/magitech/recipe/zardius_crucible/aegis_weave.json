@@ -48,6 +48,7 @@
     "fluid": "minecraft:lava",
     "amount": 2000
   },
+  "mana": 100000,
   "result": {
     "id": "magitech:aegis_weave",
     "count": 3

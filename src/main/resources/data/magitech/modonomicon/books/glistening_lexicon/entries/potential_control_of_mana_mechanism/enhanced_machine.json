@@ -1,0 +1,39 @@
+{
+  "name": "book.magitech.glistening_lexicon.potential_control_of_mana_mechanism.enhanced_machine.name",
+  "icon": {
+    "id": "magitech:infuser"
+  },
+  "category": "magitech:potential_control_of_mana_mechanism",
+  "x": 2,
+  "y": 0,
+  "background_u_index": 1,
+  "background_v_index": 0,
+  "parents": [
+    {
+      "entry": "magitech:potential_control_of_mana_mechanism/root"
+    }
+  ],
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "title": "book.magitech.glistening_lexicon.potential_control_of_mana_mechanism.enhanced_machine.name",
+      "text": "book.magitech.glistening_lexicon.potential_control_of_mana_mechanism.enhanced_machine.0.text"
+    },
+    {
+      "type": "magitech:infusion_recipe",
+      "recipe_id_1": "magitech:infusion/machines/infuser"
+    },
+    {
+      "type": "magitech:infusion_recipe",
+      "recipe_id_1": "magitech:infusion/machines/enhanced_mana_vessel"
+    },
+    {
+      "type": "magitech:infusion_recipe",
+      "recipe_id_1": "magitech:infusion/machines/enhanced_mana_node"
+    },
+    {
+      "type": "magitech:infusion_recipe",
+      "recipe_id_1": "magitech:infusion/machines/enhanced_mana_relay"
+    }
+  ]
+}

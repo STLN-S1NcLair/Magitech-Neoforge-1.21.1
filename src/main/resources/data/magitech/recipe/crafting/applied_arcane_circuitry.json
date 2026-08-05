@@ -4,7 +4,7 @@
   "key": {
     "Z": {
       "type": "neoforge:components",
-      "items": "magitech:reinforced_stick",
+      "items": "magitech:reinforced_rod",
       "components": {
         "magitech:material_component": "magitech:zinc"
       }

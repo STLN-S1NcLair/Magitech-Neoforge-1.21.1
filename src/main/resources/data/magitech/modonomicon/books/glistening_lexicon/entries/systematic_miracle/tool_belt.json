@@ -1,0 +1,28 @@
+{
+  "name": "book.magitech.glistening_lexicon.spark_of_technology.tool_belt.name",
+  "icon": {
+    "id": "magitech:tool_belt"
+  },
+  "category": "magitech:spark_of_technology",
+  "x": 2,
+  "y": 1,
+  "background_u_index": 1,
+  "background_v_index": 2,
+  "parents": [
+    {
+      "entry": "magitech:spark_of_technology/repairing"
+    }
+  ],
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "title": "book.magitech.glistening_lexicon.spark_of_technology.tool_belt.name",
+      "text": "book.magitech.glistening_lexicon.spark_of_technology.tool_belt.0.text"
+    },
+    {
+      "type": "modonomicon:crafting_recipe",
+      "text": "book.magitech.glistening_lexicon.spark_of_technology.tool_belt.1.text",
+      "recipe_id_1": "magitech:crafting/tool_belt"
+    }
+  ]
+}

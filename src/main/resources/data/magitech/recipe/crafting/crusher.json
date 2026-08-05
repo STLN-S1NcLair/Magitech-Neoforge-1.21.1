@@ -2,26 +2,26 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "F": {
-      "tag": "c:gems/fluorite"
+    "I": {
+      "item": "magitech:fluxium_ingot"
+    },
+    "C": {
+      "tag": "c:ingots/iron"
     },
     "A": {
       "item": "magitech:alchecrysite"
     },
     "G": {
-      "item": "minecraft:gold_ingot"
-    },
-    "R": {
-      "item": "magitech:redstone_crystal"
+      "item": "magitech:mana_insulating_glass"
     }
   },
   "pattern": [
-    "AGR",
-    "GFG",
-    "AGF"
+    "IAI",
+    "CGC",
+    "IAI"
   ],
   "result": {
     "count": 1,
-    "id": "magitech:mana_deexciter_core"
+    "id": "magitech:crusher"
   }
 }
