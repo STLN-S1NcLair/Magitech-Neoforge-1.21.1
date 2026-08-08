@@ -4,20 +4,22 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.stln.magitech.MagitechRegistries;
 import net.stln.magitech.content.item.tool.toolitem.SynthesisedToolItem;
-import org.checkerframework.checker.units.qual.A;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class UpgradeUtil {
 
     public static List<Upgrade> getUpgrades(int size, int seed, ItemStack stack) {
         SynthesisedToolItem item = (SynthesisedToolItem) stack.getItem();
-        Set<Upgrade> upgrades = MagitechRegistries.UPGRADE.entrySet().stream().map(Map.Entry::getValue).filter(upgrade -> upgrade.applicable(item.getToolType().asToolType().defaultProperties().get().getCategory())).collect(Collectors.toSet());
+        List<Upgrade> upgrades = MagitechRegistries.UPGRADE.entrySet().stream()
+                .map(Map.Entry::getValue)
+                .filter(upgrade -> upgrade.applicable(item.getToolType().asToolType().defaultProperties().get().getCategory()))
+                .sorted(Comparator.comparing(upgrade -> String.valueOf(MagitechRegistries.UPGRADE.getKey(upgrade))))
+                .toList();
         return pickRandomValues(upgrades, seed, size);
     }
 
-    public static List<Upgrade> pickRandomValues(Set<Upgrade> upgrades, long seed, int count) {
+    public static List<Upgrade> pickRandomValues(List<Upgrade> upgrades, long seed, int count) {
         // RandomSourceでseed固定
         RandomSource random = RandomSource.create(seed);
 

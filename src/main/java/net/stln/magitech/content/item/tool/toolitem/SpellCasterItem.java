@@ -41,7 +41,7 @@ public abstract class SpellCasterItem extends SynthesisedToolItem {
             SpellComponent spells = ComponentHelper.getSpells(threadbound);
             if (spells.selected() < spells.spells().size()) {
                 ISpell spell = spells.getSelectedSpell();
-                if (spell.canCast(level, player)) {
+                if (spell.canCast(level, player, stack)) {
                     spell.cast(level, player, stack, usedHand, true);
                     TraitHelper.getTrait(stack).forEach(((instance) -> {
                         instance.trait().onCastSpell(player, level, stack, instance.level(), getAppliedProperties(player, level, stack));
@@ -71,7 +71,7 @@ public abstract class SpellCasterItem extends SynthesisedToolItem {
             if (!threadbound.isEmpty()) {
                 SpellComponent spellComponent = ComponentHelper.getSpells(threadbound);
                 ISpell spell = spellComponent.getSelectedSpell();
-                if (spell.canContinuousCast(level, livingEntity)) {
+                if (spell.canContinuousCast(level, livingEntity, stack)) {
                     spell.tick(level, livingEntity, stack, hand, getUseDuration(stack, livingEntity) - remainingUseDuration, true);
                 } else {
                     livingEntity.releaseUsingItem();

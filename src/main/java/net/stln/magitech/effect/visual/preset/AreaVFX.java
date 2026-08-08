@@ -11,6 +11,7 @@ import team.lodestar.lodestone.systems.particle.world.behaviors.DirectionalParti
 public class AreaVFX {
 
     public static void areaLight(Level level, Element element, Vec3 pos, float radius, float height, int lifetime) {
+        if (!level.isClientSide) return;
         int sides = getSidesFromInRadius(radius);
         for (int i = 0; i < sides; i++) {
             float theta = Mth.TWO_PI * i / sides;

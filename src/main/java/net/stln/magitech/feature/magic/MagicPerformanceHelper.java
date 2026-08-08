@@ -39,7 +39,7 @@ public class MagicPerformanceHelper {
 
     public static<T extends Number>  float getEffectiveSpellProperty(LivingEntity caster, @Nullable ItemStack wand, ISpell spell, SpellProperty<T> key, Holder<Attribute> coefficientAttribute) {
         SpellConfig config = spell.getConfig();
-        return getEffectiveSpellProperty(caster, wand, config.cost(), config.properties().get(key).floatValue(), coefficientAttribute);
+        return getEffectiveSpellProperty(caster, wand, getEffectiveCost(caster, wand, spell), config.properties().get(key).floatValue(), coefficientAttribute);
     }
 
     // 敵の属性倍率を考慮した実効ダメージ値
@@ -51,12 +51,12 @@ public class MagicPerformanceHelper {
 
     public static float getEffectiveMagicDamage(LivingEntity caster, @Nullable ItemStack wand, ISpell spell, SpellProperty<Float> key, LivingEntity target) {
         SpellConfig config = spell.getConfig();
-        return getEffectiveMagicDamage(caster, wand, config.cost(), config.properties().get(key), config.element(), target);
+        return getEffectiveMagicDamage(caster, wand, getEffectiveCost(caster, wand, spell), config.properties().get(key), config.element(), target);
     }
 
     public static float getEffectiveMagicDamage(LivingEntity caster, @Nullable ItemStack wand, ISpell spell, LivingEntity target) {
         SpellConfig config = spell.getConfig();
-        return getEffectiveMagicDamage(caster, wand, config.cost(), config.properties().get(SpellPropertyInit.DAMAGE), config.element(), target);
+        return getEffectiveMagicDamage(caster, wand, getEffectiveCost(caster, wand, spell), config.properties().get(SpellPropertyInit.DAMAGE), config.element(), target);
     }
 
     // 魔法威力を考慮した出力ダメージ値(EFFECT_STRENGTHなどでも使用する)
@@ -69,17 +69,17 @@ public class MagicPerformanceHelper {
 
     public static <T extends Number> float getOutgoingMagicDamage(LivingEntity caster, @Nullable ItemStack wand, SpellProperty<T> key, ISpell spell) {
         SpellConfig config = spell.getConfig();
-        return getOutgoingMagicDamage(caster, wand, config.cost(), config.properties().get(key).floatValue(), config.element());
+        return getOutgoingMagicDamage(caster, wand, getEffectiveCost(caster, wand, spell), config.properties().get(key).floatValue(), config.element());
     }
 
     public static void applyEffectiveMagicDamage(LivingEntity caster, @Nullable ItemStack wand, ISpell spell, LivingEntity target) {
         SpellConfig config = spell.getConfig();
-        applyMagicDamage(caster, wand, config.cost(), config.properties().get(SpellPropertyInit.DAMAGE), config.element(), target);
+        applyMagicDamage(caster, wand, getEffectiveCost(caster, wand, spell), config.properties().get(SpellPropertyInit.DAMAGE), config.element(), target);
     }
 
     public static void applyMagicDamage(LivingEntity caster, @Nullable ItemStack wand, ISpell spell, float damage, Entity target) {
         SpellConfig config = spell.getConfig();
-        applyMagicDamage(caster, wand, config.cost(), damage, config.element(), target);
+        applyMagicDamage(caster, wand, getEffectiveCost(caster, wand, spell), damage, config.element(), target);
     }
 
     public static void applyMagicDamage(LivingEntity caster, @Nullable ItemStack wand, float cost, float damage, Element element, Entity target) {
@@ -115,7 +115,7 @@ public class MagicPerformanceHelper {
     public static float getEffectiveContinuousCost(LivingEntity caster, @Nullable ItemStack wand, ISpell spell) {
         SpellConfig config = spell.getConfig();
         if (!config.continuous()) return 0;
-        float cost = config.cost();
+        float cost = getEffectiveCost(caster, wand, spell);
         Optional<Float> continuousCost = config.costPerTick();
         return MagicPerformanceHelper.getEffectiveSpellPropertyWithDivide(caster, wand, cost, continuousCost.get(), AttributeInit.MANA_EFFICIENCY);
     }
@@ -123,14 +123,14 @@ public class MagicPerformanceHelper {
     public static float getEffectiveChargeTime(LivingEntity caster, @Nullable ItemStack wand, ISpell spell) {
         SpellConfig config = spell.getConfig();
         if (!config.hasCharge()) return 0;
-        float cost = config.cost();
+        float cost = getEffectiveCost(caster, wand, spell);
         Optional<Integer> chargeTime = config.chargeTime();
         return MagicPerformanceHelper.getEffectiveSpellPropertyWithDivide(caster, wand, cost, chargeTime.get(), AttributeInit.CHARGE_SPEED);
     }
 
     public static int getEffectiveCooldown(LivingEntity caster, @Nullable ItemStack wand, ISpell spell) {
         SpellConfig config = spell.getConfig();
-        float cost = config.cost();
+        float cost = getEffectiveCost(caster, wand, spell);
         int cooldownTime = config.cooldown();
         return (int) MagicPerformanceHelper.getEffectiveSpellPropertyWithDivide(caster, wand, cost, cooldownTime, AttributeInit.COOLDOWN_SPEED);
     }
@@ -138,7 +138,7 @@ public class MagicPerformanceHelper {
     public static float getEffectiveProjectileSpeed(LivingEntity caster, @Nullable ItemStack wand, ISpell spell) {
         SpellConfig config = spell.getConfig();
         if (!config.properties().contains(SpellPropertyInit.PROJECTILE_SPEED)) return 0;
-        float cost = config.cost();
+        float cost = getEffectiveCost(caster, wand, spell);
         Optional<Float> projectileSpeed = config.properties().getOptional(SpellPropertyInit.PROJECTILE_SPEED);
         return MagicPerformanceHelper.getEffectiveSpellProperty(caster, wand, cost, projectileSpeed.get(), AttributeInit.LAUNCH);
     }
@@ -146,7 +146,7 @@ public class MagicPerformanceHelper {
     public static float getEffectiveMaxRange(LivingEntity caster, @Nullable ItemStack wand, ISpell spell) {
         SpellConfig config = spell.getConfig();
         if (!config.properties().contains(SpellPropertyInit.MAX_RANGE)) return 0;
-        float cost = config.cost();
+        float cost = getEffectiveCost(caster, wand, spell);
         Optional<Float> maxRange = config.properties().getOptional(SpellPropertyInit.MAX_RANGE);
         return MagicPerformanceHelper.getEffectiveSpellProperty(caster, wand, cost, maxRange.get(), AttributeInit.LAUNCH);
     }

@@ -21,6 +21,8 @@ public class GlacePotionFlaskItem extends DrinkableFlaskItem {
     @Override
     protected void applyEffects(Level level, LivingEntity entity, ItemStack stack) {
         entity.addEffect(new MobEffectInstance(MobEffectInit.GLACE_POWER, 2400, 0));
-        EntityVFX.powerupAura(level, Element.GLACE, entity, Section.cover(), 40);
+        if (level.isClientSide) {
+            EntityVFX.powerupAura(level, Element.GLACE, entity, Section.cover(), 40);
+        }
     }
 }

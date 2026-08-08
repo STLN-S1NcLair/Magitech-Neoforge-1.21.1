@@ -1,0 +1,33 @@
+{
+  "name": "book.magitech.glistening_lexicon.potential_control_of_mana_mechanism.advanced_mana_transfer.name",
+  "icon": {
+    "id": "magitech:mana_strander"
+  },
+  "category": "magitech:potential_control_of_mana_mechanism",
+  "x": 6,
+  "y": 0,
+  "background_u_index": 1,
+  "background_v_index": 0,
+  "parents": [
+    {
+      "entry": "magitech:potential_control_of_mana_mechanism/mana_production"
+    }
+  ],
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "title": "book.magitech.glistening_lexicon.potential_control_of_mana_mechanism.advanced_mana_transfer.name",
+      "text": "book.magitech.glistening_lexicon.potential_control_of_mana_mechanism.advanced_mana_transfer.0.text"
+    },
+    {
+      "type": "modonomicon:crafting_recipe",
+      "text": "book.magitech.glistening_lexicon.potential_control_of_mana_mechanism.advanced_mana_transfer.1.text",
+      "recipe_id_1": "magitech:crafting/mana_strander"
+    },
+    {
+      "type": "modonomicon:crafting_recipe",
+      "text": "book.magitech.glistening_lexicon.potential_control_of_mana_mechanism.advanced_mana_transfer.2.text",
+      "recipe_id_1": "magitech:crafting/mana_receiver"
+    }
+  ]
+}

@@ -32,6 +32,7 @@ public class EntityVFX {
     }
 
     public static void powerupAura(Level level, Color primary, Color secondary, Entity entity, Section heightSection, float amount) {
+        if (!level.isClientSide) return;
         for (int i = 0; i < amount; i++) {
             if (i != Mth.floor(amount) || level.random.nextFloat() < amount - i) {
                 Vec3 randomBody = EffectHelper.getRandomBody(entity, heightSection);

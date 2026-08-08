@@ -19,6 +19,7 @@ import net.stln.magitech.content.block.BlockInit;
 import net.stln.magitech.content.item.component.ComponentInit;
 import net.stln.magitech.content.item.component.UpgradeComponent;
 import net.stln.magitech.content.item.tool.toolitem.SynthesisedToolItem;
+import net.stln.magitech.MagitechRegistries;
 import net.stln.magitech.feature.tool.upgrade.Upgrade;
 import net.stln.magitech.feature.tool.upgrade.UpgradeInstance;
 import net.stln.magitech.feature.tool.upgrade.UpgradeUtil;
@@ -27,7 +28,7 @@ import net.stln.magitech.helper.ToolMaterialHelper;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.Random;
+import java.util.Objects;
 
 public class ToolUpgradeMenu extends AbstractContainerMenu {
     public static final int INPUT_SLOT = 0;
@@ -174,10 +175,16 @@ public class ToolUpgradeMenu extends AbstractContainerMenu {
             this.upgrades = List.of();
             return;
         }
+        int seed = stack.getOrDefault(ComponentInit.UPGRADE_SEED_COMPONENT, Objects.hash(
+                MagitechRegistries.TOOL_TYPE.getKey(((SynthesisedToolItem) stack.getItem()).getToolType()),
+                ComponentHelper.getPartMaterials(stack),
+                ComponentHelper.getMaterial(stack).orElse(null),
+                ComponentHelper.getTier(stack)
+        ) & Integer.MAX_VALUE);
         if (!stack.has(ComponentInit.UPGRADE_SEED_COMPONENT)) {
-            stack.set(ComponentInit.UPGRADE_SEED_COMPONENT, new Random().nextInt(Integer.MAX_VALUE));
+            stack.set(ComponentInit.UPGRADE_SEED_COMPONENT, seed);
         }
-        upgrades = UpgradeUtil.getUpgrades(upgradeSize, stack.get(ComponentInit.UPGRADE_SEED_COMPONENT), stack);
+        upgrades = UpgradeUtil.getUpgrades(upgradeSize, seed, stack);
     }
 
     @Override

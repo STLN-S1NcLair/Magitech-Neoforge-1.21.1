@@ -114,7 +114,7 @@ public class BlockInit {
                     InfuserBlockEntity::new, BlockInit.INFUSER.get()).build(null));
 
     public static final DeferredBlock<ZardiusCrucibleBlock> ZARDIUS_CRUCIBLE = BLOCKS.registerBlock("zardius_crucible",
-            properties -> new ZardiusCrucibleBlock(properties, 50000, 5000),
+            properties -> new ZardiusCrucibleBlock(properties, 500000, 5000),
             BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(SoundType.NETHERITE_BLOCK).noOcclusion());
     public static final DeferredItem<BlockItem> ZARDIUS_CRUCIBLE_ITEM = ItemInit.ITEMS.register("zardius_crucible", key -> new HintTooltipTextManaContainerBlockItem(ZARDIUS_CRUCIBLE.get(), new Item.Properties()));
     public static final Supplier<BlockEntityType<ZardiusCrucibleBlockEntity>> ZARDIUS_CRUCIBLE_ENTITY =

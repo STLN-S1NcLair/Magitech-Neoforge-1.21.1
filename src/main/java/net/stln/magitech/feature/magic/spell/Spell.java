@@ -46,7 +46,7 @@ public abstract class Spell implements ISpell {
 
     @Override
     public void cast(Level level, LivingEntity caster, @Nullable ItemStack wand, @Nullable InteractionHand hand, boolean isHost) {
-        if (!canCast(level, caster)) {
+        if (!canCast(level, caster, wand)) {
             return;
         }
         if (level.isClientSide) {
@@ -61,7 +61,7 @@ public abstract class Spell implements ISpell {
             }
         } else {
             if (config.continuous() && !isHost) {
-                EntityManaHelper.addMagicMana(caster, -this.config.cost());
+                EntityManaHelper.addMagicMana(caster, -MagicPerformanceHelper.getEffectiveCost(caster, wand, this));
             }
             if (isLongSpell()) {
                 if (this.getConfig().hasCharge()) {
@@ -98,12 +98,12 @@ public abstract class Spell implements ISpell {
     }
 
     @Override
-    public boolean canCast(Level level, LivingEntity caster) {
+    public boolean canCast(Level level, LivingEntity caster, ItemStack wand) {
         if (CooldownHelper.isCooldown(caster, this)) {
             hintCoolingdown(caster);
             return false;
         }
-        if (!hasEnoughMana(caster)) {
+        if (!hasEnoughMana(caster, wand)) {
             hintNotEnoughMana(caster);
             return false;
         }
@@ -126,8 +126,8 @@ public abstract class Spell implements ISpell {
             if (isLongSpell()) {
                 ChargeData data = caster.getData(DataAttachmentInit.SPELL_CHARGE);
                 if (data.charge().remaining() <= 0) {
-                    if (this.getConfig().continuous() && canContinuousCast(level, caster)) {
-                        EntityManaHelper.addMagicMana(caster, -this.config.costPerTick().get());
+                    if (this.getConfig().continuous() && canContinuousCast(level, caster, wand)) {
+                        EntityManaHelper.addMagicMana(caster, -MagicPerformanceHelper.getEffectiveContinuousCost(caster, wand, this));
                     } else {
                         end(level, caster, wand, hand, isHost);
                     }
@@ -151,12 +151,12 @@ public abstract class Spell implements ISpell {
     }
 
     @Override
-    public boolean canContinuousCast(Level level, LivingEntity caster) {
+    public boolean canContinuousCast(Level level, LivingEntity caster, ItemStack wand) {
         if (CooldownHelper.isCooldown(caster, this)) {
             hintCoolingdown(caster);
             return false;
         }
-        if (!hasEnoughContinuousMana(caster)) {
+        if (!hasEnoughContinuousMana(caster, wand)) {
             hintNotEnoughMana(caster);
             return false;
         }
@@ -174,7 +174,7 @@ public abstract class Spell implements ISpell {
                 endVFX(level, caster);
             } else {
                 if (!config.continuous()) {
-                    EntityManaHelper.addMagicMana(caster, -this.config.cost());
+                    EntityManaHelper.addMagicMana(caster, -MagicPerformanceHelper.getEffectiveCost(caster, wand, this));
                 }
                 SoundHelper.broadcastSound(level, caster, config.endSound());
             }
@@ -217,12 +217,12 @@ public abstract class Spell implements ISpell {
         }
     }
 
-    private boolean hasEnoughMana(LivingEntity caster) {
-        return caster instanceof Player player && player.isCreative() || EntityManaHelper.getMagicMana(caster) >= this.config.cost();
+    private boolean hasEnoughMana(LivingEntity caster, @Nullable ItemStack wand) {
+        return caster instanceof Player player && player.isCreative() || EntityManaHelper.getMagicMana(caster) >= MagicPerformanceHelper.getEffectiveCost(caster, wand, this);
     }
 
-    private boolean hasEnoughContinuousMana(LivingEntity caster) {
-        return caster instanceof Player player && player.isCreative() || !this.config.continuous() || EntityManaHelper.getMagicMana(caster) >= this.config.costPerTick().get();
+    private boolean hasEnoughContinuousMana(LivingEntity caster, @Nullable ItemStack wand) {
+        return caster instanceof Player player && player.isCreative() || !this.config.continuous() || EntityManaHelper.getMagicMana(caster) >= MagicPerformanceHelper.getEffectiveContinuousCost(caster, wand, this);
     }
 
     private void hintCoolingdown(LivingEntity caster) {

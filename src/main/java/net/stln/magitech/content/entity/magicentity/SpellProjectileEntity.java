@@ -211,17 +211,17 @@ public abstract class SpellProjectileEntity extends AbstractSpellProjectileEntit
                 ResourceKey<DamageType> damageType = element.getDamageType();
                 DamageSource source = owner == null ? this.damageSources().source(damageType) : this.damageSources().source(damageType, owner);
                 MagicPerformanceHelper.applyRawMagicDamage(owner, getWand(), entity, source, effectiveDamage);
+
+                if (entity instanceof ItemEntity item && spell.isPresent()) {
+                    SpellHelper.applyEffectToItem(level(), spell.get().get(), item);
+                }
+                if (spell.isPresent() && spell.get().get() instanceof ISummonEntitySpell) {
+                    ((ISummonEntitySpell) spell.get().get()).applyEffectToTarget(level(), this, getOwner(), entity);
+                }
             }
 
             if (getWand() != null && getWand().getItem() instanceof SynthesisedToolItem item && owner instanceof Player player) {
                 item.callTraitDamageEntity(level(), player, entity, getWand());
-            }
-
-            if (entity instanceof ItemEntity item && spell.isPresent()) {
-                SpellHelper.applyEffectToItem(level(), spell.get().get(), item);
-            }
-            if (spell.isPresent() && spell.get().get() instanceof ISummonEntitySpell) {
-                ((ISummonEntitySpell) spell.get().get()).applyEffectToTarget(level(), this, getOwner(), entity);
             }
             applyEffectToTarget(entity);
         }

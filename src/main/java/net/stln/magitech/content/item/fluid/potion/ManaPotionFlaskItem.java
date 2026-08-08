@@ -26,8 +26,9 @@ public class ManaPotionFlaskItem extends DrinkableFlaskItem {
         if (handler != null) {
             handler.addMana(90000);
         }
-
-        EntityVFX.powerupAura(level, Element.MANA, entity, Section.cover(), 40);
+        if (level.isClientSide) {
+            EntityVFX.powerupAura(level, Element.MANA, entity, Section.cover(), 40);
+        }
         entity.addEffect(new MobEffectInstance(MobEffectInit.MANA_REGENERATION, 300, 1));
     }
 }

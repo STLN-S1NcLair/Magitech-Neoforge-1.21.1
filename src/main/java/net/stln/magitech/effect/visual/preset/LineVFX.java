@@ -21,6 +21,7 @@ public class LineVFX {
 
     // speed: start -> endを正とする方向の速度
     public static void spreadLined(Level level, Vec3 start, Vec3 end, Element element, Function3<Level, Vec3, Element, ParticleEffectSpawner> supplier, Section section, float density, float speed, float randomness) {
+        if (!level.isClientSide) return;
         double dist = start.distanceTo(end);
         int amount = Mth.ceil(density * dist * section.ratio()) + 1;
         Vec3 direction = end.subtract(start).normalize();
@@ -39,6 +40,7 @@ public class LineVFX {
     }
 
     public static void destinationLined(Level level, Vec3 start, Vec3 end, Element element, Function3<Level, Vec3, Element, ParticleEffectSpawner> supplier, Section section, float density, float speed, float randomness) {
+        if (!level.isClientSide) return;
         double dist = start.distanceTo(end);
         int amount = Mth.ceil(density * dist * section.ratio()) + 1;
         Vec3 direction = end.subtract(start).normalize();
@@ -54,6 +56,7 @@ public class LineVFX {
     }
 
     public static void destinationLinedColor(Level level, Vec3 start, Vec3 end, Color primary, Color secondary, Function4<Level, Vec3, Color, Color, ParticleEffectSpawner> supplier, Section section, float density, float speed, float randomness) {
+        if (!level.isClientSide) return;
         double dist = start.distanceTo(end);
         int amount = Mth.ceil(density * dist * section.ratio()) + 1;
         Vec3 direction = end.subtract(start).normalize();
@@ -73,6 +76,7 @@ public class LineVFX {
     }
 
     public static void arcLined(Level level, Vec3 center, Vec2 normal, Element element, Function3<Level, Vec3, Element, ParticleEffectSpawner> supplier, float startDeg, float endDeg, float slopeDeg, float radius, float density, float speed, float randomness) {
+        if (!level.isClientSide) return;
 
         int amount = (int) (density * radius * Math.abs(endDeg - startDeg) / 50);
 

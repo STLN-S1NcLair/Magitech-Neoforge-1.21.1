@@ -182,12 +182,14 @@ public class WeaverEntity extends Monster implements GeoEntity, RangedAttackMob 
             Entity beamTarget = CombatHelper.raycastBeamEntity(this, 32, 0.3, forward);
             Vec3 start = this.position().add(0, this.getBbHeight() * 0.7, 0).add(forward.scale(0.5));
 
-            Element element = Element.GLACE;
-            LineVFX.destinationLinedSquare(level, start, end, element, new Section(0F, 1F), 5, 0.2F, 0.1F);
-            LineVFX.destinationLined(level, start, end, element, ElementParticles::snowParticle, new Section(0F, 1F), 5, 0.1F, 0.1F);
-            BeamParticles.beamParticle(level, start, end, element, 0.1F);
-            PointVFX.burst(level, end, element, ((lev, pos, elm) -> SquareParticles.squareGravityParticle(level, pos, elm, 0.2F)), 30, 0.3F);
-            PointVFX.burst(level, end, element, ElementParticles::snowParticle, 20, 0.3F);
+            if (level.isClientSide) {
+                Element element = Element.GLACE;
+                LineVFX.destinationLinedSquare(level, start, end, element, new Section(0F, 1F), 5, 0.2F, 0.1F);
+                LineVFX.destinationLined(level, start, end, element, ElementParticles::snowParticle, new Section(0F, 1F), 5, 0.1F, 0.1F);
+                BeamParticles.beamParticle(level, start, end, element, 0.1F);
+                PointVFX.burst(level, end, element, ((lev, pos, elm) -> SquareParticles.squareGravityParticle(level, pos, elm, 0.2F)), 30, 0.3F);
+                PointVFX.burst(level, end, element, ElementParticles::snowParticle, 20, 0.3F);
+            }
 
             level.playSound(this, this.blockPosition(), SoundInit.FROST_BREAK.get(), SoundSource.HOSTILE, 1.0F, 0.6F + (this.getRandom().nextFloat() * 0.6F));
 

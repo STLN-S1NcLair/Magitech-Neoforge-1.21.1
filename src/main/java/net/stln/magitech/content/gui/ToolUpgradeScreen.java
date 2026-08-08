@@ -192,9 +192,13 @@ public class ToolUpgradeScreen extends AbstractContainerScreen<ToolUpgradeMenu> 
             double d1 = mouseY - (double) (j + l * 18);
             Player player = ClientHelper.getPlayer();
             if (player == null) return false;
-            if (d0 >= 0.0 && d1 >= 0.0 && d0 < 117.0 && d1 < 18.0 && this.menu.clickMenuButton(player, l)) {
-                Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_STONECUTTER_SELECT_RECIPE, 1.0F));
-                this.minecraft.gameMode.handleInventoryButtonClick(this.menu.containerId, l);
+            if (d0 >= 0.0 && d1 >= 0.0 && d0 < 117.0 && d1 < 18.0) {
+                Minecraft minecraft = Minecraft.getInstance();
+                if (minecraft.gameMode != null) {
+                    minecraft.gameMode.handleInventoryButtonClick(this.menu.containerId, l);
+                }
+                // Play sound on client for feedback (server will handle the actual upgrade)
+                minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.SMITHING_TABLE_USE, 1.0F));
                 return true;
             }
         }

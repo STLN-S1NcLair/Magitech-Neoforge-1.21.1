@@ -36,6 +36,7 @@ public class TrailVFX {
     final static float FACTOR = 1.4F;
 
     public static void directionalTrail(Level level, Vec3 start, Vec3 end, float scale, int trailLength, Element element) {
+        if (!level.isClientSide) return;
         Function<VFXBuilders.WorldVFXBuilder, VFXBuilders.WorldVFXBuilder> builderFunc = TrailRenderHelper.defaultBuilderFunc();
         TrailPointBuilder trail = TrailPointBuilder.create(trailLength);
 
@@ -55,6 +56,7 @@ public class TrailVFX {
     }
 
     public static void arcTrail(Level level, Vec3 center, Vec2 normal, float startDeg, float endDeg, float slopeDeg, float scale, float radius, float resolution, int trailLength, Element element) {
+        if (!level.isClientSide) return;
 
         Function<VFXBuilders.WorldVFXBuilder, VFXBuilders.WorldVFXBuilder> builderFunc = TrailRenderHelper.defaultBuilderFunc();
         TrailPointBuilder trail = TrailPointBuilder.create(trailLength);
@@ -98,6 +100,7 @@ public class TrailVFX {
 
     // complexity: 1mあたりの端点の数, randomness: 端点の散らばり
     public static void zapTrail(Level level, Vec3 start, Vec3 end, float scale, float complexity, float randomness, int trailLength, Element element) {
+        if (!level.isClientSide) return;
         var renderType = LodestoneRenderTypes.ADDITIVE_TEXTURE_TRIANGLE.apply(RenderTypeTokenInit.TRAIL);
         Function<VFXBuilders.WorldVFXBuilder, VFXBuilders.WorldVFXBuilder> builderFunc = (builder) -> builder.setRenderType(renderType).setColor(new Color(0xFFFFFF));
         TrailPointBuilder trail = TrailPointBuilder.create(trailLength);
@@ -133,6 +136,7 @@ public class TrailVFX {
     }
 
     public static void directionalZapTrail(Level level, Vec3 start, Vec3 end, float scale, float complexity, float randomness, int trailLength, Element element) {
+        if (!level.isClientSide) return;
         Function<VFXBuilders.WorldVFXBuilder, VFXBuilders.WorldVFXBuilder> builderFunc = TrailRenderHelper.defaultBuilderFunc();
         TrailPointBuilder trail = TrailPointBuilder.create(trailLength);
 
@@ -156,6 +160,7 @@ public class TrailVFX {
     }
 
     private static void addZap(Level level, float scale, Element element, Function<VFXBuilders.WorldVFXBuilder, VFXBuilders.WorldVFXBuilder> builderFunc, TrailPointBuilder trail) {
+        if (!level.isClientSide) return;
         TrailRenderer.add(new TrailData(level, builderFunc, trail, ColorHelper.Argb.dilute(element.getPrimary()), element.getPrimary(), scale * 0.5F, 1.0F));
         TrailRenderer.add(new TrailData(level, builderFunc, trail, element.getPrimary(), element.getSecondary(), scale, 1.0F));
         TrailRenderer.add(new TrailData(level, builderFunc, trail, element.getSecondary(), element.getDark(), scale * 2, 1.0F));

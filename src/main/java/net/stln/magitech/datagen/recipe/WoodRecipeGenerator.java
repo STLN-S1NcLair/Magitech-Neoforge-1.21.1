@@ -14,7 +14,7 @@ public class WoodRecipeGenerator {
     public static void buildWoodRecipes(RecipeOutput output, TagKey<Item> logTag, Item log, Item wood, Item strippedLog, Item strippedWood, Item planks,
                                         Item slab, Item stairs, Item fence, Item fenceGate, Item door, Item trapdoor,
                                         Item pressurePlate, Item button, Item sign, Item hangingSign, Item boat, Item chestBoat) {
-        VanillaSimpleRecipeGenerator.twoByTwo(output, Ingredient.of(logTag), new ItemStack(planks, 4));
+        VanillaSimpleRecipeGenerator.oneByOne(output, Ingredient.of(logTag), new ItemStack(planks, 4));
         VanillaSimpleRecipeGenerator.twoByTwo(output, Ingredient.of(log), new ItemStack(wood, 3));
         VanillaSimpleRecipeGenerator.twoByTwo(output, Ingredient.of(strippedLog), new ItemStack(strippedWood, 3));
         BlockSetRecipeGenerator.slab(output, planks, slab);

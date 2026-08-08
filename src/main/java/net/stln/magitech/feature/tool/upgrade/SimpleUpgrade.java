@@ -21,7 +21,13 @@ public class SimpleUpgrade extends Upgrade {
 
     @Override
     public List<ToolPropertyModifier> getModifiers(int level) {
-        return mods;
+        // レベル分だけmodifierを重ねる（同一インスタンスを複数回適用することで効果を累積させる）
+        if (level <= 1) return mods;
+        List<ToolPropertyModifier> result = new java.util.ArrayList<>();
+        for (int i = 0; i < level; i++) {
+            result.addAll(mods);
+        }
+        return result;
     }
 
     @Override

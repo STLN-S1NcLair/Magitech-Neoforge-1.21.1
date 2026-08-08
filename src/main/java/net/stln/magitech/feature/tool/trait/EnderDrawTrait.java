@@ -35,12 +35,15 @@ public class EnderDrawTrait extends Trait {
                 }
             }
             if (item != null) {
-                Vec3 playerPos = new Vec3(player.getX(), player.getY(0.5F), player.getZ());
-                Vec3 itemPos = new Vec3(item.getX(), item.getY(0.5F), item.getZ());
-                LineVFX.destinationLinedColor(level, itemPos, playerPos, getPrimary(), getSecondary(), SquareParticles::squareParticleColored, Section.cover(), 10, 0.2F, 0.0F);
+                if (level.isClientSide) {
+                    Vec3 playerPos = new Vec3(player.getX(), player.getY(0.5F), player.getZ());
+                    Vec3 itemPos = new Vec3(item.getX(), item.getY(0.5F), item.getZ());
+                    LineVFX.destinationLinedColor(level, itemPos, playerPos, getPrimary(), getSecondary(), SquareParticles::squareParticleColored, Section.cover(), 10, 0.2F, 0.0F);
+                } else {
+                    item.setPos(player.getPosition(0F));
+                    item.setDeltaMovement(0, 0, 0);
+                }
                 level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_TELEPORT, SoundSource.PLAYERS);
-                item.setPos(player.getPosition(0F));
-                item.setDeltaMovement(0, 0, 0);
             }
         }
     }

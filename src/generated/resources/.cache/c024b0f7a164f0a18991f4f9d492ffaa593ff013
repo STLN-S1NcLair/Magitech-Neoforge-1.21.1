@@ -1,4 +1,4 @@
-// 1.21.1	2026-05-27T19:29:10.9119371	Block States: magitech
+// 1.21.1	2026-08-05T19:25:45.6840632	Block States: magitech
 90f039d3c8040909582f040c2be7f09eca62a0a8 assets/magitech/blockstates/alchecrysite.json
 e2e47f25d85025ef83b8b30154421755d7d8c139 assets/magitech/blockstates/alchecrysite_bricks.json
 36896c4c599cbeeb6b3e9441de7d2de5fa12cb4d assets/magitech/blockstates/alchecrysite_brick_slab.json
@@ -8,7 +8,6 @@ e2a82d7eb77e670b535d88492175ce1b6787d6cd assets/magitech/blockstates/alchecrysit
 7f296203719e5ee24d1ef70af56d6e0070b53040 assets/magitech/blockstates/alchecrysite_stairs.json
 ddefb899b57d6ded8487a99b859eb3b69d9fd6b8 assets/magitech/blockstates/alchecrysite_tiles.json
 c3df1e1d882631a1fdec194db1c3a562c4da3617 assets/magitech/blockstates/alchecrysite_wall.json
-859fa13fad4469e63d67cc316dfc6c992d955920 assets/magitech/blockstates/alchemetric_pylon.json
 5ce7eb210e9e22866c3e81a9d0e1384befa0eab2 assets/magitech/blockstates/assembly_workbench.json
 304474776b58c23747ffaf1e0fbdf8eb26c1b7ef assets/magitech/blockstates/celifern_button.json
 6d08c7c8b6de98b3adb566952b8ad9ac3468e94a assets/magitech/blockstates/celifern_door.json
@@ -159,7 +158,7 @@ dfdaec17563f9d79c27ca2be54378018014cac5e assets/magitech/models/block/celifern_f
 f3ebf962d39062c3b57b2d11f381e57b05dc0586 assets/magitech/models/block/celifern_fence_post.json
 7bc525be64731e296cdc3e78f583c6d7ad24a0da assets/magitech/models/block/celifern_fence_side.json
 ff79bec1db68138ee63b2773fb900d3409f43e80 assets/magitech/models/block/celifern_hanging_sign.json
-437a0eb25a334733bf6f73631e1a1579af7d7de1 assets/magitech/models/block/celifern_leaves.json
+6a9be35608a26262d6451bedc94f119954d89c39 assets/magitech/models/block/celifern_leaves.json
 39ba6d91aa4ceb01d9f033183d16e2f24ac61100 assets/magitech/models/block/celifern_log.json
 1e0aa55cb0c50b47545b0770dda3d236d373e2fd assets/magitech/models/block/celifern_log_horizontal.json
 ee836a3857437c671e326b6281e48f3702e86f5c assets/magitech/models/block/celifern_planks.json
@@ -196,7 +195,7 @@ a257691769507ad9140216c32f2d9670aaab81c4 assets/magitech/models/block/charcoal_b
 206a827cae041083d30a3368bcf5b962a669a647 assets/magitech/models/block/charcoal_birch_fence_post.json
 a52ec7d87798964c04f0d4c627ca3a6b46af8549 assets/magitech/models/block/charcoal_birch_fence_side.json
 f887a5697db32aceed07542d9514e10f639e0e4a assets/magitech/models/block/charcoal_birch_hanging_sign.json
-ce1d434294d92f0494a8295a5eccfd0304a67341 assets/magitech/models/block/charcoal_birch_leaves.json
+a3d20ccb57f637072af47b172cb566e693753f41 assets/magitech/models/block/charcoal_birch_leaves.json
 64cbc0c7fc1a677cda3584b68245bdbbbad1135d assets/magitech/models/block/charcoal_birch_log.json
 a2fdf074c2c930023626910d11f9b33aa8c4b199 assets/magitech/models/block/charcoal_birch_log_horizontal.json
 8970605c144e877f67b54687e07da23bc34061e1 assets/magitech/models/block/charcoal_birch_planks.json
@@ -325,7 +324,6 @@ f7eacfc2ef85a57c179ba5c3b6826e1ca6730769 assets/magitech/models/item/alchecrysit
 6abb6dd224de3da11b91d9fa920280d6acc9e9fe assets/magitech/models/item/alchecrysite_stairs.json
 acfe20142a5b41864ff09496af9f7692bb716ae0 assets/magitech/models/item/alchecrysite_tiles.json
 df18ddf86376c32ef56d42891660bc62df7687cb assets/magitech/models/item/alchecrysite_wall.json
-5d40bc3f4dac790935d86e10a74ecabb41b922dd assets/magitech/models/item/alchemetric_pylon.json
 5aece203fcfa9761378fea0532e7645046eecb7d assets/magitech/models/item/assembly_workbench.json
 7e67924b3a553da30ef4f39c4b462c8f05196ca8 assets/magitech/models/item/celifern_button.json
 5ffa2c16fbdc4aea4050af474996eb28b92d5dcb assets/magitech/models/item/celifern_fence.json

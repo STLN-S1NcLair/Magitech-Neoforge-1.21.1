@@ -42,6 +42,9 @@ public record UpgradeInstance(int level, Upgrade upgrade) {
 
     @Override
     public int hashCode() {
-        return upgrade.hashCode();
+        // include level in hashCode to be consistent with equals
+        int result = upgrade.hashCode();
+        result = 31 * result + Integer.hashCode(level);
+        return result;
     }
 }

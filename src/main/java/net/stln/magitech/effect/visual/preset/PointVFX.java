@@ -15,6 +15,7 @@ import java.util.function.Consumer;
 
 public class PointVFX {
     public static void vortex(Level level, Vec3 pos, Element element, Function3<Level, Vec3, Element, ParticleEffectSpawner> supplier, int amount, float radius, float acceleration, float randomness) {
+        if (!level.isClientSide) return;
         for (int i = 0; i < amount; i++) {
             Vec3 motion = VectorHelper.random(level.random).scale(randomness);
             Vec3 randomPos = pos.add(VectorHelper.random(level.random).scale(radius));
@@ -30,6 +31,7 @@ public class PointVFX {
     }
 
     public static void burst(Level level, Vec3 pos, Element element, Function3<Level, Vec3, Element, ParticleEffectSpawner> supplier, int amount, float randomness) {
+        if (!level.isClientSide) return;
         for (int i = 0; i < amount; i++) {
             Vec3 motion = VectorHelper.blastRandom(level.random).scale(randomness);
             ParticleEffectSpawner spawner = supplier.apply(level, pos, element);
@@ -39,6 +41,7 @@ public class PointVFX {
     }
 
     public static void burstColored(Level level, Vec3 pos, Color primary, Color secondary, Function4<Level, Vec3, Color, Color, ParticleEffectSpawner> supplier, int amount, float randomness) {
+        if (!level.isClientSide) return;
         for (int i = 0; i < amount; i++) {
             Vec3 motion = VectorHelper.blastRandom(level.random).scale(randomness);
             ParticleEffectSpawner spawner = supplier.apply(level, pos, primary, secondary);
@@ -59,6 +62,7 @@ public class PointVFX {
     }
 
     public static void spray(Level level, Vec3 pos, Element element, Function3<Level, Vec3, Element, ParticleEffectSpawner> supplier, Vec3 direction, int amount, float speed, float randomness) {
+        if (!level.isClientSide) return;
         for (int i = 0; i < amount; i++) {
             Vec3 motion = VectorHelper.randScaledRandom(level.random).scale(randomness).add(direction.scale(speed));
             ParticleEffectSpawner spawner = supplier.apply(level, pos, element);
@@ -72,6 +76,7 @@ public class PointVFX {
     }
 
     public static void ring(Level level, Vec3 pos, Element element, Function3<Level, Vec3, Element, ParticleEffectSpawner> supplier, Vec3 direction, int amount, float speed, float radius, float randomness) {
+        if (!level.isClientSide) return;
         Vec3 normalizedDirection = direction.normalize();
 
         // directionに垂直な2つの軸を計算

@@ -21,6 +21,8 @@ public class HealingPotionFlaskItem extends DrinkableFlaskItem {
     @Override
     protected void applyEffects(Level level, LivingEntity entity, ItemStack stack) {
         entity.heal(8.0F);
-        EntityVFX.powerupAura(level, new Color(0x40FF80), new Color(0x80FF00), entity, Section.cover(), 40);
+        if (level.isClientSide) {
+            EntityVFX.powerupAura(level, new Color(0x40FF80), new Color(0x80FF00), entity, Section.cover(), 40);
+        }
     }
 }

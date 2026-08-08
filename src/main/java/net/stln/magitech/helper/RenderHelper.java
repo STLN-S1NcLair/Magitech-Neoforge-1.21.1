@@ -94,11 +94,10 @@ public class RenderHelper {
         return gauge;
     }
 
-    // TODO: 実装
-
     public static List<Component> getUpgradeTooltips(List<UpgradeInstance> instances, ToolType type, boolean isSpellCaster) {
         List<List<ToolPropertyModifier>> mods = instances.stream().map(UpgradeInstance::getModifiers).toList();
         List<Component> tooltipComponents = new java.util.ArrayList<>();
+        mods.forEach(mod -> {mod.forEach(m -> tooltipComponents.add(m.getDisplayText()));});
         return tooltipComponents;
     }
 }

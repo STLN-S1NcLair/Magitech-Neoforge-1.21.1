@@ -38,9 +38,9 @@ public interface ISpell extends SpellLike {
     void end(Level level, LivingEntity caster, @Nullable ItemStack wand, @Nullable InteractionHand hand, boolean isHost);
 
     // キャスト可能かどうかの判定: スペルの条件を満たしているかなどをチェックするために使用(マナコストのチェックなど)
-    boolean canCast(Level level, LivingEntity caster);
+    boolean canCast(Level level, LivingEntity caster, ItemStack wand);
 
-    boolean canContinuousCast(Level level, LivingEntity caster);
+    boolean canContinuousCast(Level level, LivingEntity caster,  ItemStack wand);
 
     // スペルの文字情報の取得
     List<Component> getTooltip(Level level, LivingEntity caster, ItemStack stack);
