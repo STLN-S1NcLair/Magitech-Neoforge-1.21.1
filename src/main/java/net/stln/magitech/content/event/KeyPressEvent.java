@@ -13,8 +13,8 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.stln.magitech.Magitech;
+import net.stln.magitech.content.item.GlisteningLexiconItem;
 import net.stln.magitech.content.item.ItemInit;
-import net.stln.magitech.content.item.ThreadBoundItem;
 import net.stln.magitech.content.item.armor.AetherLifterItem;
 import net.stln.magitech.content.item.armor.FlamglideStriderItem;
 import net.stln.magitech.content.item.tool.toolitem.SynthesisedToolItem;
@@ -82,17 +82,17 @@ public class KeyPressEvent {
                 });
             });
         }
-        while (KeyMappingEvent.open_thread_bound_page_screen.get().consumeClick()) {
+        while (KeyMappingEvent.OPEN_THREAD_BOUND_PAGE_SCREEN.get().consumeClick()) {
             PacketDistributor.sendToServer(new OpenThreadBoundPageScreenPayload(player.getUUID()));
         }
         while (KeyMappingEvent.OPEN_SPELLBOUND_AS_GUIDEBOOK.get().consumeClick()) {
-            if (player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof ThreadBoundItem threadBoundItem) {
-                threadBoundItem.use(player.level(), player, InteractionHand.MAIN_HAND);
+            if (player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof GlisteningLexiconItem glisteningLexiconItem) {
+                glisteningLexiconItem.use(player.level(), player, InteractionHand.MAIN_HAND);
             } else {
                 CuriosHelper.getThreadBoundStack(player).ifPresent(stack -> {
-                    if (player.level().isClientSide) {
+                    if (player.level().isClientSide && (stack.getItem() instanceof GlisteningLexiconItem)) {
                         if (stack.get(DataComponentRegistry.BOOK_ID.get()) != null) {
-                            var book = ThreadBoundItem.getBook(stack);
+                            var book = GlisteningLexiconItem.getBook(stack);
 
                             BookGuiManager.get().openBook(BookAddress.defaultFor(book));
                         } else {

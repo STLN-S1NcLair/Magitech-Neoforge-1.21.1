@@ -1,0 +1,38 @@
+{
+  "name": "book.magitech.glistening_lexicon.potential_control_of_mana_mechanism.item_transfer.name",
+  "icon": {
+    "id": "magitech:entangler"
+  },
+  "category": "magitech:potential_control_of_mana_mechanism",
+  "x": 6,
+  "y": 2,
+  "background_u_index": 1,
+  "background_v_index": 0,
+  "parents": [
+    {
+      "entry": "magitech:potential_control_of_mana_mechanism/advanced_mana_transfer"
+    }
+  ],
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "title": "book.magitech.glistening_lexicon.potential_control_of_mana_mechanism.item_transfer.name",
+      "text": "book.magitech.glistening_lexicon.potential_control_of_mana_mechanism.item_transfer.0.text"
+    },
+    {
+      "type": "modonomicon:crafting_recipe",
+      "text": "book.magitech.glistening_lexicon.potential_control_of_mana_mechanism.item_transfer.1.text",
+      "recipe_id_1": "magitech:crafting/entangler"
+    },
+    {
+      "type": "modonomicon:crafting_recipe",
+      "text": "book.magitech.glistening_lexicon.potential_control_of_mana_mechanism.item_transfer.2.text",
+      "recipe_id_1": "magitech:crafting/detangler"
+    },
+    {
+      "type": "modonomicon:crafting_recipe",
+      "text": "book.magitech.glistening_lexicon.potential_control_of_mana_mechanism.item_transfer.3.text",
+      "recipe_id_1": "magitech:crafting/item_collector"
+    }
+  ]
+}

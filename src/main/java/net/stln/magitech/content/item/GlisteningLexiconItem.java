@@ -6,21 +6,11 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.common.property.Properties;
-import net.stln.magitech.content.gui.ThreadboundMenu;
 import net.stln.magitech.content.item.component.SpellComponent;
-import net.stln.magitech.content.item.tooltip_item.TooltipTextItem;
 import net.stln.magitech.content.item.tooltip_item.TooltipTextModonomiconItem;
 import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.feature.magic.spell.ISpell;
@@ -33,11 +23,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ThreadBoundItem extends TooltipTextItem implements ICurioItem, IThreadBoundItem {
+public class GlisteningLexiconItem extends TooltipTextModonomiconItem implements ICurioItem, IThreadBoundItem {
 
     Map<Holder<Attribute>, AttributeModifier> attributeModifiers = new HashMap<>();
 
-    public ThreadBoundItem(Properties settings) {
+    public GlisteningLexiconItem(Properties settings) {
         super(settings);
     }
 
@@ -50,19 +40,21 @@ public class ThreadBoundItem extends TooltipTextItem implements ICurioItem, IThr
         return modifierMultimap.build();
     }
 
-    public ThreadBoundItem attributeModifier(Map<Holder<Attribute>, AttributeModifier> map) {
+    public GlisteningLexiconItem attributeModifier(Map<Holder<Attribute>, AttributeModifier> map) {
         attributeModifiers = map;
         return this;
     }
 
-    @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand usedHand) {
-        player.openMenu(new SimpleMenuProvider(
-                (containerId, playerInventory, player2) -> new ThreadboundMenu(containerId, playerInventory),
-                Component.literal(player.getItemInHand(usedHand).getHoverName().getString())
-        ));
-        return new InteractionResultHolder<>(InteractionResult.SUCCESS, player.getItemInHand(usedHand));
-    }
+//    @Override
+//    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand usedHand) {
+//        if (level.isClientSide && ModList.get().isLoaded("patchouli")) {
+//            Book book = BookRegistry.INSTANCE.books.get(player.getItemInHand(usedHand).get(PatchouliDataComponents.BOOK));
+//            if (book != null) {
+//                PatchouliAPI.get().openBookGUI(book.id);
+//            }
+//        }
+//        return new InteractionResultHolder<>(InteractionResult.SUCCESS, player.getItemInHand(usedHand));
+//    }
 
     @Override
     public void appendHoverText(ItemStack stack, @NotNull TooltipContext context, List<Component> tooltipComponents, @NotNull TooltipFlag tooltipFlag) {

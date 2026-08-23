@@ -37,7 +37,7 @@ import team.lodestar.lodestone.systems.particle.builder.WorldParticleBuilder;
 
 public class ManaCollectorBlockEntity extends ManaMachineBlockEntity {
 
-    protected long collectionRate = 1000;
+    protected long collectionRate = 250;
 
     public ManaCollectorBlockEntity(BlockPos pos, BlockState blockState, long mana) {
         super(BlockInit.MANA_COLLECTOR_ENTITY.get(), pos, blockState, mana);

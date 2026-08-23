@@ -21,7 +21,7 @@ public class FragileTrait extends Trait {
     public List<ToolPropertyModifier> modifyProperty(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties) {
         List<ToolPropertyModifier> mods = super.modifyProperty(player, level, stack, traitLevel, properties);
         float mul = traitLevel * 0.3F;
-        float div = 0.5F / traitLevel - 1.0F;
+        float div = 0.1F / traitLevel - 1.0F;
         for (ToolPropertyCategory category : ToolPropertyCategory.values()) {
             mods.add(new RationalToolPropertyModifier(category, category == ToolPropertyCategory.DURABILITY ? div : mul));
         }

@@ -40,8 +40,8 @@ public class ItemInit {
 
     public static final ResourceLocation THREADBOUND_ID = Magitech.id("threadbound");
 
-    public static final DeferredItem<ThreadBoundItem> GLISTENING_LEXICON = ITEMS.registerItem("glistening_lexicon",
-            (properties) -> new ThreadBoundItem(properties).attributeModifier(Map.of(
+    public static final DeferredItem<GlisteningLexiconItem> GLISTENING_LEXICON = ITEMS.registerItem("glistening_lexicon",
+            (properties) -> new GlisteningLexiconItem(properties).attributeModifier(Map.of(
                     AttributeInit.MAX_MANA, new AttributeModifier(THREADBOUND_ID, 20, AttributeModifier.Operation.ADD_VALUE),
                     AttributeInit.MANA_REGEN, new AttributeModifier(THREADBOUND_ID, 0.2, AttributeModifier.Operation.ADD_VALUE)
             )),

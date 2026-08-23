@@ -127,6 +127,15 @@ public abstract class SynthesisedToolItem extends Item implements LeftClickOverr
         List<ToolPropertyModifier> selfRef = new ArrayList<>();
         List<ToolPropertyModifier> crossRef = new ArrayList<>();
 
+        // 互換性のためにnullチェックを追加
+        List<UpgradeInstance> newUpgrades = new ArrayList<>(upgrades);
+        for (UpgradeInstance upgrade : upgrades) {
+            if (upgrade == null || upgrade.upgrade() == null) {
+                newUpgrades.remove(upgrade);
+            }
+        }
+        upgrades = newUpgrades;
+
         // selfRefを先に処理する
         for (UpgradeInstance upgrade : upgrades) {
             for (ToolPropertyModifier modifier : upgrade.getModifiers()) {

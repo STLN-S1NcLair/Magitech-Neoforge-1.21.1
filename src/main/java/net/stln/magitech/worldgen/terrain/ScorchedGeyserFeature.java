@@ -2,6 +2,7 @@ package net.stln.magitech.worldgen.terrain;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
@@ -25,22 +26,35 @@ public class ScorchedGeyserFeature extends Feature<NoneFeatureConfiguration> {
     @Override
     public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> ctx) {
         BlockPos blockpos = ctx.origin();
+        ChunkPos chunkPos = new ChunkPos(blockpos);
         RandomSource random = ctx.random();
         WorldGenLevel level = ctx.level();
         int height = random.nextInt(30);
 
-        addHill(level, blockpos, random, height);
+        addHill(level, chunkPos, blockpos, random, height);
         int count = 2;
         while (height / count > 3) {
             blockpos = blockpos.offset(random.nextInt(-10, 10), 0, random.nextInt(-10, 10));
-            addHill(level, blockpos, random, height / count);
+            addHill(level, chunkPos, blockpos, random, height / count);
             count++;
         }
 
         return true;
     }
 
-    private void addHill(WorldGenLevel level, BlockPos blockpos, RandomSource random, int height) {
+    private static boolean isInOriginChunkOrAdjacent(ChunkPos originChunk, BlockPos pos) {
+        ChunkPos targetChunk = new ChunkPos(pos);
+        return Math.abs(originChunk.x - targetChunk.x) <= 1
+            && Math.abs(originChunk.z - targetChunk.z) <= 1;
+    }
+
+    private void setBlockIfCanPlace(WorldGenLevel level, ChunkPos originChunk, BlockPos pos, BlockState state) {
+        if (isInOriginChunkOrAdjacent(originChunk, pos)) {
+            this.setBlock(level, pos, state);
+        }
+    }
+
+    private void addHill(WorldGenLevel level, ChunkPos originChunk, BlockPos blockpos, RandomSource random, int height) {
         // 地面を探す
         while (level.isEmptyBlock(blockpos) && blockpos.getY() > level.getMinBuildHeight() + 2) {
             blockpos = blockpos.below();
@@ -81,9 +95,9 @@ public class ScorchedGeyserFeature extends Feature<NoneFeatureConfiguration> {
                         BlockState below = level.getBlockState(target.below());
 
                         if (below.is(BlockInit.SCORCHED_GRASS_SOIL.get())) {
-                            this.setBlock(level, target.below(), BlockInit.SCORCHED_SOIL.get().defaultBlockState());
+                            setBlockIfCanPlace(level, originChunk, target.below(), BlockInit.SCORCHED_SOIL.get().defaultBlockState());
                         }
-                        this.setBlock(level, target, BlockInit.SCORCHED_GRASS_SOIL.get().defaultBlockState());
+                        setBlockIfCanPlace(level, originChunk, target, BlockInit.SCORCHED_GRASS_SOIL.get().defaultBlockState());
                     }
                 }
             }
@@ -96,7 +110,7 @@ public class ScorchedGeyserFeature extends Feature<NoneFeatureConfiguration> {
             if (l > 2 && k % 2 == 1) {
                 BlockPos pos = blockpos.offset((int) (offsetX * f * offsetMul), k, (int) (offsetZ * f * offsetMul))
                         .offset((int) (Math.cos(angle) * f * Mth.randomBetween(random, 0.8F, 1.3F)), 0, (int) (Math.sin(angle) * f * Mth.randomBetween(random, 0.8F, 1.3F)));
-                addPool(level, pos, random, l * 2 / 3);
+                addPool(level, originChunk, pos, random, l * 2 / 3);
                 angle += Math.toRadians(random.nextInt(60, 120));
             }
         }
@@ -121,9 +135,9 @@ public class ScorchedGeyserFeature extends Feature<NoneFeatureConfiguration> {
                     if (dist <= k1 * k1) {
                         BlockState above = level.getBlockState(blockpos1.above());
                         if (above.isAir()) {
-                            this.setBlock(level, blockpos1, BlockInit.SCORCHED_GRASS_SOIL.get().defaultBlockState());
+                            setBlockIfCanPlace(level, originChunk, blockpos1, BlockInit.SCORCHED_GRASS_SOIL.get().defaultBlockState());
                         } else if (level.getBlockState(blockpos1.above(2)).isAir() || level.getBlockState(blockpos1.above(3)).isAir()) {
-                            this.setBlock(level, blockpos1, BlockInit.SCORCHED_SOIL.get().defaultBlockState());
+                            setBlockIfCanPlace(level, originChunk, blockpos1, BlockInit.SCORCHED_SOIL.get().defaultBlockState());
                         }
                     }
 
@@ -137,7 +151,7 @@ public class ScorchedGeyserFeature extends Feature<NoneFeatureConfiguration> {
         }
     }
 
-    private void addPool(WorldGenLevel level, BlockPos blockpos, RandomSource random, int radius) {
+    private void addPool(WorldGenLevel level, ChunkPos originChunk, BlockPos blockpos, RandomSource random, int radius) {
         // 半径をランダムで決定（くぼみのサイズ）
         int radiusX = (int) (radius * Mth.randomBetween(random, 0.9F, 1.1F)); // X方向の半径
         int radiusZ = (int) (radius * Mth.randomBetween(random, 0.9F, 1.1F)); // Z方向の半径
@@ -160,12 +174,12 @@ public class ScorchedGeyserFeature extends Feature<NoneFeatureConfiguration> {
                     if (dist <= 0.9) {
                         if (dy <= 0) {
                             // 内部 → 液体
-                            setBlock(level, pos, Blocks.LAVA.defaultBlockState());
+                            setBlockIfCanPlace(level, originChunk, pos, Blocks.LAVA.defaultBlockState());
                             if (level.getBlockState(pos.offset(0, -1, 0)).is(BlockInit.SCORCHED_GRASS_SOIL.get())) {
-                                setBlock(level, pos.offset(0, -1, 0), BlockInit.SCORCHED_SOIL.get().defaultBlockState());
+                                setBlockIfCanPlace(level, originChunk, pos.offset(0, -1, 0), BlockInit.SCORCHED_SOIL.get().defaultBlockState());
                             }
                         } else {
-                            setBlock(level, pos, Blocks.AIR.defaultBlockState());
+                            setBlockIfCanPlace(level, originChunk, pos, Blocks.AIR.defaultBlockState());
                         }
                         List<Direction> directions = new ArrayList<>(Arrays.stream(Direction.values().clone()).toList());
                         directions.remove(Direction.UP);
@@ -174,26 +188,26 @@ public class ScorchedGeyserFeature extends Feature<NoneFeatureConfiguration> {
                             BlockState blockState = level.getBlockState(pos1);
                             if (!blockState.isCollisionShapeFullBlock(level, pos1) && !blockState.is(Blocks.LAVA)) {
                                 if (dy + direction.getStepY() < 0) {
-                                    setBlock(level, pos1, BlockInit.SCORCHED_SOIL.get().defaultBlockState());
+                                    setBlockIfCanPlace(level, originChunk, pos1, BlockInit.SCORCHED_SOIL.get().defaultBlockState());
                                     if (level.getBlockState(pos1.offset(0, -1, 0)).is(BlockInit.SCORCHED_GRASS_SOIL.get())) {
-                                        setBlock(level, pos1.offset(0, -1, 0), BlockInit.SCORCHED_SOIL.get().defaultBlockState());
+                                        setBlockIfCanPlace(level, originChunk, pos1.offset(0, -1, 0), BlockInit.SCORCHED_SOIL.get().defaultBlockState());
                                     }
                                 } else if (dy + direction.getStepY() == 0 && level.getBlockState(pos1.above()).isAir()) {
                                     if (random.nextFloat() < 0.75F) {
-                                        setBlock(level, pos1, BlockInit.SCORCHED_GRASS_SOIL.get().defaultBlockState());
+                                        setBlockIfCanPlace(level, originChunk, pos1, BlockInit.SCORCHED_GRASS_SOIL.get().defaultBlockState());
                                     } else {
                                         int i;
                                         for (i = 0; i < random.nextInt(1, 3); i++) {
-                                            setBlock(level, pos1.offset(0, -i, 0), BlockInit.SULFUR_BLOCK.get().defaultBlockState());
+                                            setBlockIfCanPlace(level, originChunk, pos1.offset(0, -i, 0), BlockInit.SULFUR_BLOCK.get().defaultBlockState());
                                             for (Direction direction1 : Direction.values()) {
                                                 BlockPos pos2 = pos1.relative(direction1);
                                                 if (level.getBlockState(pos2).isAir() && random.nextFloat() < 0.15F) {
-                                                    setBlock(level, pos2, BlockInit.SULFUR_CRYSTAL_CLUSTER.get().defaultBlockState().setValue(CrystalClusterBlock.FACING, direction1));
+                                                    setBlockIfCanPlace(level, originChunk, pos2, BlockInit.SULFUR_CRYSTAL_CLUSTER.get().defaultBlockState().setValue(CrystalClusterBlock.FACING, direction1));
                                                 }
                                             }
                                         }
                                         if (level.getBlockState(pos1.offset(0, -i, 0)).isAir()) {
-                                            setBlock(level, pos1.offset(0, -i, 0), BlockInit.SULFUR_CRYSTAL_CLUSTER.get().defaultBlockState().setValue(CrystalClusterBlock.FACING, Direction.DOWN));
+                                            setBlockIfCanPlace(level, originChunk, pos1.offset(0, -i, 0), BlockInit.SULFUR_CRYSTAL_CLUSTER.get().defaultBlockState().setValue(CrystalClusterBlock.FACING, Direction.DOWN));
                                         }
                                     }
                                 }
