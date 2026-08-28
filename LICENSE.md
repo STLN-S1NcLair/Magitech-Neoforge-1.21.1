@@ -3,23 +3,23 @@
 ## Special Provisions Regarding Video/Image Posting and Distribution
 
 
-This Mod may be freely used for the creation and distribution of videos featuring gameplay with this Mod installed, for both commercial and non-commercial purposes, provided that the following credits are displayed. For the creation and distribution of screenshot images, no credit display is required.
+This Mod may be freely used for the creation and distribution of videos featuring gameplay with this Mod installed, for both commercial and non-commercial purposes. The following credits are recommended. For the creation and distribution of screenshot images, no credit display is required.
 
 
 In this specific case, the provisions of CC BY-SA 4.0 and the MIT License do not apply, and no permission requests or license inheritance are necessary.
 
 
-### Required Credit Items
+### Recommended Credit Items
 
 - Mod Name: Magitech
 
 - Download Location: A link to this Mod's distribution page on Modrinth or CurseForge.*
 
-*At least one of the above links must be provided.
+*At least one of the above links is recommended.
 
 ### Credit Template for Videos/Streams
 
-If you are a content creator, you can use the following template for your video description:
+If you are a content creator, you are encouraged to use the following template for your video description:
 
 - Option A: Standard (Standard and recommended)
 
