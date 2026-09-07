@@ -760,6 +760,14 @@ public class BlockInit {
     );
     public static final DeferredItem<BlockItem> MISTALIA_PETALS_ITEM = ItemInit.ITEMS.register("mistalia_petals", key -> new TooltipTextBlockItem(MISTALIA_PETALS.get(), new Item.Properties()));
 
+
+    public static final DeferredBlock<Block> LUMINOUS_SHARD = BLOCKS.register(
+            "luminous_shard",
+            () -> new LuminousShardBlock(
+                    BlockBehaviour.Properties.of().replaceable().noCollission().noLootTable().noTerrainParticles().pushReaction(PushReaction.DESTROY).lightLevel((blockState) -> 15)
+            )
+    );
+
     public static void registerBlocks(IEventBus eventBus) {
         Magitech.LOGGER.info("Registering Blocks for" + Magitech.MOD_ID);
         BLOCKS.register(eventBus);

@@ -10,9 +10,13 @@ import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunct
 import net.minecraft.world.level.storage.loot.functions.LootItemFunction;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
+import net.stln.magitech.Magitech;
 import net.stln.magitech.MagitechRegistries;
 import net.stln.magitech.feature.magic.spell.ISpell;
+import net.stln.magitech.feature.magic.spell.Spell;
+import net.stln.magitech.feature.magic.spell.SpellShape;
 import net.stln.magitech.helper.ComponentHelper;
+import net.stln.magitech.helper.ConfigHelper;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -43,7 +47,11 @@ public class RandomThreadPageFunction extends LootItemConditionalFunction {
     }
 
     private static @NotNull List<Holder<ISpell>> getAllSpells() {
-        return MagitechRegistries.SPELL.holders().map(holder -> (Holder<ISpell>) holder).toList();
+        List<Holder<ISpell>> spellHolders = MagitechRegistries.SPELL.holders().map(holder -> (Holder<ISpell>) holder).toList();
+        if (ConfigHelper.isDashSpellsDisabled()) {
+            spellHolders = spellHolders.stream().filter(holder -> holder.value().asSpell().getConfig().shape() != SpellShape.DASH).toList();
+        }
+        return spellHolders;
     }
 
     public static LootItemFunction.Builder builder() {

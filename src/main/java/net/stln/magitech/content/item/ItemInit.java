@@ -275,6 +275,7 @@ public class ItemInit {
     public static final DeferredItem<Item> SHOVEL = ITEMS.registerItem("shovel", ShovelItem::new, TOOL_PROPERTIES);
     public static final DeferredItem<Item> SCYTHE = ITEMS.registerItem("scythe", ScytheItem::new, TOOL_PROPERTIES);
     public static final DeferredItem<Item> WAND = ITEMS.registerItem("wand", WandItem::new, TOOL_PROPERTIES);
+    public static final DeferredItem<Item> STAFF = ITEMS.registerItem("staff", StaffItem::new, TOOL_PROPERTIES);
 
     public static final DeferredItem<Item> CELIFERN_BOAT = ITEMS.registerItem("celifern_boat", properties -> new TooltipTextBoatItem(false, BoatTypeEnumExtension.CELIFERN_BOAT_TYPE.getValue(), properties));
 

@@ -7,7 +7,7 @@ import net.stln.magitech.feature.magic.spell.spell.flow.*;
 import net.stln.magitech.feature.magic.spell.spell.glace.*;
 import net.stln.magitech.feature.magic.spell.spell.hollow.*;
 import net.stln.magitech.feature.magic.spell.spell.magic.*;
-import net.stln.magitech.feature.magic.spell.spell.mana.Enercrux;
+import net.stln.magitech.feature.magic.spell.spell.mana.*;
 import net.stln.magitech.feature.magic.spell.spell.phantom.*;
 import net.stln.magitech.feature.magic.spell.spell.surge.*;
 import net.stln.magitech.feature.magic.spell.spell.tremor.*;
@@ -72,6 +72,10 @@ public class SpellInit {
     public static final DeferredSpell<ISpell> NIHILFLARE = register("nihilflare", new Nihilflare());
     public static final DeferredSpell<ISpell> TENEBPORT = register("tenebport", new Tenebport());
 
+    public static final DeferredSpell<ISpell> AETHERIX = register("aetherix", new Aetherix());
+    public static final DeferredSpell<ISpell> THAUMIRIA = register("thaumiris", new Thaumiris());
+    public static final DeferredSpell<ISpell> ESFOUNTIA = register("esfountia", new Esfountia());
+    public static final DeferredSpell<ISpell> QUINTEX = register("quintex", new Quintex());
     public static final DeferredSpell<ISpell> ENERCRUX = register("enercrux", new Enercrux());
 
     private static @NotNull DeferredSpell<ISpell> register(@NotNull String path, @NotNull ISpell spell) {

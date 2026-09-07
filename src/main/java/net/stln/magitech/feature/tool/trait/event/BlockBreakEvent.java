@@ -1,4 +1,4 @@
-package net.stln.magitech.feature.tool.trait;
+package net.stln.magitech.feature.tool.trait.event;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -9,8 +9,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
@@ -23,10 +21,12 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.content.item.tool.toolitem.SynthesisedToolItem;
 import net.stln.magitech.content.network.BreakBlockPayload;
+import net.stln.magitech.content.network.TraitBlockBreakVFXPayload;
 import net.stln.magitech.feature.tool.tool_type.ToolType;
-import net.stln.magitech.feature.tool.tool_type.ToolTypeInit;
-import net.stln.magitech.helper.BlockHelper;
+import net.stln.magitech.feature.tool.trait.TraitHelper;
+import net.stln.magitech.feature.tool.trait.TraitInstance;
 import net.stln.magitech.helper.ComponentHelper;
+import net.stln.magitech.helper.ToolMaterialHelper;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
@@ -50,15 +50,19 @@ public class BlockBreakEvent {
 
             List<TraitInstance> instances = TraitHelper.getTrait(tool);
             Set<BlockPos> finalBlockList = new HashSet<>();
+            List<Set<BlockPos>> additionalBlockList = new ArrayList<>();
             Direction breakDirection = SynthesisedToolItem.getBreakDirection(player.blockInteractionRange(), pos, player);
             ToolType toolType = partToolItem.getToolType();
             Set<BlockPos> blockList = new HashSet<>(toolType.additionalMine().apply(player, tool, pos, breakDirection));
             blockList.add(pos);
             finalBlockList.addAll(blockList);
 
-            blockList.forEach(pos1 -> instances.forEach((instance) ->
-                    finalBlockList.addAll(instance.trait().additionalBlockBreak(player, event.getPlayer().level(), tool, instance.level(),
-                            partToolItem.getAppliedProperties(player, event.getPlayer().level(), tool), event.getLevel().getBlockState(pos1), pos1, 1, breakDirection))));
+            blockList.forEach(pos1 -> instances.forEach((instance) -> {
+                Set<BlockPos> additionalBlocks = new HashSet<>();
+                instance.trait().additionalBlockBreak(player, event.getPlayer().level(), tool, instance.level(), partToolItem.getAppliedProperties(player, event.getPlayer().level(), tool), event.getLevel().getBlockState(pos1), pos1, additionalBlocks, 1, breakDirection, false);
+                additionalBlockList.add(additionalBlocks);
+                finalBlockList.addAll(additionalBlocks);
+            }));
             BROKEN_BLOCKS.addAll(finalBlockList);
             if (finalBlockList.size() < 2) {
                 BROKEN_BLOCKS.removeAll(finalBlockList);
@@ -66,7 +70,7 @@ public class BlockBreakEvent {
             finalBlockList.forEach(pos1 -> {
                 final boolean[] flag = {true};
                 instances.forEach((instance) -> {
-                    if (pos1 != pos) {
+                    if (!blockList.contains(pos1)) {
                         BreakBlockPayload payload = new BreakBlockPayload(pos1, pos, player.getUUID(), flag[0]);
                         PacketDistributor.sendToAllPlayers(payload);
                         if (flag[0]) {
@@ -87,6 +91,16 @@ public class BlockBreakEvent {
                     }
                 });
             });
+            int index = 0;
+            for (Set<BlockPos> blockPos : additionalBlockList) {
+                for (BlockPos pos2 : blockPos) {
+                    if (pos2.equals(pos)) continue;
+
+                    TraitBlockBreakVFXPayload payload = new TraitBlockBreakVFXPayload(pos2, player.getUUID(), ComponentHelper.getPartMaterials(tool).get(index));
+                    PacketDistributor.sendToAllPlayers(payload);
+                }
+                index++;
+            }
         }
     }
 

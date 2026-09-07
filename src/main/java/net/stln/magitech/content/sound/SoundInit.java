@@ -76,6 +76,10 @@ public class SoundInit {
     public static final Supplier<SoundEvent> HYDRAERUN = registerSoundEvent("hydraerun");
     public static final Supplier<SoundEvent> LUXGRAIL = registerSoundEvent("luxgrail");
     public static final Supplier<SoundEvent> LUXGRAIL_CHARGE = registerSoundEvent("luxgrail_charge");
+    public static final Supplier<SoundEvent> AETHERIX = registerSoundEvent("aetherix");
+    public static final Supplier<SoundEvent> THAUMIRIS = registerSoundEvent("thaumiris");
+    public static final Supplier<SoundEvent> ESFOUNTIA = registerSoundEvent("esfountia");
+    public static final Supplier<SoundEvent> QUINTEX = registerSoundEvent("quintex");
 
     public static final Supplier<SoundEvent> AETHER_LIFTER_JUMP = registerSoundEvent("aether_lifter_jump");
     public static final Supplier<SoundEvent> FLAMGLIDE_STRIDER_JUMP = registerSoundEvent("flamglide_strider_jump");

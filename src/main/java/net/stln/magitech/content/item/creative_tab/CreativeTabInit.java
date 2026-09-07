@@ -329,6 +329,10 @@ public class CreativeTabInit {
                 output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.NIHILFLARE));
                 output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.TENEBPORT));
 
+                output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.AETHERIX));
+                output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.THAUMIRIA));
+                output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.ESFOUNTIA));
+                output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.QUINTEX));
                 output.accept(ThreadboundGenerator.generateThreadPage(SpellInit.ENERCRUX));
 
             }).build());

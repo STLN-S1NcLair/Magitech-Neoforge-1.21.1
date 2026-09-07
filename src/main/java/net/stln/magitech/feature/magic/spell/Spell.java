@@ -10,7 +10,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.network.PacketDistributor;
-import net.stln.magitech.Magitech;
 import net.stln.magitech.MagitechRegistries;
 import net.stln.magitech.content.network.SpellCastPayload;
 import net.stln.magitech.content.network.SpellEndPayload;
@@ -60,7 +59,7 @@ public abstract class Spell implements ISpell {
                 this.end(level, caster, wand, hand, isHost);
             }
         } else {
-            if (config.continuous() && !isHost) {
+            if (config.continuous()) {
                 EntityManaHelper.addMagicMana(caster, -MagicPerformanceHelper.getEffectiveCost(caster, wand, this));
             }
             if (isLongSpell()) {
@@ -74,7 +73,7 @@ public abstract class Spell implements ISpell {
                 this.end(level, caster, wand, hand, isHost);
             }
             SoundHelper.broadcastSound(level, caster, config.castSound());
-            if (config.hasCharge() && !isHost) {
+            if (config.hasCharge()) {
                 SoundHelper.broadcastDelayedSound(level, caster, config.chargeSound(), this.config.chargeTime().get());
             }
         }
@@ -129,7 +128,7 @@ public abstract class Spell implements ISpell {
                     if (this.getConfig().continuous() && canContinuousCast(level, caster, wand)) {
                         EntityManaHelper.addMagicMana(caster, -MagicPerformanceHelper.getEffectiveContinuousCost(caster, wand, this));
                     } else {
-                        end(level, caster, wand, hand, isHost);
+                        caster.releaseUsingItem();
                     }
                 }
             }
@@ -177,15 +176,15 @@ public abstract class Spell implements ISpell {
                     EntityManaHelper.addMagicMana(caster, -MagicPerformanceHelper.getEffectiveCost(caster, wand, this));
                 }
                 SoundHelper.broadcastSound(level, caster, config.endSound());
+                CooldownHelper.updateCooldown(caster, this, wand);
             }
             endSpell(level, caster, wand, hand);
-            CooldownHelper.addCooldown(caster, this, wand);
         }
         caster.stopUsingItem();
         if (caster.getData(DataAttachmentInit.SPELL_CHARGE).charge().remaining() > 0 && caster instanceof Player player) {
             if (level.isClientSide) {
                 AnimationHelper.stopAnim(player);
-            } else if (!isHost) {
+            } else {
                 caster.setData(DataAttachmentInit.SPELL_CHARGE, ChargeData.empty());
             }
         }

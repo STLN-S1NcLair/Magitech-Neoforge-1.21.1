@@ -29,7 +29,7 @@ public class CrossRefRationalToolPropertyModifier extends ValueToolPropertyModif
             if (!(entry.getKey() instanceof CalculableToolProperty<?> property)) continue;
             if (!reference.contains(property)) continue;
             count++;
-            amount = base.getScalar(property);
+            amount += base.getScalar(property);
         }
         amount /= count;
         target.set(prop, prop.scalarAdd(prop.identity(), amount * value));

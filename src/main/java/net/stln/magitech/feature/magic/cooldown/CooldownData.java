@@ -28,13 +28,17 @@ public record CooldownData(HashMap<ISpell, Cooldown> cooldowns) {
         return cooldowns.get(spell);
     }
 
-    public void add(ISpell spell, int time) {
+    public void update(ISpell spell, int time) {
         cooldowns.put(spell, new Cooldown(time, time));
     }
 
     public void tick() {
         cooldowns.replaceAll((spell, cooldown) -> cooldown.tick());
         cooldowns.entrySet().removeIf(entry -> entry.getValue().remaining <= 0);
+    }
+
+    public void remove(ISpell spell) {
+        cooldowns.remove(spell);
     }
 
     public record Cooldown(int length, int remaining) {
@@ -44,6 +48,11 @@ public record CooldownData(HashMap<ISpell, Cooldown> cooldowns) {
 
         public Cooldown tick() {
             return new Cooldown(this.length, this.remaining - 1);
+        }
+
+        public Cooldown reduceCooldown(int amount) {
+            int newRemaining = Math.max(0, remaining - amount);
+            return new Cooldown(length, newRemaining);
         }
 
         public int progress() {

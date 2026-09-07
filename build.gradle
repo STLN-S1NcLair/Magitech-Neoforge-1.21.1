@@ -197,8 +197,9 @@ dependencies {
     runtimeOnly "maven.modrinth:ars-nouveau:jQHRV6Y0"
     runtimeOnly "maven.modrinth:irons-spells-n-spellbooks:Cu7ovsnN"
     runtimeOnly "maven.modrinth:supplementaries:i5gsy1xF"
-    runtimeOnly "maven.modrinth:moonlight:QiGuwr5v"
+    implementation "maven.modrinth:twkfQtEc:uPJlV3eS"
     runtimeOnly "maven.modrinth:artifacts:rGPw090r"
+    runtimeOnly "maven.modrinth:Adega8YN:PQzuABde"
 
 //    runtimeOnly("curse.maven:selene-499980:6818413")
 //    runtimeOnly("curse.maven:cloth-config-348521:5729127")

@@ -34,7 +34,7 @@ public class EntityManaHelper {
     public static void addMagicMana(LivingEntity entity, float amount) {
         EntityManaHandler handler = entity.getCapability(ManaCapabilities.MANA_CAPABLE_ENTITY);
         if (handler != null) {
-            handler.addMana(((long) amount) * 1000L);
+            handler.addMana((long) (amount * 1000L));
         }
     }
 

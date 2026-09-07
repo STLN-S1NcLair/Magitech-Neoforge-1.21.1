@@ -135,7 +135,6 @@ public class CrusherBlockEntity extends ManaMachineBlockEntity implements GeoBlo
             ItemStack result = recipe.getResultItem(level.registryAccess());
             if (canProgress(result)) {
                 if (getMana() >= MANA_PER_TICK) {
-                    Magitech.LOGGER.debug(getMana() + " / " + MANA_PER_TICK);
                     if (progress >= MAX_PROGRESS) {
                         craft(recipe, result);
                     } else {

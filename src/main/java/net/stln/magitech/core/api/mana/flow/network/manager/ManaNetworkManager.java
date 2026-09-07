@@ -82,8 +82,6 @@ public class ManaNetworkManager extends SavedData {
                     // 新ネットワーク構築
                     buildNewNetwork(level, pos, null);
                 }
-            } else {
-                buildNewNetwork(level, pos, null);
             }
         }
     }
@@ -96,32 +94,35 @@ public class ManaNetworkManager extends SavedData {
                     .filter(n -> !Collections.disjoint(n.getSnapshot().endpoints(), snapshot.endpoints()))
                     .collect(Collectors.toSet());
 
-            Set<HandlerEndpoint> combinedEndpoints = new HashSet<>(snapshot.endpoints());
-            Set<BlockPos> combinedWaypoints = new HashSet<>(snapshot.waypoints());
-            for (ManaNetworkInstance network : overlapped) {
-                // 古いposToNetwork削除
-                // ネットワーク統合
-                int sizeBefore = combinedEndpoints.size() + combinedWaypoints.size();
-                combinedEndpoints.addAll(network.getSnapshot().endpoints());
-                combinedWaypoints.addAll(network.getSnapshot().waypoints());
-                if (sizeBefore != combinedEndpoints.size() + combinedWaypoints.size()) {
-                    // ネットワークが変化した場合は異常: 通知
-                    Magitech.LOGGER.warn("Mana network abnormal overlap detected during build at {}, merged {} endpoints and {} waypoints", start, combinedEndpoints.size(), combinedWaypoints.size());
-                }
-                removeNetwork(network);
-            }
+            if (!overlapped.isEmpty()) {
+                Set<HandlerEndpoint> combinedEndpoints = new HashSet<>(snapshot.endpoints());
+                Set<BlockPos> combinedWaypoints = new HashSet<>(snapshot.waypoints());
 
-            NetworkSnapshot newSnapshot = new NetworkSnapshot(combinedEndpoints, combinedWaypoints, snapshot.networkTree());
-            putNewNetwork(newSnapshot);
+                for (ManaNetworkInstance network : overlapped) {
+                    combinedEndpoints.addAll(network.getSnapshot().endpoints());
+                    combinedWaypoints.addAll(network.getSnapshot().waypoints());
+                    removeNetwork(network);
+                }
+
+                Magitech.LOGGER.warn("Mana network abnormal overlap detected during build at {}, merged {} endpoints and {} waypoints", start, combinedEndpoints.size(), combinedWaypoints.size());
+                NetworkSnapshot newSnapshot = new NetworkSnapshot(combinedEndpoints, combinedWaypoints, snapshot.networkTree());
+                putNewNetwork(newSnapshot);
+            } else {
+                putNewNetwork(snapshot);
+            }
         }
     }
 
     public void tick(Level level) {
-        for (ManaNetworkInstance network : Set.copyOf(networks.values())) {
-            // ネットワークの定期更新処理
-            network.tick(level);
-            if (network.isDirty()) {
-                rebuild(network, level);
+        // ダーティーなネットワークのみを処理
+        List<ManaNetworkInstance> networksCopy = new ArrayList<>(networks.values());
+        for (ManaNetworkInstance network : networksCopy) {
+            // ネットワークが既に削除されている可能性があるので確認
+            if (networks.containsValue(network)) {
+                network.tick(level);
+                if (network.isDirty()) {
+                    rebuild(network, level);
+                }
             }
         }
     }
@@ -147,14 +148,24 @@ public class ManaNetworkManager extends SavedData {
 
     // ネットワーク削除
     private void removeNetwork(ManaNetworkInstance networkInstance) {
-        if (networkInstance != null && networks.containsValue(networkInstance)) {
-            for (HandlerEndpoint p : networkInstance.getSnapshot().endpoints()) {
-                endpointIndex.remove(p);
+        if (networkInstance != null) {
+            UUID keyToRemove = null;
+            for (Map.Entry<UUID, ManaNetworkInstance> entry : networks.entrySet()) {
+                if (entry.getValue() == networkInstance) {
+                    keyToRemove = entry.getKey();
+                    break;
+                }
             }
-            for (BlockPos p : networkInstance.getSnapshot().waypoints()) {
-                waypointIndex.remove(new BlockPos(p));
+
+            if (keyToRemove != null) {
+                for (HandlerEndpoint p : networkInstance.getSnapshot().endpoints()) {
+                    endpointIndex.remove(p);
+                }
+                for (BlockPos p : networkInstance.getSnapshot().waypoints()) {
+                    waypointIndex.remove(new BlockPos(p));
+                }
+                networks.remove(keyToRemove);
             }
-            networks.values().remove(networkInstance);
         }
     }
 

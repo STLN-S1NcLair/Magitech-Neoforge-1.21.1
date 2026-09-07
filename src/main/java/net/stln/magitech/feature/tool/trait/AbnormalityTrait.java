@@ -1,0 +1,40 @@
+package net.stln.magitech.feature.tool.trait;
+
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.stln.magitech.Magitech;
+import net.stln.magitech.feature.tool.property.ToolProperties;
+import net.stln.magitech.feature.tool.property.ToolPropertyCategory;
+import net.stln.magitech.feature.tool.property.modifier.CrossRefRationalToolPropertyModifier;
+import net.stln.magitech.feature.tool.property.modifier.RationalConversionToolPropertyModifier;
+import net.stln.magitech.feature.tool.property.modifier.ToolPropertyModifier;
+
+import java.awt.*;
+import java.util.List;
+
+public class AbnormalityTrait extends Trait {
+
+    @Override
+    public List<ToolPropertyModifier> modifyProperty(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties) {
+        float value = 0.15F * traitLevel;
+        ToolPropertyModifier mod1 = new RationalConversionToolPropertyModifier(ToolPropertyCategory.RANGE, ToolPropertyCategory.HANDLING, value, 1.0F);
+        return List.of(mod1);
+    }
+
+    @Override
+    public Color getColor() {
+        return new Color(0xFFFBB4);
+    }
+
+    @Override
+    public ResourceLocation getKey() {
+        return Magitech.id("abnormality");
+    }
+
+    @Override
+    public int getMaxLevel() {
+        return 4;
+    }
+}

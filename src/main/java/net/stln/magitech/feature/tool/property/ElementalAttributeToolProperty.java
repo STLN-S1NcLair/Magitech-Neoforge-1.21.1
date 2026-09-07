@@ -71,9 +71,8 @@ public class ElementalAttributeToolProperty extends AttributeToolProperty<Map<El
     @Override
     public Map<Element, Double> scalarAdd(Map<Element, Double> a, float b) {
         Map<Element, Double> result = new HashMap<>();
-        for (Element element : Element.values()) {
-            result.put(element, a.getOrDefault(element, scalarIdentity()) + b);
-        }
+        Element element = getElement(a);
+        result.put(element, a.getOrDefault(element, scalarIdentity()) + b);
         return result;
     }
 

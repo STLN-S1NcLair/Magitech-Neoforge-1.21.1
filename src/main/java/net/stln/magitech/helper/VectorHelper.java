@@ -36,6 +36,13 @@ public class VectorHelper {
         return random(rand).lerp(randScaledRandom(rand), 0.5F);
     }
 
+    public static Vec3 randomInCube(RandomSource rand) {
+        double x = Mth.randomBetween(rand, -0.5F, 0.5F);
+        double y = Mth.randomBetween(rand, -0.5F, 0.5F);
+        double z = Mth.randomBetween(rand, -0.5F, 0.5F);
+        return new Vec3(x, y, z);
+    }
+
     /**
      * 指定した軸と角度で回転を適用する
      *

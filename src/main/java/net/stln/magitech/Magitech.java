@@ -8,6 +8,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
@@ -102,6 +103,7 @@ public class Magitech {
         CriterionInit.registerCriteria(modEventBus);
         RecipeInit.registerRecipes(modEventBus);
         ValidatorInit.registerValidators();
+        modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
 
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (ExampleMod) child respond directly child events.

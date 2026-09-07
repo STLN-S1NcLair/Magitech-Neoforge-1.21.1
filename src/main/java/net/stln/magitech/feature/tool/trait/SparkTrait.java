@@ -100,7 +100,7 @@ public class SparkTrait extends Trait {
     }
 
     @Override
-    public Set<BlockPos> additionalBlockBreak(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties, BlockState blockState, BlockPos pos, int damageAmount, Direction direction) {
+    public void additionalBlockBreak(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties, BlockState blockState, BlockPos pos, Set<BlockPos> posSet, int damageAmount, Direction direction, boolean simulate) {
         int amplifier = 0;
         if (player.hasEffect(MobEffectInit.CHARGE)) {
             amplifier = player.getEffect(MobEffectInit.CHARGE).getAmplifier() + 1;
@@ -109,7 +109,9 @@ public class SparkTrait extends Trait {
                 player.addEffect(new MobEffectInstance(MobEffectInit.COOLDOWN, 240 / traitLevel, 0));
             }
         }
-        return BlockHelper.getConnectedBlocks(level, pos, blockState.getBlock(), amplifier * 5);
+        if (!simulate) {
+            posSet.addAll(BlockHelper.getConnectedBlocks(level, pos, blockState.getBlock(), amplifier * 5));
+        }
     }
 
     @Override

@@ -96,6 +96,12 @@
       "title1": "item.magitech.wand",
       "text": "book.magitech.glistening_lexicon.spark_of_technology.tool.wand.text",
       "recipe_id_1": "magitech:tool_assemble/wand"
+    },
+    {
+      "type": "magitech:tool_assembly_recipe",
+      "title1": "item.magitech.staff",
+      "text": "book.magitech.glistening_lexicon.spark_of_technology.tool.staff.text",
+      "recipe_id_1": "magitech:tool_assemble/staff"
     }
   ]
 }

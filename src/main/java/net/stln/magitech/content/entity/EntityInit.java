@@ -18,6 +18,8 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.content.entity.magicentity.aeltherin.AeltherinEntity;
 import net.stln.magitech.content.entity.magicentity.aeltherin.AeltherinRenderer;
+import net.stln.magitech.content.entity.magicentity.aetherix.AetherixEntity;
+import net.stln.magitech.content.entity.magicentity.aetherix.AetherixRenderer;
 import net.stln.magitech.content.entity.magicentity.arcaleth.ArcalethEntity;
 import net.stln.magitech.content.entity.magicentity.arcaleth.ArcalethRenderer;
 import net.stln.magitech.content.entity.magicentity.electroide.ElectroideEntity;
@@ -77,6 +79,7 @@ public class EntityInit {
     public static final Supplier<EntityType<HydreluxEntity>> HYDRELUX_ENTITY = registerMobEntity("hydrelux", HydreluxEntity::new, MobCategory.MISC, builder -> builder.sized(1.0F, 1.0F));
     public static final Supplier<EntityType<NullixisEntity>> NULLIXIS_ENTITY = registerMobEntity("nullixis", NullixisEntity::new, MobCategory.MISC, builder -> builder.sized(0.5F, 0.5F));
     public static final Supplier<EntityType<NihilflareEntity>> NIHILFLARE_ENTITY = registerMobEntity("nihilflare", NihilflareEntity::new, MobCategory.MISC, builder -> builder.sized(1.0F, 1.0F));
+    public static final Supplier<EntityType<AetherixEntity>> AETHERIX_ENTITY = registerMobEntity("aetherix", AetherixEntity::new, MobCategory.MISC, builder -> builder.sized(0.5F, 0.5F));
 
     public static final Supplier<EntityType<ManaParcelEntity>> MANA_PARCEL_ENTITY = registerMobEntity("mana_parcel", ManaParcelEntity::new, MobCategory.MISC, builder -> builder.sized(0.25F, 0.25F));
 
@@ -105,6 +108,7 @@ public class EntityInit {
         EntityRenderers.register(EntityInit.HYDRELUX_ENTITY.get(), HydreluxRenderer::new);
         EntityRenderers.register(EntityInit.NULLIXIS_ENTITY.get(), NullixisRenderer::new);
         EntityRenderers.register(EntityInit.NIHILFLARE_ENTITY.get(), NihilflareRenderer::new);
+        EntityRenderers.register(EntityInit.AETHERIX_ENTITY.get(), AetherixRenderer::new);
 
         EntityRenderers.register(EntityInit.MANA_PARCEL_ENTITY.get(), ManaParcelRenderer::new);
 

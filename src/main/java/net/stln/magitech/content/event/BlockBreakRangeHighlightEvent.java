@@ -31,8 +31,6 @@ import net.stln.magitech.Magitech;
 import net.stln.magitech.content.item.tool.toolitem.SynthesisedToolItem;
 import net.stln.magitech.feature.tool.property.ToolProperties;
 import net.stln.magitech.feature.tool.tool_type.ToolType;
-import net.stln.magitech.feature.tool.tool_type.ToolTypeInit;
-import net.stln.magitech.feature.tool.trait.BlockBreakEvent;
 import net.stln.magitech.feature.tool.trait.TraitHelper;
 import net.stln.magitech.feature.tool.trait.TraitInstance;
 import net.stln.magitech.helper.ComponentHelper;
@@ -112,8 +110,10 @@ public class BlockBreakRangeHighlightEvent {
         Set<BlockPos> finalList = new HashSet<>();
         for (BlockPos p : blockList) {
             for (TraitInstance instance : traits) {
-                finalList.addAll(instance.trait().additionalBlockBreak(player, level, stack, instance.level(),
-                        appliedProperties, level.getBlockState(p), p, 1, breakDir));
+                Set<BlockPos> additionalBlocks = new HashSet<>();
+                instance.trait().additionalBlockBreak(player, level, stack, instance.level(),
+                        appliedProperties, level.getBlockState(p), p, additionalBlocks, 1, breakDir, true);
+                finalList.addAll(additionalBlocks);
             }
         }
         finalList.addAll(blockList); // 中心は必ず含める

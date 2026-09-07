@@ -25,7 +25,8 @@ public class TemperatureDifferenceTrait extends Trait {
         RationalToolPropertyModifier mod2 = new RationalToolPropertyModifier(ToolPropertyCategory.HANDLING, mul);
         list.add(mod1);
         list.add(mod2);
-        if (level.isDay()) {
+        long time = level.getDayTime();
+        if (time < 13000 || time > 23000) {
             mod2.setEnabled(false);
         } else {
             mod1.setEnabled(false);

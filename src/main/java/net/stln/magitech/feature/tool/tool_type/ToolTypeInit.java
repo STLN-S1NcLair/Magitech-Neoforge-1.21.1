@@ -203,6 +203,26 @@ public class ToolTypeInit {
                     new ToolType.PartData(ToolPartInit.TOOL_BINDING, 0.6F)
             )));
 
+    @SuppressWarnings("unchecked")
+    public static final DeferredToolType<ToolType> STAFF = register("staff", f -> new ToolType(f, true, ItemInit.STAFF,
+            ToolMineType.none(),
+            () -> new ToolProperties(ToolCategoryInit.CASTER)
+                    .set(ToolPropertyInit.TIER, 5.0)
+                    .set(ToolPropertyInit.MAX_PROGRESSION_COEFFICIENT, 1.0)
+                    .set(ToolPropertyInit.POWER, 2.0)
+                    .set(ToolPropertyInit.ELEMENTAL_POWER, ElementalAttributeToolProperty.flatValue(2.0))
+                    .set(ToolPropertyInit.CHARGE_SPEED, 0.5)
+                    .set(ToolPropertyInit.COOLDOWN_SPEED, 0.5)
+                    .set(ToolPropertyInit.DEFENSE, 2.0)
+                    .set(ToolPropertyInit.LAUNCH, 2.0)
+                    .set(ToolPropertyInit.MANA_EFFICIENCY, 0.4)
+                    .set(ToolPropertyInit.DURABILITY, 702.0),
+            List.of(new ToolType.PartData(ToolPartInit.CATALYST, 1.5F),
+                    new ToolType.PartData(ToolPartInit.HEAVY_HANDLE, 0.8F),
+                    new ToolType.PartData(ToolPartInit.CONDUCTOR, 1.2F),
+                    new ToolType.PartData(ToolPartInit.TOOL_BINDING, 0.5F)
+            )));
+
     public static void registerToolTypes(IEventBus bus) {
         Magitech.LOGGER.info("Registering Tool Types for" + Magitech.MOD_ID);
         REGISTER.register(bus);

@@ -488,7 +488,7 @@ public abstract class SynthesisedToolItem extends Item implements LeftClickOverr
         // falseを優先
         TraitHelper.getTrait(stack).forEach((instance) -> {
             Boolean isCorrect = instance.trait().modifyCorrectTool(stack, instance.level(), state);
-            if (isCorrect == null) {
+            if (isCorrect != null) {
                 flag[0] = isCorrect;
             }
         });
@@ -539,10 +539,11 @@ public abstract class SynthesisedToolItem extends Item implements LeftClickOverr
 
         Vec3 playerEyePos = user.getEyePosition(1.0F);
         Vec3 forward = Vec3.directionFromRotation(user.getRotationVector());
-        double mul = user.getAttributeValue(Attributes.ENTITY_INTERACTION_RANGE);
-        Vec3 maxReachPos = playerEyePos.add(forward.scale(mul));
+        double maxReach = user.getAttributeValue(Attributes.ENTITY_INTERACTION_RANGE);
+        Vec3 maxReachPos = playerEyePos.add(forward.scale(maxReach));
 
-        if (CombatHelper.getEntityHitResult(user, playerEyePos, maxReachPos, world) != null || getPlayerPOVHitResult(world, user, ClipContext.Fluid.NONE).getType() != BlockHitResult.Type.BLOCK) {
+        EntityHitResult lineHit = CombatHelper.getEntityHitResult(user, playerEyePos, maxReachPos, world);
+        if (CombatHelper.getCylinderHit(user, maxReach, playerEyePos, 0.5, lineHit, world, maxReachPos) != null || getPlayerPOVHitResult(world, user, ClipContext.Fluid.NONE).getType() != BlockHitResult.Type.BLOCK) {
             float pitch = getAppliedProperties(user, world, user.getItemInHand(hand)).getOrId(ToolPropertyInit.ATTACK_SPEED.get()).floatValue() * 0.5F;
             if (user.getAttackStrengthScale(0.5F) > 0.7F) {
                 world.playSound(user, user.getX(), user.getY(), user.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP, SoundSource.PLAYERS, 1.0F, pitch);
@@ -564,8 +565,8 @@ public abstract class SynthesisedToolItem extends Item implements LeftClickOverr
             sweepVFX(level, user, swp, stats);
         }
 
-        Vec3 center = CombatHelper.getAttackTargetPosition(user, user.entityInteractionRange(), 2, 0.0);
-        List<Entity> attackList = new ArrayList<>(CombatHelper.getEntitiesInBox(level, user, center, new Vec3(swp, swp / 3.0F, swp)).stream()
+        Vec3 center = CombatHelper.getAttackTargetPosition(user, user.entityInteractionRange(), 1, 0.0);
+        List<Entity> attackList = new ArrayList<>(CombatHelper.getEntitiesInBox(level, user, center, new Vec3(swp, swp / 2.0F, swp)).stream()
                 .filter(entity -> level.clip(new ClipContext(CombatHelper.getBodyPos(entity), CombatHelper.getBodyPos(user), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, user)).getType() != HitResult.Type.BLOCK).toList());
         attackList.removeIf(e -> !(e instanceof LivingEntity livingEntity) || e == user || !user.canAttack(livingEntity) || e.isInvulnerable());
 

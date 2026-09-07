@@ -497,9 +497,18 @@ public class ZardiusCrucibleBlockEntity extends ManaMachineBlockEntity {
         }
 
         // 大釜からアイテムに液体を移す
-        playFluidDrainSound(primaryFluid, iFluidHandlerItem);
         int drainAmount = Math.min(iFluidHandlerItem.getTankCapacity(emptyOrSameSlot) - iFluidHandlerItem.getFluidInTank(emptyOrSameSlot).getAmount(), 1000);
-        FluidStack stack = this.tank.drain(primaryFluid.copyWithAmount(Math.max(0, drainAmount)), IFluidHandler.FluidAction.EXECUTE);
+        FluidStack probeStack = primaryFluid.copyWithAmount(Math.max(0, drainAmount));
+        
+        // アイテムが液体を受け入れることができるか先に確認
+        int accepted = iFluidHandlerItem.fill(probeStack, IFluidHandler.FluidAction.SIMULATE);
+        if (accepted <= 0) {
+            return false;
+        }
+        
+        // 実際に液体を移す
+        playFluidDrainSound(primaryFluid, iFluidHandlerItem);
+        FluidStack stack = this.tank.drain(probeStack.copyWithAmount(accepted), IFluidHandler.FluidAction.EXECUTE);
         if (stack.isEmpty()) {
             return false;
         }

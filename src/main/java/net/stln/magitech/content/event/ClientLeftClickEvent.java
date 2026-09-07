@@ -27,6 +27,8 @@ public class ClientLeftClickEvent {
             PacketDistributor.sendToServer(payload);
             if (callOnLeftClick(player) == InteractionResult.SUCCESS) {
                 event.setCanceled(true);
+            } else {
+                Magitech.LOGGER.info("Left click event passed through for player: " + player.getName().getString());
             }
         }
     }

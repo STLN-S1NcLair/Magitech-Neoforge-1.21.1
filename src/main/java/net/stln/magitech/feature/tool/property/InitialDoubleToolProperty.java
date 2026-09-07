@@ -1,10 +1,6 @@
 package net.stln.magitech.feature.tool.property;
 
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.ItemStack;
-
 import java.awt.*;
-import java.util.List;
 
 public abstract class InitialDoubleToolProperty extends InitialToolProperty<Double> {
 

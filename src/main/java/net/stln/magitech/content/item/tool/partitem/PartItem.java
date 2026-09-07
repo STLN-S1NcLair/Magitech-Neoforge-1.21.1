@@ -13,6 +13,7 @@ import net.stln.magitech.feature.tool.part.ToolPart;
 import net.stln.magitech.feature.tool.part.ToolPartLike;
 import net.stln.magitech.feature.tool.property.IToolProperty;
 import net.stln.magitech.feature.tool.property.ToolProperties;
+import net.stln.magitech.feature.tool.property.ToolPropertyInit;
 import net.stln.magitech.feature.tool.tool_category.ToolCategoryInit;
 import net.stln.magitech.feature.tool.trait.Trait;
 import net.stln.magitech.helper.ClientHelper;
@@ -23,6 +24,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
+import java.util.function.UnaryOperator;
 
 public abstract class PartItem extends Item {
 
@@ -67,6 +69,9 @@ public abstract class PartItem extends Item {
 
         if (Screen.hasShiftDown()) {
             ToolProperties properties = material.properties().get();
+
+            int tier = Math.toIntExact(Math.round(properties.getOrId(ToolPropertyInit.TIER.get())));
+            ComponentHelper.updateTier(stack, tier, UnaryOperator.identity());
 
             for (IToolProperty<?> property : RegistryHelper.registeredToolProperties()) {
                 if (properties.getValues().containsKey(property)) {

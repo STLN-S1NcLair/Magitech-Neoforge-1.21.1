@@ -65,6 +65,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         handheldItem(ItemInit.SHOVEL.get());
         handheldItem(ItemInit.SCYTHE.get());
         handheldItem(ItemInit.WAND.get());
+        handheldItem(ItemInit.STAFF.get());
         basicItem(ItemInit.AETHER_LIFTER.get());
         basicItem(ItemInit.FLAMGLIDE_STRIDER.get());
         basicItem(ItemInit.ALCHAEFABRIC.get());

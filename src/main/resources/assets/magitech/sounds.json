@@ -359,6 +359,26 @@
       "magitech:mana_parcel"
     ]
   },
+  "aetherix": {
+    "sounds": [
+      "magitech:aetherix"
+    ]
+  },
+  "thaumiris": {
+    "sounds": [
+      "magitech:thaumiris"
+    ]
+  },
+  "esfountia": {
+    "sounds": [
+      "magitech:esfountia"
+    ]
+  },
+  "quintex": {
+    "sounds": [
+      "magitech:quintex"
+    ]
+  },
   "crystal_break": {
     "subtitle": "subtitles.block.generic.break",
     "sounds": [

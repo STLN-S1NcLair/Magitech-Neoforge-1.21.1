@@ -42,10 +42,13 @@ public abstract class SpellCasterItem extends SynthesisedToolItem {
             if (spells.selected() < spells.spells().size()) {
                 ISpell spell = spells.getSelectedSpell();
                 if (spell.canCast(level, player, stack)) {
-                    spell.cast(level, player, stack, usedHand, true);
+                    spell.cast(level, player, stack, usedHand, !level.isClientSide);
                     TraitHelper.getTrait(stack).forEach(((instance) -> {
                         instance.trait().onCastSpell(player, level, stack, instance.level(), getAppliedProperties(player, level, stack));
                     }));
+                    if (!level.isClientSide && !isLongSpell(spell)) {
+                        damage(stack, player, level);
+                    }
                 } else {
                     player.releaseUsingItem();
                     return InteractionResultHolder.pass(stack);
@@ -54,16 +57,17 @@ public abstract class SpellCasterItem extends SynthesisedToolItem {
                 threadbound.set(ComponentInit.SPELL_COMPONENT, spells.setSelected(0));
             }
         }
-        damage(stack, player, level);
         player.awardStat(Stats.ITEM_USED.get(this));
         return InteractionResultHolder.consume(stack);
+    }
+
+    private static boolean isLongSpell(ISpell spell) {
+        return spell.getConfig().continuous() || spell.getConfig().hasCharge();
     }
 
     @Override
     public void onUseTick(@NotNull Level level, @NotNull LivingEntity livingEntity, @NotNull ItemStack stack, int remainingUseDuration) {
         super.onUseTick(level, livingEntity, stack, remainingUseDuration);
-
-        if (ComponentHelper.isBroken(stack)) return;
         if (livingEntity instanceof Player user) {
             ItemStack threadbound = CuriosHelper.getThreadBoundStack(user).orElse(ItemStack.EMPTY);
             InteractionHand hand = user.getMainHandItem().equals(stack) ? InteractionHand.MAIN_HAND : user.getOffhandItem().equals(stack) ? InteractionHand.OFF_HAND : null;
@@ -72,7 +76,7 @@ public abstract class SpellCasterItem extends SynthesisedToolItem {
                 SpellComponent spellComponent = ComponentHelper.getSpells(threadbound);
                 ISpell spell = spellComponent.getSelectedSpell();
                 if (spell.canContinuousCast(level, livingEntity, stack)) {
-                    spell.tick(level, livingEntity, stack, hand, getUseDuration(stack, livingEntity) - remainingUseDuration, true);
+                    spell.tick(level, livingEntity, stack, hand, getUseDuration(stack, livingEntity) - remainingUseDuration, !level.isClientSide);
                 } else {
                     livingEntity.releaseUsingItem();
                 }
@@ -85,7 +89,6 @@ public abstract class SpellCasterItem extends SynthesisedToolItem {
     @Override
     public void releaseUsing(@NotNull ItemStack stack, @NotNull Level level, @NotNull LivingEntity livingEntity, int timeCharged) {
 
-        if (ComponentHelper.isBroken(stack)) return;
         super.releaseUsing(stack, level, livingEntity, timeCharged);
         if (livingEntity instanceof Player user) {
             InteractionHand hand = user.getMainHandItem().equals(stack) ? InteractionHand.MAIN_HAND : user.getOffhandItem().equals(stack) ? InteractionHand.OFF_HAND : null;
@@ -93,7 +96,10 @@ public abstract class SpellCasterItem extends SynthesisedToolItem {
                 SpellComponent spells = ComponentHelper.getSpells(threadbound);
                 ISpell spell = spells.getSelectedSpell();
 
-                spell.end(level, livingEntity, stack, hand, true);
+                spell.end(level, livingEntity, stack, hand, !level.isClientSide);
+                if (!level.isClientSide && isLongSpell(spell)) {
+                    damage(stack, user, level);
+                }
             });
         }
     }

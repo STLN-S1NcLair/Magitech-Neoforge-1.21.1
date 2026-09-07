@@ -9,6 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
@@ -19,9 +20,17 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.stln.magitech.content.network.TraitActionPayload;
+import net.stln.magitech.content.network.TraitBlockBreakVFXPayload;
+import net.stln.magitech.content.network.TraitEntityKillVFXPayload;
+import net.stln.magitech.effect.visual.preset.BlockVFX;
 import net.stln.magitech.effect.visual.preset.EntityVFX;
+import net.stln.magitech.effect.visual.preset.PointVFX;
+import net.stln.magitech.feature.tool.material.MaterialInit;
+import net.stln.magitech.feature.tool.material.ToolMaterial;
+import net.stln.magitech.feature.tool.material.ToolMaterialLike;
 import net.stln.magitech.feature.tool.property.ToolProperties;
 import net.stln.magitech.feature.tool.property.modifier.ToolPropertyModifier;
+import net.stln.magitech.helper.ComponentHelper;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -58,17 +67,37 @@ public abstract class Trait {
         }
     }
 
-    public void emitBlockBreakParticle(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties, BlockState blockState, BlockPos pos, int damageAmount, boolean isInitial) {
-
+    public void addBlockBreakVFX(Player player, Level level, ItemStack stack, BlockState blockState, BlockPos pos, ToolMaterialLike material) {
+        if (!level.isClientSide) {
+            TraitBlockBreakVFXPayload payload = new TraitBlockBreakVFXPayload(pos, player.getUUID(), material.asToolMaterial());
+            PacketDistributor.sendToAllPlayers(payload);
+        }
     }
 
-    public Set<BlockPos> additionalBlockBreak(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties, BlockState blockState, BlockPos pos, int damageAmount, Direction direction) {
-        Set<BlockPos> posSet = new HashSet<>();
+    public void addEntityKillVFX(Player player, Level level, ItemStack stack, Vec3 pos, ToolMaterialLike material) {
+        if (!level.isClientSide) {
+            TraitEntityKillVFXPayload payload = new TraitEntityKillVFXPayload(pos.toVector3f(), player.getUUID(), material.asToolMaterial());
+            PacketDistributor.sendToAllPlayers(payload);
+        }
+    }
+
+    public void emitBlockBreakParticle(Level level, BlockPos pos, BlockState blockState) {
+        BlockVFX.traitBreak(level, this, pos.getCenter(), 10);
+    }
+
+    public void additionalBlockBreak(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties, BlockState blockState, BlockPos pos, Set<BlockPos> posSet, int damageAmount, Direction direction, boolean simulate) {
         posSet.add(pos);
-        return posSet;
     }
 
     public void modifyEnchantmentOnBlockLooting(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties, BlockState blockState, BlockPos pos, List<ItemStack> lootStack) {
+    }
+
+    public void onBlockLooting(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties, BlockState blockState, BlockPos pos, List<ItemEntity> loots) {
+
+    }
+
+    public void onEntityLooting(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties, List<ItemEntity> loots) {
+
     }
 
     // EXP倍率で指定すること

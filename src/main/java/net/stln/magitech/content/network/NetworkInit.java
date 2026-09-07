@@ -130,5 +130,15 @@ public class NetworkInit {
                 CompressorCraftPayload.STREAM_CODEC,
                 CompressorCraftPayLoadHandler::handleDataOnMainS2C
         );
+        registrar.playToClient(
+                TraitBlockBreakVFXPayload.TYPE,
+                TraitBlockBreakVFXPayload.STREAM_CODEC,
+                TraitBlockBreakVFXPayloadHandler::handleDataOnMainS2C
+        );
+        registrar.playToClient(
+                TraitEntityKillVFXPayload.TYPE,
+                TraitEntityKillVFXPayload.STREAM_CODEC,
+                TraitEntityKillVFXPayloadHandler::handleDataOnMainS2C
+        );
     }
 }

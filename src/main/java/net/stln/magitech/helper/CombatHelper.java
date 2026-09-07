@@ -99,7 +99,8 @@ public class CombatHelper {
         ));
 
         // Raycast (エンティティ)
-        EntityHitResult entityHit = getEntityHitResult(player, playerEyePos, maxReachPos, player.level());
+        EntityHitResult lineHit = getEntityHitResult(player, playerEyePos, maxReachPos, player.level());
+        EntityHitResult entityHit = getCylinderHit(player, attackRange, playerEyePos, 0.5, lineHit, player.level(), maxReachPos);
 
         double blockHitDist = blockHit.getType() == HitResult.Type.MISS ? attackRange + 1 : blockHit.getLocation().distanceTo(playerEyePos);
         double entityHitDist = entityHit != null ? entityHit.getLocation().distanceTo(playerEyePos) : attackRange + 1;
@@ -397,7 +398,7 @@ public class CombatHelper {
         return null;
     }
 
-    private static @Nullable EntityHitResult getCylinderHit(Entity player, double maxReachLength, Vec3 start, double radius, EntityHitResult entityHit, Level world, Vec3 maxReachPos) {
+    public static @Nullable EntityHitResult getCylinderHit(Entity player, double maxReachLength, Vec3 start, double radius, EntityHitResult entityHit, Level world, Vec3 maxReachPos) {
         if (entityHit == null) {
 
             for (Entity entity : world.getEntities(player, new AABB(start, maxReachPos).inflate(radius))) {

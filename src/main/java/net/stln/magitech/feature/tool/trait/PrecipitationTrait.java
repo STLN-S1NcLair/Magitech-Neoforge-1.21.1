@@ -45,12 +45,12 @@ public class PrecipitationTrait extends Trait {
     }
 
     @Override
-    public Set<BlockPos> additionalBlockBreak(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties, BlockState blockState, BlockPos pos, int damageAmount, Direction direction) {
+    public void additionalBlockBreak(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties, BlockState blockState, BlockPos pos, Set<BlockPos> posSet, int damageAmount, Direction direction, boolean simulate) {
         boolean isTallEnough = isTallEnough(level, blockState, pos);
         if (isTallEnough) {
-            return BlockHelper.getConnectedBlocks(level, pos, blockState.getBlock(), traitLevel * 15);
+            posSet.addAll(BlockHelper.getConnectedBlocks(level, pos, blockState.getBlock(), traitLevel * 15));
         }
-        return super.additionalBlockBreak(player, level, stack, traitLevel, properties, blockState, pos, damageAmount, direction);
+        super.additionalBlockBreak(player, level, stack, traitLevel, properties, blockState, pos, posSet, damageAmount, direction, simulate);
     }
 
     private static boolean isTallEnough(Level level, BlockState blockState, BlockPos pos) {

@@ -118,6 +118,8 @@ public class ToolRepairingMenu extends AbstractContainerMenu {
                                             partToolItem.callTestRepair(level, player, stack1.getMaxDamage() / 5, stack1);
                                             partToolItem.reloadComponent(player, level, stack1);
                                             isRepairable.set(true);
+                                        } else {
+                                            break;
                                         }
                                     }
                                 }
@@ -157,6 +159,8 @@ public class ToolRepairingMenu extends AbstractContainerMenu {
                 stack.setDamageValue(stack.getDamageValue() - stack.getMaxDamage() / 5);
                 ((SynthesisedToolItem) stack.getItem()).callOnRepair(level, player, stack.getMaxDamage() / 5, stack);
                 repairCount++;
+            } else {
+                break;
             }
         }
         inputSlots.removeItem(0, 1);

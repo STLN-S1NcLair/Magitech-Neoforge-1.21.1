@@ -12,6 +12,7 @@ import net.stln.magitech.feature.tool.part.ToolPart;
 import net.stln.magitech.feature.tool.property.IToolProperty;
 import net.stln.magitech.feature.tool.tool_category.ToolCategory;
 import net.stln.magitech.feature.tool.tool_type.ToolType;
+import net.stln.magitech.feature.tool.trait.Trait;
 import net.stln.magitech.feature.tool.upgrade.Upgrade;
 
 public final class MagitechRegistries {

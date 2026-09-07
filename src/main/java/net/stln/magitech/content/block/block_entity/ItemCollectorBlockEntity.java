@@ -92,7 +92,7 @@ public class ItemCollectorBlockEntity extends ManaMachineBlockEntity {
                     break;
                 }
             }
-            if (stack.equals(item.getItem())) continue; // アイテムが全く減らなかった場合は次のアイテムへ
+            if (ItemStack.isSameItemSameComponents(stack, item.getItem()) && stack.getCount() == item.getItem().getCount()) continue; // アイテムが全く減らなかった場合は次のアイテムへ
             item.setItem(stack);
              // アイテムが減った場合はエフェクトを出す
             PacketDistributor.sendToAllPlayers(new ItemCollectorCollectPayload(this.getBlockPos(), item.position().toVector3f()));

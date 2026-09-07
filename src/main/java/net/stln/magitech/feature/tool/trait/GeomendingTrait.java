@@ -8,12 +8,17 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.network.PacketDistributor;
 import net.stln.magitech.Magitech;
+import net.stln.magitech.content.network.TraitBlockBreakVFXPayload;
 import net.stln.magitech.content.sound.SoundInit;
+import net.stln.magitech.feature.tool.material.MaterialInit;
+import net.stln.magitech.feature.tool.material.ToolMaterial;
 import net.stln.magitech.feature.tool.property.ToolProperties;
 import net.stln.magitech.feature.tool.property.ToolPropertyCategory;
 import net.stln.magitech.feature.tool.property.modifier.RationalToolPropertyModifier;
 import net.stln.magitech.feature.tool.property.modifier.ToolPropertyModifier;
+import net.stln.magitech.helper.ComponentHelper;
 
 import java.awt.*;
 import java.util.List;
@@ -42,6 +47,7 @@ public class GeomendingTrait extends Trait {
             if (player.getRandom().nextFloat() < traitLevel * 0.2F) {
                 stack.setDamageValue(stack.getDamageValue() - 1);
                 level.playSound(player, pos.getX(), pos.getY(), pos.getZ(), SoundInit.GEOMENDING_BREAK.get(), SoundSource.PLAYERS, 1.0F, 0.7F + (player.getRandom().nextFloat() * 0.6F));
+                addBlockBreakVFX(player, level, stack, blockState, pos, MaterialInit.STONE);
             }
         }
     }
@@ -49,6 +55,16 @@ public class GeomendingTrait extends Trait {
     @Override
     public Color getColor() {
         return new Color(0x808080);
+    }
+
+    @Override
+    public Color getPrimary() {
+        return new Color(0xAAAAAA);
+    }
+
+    @Override
+    public Color getSecondary() {
+        return new Color(0x5D565E);
     }
 
     @Override

@@ -185,7 +185,6 @@ public abstract class SpellProjectileEntity extends AbstractSpellProjectileEntit
             if (level().isClientSide) {
                 EntityHitResult result = findHitEntity(position(), position().add(getDeltaMovement()));
                 if (result != null) {
-                    Magitech.LOGGER.debug(String.valueOf(result.getLocation()));
                     onHit(result);
                 } else {
                     onHit(BlockHitResult.miss(position(), Direction.DOWN, BlockPos.containing(position())));

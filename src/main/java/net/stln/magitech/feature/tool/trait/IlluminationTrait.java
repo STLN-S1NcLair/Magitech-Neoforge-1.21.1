@@ -20,6 +20,7 @@ import net.minecraft.world.level.block.LightBlock;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.Magitech;
+import net.stln.magitech.content.block.BlockInit;
 import net.stln.magitech.effect.visual.preset.PresetHelper;
 import net.stln.magitech.effect.visual.spawner.PowerupParticles;
 import net.stln.magitech.feature.tool.property.ToolProperties;
@@ -44,10 +45,10 @@ public class IlluminationTrait extends Trait {
             if (!level.isClientSide() && !isHost) {
                 stack.hurtAndBreak(5, player, hand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
             }
-            level.setBlock(placePos, Blocks.LIGHT.defaultBlockState().setValue(LightBlock.LEVEL, 15), 3);
+            level.setBlock(placePos, BlockInit.LUMINOUS_SHARD.get().defaultBlockState(), 3);
             RandomSource random = level.random;
             for (int i = 0; i < 20; i++) {
-                Vec3 randomBody = pos.getCenter().add(new Vec3(Mth.nextFloat(random, -1, 1), Mth.nextFloat(random, -1, 1), Mth.nextFloat(random, -1, 1)).scale(0.6));
+                Vec3 randomBody = pos.relative(direction).getCenter().add(new Vec3(Mth.nextFloat(random, -1, 1), Mth.nextFloat(random, -1, 1), Mth.nextFloat(random, -1, 1)).scale(0.6));
                 ParticleEffectSpawner spawner = PowerupParticles.powerupParticle(level, randomBody, getPrimary(), getSecondary());
                 PresetHelper.modify(spawner, builder -> builder.multiplyFriction(Mth.nextFloat(random, 0.6F, 1.0F)));
                 spawner.spawnParticles();
@@ -60,6 +61,17 @@ public class IlluminationTrait extends Trait {
     @Override
     public Color getColor() {
         return new Color(0xFFC080);
+    }
+
+
+    @Override
+    public Color getPrimary() {
+        return new Color(0xFFF0AA);
+    }
+
+    @Override
+    public Color getSecondary() {
+        return new Color(0xFF8A39);
     }
 
     @Override
