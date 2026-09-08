@@ -14,6 +14,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class ManaNetworkInstance {
+    private static final int REBUILD_INTERVAL_TICKS = 1200;
 
     private NetworkSnapshot snapshot;
     private boolean dirty;
@@ -21,7 +22,7 @@ public class ManaNetworkInstance {
 
     public ManaNetworkInstance(NetworkSnapshot snapshot) {
         this.snapshot = snapshot;
-        this.tickCounter = new Random().nextInt(120);
+        this.tickCounter = new Random().nextInt(REBUILD_INTERVAL_TICKS);
     }
 
     public NetworkSnapshot getSnapshot() {
@@ -45,7 +46,7 @@ public class ManaNetworkInstance {
         tickCounter++;
         balance(level);
         // ネットワークの定期更新処理
-        if (tickCounter > 120) {
+        if (tickCounter >= REBUILD_INTERVAL_TICKS) {
             tickCounter = 0;
             this.markDirty();
         }
@@ -63,16 +64,23 @@ public class ManaNetworkInstance {
                 .filter(Objects::nonNull)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
-        for (HandlerEndpoint endpoint : snapshot.endpoints()) {
+        if (endpointToHandler.size() < 2) {
+            return;
+        }
+        Set<IBasicManaHandler> availableHandlers = new HashSet<>(endpointToHandler.values());
 
-            IBlockManaHandler handler = ManaTransferHelper.getManaContainer(level, endpoint.pos(), endpoint.direction());
+        for (Map.Entry<HandlerEndpoint, IBasicManaHandler> source : endpointToHandler.entrySet()) {
+            HandlerEndpoint endpoint = source.getKey();
+            IBlockManaHandler handler = (IBlockManaHandler) source.getValue();
 
-            if (handler == null) continue;
+            Set<IBasicManaHandler> inserted = ManaTransferHelper.balance(handler, availableHandlers);
+            if (inserted.isEmpty()) {
+                continue;
+            }
 
-            Set<IBasicManaHandler> inserted = ManaTransferHelper.balance(handler, new HashSet<>(endpointToHandler.values()));
-
-            for (HandlerEndpoint target : snapshot.endpoints()) {
-                IBasicManaHandler h = endpointToHandler.get(target);
+            for (Map.Entry<HandlerEndpoint, IBasicManaHandler> targetEntry : endpointToHandler.entrySet()) {
+                HandlerEndpoint target = targetEntry.getKey();
+                IBasicManaHandler h = targetEntry.getValue();
                 if (h != null && inserted.contains(h)) {
                     Set<NetworkTree.Edge> path =
                             NetworkTreeHelper.getWirelessPath(snapshot.networkTree(), endpoint.pos(), target.pos());

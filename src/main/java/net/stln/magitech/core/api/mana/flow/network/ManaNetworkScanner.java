@@ -5,6 +5,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
@@ -20,7 +21,10 @@ import net.stln.magitech.core.api.mana.handler.IBlockManaHandler;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayDeque;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
@@ -34,6 +38,7 @@ public class ManaNetworkScanner {
         Set<HandlerEndpoint> endpoints = new HashSet<>();
         Set<BlockPos> waypoints = new HashSet<>();
         Set<NetworkTree.Edge> edges = new HashSet<>();
+        Map<VisibilityKey, Boolean> visibilityCache = new HashMap<>();
 
         Queue<ScanNode> queue = new ArrayDeque<>();
 
@@ -96,7 +101,7 @@ public class ManaNetworkScanner {
             if (node.mode == ConnectionMode.WIRED) {
                 scanWired(level, node, state, queue, visitedWired, visitedWireless, endpoints, edges);
             } else {
-                scanWireless(level, node, state, queue, visitedWired, visitedWireless, endpoints, edges);
+                scanWireless(level, node, state, queue, visitedWired, visitedWireless, endpoints, edges, visibilityCache);
             }
         }
         if (endpoints.isEmpty()) {
@@ -117,7 +122,9 @@ public class ManaNetworkScanner {
 
         if (!(block instanceof IManaConnectable || level.getBlockEntity(pos) instanceof IManaConnectable)) return;
 
-        Set<Direction> nextDirs = node.key.side != null ? Set.of(node.key.side) : Set.of(Direction.values());
+        IManaConnectable connectable = getConnectable(level, block, pos);
+        Set<Direction> connectableDirs = connectable.getConnectableDirections(state);
+        Set<Direction> nextDirs = node.key.side != null ? Collections.singleton(node.key.side) : connectableDirs;
         for (Direction dir : nextDirs) {
             BlockPos neighborPos = pos.relative(dir);
             BlockState neighborState = level.getBlockState(neighborPos);
@@ -128,8 +135,6 @@ public class ManaNetworkScanner {
             if (visitedWired.contains(new ConnectionKey(neighborPos, dir.getOpposite()))) continue;
 
             // 接続可能な方向チェック
-            IManaConnectable connectable = getConnectable(level, block, pos);
-            Set<Direction> connectableDirs = connectable.getConnectableDirections(state);
             if (!connectableDirs.contains(dir)) {
                 continue;
             }
@@ -156,7 +161,8 @@ public class ManaNetworkScanner {
     }
 
     private static void scanWireless(Level level, ScanNode node, BlockState state, Queue<ScanNode> queue,
-                                     Set<ConnectionKey> visitedWired, Set<ConnectionKey> visitedWireless, Set<HandlerEndpoint> endpoints, Set<NetworkTree.Edge> edges) {
+                                     Set<ConnectionKey> visitedWired, Set<ConnectionKey> visitedWireless, Set<HandlerEndpoint> endpoints, Set<NetworkTree.Edge> edges,
+                                     Map<VisibilityKey, Boolean> visibilityCache) {
         // 無線モードの探索ロジック
         // 例: 一定範囲内のブロックを探索し、視認可能かつNodeならノードとして登録し有線モードで追加、無線対応のHandlerなら終端として登録して終了
 
@@ -171,17 +177,36 @@ public class ManaNetworkScanner {
                 for (BlockPos targetPos : BlockPos.betweenClosed(pos.offset(-range, -range, -range), pos.offset(range, range, range))) {
                     if (targetPos.equals(pos)) continue;
 
+                    BlockPos nextPos = new BlockPos(targetPos);
+                    if (!level.isLoaded(nextPos)) continue;
 
                     // 到達済みチェック
-                    if (visitedWireless.contains(new ConnectionKey(targetPos, null))) continue;
+                    if (visitedWireless.contains(new ConnectionKey(nextPos, null))) continue;
+
+                    BlockEntity targetBlockEntity = level.getBlockEntity(nextPos);
+                    BlockState targetState = null;
+                    IManaWirelessWaypoint waypoint = null;
+
+                    if (targetBlockEntity instanceof IManaWirelessWaypoint blockEntityWaypoint) {
+                        waypoint = blockEntityWaypoint;
+                        targetState = level.getBlockState(nextPos);
+                    } else {
+                        targetState = level.getBlockState(nextPos);
+                        Block targetBlock = targetState.getBlock();
+                        if (targetBlock instanceof IManaWirelessWaypoint blockWaypoint) {
+                            waypoint = blockWaypoint;
+                        }
+                    }
+
+                    // 視認判定は高コストなので、候補ブロックがある位置だけ実施
+                    boolean waypointCandidate = waypoint != null;
+                    boolean handlerCandidate = targetBlockEntity instanceof IManaConnectable;
+                    if (!waypointCandidate && !handlerCandidate) continue;
 
                     // 視認チェック
-                    if (!canSee(level, pos, targetPos)) continue;
+                    if (!canSee(level, pos, nextPos, visibilityCache)) continue;
 
-                    BlockState targetState = level.getBlockState(targetPos);
-                    Block targetBlock = targetState.getBlock();
-                    BlockPos nextPos = new BlockPos(targetPos);
-                    if (targetBlock instanceof IManaWirelessWaypoint waypoint && waypoint.getConnectableModes(targetState).contains(ConnectionMode.WIRELESS)) {
+                    if (waypoint != null && waypoint.getConnectableModes(targetState).contains(ConnectionMode.WIRELESS)) {
                         int targetRange = waypoint.getRange();
                         Vec3i offset = nextPos.subtract(pos);
                         if (targetRange < Math.max(Math.abs(offset.getX()), Math.max(Math.abs(offset.getY()), Math.abs(offset.getZ())))) {
@@ -219,7 +244,13 @@ public class ManaNetworkScanner {
         return (IManaConnectable) (neighborBlock instanceof IManaConnectable ? neighborBlock : level.getBlockEntity(neighborPos));
     }
 
-    private static boolean canSee(Level level, BlockPos startPos, BlockPos endPos) {
+    private static boolean canSee(Level level, BlockPos startPos, BlockPos endPos, Map<VisibilityKey, Boolean> visibilityCache) {
+        VisibilityKey key = VisibilityKey.of(startPos, endPos);
+        Boolean cached = visibilityCache.get(key);
+        if (cached != null) {
+            return cached;
+        }
+
         Vec3 start = startPos.getCenter();
         Vec3 end = endPos.getCenter();
         Vec3 dir = end.subtract(start).normalize().scale(0.5);
@@ -230,7 +261,9 @@ public class ManaNetworkScanner {
                 ClipContext.Fluid.NONE,
                 CollisionContext.empty()
         ));
-        return hitResult.getType() == HitResult.Type.MISS;
+        boolean visible = hitResult.getType() == HitResult.Type.MISS;
+        visibilityCache.put(key, visible);
+        return visible;
     }
 
     private static void collectHandler(Level level, @Nullable BlockPos from, BlockPos pos, Set<HandlerEndpoint> endpoints, Set<NetworkTree.Edge> edges, ConnectionMode mode, @Nullable Direction side) {
@@ -249,6 +282,14 @@ public class ManaNetworkScanner {
 
     // sideがnullの場合、無線アクセスを意味する
     record ConnectionKey(BlockPos pos, @Nullable Direction side) {
+    }
+
+    record VisibilityKey(long first, long second) {
+        static VisibilityKey of(BlockPos a, BlockPos b) {
+            long first = a.asLong();
+            long second = b.asLong();
+            return first <= second ? new VisibilityKey(first, second) : new VisibilityKey(second, first);
+        }
     }
 
     record ScanNode(ConnectionKey key, ConnectionMode mode, int depth) {
