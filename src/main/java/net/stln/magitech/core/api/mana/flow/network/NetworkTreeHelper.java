@@ -1,8 +1,8 @@
 package net.stln.magitech.core.api.mana.flow.network;
 
 
-import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -25,7 +25,11 @@ public class NetworkTreeHelper {
         // leaf -> root (逆)
         while (!current.equals(commonParent)) {
             BlockPos parent = networkTree.getParent(current);
-            pathEdges.add(networkTree.getEdge(current).reverse());
+            NetworkTree.Edge edge = networkTree.getEdge(current);
+            if (parent == null || edge == null) {
+                return Collections.emptySet();
+            }
+            pathEdges.add(edge.reverse());
             current = parent;
         }
         // endから共通の親ノードまでのパスを取得
@@ -33,23 +37,26 @@ public class NetworkTreeHelper {
         // root -> leaf
         while (!current.equals(commonParent)) {
             BlockPos parent = networkTree.getParent(current);
-            pathEdges.add(networkTree.getEdge(current));
+            NetworkTree.Edge edge = networkTree.getEdge(current);
+            if (parent == null || edge == null) {
+                return Collections.emptySet();
+            }
+            pathEdges.add(edge);
             current = parent;
         }
         return pathEdges;
     }
 
-    @MethodsReturnNonnullByDefault
-    public static BlockPos findCommonParent(NetworkTree networkTree, BlockPos start, BlockPos end) {
-        List<BlockPos> startParents = getParents(networkTree, start);
-        List<BlockPos> endParents = getParents(networkTree, end);
-        // 近い親から順に比較して、最初に一致したノードが共通の親ノード
-        for (BlockPos startParent : startParents) {
-            for (BlockPos endParent : endParents) {
-                if (startParent.equals(endParent)) {
-                    return startParent;
-                }
+    public static @Nullable BlockPos findCommonParent(NetworkTree networkTree, BlockPos start, BlockPos end) {
+        Set<BlockPos> endParents = new HashSet<>(getParents(networkTree, end));
+        endParents.add(end);
+
+        BlockPos current = start;
+        while (current != null) {
+            if (endParents.contains(current)) {
+                return current;
             }
+            current = networkTree.getParent(current);
         }
         return null; // 共通の親ノードが見つからない場合はnullを返す(異常)
     }
@@ -58,16 +65,15 @@ public class NetworkTreeHelper {
     // 近い親から順にリストで返す
     public static List<BlockPos> getParents(NetworkTree networkTree, BlockPos pos) {
         List<BlockPos> parents = new ArrayList<>();
-        Queue<BlockPos> queue = new LinkedList<>();
-        queue.add(pos);
-        while (!queue.isEmpty()) {
-            BlockPos current = queue.poll();
+        Set<BlockPos> visited = new HashSet<>();
+        BlockPos current = pos;
+        while (current != null) {
             BlockPos parent = networkTree.getParent(current);
-            if (parent == null || parents.contains(parent)) {
-                continue; // 親ノードが見つからない、発見済みの場合はスキップ
+            if (parent == null || !visited.add(parent)) {
+                break; // 親ノードが見つからない、発見済みの場合は終了
             }
             parents.add(parent);
-            queue.add(parent);
+            current = parent;
         }
         return parents;
     }

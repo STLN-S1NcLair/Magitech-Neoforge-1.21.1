@@ -26,10 +26,8 @@ public class ManaNetworkManager extends SavedData {
     private final Map<UUID, Set<HandlerEndpoint>> rebuildPendingEndpoints = new HashMap<>();
 
     private static final int MAX_HOPS = 1024;
-    private static final int NETWORKS_PER_TICK_BATCH = 64;
-    private static final int REBUILD_SCANS_PER_TICK = 1;
-
-    private int tickCursor = 0;
+    private static final int MIN_REBUILD_SCANS_PER_TICK = 1;
+    private static final int MAX_REBUILD_SCANS_PER_TICK = 8;
 
     public ManaNetworkManager() {
     }
@@ -139,14 +137,8 @@ public class ManaNetworkManager extends SavedData {
             return;
         }
 
-        // IDとインスタンスをペアで保持し、containsValueのO(n)探索を避ける
         List<Map.Entry<UUID, ManaNetworkInstance>> snapshot = new ArrayList<>(networks.entrySet());
-        int networkCount = snapshot.size();
-        int batchSize = Math.min(networkCount, NETWORKS_PER_TICK_BATCH);
-        int startIndex = tickCursor % networkCount;
-
-        for (int i = 0; i < batchSize; i++) {
-            Map.Entry<UUID, ManaNetworkInstance> entry = snapshot.get((startIndex + i) % networkCount);
+        for (Map.Entry<UUID, ManaNetworkInstance> entry : snapshot) {
             ManaNetworkInstance network = entry.getValue();
             if (networks.get(entry.getKey()) != network) {
                 continue;
@@ -157,8 +149,6 @@ public class ManaNetworkManager extends SavedData {
                 queueRebuild(entry.getKey());
             }
         }
-
-        tickCursor = (startIndex + batchSize) % networkCount;
         processRebuildQueue(level);
     }
 
@@ -169,7 +159,8 @@ public class ManaNetworkManager extends SavedData {
     }
 
     private void processRebuildQueue(Level level) {
-        int budget = REBUILD_SCANS_PER_TICK;
+        int budget = Math.min(MAX_REBUILD_SCANS_PER_TICK,
+                Math.max(MIN_REBUILD_SCANS_PER_TICK, rebuildQueue.size() / 8 + 1));
         while (budget > 0 && !rebuildQueue.isEmpty()) {
             UUID networkId = rebuildQueue.pollFirst();
             if (networkId == null) {
@@ -245,6 +236,7 @@ public class ManaNetworkManager extends SavedData {
             waypointIndex.remove(new BlockPos(p));
         }
         networks.remove(networkId);
+        rebuildQueue.removeIf(networkId::equals);
         queuedRebuildIds.remove(networkId);
         rebuildPendingEndpoints.remove(networkId);
     }

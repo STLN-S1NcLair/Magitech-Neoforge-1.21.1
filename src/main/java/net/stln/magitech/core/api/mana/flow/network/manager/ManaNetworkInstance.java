@@ -67,6 +67,7 @@ public class ManaNetworkInstance {
         if (endpointToHandler.size() < 2) {
             return;
         }
+
         Set<IBasicManaHandler> availableHandlers = new HashSet<>(endpointToHandler.values());
 
         for (Map.Entry<HandlerEndpoint, IBasicManaHandler> source : endpointToHandler.entrySet()) {

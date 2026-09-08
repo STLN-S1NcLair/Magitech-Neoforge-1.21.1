@@ -44,6 +44,8 @@ public class TrailRenderer {
     }
 
     public static void tick(Level level) {
+        entityTrails.entrySet().removeIf(entry -> entry.getKey() == null || !entry.getKey().isAlive() || entry.getKey().level() != level || entry.getValue().isEmpty());
+
         for (TrailData trailData : new HashSet<>(trails)) {
             TrailPointBuilder trail = trailData.trail();
             // 描画しない場合はremove
@@ -57,6 +59,8 @@ public class TrailRenderer {
             }
             trail.tickTrailPoints();
         }
+
+        entityTrails.entrySet().removeIf(entry -> entry.getValue().isEmpty());
     }
 
     @SubscribeEvent
@@ -85,7 +89,15 @@ public class TrailRenderer {
     }
 
     public static void addTrailPoint(Entity entity, TrailPoint point, int index) {
-        TrailData data = entityTrails.get(entity).get(index);
+        Map<Integer, TrailData> dataMap = entityTrails.get(entity);
+        if (dataMap == null) {
+            return;
+        }
+
+        TrailData data = dataMap.get(index);
+        if (data == null) {
+            return;
+        }
         data.addTrailPoint(point);
     }
 
