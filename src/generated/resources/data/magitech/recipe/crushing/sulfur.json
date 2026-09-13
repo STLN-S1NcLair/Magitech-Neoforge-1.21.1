@@ -1,0 +1,13 @@
+{
+  "type": "magitech:crushing",
+  "ingredient": {
+    "count": 1,
+    "ingredient": {
+      "item": "magitech:sulfur_block"
+    }
+  },
+  "result": {
+    "count": 3,
+    "id": "magitech:sulfur"
+  }
+}

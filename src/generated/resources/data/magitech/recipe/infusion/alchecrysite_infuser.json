@@ -1,0 +1,40 @@
+{
+  "type": "magitech:infusion",
+  "base": {
+    "count": 8,
+    "ingredient": {
+      "item": "magitech:vesperite"
+    }
+  },
+  "ingredients": [
+    {
+      "count": 4,
+      "ingredient": {
+        "item": "magitech:high_purity_fluorite"
+      }
+    },
+    {
+      "count": 2,
+      "ingredient": {
+        "tag": "c:gems/citrine"
+      }
+    },
+    {
+      "count": 4,
+      "ingredient": {
+        "tag": "c:gems/tourmaline"
+      }
+    },
+    {
+      "count": 1,
+      "ingredient": {
+        "item": "minecraft:gold_ingot"
+      }
+    }
+  ],
+  "mana": 10000,
+  "result": {
+    "count": 8,
+    "id": "magitech:alchecrysite"
+  }
+}

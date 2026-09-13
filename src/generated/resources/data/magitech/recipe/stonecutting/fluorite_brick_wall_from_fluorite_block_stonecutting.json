@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "magitech:fluorite_block"
+  },
+  "result": {
+    "count": 4,
+    "id": "magitech:fluorite_brick_wall"
+  }
+}

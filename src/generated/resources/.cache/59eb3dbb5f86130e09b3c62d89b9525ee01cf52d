@@ -1,4 +1,4 @@
-// 1.21.1	2026-09-12T14:46:29.1077522	Loot Tables
+// 1.21.1	2026-09-13T18:14:49.433438	Loot Tables
 d5c7ba896003b8f86835f7808a6a42840e7bb806 data/magitech/loot_table/blocks/alchecrysite.json
 0ec67ee2f0a83abcc8fc58cd95f43106109fca3e data/magitech/loot_table/blocks/alchecrysite_bricks.json
 f0dfbc1457dc98d193c135916b33deca6e65c407 data/magitech/loot_table/blocks/alchecrysite_brick_slab.json
@@ -112,6 +112,7 @@ f2778a081bbc1280c10acca24112f0039433dd5a data/magitech/loot_table/blocks/strippe
 b51a462b847a60303fd6d5a7290bf95c24f15ecd data/magitech/loot_table/blocks/stripped_mystwood_wood.json
 23bfbb7c3f3fe181ec6a44a33fc836c1c58fbb7f data/magitech/loot_table/blocks/sulfur_block.json
 3c7a2c67d8ae048f563799ed5b8811fc2d8665e3 data/magitech/loot_table/blocks/sulfur_crystal_cluster.json
+97f07297800b07f41067cc5ebac48888c20023fe data/magitech/loot_table/blocks/thermal_mana_furnace.json
 09bda6905b76d6f568380832546a4144fbd4a3d0 data/magitech/loot_table/blocks/tool_hanger.json
 862dd084d0d8682a746abff7fd9e5073aaa581e2 data/magitech/loot_table/blocks/tourmaline_ore.json
 8d5845b564d68f966fdc278db30d9c3d0cc09485 data/magitech/loot_table/blocks/trap_hatch.json

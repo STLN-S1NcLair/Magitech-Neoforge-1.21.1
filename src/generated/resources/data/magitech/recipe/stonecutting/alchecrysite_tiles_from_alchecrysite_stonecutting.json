@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "magitech:alchecrysite"
+  },
+  "result": {
+    "count": 1,
+    "id": "magitech:alchecrysite_tiles"
+  }
+}

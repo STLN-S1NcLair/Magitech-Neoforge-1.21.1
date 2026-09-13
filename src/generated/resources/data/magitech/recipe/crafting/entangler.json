@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "magitech:alchecrysite"
+    },
+    "F": {
+      "item": "magitech:high_purity_fluorite"
+    },
+    "I": {
+      "item": "magitech:fluxium_ingot"
+    },
+    "N": {
+      "item": "minecraft:gold_nugget"
+    },
+    "U": {
+      "item": "magitech:fluxium_nugget"
+    }
+  },
+  "pattern": [
+    "IUI",
+    "UNU",
+    "FAF"
+  ],
+  "result": {
+    "count": 1,
+    "id": "magitech:entangler"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "block": "magitech:thermal_mana_furnace",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "part": "lower"
+          }
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "magitech:thermal_mana_furnace"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "magitech:blocks/thermal_mana_furnace"
+}

@@ -1,0 +1,18 @@
+{
+  "type": "magitech:tool_assembly",
+  "ingredients": [
+    {
+      "item": "magitech:tool_binding"
+    },
+    {
+      "item": "magitech:spike_head"
+    },
+    {
+      "item": "magitech:heavy_handle"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "magitech:pickaxe"
+  }
+}

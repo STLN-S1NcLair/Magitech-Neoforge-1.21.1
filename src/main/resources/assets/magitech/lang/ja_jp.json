@@ -117,6 +117,7 @@
   "block.magitech.compressor": "圧縮機",
   "block.magitech.chiller": "冷却機",
   "block.magitech.heat_burner": "加熱バーナー",
+  "block.magitech.thermal_mana_furnace": "熱動式マナ炉",
   "block.magitech.creative_mana_source": "クリエイティブマナソース",
   "block.magitech.creative_mana_sink": "クリエイティブマナシンク",
   "block.magitech.trap_hatch": "トラップハッチ",

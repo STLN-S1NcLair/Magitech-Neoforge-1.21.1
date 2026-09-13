@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:chest"
+    },
+    {
+      "item": "magitech:charcoal_birch_boat"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "magitech:charcoal_birch_chest_boat"
+  }
+}

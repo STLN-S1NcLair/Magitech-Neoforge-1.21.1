@@ -16,6 +16,7 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.content.block.BlockInit;
 import net.stln.magitech.content.block.BlockStatePropertyInit;
+import net.stln.magitech.content.block.ThermalManaFurnaceBlock;
 import net.stln.magitech.content.block.TrapHatchBlock;
 
 public class ModBlockStateProvider extends BlockStateProvider {
@@ -145,6 +146,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         trapHatchBlock(BlockInit.TRAP_HATCH.get());
         fieldEffectMachineBlock(BlockInit.CHILLER.get());
         fieldEffectMachineBlock(BlockInit.HEAT_BURNER.get());
+        thermalManaFurnaceBlock(BlockInit.THERMAL_MANA_FURNACE.get());
     }
 
     private String getName(Block block) {
@@ -427,6 +429,29 @@ public class ModBlockStateProvider extends BlockStateProvider {
                         : (state.getValue(BlockStateProperties.LIT) ? upperLit : upper))
                 .rotationY(Math.floorMod((int) state.getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot() + 180, 360))
                 .build());
+        blockItem(block);
+    }
+
+    private void thermalManaFurnaceBlock(Block block) {
+        ModelFile lower = new ModelFile.ExistingModelFile(blockTexture(block).withSuffix("_bottom"), this.models().existingFileHelper);
+        ModelFile middle = new ModelFile.ExistingModelFile(blockTexture(block).withSuffix("_middle"), this.models().existingFileHelper);
+        ModelFile upper = new ModelFile.ExistingModelFile(blockTexture(block).withSuffix("_top"), this.models().existingFileHelper);
+        ModelFile lowerLit = new ModelFile.ExistingModelFile(blockTexture(block).withSuffix("_bottom_lit"), this.models().existingFileHelper);
+        ModelFile middleLit = new ModelFile.ExistingModelFile(blockTexture(block).withSuffix("_middle_lit"), this.models().existingFileHelper);
+        ModelFile upperLit = new ModelFile.ExistingModelFile(blockTexture(block).withSuffix("_top_lit"), this.models().existingFileHelper);
+        getVariantBuilder(block).forAllStates(state -> {
+            ThermalManaFurnaceBlock.Part part = state.getValue(ThermalManaFurnaceBlock.PART);
+            boolean lit = state.getValue(ThermalManaFurnaceBlock.LIT);
+            ModelFile model = switch (part) {
+                case LOWER -> lit ? lowerLit : lower;
+                case MIDDLE -> lit ? middleLit : middle;
+                case UPPER -> lit ? upperLit : upper;
+            };
+            return ConfiguredModel.builder()
+                    .modelFile(model)
+                    .rotationY(Math.floorMod((int) state.getValue(ThermalManaFurnaceBlock.FACING).toYRot() + 180, 360))
+                    .build();
+        });
         blockItem(block);
     }
 

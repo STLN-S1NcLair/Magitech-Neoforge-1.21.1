@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "magitech:item/part/sandstone_reinforced_rod"
+  }
+}

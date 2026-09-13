@@ -1,0 +1,94 @@
+{
+  "variants": {
+    "facing=down": [
+      {
+        "model": "magitech:block/sulfur_crystal_cluster_0",
+        "x": 180
+      },
+      {
+        "model": "magitech:block/sulfur_crystal_cluster_1",
+        "x": 180
+      },
+      {
+        "model": "magitech:block/sulfur_crystal_cluster_2",
+        "x": 180
+      }
+    ],
+    "facing=east": [
+      {
+        "model": "magitech:block/sulfur_crystal_cluster_0",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "magitech:block/sulfur_crystal_cluster_1",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "magitech:block/sulfur_crystal_cluster_2",
+        "x": 90,
+        "y": 90
+      }
+    ],
+    "facing=north": [
+      {
+        "model": "magitech:block/sulfur_crystal_cluster_0",
+        "x": 90
+      },
+      {
+        "model": "magitech:block/sulfur_crystal_cluster_1",
+        "x": 90
+      },
+      {
+        "model": "magitech:block/sulfur_crystal_cluster_2",
+        "x": 90
+      }
+    ],
+    "facing=south": [
+      {
+        "model": "magitech:block/sulfur_crystal_cluster_0",
+        "x": 90,
+        "y": 180
+      },
+      {
+        "model": "magitech:block/sulfur_crystal_cluster_1",
+        "x": 90,
+        "y": 180
+      },
+      {
+        "model": "magitech:block/sulfur_crystal_cluster_2",
+        "x": 90,
+        "y": 180
+      }
+    ],
+    "facing=up": [
+      {
+        "model": "magitech:block/sulfur_crystal_cluster_0"
+      },
+      {
+        "model": "magitech:block/sulfur_crystal_cluster_1"
+      },
+      {
+        "model": "magitech:block/sulfur_crystal_cluster_2"
+      }
+    ],
+    "facing=west": [
+      {
+        "model": "magitech:block/sulfur_crystal_cluster_0",
+        "x": 90,
+        "y": 270
+      },
+      {
+        "model": "magitech:block/sulfur_crystal_cluster_1",
+        "x": 90,
+        "y": 270
+      },
+      {
+        "model": "magitech:block/sulfur_crystal_cluster_2",
+        "x": 90,
+        "y": 270
+      }
+    ]
+  }
+}

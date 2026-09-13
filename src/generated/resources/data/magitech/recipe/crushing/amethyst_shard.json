@@ -1,0 +1,13 @@
+{
+  "type": "magitech:crushing",
+  "ingredient": {
+    "count": 1,
+    "ingredient": {
+      "item": "minecraft:amethyst_block"
+    }
+  },
+  "result": {
+    "count": 4,
+    "id": "minecraft:amethyst_shard"
+  }
+}

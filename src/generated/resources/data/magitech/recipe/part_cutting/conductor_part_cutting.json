@@ -1,0 +1,8 @@
+{
+  "type": "magitech:part_cutting",
+  "input_count": 2,
+  "result": {
+    "count": 1,
+    "id": "magitech:conductor"
+  }
+}

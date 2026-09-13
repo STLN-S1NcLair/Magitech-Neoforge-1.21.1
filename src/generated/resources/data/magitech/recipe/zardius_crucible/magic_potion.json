@@ -1,0 +1,38 @@
+{
+  "type": "magitech:zardius_crucible",
+  "fluid_ingredient": {
+    "amount": 1000,
+    "fluid": "magitech:mana_potion"
+  },
+  "fluid_result": {
+    "amount": 1000,
+    "id": "magitech:magic_potion"
+  },
+  "ingredients": [
+    {
+      "count": 1,
+      "ingredient": {
+        "item": "magitech:aggregated_fluxia"
+      }
+    },
+    {
+      "count": 1,
+      "ingredient": {
+        "item": "magitech:magic_crystal"
+      }
+    },
+    {
+      "count": 1,
+      "ingredient": {
+        "tag": "c:gems/amethyst"
+      }
+    },
+    {
+      "count": 1,
+      "ingredient": {
+        "tag": "c:ingots/gold"
+      }
+    }
+  ],
+  "mana": 10000
+}

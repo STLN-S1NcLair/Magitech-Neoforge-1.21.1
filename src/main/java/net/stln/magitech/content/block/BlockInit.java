@@ -193,6 +193,14 @@ public class BlockInit {
             BLOCK_ENITIES.register("heat_burner", () -> BlockEntityType.Builder.of(
                     HeatBurnerBlockEntity::new, BlockInit.HEAT_BURNER.get()).build(null));
 
+    public static final DeferredBlock<ThermalManaFurnaceBlock> THERMAL_MANA_FURNACE = BLOCKS.registerBlock("thermal_mana_furnace",
+            properties -> new ThermalManaFurnaceBlock(properties, 1000000, 5000),
+            BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(SoundType.NETHERITE_BLOCK).noOcclusion().lightLevel((blockState) -> blockState.getValue(ThermalManaFurnaceBlock.LIT) ? 7 : 0));
+    public static final DeferredItem<BlockItem> THERMAL_MANA_FURNACE_ITEM = ItemInit.ITEMS.register("thermal_mana_furnace", key -> new HintTooltipTextManaContainerBlockItem(THERMAL_MANA_FURNACE.get(), new Item.Properties()));
+    public static final Supplier<BlockEntityType<ThermalManaFurnaceBlockEntity>> THERMAL_MANA_FURNACE_ENTITY =
+            BLOCK_ENITIES.register("thermal_mana_furnace", () -> BlockEntityType.Builder.of(
+                    ThermalManaFurnaceBlockEntity::new, BlockInit.THERMAL_MANA_FURNACE.get()).build(null));
+
     // マナ輸送
 
     public static final DeferredBlock<ManaNodeBlock> MANA_NODE = BLOCKS.registerBlock("mana_node",

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "magitech:item/tool/axe/sulfuric_acid_battery_heavy_handle"
+  }
+}

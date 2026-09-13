@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "magitech:alchecrysite"
+    },
+    "F": {
+      "item": "magitech:high_purity_fluorite"
+    },
+    "I": {
+      "item": "magitech:fluxium_ingot"
+    },
+    "N": {
+      "item": "minecraft:gold_nugget"
+    }
+  },
+  "pattern": [
+    "   ",
+    "IFI",
+    "ANA"
+  ],
+  "result": {
+    "count": 1,
+    "id": "magitech:mana_receiver"
+  }
+}

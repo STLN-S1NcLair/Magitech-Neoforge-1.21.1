@@ -1,0 +1,7 @@
+{
+  "type": "magitech:tool_material",
+  "ingredient": {
+    "item": "magitech:sulfuric_acid_battery"
+  },
+  "result": "magitech:sulfuric_acid_battery"
+}

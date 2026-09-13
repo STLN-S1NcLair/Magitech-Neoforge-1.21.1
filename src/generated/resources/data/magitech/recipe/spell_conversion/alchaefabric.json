@@ -1,0 +1,11 @@
+{
+  "type": "magitech:spell_conversion",
+  "ingredient": {
+    "item": "minecraft:phantom_membrane"
+  },
+  "result": {
+    "count": 1,
+    "id": "magitech:alchaefabric"
+  },
+  "spell": "magitech:enercrux"
+}

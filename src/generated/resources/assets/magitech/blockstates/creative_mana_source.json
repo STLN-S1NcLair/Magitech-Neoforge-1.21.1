@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "magitech:block/creative_mana_source",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "magitech:block/creative_mana_source"
+    },
+    "axis=z": {
+      "model": "magitech:block/creative_mana_source",
+      "x": 90
+    }
+  }
+}

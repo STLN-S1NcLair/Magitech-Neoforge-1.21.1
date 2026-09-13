@@ -1,10 +1,8 @@
 package net.stln.magitech.content.block;
 
-import com.mojang.datafixers.util.Function3;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
@@ -25,18 +23,12 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.stln.magitech.content.block.block_entity.ManaCollectorBlockEntity;
-import net.stln.magitech.effect.visual.preset.PointVFX;
-import net.stln.magitech.effect.visual.preset.PresetHelper;
-import net.stln.magitech.effect.visual.spawner.SquareParticles;
-import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.helper.VoxelShapeHelper;
 import org.jetbrains.annotations.Nullable;
-import team.lodestar.lodestone.systems.particle.ParticleEffectSpawner;
 
 public class ManaCollectorBlock extends ManaContainerBlock implements SimpleWaterloggedBlock {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
@@ -128,14 +120,6 @@ public class ManaCollectorBlock extends ManaContainerBlock implements SimpleWate
         if (powered != state.getValue(POWERED)) {
             level.setBlock(pos, state.setValue(POWERED, powered), 3);
         }
-    }
-
-    @Override
-    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
-        super.animateTick(state, level, pos, random);
-        Vec3 dir = Vec3.atLowerCornerOf(state.getValue(FACING).getNormal()).reverse();
-        Function3<Level, Vec3, Element, ParticleEffectSpawner> supplier = (lvl, vec, elm) -> PresetHelper.longer(SquareParticles.squareShrinkParticle(lvl, vec, elm));
-        PointVFX.ring(level, pos.getCenter().add(dir.scale(0.5)), Element.MANA, supplier, dir, 1, 0.05F, 0.05F, 0.0F);
     }
 
     @Nullable

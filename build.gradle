@@ -198,6 +198,7 @@ dependencies {
     runtimeOnly "maven.modrinth:irons-spells-n-spellbooks:Cu7ovsnN"
     runtimeOnly "maven.modrinth:supplementaries:i5gsy1xF"
     implementation "maven.modrinth:twkfQtEc:uPJlV3eS"
+    runtimeOnly "maven.modrinth:OFVYKsAk:a6gl7srE"
     runtimeOnly "maven.modrinth:artifacts:rGPw090r"
     runtimeOnly "maven.modrinth:Adega8YN:PQzuABde"
 

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "item": "magitech:fluxium_ingot"
+    },
+    "N": {
+      "item": "magitech:fluxium_nugget"
+    }
+  },
+  "pattern": [
+    " IN",
+    "I I",
+    "NI "
+  ],
+  "result": {
+    "count": 1,
+    "id": "magitech:fluxium_ring"
+  }
+}

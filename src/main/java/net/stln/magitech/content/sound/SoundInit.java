@@ -92,6 +92,8 @@ public class SoundInit {
     public static final Supplier<SoundEvent> INFUSION_ALTAR = registerSoundEvent("infusion_altar");
     public static final Supplier<SoundEvent> INFUSION_ALTAR_CRAFT = registerSoundEvent("infusion_altar_craft");
     public static final Supplier<SoundEvent> MANA_PARCEL = registerSoundEvent("mana_parcel");
+    public static final Supplier<SoundEvent> BURNER = registerSoundEvent("burner");
+    public static final Supplier<SoundEvent> CHILLER = registerSoundEvent("chiller");
 
     public static final Supplier<SoundEvent> CRYSTAL_BREAK = registerSoundEvent("crystal_break");
     public static final Supplier<SoundEvent> CRYSTAL_PLACE = registerSoundEvent("crystal_place");

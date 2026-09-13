@@ -1,0 +1,11 @@
+{
+  "type": "magitech:spell_conversion",
+  "ingredient": {
+    "tag": "c:stones"
+  },
+  "result": {
+    "count": 1,
+    "id": "magitech:vesperite"
+  },
+  "spell": "magitech:enercrux"
+}

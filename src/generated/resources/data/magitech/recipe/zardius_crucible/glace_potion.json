@@ -1,0 +1,38 @@
+{
+  "type": "magitech:zardius_crucible",
+  "fluid_ingredient": {
+    "amount": 1000,
+    "fluid": "magitech:mana_potion"
+  },
+  "fluid_result": {
+    "amount": 1000,
+    "id": "magitech:glace_potion"
+  },
+  "ingredients": [
+    {
+      "count": 1,
+      "ingredient": {
+        "item": "magitech:aggregated_fluxia"
+      }
+    },
+    {
+      "count": 1,
+      "ingredient": {
+        "item": "magitech:glace_crystal"
+      }
+    },
+    {
+      "count": 1,
+      "ingredient": {
+        "item": "minecraft:calcite"
+      }
+    },
+    {
+      "count": 1,
+      "ingredient": {
+        "item": "minecraft:quartz"
+      }
+    }
+  ],
+  "mana": 10000
+}

@@ -1,0 +1,34 @@
+{
+  "type": "magitech:infusion",
+  "base": {
+    "count": 1,
+    "ingredient": {
+      "item": "magitech:infusion_altar"
+    }
+  },
+  "ingredients": [
+    {
+      "count": 8,
+      "ingredient": {
+        "item": "magitech:high_purity_fluorite"
+      }
+    },
+    {
+      "count": 4,
+      "ingredient": {
+        "item": "magitech:alchecrysite"
+      }
+    },
+    {
+      "count": 8,
+      "ingredient": {
+        "item": "magitech:fluxium_ingot"
+      }
+    }
+  ],
+  "mana": 40000,
+  "result": {
+    "count": 1,
+    "id": "magitech:infuser"
+  }
+}

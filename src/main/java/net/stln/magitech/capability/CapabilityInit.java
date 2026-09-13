@@ -35,6 +35,7 @@ public class CapabilityInit {
         registerItemHandlerBlockEntity(event, BlockInit.COMPRESSOR_ENTITY.get());
         registerItemHandlerBlockEntity(event, BlockInit.CHILLER_ENTITY.get());
         registerItemHandlerBlockEntity(event, BlockInit.HEAT_BURNER_ENTITY.get());
+        registerItemHandlerBlockEntity(event, BlockInit.THERMAL_MANA_FURNACE_ENTITY.get());
 
         // ブロックエンティティへの登録
         registerManaContainerBlockEntity(event, BlockInit.MANA_VESSEL_ENTITY.get());
@@ -54,6 +55,7 @@ public class CapabilityInit {
         registerManaContainerBlockEntity(event, BlockInit.COMPRESSOR_ENTITY.get());
         registerManaContainerBlockEntity(event, BlockInit.CHILLER_ENTITY.get());
         registerManaContainerBlockEntity(event, BlockInit.HEAT_BURNER_ENTITY.get());
+        registerManaContainerBlockEntity(event, BlockInit.THERMAL_MANA_FURNACE_ENTITY.get());
 
         // アイテムへの登録
         registerManaContainerItem(event, (ManaContainerItem) ItemInit.MANA_CELL.get());

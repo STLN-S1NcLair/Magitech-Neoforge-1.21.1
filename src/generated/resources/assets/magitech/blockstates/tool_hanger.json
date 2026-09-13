@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "magitech:block/tool_hanger",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "magitech:block/tool_hanger"
+    },
+    "facing=south": {
+      "model": "magitech:block/tool_hanger",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "magitech:block/tool_hanger",
+      "y": 270
+    }
+  }
+}

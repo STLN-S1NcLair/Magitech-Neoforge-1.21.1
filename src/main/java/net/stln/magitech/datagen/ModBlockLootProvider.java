@@ -22,6 +22,7 @@ import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.stln.magitech.content.block.BlockInit;
 import net.stln.magitech.content.block.ChillerBlock;
 import net.stln.magitech.content.block.HeatBurnerBlock;
+import net.stln.magitech.content.block.ThermalManaFurnaceBlock;
 import net.stln.magitech.content.item.ItemInit;
 import org.jetbrains.annotations.NotNull;
 
@@ -72,6 +73,13 @@ public class ModBlockLootProvider extends BlockLootSubProvider {
                         .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
                                 .setProperties(StatePropertiesPredicate.Builder.properties()
                                         .hasProperty(HeatBurnerBlock.HALF, DoubleBlockHalf.LOWER)))
+                        .add(LootItem.lootTableItem(block.asItem()))
+        ));
+        add(BlockInit.THERMAL_MANA_FURNACE.get(), block -> LootTable.lootTable().withPool(
+                LootPool.lootPool()
+                        .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+                                .setProperties(StatePropertiesPredicate.Builder.properties()
+                                        .hasProperty(ThermalManaFurnaceBlock.PART, ThermalManaFurnaceBlock.Part.LOWER)))
                         .add(LootItem.lootTableItem(block.asItem()))
         ));
 //        dropSelf(BlockInit.CREATIVE_MANA_SOURCE.get());

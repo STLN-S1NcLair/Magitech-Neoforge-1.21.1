@@ -1,0 +1,6 @@
+{
+  "parent": "magitech:item/heavy_tool",
+  "textures": {
+    "layer0": "magitech:item/tool/hammer/honeycomb_tool_binding"
+  }
+}

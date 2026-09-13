@@ -1,0 +1,21 @@
+{
+  "type": "magitech:tool_assembly",
+  "ingredients": [
+    {
+      "item": "magitech:tool_binding"
+    },
+    {
+      "item": "magitech:plate"
+    },
+    {
+      "item": "magitech:strike_head"
+    },
+    {
+      "item": "magitech:heavy_handle"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "magitech:hammer"
+  }
+}

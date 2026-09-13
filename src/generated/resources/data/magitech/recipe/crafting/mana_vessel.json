@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "F": {
+      "item": "magitech:fluorite_block"
+    },
+    "M": {
+      "item": "magitech:mystwood_planks"
+    },
+    "N": {
+      "item": "minecraft:gold_nugget"
+    },
+    "V": {
+      "item": "magitech:vesperite"
+    }
+  },
+  "pattern": [
+    "VMV",
+    "NFN",
+    "VMV"
+  ],
+  "result": {
+    "count": 1,
+    "id": "magitech:mana_vessel"
+  }
+}

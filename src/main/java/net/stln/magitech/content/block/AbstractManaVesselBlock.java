@@ -1,10 +1,8 @@
 package net.stln.magitech.content.block;
 
-import com.mojang.datafixers.util.Function3;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
@@ -20,13 +18,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.content.block.block_entity.ManaVesselBlockEntity;
-import net.stln.magitech.effect.visual.preset.PointVFX;
-import net.stln.magitech.effect.visual.preset.PresetHelper;
-import net.stln.magitech.effect.visual.spawner.SquareParticles;
-import net.stln.magitech.feature.element.Element;
-import team.lodestar.lodestone.systems.particle.ParticleEffectSpawner;
 
 import javax.annotation.Nullable;
 
@@ -127,20 +119,6 @@ public abstract class AbstractManaVesselBlock extends ManaContainerBlock impleme
             }
             return InteractionResult.CONSUME;
         }
-    }
-
-    @Override
-    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
-        super.animateTick(state, level, pos, random);
-        Vec3 dir = switch (state.getValue(AXIS).choose(0, 1, 2)) {
-            case 0 -> new Vec3(1, 0, 0);
-            case 1 -> new Vec3(0, 1, 0);
-            case 2 -> new Vec3(0, 0, 1);
-            default -> Vec3.ZERO;
-        };
-        Function3<Level, Vec3, Element, ParticleEffectSpawner> supplier = (lvl, vec, elm) -> PresetHelper.longer(SquareParticles.squareShrinkParticle(lvl, vec, elm));
-        PointVFX.ring(level, pos.getCenter().add(dir.scale(0.5)), Element.MANA, supplier, dir, 1, 0.05F, 0.05F, 0.0F);
-        PointVFX.ring(level, pos.getCenter().add(dir.scale(-0.5)), Element.MANA, supplier, dir.reverse(), 1, 0.05F, 0.05F, 0.0F);
     }
 
     @Override

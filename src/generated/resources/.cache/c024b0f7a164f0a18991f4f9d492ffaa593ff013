@@ -1,4 +1,4 @@
-// 1.21.1	2026-09-12T14:46:29.0992421	Block States: magitech
+// 1.21.1	2026-09-13T18:08:08.115557	Block States: magitech
 90f039d3c8040909582f040c2be7f09eca62a0a8 assets/magitech/blockstates/alchecrysite.json
 e2e47f25d85025ef83b8b30154421755d7d8c139 assets/magitech/blockstates/alchecrysite_bricks.json
 36896c4c599cbeeb6b3e9441de7d2de5fa12cb4d assets/magitech/blockstates/alchecrysite_brick_slab.json
@@ -115,6 +115,7 @@ cd93879603b88ccdb9e8d7bb0550fa10cd12c164 assets/magitech/blockstates/stripped_ce
 56f564a689f902d64a2d66a82dfe706f4a4c7ad6 assets/magitech/blockstates/stripped_mystwood_wood.json
 90d759a4b9d5958275737455eb8bdf1564bb02b5 assets/magitech/blockstates/sulfur_block.json
 343759844002943f62a4a4263075a2207e0910fe assets/magitech/blockstates/sulfur_crystal_cluster.json
+dc1e07454b657a94616a031e7cbbd3f57caa4214 assets/magitech/blockstates/thermal_mana_furnace.json
 24e17706a6611beb3a07d5f8eef10e0851e98418 assets/magitech/blockstates/tool_hanger.json
 5c3c37a5de72442d162efa29923168ea68cceb42 assets/magitech/blockstates/tourmaline_ore.json
 c41fed9fe66e7d5f802739df389537a261aca879 assets/magitech/blockstates/trap_hatch.json
@@ -418,6 +419,7 @@ f51c97e6b3245fe50398f0edb4950800446cc3d5 assets/magitech/models/item/stripped_my
 adfd0afac947bace1882d949d1f93946dc4c21f5 assets/magitech/models/item/stripped_mystwood_wood.json
 7a8697e1a7facb7513c504f5ad0f095fff87c4d3 assets/magitech/models/item/sulfur_block.json
 ccd45eed3ced63d452a4b20f2e1c94e22e829891 assets/magitech/models/item/sulfur_crystal_cluster.json
+a8794c6ca4a93651b05ce127eebfd9bba855391b assets/magitech/models/item/thermal_mana_furnace.json
 d3b5eca4dcaf7ba678c013453a5e486da9e425b3 assets/magitech/models/item/tool_hanger.json
 59536df90d389f762d3d00d7343afaa8f1c506d1 assets/magitech/models/item/tourmaline_ore.json
 f49452cfe0c17940f7137446e9df7865e83b869f assets/magitech/models/item/trap_hatch.json
