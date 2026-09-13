@@ -31,7 +31,7 @@ public class TraitEntityKillVFXPayloadHandler {
             Item item = player.getItemInHand(InteractionHand.MAIN_HAND).getItem();
             Vector3f pos = payload.pos();
             if (item instanceof SynthesisedToolItem) {
-                Trait trait = payload.material().trait();
+                Trait trait = payload.trait();
                 BlockVFX.traitBreak(level, trait, new Vec3(pos), 10);
             }
         }

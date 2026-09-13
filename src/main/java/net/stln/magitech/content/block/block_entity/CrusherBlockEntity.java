@@ -43,7 +43,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.Optional;
 
-public class CrusherBlockEntity extends ManaMachineBlockEntity implements GeoBlockEntity {
+public class CrusherBlockEntity extends ManaMachineBlockEntity implements GeoBlockEntity, IItemHandlerBlockEntity {
     public static final int INPUT = 0;
     public static final int OUTPUT = 1;
     public static final int MAX_PROGRESS = 100;
@@ -102,6 +102,21 @@ public class CrusherBlockEntity extends ManaMachineBlockEntity implements GeoBlo
 
     public CrusherBlockEntity(BlockPos pos, BlockState blockState) {
         this(pos, blockState, 0);
+    }
+
+    @Override
+    public ItemStackHandler getItemHandler() {
+        return inventory;
+    }
+
+    @Override
+    public int getInputSlot() {
+        return INPUT;
+    }
+
+    @Override
+    public int getOutputSlot() {
+        return OUTPUT;
     }
 
     @Override

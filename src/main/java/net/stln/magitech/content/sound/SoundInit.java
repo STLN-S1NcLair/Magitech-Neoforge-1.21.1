@@ -1,9 +1,11 @@
 package net.stln.magitech.content.sound;
 
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import net.stln.magitech.Magitech;
 
 import java.util.function.Supplier;
@@ -107,7 +109,15 @@ public class SoundInit {
     public static final Supplier<SoundEvent> WEAVER_DEATH = registerSoundEvent("weaver_death");
 
 
-    private static Supplier<SoundEvent> registerSoundEvent(String name) {
+    public static DeferredHolder<SoundEvent, SoundEvent> holder(Supplier<SoundEvent> sound) {
+        return (DeferredHolder<SoundEvent, SoundEvent>) sound;
+    }
+
+    public static ResourceLocation id(Supplier<SoundEvent> sound) {
+        return holder(sound).getId();
+    }
+
+    private static DeferredHolder<SoundEvent, SoundEvent> registerSoundEvent(String name) {
         return SOUND_EVENTS.register(name, SoundEvent::createVariableRangeEvent);
     }
 

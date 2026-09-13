@@ -15,6 +15,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -44,6 +45,7 @@ import net.stln.magitech.core.api.mana.handler.MachineBlockEntityManaHandler;
 import net.stln.magitech.effect.visual.preset.PointVFX;
 import net.stln.magitech.effect.visual.spawner.SquareParticles;
 import net.stln.magitech.feature.element.Element;
+import net.stln.magitech.helper.MachineInteractionHelper;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
@@ -52,7 +54,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
-public class ZardiusCrucibleBlockEntity extends ManaMachineBlockEntity {
+public class ZardiusCrucibleBlockEntity extends ManaMachineBlockEntity implements IItemHandlerBlockEntity {
     public final ItemStackHandler inventory = new ItemStackHandler(8) {
 
         @Override
@@ -88,6 +90,26 @@ public class ZardiusCrucibleBlockEntity extends ManaMachineBlockEntity {
 
     public ZardiusCrucibleBlockEntity(BlockPos pos, BlockState blockState) {
         super(BlockInit.ZARDIUS_CRUCIBLE_ENTITY.get(), pos, blockState);
+    }
+
+    @Override
+    public ItemStackHandler getItemHandler() {
+        return inventory;
+    }
+
+    @Override
+    public int getInputSlot() {
+        return 0;
+    }
+
+    @Override
+    public ItemInteractionResult handleCustomItemInteraction(ItemStack heldStack, Level level, BlockPos pos, Player player, InteractionHand hand) {
+        boolean normalItemInteraction = !heldStack.isEmpty() && !canHandleFluidItem(heldStack, player);
+        boolean changed = addItem(player, heldStack, heldStack.getCount());
+        if (changed && normalItemInteraction) {
+            MachineInteractionHelper.playPickupSound(level, player, pos, 2.0F);
+        }
+        return ItemInteractionResult.SUCCESS;
     }
 
     public NonNullList<ItemStack> getRenderStack() {
@@ -424,7 +446,7 @@ public class ZardiusCrucibleBlockEntity extends ManaMachineBlockEntity {
                 EntitySelector.ENTITY_STILL_ALIVE));
     }
 
-    public void addItem(Player player, ItemStack pItemStack, int count) {
+    public boolean addItem(Player player, ItemStack pItemStack, int count) {
         boolean changed;
         if (pItemStack.isEmpty()) {
             changed = removeLastInventoryStack(player);
@@ -438,6 +460,22 @@ public class ZardiusCrucibleBlockEntity extends ManaMachineBlockEntity {
             setChanged();
             level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
         }
+        return changed;
+    }
+
+    @Override
+    public boolean canPlaceItem(int slot, ItemStack stack) {
+        if (stack.isEmpty()) {
+            return false;
+        }
+
+        ItemStack existing = this.inventory.getStackInSlot(slot);
+        if (!existing.isEmpty()) {
+            return ItemStack.isSameItemSameComponents(existing, stack)
+                    && existing.getCount() < existing.getMaxStackSize();
+        }
+
+        return !hasSameItemStack(stack);
     }
 
     private boolean removeLastInventoryStack(Player player) {
@@ -446,7 +484,7 @@ public class ZardiusCrucibleBlockEntity extends ManaMachineBlockEntity {
             if (!this.inventory.getStackInSlot(slot).isEmpty()) {
                 ItemStack removeStack = this.inventory.getStackInSlot(slot);
                 player.addItem(removeStack);
-                player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 0.5f, 2.0f);
+                MachineInteractionHelper.playPickupSound(level, player, worldPosition, 1.0F);
                 if (!removeStack.isEmpty()) {
                     ItemEntity itemEntity = player.drop(removeStack, false);
                     if (itemEntity != null) {
@@ -454,6 +492,16 @@ public class ZardiusCrucibleBlockEntity extends ManaMachineBlockEntity {
                         itemEntity.setTarget(player.getUUID());
                     }
                 }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean hasSameItemStack(ItemStack stack) {
+        for (int i = 0; i < this.inventory.getSlots(); i++) {
+            ItemStack existing = this.inventory.getStackInSlot(i);
+            if (!existing.isEmpty() && ItemStack.isSameItemSameComponents(existing, stack)) {
                 return true;
             }
         }

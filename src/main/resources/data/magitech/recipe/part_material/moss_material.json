@@ -1,7 +1,0 @@
-{
-  "type": "magitech:tool_material",
-  "ingredient": {
-    "item": "minecraft:moss_block"
-  },
-  "result": "magitech:moss"
-}

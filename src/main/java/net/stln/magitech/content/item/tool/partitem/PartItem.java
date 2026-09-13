@@ -40,7 +40,7 @@ public abstract class PartItem extends Item {
     }
 
     public static @NotNull Optional<Trait> getTrait(@NotNull ItemStack stack) {
-        return ComponentHelper.getMaterial(stack).map(ToolMaterial::trait);
+        return ComponentHelper.getMaterial(stack).map(ToolMaterial::getTrait);
     }
 
     public ToolPart getPart() {
@@ -65,7 +65,7 @@ public abstract class PartItem extends Item {
         Player player = ClientHelper.getPlayer();
         if (player == null) return;
         ToolMaterial material = ComponentHelper.getMaterial(stack).get();
-        Trait trait = material.trait();
+        Trait trait = material.getTrait();
 
         if (Screen.hasShiftDown()) {
             ToolProperties properties = material.properties().get();

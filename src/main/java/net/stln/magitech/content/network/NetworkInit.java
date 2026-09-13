@@ -140,5 +140,10 @@ public class NetworkInit {
                 TraitEntityKillVFXPayload.STREAM_CODEC,
                 TraitEntityKillVFXPayloadHandler::handleDataOnMainS2C
         );
+        registrar.playToClient(
+                FieldEffectRenderPayload.TYPE,
+                FieldEffectRenderPayload.STREAM_CODEC,
+                FieldEffectRenderPayLoadHandler::handleDataOnMainS2C
+        );
     }
 }

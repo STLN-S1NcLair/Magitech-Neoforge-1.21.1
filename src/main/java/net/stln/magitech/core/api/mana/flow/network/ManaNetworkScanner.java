@@ -28,9 +28,19 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
+/**
+ * マナネットワークをブロック接続から探索します。
+ * Scans mana networks from their block connections.
+ */
 public class ManaNetworkScanner {
 
     // startSideがnull: 無線アクセス or 中継点からのスキャン開始、そうでない場合は有線アクセスでのスキャン開始
+    /**
+     * 指定位置からマナネットワークを探索します。
+     * Scans for a mana network starting at the specified position.
+     *
+     * @return 見つかったネットワーク、端点が無ければnull / the found network, or null if no endpoint exists
+     */
     public static NetworkSnapshot scan(Level level, BlockPos start, @Nullable Direction startSide, int maxHops) {
         Set<ConnectionKey> visitedWired = new HashSet<>();
         Set<ConnectionKey> visitedWireless = new HashSet<>();
@@ -43,7 +53,7 @@ public class ManaNetworkScanner {
         Queue<ScanNode> queue = new ArrayDeque<>();
 
 
-        // 中継点の場合接続可能なすべての方向についてスキャンを開始、Handlerの場合はstartSideの方向でスキャンを開始、無線アクセスの場合はside=nullでスキャンを開始
+        // 中継点の場合接続可能なすべての方向についてスキャンを開始、Handlerの場合はstartSideの方向でスキャンを開始、無線アクセスの場合はside=nullでスキャンを開始 / Scan all connectable directions for waypoints, start handlers from startSide, and use side=null for wireless access
         if (level.getBlockState(start).getBlock() instanceof IManaWaypoint waypoint) {
             for (ConnectionMode mode : waypoint.getConnectableModes(level.getBlockState(start))) {
                 if (mode == ConnectionMode.WIRED) {
@@ -73,19 +83,19 @@ public class ManaNetworkScanner {
         // edge追加: 自己ループであるため、wiredのみでok
         edges.add(new NetworkTree.Edge(start, start, ConnectionMode.WIRED));
 
-        // 中継点
+        // 中継点 / Waypoint
         if (startBlock instanceof IManaWaypoint) {
             waypoints.add(start);
         } else {
-            // 開始点が中継点でない場合、Handlerとして収集を試みる
-            // rootノードはedgesに追加しない（あくまでHandlerとしての接続を収集するため）
+            // 開始点が中継点でない場合、Handlerとして収集を試みる / If the start is not a waypoint, try to collect it as a handler
+            // rootノードはedgesに追加しない（あくまでHandlerとしての接続を収集するため） / Do not add the root node to edges because it is collected only as a handler
             collectHandler(level, null, start, endpoints, edges, ConnectionMode.WIRED, startSide);
         }
 
         while (!queue.isEmpty()) {
             ScanNode node = queue.poll();
 
-            // 中継点
+            // 中継点 / Waypoint
             if (!node.key.pos.equals(start)) {
                 waypoints.add(node.key.pos);
             }
@@ -97,7 +107,7 @@ public class ManaNetworkScanner {
             BlockPos pos = node.key.pos;
             BlockState state = level.getBlockState(pos);
 
-            // モード別探索
+            // モード別探索 / Explore according to the connection mode
             if (node.mode == ConnectionMode.WIRED) {
                 scanWired(level, node, state, queue, visitedWired, visitedWireless, endpoints, edges);
             } else {
@@ -111,11 +121,11 @@ public class ManaNetworkScanner {
         return new NetworkSnapshot(endpoints, waypoints, new NetworkTree(endpoints, waypoints, edges));
     }
 
-    // Handlerを収集できたらHandlerを返す
+    // Handlerを収集できたらHandlerを返す / Return handlers as they are collected
     private static void scanWired(Level level, ScanNode node, BlockState state, Queue<ScanNode> queue,
                                   Set<ConnectionKey> visitedWired, Set<ConnectionKey> visitedWireless, Set<HandlerEndpoint> endpoints, Set<NetworkTree.Edge> edges) {
-        // 有線モードの探索ロジック
-        // 隣接ブロックを調べ、それがConnectorなら有線モードで追加、Nodeならノードとして登録し無線モードと有線モードで追加、Handlerなら終端として登録して終了
+        // 有線モードの探索ロジック / Wired-mode scan logic
+        // 隣接ブロックを調べ、それがConnectorなら有線モードで追加、Nodeならノードとして登録し無線モードと有線モードで追加、Handlerなら終端として登録して終了 / Check adjacent blocks: add connectors as wired, register nodes for both modes, and finish at handlers
 
         BlockPos pos = node.key.pos;
         Block block = state.getBlock();
@@ -130,11 +140,11 @@ public class ManaNetworkScanner {
             BlockState neighborState = level.getBlockState(neighborPos);
 
 
-            // 到達済みチェック
+            // 到達済みチェック / Check whether the connection was visited
             if (visitedWired.contains(new ConnectionKey(pos, dir))) continue;
             if (visitedWired.contains(new ConnectionKey(neighborPos, dir.getOpposite()))) continue;
 
-            // 接続可能な方向チェック
+            // 接続可能な方向チェック / Check connectable directions
             if (!connectableDirs.contains(dir)) {
                 continue;
             }
@@ -150,7 +160,7 @@ public class ManaNetworkScanner {
                         visitedWired.add(new ConnectionKey(neighborPos, dir.getOpposite()));
 
 
-                        // 中継点
+                        // 中継点 / Waypoint
                         edges.add(new NetworkTree.Edge(pos, neighborPos, ConnectionMode.WIRED));
                         addNextQueue(node.depth, queue, visitedWired, visitedWireless, dir, waypoint, neighborState, neighborPos);
                     }
@@ -163,8 +173,8 @@ public class ManaNetworkScanner {
     private static void scanWireless(Level level, ScanNode node, BlockState state, Queue<ScanNode> queue,
                                      Set<ConnectionKey> visitedWired, Set<ConnectionKey> visitedWireless, Set<HandlerEndpoint> endpoints, Set<NetworkTree.Edge> edges,
                                      Map<VisibilityKey, Boolean> visibilityCache) {
-        // 無線モードの探索ロジック
-        // 例: 一定範囲内のブロックを探索し、視認可能かつNodeならノードとして登録し有線モードで追加、無線対応のHandlerなら終端として登録して終了
+        // 無線モードの探索ロジック / Wireless-mode scan logic
+        // 例: 一定範囲内のブロックを探索し、視認可能かつNodeならノードとして登録し有線モードで追加、無線対応のHandlerなら終端として登録して終了 / Search within range, add visible nodes for wired traversal, and finish at wireless handlers
 
         Block block = state.getBlock();
         BlockPos pos = node.key.pos;
@@ -180,7 +190,7 @@ public class ManaNetworkScanner {
                     BlockPos nextPos = new BlockPos(targetPos);
                     if (!level.isLoaded(nextPos)) continue;
 
-                    // 到達済みチェック
+                    // 到達済みチェック / Check whether the connection was visited
                     if (visitedWireless.contains(new ConnectionKey(nextPos, null))) continue;
 
                     BlockEntity targetBlockEntity = level.getBlockEntity(nextPos);
@@ -198,22 +208,22 @@ public class ManaNetworkScanner {
                         }
                     }
 
-                    // 視認判定は高コストなので、候補ブロックがある位置だけ実施
+                    // 視認判定は高コストなので、候補ブロックがある位置だけ実施 / Visibility checks are expensive, so perform them only at candidate positions
                     boolean waypointCandidate = waypoint != null;
                     boolean handlerCandidate = targetBlockEntity instanceof IManaConnectable;
                     if (!waypointCandidate && !handlerCandidate) continue;
 
-                    // 視認チェック
+                    // 視認チェック / Check visibility
                     if (!canSee(level, pos, nextPos, visibilityCache)) continue;
 
                     if (waypoint != null && waypoint.getConnectableModes(targetState).contains(ConnectionMode.WIRELESS)) {
                         int targetRange = waypoint.getRange();
                         Vec3i offset = nextPos.subtract(pos);
                         if (targetRange < Math.max(Math.abs(offset.getX()), Math.max(Math.abs(offset.getY()), Math.abs(offset.getZ())))) {
-                            continue; // 相手の範囲外
+                            continue; // 相手の範囲外 / Outside the other endpoint's range
                         }
 
-                        // 中継点
+                        // 中継点 / Waypoint
                         edges.add(new NetworkTree.Edge(pos, nextPos, ConnectionMode.WIRELESS));
                         addNextQueue(node.depth, queue, visitedWired, visitedWireless, null, waypoint, targetState, nextPos);
                     }
@@ -228,11 +238,11 @@ public class ManaNetworkScanner {
             if (nextMode == ConnectionMode.WIRED) {
                 for (Direction nextDir : waypoint.getConnectableDirections(targetState)) {
                     if (dir != null && nextDir == dir.getOpposite() || visitedWired.contains(new ConnectionKey(targetPos, nextDir)))
-                        continue; // 来た方向には戻らない
+                        continue; // 来た方向には戻らない / Do not return in the direction we came from
                     queue.add(new ScanNode(new ConnectionKey(targetPos, nextDir), nextMode, depth + 1));
                 }
             } else {
-                // 無線モードも接続可能なNodeは無線モードでも追加
+                // 無線モードも接続可能なNodeは無線モードでも追加 / Also queue nodes that support wireless mode for wireless traversal
                 if (visitedWireless.add(new ConnectionKey(targetPos, null))) {
                     queue.add(new ScanNode(new ConnectionKey(targetPos, null), nextMode, depth + 1));
                 }
@@ -271,7 +281,7 @@ public class ManaNetworkScanner {
                 && connectable.getConnectableModes(level.getBlockState(pos)).contains(mode)) {
             IBlockManaHandler handler = ManaTransferHelper.getManaContainer(level, pos, side);
             if (handler != null) {
-                // 終端
+                // 終端 / Endpoint
                 endpoints.add(new HandlerEndpoint(pos, side));
                 if (from != null && !from.equals(pos)) {
                     edges.add(new NetworkTree.Edge(from, pos, mode));
@@ -280,7 +290,7 @@ public class ManaNetworkScanner {
         }
     }
 
-    // sideがnullの場合、無線アクセスを意味する
+    // sideがnullの場合、無線アクセスを意味する / A null side represents wireless access
     record ConnectionKey(BlockPos pos, @Nullable Direction side) {
     }
 

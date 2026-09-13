@@ -177,6 +177,22 @@ public class BlockInit {
             BLOCK_ENITIES.register("compressor", () -> BlockEntityType.Builder.of(
                     CompressorBlockEntity::new, BlockInit.COMPRESSOR.get()).build(null));
 
+    public static final DeferredBlock<ChillerBlock> CHILLER = BLOCKS.registerBlock("chiller",
+            properties -> new ChillerBlock(properties, 500000, 5000),
+            BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(SoundType.NETHERITE_BLOCK).noOcclusion());
+    public static final DeferredItem<BlockItem> CHILLER_ITEM = ItemInit.ITEMS.register("chiller", key -> new HintTooltipTextManaContainerBlockItem(CHILLER.get(), new Item.Properties()));
+    public static final Supplier<BlockEntityType<ChillerBlockEntity>> CHILLER_ENTITY =
+            BLOCK_ENITIES.register("chiller", () -> BlockEntityType.Builder.of(
+                    ChillerBlockEntity::new, BlockInit.CHILLER.get()).build(null));
+
+    public static final DeferredBlock<HeatBurnerBlock> HEAT_BURNER = BLOCKS.registerBlock("heat_burner",
+            properties -> new HeatBurnerBlock(properties, 500000, 5000),
+            BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(SoundType.NETHERITE_BLOCK).noOcclusion());
+    public static final DeferredItem<BlockItem> HEAT_BURNER_ITEM = ItemInit.ITEMS.register("heat_burner", key -> new HintTooltipTextManaContainerBlockItem(HEAT_BURNER.get(), new Item.Properties()));
+    public static final Supplier<BlockEntityType<HeatBurnerBlockEntity>> HEAT_BURNER_ENTITY =
+            BLOCK_ENITIES.register("heat_burner", () -> BlockEntityType.Builder.of(
+                    HeatBurnerBlockEntity::new, BlockInit.HEAT_BURNER.get()).build(null));
+
     // マナ輸送
 
     public static final DeferredBlock<ManaNodeBlock> MANA_NODE = BLOCKS.registerBlock("mana_node",

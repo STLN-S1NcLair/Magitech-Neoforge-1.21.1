@@ -1,7 +1,0 @@
-{
-  "type": "magitech:tool_material",
-  "ingredient": {
-    "item": "minecraft:snow_block"
-  },
-  "result": "magitech:snow"
-}

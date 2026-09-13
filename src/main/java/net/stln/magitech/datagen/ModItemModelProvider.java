@@ -1,6 +1,7 @@
 package net.stln.magitech.datagen;
 
 import net.minecraft.data.PackOutput;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.BlockItem;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
@@ -134,6 +135,31 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ItemInit.FLOW_POTION_FLASK.get());
         basicItem(ItemInit.HOLLOW_POTION_FLASK.get());
 
+        threadPageModel("mana_thread_page");
+        threadPageModel("ember_thread_page");
+        threadPageModel("glace_thread_page");
+        threadPageModel("surge_thread_page");
+        threadPageModel("phantom_thread_page");
+        threadPageModel("tremor_thread_page");
+        threadPageModel("magic_thread_page");
+        threadPageModel("flow_thread_page");
+        threadPageModel("hollow_thread_page");
+        var threadPage = getBuilder("thread_page").parent(new ModelFile.UncheckedModelFile("minecraft:item/generated"));
+        String[] elements = {"mana", "ember", "glace", "surge", "phantom", "tremor", "magic", "flow", "hollow"};
+        for (int element = 0; element < elements.length; element++) {
+            threadPage.override()
+                    .predicate(Magitech.id("element"), element)
+                    .model(new ModelFile.UncheckedModelFile(Magitech.id("item/" + elements[element] + "_thread_page")))
+                    .end();
+        }
+        getBuilder("heavy_tool").parent(new ModelFile.UncheckedModelFile("item/handheld"))
+                .transforms()
+                .transform(ItemDisplayContext.THIRD_PERSON_RIGHT_HAND).rotation(0, -90, 55).translation(0, 6.75f, 0.25f).scale(1.3f).end()
+                .transform(ItemDisplayContext.THIRD_PERSON_LEFT_HAND).rotation(0, 90, -55).translation(0, 6.75f, 0.25f).scale(1.3f).end()
+                .transform(ItemDisplayContext.FIRST_PERSON_RIGHT_HAND).rotation(0, -90, 25).translation(1.13f, 3.2f, 1.13f).scale(1.2f).end()
+                .transform(ItemDisplayContext.FIRST_PERSON_LEFT_HAND).rotation(0, 90, -25).translation(1.13f, 3.2f, 1.13f).scale(1.2f).end();
+        spawnEggItem(ItemInit.WEAVER_SPAWN_EGG.get());
+
         basicItem(BlockInit.CELIFERN_DOOR_ITEM.get());
         saplingItem(BlockInit.CELIFERN_SAPLING_ITEM);
         basicItem(BlockInit.CELIFERN_SIGN_ITEM.get());
@@ -190,5 +216,11 @@ public class ModItemModelProvider extends ItemModelProvider {
         getBuilder(item.get().toString())
                 .parent(new ModelFile.UncheckedModelFile("item/generated"))
                 .texture("layer0", Magitech.id("block/" + item.getId().getPath()));
+    }
+
+    private void threadPageModel(String name) {
+        getBuilder(name)
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", Magitech.id("item/" + name));
     }
 }

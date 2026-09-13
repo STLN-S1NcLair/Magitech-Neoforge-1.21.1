@@ -36,7 +36,7 @@ import java.util.List;
 
 public class ZardiusCrucibleRecipeCategory extends AbstractMagitechRecipeCategory<RecipeHolder<ZardiusCrucibleRecipe>> {
     public static final ResourceLocation TEXTURE = Magitech.id("textures/gui/jei/zardius_crucible_recipe.png");
-    public static final ResourceLocation WIDGETS = Magitech.id("textures/gui/jei_widgets.png");
+    public static final ResourceLocation WIDGETS = Magitech.id("textures/gui/jei/jei_widgets.png");
     protected static long GAUGE_MAX_MANA = 100000; // 表示用の最大マナ量
 
     public ZardiusCrucibleRecipeCategory(IDrawable icon) {

@@ -1,7 +1,0 @@
-{
-  "type": "magitech:tool_material",
-  "ingredient": {
-    "item": "magitech:fluxium_ingot"
-  },
-  "result": "magitech:fluxium"
-}

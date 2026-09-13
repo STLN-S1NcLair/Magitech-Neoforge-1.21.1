@@ -1,7 +1,0 @@
-{
-  "type": "magitech:tool_material",
-  "ingredient": {
-    "item": "minecraft:glass"
-  },
-  "result": "magitech:glass"
-}

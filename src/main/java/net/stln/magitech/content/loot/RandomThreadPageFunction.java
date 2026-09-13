@@ -46,7 +46,7 @@ public class RandomThreadPageFunction extends LootItemConditionalFunction {
         }
     }
 
-    private static @NotNull List<Holder<ISpell>> getAllSpells() {
+    public static @NotNull List<Holder<ISpell>> getAllSpells() {
         List<Holder<ISpell>> spellHolders = MagitechRegistries.SPELL.holders().map(holder -> (Holder<ISpell>) holder).toList();
         if (ConfigHelper.isDashSpellsDisabled()) {
             spellHolders = spellHolders.stream().filter(holder -> holder.value().asSpell().getConfig().shape() != SpellShape.DASH).toList();

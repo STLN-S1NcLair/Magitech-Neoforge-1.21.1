@@ -7,6 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.SweetBerryBushBlock;
+import net.minecraft.world.level.block.PinkPetalsBlock;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
@@ -15,6 +16,7 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.content.block.BlockInit;
 import net.stln.magitech.content.block.BlockStatePropertyInit;
+import net.stln.magitech.content.block.TrapHatchBlock;
 
 public class ModBlockStateProvider extends BlockStateProvider {
     public ModBlockStateProvider(PackOutput output, ExistingFileHelper exFileHelper) {
@@ -135,6 +137,14 @@ public class ModBlockStateProvider extends BlockStateProvider {
         blockWithItem(BlockInit.SCORCHED_SOIL.get());
         manaBerryBushBlock(BlockInit.MANA_BERRY_BUSH.get());
         manaBerryBushBlock(BlockInit.QUARTZ_PLANT_BUSH.get());
+        crystalClusterBlock(BlockInit.FLUORITE_CRYSTAL_CLUSTER.get());
+        crystalClusterBlock(BlockInit.REDSTONE_CRYSTAL_CLUSTER.get());
+        crystalClusterBlock(BlockInit.SULFUR_CRYSTAL_CLUSTER.get());
+        luminousShardBlock(BlockInit.LUMINOUS_SHARD.get());
+        mistaliaPetalsBlock(BlockInit.MISTALIA_PETALS.get());
+        trapHatchBlock(BlockInit.TRAP_HATCH.get());
+        fieldEffectMachineBlock(BlockInit.CHILLER.get());
+        fieldEffectMachineBlock(BlockInit.HEAT_BURNER.get());
     }
 
     private String getName(Block block) {
@@ -344,6 +354,80 @@ public class ModBlockStateProvider extends BlockStateProvider {
                 .modelForState().modelFile(stage2).addModel()
                 .partialState().with(SweetBerryBushBlock.AGE, 3)
                 .modelForState().modelFile(stage3).addModel();
+    }
+
+    private void crystalClusterBlock(Block block) {
+        ModelFile[] stages = new ModelFile[3];
+        for (int index = 0; index < stages.length; index++) {
+            stages[index] = new ModelFile.ExistingModelFile(blockTexture(block).withSuffix("_" + index), this.models().existingFileHelper);
+        }
+        getVariantBuilder(block).forAllStatesExcept(state -> {
+            Direction direction = state.getValue(BlockStateProperties.FACING);
+            int rotationX = direction == Direction.DOWN ? 180 : direction == Direction.UP ? 0 : 90;
+            int rotationY = switch (direction) {
+                case NORTH -> 0;
+                case EAST -> 90;
+                case SOUTH -> 180;
+                case WEST -> 270;
+                default -> 0;
+            };
+            ConfiguredModel[] models = new ConfiguredModel[stages.length];
+            for (int index = 0; index < stages.length; index++) {
+                models[index] = ConfiguredModel.builder().modelFile(stages[index]).rotationX(rotationX).rotationY(rotationY).build()[0];
+            }
+            return models;
+        }, BlockStateProperties.WATERLOGGED);
+        simpleBlockItem(block, new ModelFile.UncheckedModelFile(blockTexture(block).withSuffix("_0")));
+    }
+
+    private void luminousShardBlock(Block block) {
+        simpleBlock(block, new ModelFile.ExistingModelFile(blockTexture(block), this.models().existingFileHelper));
+    }
+
+    private void mistaliaPetalsBlock(Block block) {
+        for (int amount = 1; amount <= 4; amount++) {
+            ModelFile model = new ModelFile.ExistingModelFile(blockTexture(block).withSuffix("_" + amount), this.models().existingFileHelper);
+            Integer[] amounts = new Integer[5 - amount];
+            for (int index = amount; index <= 4; index++) {
+                amounts[index - amount] = index;
+            }
+            for (Direction direction : Direction.Plane.HORIZONTAL) {
+                int rotationY = switch (direction) {
+                    case NORTH -> 0;
+                    case EAST -> 90;
+                    case SOUTH -> 180;
+                    case WEST -> 270;
+                    default -> 0;
+                };
+                getMultipartBuilder(block).part().modelFile(model).rotationY(rotationY).addModel()
+                        .condition(PinkPetalsBlock.FACING, direction)
+                        .condition(PinkPetalsBlock.AMOUNT, amounts)
+                        .end();
+            }
+        }
+    }
+
+    private void trapHatchBlock(Block block) {
+        ModelFile closed = new ModelFile.ExistingModelFile(blockTexture(block), this.models().existingFileHelper);
+        ModelFile opened = new ModelFile.ExistingModelFile(blockTexture(block).withSuffix("_open"), this.models().existingFileHelper);
+        getVariantBuilder(block).forAllStatesExcept(state -> ConfiguredModel.builder()
+                .modelFile(state.getValue(TrapHatchBlock.OPENED) ? opened : closed)
+                .build(), BlockStateProperties.WATERLOGGED);
+        simpleBlockItem(block, new ModelFile.UncheckedModelFile(blockTexture(block)));
+    }
+
+    private void fieldEffectMachineBlock(Block block) {
+        ModelFile lower = new ModelFile.ExistingModelFile(blockTexture(block).withSuffix("_bottom"), this.models().existingFileHelper);
+        ModelFile upper = new ModelFile.ExistingModelFile(blockTexture(block).withSuffix("_top"), this.models().existingFileHelper);
+        ModelFile lowerLit = new ModelFile.ExistingModelFile(blockTexture(block).withSuffix("_bottom_lit"), this.models().existingFileHelper);
+        ModelFile upperLit = new ModelFile.ExistingModelFile(blockTexture(block).withSuffix("_top_lit"), this.models().existingFileHelper);
+        getVariantBuilder(block).forAllStates(state -> ConfiguredModel.builder()
+                .modelFile(state.getValue(BlockStateProperties.DOUBLE_BLOCK_HALF).name().equals("LOWER")
+                        ? (state.getValue(BlockStateProperties.LIT) ? lowerLit : lower)
+                        : (state.getValue(BlockStateProperties.LIT) ? upperLit : upper))
+                .rotationY(Math.floorMod((int) state.getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot() + 180, 360))
+                .build());
+        blockItem(block);
     }
 
     private void signBlock(Block sign, Block wallSign, Block fullTextureBlock) {

@@ -5,10 +5,13 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
@@ -28,6 +31,7 @@ import net.stln.magitech.effect.visual.preset.PointVFX;
 import net.stln.magitech.effect.visual.preset.PresetHelper;
 import net.stln.magitech.effect.visual.spawner.SquareParticles;
 import net.stln.magitech.feature.element.Element;
+import net.stln.magitech.helper.MachineInteractionHelper;
 import team.lodestar.lodestone.systems.particle.ParticleEffectSpawner;
 
 import javax.annotation.Nullable;
@@ -64,6 +68,14 @@ public class CrusherBlock extends ManaContainerBlock {
     @Override
     public @org.jetbrains.annotations.Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
         return createTicker(level, blockEntityType, BlockInit.CRUSHER_ENTITY.get());
+    }
+
+    @Override
+    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+        if (level.getBlockEntity(pos) instanceof CrusherBlockEntity crusher) {
+            return MachineInteractionHelper.interact(stack, level, pos, player, hand, crusher);
+        }
+        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
     @Override

@@ -22,6 +22,8 @@ import net.stln.magitech.content.block.BlockInit;
 import net.stln.magitech.content.entity.EntityInit;
 import net.stln.magitech.content.entity.mob_effect.MobEffectInit;
 import net.stln.magitech.content.entity.status.AttributeInit;
+import net.stln.magitech.content.field_effect.effect.FieldEffectInit;
+import net.stln.magitech.content.field_effect.influence.FieldInfluenceInit;
 import net.stln.magitech.content.fluid.FluidInit;
 import net.stln.magitech.content.gui.GuiInit;
 import net.stln.magitech.content.item.ItemInit;
@@ -42,6 +44,7 @@ import net.stln.magitech.feature.tool.part.ToolPartInit;
 import net.stln.magitech.feature.tool.property.ToolPropertyInit;
 import net.stln.magitech.feature.tool.tool_category.ToolCategoryInit;
 import net.stln.magitech.feature.tool.tool_type.ToolTypeInit;
+import net.stln.magitech.feature.tool.trait.TraitInit;
 import net.stln.magitech.feature.tool.upgrade.UpgradeInit;
 import net.stln.magitech.worldgen.WorldGenInit;
 import net.stln.magitech.worldgen.tree.TreeGrowerInit;
@@ -84,11 +87,14 @@ public class Magitech {
         Element.registerElements();
         ToolPropertyInit.registerToolProperties(modEventBus);
         ToolCategoryInit.registerToolCategories(modEventBus);
+        TraitInit.registerTraits(modEventBus);
         MaterialInit.registerMaterials(modEventBus);
         SpellInit.registerSpells(modEventBus);
         ToolPartInit.registerToolParts(modEventBus);
         ToolTypeInit.registerToolTypes(modEventBus);
         UpgradeInit.registerUpgrades(modEventBus);
+        FieldInfluenceInit.registerInfluences(modEventBus);
+        FieldEffectInit.registerEffects(modEventBus);
 
         // Generation
         LootFunctionInit.registerFunctions(modEventBus);

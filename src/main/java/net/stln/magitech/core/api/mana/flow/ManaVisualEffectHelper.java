@@ -14,8 +14,16 @@ import net.stln.magitech.core.api.mana.flow.network.NetworkTree;
 
 import java.util.Set;
 
+/**
+ * マナネットワークに関する視覚効果を生成するヘルパーです。
+ * Helper methods for spawning visual effects related to mana networks.
+ */
 public class ManaVisualEffectHelper {
 
+    /**
+     * マナネットワーク経路に転送パーティクルと効果音を生成します。
+     * Spawns transfer particles and a sound along a mana-network path.
+     */
     public static void spawnPathParticles(Level level, BlockPos start, BlockPos end, Set<NetworkTree.Edge> path, int tickCounter) {
         for (NetworkTree.Edge edge : path) {
             BlockPos parent = edge.parent();

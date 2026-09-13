@@ -47,7 +47,7 @@ public class GeomendingTrait extends Trait {
             if (player.getRandom().nextFloat() < traitLevel * 0.2F) {
                 stack.setDamageValue(stack.getDamageValue() - 1);
                 level.playSound(player, pos.getX(), pos.getY(), pos.getZ(), SoundInit.GEOMENDING_BREAK.get(), SoundSource.PLAYERS, 1.0F, 0.7F + (player.getRandom().nextFloat() * 0.6F));
-                addBlockBreakVFX(player, level, stack, blockState, pos, MaterialInit.STONE);
+                addBlockBreakVFX(player, level, stack, blockState, pos);
             }
         }
     }

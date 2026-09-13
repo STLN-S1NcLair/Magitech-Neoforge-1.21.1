@@ -34,6 +34,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.stln.magitech.content.block.block_entity.ZardiusCrucibleBlockEntity;
+import net.stln.magitech.helper.MachineInteractionHelper;
 import net.stln.magitech.helper.TickScheduler;
 
 import javax.annotation.Nullable;
@@ -180,11 +181,8 @@ public class ZardiusCrucibleBlock extends ManaContainerBlock {
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
                                               Player player, InteractionHand hand, BlockHitResult hitResult) {
-        BlockEntity entity = level.getBlockEntity(pos);
-        if (entity instanceof ZardiusCrucibleBlockEntity zardiusCrucibleBlockEntity) {
-            ItemStack itemInHand = player.getItemInHand(hand);
-            zardiusCrucibleBlockEntity.addItem(player, itemInHand, itemInHand.getCount());
-            return ItemInteractionResult.SUCCESS;
+        if (level.getBlockEntity(pos) instanceof ZardiusCrucibleBlockEntity crucible) {
+            return MachineInteractionHelper.interact(stack, level, pos, player, hand, crucible);
         }
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }

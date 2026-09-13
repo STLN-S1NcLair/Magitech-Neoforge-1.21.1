@@ -79,6 +79,8 @@
   "block.magitech.upgrade_workbench": "Верстак Улучшения",
   "block.magitech.tool_hanger": "Держатель Инструментов",
   "block.magitech.zardius_crucible": "Котёл Зардиуса",
+  "block.magitech.chiller": "Охладитель",
+  "block.magitech.heat_burner": "Нагреватель",
   "block.magitech.alchemetric_pylon": "Алхеметрический Пилон",
   "block.magitech.athanor_pillar": "Столб Атанора",
   "block.magitech.mana_node": "Узел Маны",

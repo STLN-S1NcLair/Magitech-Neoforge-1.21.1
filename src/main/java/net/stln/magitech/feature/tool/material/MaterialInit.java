@@ -10,6 +10,7 @@ import net.stln.magitech.feature.tool.tool_category.ToolCategoryInit;
 import net.stln.magitech.feature.tool.trait.*;
 import net.stln.magitech.registry.DeferredToolMaterial;
 import net.stln.magitech.registry.DeferredToolMaterialRegister;
+import net.stln.magitech.registry.DeferredTrait;
 
 import java.util.function.Supplier;
 
@@ -18,7 +19,7 @@ public class MaterialInit {
 
     public static final DeferredToolMaterialRegister REGISTER = new DeferredToolMaterialRegister(Magitech.MOD_ID);
 
-    public static final DeferredToolMaterial<ToolMaterial> SAMPLE = register("sample", new SampleTrait(), () -> new ToolProperties(ToolCategoryInit.ALL)
+    public static final DeferredToolMaterial<ToolMaterial> SAMPLE = register("sample", TraitInit.SAMPLE, () -> new ToolProperties(ToolCategoryInit.ALL)
             .set(ToolPropertyInit.TIER, 0.0)
             .set(ToolPropertyInit.MAX_PROGRESSION_COEFFICIENT, 1.0)
             .set(ToolPropertyInit.DAMAGE, 1.0)
@@ -38,7 +39,7 @@ public class MaterialInit {
             .set(ToolPropertyInit.MANA_EFFICIENCY, 1.0)
     );
 
-    public static final DeferredToolMaterial<ToolMaterial> WOOD = register("wood", new AdaptationTrait(), () -> new ToolProperties(ToolCategoryInit.ALL)
+    public static final DeferredToolMaterial<ToolMaterial> WOOD = register("wood", TraitInit.ADAPTATION, () -> new ToolProperties(ToolCategoryInit.ALL)
             .set(ToolPropertyInit.TIER, 0.0)
             .set(ToolPropertyInit.MAX_PROGRESSION_COEFFICIENT, 1.0)
             .set(ToolPropertyInit.DAMAGE, 0.4)
@@ -57,7 +58,7 @@ public class MaterialInit {
             .set(ToolPropertyInit.LAUNCH, 0.9)
             .set(ToolPropertyInit.MANA_EFFICIENCY, 0.7)
     );
-    public static final DeferredToolMaterial<ToolMaterial> STONE = register("stone", new GeomendingTrait(), () -> new ToolProperties(ToolCategoryInit.ALL)
+    public static final DeferredToolMaterial<ToolMaterial> STONE = register("stone", TraitInit.GEOMENDING, () -> new ToolProperties(ToolCategoryInit.ALL)
             .set(ToolPropertyInit.TIER, 0.0)
             .set(ToolPropertyInit.MAX_PROGRESSION_COEFFICIENT, 1.0)
             .set(ToolPropertyInit.DAMAGE, 1.0)
@@ -76,7 +77,7 @@ public class MaterialInit {
             .set(ToolPropertyInit.LAUNCH, 1.0)
             .set(ToolPropertyInit.MANA_EFFICIENCY, 0.8)
     );
-    public static final DeferredToolMaterial<ToolMaterial> DEEPSLATE = register("deepslate", new HardmineTrait(), () -> new ToolProperties(ToolCategoryInit.ALL)
+    public static final DeferredToolMaterial<ToolMaterial> DEEPSLATE = register("deepslate", TraitInit.HARDMINE, () -> new ToolProperties(ToolCategoryInit.ALL)
             .set(ToolPropertyInit.TIER, 0.0)
             .set(ToolPropertyInit.MAX_PROGRESSION_COEFFICIENT, 1.0)
             .set(ToolPropertyInit.DAMAGE, 0.7)
@@ -95,7 +96,7 @@ public class MaterialInit {
             .set(ToolPropertyInit.LAUNCH, 1.0)
             .set(ToolPropertyInit.MANA_EFFICIENCY, 0.8)
     );
-    public static final DeferredToolMaterial<ToolMaterial> COPPER = register("copper", new ConductanceTrait(), () -> new ToolProperties(ToolCategoryInit.ALL)
+    public static final DeferredToolMaterial<ToolMaterial> COPPER = register("copper", TraitInit.CONDUCTANCE, () -> new ToolProperties(ToolCategoryInit.ALL)
             .set(ToolPropertyInit.TIER, 0.0)
             .set(ToolPropertyInit.MAX_PROGRESSION_COEFFICIENT, 1.0)
             .set(ToolPropertyInit.DAMAGE, 0.8)
@@ -114,7 +115,7 @@ public class MaterialInit {
             .set(ToolPropertyInit.LAUNCH, 0.8)
             .set(ToolPropertyInit.MANA_EFFICIENCY, 0.9)
     );
-    public static final DeferredToolMaterial<ToolMaterial> ZINC = register("zinc", new ElectrostaticChargeTrait(), () -> new ToolProperties(ToolCategoryInit.ALL)
+    public static final DeferredToolMaterial<ToolMaterial> ZINC = register("zinc", TraitInit.ELECTROSTATIC_CHARGE, () -> new ToolProperties(ToolCategoryInit.ALL)
             .set(ToolPropertyInit.TIER, 0.0)
             .set(ToolPropertyInit.MAX_PROGRESSION_COEFFICIENT, 1.0)
             .set(ToolPropertyInit.DAMAGE, 1.1)
@@ -133,7 +134,7 @@ public class MaterialInit {
             .set(ToolPropertyInit.LAUNCH, 0.8)
             .set(ToolPropertyInit.MANA_EFFICIENCY, 0.9)
     );
-    public static final DeferredToolMaterial<ToolMaterial> BONE = register("bone", new FossilizationTrait(), () -> new ToolProperties(ToolCategoryInit.ALL)
+    public static final DeferredToolMaterial<ToolMaterial> BONE = register("bone", TraitInit.FOSSILIZATION, () -> new ToolProperties(ToolCategoryInit.ALL)
             .set(ToolPropertyInit.TIER, 0.0)
             .set(ToolPropertyInit.MAX_PROGRESSION_COEFFICIENT, 1.0)
             .set(ToolPropertyInit.DAMAGE, 1.1)
@@ -152,7 +153,7 @@ public class MaterialInit {
             .set(ToolPropertyInit.LAUNCH, 1.0)
             .set(ToolPropertyInit.MANA_EFFICIENCY, 0.8)
     );
-    public static final DeferredToolMaterial<ToolMaterial> GLASS = register("glass", new FragileTrait(), () -> new ToolProperties(ToolCategoryInit.ALL)
+    public static final DeferredToolMaterial<ToolMaterial> GLASS = register("glass", TraitInit.FRAGILE, () -> new ToolProperties(ToolCategoryInit.ALL)
             .set(ToolPropertyInit.TIER, 0.0)
             .set(ToolPropertyInit.MAX_PROGRESSION_COEFFICIENT, 1.0)
             .set(ToolPropertyInit.DAMAGE, 1.0)
@@ -171,7 +172,7 @@ public class MaterialInit {
             .set(ToolPropertyInit.LAUNCH, 1.0)
             .set(ToolPropertyInit.MANA_EFFICIENCY, 1.0)
     );
-    public static final DeferredToolMaterial<ToolMaterial> SANDSTONE = register("sandstone", new TemperatureDifferenceTrait(), () -> new ToolProperties(ToolCategoryInit.ALL)
+    public static final DeferredToolMaterial<ToolMaterial> SANDSTONE = register("sandstone", TraitInit.TEMPERATURE_DIFFERENCE, () -> new ToolProperties(ToolCategoryInit.ALL)
             .set(ToolPropertyInit.TIER, 0.0)
             .set(ToolPropertyInit.MAX_PROGRESSION_COEFFICIENT, 1.0)
             .set(ToolPropertyInit.DAMAGE, 0.8)
@@ -190,7 +191,7 @@ public class MaterialInit {
             .set(ToolPropertyInit.LAUNCH, 1.2)
             .set(ToolPropertyInit.MANA_EFFICIENCY, 0.9)
     );
-    public static final DeferredToolMaterial<ToolMaterial> MOSS = register("moss", new GrowthTrait(), () -> new ToolProperties(ToolCategoryInit.ALL)
+    public static final DeferredToolMaterial<ToolMaterial> MOSS = register("moss", TraitInit.GROWTH, () -> new ToolProperties(ToolCategoryInit.ALL)
             .set(ToolPropertyInit.TIER, 0.0)
             .set(ToolPropertyInit.MAX_PROGRESSION_COEFFICIENT, 1.0)
             .set(ToolPropertyInit.DAMAGE, 0.0)
@@ -209,7 +210,7 @@ public class MaterialInit {
             .set(ToolPropertyInit.LAUNCH, 0.5)
             .set(ToolPropertyInit.MANA_EFFICIENCY, 0.5)
     );
-    public static final DeferredToolMaterial<ToolMaterial> SNOW = register("snow", new FrozenTrait(), () -> new ToolProperties(ToolCategoryInit.ALL)
+    public static final DeferredToolMaterial<ToolMaterial> SNOW = register("snow", TraitInit.FROZEN, () -> new ToolProperties(ToolCategoryInit.ALL)
             .set(ToolPropertyInit.TIER, 0.0)
             .set(ToolPropertyInit.MAX_PROGRESSION_COEFFICIENT, 1.0)
             .set(ToolPropertyInit.DAMAGE, 0.1)
@@ -228,7 +229,7 @@ public class MaterialInit {
             .set(ToolPropertyInit.LAUNCH, 1.1)
             .set(ToolPropertyInit.MANA_EFFICIENCY, 0.7)
     );
-    public static final DeferredToolMaterial<ToolMaterial> BRICK = register("brick", new SturdyTrait(), () -> new ToolProperties(ToolCategoryInit.ALL)
+    public static final DeferredToolMaterial<ToolMaterial> BRICK = register("brick", TraitInit.STURDY, () -> new ToolProperties(ToolCategoryInit.ALL)
             .set(ToolPropertyInit.TIER, 0.0)
             .set(ToolPropertyInit.MAX_PROGRESSION_COEFFICIENT, 1.0)
             .set(ToolPropertyInit.DAMAGE, 1.2)
@@ -247,7 +248,7 @@ public class MaterialInit {
             .set(ToolPropertyInit.LAUNCH, 0.8)
             .set(ToolPropertyInit.MANA_EFFICIENCY, 0.8)
     );
-    public static final DeferredToolMaterial<ToolMaterial> IRON = register("iron", new DuranceTrait(), () -> new ToolProperties(ToolCategoryInit.ALL)
+    public static final DeferredToolMaterial<ToolMaterial> IRON = register("iron", TraitInit.DURANCE, () -> new ToolProperties(ToolCategoryInit.ALL)
             .set(ToolPropertyInit.TIER, 1.0)
             .set(ToolPropertyInit.MAX_PROGRESSION_COEFFICIENT, 1.0)
             .set(ToolPropertyInit.DAMAGE, 1.2)
@@ -266,7 +267,7 @@ public class MaterialInit {
             .set(ToolPropertyInit.LAUNCH, 1.0)
             .set(ToolPropertyInit.MANA_EFFICIENCY, 1.0)
     );
-    public static final DeferredToolMaterial<ToolMaterial> GOLD = register("gold", new CatalysisTrait(), () -> new ToolProperties(ToolCategoryInit.ALL)
+    public static final DeferredToolMaterial<ToolMaterial> GOLD = register("gold", TraitInit.CATALYSIS, () -> new ToolProperties(ToolCategoryInit.ALL)
             .set(ToolPropertyInit.TIER, 1.0)
             .set(ToolPropertyInit.MAX_PROGRESSION_COEFFICIENT, 1.0)
             .set(ToolPropertyInit.DAMAGE, 0.1)
@@ -285,7 +286,7 @@ public class MaterialInit {
             .set(ToolPropertyInit.LAUNCH, 0.9)
             .set(ToolPropertyInit.MANA_EFFICIENCY, 0.7)
     );
-    public static final DeferredToolMaterial<ToolMaterial> AMETHYST = register("amethyst", new ShatterTrait(), () -> new ToolProperties(ToolCategoryInit.ALL)
+    public static final DeferredToolMaterial<ToolMaterial> AMETHYST = register("amethyst", TraitInit.SHATTER, () -> new ToolProperties(ToolCategoryInit.ALL)
             .set(ToolPropertyInit.TIER, 1.0)
             .set(ToolPropertyInit.MAX_PROGRESSION_COEFFICIENT, 1.0)
             .set(ToolPropertyInit.DAMAGE, 0.9)
@@ -304,7 +305,7 @@ public class MaterialInit {
             .set(ToolPropertyInit.LAUNCH, 1.1)
             .set(ToolPropertyInit.MANA_EFFICIENCY, 1.1)
     );
-    public static final DeferredToolMaterial<ToolMaterial> CITRINE = register("citrine", new HeatTreatmentTrait(), () -> new ToolProperties(ToolCategoryInit.ALL)
+    public static final DeferredToolMaterial<ToolMaterial> CITRINE = register("citrine", TraitInit.HEAT_TREATMENT, () -> new ToolProperties(ToolCategoryInit.ALL)
             .set(ToolPropertyInit.TIER, 1.0)
             .set(ToolPropertyInit.MAX_PROGRESSION_COEFFICIENT, 1.0)
             .set(ToolPropertyInit.DAMAGE, 0.9)
@@ -323,7 +324,7 @@ public class MaterialInit {
             .set(ToolPropertyInit.LAUNCH, 1.1)
             .set(ToolPropertyInit.MANA_EFFICIENCY, 1.1)
     );
-    public static final DeferredToolMaterial<ToolMaterial> REDSTONE = register("redstone", new SignalRushTrait(), () -> new ToolProperties(ToolCategoryInit.ALL)
+    public static final DeferredToolMaterial<ToolMaterial> REDSTONE = register("redstone", TraitInit.SIGNAL_RUSH, () -> new ToolProperties(ToolCategoryInit.ALL)
             .set(ToolPropertyInit.TIER, 1.0)
             .set(ToolPropertyInit.MAX_PROGRESSION_COEFFICIENT, 1.0)
             .set(ToolPropertyInit.DAMAGE, 0.5)
@@ -342,7 +343,7 @@ public class MaterialInit {
             .set(ToolPropertyInit.LAUNCH, 1.0)
             .set(ToolPropertyInit.MANA_EFFICIENCY, 1.0)
     );
-    public static final DeferredToolMaterial<ToolMaterial> LAPIS = register("lapis", new InclusionTrait(), () -> new ToolProperties(ToolCategoryInit.ALL)
+    public static final DeferredToolMaterial<ToolMaterial> LAPIS = register("lapis", TraitInit.INCLUSION, () -> new ToolProperties(ToolCategoryInit.ALL)
             .set(ToolPropertyInit.TIER, 1.0)
             .set(ToolPropertyInit.MAX_PROGRESSION_COEFFICIENT, 1.0)
             .set(ToolPropertyInit.DAMAGE, 0.8)
@@ -361,7 +362,7 @@ public class MaterialInit {
             .set(ToolPropertyInit.LAUNCH, 0.8)
             .set(ToolPropertyInit.MANA_EFFICIENCY, 0.7)
     );
-    public static final DeferredToolMaterial<ToolMaterial> CALCITE = register("calcite", new BirefringenceTrait(), () -> new ToolProperties(ToolCategoryInit.ALL)
+    public static final DeferredToolMaterial<ToolMaterial> CALCITE = register("calcite", TraitInit.BIREFRINGENCE, () -> new ToolProperties(ToolCategoryInit.ALL)
             .set(ToolPropertyInit.TIER, 1.0)
             .set(ToolPropertyInit.MAX_PROGRESSION_COEFFICIENT, 1.0)
             .set(ToolPropertyInit.DAMAGE, 0.7)
@@ -380,7 +381,7 @@ public class MaterialInit {
             .set(ToolPropertyInit.LAUNCH, 0.9)
             .set(ToolPropertyInit.MANA_EFFICIENCY, 0.9)
     );
-    public static final DeferredToolMaterial<ToolMaterial> DRIPSTONE = register("dripstone", new PrecipitationTrait(), () -> new ToolProperties(ToolCategoryInit.ALL)
+    public static final DeferredToolMaterial<ToolMaterial> DRIPSTONE = register("dripstone", TraitInit.PRECIPITATION, () -> new ToolProperties(ToolCategoryInit.ALL)
             .set(ToolPropertyInit.TIER, 1.0)
             .set(ToolPropertyInit.MAX_PROGRESSION_COEFFICIENT, 1.0)
             .set(ToolPropertyInit.DAMAGE, 0.5)
@@ -399,7 +400,7 @@ public class MaterialInit {
             .set(ToolPropertyInit.LAUNCH, 1.0)
             .set(ToolPropertyInit.MANA_EFFICIENCY, 0.75)
     );
-    public static final DeferredToolMaterial<ToolMaterial> FLUORITE = register("fluorite", new OverchargedTrait(), () -> new ToolProperties(ToolCategoryInit.ALL)
+    public static final DeferredToolMaterial<ToolMaterial> FLUORITE = register("fluorite", TraitInit.OVERCHARGED, () -> new ToolProperties(ToolCategoryInit.ALL)
             .set(ToolPropertyInit.TIER, 1.0)
             .set(ToolPropertyInit.MAX_PROGRESSION_COEFFICIENT, 1.0)
             .set(ToolPropertyInit.DAMAGE, 0.0)
@@ -418,7 +419,7 @@ public class MaterialInit {
             .set(ToolPropertyInit.LAUNCH, 0.7)
             .set(ToolPropertyInit.MANA_EFFICIENCY, 1.5)
     );
-    public static final DeferredToolMaterial<ToolMaterial> TOURMALINE = register("tourmaline", new ElectricalBoostTrait(), () -> new ToolProperties(ToolCategoryInit.ALL)
+    public static final DeferredToolMaterial<ToolMaterial> TOURMALINE = register("tourmaline", TraitInit.ELECTRICAL_BOOST, () -> new ToolProperties(ToolCategoryInit.ALL)
             .set(ToolPropertyInit.TIER, 1.0)
             .set(ToolPropertyInit.MAX_PROGRESSION_COEFFICIENT, 1.0)
             .set(ToolPropertyInit.DAMAGE, 0.2)
@@ -437,7 +438,7 @@ public class MaterialInit {
             .set(ToolPropertyInit.LAUNCH, 0.4)
             .set(ToolPropertyInit.MANA_EFFICIENCY, 1.2)
     );
-    public static final DeferredToolMaterial<ToolMaterial> BASALT = register("basalt", new CollapseTrait(), () -> new ToolProperties(ToolCategoryInit.ALL)
+    public static final DeferredToolMaterial<ToolMaterial> BASALT = register("basalt", TraitInit.COLLAPSE, () -> new ToolProperties(ToolCategoryInit.ALL)
             .set(ToolPropertyInit.TIER, 1.0)
             .set(ToolPropertyInit.MAX_PROGRESSION_COEFFICIENT, 1.0)
             .set(ToolPropertyInit.DAMAGE, 0.8)
@@ -456,7 +457,7 @@ public class MaterialInit {
             .set(ToolPropertyInit.LAUNCH, 1.1)
             .set(ToolPropertyInit.MANA_EFFICIENCY, 1.2)
     );
-    public static final DeferredToolMaterial<ToolMaterial> SLIME = register("slime", new StickyTrait(), () -> new ToolProperties(ToolCategoryInit.ALL)
+    public static final DeferredToolMaterial<ToolMaterial> SLIME = register("slime", TraitInit.STICKY, () -> new ToolProperties(ToolCategoryInit.ALL)
             .set(ToolPropertyInit.TIER, 1.0)
             .set(ToolPropertyInit.MAX_PROGRESSION_COEFFICIENT, 1.0)
             .set(ToolPropertyInit.DAMAGE, 0.2)
@@ -475,7 +476,7 @@ public class MaterialInit {
             .set(ToolPropertyInit.LAUNCH, 0.8)
             .set(ToolPropertyInit.MANA_EFFICIENCY, 1.6)
     );
-    public static final DeferredToolMaterial<ToolMaterial> HONEYCOMB = register("honeycomb", new PlasticTrait(), () -> new ToolProperties(ToolCategoryInit.ALL)
+    public static final DeferredToolMaterial<ToolMaterial> HONEYCOMB = register("honeycomb", TraitInit.PLASTIC, () -> new ToolProperties(ToolCategoryInit.ALL)
             .set(ToolPropertyInit.TIER, 1.0)
             .set(ToolPropertyInit.MAX_PROGRESSION_COEFFICIENT, 1.0)
             .set(ToolPropertyInit.DAMAGE, 1.0)
@@ -494,7 +495,7 @@ public class MaterialInit {
             .set(ToolPropertyInit.LAUNCH, 0.8)
             .set(ToolPropertyInit.MANA_EFFICIENCY, 0.7)
     );
-    public static final DeferredToolMaterial<ToolMaterial> NETHER_BRICK = register("nether_brick", new ScorchedTrait(), () -> new ToolProperties(ToolCategoryInit.ALL)
+    public static final DeferredToolMaterial<ToolMaterial> NETHER_BRICK = register("nether_brick", TraitInit.SCORCHED, () -> new ToolProperties(ToolCategoryInit.ALL)
             .set(ToolPropertyInit.TIER, 1.0)
             .set(ToolPropertyInit.MAX_PROGRESSION_COEFFICIENT, 1.0)
             .set(ToolPropertyInit.DAMAGE, 0.9)
@@ -513,7 +514,7 @@ public class MaterialInit {
             .set(ToolPropertyInit.LAUNCH, 0.8)
             .set(ToolPropertyInit.MANA_EFFICIENCY, 1.0)
     );
-    public static final DeferredToolMaterial<ToolMaterial> PHANTOM_MEMBRANE = register("phantom_membrane", new InsomniaTrait(), () -> new ToolProperties(ToolCategoryInit.ALL)
+    public static final DeferredToolMaterial<ToolMaterial> PHANTOM_MEMBRANE = register("phantom_membrane", TraitInit.INSOMNIA, () -> new ToolProperties(ToolCategoryInit.ALL)
             .set(ToolPropertyInit.TIER, 1.0)
             .set(ToolPropertyInit.MAX_PROGRESSION_COEFFICIENT, 1.0)
             .set(ToolPropertyInit.DAMAGE, 0.0)
@@ -532,7 +533,7 @@ public class MaterialInit {
             .set(ToolPropertyInit.LAUNCH, 1.1)
             .set(ToolPropertyInit.MANA_EFFICIENCY, 0.7)
     );
-    public static final DeferredToolMaterial<ToolMaterial> DIAMOND = register("diamond", new LightweightTrait(), () -> new ToolProperties(ToolCategoryInit.ALL)
+    public static final DeferredToolMaterial<ToolMaterial> DIAMOND = register("diamond", TraitInit.LIGHTWEIGHT, () -> new ToolProperties(ToolCategoryInit.ALL)
             .set(ToolPropertyInit.TIER, 2.0)
             .set(ToolPropertyInit.MAX_PROGRESSION_COEFFICIENT, 1.0)
             .set(ToolPropertyInit.DAMAGE, 1.5)
@@ -551,7 +552,7 @@ public class MaterialInit {
             .set(ToolPropertyInit.LAUNCH, 1.0)
             .set(ToolPropertyInit.MANA_EFFICIENCY, 0.8)
     );
-    public static final DeferredToolMaterial<ToolMaterial> EMERALD = register("emerald", new ConcentrationTrait(), () -> new ToolProperties(ToolCategoryInit.ALL)
+    public static final DeferredToolMaterial<ToolMaterial> EMERALD = register("emerald", TraitInit.CONCENTRATION, () -> new ToolProperties(ToolCategoryInit.ALL)
             .set(ToolPropertyInit.TIER, 2.0)
             .set(ToolPropertyInit.MAX_PROGRESSION_COEFFICIENT, 1.0)
             .set(ToolPropertyInit.DAMAGE, 0.9)
@@ -570,7 +571,7 @@ public class MaterialInit {
             .set(ToolPropertyInit.LAUNCH, 1.1)
             .set(ToolPropertyInit.MANA_EFFICIENCY, 0.7)
     );
-    public static final DeferredToolMaterial<ToolMaterial> ENDER_METAL = register("ender_metal", new EnderDrawTrait(), () -> new ToolProperties(ToolCategoryInit.ALL)
+    public static final DeferredToolMaterial<ToolMaterial> ENDER_METAL = register("ender_metal", TraitInit.ENDER_DRAW, () -> new ToolProperties(ToolCategoryInit.ALL)
             .set(ToolPropertyInit.TIER, 2.0)
             .set(ToolPropertyInit.MAX_PROGRESSION_COEFFICIENT, 1.0)
             .set(ToolPropertyInit.DAMAGE, 0.8)
@@ -589,7 +590,7 @@ public class MaterialInit {
             .set(ToolPropertyInit.LAUNCH, 1.4)
             .set(ToolPropertyInit.MANA_EFFICIENCY, 0.6)
     );
-    public static final DeferredToolMaterial<ToolMaterial> QUARTZ = register("quartz", new SmoothTrait(), () -> new ToolProperties(ToolCategoryInit.ALL)
+    public static final DeferredToolMaterial<ToolMaterial> QUARTZ = register("quartz", TraitInit.SMOOTH, () -> new ToolProperties(ToolCategoryInit.ALL)
             .set(ToolPropertyInit.TIER, 2.0)
             .set(ToolPropertyInit.MAX_PROGRESSION_COEFFICIENT, 1.0)
             .set(ToolPropertyInit.DAMAGE, 1.1)
@@ -608,7 +609,7 @@ public class MaterialInit {
             .set(ToolPropertyInit.LAUNCH, 1.0)
             .set(ToolPropertyInit.MANA_EFFICIENCY, 1.2)
     );
-    public static final DeferredToolMaterial<ToolMaterial> GLOWSTONE = register("glowstone", new IlluminationTrait(), () -> new ToolProperties(ToolCategoryInit.ALL)
+    public static final DeferredToolMaterial<ToolMaterial> GLOWSTONE = register("glowstone", TraitInit.ILLUMINATION, () -> new ToolProperties(ToolCategoryInit.ALL)
             .set(ToolPropertyInit.TIER, 2.0)
             .set(ToolPropertyInit.MAX_PROGRESSION_COEFFICIENT, 1.0)
             .set(ToolPropertyInit.DAMAGE, 0.8)
@@ -627,7 +628,7 @@ public class MaterialInit {
             .set(ToolPropertyInit.LAUNCH, 1.0)
             .set(ToolPropertyInit.MANA_EFFICIENCY, 1.2)
     );
-    public static final DeferredToolMaterial<ToolMaterial> SULFURIC_ACID_BATTERY = register("sulfuric_acid_battery", new SparkTrait(), () -> new ToolProperties(ToolCategoryInit.ALL)
+    public static final DeferredToolMaterial<ToolMaterial> SULFURIC_ACID_BATTERY = register("sulfuric_acid_battery", TraitInit.SPARK, () -> new ToolProperties(ToolCategoryInit.ALL)
             .set(ToolPropertyInit.TIER, 2.0)
             .set(ToolPropertyInit.MAX_PROGRESSION_COEFFICIENT, 1.0)
             .set(ToolPropertyInit.DAMAGE, 0.9)
@@ -646,7 +647,7 @@ public class MaterialInit {
             .set(ToolPropertyInit.LAUNCH, 0.7)
             .set(ToolPropertyInit.MANA_EFFICIENCY, 0.8)
     );
-    public static final DeferredToolMaterial<ToolMaterial> OBSIDIAN = register("obsidian", new SeveringTrait(), () -> new ToolProperties(ToolCategoryInit.ALL)
+    public static final DeferredToolMaterial<ToolMaterial> OBSIDIAN = register("obsidian", TraitInit.SEVERING, () -> new ToolProperties(ToolCategoryInit.ALL)
             .set(ToolPropertyInit.TIER, 2.0)
             .set(ToolPropertyInit.MAX_PROGRESSION_COEFFICIENT, 1.0)
             .set(ToolPropertyInit.DAMAGE, 1.6)
@@ -665,7 +666,7 @@ public class MaterialInit {
             .set(ToolPropertyInit.LAUNCH, 1.0)
             .set(ToolPropertyInit.MANA_EFFICIENCY, 0.8)
     );
-    public static final DeferredToolMaterial<ToolMaterial> END_STONE = register("end_stone", new AbnormalityTrait(), () -> new ToolProperties(ToolCategoryInit.ALL)
+    public static final DeferredToolMaterial<ToolMaterial> END_STONE = register("end_stone", TraitInit.ABNORMALITY, () -> new ToolProperties(ToolCategoryInit.ALL)
             .set(ToolPropertyInit.TIER, 2.0)
             .set(ToolPropertyInit.MAX_PROGRESSION_COEFFICIENT, 1.0)
             .set(ToolPropertyInit.DAMAGE, 0.9)
@@ -684,7 +685,7 @@ public class MaterialInit {
             .set(ToolPropertyInit.LAUNCH, 1.3)
             .set(ToolPropertyInit.MANA_EFFICIENCY, 0.8)
     );
-    public static final DeferredToolMaterial<ToolMaterial> FLUXIUM = register("fluxium", new InfusedTrait(), () -> new ToolProperties(ToolCategoryInit.ALL)
+    public static final DeferredToolMaterial<ToolMaterial> FLUXIUM = register("fluxium", TraitInit.INFUSED, () -> new ToolProperties(ToolCategoryInit.ALL)
             .set(ToolPropertyInit.TIER, 2.0)
             .set(ToolPropertyInit.MAX_PROGRESSION_COEFFICIENT, 1.0)
             .set(ToolPropertyInit.DAMAGE, 1.2)
@@ -703,7 +704,7 @@ public class MaterialInit {
             .set(ToolPropertyInit.LAUNCH, 1.2)
             .set(ToolPropertyInit.MANA_EFFICIENCY, 1.3)
     );
-    public static final DeferredToolMaterial<ToolMaterial> ALCHECRYSITE = register("alchecrysite", new TuningTrait(), () -> new ToolProperties(ToolCategoryInit.ALL)
+    public static final DeferredToolMaterial<ToolMaterial> ALCHECRYSITE = register("alchecrysite", TraitInit.TUNING, () -> new ToolProperties(ToolCategoryInit.ALL)
             .set(ToolPropertyInit.TIER, 2.0)
             .set(ToolPropertyInit.MAX_PROGRESSION_COEFFICIENT, 1.0)
             .set(ToolPropertyInit.DAMAGE, 0.8)
@@ -722,7 +723,7 @@ public class MaterialInit {
             .set(ToolPropertyInit.LAUNCH, 1.8)
             .set(ToolPropertyInit.MANA_EFFICIENCY, 0.7)
     );
-    public static final DeferredToolMaterial<ToolMaterial> NETHERITE = register("netherite", new LavaforgedTrait(), () -> new ToolProperties(ToolCategoryInit.ALL)
+    public static final DeferredToolMaterial<ToolMaterial> NETHERITE = register("netherite", TraitInit.LAVAFORGED, () -> new ToolProperties(ToolCategoryInit.ALL)
             .set(ToolPropertyInit.TIER, 3.0)
             .set(ToolPropertyInit.MAX_PROGRESSION_COEFFICIENT, 1.0)
             .set(ToolPropertyInit.DAMAGE, 1.25)
@@ -741,7 +742,7 @@ public class MaterialInit {
             .set(ToolPropertyInit.LAUNCH, 1.1)
             .set(ToolPropertyInit.MANA_EFFICIENCY, 1.1)
     );
-    public static final DeferredToolMaterial<ToolMaterial> RADIANT_STEEL = register("radiant_steel", new BrillianceTrait(), () -> new ToolProperties(ToolCategoryInit.ALL)
+    public static final DeferredToolMaterial<ToolMaterial> RADIANT_STEEL = register("radiant_steel", TraitInit.BRILLIANCE, () -> new ToolProperties(ToolCategoryInit.ALL)
             .set(ToolPropertyInit.TIER, 3.0)
             .set(ToolPropertyInit.MAX_PROGRESSION_COEFFICIENT, 1.0)
             .set(ToolPropertyInit.DAMAGE, 0.7)
@@ -763,7 +764,7 @@ public class MaterialInit {
 
     private static float order = 0F;
 
-    private static DeferredToolMaterial<ToolMaterial> register(String name, Trait trait, Supplier<ToolProperties> properties) {
+    private static DeferredToolMaterial<ToolMaterial> register(String name, DeferredTrait<Trait> trait, Supplier<ToolProperties> properties) {
         return REGISTER.register(name, () -> new ToolMaterial(order++, properties, trait));
     }
 

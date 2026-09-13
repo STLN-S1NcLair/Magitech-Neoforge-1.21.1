@@ -13,7 +13,7 @@ public class TraitHelper {
 
     // 同じ特性をまとめてレベル化する
     public static List<TraitInstance> getTrait(ItemStack stack) {
-        List<Trait> traits = ComponentHelper.getPartMaterials(stack).stream().map(ToolMaterial::trait).toList();
+        List<Trait> traits = ComponentHelper.getPartMaterials(stack).stream().map(ToolMaterial::getTrait).toList();
         List<TraitInstance> instances = new ArrayList<>();
 
         for (Trait trait : traits) {

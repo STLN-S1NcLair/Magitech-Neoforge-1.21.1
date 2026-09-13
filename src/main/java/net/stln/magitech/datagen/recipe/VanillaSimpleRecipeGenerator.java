@@ -5,11 +5,13 @@ import net.minecraft.advancements.Criterion;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.data.recipes.*;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
+import net.stln.magitech.Magitech;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,7 +24,7 @@ public class VanillaSimpleRecipeGenerator {
                 .pattern("#")
                 .define('#', ing)
                 .unlockedBy("has_input", has(ing))
-                .save(output);
+                .save(output, craftingId(result.getItem()));
     }
 
     public static void twoByTwo(RecipeOutput output, Ingredient ing, ItemStack result) {
@@ -31,7 +33,17 @@ public class VanillaSimpleRecipeGenerator {
                 .pattern("##")
                 .define('#', ing)
                 .unlockedBy("has_input", has(ing))
-                .save(output);
+                .save(output, craftingId(result.getItem()));
+    }
+
+    public static void twoByTwo(RecipeOutput output, Ingredient ing, ItemStack result, RecipeCategory category, String group) {
+        new ShapedRecipeBuilder(category, result)
+                .group(group)
+                .pattern("##")
+                .pattern("##")
+                .define('#', ing)
+                .unlockedBy("has_input", has(ing))
+                .save(output, craftingId(result.getItem()));
     }
 
     public static void threeByThree(RecipeOutput output, Ingredient ing, ItemStack result) {
@@ -41,7 +53,7 @@ public class VanillaSimpleRecipeGenerator {
                 .pattern("###")
                 .define('#', ing)
                 .unlockedBy("has_input", has(ing))
-                .save(output);
+                .save(output, craftingId(result.getItem()));
     }
 
     public static void shapeless(RecipeOutput output, List<Ingredient> ing, ItemStack result) {
@@ -52,13 +64,22 @@ public class VanillaSimpleRecipeGenerator {
         for (Ingredient i : ing) {
             recipe.unlockedBy("has_input", has(i));
         }
-        recipe.save(output);
+        recipe.save(output, craftingId(result.getItem()));
     }
 
     public static void stonecutting(RecipeOutput output, Ingredient ing, Item result, int count) {
+        stonecutting(output, ing, result, count,
+                "_" + RecipeBuilder.getDefaultRecipeId(ing.getItems()[0].getItem()).getPath() + "_stonecutting");
+    }
+
+    public static void stonecutting(RecipeOutput output, Ingredient ing, Item result, int count, String suffix) {
         SingleItemRecipeBuilder.stonecutting(ing, RecipeCategory.MISC, result, count)
                 .unlockedBy("has_input", VanillaSimpleRecipeGenerator.has(ing))
-                .save(output, RecipeBuilder.getDefaultRecipeId(result).withSuffix("_" + RecipeBuilder.getDefaultRecipeId(ing.getItems()[0].getItem()).getPath() + "_stonecutting"));
+                .save(output, Magitech.id("stonecutting/" + RecipeBuilder.getDefaultRecipeId(result).getPath() + suffix));
+    }
+
+    public static ResourceLocation craftingId(ItemLike result) {
+        return Magitech.id("crafting/" + RecipeBuilder.getDefaultRecipeId(result).getPath());
     }
 
     public static Criterion<InventoryChangeTrigger.TriggerInstance> has(Ingredient ing) {

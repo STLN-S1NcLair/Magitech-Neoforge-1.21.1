@@ -96,7 +96,7 @@ public class BlockBreakEvent {
                 for (BlockPos pos2 : blockPos) {
                     if (pos2.equals(pos)) continue;
 
-                    TraitBlockBreakVFXPayload payload = new TraitBlockBreakVFXPayload(pos2, player.getUUID(), ComponentHelper.getPartMaterials(tool).get(index));
+                    TraitBlockBreakVFXPayload payload = new TraitBlockBreakVFXPayload(pos2, player.getUUID(), ComponentHelper.getPartMaterials(tool).get(index).getTrait());
                     PacketDistributor.sendToAllPlayers(payload);
                 }
                 index++;

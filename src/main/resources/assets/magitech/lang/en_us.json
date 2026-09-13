@@ -119,6 +119,8 @@
   "block.magitech.ember_smelter": "Ember Smelter",
   "block.magitech.crusher": "Crusher",
   "block.magitech.compressor": "Compressor",
+  "block.magitech.chiller": "Chiller",
+  "block.magitech.heat_burner": "Heat Burner",
   "block.magitech.creative_mana_source": "Creative Mana Source",
   "block.magitech.creative_mana_sink": "Creative Mana Sink",
   "block.magitech.trap_hatch": "Trap Hatch",

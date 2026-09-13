@@ -22,6 +22,7 @@ import net.stln.magitech.content.item.armor.FlamglideStriderItem;
 import net.stln.magitech.content.item.energy.ManaChargedFluoriteItem;
 import net.stln.magitech.content.item.energy.ManaContainerItem;
 import net.stln.magitech.content.item.fluid.AlchemicalFlaskItem;
+import net.stln.magitech.content.item.debug.FieldInfluenceDebugItem;
 import net.stln.magitech.content.item.fluid.potion.*;
 import net.stln.magitech.content.item.tool.ToolBeltItem;
 import net.stln.magitech.content.item.tool.partitem.*;
@@ -39,6 +40,9 @@ public class ItemInit {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Magitech.MOD_ID);
 
     public static final ResourceLocation THREADBOUND_ID = Magitech.id("threadbound");
+
+    public static final DeferredItem<Item> FIELD_INFLUENCE_DEBUG_ITEM = ITEMS.registerItem("field_influence_debug_item", FieldInfluenceDebugItem::new, new Item.Properties().stacksTo(1));
+
 
     public static final DeferredItem<GlisteningLexiconItem> GLISTENING_LEXICON = ITEMS.registerItem("glistening_lexicon",
             (properties) -> new GlisteningLexiconItem(properties).attributeModifier(Map.of(

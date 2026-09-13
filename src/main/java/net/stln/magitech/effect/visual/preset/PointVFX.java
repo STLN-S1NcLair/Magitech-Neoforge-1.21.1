@@ -61,6 +61,16 @@ public class PointVFX {
         }
     }
 
+    public static void spray(Level level, Vec3 pos, Color primary, Color secondary, Function4<Level, Vec3, Color, Color, ParticleEffectSpawner> supplier, Vec3 direction, int amount, float speed, float randomness) {
+        if (!level.isClientSide) return;
+        for (int i = 0; i < amount; i++) {
+            Vec3 motion = VectorHelper.randScaledRandom(level.random).scale(randomness).add(direction.scale(speed));
+            ParticleEffectSpawner spawner = supplier.apply(level, pos, primary, secondary);
+            PresetHelper.modify(spawner, builder -> builder.setMotion(motion));
+            spawner.spawnParticles();
+        }
+    }
+
     public static void spray(Level level, Vec3 pos, Element element, Function3<Level, Vec3, Element, ParticleEffectSpawner> supplier, Vec3 direction, int amount, float speed, float randomness) {
         if (!level.isClientSide) return;
         for (int i = 0; i < amount; i++) {

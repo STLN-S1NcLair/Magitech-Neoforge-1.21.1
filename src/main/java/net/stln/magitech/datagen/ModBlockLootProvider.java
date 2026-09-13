@@ -11,6 +11,7 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SweetBerryBushBlock;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
@@ -19,6 +20,8 @@ import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.stln.magitech.content.block.BlockInit;
+import net.stln.magitech.content.block.ChillerBlock;
+import net.stln.magitech.content.block.HeatBurnerBlock;
 import net.stln.magitech.content.item.ItemInit;
 import org.jetbrains.annotations.NotNull;
 
@@ -57,6 +60,20 @@ public class ModBlockLootProvider extends BlockLootSubProvider {
         dropSelf(BlockInit.ENHANCED_MANA_RELAY.get());
         dropSelf(BlockInit.ENHANCED_MANA_VESSEL.get());
         dropSelf(BlockInit.MANA_PUMP.get());
+        add(BlockInit.CHILLER.get(), block -> LootTable.lootTable().withPool(
+                LootPool.lootPool()
+                        .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+                                .setProperties(StatePropertiesPredicate.Builder.properties()
+                                        .hasProperty(ChillerBlock.HALF, DoubleBlockHalf.LOWER)))
+                        .add(LootItem.lootTableItem(block.asItem()))
+        ));
+        add(BlockInit.HEAT_BURNER.get(), block -> LootTable.lootTable().withPool(
+                LootPool.lootPool()
+                        .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+                                .setProperties(StatePropertiesPredicate.Builder.properties()
+                                        .hasProperty(HeatBurnerBlock.HALF, DoubleBlockHalf.LOWER)))
+                        .add(LootItem.lootTableItem(block.asItem()))
+        ));
 //        dropSelf(BlockInit.CREATIVE_MANA_SOURCE.get());
 //        dropSelf(BlockInit.CREATIVE_MANA_SINK.get());
         dropSelf(BlockInit.TRAP_HATCH.get());

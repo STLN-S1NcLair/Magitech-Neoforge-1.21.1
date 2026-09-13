@@ -1,7 +1,0 @@
-{
-  "type": "magitech:tool_material",
-  "ingredient": {
-    "item": "minecraft:gold_ingot"
-  },
-  "result": "magitech:gold"
-}
