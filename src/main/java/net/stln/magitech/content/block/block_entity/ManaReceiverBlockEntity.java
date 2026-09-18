@@ -12,10 +12,6 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -24,7 +20,6 @@ import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.content.block.BlockInit;
 import net.stln.magitech.content.block.ManaStranderBlock;
 import net.stln.magitech.content.entity.mana.mana_parcel.ManaParcelEntity;
-import net.stln.magitech.content.gui.ManaReceiverMenu;
 import net.stln.magitech.content.sound.SoundInit;
 import net.stln.magitech.core.api.mana.flow.ManaFlowRule;
 import net.stln.magitech.core.api.mana.handler.MachineBlockEntityManaHandler;
@@ -74,11 +69,6 @@ public class ManaReceiverBlockEntity extends ManaMachineBlockEntity {
                 SoundHelper.broadcastSound(level, pos.getCenter(), SoundInit.MANA_PARCEL.get(), SoundSource.BLOCKS);
             }
         }
-    }
-
-    @Override
-    public AbstractContainerMenu createMenu(int containerId, Inventory inventory, Player player) {
-        return new ManaReceiverMenu(containerId, inventory, ContainerLevelAccess.create(level, this.getBlockPos()), this.dataAccess);
     }
 
     @Override

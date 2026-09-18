@@ -10,7 +10,7 @@ import net.stln.magitech.registry.DeferredFieldEffectTypeRegister;
 public class FieldEffectInit {
     public static final DeferredFieldEffectTypeRegister REGISTER = new DeferredFieldEffectTypeRegister(Magitech.MOD_ID);
 
-    public static final DeferredFieldEffectType<ColoredFieldEffectType> HEATED = REGISTER.register("heat", HeatedEffectType::new);
+    public static final DeferredFieldEffectType<ColoredFieldEffectType> HEATED = REGISTER.register("heated", HeatedEffectType::new);
     public static final DeferredFieldEffectType<ColoredFieldEffectType> SCORCHING = REGISTER.register("scorching", ScorchingEffectType::new);
     public static final DeferredFieldEffectType<ColoredFieldEffectType> COLD = REGISTER.register("cold", ColdEffectType::new);
     public static final DeferredFieldEffectType<ColoredFieldEffectType> FREEZING = REGISTER.register("freezing", FreezingEffectType::new);

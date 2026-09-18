@@ -28,6 +28,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.stln.magitech.content.block.block_entity.DetanglerBlockEntity;
 import net.stln.magitech.content.block.block_entity.ManaStranderBlockEntity;
+import net.stln.magitech.helper.MachinePlacementHelper;
 import net.stln.magitech.helper.VoxelShapeHelper;
 import org.jetbrains.annotations.Nullable;
 
@@ -108,7 +109,7 @@ public class DetanglerBlock extends BaseEntityBlock implements SimpleWaterlogged
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         boolean water = WaterloggedBlockUtil.isWaterAtPlacement(context);
         return this.defaultBlockState()
-                .setValue(FACING, context.getNearestLookingDirection().getOpposite())
+                .setValue(FACING, MachinePlacementHelper.getFacing(context, context.getNearestLookingDirection()))
                 .setValue(POWERED, false)
                 .setValue(WATERLOGGED, water);
     }

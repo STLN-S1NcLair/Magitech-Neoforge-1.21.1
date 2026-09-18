@@ -32,6 +32,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.stln.magitech.content.block.block_entity.ThermalManaFurnaceBlockEntity;
 import net.stln.magitech.helper.MachineInteractionHelper;
+import net.stln.magitech.helper.MachinePlacementHelper;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -98,7 +99,7 @@ public class ThermalManaFurnaceBlock extends ManaContainerBlock {
         }
 
         BlockState lower = defaultBlockState()
-                .setValue(FACING, context.getHorizontalDirection().getOpposite())
+                .setValue(FACING, MachinePlacementHelper.getFacing(context, context.getHorizontalDirection()))
                 .setValue(PART, Part.LOWER);
         BlockState middle = lower.setValue(PART, Part.MIDDLE);
         BlockState upper = lower.setValue(PART, Part.UPPER);

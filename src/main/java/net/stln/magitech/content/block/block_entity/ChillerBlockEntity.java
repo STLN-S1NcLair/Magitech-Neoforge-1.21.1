@@ -32,12 +32,15 @@ import net.stln.magitech.content.field_effect.influence.FieldInfluenceInit;
 import net.stln.magitech.core.api.field_effect.FieldInfluenceInstance;
 import net.stln.magitech.core.api.field_effect.data.RangeEntry;
 import net.stln.magitech.core.api.field_effect.sync.FieldEffectCacheSyncManager;
+import net.stln.magitech.api.machine.inspection.IMachineInspectionTarget;
+import net.stln.magitech.api.machine.inspection.MachineInspectionData;
+import net.stln.magitech.core.api.mana.container.IManaMachineBlockEntity;
 import net.stln.magitech.core.api.mana.flow.ManaFlowRule;
+import net.stln.magitech.core.api.mana.handler.IBlockManaHandler;
 import net.stln.magitech.core.api.mana.handler.MachineBlockEntityManaHandler;
 import net.stln.magitech.effect.visual.preset.BlockVFX;
 import net.stln.magitech.effect.visual.spawner.ElementParticles;
 import net.stln.magitech.feature.element.Element;
-import net.stln.magitech.helper.LongContainerData;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -46,7 +49,7 @@ import java.util.List;
  * Chiller のマナ・インベントリ・フィールド効果を管理する BlockEntity です。
  * Block entity that manages the Chiller's mana, inventory, and field effects.
  */
-public class ChillerBlockEntity extends ManaMachineBlockEntity implements IItemHandlerBlockEntity {
+public class ChillerBlockEntity extends ManaMachineBlockEntity implements IItemHandlerBlockEntity, IMachineInspectionTarget {
     public static final int CRYSTAL_SLOT = 0;
     public static final long MANA_PER_TICK = 500L;
     public static final int EXPANSION_DURATION_TICKS = 5 * 60 * 20;
@@ -75,35 +78,6 @@ public class ChillerBlockEntity extends ManaMachineBlockEntity implements IItemH
 
     public ChillerBlockEntity(BlockPos pos, BlockState state, long mana) {
         super(BlockInit.CHILLER_ENTITY.get(), pos, state, mana);
-        this.dataAccess = new LongContainerData() {
-            @Override
-            public long getLong(int index) {
-                return switch (index) {
-                    case 0 -> ChillerBlockEntity.this.getMana();
-                    case 1 -> ChillerBlockEntity.this.getMaxMana();
-                    case 2 -> ChillerBlockEntity.this.getFlowRate();
-                    case 3 -> ChillerBlockEntity.this.getMaxFlow();
-                    case 4 -> ChillerBlockEntity.this.getProductionRate();
-                    case 5 -> ChillerBlockEntity.this.getConsumptionRate();
-                    case 6 -> ChillerBlockEntity.this.getExpansionTicksRemaining();
-                    case 7 -> ChillerBlockEntity.this.getExpansionDurationTicks();
-                    case 8 -> Math.round(ChillerBlockEntity.this.getExpansionRemainingRatio() * 1000.0F);
-                    default -> 0;
-                };
-            }
-
-            @Override
-            public void setLong(int index, long value) {
-                if (index == 0) {
-                    ChillerBlockEntity.this.mana = Math.clamp(value, 0, ChillerBlockEntity.this.maxMana);
-                }
-            }
-
-            @Override
-            public int getLongCount() {
-                return 9;
-            }
-        };
     }
 
     public ChillerBlockEntity(BlockPos pos, BlockState state) {
@@ -325,6 +299,51 @@ public class ChillerBlockEntity extends ManaMachineBlockEntity implements IItemH
             return ManaFlowRule.insertOnly(-1.0F);
         }
         return ManaFlowRule.none();
+    }
+
+    @Override
+    public BlockPos getInspectionPosition() {
+        ChillerBlockEntity master = getMaster();
+        return master == null ? worldPosition : master.worldPosition;
+    }
+
+    @Override
+    public IBlockManaHandler getInspectionManaHandler() {
+        ChillerBlockEntity master = getMaster();
+        return master == null ? null : master.getManaHandler(null);
+    }
+
+    @Override
+    public ItemStackHandler getInspectionItemHandler() {
+        return getItemHandler();
+    }
+
+    @Override
+    public long getInspectionFlowRate() {
+        ChillerBlockEntity master = getMaster();
+        return master == null ? 0L : master.getFlowRate();
+    }
+
+    @Override
+    public IManaMachineBlockEntity getInspectionMachine() {
+        return getMaster();
+    }
+
+    @Override
+    public void appendInspectionData(MachineInspectionData.Builder builder) {
+        ChillerBlockEntity master = getMaster();
+        if (master == null) {
+            return;
+        }
+        ItemStack crystals = master.inventory.getStackInSlot(CRYSTAL_SLOT);
+        long totalRemainingTime = master.getExpansionTicksRemaining()
+                + (long) crystals.getCount() * EXPANSION_DURATION_TICKS;
+        builder.setTimeGauge(
+                master.getExpansionTicksRemaining(),
+                EXPANSION_DURATION_TICKS,
+                totalRemainingTime,
+                MachineInspectionData.TIME_GAUGE_GLACE
+        );
     }
 
     @Override

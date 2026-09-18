@@ -7,7 +7,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.stln.magitech.core.api.mana.container.IManaMachineBlockEntity;
 import net.stln.magitech.core.api.mana.handler.MachineBlockEntityManaHandler;
-import net.stln.magitech.helper.LongContainerData;
 
 public abstract class ManaMachineBlockEntity extends ManaContainerBlockEntity implements IManaMachineBlockEntity {
 
@@ -16,34 +15,6 @@ public abstract class ManaMachineBlockEntity extends ManaContainerBlockEntity im
     private float averageProduce = 0;
     private float averageConsumption = 0;
 
-
-    public LongContainerData dataAccess = new LongContainerData() {
-
-        @Override
-        public long getLong(int index) {
-            return switch (index) {
-                case 0 -> ManaMachineBlockEntity.this.getMana();
-                case 1 -> ManaMachineBlockEntity.this.getMaxMana();
-                case 2 -> ManaMachineBlockEntity.this.getFlowRate();
-                case 3 -> ManaMachineBlockEntity.this.getMaxFlow();
-                case 4 -> ManaMachineBlockEntity.this.getProductionRate();
-                case 5 -> ManaMachineBlockEntity.this.getConsumptionRate();
-                default -> 0;
-            };
-        }
-
-        @Override
-        public void setLong(int index, long value) {
-            if (index == 0) {
-                ManaMachineBlockEntity.this.mana = Math.clamp(value, 0, ManaMachineBlockEntity.this.maxMana);
-            }
-        }
-
-        @Override
-        public int getLongCount() {
-            return 6;
-        }
-    };
 
     public ManaMachineBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState, long mana) {
         super(type, pos, blockState, mana);
@@ -101,11 +72,13 @@ public abstract class ManaMachineBlockEntity extends ManaContainerBlockEntity im
         this.consumedMana += amount;
     }
 
-    public int getProductionRate() {
+    @Override
+    public long getProductionRate() {
         return Math.round(this.averageProduce);
     }
 
-    public int getConsumptionRate() {
+    @Override
+    public long getConsumptionRate() {
         return Math.round(averageConsumption);
     }
 }

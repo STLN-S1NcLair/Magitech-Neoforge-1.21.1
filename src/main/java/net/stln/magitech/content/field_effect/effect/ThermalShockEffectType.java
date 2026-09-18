@@ -4,7 +4,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.stln.magitech.content.field_effect.influence.FieldInfluenceInit;
-import net.stln.magitech.core.api.field_effect.FieldEffectType;
 import net.stln.magitech.core.api.field_effect.FieldInfluence;
 import net.stln.magitech.core.api.field_effect.FieldInfluenceInstance;
 
@@ -25,7 +24,7 @@ public class ThermalShockEffectType extends DefaultFieldEffectType {
 
     @Override
     public FieldInfluenceInstance getCondition() {
-        return FieldInfluenceInstance.of(new FieldInfluence(FieldInfluenceInit.HEATED.get(), 1), new FieldInfluence(FieldInfluenceInit.COLD.get(), 1));
+        return FieldInfluenceInstance.of(new FieldInfluence(FieldInfluenceInit.HEAT.get(), 1), new FieldInfluence(FieldInfluenceInit.COLD.get(), 1));
     }
 
     @Override

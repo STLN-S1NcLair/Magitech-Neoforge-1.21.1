@@ -2,7 +2,6 @@ package net.stln.magitech.compat.jei;
 
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
-import mezz.jei.api.constants.RecipeTypes;
 import mezz.jei.api.registration.IGuiHandlerRegistration;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
@@ -20,7 +19,6 @@ import org.jetbrains.annotations.NotNull;
 @JeiPlugin
 public class MagitechJeiPlugin implements IModPlugin {
     public static final ResourceLocation PLUGIN_UID = Magitech.id("jei_plugin");
-
 
     @Override
     public @NotNull ResourceLocation getPluginUid() {
@@ -68,7 +66,6 @@ public class MagitechJeiPlugin implements IModPlugin {
         registration.addRecipeCatalyst(BlockInit.INFUSION_ALTAR_ITEM.toStack(), RecipeHolderTypeInit.INFUSION_TYPE);
         registration.addRecipeCatalyst(BlockInit.INFUSER_ITEM.toStack(), RecipeHolderTypeInit.INFUSION_TYPE);
         registration.addRecipeCatalyst(BlockInit.PEDESTAL_PYLON_ITEM.toStack(), RecipeHolderTypeInit.INFUSION_TYPE);
-        registration.addRecipeCatalyst(BlockInit.EMBER_SMELTER_ITEM.toStack(), RecipeTypes.SMELTING);
         registration.addRecipeCatalyst(BlockInit.CRUSHER_ITEM.toStack(), RecipeHolderTypeInit.CRUSHING_TYPE);
         registration.addRecipeCatalyst(BlockInit.COMPRESSOR_ITEM.toStack(), RecipeHolderTypeInit.COMPRESSING_TYPE);
     }

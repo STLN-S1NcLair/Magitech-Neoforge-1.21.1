@@ -5,9 +5,7 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
-import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
@@ -61,19 +59,6 @@ public abstract class AbstractInfuserBlock extends ManaContainerBlock implements
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         return interact(stack, state, level, pos, player, hand, hitResult);
-    }
-
-    @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        if (level.isClientSide) {
-            return InteractionResult.SUCCESS;
-        } else {
-            BlockEntity blockentity = level.getBlockEntity(pos);
-            if (blockentity instanceof InfusionAltarBlockEntity) {
-                player.openMenu((MenuProvider) blockentity);
-            }
-            return InteractionResult.CONSUME;
-        }
     }
 
     @Override

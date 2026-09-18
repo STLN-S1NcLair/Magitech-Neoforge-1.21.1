@@ -1,14 +1,19 @@
 package net.stln.magitech.core.api.field_effect;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.stln.magitech.MagitechRegistries;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
-import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * フィールド効果の処理と表示を定義する基底クラスです。
@@ -94,6 +99,53 @@ public abstract class FieldEffectType implements FieldEffectTypeLike {
      * Returns the influence condition required by this effect.
      */
     public abstract FieldInfluenceInstance getCondition();
+
+    /**
+     * この効果のGUIアイコンテクスチャを返します。
+     * Returns the GUI icon texture for this effect.
+     *
+     * @return アイコンテクスチャ、未登録時はnull / icon texture, or null while unregistered
+     */
+    public @Nullable ResourceLocation getIconTexture() {
+        ResourceLocation key = MagitechRegistries.FIELD_EFFECT_TYPE.getKey(this);
+        return key == null
+                ? null
+                : ResourceLocation.fromNamespaceAndPath(
+                        key.getNamespace(),
+                        "textures/field_effect/" + key.getPath() + ".png"
+                );
+    }
+
+    /**
+     * この効果の表示名を返します。
+     * Returns the display name of this effect.
+     */
+    public Component getDisplayName() {
+        ResourceLocation key = MagitechRegistries.FIELD_EFFECT_TYPE.getKey(this);
+        return key == null
+                ? Component.empty()
+                : Component.translatable("field_effect." + key.getNamespace() + "." + key.getPath());
+    }
+
+    /**
+     * この効果の主色を返します。
+     * Returns the primary color of this effect.
+     *
+     * @return 主色 / primary color
+     */
+    public Color getPrimary() {
+        return Color.WHITE;
+    }
+
+    /**
+     * この効果の副色を返します。
+     * Returns the secondary color of this effect.
+     *
+     * @return 副色 / secondary color
+     */
+    public Color getSecondary() {
+        return Color.WHITE;
+    }
 
     /**
      * 指定位置にこの効果の視覚効果を描画します。

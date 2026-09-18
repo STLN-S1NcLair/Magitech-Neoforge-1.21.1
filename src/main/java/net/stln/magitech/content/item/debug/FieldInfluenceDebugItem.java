@@ -73,7 +73,7 @@ public class FieldInfluenceDebugItem extends Item {
     private static FieldInfluenceType getCurrentType(Player player) {
         return COLD_MODE_BY_PLAYER.getOrDefault(player.getUUID(), false)
                 ? FieldInfluenceInit.COLD.get()
-                : FieldInfluenceInit.HEATED.get();
+                : FieldInfluenceInit.HEAT.get();
     }
 
     @Override

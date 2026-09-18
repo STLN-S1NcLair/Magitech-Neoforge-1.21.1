@@ -43,6 +43,7 @@ public class ModBlockLootProvider extends BlockLootSubProvider {
         dropSelf(BlockInit.ZARDIUS_CRUCIBLE.get());
         dropSelf(BlockInit.PEDESTAL_PYLON.get());
         dropSelf(BlockInit.INFUSER.get());
+        dropSelf(BlockInit.ENVIROMETER.get());
         dropSelf(BlockInit.MANA_NODE.get());
         dropSelf(BlockInit.MANA_RELAY.get());
         dropSelf(BlockInit.MANA_VESSEL.get());
@@ -52,7 +53,6 @@ public class ModBlockLootProvider extends BlockLootSubProvider {
         dropSelf(BlockInit.ENTANGLER.get());
         dropSelf(BlockInit.DETANGLER.get());
         dropSelf(BlockInit.ITEM_COLLECTOR.get());
-        dropSelf(BlockInit.EMBER_SMELTER.get());
         dropSelf(BlockInit.CRUSHER.get());
         dropSelf(BlockInit.COMPRESSOR.get());
         dropSelf(BlockInit.MANA_JUNCTION.get());

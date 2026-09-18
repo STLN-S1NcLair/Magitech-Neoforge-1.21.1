@@ -40,8 +40,9 @@ import net.stln.magitech.effect.visual.preset.PointVFX;
 import net.stln.magitech.effect.visual.preset.PresetHelper;
 import net.stln.magitech.effect.visual.spawner.SquareParticles;
 import net.stln.magitech.feature.element.Element;
-import net.stln.magitech.helper.VoxelShapeHelper;
 import net.stln.magitech.helper.MachineInteractionHelper;
+import net.stln.magitech.helper.MachinePlacementHelper;
+import net.stln.magitech.helper.VoxelShapeHelper;
 import org.jetbrains.annotations.Nullable;
 import team.lodestar.lodestone.systems.particle.ParticleEffectSpawner;
 
@@ -122,7 +123,7 @@ public class EntanglerBlock extends BaseEntityBlock implements SimpleWaterlogged
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         boolean water = WaterloggedBlockUtil.isWaterAtPlacement(context);
         return this.defaultBlockState()
-                .setValue(FACING, context.getNearestLookingDirection().getOpposite())
+                .setValue(FACING, MachinePlacementHelper.getFacing(context, context.getNearestLookingDirection()))
                 .setValue(POWERED, false)
                 .setValue(WATERLOGGED, water);
     }

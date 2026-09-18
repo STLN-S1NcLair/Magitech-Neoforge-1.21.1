@@ -27,9 +27,13 @@ import net.stln.magitech.content.block.HeatBurnerBlock;
 import net.stln.magitech.content.block.ThermalManaFurnaceBlock;
 import net.stln.magitech.content.field_effect.effect.FieldEffectInit;
 import net.stln.magitech.content.sound.SoundInit;
+import net.stln.magitech.api.machine.inspection.IMachineInspectionTarget;
+import net.stln.magitech.api.machine.inspection.MachineInspectionData;
 import net.stln.magitech.core.api.field_effect.ColoredFieldEffectType;
+import net.stln.magitech.core.api.mana.container.IManaMachineBlockEntity;
 import net.stln.magitech.core.api.mana.flow.ManaFlowRule;
 import net.stln.magitech.core.api.mana.handler.MachineBlockEntityManaHandler;
+import net.stln.magitech.core.api.mana.handler.IBlockManaHandler;
 import net.stln.magitech.effect.visual.preset.PointVFX;
 import net.stln.magitech.effect.visual.spawner.ElementParticles;
 import net.stln.magitech.feature.element.Element;
@@ -39,7 +43,7 @@ import org.jetbrains.annotations.Nullable;
  * 熱式マナ炉の燃料、燃焼時間、マナ生成を管理する BlockEntity です。
  * Block entity that manages fuel, burn time, and mana production for the Thermal Mana Furnace.
  */
-public class ThermalManaFurnaceBlockEntity extends ManaMachineBlockEntity implements IItemHandlerBlockEntity {
+public class ThermalManaFurnaceBlockEntity extends ManaMachineBlockEntity implements IItemHandlerBlockEntity, IMachineInspectionTarget {
     public static final int FUEL_SLOT = 0;
     public static final long MANA_PER_TICK = 1000L;
 
@@ -66,34 +70,6 @@ public class ThermalManaFurnaceBlockEntity extends ManaMachineBlockEntity implem
 
     public ThermalManaFurnaceBlockEntity(BlockPos pos, BlockState state, long mana) {
         super(BlockInit.THERMAL_MANA_FURNACE_ENTITY.get(), pos, state, mana);
-        this.dataAccess = new net.stln.magitech.helper.LongContainerData() {
-            @Override
-            public long getLong(int index) {
-                return switch (index) {
-                    case 0 -> ThermalManaFurnaceBlockEntity.this.getMana();
-                    case 1 -> ThermalManaFurnaceBlockEntity.this.getMaxMana();
-                    case 2 -> ThermalManaFurnaceBlockEntity.this.getFlowRate();
-                    case 3 -> ThermalManaFurnaceBlockEntity.this.getMaxFlow();
-                    case 4 -> ThermalManaFurnaceBlockEntity.this.getProductionRate();
-                    case 5 -> ThermalManaFurnaceBlockEntity.this.getConsumptionRate();
-                    case 6 -> ThermalManaFurnaceBlockEntity.this.getBurnTime();
-                    case 7 -> ThermalManaFurnaceBlockEntity.this.getBurnDuration();
-                    default -> 0;
-                };
-            }
-
-            @Override
-            public void setLong(int index, long value) {
-                if (index == 0) {
-                    ThermalManaFurnaceBlockEntity.this.mana = Math.clamp(value, 0, ThermalManaFurnaceBlockEntity.this.maxMana);
-                }
-            }
-
-            @Override
-            public int getLongCount() {
-                return 8;
-            }
-        };
     }
 
     public ThermalManaFurnaceBlockEntity(BlockPos pos, BlockState state) {
@@ -215,6 +191,54 @@ public class ThermalManaFurnaceBlockEntity extends ManaMachineBlockEntity implem
     public ItemStackHandler getItemHandler() {
         ThermalManaFurnaceBlockEntity master = getMaster();
         return master == null ? inventory : master.inventory;
+    }
+
+    @Override
+    public BlockPos getInspectionPosition() {
+        ThermalManaFurnaceBlockEntity master = getMaster();
+        return master == null ? worldPosition : master.worldPosition;
+    }
+
+    @Override
+    public IBlockManaHandler getInspectionManaHandler() {
+        ThermalManaFurnaceBlockEntity master = getMaster();
+        return master == null ? null : master.getManaHandler(null);
+    }
+
+    @Override
+    public ItemStackHandler getInspectionItemHandler() {
+        return getItemHandler();
+    }
+
+    @Override
+    public long getInspectionFlowRate() {
+        ThermalManaFurnaceBlockEntity master = getMaster();
+        return master == null ? 0L : master.getFlowRate();
+    }
+
+    @Override
+    public IManaMachineBlockEntity getInspectionMachine() {
+        return getMaster();
+    }
+
+    @Override
+    public void appendInspectionData(MachineInspectionData.Builder builder) {
+        ThermalManaFurnaceBlockEntity master = getMaster();
+        if (master == null) {
+            return;
+        }
+        ItemStack fuel = master.inventory.getStackInSlot(FUEL_SLOT);
+        long queuedTime = (long) getBurnDuration(fuel) * fuel.getCount();
+        long duration = master.getBurnDuration();
+        if (duration <= 0) {
+            duration = getBurnDuration(fuel);
+        }
+        builder.setTimeGauge(
+                master.getBurnTime(),
+                duration,
+                master.getBurnTime() + queuedTime,
+                MachineInspectionData.TIME_GAUGE_EMBER
+        );
     }
 
     @Nullable

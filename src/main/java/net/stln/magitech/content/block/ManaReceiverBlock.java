@@ -4,9 +4,6 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.MenuProvider;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -28,6 +25,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.stln.magitech.content.block.block_entity.ManaReceiverBlockEntity;
+import net.stln.magitech.helper.MachinePlacementHelper;
 import net.stln.magitech.helper.VoxelShapeHelper;
 import org.jetbrains.annotations.Nullable;
 
@@ -97,7 +95,7 @@ public class ManaReceiverBlock extends ManaContainerBlock implements SimpleWater
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         boolean water = WaterloggedBlockUtil.isWaterAtPlacement(context);
         return this.defaultBlockState()
-                .setValue(FACING, context.getNearestLookingDirection().getOpposite())
+                .setValue(FACING, MachinePlacementHelper.getFacing(context, context.getNearestLookingDirection()))
                 .setValue(POWERED, false)
                 .setValue(WATERLOGGED, water);
     }
@@ -115,19 +113,6 @@ public class ManaReceiverBlock extends ManaContainerBlock implements SimpleWater
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new ManaReceiverBlockEntity(pos, state);
-    }
-
-    @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        if (level.isClientSide) {
-            return InteractionResult.SUCCESS;
-        } else {
-            BlockEntity blockentity = level.getBlockEntity(pos);
-            if (blockentity instanceof ManaReceiverBlockEntity) {
-                player.openMenu((MenuProvider) blockentity);
-            }
-            return InteractionResult.CONSUME;
-        }
     }
 
     // ★ EntityBlockの実装: Tick処理を紐付ける

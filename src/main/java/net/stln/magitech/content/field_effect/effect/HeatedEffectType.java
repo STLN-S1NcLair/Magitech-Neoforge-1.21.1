@@ -1,6 +1,7 @@
 package net.stln.magitech.content.field_effect.effect;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.BlockItem;
@@ -10,6 +11,7 @@ import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.item.crafting.SmeltingRecipe;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.stln.magitech.Magitech;
 import net.stln.magitech.content.field_effect.influence.FieldInfluenceInit;
 import net.stln.magitech.core.api.field_effect.FieldInfluence;
 import net.stln.magitech.core.api.field_effect.FieldInfluenceInstance;
@@ -31,7 +33,12 @@ public class HeatedEffectType extends RecipeFieldEffectType<SingleRecipeInput, S
 
     @Override
     public FieldInfluenceInstance getCondition() {
-        return FieldInfluenceInstance.of(new FieldInfluence(FieldInfluenceInit.HEATED.get(), 1));
+        return FieldInfluenceInstance.of(new FieldInfluence(FieldInfluenceInit.HEAT.get(), 1));
+    }
+
+    @Override
+    public ResourceLocation getIconTexture() {
+        return Magitech.id("textures/field_effect/heated.png");
     }
 
     @Override

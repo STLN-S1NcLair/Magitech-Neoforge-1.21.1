@@ -13,10 +13,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
@@ -27,7 +23,6 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import net.stln.magitech.content.block.BlockInit;
 import net.stln.magitech.content.block.ManaStranderBlock;
 import net.stln.magitech.content.entity.mana.mana_parcel.ManaParcelEntity;
-import net.stln.magitech.content.gui.ManaStranderMenu;
 import net.stln.magitech.content.network.ShootManaParcelTransferPayload;
 import net.stln.magitech.content.sound.SoundInit;
 import net.stln.magitech.core.api.mana.flow.ManaFlowRule;
@@ -82,11 +77,6 @@ public class ManaStranderBlockEntity extends ManaMachineBlockEntity {
             );
             SoundHelper.broadcastSound(level, pos.getCenter(), SoundInit.MANA_PARCEL.get(), SoundSource.BLOCKS);
         }
-    }
-
-    @Override
-    public AbstractContainerMenu createMenu(int containerId, Inventory inventory, Player player) {
-        return new ManaStranderMenu(containerId, inventory, ContainerLevelAccess.create(level, this.getBlockPos()), this.dataAccess);
     }
 
     @Override

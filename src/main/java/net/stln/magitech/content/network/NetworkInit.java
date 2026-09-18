@@ -6,6 +6,10 @@ import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.handling.DirectionalPayloadHandler;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import net.stln.magitech.Magitech;
+import net.stln.magitech.api.machine.inspection.client.MachineInspectionResponsePayloadHandler;
+import net.stln.magitech.api.machine.inspection.network.MachineInspectionRequestPayload;
+import net.stln.magitech.api.machine.inspection.network.MachineInspectionRequestPayloadHandler;
+import net.stln.magitech.api.machine.inspection.network.MachineInspectionResponsePayload;
 
 @EventBusSubscriber(modid = Magitech.MOD_ID)
 public class NetworkInit {
@@ -144,6 +148,16 @@ public class NetworkInit {
                 FieldEffectRenderPayload.TYPE,
                 FieldEffectRenderPayload.STREAM_CODEC,
                 FieldEffectRenderPayLoadHandler::handleDataOnMainS2C
+        );
+        registrar.playToServer(
+                MachineInspectionRequestPayload.TYPE,
+                MachineInspectionRequestPayload.STREAM_CODEC,
+                MachineInspectionRequestPayloadHandler::handle
+        );
+        registrar.playToClient(
+                MachineInspectionResponsePayload.TYPE,
+                MachineInspectionResponsePayload.STREAM_CODEC,
+                MachineInspectionResponsePayloadHandler::handle
         );
     }
 }

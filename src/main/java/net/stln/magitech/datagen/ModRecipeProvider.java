@@ -178,7 +178,6 @@ public class ModRecipeProvider extends RecipeProvider {
         infusion(output, "infusion/aspect_crystal", ItemInit.TREMOR_CRYSTAL.get(), "_infuser_from_deepslate", aspectCrystalBase, 1, 40000, 1, s(Items.COBBLED_DEEPSLATE, 8));
         infusion(output, "infusion/aspect_crystal", ItemInit.TREMOR_CRYSTAL.get(), "_infuser_from_lapis", aspectCrystalBase, 1, 40000, 1, s(Items.LAPIS_LAZULI, 4));
 
-        infusion(output, "infusion/machines", BlockInit.EMBER_SMELTER_ITEM.get(), i(Items.BLAST_FURNACE), 1, 100000, 1, s(ItemInit.HIGH_PURITY_FLUORITE.get(), 4), s(BlockInit.ALCHECRYSITE_ITEM.get(), 2), s(ItemInit.FLUXIUM_INGOT.get(), 4), s(ItemInit.EMBER_CRYSTAL.get(), 2));
         infusion(output, "infusion/machines", BlockInit.ENHANCED_MANA_NODE_ITEM.get(), i(BlockInit.MANA_NODE_ITEM.get()), 1, 100000, 1, s(ItemInit.HIGH_PURITY_FLUORITE.get(), 2), s(BlockInit.ALCHECRYSITE_ITEM.get(), 1), s(ItemInit.FLUXIUM_INGOT.get(), 2));
         infusion(output, "infusion/machines", BlockInit.ENHANCED_MANA_RELAY_ITEM.get(), i(BlockInit.MANA_RELAY_ITEM.get()), 1, 100000, 1, s(ItemInit.HIGH_PURITY_FLUORITE.get(), 2), s(BlockInit.ALCHECRYSITE_ITEM.get(), 1), s(ItemInit.FLUXIUM_INGOT.get(), 2));
         infusion(output, "infusion/machines", BlockInit.ENHANCED_MANA_VESSEL_ITEM.get(), i(BlockInit.MANA_VESSEL_ITEM.get()), 1, 100000, 1, s(ItemInit.HIGH_PURITY_FLUORITE.get(), 4), s(BlockInit.ALCHECRYSITE_ITEM.get(), 4), s(ItemInit.FLUXIUM_INGOT.get(), 4));

@@ -8,7 +8,7 @@ import net.stln.magitech.registry.*;
 public class FieldInfluenceInit {
     public static final DeferredFieldInfluenceTypeRegister REGISTER = new DeferredFieldInfluenceTypeRegister(Magitech.MOD_ID);
 
-    public static final DeferredFieldInfluenceType<FieldInfluenceType> HEATED = REGISTER.register("heat", FieldInfluenceType::new);
+    public static final DeferredFieldInfluenceType<FieldInfluenceType> HEAT = REGISTER.register("heat", FieldInfluenceType::new);
     public static final DeferredFieldInfluenceType<FieldInfluenceType> COLD = REGISTER.register("cold", FieldInfluenceType::new);
 
     public static void registerInfluences(IEventBus bus) {

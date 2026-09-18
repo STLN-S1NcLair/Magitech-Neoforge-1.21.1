@@ -153,14 +153,6 @@ public class BlockInit {
             BLOCK_ENITIES.register("item_collector", () -> BlockEntityType.Builder.of(
                     ItemCollectorBlockEntity::new, BlockInit.ITEM_COLLECTOR.get()).build(null));
 
-    public static final DeferredBlock<EmberSmelterBlock> EMBER_SMELTER = BLOCKS.registerBlock("ember_smelter",
-            properties -> new EmberSmelterBlock(properties, 1000000, 5000),
-            BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(SoundType.NETHERITE_BLOCK).lightLevel((blockState) -> 5).noOcclusion());
-    public static final DeferredItem<BlockItem> EMBER_SMELTER_ITEM = ItemInit.ITEMS.register("ember_smelter", key -> new HintTooltipTextManaContainerBlockItem(EMBER_SMELTER.get(), new Item.Properties()));
-    public static final Supplier<BlockEntityType<EmberSmelterBlockEntity>> EMBER_SMELTER_ENTITY =
-            BLOCK_ENITIES.register("ember_smelter", () -> BlockEntityType.Builder.of(
-                    EmberSmelterBlockEntity::new, BlockInit.EMBER_SMELTER.get()).build(null));
-
     public static final DeferredBlock<CrusherBlock> CRUSHER = BLOCKS.registerBlock("crusher",
             properties -> new CrusherBlock(properties, 500000, 5000),
             BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(SoundType.NETHERITE_BLOCK).lightLevel((blockState) -> 5).noOcclusion());
@@ -184,6 +176,15 @@ public class BlockInit {
     public static final Supplier<BlockEntityType<ChillerBlockEntity>> CHILLER_ENTITY =
             BLOCK_ENITIES.register("chiller", () -> BlockEntityType.Builder.of(
                     ChillerBlockEntity::new, BlockInit.CHILLER.get()).build(null));
+
+    public static final DeferredBlock<EnvirometerBlock> ENVIROMETER = BLOCKS.registerBlock("envirometer",
+            EnvirometerBlock::new,
+            BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(SoundType.NETHERITE_BLOCK).noOcclusion());
+    public static final DeferredItem<BlockItem> ENVIROMETER_ITEM = ItemInit.ITEMS.register("envirometer",
+            key -> new BlockItem(ENVIROMETER.get(), new Item.Properties()));
+    public static final Supplier<BlockEntityType<EnvirometerBlockEntity>> ENVIROMETER_ENTITY =
+            BLOCK_ENITIES.register("envirometer", () -> BlockEntityType.Builder.of(
+                    EnvirometerBlockEntity::new, BlockInit.ENVIROMETER.get()).build(null));
 
     public static final DeferredBlock<HeatBurnerBlock> HEAT_BURNER = BLOCKS.registerBlock("heat_burner",
             properties -> new HeatBurnerBlock(properties, 500000, 5000),

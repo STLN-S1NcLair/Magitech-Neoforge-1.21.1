@@ -3,9 +3,6 @@ package net.stln.magitech.content.block;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.MenuProvider;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
@@ -105,21 +102,6 @@ public abstract class AbstractManaVesselBlock extends ManaContainerBlock impleme
 
     @Override
     public abstract @org.jetbrains.annotations.Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType);
-
-    @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        if (level.isClientSide) {
-            return InteractionResult.SUCCESS;
-        } else {
-            BlockEntity blockentity = level.getBlockEntity(pos);
-            // CreativeManaSourceBlockEntity 等、ManaVessel 系の派生ブロックエンティティは
-            // MenuProvider を実装しているので、具体型ではなく MenuProvider で判定する。
-            if (blockentity instanceof MenuProvider provider) {
-                player.openMenu(provider);
-            }
-            return InteractionResult.CONSUME;
-        }
-    }
 
     @Override
     protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {

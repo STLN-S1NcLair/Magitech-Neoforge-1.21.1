@@ -6,7 +6,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.stln.magitech.content.field_effect.influence.FieldInfluenceInit;
-import net.stln.magitech.core.api.field_effect.FieldEffectType;
 import net.stln.magitech.core.api.field_effect.FieldInfluence;
 import net.stln.magitech.core.api.field_effect.FieldInfluenceInstance;
 
@@ -27,7 +26,7 @@ public class ScorchingEffectType extends DefaultFieldEffectType {
 
     @Override
     public FieldInfluenceInstance getCondition() {
-        return FieldInfluenceInstance.of(new FieldInfluence(FieldInfluenceInit.HEATED.get(), 2));
+        return FieldInfluenceInstance.of(new FieldInfluence(FieldInfluenceInit.HEAT.get(), 2));
     }
 
     @Override

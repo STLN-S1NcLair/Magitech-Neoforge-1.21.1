@@ -28,6 +28,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.stln.magitech.content.block.block_entity.HeatBurnerBlockEntity;
 import net.stln.magitech.helper.MachineInteractionHelper;
+import net.stln.magitech.helper.MachinePlacementHelper;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -97,7 +98,7 @@ public class HeatBurnerBlock extends ManaContainerBlock {
             return null;
         }
         BlockState state = defaultBlockState()
-                .setValue(FACING, context.getHorizontalDirection().getOpposite())
+                .setValue(FACING, MachinePlacementHelper.getFacing(context, context.getHorizontalDirection()))
                 .setValue(HALF, DoubleBlockHalf.LOWER);
         BlockPos upperPos = pos.above();
         BlockState upperState = state.setValue(HALF, DoubleBlockHalf.UPPER);

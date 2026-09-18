@@ -3,9 +3,6 @@ package net.stln.magitech.content.block;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.MenuProvider;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -27,6 +24,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.stln.magitech.content.block.block_entity.ManaCollectorBlockEntity;
+import net.stln.magitech.helper.MachinePlacementHelper;
 import net.stln.magitech.helper.VoxelShapeHelper;
 import org.jetbrains.annotations.Nullable;
 
@@ -95,7 +93,7 @@ public class ManaCollectorBlock extends ManaContainerBlock implements SimpleWate
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         boolean water = WaterloggedBlockUtil.isWaterAtPlacement(context);
         return this.defaultBlockState()
-                .setValue(FACING, context.getNearestLookingDirection().getOpposite())
+                .setValue(FACING, MachinePlacementHelper.getFacing(context, context.getNearestLookingDirection()))
                 .setValue(POWERED, false)
                 .setValue(WATERLOGGED, water);
     }
@@ -131,19 +129,6 @@ public class ManaCollectorBlock extends ManaContainerBlock implements SimpleWate
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
         return createTicker(level, type, BlockInit.MANA_COLLECTOR_ENTITY.get());
-    }
-
-    @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        if (level.isClientSide) {
-            return InteractionResult.SUCCESS;
-        } else {
-            BlockEntity blockentity = level.getBlockEntity(pos);
-            if (blockentity instanceof ManaCollectorBlockEntity) {
-                player.openMenu((MenuProvider) blockentity);
-            }
-            return InteractionResult.CONSUME;
-        }
     }
 
     @Override

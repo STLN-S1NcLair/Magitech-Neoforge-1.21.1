@@ -19,7 +19,6 @@ import net.stln.magitech.core.api.mana.container.IManaContainerBlockEntity;
 import net.stln.magitech.core.api.mana.flow.network.connectable.IWiredEndpointManaContainer;
 import net.stln.magitech.core.api.mana.handler.ContainerBlockEntityManaHandler;
 import net.stln.magitech.core.api.mana.handler.IBasicManaHandler;
-import net.stln.magitech.helper.LongContainerData;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
@@ -42,32 +41,6 @@ public abstract class ManaContainerBlockEntity extends BaseContainerBlockEntity 
     // スキャンリクエスト
     protected boolean needsNetworkRescan = true;
 
-
-    public LongContainerData dataAccess = new LongContainerData() {
-
-        @Override
-        public long getLong(int index) {
-            return switch (index) {
-                case 0 -> ManaContainerBlockEntity.this.getMana();
-                case 1 -> ManaContainerBlockEntity.this.getMaxMana();
-                case 2 -> ManaContainerBlockEntity.this.getFlowRate();
-                case 3 -> ManaContainerBlockEntity.this.getMaxFlow();
-                default -> 0;
-            };
-        }
-
-        @Override
-        public void setLong(int index, long value) {
-            if (index == 0) {
-                ManaContainerBlockEntity.this.mana = Math.clamp(value, 0, ManaContainerBlockEntity.this.maxMana);
-            }
-        }
-
-        @Override
-        public int getLongCount() {
-            return 4;
-        }
-    };
 
     public ManaContainerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState, long mana) {
         super(type, pos, blockState);
@@ -210,6 +183,7 @@ public abstract class ManaContainerBlockEntity extends BaseContainerBlockEntity 
         this.currentTickTransfer = currentTickTransfer;
     }
 
+    @Override
     public long getFlowRate() {
         return Math.round(this.averageFlow);
     }

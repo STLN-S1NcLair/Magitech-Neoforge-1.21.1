@@ -25,7 +25,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.stln.magitech.content.block.BlockInit;
-import net.stln.magitech.content.gui.InfusionAltarMenu;
 import net.stln.magitech.core.api.mana.flow.ManaFlowRule;
 import org.jetbrains.annotations.Nullable;
 

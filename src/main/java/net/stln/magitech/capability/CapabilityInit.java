@@ -30,7 +30,6 @@ public class CapabilityInit {
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockInit.ZARDIUS_CRUCIBLE_ENTITY.get(), (blockEntity, direction) -> blockEntity.inventory);
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, BlockInit.ZARDIUS_CRUCIBLE_ENTITY.get(), (blockEntity, direction) -> blockEntity.tank);
         registerItemHandlerBlockEntity(event, BlockInit.ENTANGLER_ENTITY.get());
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockInit.EMBER_SMELTER_ENTITY.get(), (blockEntity, direction) -> blockEntity.inventory);
         registerItemHandlerBlockEntity(event, BlockInit.CRUSHER_ENTITY.get());
         registerItemHandlerBlockEntity(event, BlockInit.COMPRESSOR_ENTITY.get());
         registerItemHandlerBlockEntity(event, BlockInit.CHILLER_ENTITY.get());
@@ -50,7 +49,6 @@ public class CapabilityInit {
         registerManaContainerBlockEntity(event, BlockInit.CREATIVE_MANA_SOURCE_ENTITY.get());
         registerManaContainerBlockEntity(event, BlockInit.CREATIVE_MANA_SINK_ENTITY.get());
         registerManaContainerBlockEntity(event, BlockInit.ZARDIUS_CRUCIBLE_ENTITY.get());
-        registerManaContainerBlockEntity(event, BlockInit.EMBER_SMELTER_ENTITY.get());
         registerManaContainerBlockEntity(event, BlockInit.CRUSHER_ENTITY.get());
         registerManaContainerBlockEntity(event, BlockInit.COMPRESSOR_ENTITY.get());
         registerManaContainerBlockEntity(event, BlockInit.CHILLER_ENTITY.get());

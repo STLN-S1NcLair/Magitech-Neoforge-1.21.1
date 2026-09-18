@@ -19,6 +19,22 @@ public interface IManaMachineBlockEntity extends IManaContainerBlockEntity {
     long getConsumedMana();
 
     /**
+     * 現在の平均マナ生産量を返します。
+     * Returns the current average mana production rate.
+     */
+    default long getProductionRate() {
+        return 0L;
+    }
+
+    /**
+     * 現在の平均マナ消費量を返します。
+     * Returns the current average mana consumption rate.
+     */
+    default long getConsumptionRate() {
+        return 0L;
+    }
+
+    /**
      * 生成マナの累計に量を加算します。
      * Adds an amount to the produced-mana total.
      */

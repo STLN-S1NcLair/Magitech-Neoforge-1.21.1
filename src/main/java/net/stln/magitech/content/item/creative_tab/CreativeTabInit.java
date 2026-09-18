@@ -231,9 +231,9 @@ public class CreativeTabInit {
                 output.accept(BlockInit.CRUSHER_ITEM.get());
                 output.accept(BlockInit.COMPRESSOR_ITEM.get());
                 output.accept(BlockInit.CHILLER_ITEM.get());
+                output.accept(BlockInit.ENVIROMETER_ITEM.get());
                 output.accept(BlockInit.HEAT_BURNER_ITEM.get());
                 output.accept(BlockInit.THERMAL_MANA_FURNACE_ITEM.get());
-                output.accept(BlockInit.EMBER_SMELTER_ITEM.get());
                 output.accept(BlockInit.ITEM_COLLECTOR_ITEM.get());
                 output.accept(BlockInit.MANA_JUNCTION_ITEM.get());
                 output.accept(BlockInit.ENTANGLER_ITEM.get());

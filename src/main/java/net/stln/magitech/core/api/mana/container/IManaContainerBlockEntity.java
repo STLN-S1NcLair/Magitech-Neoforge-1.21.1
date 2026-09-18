@@ -31,6 +31,14 @@ public interface IManaContainerBlockEntity {
     long getMaxFlow();
 
     /**
+     * 現在の平均マナ流量を返します。
+     * Returns the current average mana flow rate.
+     */
+    default long getFlowRate() {
+        return 0L;
+    }
+
+    /**
      * 現在の tick で転送済みの量を返します。
      * Returns the amount transferred during the current tick.
      */

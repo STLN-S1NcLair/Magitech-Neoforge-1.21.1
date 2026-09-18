@@ -164,7 +164,8 @@ public abstract class Spell implements ISpell {
 
     @Override
     public void end(Level level, LivingEntity caster, @Nullable ItemStack wand, @Nullable InteractionHand hand, boolean isHost) {
-        if (caster.getData(DataAttachmentInit.SPELL_CHARGE).equals(ChargeData.empty())) {
+        boolean charging = caster.getData(DataAttachmentInit.SPELL_CHARGE).charge().remaining() > 0;
+        if (!charging) {
             if (level.isClientSide) {
                 if (caster instanceof Player player) {
                     Optional<ResourceLocation> endAnim = this.getConfig().endAnim();
@@ -181,19 +182,20 @@ public abstract class Spell implements ISpell {
             endSpell(level, caster, wand, hand);
         }
         caster.stopUsingItem();
-        if (caster.getData(DataAttachmentInit.SPELL_CHARGE).charge().remaining() > 0 && caster instanceof Player player) {
+        if (charging && caster instanceof Player player) {
             if (level.isClientSide) {
                 AnimationHelper.stopAnim(player);
-            } else {
-                caster.setData(DataAttachmentInit.SPELL_CHARGE, ChargeData.empty());
             }
         }
-        if (isHost) {
+        if (isHost && !(level.isClientSide && charging)) {
             if (level.isClientSide) {
                 PacketDistributor.sendToServer(new SpellEndPayload(this, Optional.ofNullable(wand), caster.getId()));
             } else {
                 PacketDistributor.sendToAllPlayers(new SpellEndPayload(this, Optional.ofNullable(wand), caster.getId()));
             }
+        }
+        if (charging && !level.isClientSide) {
+            caster.setData(DataAttachmentInit.SPELL_CHARGE, ChargeData.empty());
         }
     }
 
