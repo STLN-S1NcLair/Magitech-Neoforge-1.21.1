@@ -26,7 +26,7 @@ import net.stln.magitech.content.block.ChillerBlock;
 import net.stln.magitech.content.field_effect.effect.FieldEffectInit;
 import net.stln.magitech.content.item.ItemInit;
 import net.stln.magitech.content.sound.SoundInit;
-import net.stln.magitech.core.api.field_effect.ColoredFieldEffectType;
+import net.stln.magitech.core.api.field_effect.FieldEffectType;
 import net.stln.magitech.core.api.field_effect.FieldInfluence;
 import net.stln.magitech.content.field_effect.influence.FieldInfluenceInit;
 import net.stln.magitech.core.api.field_effect.FieldInfluenceInstance;
@@ -51,7 +51,7 @@ import java.util.List;
  */
 public class ChillerBlockEntity extends ManaMachineBlockEntity implements IItemHandlerBlockEntity, IMachineInspectionTarget {
     public static final int CRYSTAL_SLOT = 0;
-    public static final long MANA_PER_TICK = 500L;
+    public static final long MANA_PER_TICK = 500;
     public static final int EXPANSION_DURATION_TICKS = 5 * 60 * 20;
 
     private int expansionTicksRemaining;
@@ -142,7 +142,7 @@ public class ChillerBlockEntity extends ManaMachineBlockEntity implements IItemH
 
     private void addVFX(Level level, BlockPos pos, BlockState state) {
         if (state.getValue(ChillerBlock.LIT)) {
-            ColoredFieldEffectType type;
+            FieldEffectType type;
             float speed = 0.05F;
             Vec3 center = pos.above().getCenter();
             if (isBoosted()) {
@@ -252,7 +252,7 @@ public class ChillerBlockEntity extends ManaMachineBlockEntity implements IItemH
         }
 
         FieldInfluenceInstance cold = FieldInfluenceInstance.of(
-                new FieldInfluence(FieldInfluenceInit.COLD.get(), 1)
+                new FieldInfluence(FieldInfluenceInit.COOLING.get(), 1)
         );
         List<RangeEntry> ranges;
         if (isBoosted()) {

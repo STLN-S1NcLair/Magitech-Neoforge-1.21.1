@@ -114,4 +114,33 @@ public class PointVFX {
     public static void ringSquare(Level level, Vec3 pos, Element element, Vec3 direction, int amount, float speed, float radius, float randomness) {
         ring(level, pos, element, SquareParticles::squareParticle, direction, amount, speed, radius, randomness);
     }
+
+    public static void ringColored(Level level, Vec3 pos, Color primary, Color secondary, Function4<Level, Vec3, Color, Color, ParticleEffectSpawner> supplier, Vec3 direction, int amount, float speed, float radius, float randomness) {
+        if (!level.isClientSide) return;
+        Vec3 normalizedDirection = direction.normalize();
+
+        Vec3 perpendicular1;
+        if (Math.abs(normalizedDirection.x) < 0.9) {
+            perpendicular1 = new Vec3(0, -normalizedDirection.z, normalizedDirection.y).normalize();
+        } else {
+            perpendicular1 = new Vec3(-normalizedDirection.y, normalizedDirection.x, 0).normalize();
+        }
+        Vec3 perpendicular2 = normalizedDirection.cross(perpendicular1).normalize();
+
+        for (int i = 0; i < amount; i++) {
+            Vec3 randomXZ = VectorHelper.randomXZ(level.random);
+            Vec3 rotatedRandom = perpendicular1.scale(randomXZ.x).add(perpendicular2.scale(randomXZ.z));
+            Vec3 motion = VectorHelper.randScaledRandom(level.random).scale(randomness).add(direction.scale(speed));
+            ParticleEffectSpawner spawner = supplier.apply(level, pos.add(rotatedRandom.scale(radius)), primary, secondary);
+            PresetHelper.modify(spawner, builder -> builder.setMotion(motion));
+            spawner.spawnParticles();
+        }
+    }
+
+    public static void fieldEffectProcessing(Level level, Color primary, Color secondary, Vec3 pos) {
+        PointVFX.ringColored(level, pos, primary, secondary,
+                (lvl, position, primaryColor, secondaryColor) -> PresetHelper.longer(SquareParticles.squareParticleColored(lvl, position, primaryColor, secondaryColor), 6.0F),
+                new Vec3(0.0D, 1.0D, 0.0D), 1, 0.015F, 0.2F, 0.0F
+        );
+    }
 }

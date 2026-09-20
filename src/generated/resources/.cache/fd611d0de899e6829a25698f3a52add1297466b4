@@ -1,4 +1,4 @@
-// 1.21.1	2026-09-11T19:17:33.3966744	Item Models: magitech
+// 1.21.1	2026-09-21T01:30:03.1315325	Item Models: magitech
 b6e580466ba37335919256eafa6aebae2f80e029 assets/magitech/models/item/abyssite.json
 274500810da06625023fb41abd2b7f8c7faa471e assets/magitech/models/item/aegis_weave.json
 cad688c75659b5b6fd8b036274e31ffaa27cf17c assets/magitech/models/item/aether_lifter.json
@@ -1811,6 +1811,7 @@ f770236c655958b6c2b64e6389f0f9bf7962efa5 assets/magitech/models/item/snow_staff_
 1654b987845738a574a6a4024511241ca6ed910b assets/magitech/models/item/snow_wand_conductor.json
 040df5e4bf998dad82e43433f03f3f1b0e1bcdf0 assets/magitech/models/item/snow_wand_light_handle.json
 5620b58fbbfd3c3ccf5e5cd8e03980fda247a3a7 assets/magitech/models/item/snow_wand_tool_binding.json
+e97d362af9b4e457bdd2549e29f451e41e0d1ed4 assets/magitech/models/item/spectacles_of_inspection.json
 34d96e0aa8032abccac6506a034b9fec9889250a assets/magitech/models/item/spike_head.json
 f03b038987728382fb131e730b8a221ddb9a296c assets/magitech/models/item/staff.json
 c96693812f8e02df80783487fe5153023a2f1143 assets/magitech/models/item/stone_axe_heavy_handle.json

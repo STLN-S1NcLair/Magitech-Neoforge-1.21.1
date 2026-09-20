@@ -13,6 +13,7 @@ uniform float Intensity;
 uniform float XFrequency;
 uniform float YFrequency;
 uniform float DistortionScale;
+uniform float DistortionMargin;
 
 in vec4 vertexColor;
 in vec2 texCoord0;
@@ -25,6 +26,11 @@ void main() {
     vec2 atlasCoordinate = texCoord0 * atlasSize;
     vec2 tileCoordinate = floor(atlasCoordinate);
     vec2 tileUv = fract(atlasCoordinate);
+    float distortionMargin = max(DistortionMargin, 0.0);
+    if (atlasSize == 1.0 && distortionMargin > 0.0) {
+        float expandedSize = 1.0 + distortionMargin * 2.0;
+        tileUv = tileUv * expandedSize - distortionMargin;
+    }
     float time = GameTime * Speed + TimeOffset;
     float intensity = max(Intensity, 1.0);
     vec2 stableCoordinate = distortionCoordinate * DistortionScale;
@@ -33,7 +39,13 @@ void main() {
             cos(stableCoordinate.y * XFrequency + time),
             sin(stableCoordinate.x * YFrequency + time)
     ) / intensity;
-    tileUv = clamp(tileUv, 0.0, 1.0);
+    if (atlasSize == 1.0 && distortionMargin > 0.0) {
+        if (tileUv.x < 0.0 || tileUv.x > 1.0 || tileUv.y < 0.0 || tileUv.y > 1.0) {
+            discard;
+        }
+    } else {
+        tileUv = clamp(tileUv, 0.0, 1.0);
+    }
 
     vec4 textureColor = texture(Sampler0, (tileCoordinate + tileUv) / atlasSize);
     if (textureColor.a == 0.0) {

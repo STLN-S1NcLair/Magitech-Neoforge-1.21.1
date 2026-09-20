@@ -40,8 +40,8 @@ public class RenderTypeTokenInit {
      */
     public static final RenderTypeToken FIELD_BOUNDARY = RenderTypeToken.createToken(Magitech.id("textures/vfx/field_effect.png"));
 
-    private static final ShaderHolder FIELD_BOUNDARY_DISTORTED_SHADER = new ShaderHolder(
-            Magitech.id("field_effect_distorted"),
+    private static final ShaderHolder WORLD_DISTORTED_SHADER = new ShaderHolder(
+            Magitech.id("world_distorted"),
             DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP
     );
 
@@ -84,8 +84,51 @@ public class RenderTypeTokenInit {
      * Render type used to draw distorted field boundaries.
      */
     public static final RenderTypeProvider FIELD_BOUNDARY_DISTORTED = new RenderTypeProvider(
-            token -> createDistortedRenderType("magitech_field_boundary_distorted", token, FIELD_BOUNDARY_DISTORTED_SHADER)
+            token -> createDistortedRenderType("magitech_field_boundary_distorted", token, WORLD_DISTORTED_SHADER)
     );
+
+    /**
+     * フィールド境界用のワールド歪みテクスチャトークンです。
+     * World-distortion texture token for field boundaries.
+     */
+    public static final RenderTypeToken FIELD_BOUNDARY_DISTORTED_TEXTURE = createWorldDistortedToken(
+            FIELD_BOUNDARY.getTexture(),
+            FIELD_BOUNDARY_ATLAS_SIZE,
+            0.0F,
+            0.0F
+    );
+
+    /**
+     * ワールド上のフィールド効果アイコンに使用する歪み描画形式です。
+     * Distorted render type used by field-effect icons in the world.
+     */
+    public static final RenderTypeProvider FIELD_EFFECT_DISTORTED = new RenderTypeProvider(
+            token -> createDistortedRenderType("magitech_field_effect_distorted", token, WORLD_DISTORTED_SHADER)
+    );
+
+    /**
+     * ワールド上の歪みテクスチャをシェーダーへ接続するトークンを作成します。
+     * Creates a token that connects a world-distorted texture to the shader.
+     *
+     * @param texture 使用するテクスチャ / texture to use
+     * @param atlasSize アトラスの1辺のタイル数 / number of tiles on one atlas edge
+     * @param timeOffset 歪みの時間オフセット / distortion time offset
+     * @param distortionMargin 歪みを受ける正規化余白 / normalized margin that receives distortion
+     * @return ワールド歪み用トークン / token for world distortion
+     */
+    public static RenderTypeToken createWorldDistortedToken(
+            ResourceLocation texture,
+            int atlasSize,
+            float timeOffset,
+            float distortionMargin
+    ) {
+        return RenderTypeToken.createToken(texture)
+                .addUniformHandler(handler -> {
+                    handler.modifyUniform("AtlasSize", (float) atlasSize);
+                    handler.modifyUniform("TimeOffset", timeOffset);
+                    handler.modifyUniform("DistortionMargin", distortionMargin);
+                });
+    }
 
     private static LodestoneRenderType createDistortedRenderType(
             String name,
@@ -141,7 +184,7 @@ public class RenderTypeTokenInit {
      * Registers the field-boundary distortion shader.
      */
     public static void registerShaders(RegisterShadersEvent event) {
-        FIELD_BOUNDARY_DISTORTED_SHADER.register(event);
+        WORLD_DISTORTED_SHADER.register(event);
         DISTORTED_ICON_SHADER.register(event);
     }
 }

@@ -149,6 +149,11 @@ public class NetworkInit {
                 FieldEffectRenderPayload.STREAM_CODEC,
                 FieldEffectRenderPayLoadHandler::handleDataOnMainS2C
         );
+        registrar.playToClient(
+                FieldEffectProcessingVFXPayload.TYPE,
+                FieldEffectProcessingVFXPayload.STREAM_CODEC,
+                FieldEffectProcessingVFXPayloadHandler::handleDataOnMainS2C
+        );
         registrar.playToServer(
                 MachineInspectionRequestPayload.TYPE,
                 MachineInspectionRequestPayload.STREAM_CODEC,

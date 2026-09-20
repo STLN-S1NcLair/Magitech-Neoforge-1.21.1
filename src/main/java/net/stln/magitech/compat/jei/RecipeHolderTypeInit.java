@@ -17,6 +17,9 @@ public class RecipeHolderTypeInit {
     public static final RecipeType<RecipeHolder<InfusionRecipe>> INFUSION_TYPE = createJeiHolderType("infusion", InfusionRecipe.class);
     public static final RecipeType<RecipeHolder<CrushingRecipe>> CRUSHING_TYPE = createJeiHolderType("crushing", CrushingRecipe.class);
     public static final RecipeType<RecipeHolder<CompressingRecipe>> COMPRESSING_TYPE = createJeiHolderType("compressing", CompressingRecipe.class);
+    public static final RecipeType<RecipeHolder<FieldEffectRecipe>> FIELD_EFFECT_TYPE = createJeiHolderType("field_effect", FieldEffectRecipe.class);
+    public static final RecipeType<FieldEffectCompositionJeiRecipe> FIELD_EFFECT_COMPOSITION_TYPE = mezz.jei.api.recipe.RecipeType.create(Magitech.MOD_ID, "field_effect_composition", FieldEffectCompositionJeiRecipe.class);
+    public static final RecipeType<FieldInfluenceSourceJeiRecipe> FIELD_INFLUENCE_SOURCE_TYPE = mezz.jei.api.recipe.RecipeType.create(Magitech.MOD_ID, "field_influence_source", FieldInfluenceSourceJeiRecipe.class);
 
     private static <T extends Recipe<?>> @NotNull RecipeType<RecipeHolder<T>> createJeiHolderType(@NotNull String name, Class<T> t) {
         Class<? extends RecipeHolder<T>> holderClass = (Class<? extends RecipeHolder<T>>) (Class<?>) RecipeHolder.class;

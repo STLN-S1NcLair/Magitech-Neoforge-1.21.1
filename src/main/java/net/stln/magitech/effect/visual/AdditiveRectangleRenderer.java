@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.shaders.FogShape;
 import net.minecraft.client.Camera;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -224,11 +225,93 @@ public final class AdditiveRectangleRenderer {
             RenderTypeProvider renderTypeProvider,
             int atlasTextureSize
     ) {
+        renderWorldPlanesDoubleSidedTileBatch(
+                poseStack,
+                camera,
+                planes,
+                texture,
+                color,
+                color,
+                alpha,
+                renderTypeProvider,
+                atlasTextureSize
+        );
+    }
+
+    /**
+     * ワールド空間の複数の長方形を色補間付きで一つの両面バッファへまとめて描画します。
+     * Renders multiple world-space rectangles with color interpolation in one double-sided buffer.
+     *
+     * <p>各長方形のアトラスタイルを維持したまま、全長方形を同じ描画形式へ積みます。
+     * 頂点の歪み座標は各ワールド頂点から生成されるため、連結面でも歪みの基準が一致します。</p>
+     * <p>All rectangles share one render type while retaining their individual atlas tiles.
+     * Distortion coordinates are generated from each world vertex, so connected faces use
+     * the same distortion basis.</p>
+     *
+     * @param planes 描画するワールド長方形 / world-space rectangles to render
+     * @param primary 第1頂点色 / first vertex color
+     * @param secondary 第2頂点色 / second vertex color
+     * @param atlasTextureSize アトラス画像の1辺のピクセル数 / pixel size of one atlas side
+     * @param renderTypeProvider 使用する描画形式のプロバイダー / provider for the render type to use
+     */
+    public static void renderWorldPlanesDoubleSidedTileGradientBatch(
+            PoseStack poseStack,
+            Camera camera,
+            List<WorldPlane> planes,
+            RenderTypeToken texture,
+            Color primary,
+            Color secondary,
+            float alpha,
+            RenderTypeProvider renderTypeProvider,
+            int atlasTextureSize
+    ) {
+        renderWorldPlanesDoubleSidedTileBatch(
+                poseStack,
+                camera,
+                planes,
+                texture,
+                primary,
+                secondary,
+                alpha,
+                renderTypeProvider,
+                atlasTextureSize
+        );
+    }
+
+    /**
+     * BlockEntityRendererのローカル面を、ワールド基準の歪み座標付きで一括描画します。
+     * Renders BlockEntityRenderer-local planes in one batch with world-based distortion coordinates.
+     *
+     * <p>面の頂点は現在のPoseStackへ置かれ、歪み座標だけは独立したワールド頂点から生成されます。
+     * これにより、ブロックエンティティ描画のカメラ相対変換と歪み基準を分離できます。</p>
+     * <p>Plane vertices are written through the current PoseStack, while distortion coordinates
+     * are generated from separate world vertices. This separates BlockEntityRenderer camera
+     * transforms from the distortion basis.</p>
+     *
+     * @param bufferSource 使用するバッファソース / buffer source to use
+     * @param planes 描画するローカル面 / local planes to render
+     * @param primary 第1頂点色 / first vertex color
+     * @param secondary 第2頂点色 / second vertex color
+     * @param renderTypeProvider 使用する描画形式 / render-type provider to use
+     * @param atlasTextureSize アトラス画像の1辺のピクセル数 / pixel size of one atlas side
+     */
+    public static void renderLocalWorldPlanesDoubleSidedTileGradientBatch(
+            PoseStack poseStack,
+            MultiBufferSource bufferSource,
+            List<LocalWorldPlane> planes,
+            RenderTypeToken texture,
+            Color primary,
+            Color secondary,
+            float alpha,
+            RenderTypeProvider renderTypeProvider,
+            int atlasTextureSize
+    ) {
         Objects.requireNonNull(poseStack, "poseStack");
-        Objects.requireNonNull(camera, "camera");
+        Objects.requireNonNull(bufferSource, "bufferSource");
         Objects.requireNonNull(planes, "planes");
         Objects.requireNonNull(texture, "texture");
-        Objects.requireNonNull(color, "color");
+        Objects.requireNonNull(primary, "primary");
+        Objects.requireNonNull(secondary, "secondary");
         Objects.requireNonNull(renderTypeProvider, "renderTypeProvider");
         if (planes.isEmpty() || alpha <= 0.0F) {
             return;
@@ -237,7 +320,72 @@ public final class AdditiveRectangleRenderer {
             throw new IllegalArgumentException("Atlas texture size must be positive");
         }
 
-        VFXBuilders.WorldVFXBuilder builder = additiveBuilder(renderTypeProvider, texture, color, alpha);
+        VFXBuilders.WorldVFXBuilder builder = additiveBuilder(renderTypeProvider, texture, primary, alpha)
+                .replaceBufferSource(bufferSource);
+        var consumer = builder.getVertexConsumer();
+        var supplier = builder.getSupplier();
+        for (LocalWorldPlane plane : planes) {
+            Objects.requireNonNull(plane, "plane");
+            if (plane.width() <= 0.0F || plane.height() <= 0.0F) {
+                continue;
+            }
+
+            Vector3f[] localVertices = createVertices(
+                    plane.localCenter(),
+                    plane.localRight(),
+                    plane.localUp(),
+                    plane.width(),
+                    plane.height()
+            );
+            Vector3f[] worldVertices = createVertices(
+                    plane.worldCenter(),
+                    plane.worldRight(),
+                    plane.worldUp(),
+                    plane.width(),
+                    plane.height()
+            );
+            placeAtlasPlane(
+                    poseStack,
+                    supplier,
+                    consumer,
+                    builder,
+                    localVertices,
+                    worldVertices,
+                    plane.tileIndex(),
+                    plane.atlasSize(),
+                    atlasTextureSize,
+                    primary,
+                    secondary
+            );
+        }
+    }
+
+    private static void renderWorldPlanesDoubleSidedTileBatch(
+            PoseStack poseStack,
+            Camera camera,
+            List<WorldPlane> planes,
+            RenderTypeToken texture,
+            Color primary,
+            Color secondary,
+            float alpha,
+            RenderTypeProvider renderTypeProvider,
+            int atlasTextureSize
+    ) {
+        Objects.requireNonNull(poseStack, "poseStack");
+        Objects.requireNonNull(camera, "camera");
+        Objects.requireNonNull(planes, "planes");
+        Objects.requireNonNull(texture, "texture");
+        Objects.requireNonNull(primary, "primary");
+        Objects.requireNonNull(secondary, "secondary");
+        Objects.requireNonNull(renderTypeProvider, "renderTypeProvider");
+        if (planes.isEmpty() || alpha <= 0.0F) {
+            return;
+        }
+        if (atlasTextureSize <= 0) {
+            throw new IllegalArgumentException("Atlas texture size must be positive");
+        }
+
+        VFXBuilders.WorldVFXBuilder builder = additiveBuilder(renderTypeProvider, texture, primary, alpha);
         var consumer = builder.getVertexConsumer();
         var supplier = builder.getSupplier();
         for (WorldPlane plane : planes) {
@@ -250,14 +398,6 @@ public final class AdditiveRectangleRenderer {
                 throw new IllegalArgumentException("Plane tile is outside the atlas");
             }
 
-            int tileX = plane.tileIndex() % plane.atlasSize();
-            int tileY = plane.tileIndex() / plane.atlasSize();
-            float tileWidth = 1.0F / plane.atlasSize();
-            float texel = 1.0F / atlasTextureSize;
-            float u0 = tileX * tileWidth + texel * 0.5F;
-            float v0 = tileY * tileWidth + texel * 0.5F;
-            float u1 = (tileX + 1) * tileWidth - texel * 0.5F;
-            float v1 = (tileY + 1) * tileWidth - texel * 0.5F;
             Vector3f[] worldVertices = createVertices(
                     plane.center(),
                     plane.right(),
@@ -266,7 +406,6 @@ public final class AdditiveRectangleRenderer {
                     plane.height()
             );
             Vector3f[] vertices = new Vector3f[worldVertices.length];
-            int[] distortionCoordinates = new int[worldVertices.length];
             Vec3 cameraPosition = camera.getPosition();
             for (int index = 0; index < worldVertices.length; index++) {
                 Vector3f worldVertex = worldVertices[index];
@@ -275,34 +414,82 @@ public final class AdditiveRectangleRenderer {
                         (float) cameraPosition.y,
                         (float) cameraPosition.z
                 );
-                distortionCoordinates[index] = encodeDistortionCoordinate(worldVertex);
             }
 
-            placeAtlasQuad(
+            placeAtlasPlane(
                     poseStack,
                     supplier,
                     consumer,
                     builder,
                     vertices,
-                    distortionCoordinates,
-                    u0,
-                    v0,
-                    u1,
-                    v1
-            );
-            placeAtlasQuad(
-                    poseStack,
-                    supplier,
-                    consumer,
-                    builder,
-                    new Vector3f[]{vertices[3], vertices[2], vertices[1], vertices[0]},
-                    new int[]{distortionCoordinates[3], distortionCoordinates[2], distortionCoordinates[1], distortionCoordinates[0]},
-                    u0,
-                    v1,
-                    u1,
-                    v0
+                    worldVertices,
+                    plane.tileIndex(),
+                    plane.atlasSize(),
+                    atlasTextureSize,
+                    primary,
+                    secondary
             );
         }
+    }
+
+    private static void placeAtlasPlane(
+            PoseStack poseStack,
+            VFXBuilders.VertexConsumerActor supplier,
+            VertexConsumer consumer,
+            VFXBuilders.WorldVFXBuilder builder,
+            Vector3f[] vertices,
+            Vector3f[] worldVertices,
+            int tileIndex,
+            int atlasSize,
+            int atlasTextureSize,
+            Color primary,
+            Color secondary
+    ) {
+        if (atlasSize <= 0 || tileIndex < 0 || tileIndex >= atlasSize * atlasSize) {
+            throw new IllegalArgumentException("Plane tile is outside the atlas");
+        }
+
+        int[] distortionCoordinates = new int[worldVertices.length];
+        for (int index = 0; index < worldVertices.length; index++) {
+            distortionCoordinates[index] = encodeDistortionCoordinate(worldVertices[index]);
+        }
+        int tileX = tileIndex % atlasSize;
+        int tileY = tileIndex / atlasSize;
+        float tileWidth = 1.0F / atlasSize;
+        float texel = atlasSize == 1 ? 0.0F : 1.0F / atlasTextureSize;
+        float u0 = tileX * tileWidth + texel * 0.5F;
+        float v0 = tileY * tileWidth + texel * 0.5F;
+        float u1 = (tileX + 1) * tileWidth - texel * 0.5F;
+        float v1 = (tileY + 1) * tileWidth - texel * 0.5F;
+
+        placeAtlasQuad(
+                poseStack,
+                supplier,
+                consumer,
+                builder,
+                vertices,
+                distortionCoordinates,
+                u0,
+                v0,
+                u1,
+                v1,
+                primary,
+                secondary
+        );
+        placeAtlasQuad(
+                poseStack,
+                supplier,
+                consumer,
+                builder,
+                new Vector3f[]{vertices[3], vertices[2], vertices[1], vertices[0]},
+                new int[]{distortionCoordinates[3], distortionCoordinates[2], distortionCoordinates[1], distortionCoordinates[0]},
+                u0,
+                v1,
+                u1,
+                v0,
+                primary,
+                secondary
+        );
     }
 
     /**
@@ -590,11 +777,17 @@ public final class AdditiveRectangleRenderer {
             float u0,
             float v0,
             float u1,
-            float v1
+            float v1,
+            Color primary,
+            Color secondary
     ) {
+        builder.setColor(primary);
         placeAtlasVertex(poseStack, supplier, consumer, builder, vertices[0], distortionCoordinates[0], u0, v1);
+        builder.setColor(secondary);
         placeAtlasVertex(poseStack, supplier, consumer, builder, vertices[1], distortionCoordinates[1], u1, v1);
+        builder.setColor(secondary);
         placeAtlasVertex(poseStack, supplier, consumer, builder, vertices[2], distortionCoordinates[2], u1, v0);
+        builder.setColor(primary);
         placeAtlasVertex(poseStack, supplier, consumer, builder, vertices[3], distortionCoordinates[3], u0, v0);
     }
 
@@ -727,6 +920,24 @@ public final class AdditiveRectangleRenderer {
             Vec3 center,
             Vec3 right,
             Vec3 up,
+            float width,
+            float height,
+            int tileIndex,
+            int atlasSize
+    ) {
+    }
+
+    /**
+     * BlockEntityRenderer内のローカル面とワールド歪み面を対応付けます。
+     * Associates a BlockEntityRenderer-local plane with its world-space distortion plane.
+     */
+    public record LocalWorldPlane(
+            Vec3 localCenter,
+            Vec3 localRight,
+            Vec3 localUp,
+            Vec3 worldCenter,
+            Vec3 worldRight,
+            Vec3 worldUp,
             float width,
             float height,
             int tileIndex,

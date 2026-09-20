@@ -41,7 +41,7 @@ public class CrusherBlockEntity extends ManaMachineBlockEntity implements GeoBlo
     public static final int INPUT = 0;
     public static final int OUTPUT = 1;
     public static final int MAX_PROGRESS = 100;
-    public static final long MANA_PER_TICK = 500;
+    public static final long MANA_PER_TICK = 250;
     private static final int ACTIVE_ANIMATION_TICKS = 40;
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 

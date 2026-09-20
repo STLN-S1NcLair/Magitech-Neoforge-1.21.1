@@ -1,7 +1,11 @@
 package net.stln.magitech.core.api.field_effect;
 
+import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.BlockItem;
@@ -20,6 +24,8 @@ import java.util.List;
  * Base class defining field-effect processing and visualization.
  */
 public abstract class FieldEffectType implements FieldEffectTypeLike {
+    public static final Codec<FieldEffectType> CODEC = MagitechRegistries.FIELD_EFFECT_TYPE.byNameCodec();
+    public static final StreamCodec<RegistryFriendlyByteBuf, FieldEffectType> STREAM_CODEC = ByteBufCodecs.registry(MagitechRegistries.Keys.FIELD_EFFECT_TYPE);
 
     /**
      * アイテム入力に対して処理可能か判定します。

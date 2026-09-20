@@ -19,7 +19,6 @@ import net.stln.magitech.core.api.field_effect.FieldEffectHelper;
 import net.stln.magitech.core.api.field_effect.FieldEffectType;
 import net.stln.magitech.core.api.field_effect.FieldInfluenceType;
 import net.stln.magitech.core.api.field_effect.FieldInfluenceInstance;
-import net.stln.magitech.core.api.field_effect.ColoredFieldEffectType;
 import net.stln.magitech.core.api.field_effect.data.FieldEffectClientCache;
 import net.stln.magitech.core.api.field_effect.data.RangeEntry;
 import net.stln.magitech.effect.visual.AdditiveRectangleRenderer;
@@ -126,25 +125,37 @@ public final class FieldEffectBoundaryRenderer {
             return;
         }
 
+        Map<BoundaryColors, List<AdditiveRectangleRenderer.WorldPlane>> batches = new LinkedHashMap<>();
         for (BoundaryFace face : faces) {
             if (!face.bounds().inflate(MAX_RENDER_DISTANCE).contains(camera.getPosition())) {
                 continue;
             }
 
-            AdditiveRectangleRenderer.renderWorldPlaneDoubleSidedTile(
-                    poseStack,
-                    camera,
+            batches.computeIfAbsent(
+                    new BoundaryColors(face.primary(), face.secondary()),
+                    ignored -> new ArrayList<>()
+            ).add(new AdditiveRectangleRenderer.WorldPlane(
                     face.center(),
                     face.right(),
                     face.up(),
                     face.width(),
                     face.height(),
-                    RenderTypeTokenInit.FIELD_BOUNDARY,
                     face.textureIndex(),
-                    FIELD_EFFECT_ATLAS_SIZE,
-                    face.primary(),
-                    face.secondary(),
-                    alpha
+                    FIELD_EFFECT_ATLAS_SIZE
+            ));
+        }
+
+        for (Map.Entry<BoundaryColors, List<AdditiveRectangleRenderer.WorldPlane>> batch : batches.entrySet()) {
+            AdditiveRectangleRenderer.renderWorldPlanesDoubleSidedTileGradientBatch(
+                    poseStack,
+                    camera,
+                    batch.getValue(),
+                    RenderTypeTokenInit.FIELD_BOUNDARY_DISTORTED_TEXTURE,
+                    batch.getKey().primary(),
+                    batch.getKey().secondary(),
+                    alpha,
+                    RenderTypeTokenInit.FIELD_BOUNDARY_DISTORTED,
+                    RenderTypeTokenInit.FIELD_BOUNDARY_TEXTURE_SIZE
             );
         }
     }
@@ -269,7 +280,7 @@ public final class FieldEffectBoundaryRenderer {
      * Resolves the colors of a colored effect for its boundary surfaces.
      */
     private static BoundaryColors resolveBoundaryColors(BoundaryEffectKey key) {
-        if (key.type() instanceof ColoredFieldEffectType colored) {
+        if (key.type() instanceof FieldEffectType colored) {
             return new BoundaryColors(colored.getPrimary(), colored.getSecondary());
         }
         return new BoundaryColors(Color.BLACK, Color.BLACK);

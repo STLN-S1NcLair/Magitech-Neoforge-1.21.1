@@ -168,17 +168,16 @@ public class ChillerBlock extends ManaContainerBlock {
 
     @Override
     public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
-        if (!level.isClientSide && player.isCreative()) {
-            BlockPos lowerPos = state.getValue(HALF) == DoubleBlockHalf.UPPER ? pos.below() : pos;
+        if (!level.isClientSide && state.getValue(HALF) == DoubleBlockHalf.UPPER
+                && (player.isCreative() || !player.hasCorrectToolForDrops(state))) {
+            BlockPos lowerPos = pos.below();
             BlockState lowerState = level.getBlockState(lowerPos);
             if (lowerState.is(this) && lowerState.getValue(HALF) == DoubleBlockHalf.LOWER) {
-                if (state.getValue(HALF) == DoubleBlockHalf.UPPER) {
-                    if (level.getBlockEntity(lowerPos) instanceof ChillerBlockEntity cooler) {
-                        cooler.drops();
-                    }
-                    level.setBlock(lowerPos, Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL | Block.UPDATE_SUPPRESS_DROPS);
-                    level.levelEvent(player, 2001, lowerPos, Block.getId(lowerState));
+                if (level.getBlockEntity(lowerPos) instanceof ChillerBlockEntity cooler) {
+                    cooler.drops();
                 }
+                level.setBlock(lowerPos, Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL | Block.UPDATE_SUPPRESS_DROPS);
+                level.levelEvent(player, 2001, lowerPos, Block.getId(lowerState));
             }
         }
         return super.playerWillDestroy(level, pos, state, player);

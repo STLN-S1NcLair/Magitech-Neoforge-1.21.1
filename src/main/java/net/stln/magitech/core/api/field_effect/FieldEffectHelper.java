@@ -1,14 +1,16 @@
 package net.stln.magitech.core.api.field_effect;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.stln.magitech.MagitechRegistries;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
+import java.util.function.Predicate;
 
 /**
  * フィールド効果の検索とキャッシュを補助します。
@@ -82,6 +84,94 @@ public class FieldEffectHelper {
             }
         }
         return null;
+    }
+
+    /**
+     * 加工に使用する効果を、専用処理と下位効果の順に解決します。
+     * Resolves the effect used for processing, preferring dedicated processing and then lower effects.
+     */
+    public static FieldEffectType getProcessingEffect(Level level, FieldEffectType effect, BlockPos pos) {
+        if (effect == null) {
+            return null;
+        }
+        if (effect.canProcess(level, pos)) {
+            return effect;
+        }
+        return findFallbackProcessingEffect(effect, candidate -> candidate.canProcess(level, pos));
+    }
+
+    /**
+     * アイテム加工に使用する効果を解決します。
+     * Resolves the effect used for item processing.
+     */
+    public static FieldEffectType getProcessingEffect(Level level, FieldEffectType effect, List<ItemStack> inputs) {
+        if (effect == null) {
+            return null;
+        }
+        if (effect.canProcess(level, inputs)) {
+            return effect;
+        }
+        return findFallbackProcessingEffect(effect, candidate -> candidate.canProcess(level, inputs));
+    }
+
+    private static FieldEffectType findFallbackProcessingEffect(FieldEffectType effect, Predicate<FieldEffectType> canProcess) {
+        FieldInfluenceInstance effectCondition = effect.getCondition();
+        FieldEffectType best = null;
+        int bestInfluenceCount = -1;
+        int bestIntensity = Integer.MIN_VALUE;
+
+        for (FieldEffectType candidate : MagitechRegistries.FIELD_EFFECT_TYPE) {
+            if (candidate == effect || !isStrictlyLowerCondition(effectCondition, candidate.getCondition()) || !canProcess.test(candidate)) {
+                continue;
+            }
+
+            int influenceCount = countInfluences(candidate.getCondition());
+            int intensity = totalIntensity(candidate.getCondition());
+            if (influenceCount > bestInfluenceCount || influenceCount == bestInfluenceCount && intensity > bestIntensity) {
+                best = candidate;
+                bestInfluenceCount = influenceCount;
+                bestIntensity = intensity;
+            }
+        }
+        return best;
+    }
+
+    private static boolean isStrictlyLowerCondition(FieldInfluenceInstance higher, FieldInfluenceInstance lower) {
+        if (higher == null || lower == null || lower.fieldInfluences() == null || lower.fieldInfluences().isEmpty()) {
+            return false;
+        }
+
+        Map<FieldInfluenceType, Integer> higherIntensities = toIntensityMap(higher);
+        Map<FieldInfluenceType, Integer> lowerIntensities = toIntensityMap(lower);
+        boolean strictlyHigher = higherIntensities.size() > lowerIntensities.size();
+        for (Map.Entry<FieldInfluenceType, Integer> entry : lowerIntensities.entrySet()) {
+            int higherIntensity = higherIntensities.getOrDefault(entry.getKey(), 0);
+            if (higherIntensity < entry.getValue()) {
+                return false;
+            }
+            strictlyHigher |= higherIntensity > entry.getValue();
+        }
+        return strictlyHigher;
+    }
+
+    private static Map<FieldInfluenceType, Integer> toIntensityMap(FieldInfluenceInstance instance) {
+        Map<FieldInfluenceType, Integer> intensities = new HashMap<>();
+        if (instance != null && instance.fieldInfluences() != null) {
+            for (FieldInfluence influence : instance.fieldInfluences()) {
+                if (influence != null && influence.type() != null) {
+                    intensities.merge(influence.type(), influence.intensity(), Integer::sum);
+                }
+            }
+        }
+        return intensities;
+    }
+
+    private static int countInfluences(FieldInfluenceInstance instance) {
+        return toIntensityMap(instance).size();
+    }
+
+    private static int totalIntensity(FieldInfluenceInstance instance) {
+        return toIntensityMap(instance).values().stream().mapToInt(Integer::intValue).sum();
     }
 
     /**

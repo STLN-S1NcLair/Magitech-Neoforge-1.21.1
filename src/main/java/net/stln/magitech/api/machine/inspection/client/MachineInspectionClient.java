@@ -7,7 +7,7 @@ import org.jetbrains.annotations.Nullable;
 public final class MachineInspectionClient {
     private static final int MAX_DATA_AGE = 12;
     private static final int FADE_IN_TICKS = 5;
-    private static final int FADE_OUT_TICKS = 3;
+    private static final int FADE_OUT_TICKS = 2;
     private static final float FADE_IN_STEP = 1.0F / FADE_IN_TICKS;
     private static final float FADE_OUT_STEP = 1.0F / FADE_OUT_TICKS;
     private static @Nullable MachineInspectionData data;

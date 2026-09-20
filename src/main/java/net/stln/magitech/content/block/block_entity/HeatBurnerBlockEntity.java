@@ -29,7 +29,7 @@ import net.stln.magitech.content.item.ItemInit;
 import net.stln.magitech.content.sound.SoundInit;
 import net.stln.magitech.api.machine.inspection.IMachineInspectionTarget;
 import net.stln.magitech.api.machine.inspection.MachineInspectionData;
-import net.stln.magitech.core.api.field_effect.ColoredFieldEffectType;
+import net.stln.magitech.core.api.field_effect.FieldEffectType;
 import net.stln.magitech.core.api.field_effect.FieldInfluence;
 import net.stln.magitech.core.api.field_effect.FieldInfluenceInstance;
 import net.stln.magitech.core.api.field_effect.data.RangeEntry;
@@ -54,7 +54,7 @@ import java.util.List;
  */
 public class HeatBurnerBlockEntity extends ManaMachineBlockEntity implements IItemHandlerBlockEntity, IMachineInspectionTarget {
     public static final int CRYSTAL_SLOT = 0;
-    public static final long MANA_PER_TICK = 500L;
+    public static final long MANA_PER_TICK = 500;
     public static final int EXPANSION_DURATION_TICKS = 5 * 60 * 20;
 
     private int expansionTicksRemaining;
@@ -107,7 +107,7 @@ public class HeatBurnerBlockEntity extends ManaMachineBlockEntity implements IIt
                 expansionTicksRemaining = EXPANSION_DURATION_TICKS;
             }
             if (soundTickCounter % 40 == 0) {
-                level.playSound(null, pos, SoundInit.BURNER.get(), SoundSource.BLOCKS, 0.3F, 1.0F);
+                level.playSound(null, pos, SoundInit.BURNER.get(), SoundSource.BLOCKS, 0.1F, 1.0F);
                 soundTickCounter = 0;
             }
             soundTickCounter++;
@@ -145,7 +145,7 @@ public class HeatBurnerBlockEntity extends ManaMachineBlockEntity implements IIt
 
     private void addVFX(Level level, BlockPos pos, BlockState state) {
         if (state.getValue(HeatBurnerBlock.LIT)) {
-            ColoredFieldEffectType type;
+            FieldEffectType type;
             float speed = 0.1F;
             float scale;
             Vec3 center = pos.above().getCenter().add(0, -0.2, 0);

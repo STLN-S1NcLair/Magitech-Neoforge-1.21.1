@@ -1,6 +1,7 @@
 package net.stln.magitech.datagen;
 
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
@@ -17,6 +18,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
@@ -25,12 +27,14 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.content.block.BlockInit;
+import net.stln.magitech.content.field_effect.effect.FieldEffectInit;
 import net.stln.magitech.content.item.ItemInit;
 import net.stln.magitech.content.item.ItemTagKeys;
 import net.stln.magitech.content.item.component.ComponentInit;
 import net.stln.magitech.content.item.component.MaterialComponent;
 import net.stln.magitech.content.recipe.CompressingRecipe;
 import net.stln.magitech.content.recipe.CrushingRecipe;
+import net.stln.magitech.content.recipe.FieldEffectRecipe;
 import net.stln.magitech.content.recipe.InfusionRecipe;
 import net.stln.magitech.content.recipe.PartCuttingRecipe;
 import net.stln.magitech.content.recipe.SpellConversionRecipe;
@@ -38,6 +42,7 @@ import net.stln.magitech.content.recipe.ToolAssemblyRecipe;
 import net.stln.magitech.content.recipe.ToolMaterialRecipe;
 import net.stln.magitech.content.recipe.ZardiusCrucibleRecipe;
 import net.stln.magitech.content.fluid.FluidInit;
+import net.stln.magitech.core.api.field_effect.FieldEffectType;
 import net.stln.magitech.datagen.recipe.StoneRecipeGenerator;
 import net.stln.magitech.datagen.recipe.BlockSetRecipeGenerator;
 import net.stln.magitech.datagen.recipe.VanillaSimpleRecipeGenerator;
@@ -81,6 +86,10 @@ public class ModRecipeProvider extends RecipeProvider {
         shaped(output, BlockInit.UPGRADE_WORKBENCH_ITEM.get(), 1, keys('#', tag(ItemTagKeys.STRIPPED_LOGS), 'S', tag(ItemTagKeys.STONES), 'I', i(Items.IRON_INGOT), 'P', ItemTags.PLANKS), "SSS", "#I#", "SPS");
         shaped(output, BlockInit.COMPRESSOR_ITEM.get(), 1, keys('I', i(ItemInit.FLUXIUM_INGOT.get()), 'U', i(ItemInit.FLUXIUM_NUGGET.get()), 'C', i(Items.IRON_BLOCK), 'A', i(BlockInit.ALCHECRYSITE_ITEM.get())), "IAI", "UCU", "IAI");
         shaped(output, BlockInit.CRUSHER_ITEM.get(), 1, keys('I', i(ItemInit.FLUXIUM_INGOT.get()), 'C', tag(ItemTagKeys.INGOTS_IRON), 'A', i(BlockInit.ALCHECRYSITE_ITEM.get()), 'G', i(BlockInit.MANA_INSULATING_GLASS_ITEM.get())), "IAI", "CGC", "IAI");
+        shaped(output, BlockInit.HEAT_BURNER_ITEM.get(), 1, keys('I', i(ItemInit.FLUXIUM_INGOT.get()), 'E', i(ItemInit.EMBER_CRYSTAL), 'A', i(BlockInit.ALCHECRYSITE_ITEM.get())), "IEI", "IAI", "EAE");
+        shaped(output, BlockInit.CHILLER_ITEM.get(), 1, keys('I', i(ItemInit.FLUXIUM_INGOT.get()), 'G', i(ItemInit.GLACE_CRYSTAL), 'A', i(BlockInit.ALCHECRYSITE_ITEM.get())), "IGI", "IAI", "GAG");
+        shaped(output, BlockInit.ENVIROMETER_ITEM.get(), 1, keys('I', i(ItemInit.FLUXIUM_INGOT.get()), 'C', tag(ItemTagKeys.INGOTS_COPPER), 'R', i(Items.REDSTONE), 'A', i(BlockInit.ALCHECRYSITE_ITEM.get())), "ICI", "RAR");
+        shaped(output, BlockInit.THERMAL_MANA_FURNACE_ITEM.get(), 1, keys('I', i(ItemInit.FLUXIUM_INGOT.get()), 'A', i(BlockInit.ALCHECRYSITE_ITEM.get()), 'F', i(Blocks.BLAST_FURNACE), 'L', i(ItemInit.HIGH_PURITY_FLUORITE.get())), "ILI", "AFA", "IAI");
         shaped(output, BlockInit.DETANGLER_ITEM.get(), 1, keys('I', i(ItemInit.FLUXIUM_INGOT.get()), 'U', i(ItemInit.FLUXIUM_NUGGET.get()), 'A', i(BlockInit.ALCHECRYSITE_ITEM.get()), 'F', i(ItemInit.HIGH_PURITY_FLUORITE.get())), "IUI", "UIU", "FAF");
         shaped(output, BlockInit.ENTANGLER_ITEM.get(), 1, keys('N', i(Items.GOLD_NUGGET), 'I', i(ItemInit.FLUXIUM_INGOT.get()), 'U', i(ItemInit.FLUXIUM_NUGGET.get()), 'A', i(BlockInit.ALCHECRYSITE_ITEM.get()), 'F', i(ItemInit.HIGH_PURITY_FLUORITE.get())), "IUI", "UNU", "FAF");
         shaped(output, BlockInit.INFUSION_ALTAR_ITEM.get(), 1, keys('N', i(Items.GOLD_NUGGET), 'V', i(BlockInit.VESPERITE_ITEM.get()), 'M', i(BlockInit.MYSTWOOD_PLANKS_ITEM.get()), 'F', tag(ItemTagKeys.GEMS_FLUORITE)), "VFV", "NMN", "MVM");
@@ -125,12 +134,70 @@ public class ModRecipeProvider extends RecipeProvider {
         cooking(output, ItemInit.TOURMALINE.get(), i(BlockInit.TOURMALINE_ORE_ITEM.get()), 1, 100, true, "_from_tourmaline_ore_blasting", "");
         cooking(output, ItemInit.ZINC_INGOT.get(), i(ItemInit.RAW_ZINC.get()), 0, 200, true, "_from_raw_zinc_blasting", "misc");
 
+        fieldEffect(output, s(Items.SHROOMLIGHT, 1), FieldEffectInit.FREEZING.get(), stack(Items.OCHRE_FROGLIGHT, 1));
+        fieldEffect(output, s(Items.STONE, 1), FieldEffectInit.SCORCHING.get(), new FluidStack(Fluids.LAVA, 1000));
+        fieldEffect(output, s(Items.MAGMA_BLOCK, 1), FieldEffectInit.FREEZING.get(), stack(Items.OBSIDIAN, 1));
+        fieldEffect(output, s(Items.MAGMA_BLOCK, 1), FieldEffectInit.COLD.get(), stack(Items.BLACKSTONE, 1));
+        fieldEffect(output, SizedFluidIngredient.of(Fluids.WATER, 1000), FieldEffectInit.COLD.get(), stack(Items.ICE, 1));
+        fieldEffect(output, s(Items.ICE, 1), FieldEffectInit.FREEZING.get(), stack(Items.PACKED_ICE, 1));
+        fieldEffect(output, s(Items.PACKED_ICE, 1), FieldEffectInit.FREEZING.get(), stack(Items.BLUE_ICE, 1));
+        fieldEffect(output, SizedFluidIngredient.of(Fluids.WATER, 1000), FieldEffectInit.THERMAL_SHOCK.get(), stack(Items.SNOW_BLOCK, 1));
+        fieldEffect(output, s(Items.SLIME_BALL, 1), FieldEffectInit.HEATED.get(), stack(Items.GREEN_DYE, 1));
+        fieldEffect(output, s(Items.DRIPSTONE_BLOCK, 1), FieldEffectInit.FREEZING.get(), stack(Items.PRISMARINE, 1));
+        fieldEffect(output, s(Items.POINTED_DRIPSTONE, 1), FieldEffectInit.COLD.get(), stack(Items.PRISMARINE_SHARD, 1));
+        fieldEffect(output, s(Items.BLAZE_ROD, 1), FieldEffectInit.FREEZING.get(), stack(Items.BREEZE_ROD, 1));
+        fieldEffect(output, s(Items.PRISMARINE_SHARD, 1), FieldEffectInit.THERMAL_SHOCK.get(), stack(Items.PRISMARINE_CRYSTALS, 1));
+        fieldEffect(output, s(Items.PRISMARINE_CRYSTALS, 1), FieldEffectInit.THERMAL_SHOCK.get(), stack(Items.PRISMARINE_SHARD, 1));
+        fieldEffect(output, s(Items.DIRT, 1), FieldEffectInit.COLD.get(), stack(Items.CLAY, 1));
+        fieldEffect(output, s(Items.REDSTONE, 4), FieldEffectInit.FREEZING.get(), stack(ItemInit.REDSTONE_CRYSTAL.get(), 1));
+        fieldEffect(output, s(Items.MAGMA_CREAM, 1), FieldEffectInit.COLD.get(), stack(Items.SLIME_BALL, 1));
+        fieldEffect(output, s(Items.TUFF, 1), FieldEffectInit.FREEZING.get(), stack(Items.DEEPSLATE, 1));
+        fieldEffect(output, s(Items.BLAZE_POWDER, 1), FieldEffectInit.COLD.get(), stack(Items.GUNPOWDER, 1));
+        fieldEffect(output, s(Items.ANDESITE, 1), FieldEffectInit.FREEZING.get(), stack(Items.CALCITE, 1));
+        fieldEffect(output, s(Items.GLOWSTONE, 1), FieldEffectInit.COLD.get(), stack(Items.AMETHYST_BLOCK, 1));
+        fieldEffect(output, s(Items.MOSS_BLOCK, 1), FieldEffectInit.COLD.get(), stack(Items.DIRT, 1));
+        fieldEffect(output, s(Items.SOUL_SAND, 1), FieldEffectInit.THERMAL_SHOCK.get(), stack(Items.SOUL_SOIL, 1));
+        fieldEffect(output, s(Items.SOUL_SOIL, 1), FieldEffectInit.THERMAL_SHOCK.get(), stack(Items.SOUL_SAND, 1));
+
+//        ItemLike ash = externalItem("supplementaries", "ash");
+//        custom(output, "compressing", Items.TUFF, new CompressingRecipe("", sized(i(ash), 4), stack(Items.TUFF, 1)));
+//        fieldEffect(output, "tuff_to_ash", s(Items.TUFF, 1), FieldEffectInit.THERMAL_SHOCK.get(), stack(ash, 4));
+
+        fieldEffect(output, s(Items.OXIDIZED_COPPER, 1), FieldEffectInit.THERMAL_SHOCK.get(), stack(Items.WEATHERED_COPPER, 1));
+        fieldEffect(output, s(Items.WEATHERED_COPPER, 1), FieldEffectInit.THERMAL_SHOCK.get(), stack(Items.EXPOSED_COPPER, 1));
+        fieldEffect(output, s(Items.EXPOSED_COPPER, 1), FieldEffectInit.THERMAL_SHOCK.get(), stack(Items.COPPER_BLOCK, 1));
+        fieldEffect(output, s(Items.OXIDIZED_CUT_COPPER, 1), FieldEffectInit.THERMAL_SHOCK.get(), stack(Items.WEATHERED_CUT_COPPER, 1));
+        fieldEffect(output, s(Items.WEATHERED_CUT_COPPER, 1), FieldEffectInit.THERMAL_SHOCK.get(), stack(Items.EXPOSED_CUT_COPPER, 1));
+        fieldEffect(output, s(Items.EXPOSED_CUT_COPPER, 1), FieldEffectInit.THERMAL_SHOCK.get(), stack(Items.CUT_COPPER, 1));
+        fieldEffect(output, s(Items.OXIDIZED_CUT_COPPER_STAIRS, 1), FieldEffectInit.THERMAL_SHOCK.get(), stack(Items.WEATHERED_CUT_COPPER_STAIRS, 1));
+        fieldEffect(output, s(Items.WEATHERED_CUT_COPPER_STAIRS, 1), FieldEffectInit.THERMAL_SHOCK.get(), stack(Items.EXPOSED_CUT_COPPER_STAIRS, 1));
+        fieldEffect(output, s(Items.EXPOSED_CUT_COPPER_STAIRS, 1), FieldEffectInit.THERMAL_SHOCK.get(), stack(Items.CUT_COPPER_STAIRS, 1));
+        fieldEffect(output, s(Items.OXIDIZED_CUT_COPPER_SLAB, 1), FieldEffectInit.THERMAL_SHOCK.get(), stack(Items.WEATHERED_CUT_COPPER_SLAB, 1));
+        fieldEffect(output, s(Items.WEATHERED_CUT_COPPER_SLAB, 1), FieldEffectInit.THERMAL_SHOCK.get(), stack(Items.EXPOSED_CUT_COPPER_SLAB, 1));
+        fieldEffect(output, s(Items.EXPOSED_CUT_COPPER_SLAB, 1), FieldEffectInit.THERMAL_SHOCK.get(), stack(Items.CUT_COPPER_SLAB, 1));
+        fieldEffect(output, s(Items.OXIDIZED_CHISELED_COPPER, 1), FieldEffectInit.THERMAL_SHOCK.get(), stack(Items.WEATHERED_CHISELED_COPPER, 1));
+        fieldEffect(output, s(Items.WEATHERED_CHISELED_COPPER, 1), FieldEffectInit.THERMAL_SHOCK.get(), stack(Items.EXPOSED_CHISELED_COPPER, 1));
+        fieldEffect(output, s(Items.EXPOSED_CHISELED_COPPER, 1), FieldEffectInit.THERMAL_SHOCK.get(), stack(Items.CHISELED_COPPER, 1));
+        fieldEffect(output, s(Items.OXIDIZED_COPPER_GRATE, 1), FieldEffectInit.THERMAL_SHOCK.get(), stack(Items.WEATHERED_COPPER_GRATE, 1));
+        fieldEffect(output, s(Items.WEATHERED_COPPER_GRATE, 1), FieldEffectInit.THERMAL_SHOCK.get(), stack(Items.EXPOSED_COPPER_GRATE, 1));
+        fieldEffect(output, s(Items.EXPOSED_COPPER_GRATE, 1), FieldEffectInit.THERMAL_SHOCK.get(), stack(Items.COPPER_GRATE, 1));
+        fieldEffect(output, s(Items.OXIDIZED_COPPER_BULB, 1), FieldEffectInit.THERMAL_SHOCK.get(), stack(Items.WEATHERED_COPPER_BULB, 1));
+        fieldEffect(output, s(Items.WEATHERED_COPPER_BULB, 1), FieldEffectInit.THERMAL_SHOCK.get(), stack(Items.EXPOSED_COPPER_BULB, 1));
+        fieldEffect(output, s(Items.EXPOSED_COPPER_BULB, 1), FieldEffectInit.THERMAL_SHOCK.get(), stack(Items.COPPER_BULB, 1));
+        fieldEffect(output, s(Items.OXIDIZED_COPPER_DOOR, 1), FieldEffectInit.THERMAL_SHOCK.get(), stack(Items.WEATHERED_COPPER_DOOR, 1));
+        fieldEffect(output, s(Items.WEATHERED_COPPER_DOOR, 1), FieldEffectInit.THERMAL_SHOCK.get(), stack(Items.EXPOSED_COPPER_DOOR, 1));
+        fieldEffect(output, s(Items.EXPOSED_COPPER_DOOR, 1), FieldEffectInit.THERMAL_SHOCK.get(), stack(Items.COPPER_DOOR, 1));
+        fieldEffect(output, s(Items.OXIDIZED_COPPER_TRAPDOOR, 1), FieldEffectInit.THERMAL_SHOCK.get(), stack(Items.WEATHERED_COPPER_TRAPDOOR, 1));
+        fieldEffect(output, s(Items.WEATHERED_COPPER_TRAPDOOR, 1), FieldEffectInit.THERMAL_SHOCK.get(), stack(Items.EXPOSED_COPPER_TRAPDOOR, 1));
+        fieldEffect(output, s(Items.EXPOSED_COPPER_TRAPDOOR, 1), FieldEffectInit.THERMAL_SHOCK.get(), stack(Items.COPPER_TRAPDOOR, 1));
+
         custom(output, "compressing", ItemInit.RESTRAINT_QUARTZ.get(), new CompressingRecipe("", sized(i(ItemInit.RESTRAINT_QUARTZ_DUST.get()), 4), stack(ItemInit.RESTRAINT_QUARTZ.get(), 1)));
         custom(output, "crushing", Items.AMETHYST_SHARD, new CrushingRecipe("", sized(i(Items.AMETHYST_BLOCK), 1), stack(Items.AMETHYST_SHARD, 4)));
         custom(output, "crushing", Items.REDSTONE, new CrushingRecipe("", sized(i(ItemInit.REDSTONE_CRYSTAL.get()), 1), stack(Items.REDSTONE, 3)));
         custom(output, "crushing", ItemInit.RESTRAINT_QUARTZ_DUST.get(), new CrushingRecipe("", sized(i(ItemInit.QUARTZ_PLANT.get()), 4), stack(ItemInit.RESTRAINT_QUARTZ_DUST.get(), 1)));
         custom(output, "crushing", ItemInit.SULFUR.get(), new CrushingRecipe("", sized(i(BlockInit.SULFUR_BLOCK_ITEM.get()), 1), stack(ItemInit.SULFUR.get(), 3)));
 
+        infusion(output, ItemInit.SPECTACLES_OF_INSPECTION.get(), "_infuser", i(BlockInit.MANA_INSULATING_GLASS.get()), 2, 500000, 1, s(ItemInit.HIGH_PURITY_FLUORITE.get(), 4), s(Items.LEATHER, 4), s(ItemInit.FLUXIUM_INGOT, 4), s(ItemInit.PHANTOM_CRYSTAL, 1));
         infusion(output, ItemInit.AETHER_LIFTER.get(), i(Items.IRON_BOOTS), 1, 500000, 1, s(ItemInit.HIGH_PURITY_FLUORITE.get(), 16), s(ItemInit.HOLLOW_CRYSTAL.get(), 16), s(ItemInit.PHANTOM_CRYSTAL.get(), 16), s(ItemInit.AEGIS_WEAVE.get(), 8), s(ItemInit.FLUXIUM_INGOT.get(), 16));
         infusion(output, ItemInit.FLAMGLIDE_STRIDER.get(), i(Items.LEATHER_BOOTS), 1, 500000, 1, s(ItemInit.HIGH_PURITY_FLUORITE.get(), 16), s(ItemInit.EMBER_CRYSTAL.get(), 16), s(ItemInit.FLOW_CRYSTAL.get(), 16), s(ItemInit.AEGIS_WEAVE.get(), 8), s(ItemInit.FLUXIUM_INGOT.get(), 16));
         infusion(output, ItemInit.FLUXIUM_INGOT.get(), i(Items.IRON_INGOT), 4, 10000, 8, s(tag(ItemTagKeys.AGGREGATED_STRAND), 1), s(tag(ItemTagKeys.INGOTS_ZINC), 8));
@@ -344,6 +411,41 @@ public class ModRecipeProvider extends RecipeProvider {
         custom(output, id, recipe);
     }
 
+    private static void fieldEffect(RecipeOutput output, SizedIngredient ingredient, FieldEffectType fieldEffect, ItemStack... results) {
+        ItemStack input = ingredient.getItems()[0];
+        custom(output, fieldEffectId(input, results), new FieldEffectRecipe("", ingredient, fieldEffect, List.of(results)));
+    }
+
+    private static void fieldEffect(RecipeOutput output, SizedIngredient ingredient, FieldEffectType fieldEffect, FluidStack result) {
+        ItemStack input = ingredient.getItems()[0];
+        custom(output, fieldEffectId(input, result), new FieldEffectRecipe("", ingredient, fieldEffect, result));
+    }
+
+    private static void fieldEffect(RecipeOutput output, SizedFluidIngredient ingredient, FieldEffectType fieldEffect, ItemStack... results) {
+        FluidStack input = ingredient.getFluids()[0];
+        custom(output, fieldEffectId(input, results), new FieldEffectRecipe("", ingredient, fieldEffect, List.of(results)));
+    }
+
+    private static ResourceLocation fieldEffectId(ItemStack input, ItemStack... results) {
+        return Magitech.id("field_effect/" + itemId(input) + "_to_" + resultId(results));
+    }
+
+    private static ResourceLocation fieldEffectId(ItemStack input, FluidStack result) {
+        return Magitech.id("field_effect/" + itemId(input) + "_to_" + BuiltInRegistries.FLUID.getKey(result.getFluid()).getPath());
+    }
+
+    private static ResourceLocation fieldEffectId(FluidStack input, ItemStack... results) {
+        return Magitech.id("field_effect/" + net.minecraft.core.registries.BuiltInRegistries.FLUID.getKey(input.getFluid()).getPath() + "_to_" + resultId(results));
+    }
+
+    private static String itemId(ItemStack stack) {
+        return BuiltInRegistries.ITEM.getKey(stack.getItem()).getPath();
+    }
+
+    private static String resultId(ItemStack... results) {
+        return java.util.Arrays.stream(results).map(ModRecipeProvider::itemId).distinct().collect(java.util.stream.Collectors.joining("_and_"));
+    }
+
     private static void custom(RecipeOutput output, String folder, ItemLike result, Recipe<?> recipe) {
         custom(output, recipeId(folder, result), recipe);
     }
@@ -398,6 +500,10 @@ public class ModRecipeProvider extends RecipeProvider {
 
     private static ItemStack stack(ItemLike item, int count) {
         return new ItemStack(item, count);
+    }
+
+    private static ItemLike externalItem(String namespace, String path) {
+        return BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath(namespace, path));
     }
 
     private static java.util.Map<Character, Ingredient> keys(Object... values) {

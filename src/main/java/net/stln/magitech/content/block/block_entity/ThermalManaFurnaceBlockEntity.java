@@ -9,7 +9,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Containers;
@@ -18,18 +17,15 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.stln.magitech.content.block.BlockInit;
 import net.stln.magitech.content.block.HeatBurnerBlock;
 import net.stln.magitech.content.block.ThermalManaFurnaceBlock;
-import net.stln.magitech.content.field_effect.effect.FieldEffectInit;
 import net.stln.magitech.content.sound.SoundInit;
 import net.stln.magitech.api.machine.inspection.IMachineInspectionTarget;
 import net.stln.magitech.api.machine.inspection.MachineInspectionData;
-import net.stln.magitech.core.api.field_effect.ColoredFieldEffectType;
 import net.stln.magitech.core.api.mana.container.IManaMachineBlockEntity;
 import net.stln.magitech.core.api.mana.flow.ManaFlowRule;
 import net.stln.magitech.core.api.mana.handler.MachineBlockEntityManaHandler;
@@ -45,7 +41,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public class ThermalManaFurnaceBlockEntity extends ManaMachineBlockEntity implements IItemHandlerBlockEntity, IMachineInspectionTarget {
     public static final int FUEL_SLOT = 0;
-    public static final long MANA_PER_TICK = 1000L;
+    public static final long MANA_PER_TICK = 2000;
 
     private int burnTime;
     private int soundTickCounter;
@@ -95,7 +91,7 @@ public class ThermalManaFurnaceBlockEntity extends ManaMachineBlockEntity implem
             getManaHandler(null).produceMana(MANA_PER_TICK);
             burnTime--;
             if (soundTickCounter % 40 == 0) {
-                level.playSound(null, pos, SoundInit.BURNER.get(), SoundSource.BLOCKS, 0.3F, 1.0F);
+                level.playSound(null, pos, SoundInit.BURNER.get(), SoundSource.BLOCKS, 0.1F, 1.0F);
                 soundTickCounter = 0;
             }
             soundTickCounter++;

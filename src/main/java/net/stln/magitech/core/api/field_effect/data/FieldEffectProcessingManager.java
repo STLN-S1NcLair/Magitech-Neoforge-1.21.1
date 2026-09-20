@@ -1,6 +1,7 @@
 package net.stln.magitech.core.api.field_effect.data;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
@@ -11,9 +12,11 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.stln.magitech.content.block.block_entity.IPedestalBlockEntity;
+import net.stln.magitech.content.network.FieldEffectProcessingVFXPayload;
 import net.stln.magitech.core.api.field_effect.FieldEffectHelper;
 import net.stln.magitech.core.api.field_effect.FieldEffectType;
 import net.stln.magitech.core.api.field_effect.FieldInfluenceInstance;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -30,6 +33,7 @@ import java.util.WeakHashMap;
  */
 public final class FieldEffectProcessingManager {
     private static final int ITEM_ENTITY_CLEANUP_INTERVAL = 20;
+    private static final int PROCESSING_PARTICLE_INTERVAL = 4;
 
     private static final Map<ServerLevel, FieldEffectProcessingManager> INSTANCES = new WeakHashMap<>();
 
@@ -102,20 +106,22 @@ public final class FieldEffectProcessingManager {
 
     private void processBlock(ServerLevel level, BlockPos pos, FieldEffectType type) {
         BlockState state = level.getBlockState(pos);
-        if (!type.canProcess(level, pos)) {
+        FieldEffectType processingType = FieldEffectHelper.getProcessingEffect(level, type, pos);
+        if (processingType == null) {
             blockProgress.remove(pos);
             return;
         }
 
-        int processTime = sanitizeProcessTime(type.getProcessTime(level, pos));
+        int processTime = sanitizeProcessTime(processingType.getProcessTime(level, pos));
         ProcessState progress = blockProgress.get(pos);
-        if (progress == null || !progress.matches(type, processTime, state)) {
-            progress = ProcessState.forBlock(type, processTime, state);
+        if (progress == null || !progress.matches(processingType, processTime, state)) {
+            progress = ProcessState.forBlock(processingType, processTime, state);
             blockProgress.put(pos, progress);
         }
 
+        spawnProcessingParticle(level, pos, FieldEffectProcessingVFXPayload.Target.BLOCK, -1, type);
         if (++progress.elapsedTicks >= progress.totalTicks) {
-            List<ItemStack> result = type.processBlock(level, pos);
+            List<ItemStack> result = processingType.processBlock(level, pos);
             if (result == null) {
                 result = List.of();
             }
@@ -175,20 +181,22 @@ public final class FieldEffectProcessingManager {
             FieldEffectType type
     ) {
         List<ItemStack> inputs = List.of(input);
-        if (!type.canProcess(level, inputs)) {
+        FieldEffectType processingType = FieldEffectHelper.getProcessingEffect(level, type, inputs);
+        if (processingType == null) {
             pedestalProgress.remove(pedestalPos);
             return;
         }
 
-        int processTime = sanitizeProcessTime(type.getProcessTime(level, inputs));
+        int processTime = sanitizeProcessTime(processingType.getProcessTime(level, inputs));
         ProcessState progress = pedestalProgress.get(pedestalPos);
-        if (progress == null || !progress.matches(type, processTime, inputs)) {
-            progress = ProcessState.forItems(type, processTime, inputs);
+        if (progress == null || !progress.matches(processingType, processTime, inputs)) {
+            progress = ProcessState.forItems(processingType, processTime, inputs);
             pedestalProgress.put(pedestalPos, progress);
         }
 
+        spawnProcessingParticle(level, pedestalPos, FieldEffectProcessingVFXPayload.Target.PEDESTAL, -1, type);
         if (++progress.elapsedTicks >= progress.totalTicks) {
-            List<ItemStack> results = type.processItem(level, new ArrayList<>(inputs));
+            List<ItemStack> results = processingType.processItem(level, new ArrayList<>(inputs));
             if (results == null) {
                 results = List.of();
             }
@@ -228,23 +236,31 @@ public final class FieldEffectProcessingManager {
     private void processItemEntity(ServerLevel level, ItemEntity itemEntity, FieldEffectType type) {
         UUID uuid = itemEntity.getUUID();
         ItemStack stack = itemEntity.getItem();
-        ProcessState currentProgress = itemEntityProgress.get(uuid);
-        if (currentProgress != null && !currentProgress.matches(type, stack)) {
-            itemEntityProgress.remove(uuid);
-        }
-        if (stack.isEmpty() || !type.canProcess(level, java.util.List.of(stack))) {
+        if (stack.isEmpty()) {
             return;
         }
 
-        int processTime = sanitizeProcessTime(type.getProcessTime(level, java.util.List.of(stack)));
+        FieldEffectType processingType = FieldEffectHelper.getProcessingEffect(level, type, List.of(stack));
+        if (processingType == null) {
+            itemEntityProgress.remove(uuid);
+            return;
+        }
+
+        ProcessState currentProgress = itemEntityProgress.get(uuid);
+        if (currentProgress != null && !currentProgress.matches(processingType, stack)) {
+            itemEntityProgress.remove(uuid);
+        }
+
+        int processTime = sanitizeProcessTime(processingType.getProcessTime(level, List.of(stack)));
         ProcessState progress = itemEntityProgress.get(uuid);
-        if (progress == null || !progress.matches(type, processTime, stack)) {
-            progress = ProcessState.forItem(type, processTime, stack);
+        if (progress == null || !progress.matches(processingType, processTime, stack)) {
+            progress = ProcessState.forItem(processingType, processTime, stack);
             itemEntityProgress.put(uuid, progress);
         }
 
+        spawnProcessingParticle(level, itemEntity.blockPosition(), FieldEffectProcessingVFXPayload.Target.ITEM, itemEntity.getId(), type);
         if (++progress.elapsedTicks >= progress.totalTicks) {
-            List<ItemStack> result = type.processItem(level, stack);
+            List<ItemStack> result = processingType.processItem(level, stack);
             for (ItemStack processedStack : result) {
                 if (processedStack != null && !processedStack.isEmpty()) {
                     replaceItem(level, processedStack, itemEntity);
@@ -253,6 +269,30 @@ public final class FieldEffectProcessingManager {
             itemEntity.discard();
             itemEntityProgress.remove(uuid);
         }
+    }
+
+    private static void spawnProcessingParticle(
+            ServerLevel level,
+            BlockPos trackingPos,
+            FieldEffectProcessingVFXPayload.Target target,
+            int entityId,
+            FieldEffectType type
+    ) {
+        if (level.getGameTime() % PROCESSING_PARTICLE_INTERVAL != 0) {
+            return;
+        }
+
+        PacketDistributor.sendToPlayersTrackingChunk(
+                level,
+                new ChunkPos(trackingPos),
+                new FieldEffectProcessingVFXPayload(
+                        target,
+                        trackingPos,
+                        entityId,
+                        type.getPrimary().getRGB(),
+                        type.getSecondary().getRGB()
+                )
+        );
     }
 
     private static int sanitizeProcessTime(int processTime) {

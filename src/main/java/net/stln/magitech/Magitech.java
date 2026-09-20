@@ -141,6 +141,7 @@ public class Magitech {
         public static void onClientSetup(FMLClientSetupEvent event) {
             EntityInit.registerModEntitiesRenderer();
             ItemPropertyInit.registerItemProperties();
+            ItemInit.registerItemRenderers();
             PageInit.registerRenderers();
             FluidInit.registerFluidRenderTypes();
         }

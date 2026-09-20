@@ -49,6 +49,16 @@ public class BlockVFX {
         }
     }
 
+    public static void fieldEffectProcessing(Level level, Color primary, Color secondary, BlockPos pos) {
+        if (!level.isClientSide) return;
+        Vec3 inCube = VectorHelper.randomInCube(level.random);
+        Vec3 random = pos.getCenter().add(inCube);
+        ParticleEffectSpawner spawner = SquareParticles.squareParticleColored(level, random, primary, secondary);
+        PresetHelper.longer(spawner, 8.0F);
+        PresetHelper.modify(spawner, builder -> builder.setMotion(new Vec3(inCube.x * 0.01, 0.02D, inCube.z * 0.01)));
+        spawner.spawnParticles();
+    }
+
     public static void horizontalSpray(Level level, Color primary, Color secondary, Vec3 pos, float amount, float speed, float gravity, float radius) {
         horizontalSpray(level, primary, secondary, pos, SquareParticles::squareParticleColored, amount, speed, gravity, radius);
     }

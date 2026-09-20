@@ -64,6 +64,7 @@ public class ItemTagKeys {
     public static final TagKey<Item> ORES_TOURMALINE = external("c", "ores/tourmaline");
     public static final TagKey<Item> ORES_ZINC = external("c", "ores/zinc");
     public static final TagKey<Item> CURIOS_BELT = external("curios", "belt");
+    public static final TagKey<Item> CURIOS_HEAD = external("curios", "head");
     public static final TagKey<Item> CURIOS_RING = external("curios", "ring");
     public static final TagKey<Item> AGGREGATED_STRAND = TagKey.create(Registries.ITEM, Magitech.id("aggregated_strand"));
     public static final TagKey<Item> TOOL_PART = TagKey.create(Registries.ITEM, Magitech.id("tool_part"));

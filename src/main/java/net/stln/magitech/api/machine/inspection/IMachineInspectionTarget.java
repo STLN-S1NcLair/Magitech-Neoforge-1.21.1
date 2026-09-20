@@ -58,8 +58,8 @@ public interface IMachineInspectionTarget {
     }
 
     /**
-     * Inspectionでフィールド効果の要因を表示するか返します。
-     * Returns whether field-effect influences should be shown in inspection.
+     * Inspectionでフィールド効果とその要因を表示するか返します。
+     * Returns whether field effects and their influences should be shown in inspection.
      */
     default boolean showFieldEffectInfluencesInInspection() {
         return false;

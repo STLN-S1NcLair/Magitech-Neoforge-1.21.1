@@ -26,7 +26,7 @@
     },
     {
       "type": "magitech:infusion_recipe",
-      "recipe_id_1": "magitech:infusion/machines/ember_smelter"
+      "recipe_id_1": "magitech:infusion/machines/thermal_mana_furnace"
     },
     {
       "type": "modonomicon:text",

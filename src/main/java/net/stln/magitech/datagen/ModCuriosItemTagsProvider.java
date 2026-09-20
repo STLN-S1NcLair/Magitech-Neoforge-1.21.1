@@ -19,6 +19,7 @@ public class ModCuriosItemTagsProvider extends ItemTagsProvider {
     @Override
     protected void addTags(HolderLookup.Provider provider) {
         tag(ItemTagKeys.CURIOS_BELT).add(ItemInit.TOOL_BELT.get());
+        tag(ItemTagKeys.CURIOS_HEAD).add(ItemInit.SPECTACLES_OF_INSPECTION.get());
         tag(ItemTagKeys.CURIOS_RING).add(ItemInit.FLUXIUM_RING.get(), ItemInit.MANA_RING.get(), ItemInit.ARDOR_RING.get(),
                 ItemInit.QUENCH_RING.get(), ItemInit.CHARGEBIND_RING.get(), ItemInit.CELERITAS_RING.get(),
                 ItemInit.CRACK_RING.get(), ItemInit.PROTECTION_RING.get(), ItemInit.UPDRAFT_RING.get(),

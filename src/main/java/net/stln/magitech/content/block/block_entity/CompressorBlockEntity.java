@@ -43,7 +43,7 @@ public class CompressorBlockEntity extends ManaMachineBlockEntity implements Geo
     public static final int INPUT = 0;
     public static final int OUTPUT = 1;
     public static final int MAX_PROGRESS = 100;
-    public static final long MANA_PER_TICK = 500;
+    public static final long MANA_PER_TICK = 250;
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
     private static final RawAnimation ACTIVE = RawAnimation.begin().thenPlay("active");

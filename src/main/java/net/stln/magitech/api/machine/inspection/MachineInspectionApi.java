@@ -143,7 +143,9 @@ public final class MachineInspectionApi {
 
         ResourceLocation fieldEffectId = null;
         FieldInfluenceInstance fieldInfluences = null;
-        if (level instanceof ServerLevel serverLevel) {
+        boolean showFieldEffectInInspection = inspectionTarget != null
+                && inspectionTarget.showFieldEffectInfluencesInInspection();
+        if (showFieldEffectInInspection && level instanceof ServerLevel serverLevel) {
             FieldInfluenceInstance detectedInfluences =
                     FieldEffectManager.get(serverLevel).getFieldEffectInstance(displayPosition);
             FieldEffectType fieldEffect = FieldEffectHelper.getFieldEffect(
@@ -153,11 +155,10 @@ public final class MachineInspectionApi {
             if (fieldEffect != null) {
                 fieldEffectId = MagitechRegistries.FIELD_EFFECT_TYPE.getKey(fieldEffect);
             }
-            if (inspectionTarget != null && inspectionTarget.showFieldEffectInfluencesInInspection()) {
-                fieldInfluences = detectedInfluences;
-            }
+            fieldInfluences = detectedInfluences;
         }
-        builder.setFieldEffect(fieldEffectId).setFieldInfluences(fieldInfluences);
+        builder.setFieldEffect(showFieldEffectInInspection ? fieldEffectId : null)
+                .setFieldInfluences(fieldInfluences);
 
         if (itemHandler != null) {
             int slotCount = Math.min(itemHandler.getSlots(), MachineInspectionData.MAX_ITEM_SLOTS);

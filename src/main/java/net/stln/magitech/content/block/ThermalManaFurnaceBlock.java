@@ -183,7 +183,8 @@ public class ThermalManaFurnaceBlock extends ManaContainerBlock {
 
     @Override
     public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
-        if (!level.isClientSide && player.isCreative() && state.getValue(PART) != Part.LOWER) {
+        if (!level.isClientSide && state.getValue(PART) != Part.LOWER
+                && (player.isCreative() || !player.hasCorrectToolForDrops(state))) {
             BlockPos lowerPos = lowerPos(pos, state);
             BlockState lowerState = level.getBlockState(lowerPos);
             if (lowerState.is(this) && lowerState.getValue(PART) == Part.LOWER) {

@@ -44,6 +44,7 @@ public class CreativeTabInit {
                 output.accept(ThreadboundGenerator.generateThreadbound(ItemInit.ARCANE_ENGINEERING_COMPENDIUM.get(), allSpells));
                 output.accept(ItemInit.AETHER_LIFTER.get());
                 output.accept(ItemInit.FLAMGLIDE_STRIDER.get());
+                output.accept(ItemInit.SPECTACLES_OF_INSPECTION.get());
                 output.accept(ItemInit.FLUXIUM_RING.get());
                 output.accept(ItemInit.MANA_RING.get());
                 output.accept(ItemInit.ARDOR_RING.get());
@@ -231,8 +232,8 @@ public class CreativeTabInit {
                 output.accept(BlockInit.CRUSHER_ITEM.get());
                 output.accept(BlockInit.COMPRESSOR_ITEM.get());
                 output.accept(BlockInit.CHILLER_ITEM.get());
-                output.accept(BlockInit.ENVIROMETER_ITEM.get());
                 output.accept(BlockInit.HEAT_BURNER_ITEM.get());
+                output.accept(BlockInit.ENVIROMETER_ITEM.get());
                 output.accept(BlockInit.THERMAL_MANA_FURNACE_ITEM.get());
                 output.accept(BlockInit.ITEM_COLLECTOR_ITEM.get());
                 output.accept(BlockInit.MANA_JUNCTION_ITEM.get());

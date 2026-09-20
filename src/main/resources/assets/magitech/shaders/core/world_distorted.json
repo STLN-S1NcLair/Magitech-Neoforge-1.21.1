@@ -1,6 +1,6 @@
 {
-  "vertex": "magitech:field_effect_distorted",
-  "fragment": "magitech:field_effect_distorted",
+  "vertex": "magitech:world_distorted",
+  "fragment": "magitech:world_distorted",
   "samplers": [
     { "name": "Sampler0" },
     { "name": "Sampler2" }
@@ -17,6 +17,7 @@
     { "name": "Intensity", "type": "float", "count": 1, "values": [ 30.0 ] },
     { "name": "XFrequency", "type": "float", "count": 1, "values": [ 5.0 ] },
     { "name": "YFrequency", "type": "float", "count": 1, "values": [ 5.0 ] },
-    { "name": "DistortionScale", "type": "float", "count": 1, "values": [ 1.0 ] }
+    { "name": "DistortionScale", "type": "float", "count": 1, "values": [ 1.0 ] },
+    { "name": "DistortionMargin", "type": "float", "count": 1, "values": [ 0.0 ] }
   ]
 }

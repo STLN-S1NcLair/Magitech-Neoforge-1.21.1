@@ -69,6 +69,9 @@ public class ModItemModelProvider extends ItemModelProvider {
         handheldItem(ItemInit.STAFF.get());
         basicItem(ItemInit.AETHER_LIFTER.get());
         basicItem(ItemInit.FLAMGLIDE_STRIDER.get());
+        getBuilder(ItemInit.SPECTACLES_OF_INSPECTION.getId().getPath())
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", Magitech.id("item/spectacles_of_insight"));
         basicItem(ItemInit.ALCHAEFABRIC.get());
         basicItem(ItemInit.AEGIS_WEAVE.get());
         basicItem(ItemInit.FLUORITE.get());

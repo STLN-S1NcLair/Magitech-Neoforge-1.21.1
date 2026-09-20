@@ -24,6 +24,7 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.stln.magitech.content.block.block_entity.EnvirometerBlockEntity;
 import net.stln.magitech.helper.MachinePlacementHelper;
@@ -35,7 +36,15 @@ public class EnvirometerBlock extends BaseEntityBlock implements SimpleWaterlogg
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
     public static final net.minecraft.world.level.block.state.properties.BooleanProperty WATERLOGGED =
             BlockStateProperties.WATERLOGGED;
-    public static final VoxelShape SHAPE_UP = Block.box(0, 0, 0, 16, 12, 16);
+    public static final VoxelShape SHAPE_UP = Shapes.or(
+            Block.box(0, 0, 0, 16, 2, 16),
+            Block.box(2, 2, 2, 14, 10, 14),
+            Block.box(5, 10, 5, 11, 12, 11),
+            Block.box(12, 2, 0, 16, 4, 4),
+            Block.box(0, 2, 0, 4, 4, 4),
+            Block.box(0, 2, 12, 4, 4, 16),
+            Block.box(12, 2, 12, 16, 4, 16)
+    );
     public static final VoxelShape SHAPE_DOWN = VoxelShapeHelper.rotateShape(SHAPE_UP, Direction.UP, Direction.DOWN);
     public static final VoxelShape SHAPE_NORTH = VoxelShapeHelper.rotateShape(SHAPE_UP, Direction.UP, Direction.NORTH);
     public static final VoxelShape SHAPE_SOUTH = VoxelShapeHelper.rotateShape(SHAPE_UP, Direction.UP, Direction.SOUTH);

@@ -200,28 +200,33 @@ public final class MachineInspectionRenderer {
         List<FluidStack> visibleFluids = data.fluids().stream()
                 .filter(fluid -> !fluid.isEmpty())
                 .toList();
+        boolean hasMana = data.maxMana() > 0L;
         ResourceLocation fieldEffectId = data.fieldEffect();
+        boolean showFieldEffect = fieldEffectId != null || data.fieldInfluences() != null;
         FieldEffectType fieldEffectType = fieldEffectId == null
                 ? null
                 : MagitechRegistries.FIELD_EFFECT_TYPE.get(fieldEffectId);
-        Component fieldEffectText = fieldEffectId == null
+        Component fieldEffectText = !showFieldEffect
                 ? null
-                : FieldEffectIconRenderer.getDisplayName(fieldEffectId);
+                : fieldEffectId == null
+                        ? Component.translatable("gui.magitech.field_effect.none")
+                        : FieldEffectIconRenderer.getDisplayName(fieldEffectId);
         FieldInfluenceInstance fieldInfluences = data.fieldInfluences();
         if (fieldInfluences == null && fieldEffectType != null) {
             fieldInfluences = fieldEffectType.getCondition();
         }
         Component fieldEffectInfluencesText = createFieldInfluencesText(fieldInfluences);
-        if (fieldEffectText != null && fieldEffectInfluencesText != null) {
+        if (fieldEffectId != null && fieldEffectText != null && fieldEffectInfluencesText != null) {
             fieldEffectText = fieldEffectText.copy()
                     .append(Component.literal(" <- "))
                     .append(fieldEffectInfluencesText);
         }
         TimeGaugeData timeGauge = createTimeGaugeData(data);
-        Component manaText = Component.translatable(
-                "gui.magitech.mana_capacity").append(
-                Component.literal(": ").append(EnergyFormatter.formatEnergy(data.mana(), data.maxMana()))
-        );
+        Component manaText = hasMana
+                ? Component.translatable("gui.magitech.mana_capacity").append(
+                        Component.literal(": ").append(EnergyFormatter.formatEnergy(data.mana(), data.maxMana()))
+                )
+                : null;
         Component remainingTimeText = timeGauge == null ? null : createTimeText(
                 "gui.magitech.remaining_time",
                 timeGauge.remainingTicks(),
@@ -234,20 +239,20 @@ public final class MachineInspectionRenderer {
         List<Component> timeLines = timeGauge == null
                 ? List.of()
                 : List.of(remainingTimeText, totalRemainingTimeText);
-        Component flowText = Component.translatable(
-                "gui.magitech.mana_flow").append(
-                Component.literal(": ").append(EnergyFormatter.formatFlow(data.flowRate(), data.maxFlow()))
-        );
-        List<Component> infoLines = createManaRateLines(data);
+        Component flowText = hasMana
+                ? Component.translatable("gui.magitech.mana_flow").append(
+                        Component.literal(": ").append(EnergyFormatter.formatFlow(data.flowRate(), data.maxFlow()))
+                )
+                : null;
+        List<Component> infoLines = hasMana ? createManaRateLines(data) : new ArrayList<>();
         infoLines.addAll(data.extraLines());
 
         int itemRows = (visibleItems.size() + ITEM_COLUMNS - 1) / ITEM_COLUMNS;
         int fluidRows = (visibleFluids.size() + ITEM_COLUMNS - 1) / ITEM_COLUMNS;
         int contentHeight = TITLE_HEIGHT
                 + 10
-                + MANA_GAUGE_ROW_HEIGHT
+                + (hasMana ? MANA_GAUGE_ROW_HEIGHT + 11 : 0)
                 + (timeGauge == null ? 0 : 10 + MANA_GAUGE_ROW_HEIGHT + 11)
-                + 11
                 + infoLines.size() * 10;
         if (!visibleItems.isEmpty()) {
             contentHeight += 3 + 11 + itemRows * ITEM_ROW_HEIGHT;
@@ -311,22 +316,24 @@ public final class MachineInspectionRenderer {
         int fieldEffectDarker = fieldEffectSecondary.getRGB() + 0xFF000000;
         drawWavyText(guiGraphics, minecraft, title, titleX, y + 5, textColor, glow, dark, darker, 0xFF, animationPhase, 0.0F, fadeAlpha);
         y += TITLE_HEIGHT;
-        renderManaGauge(
-                guiGraphics,
-                contentX,
-                y + MANA_GAUGE_VERTICAL_MARGIN,
-                MANA_GAUGE_HEIGHT,
-                data.manaRatio(),
-                partialTick,
-                fadeAlpha
-        );
-        y += MANA_GAUGE_ROW_HEIGHT;
+        if (hasMana) {
+            renderManaGauge(
+                    guiGraphics,
+                    contentX,
+                    y + MANA_GAUGE_VERTICAL_MARGIN,
+                    MANA_GAUGE_HEIGHT,
+                    data.manaRatio(),
+                    partialTick,
+                    fadeAlpha
+            );
+            y += MANA_GAUGE_ROW_HEIGHT;
 
-        drawWavyText(guiGraphics, minecraft, manaText, contentX + TEXT_HORIZONTAL_MARGIN, y, textColor, glow, dark, darker, 0xFF, animationPhase, 0.7F, fadeAlpha);
-        y += 10;
+            drawWavyText(guiGraphics, minecraft, manaText, contentX + TEXT_HORIZONTAL_MARGIN, y, textColor, glow, dark, darker, 0xFF, animationPhase, 0.7F, fadeAlpha);
+            y += 10;
 
-        drawWavyText(guiGraphics, minecraft, flowText, contentX + TEXT_HORIZONTAL_MARGIN, y, textColor, glow, dark, darker, 0xFF, animationPhase, 1.4F, fadeAlpha);
-        y += 11;
+            drawWavyText(guiGraphics, minecraft, flowText, contentX + TEXT_HORIZONTAL_MARGIN, y, textColor, glow, dark, darker, 0xFF, animationPhase, 1.4F, fadeAlpha);
+            y += 11;
+        }
 
         for (int index = 0; index < infoLines.size(); index++) {
             Component line = infoLines.get(index);
@@ -572,8 +579,12 @@ public final class MachineInspectionRenderer {
             Component fieldEffectText
     ) {
         int width = minecraft.font.width(title.getString()) + (icon.isEmpty() ? 0 : ICON_CELL_SIZE);
-        width = Math.max(width, minecraft.font.width(manaText.getString()));
-        width = Math.max(width, minecraft.font.width(flowText.getString()));
+        if (manaText != null) {
+            width = Math.max(width, minecraft.font.width(manaText.getString()));
+        }
+        if (flowText != null) {
+            width = Math.max(width, minecraft.font.width(flowText.getString()));
+        }
         for (Component line : extraLines) {
             width = Math.max(width, minecraft.font.width(line.getString()));
         }

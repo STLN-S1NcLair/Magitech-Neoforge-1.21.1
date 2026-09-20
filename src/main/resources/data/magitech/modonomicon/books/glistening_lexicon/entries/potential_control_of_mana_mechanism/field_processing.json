@@ -1,0 +1,42 @@
+{
+  "name": "book.magitech.glistening_lexicon.potential_control_of_mana_mechanism.field_processing.name",
+  "icon": {
+    "id": "magitech:heat_burner"
+  },
+  "category": "magitech:potential_control_of_mana_mechanism",
+  "x": 2,
+  "y": 2,
+  "background_u_index": 1,
+  "background_v_index": 0,
+  "parents": [
+    {
+      "entry": "magitech:potential_control_of_mana_mechanism/enhanced_machine"
+    }
+  ],
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "title": "book.magitech.glistening_lexicon.potential_control_of_mana_mechanism.field_processing.name",
+      "text": "book.magitech.glistening_lexicon.potential_control_of_mana_mechanism.field_processing.0.text"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.magitech.glistening_lexicon.potential_control_of_mana_mechanism.field_processing.1.text"
+    },
+    {
+    "type": "modonomicon:crafting_recipe",
+    "text": "book.magitech.glistening_lexicon.potential_control_of_mana_mechanism.field_processing.2.text",
+    "recipe_id_1": "magitech:crafting/heat_burner"
+    },
+    {
+      "type": "modonomicon:crafting_recipe",
+      "text": "book.magitech.glistening_lexicon.potential_control_of_mana_mechanism.field_processing.3.text",
+      "recipe_id_1": "magitech:crafting/chiller"
+    },
+    {
+      "type": "modonomicon:crafting_recipe",
+      "text": "book.magitech.glistening_lexicon.potential_control_of_mana_mechanism.field_processing.4.text",
+      "recipe_id_1": "magitech:crafting/envirometer"
+    }
+  ]
+}
