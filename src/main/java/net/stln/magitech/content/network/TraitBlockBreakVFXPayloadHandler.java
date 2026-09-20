@@ -25,7 +25,7 @@ public class TraitBlockBreakVFXPayloadHandler {
             Item item = player.getItemInHand(InteractionHand.MAIN_HAND).getItem();
             BlockPos pos = payload.pos();
             if (item instanceof SynthesisedToolItem) {
-                payload.material().trait().emitBlockBreakParticle(level, pos, level.getBlockState(pos));
+                payload.trait().emitBlockBreakParticle(level, pos, level.getBlockState(pos));
             }
         }
     }

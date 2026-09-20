@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "magitech:item/tool/dagger/snow_light_blade"
+  }
+}

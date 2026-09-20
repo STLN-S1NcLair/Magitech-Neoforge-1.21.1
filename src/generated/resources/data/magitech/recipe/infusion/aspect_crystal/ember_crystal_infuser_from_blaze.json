@@ -1,0 +1,22 @@
+{
+  "type": "magitech:infusion",
+  "base": {
+    "count": 1,
+    "ingredient": {
+      "tag": "magitech:aspect_crystal_base"
+    }
+  },
+  "ingredients": [
+    {
+      "count": 1,
+      "ingredient": {
+        "item": "minecraft:blaze_rod"
+      }
+    }
+  ],
+  "mana": 40000,
+  "result": {
+    "count": 1,
+    "id": "magitech:ember_crystal"
+  }
+}

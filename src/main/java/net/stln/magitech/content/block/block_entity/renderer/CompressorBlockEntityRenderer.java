@@ -14,8 +14,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import net.stln.magitech.content.block.block_entity.CompressorBlockEntity;
-import net.stln.magitech.content.block.block_entity.CrusherBlockEntity;
-import net.stln.magitech.content.block.block_entity.EmberSmelterBlockEntity;
 import software.bernie.geckolib.renderer.GeoBlockRenderer;
 
 public class CompressorBlockEntityRenderer extends GeoBlockRenderer<CompressorBlockEntity> {

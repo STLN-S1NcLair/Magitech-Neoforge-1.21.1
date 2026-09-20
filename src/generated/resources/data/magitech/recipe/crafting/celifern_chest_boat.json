@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:chest"
+    },
+    {
+      "item": "magitech:celifern_boat"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "magitech:celifern_chest_boat"
+  }
+}

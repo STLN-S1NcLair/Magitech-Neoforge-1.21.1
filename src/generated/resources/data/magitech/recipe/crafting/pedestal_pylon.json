@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "M": {
+      "item": "magitech:mystwood_planks"
+    },
+    "V": {
+      "item": "magitech:vesperite"
+    }
+  },
+  "pattern": [
+    "VMV",
+    " M ",
+    "MVM"
+  ],
+  "result": {
+    "count": 1,
+    "id": "magitech:pedestal_pylon"
+  }
+}

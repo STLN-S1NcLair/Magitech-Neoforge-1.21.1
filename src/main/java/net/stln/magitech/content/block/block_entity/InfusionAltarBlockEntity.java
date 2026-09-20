@@ -14,11 +14,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.Containers;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
@@ -29,7 +24,6 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.stln.magitech.content.block.BlockInit;
-import net.stln.magitech.content.gui.InfusionAltarMenu;
 import net.stln.magitech.content.recipe.InfusionRecipe;
 import net.stln.magitech.content.recipe.RecipeInit;
 import net.stln.magitech.content.recipe.input.BaseAndIngredientsRecipeInput;
@@ -67,30 +61,6 @@ public class InfusionAltarBlockEntity extends ManaMachineBlockEntity implements 
 
     protected int progress = 0;
     protected int maxProgress = 200;
-
-    public final ContainerData machineData = new ContainerData() {
-        @Override
-        public int get(int index) {
-            return switch (index) {
-                case 0 -> InfusionAltarBlockEntity.this.getProgress();
-                case 1 -> InfusionAltarBlockEntity.this.getMaxProgress();
-                default -> 0;
-            };
-        }
-
-        @Override
-        public void set(int index, int value) {
-            switch (index) {
-                case 0 -> InfusionAltarBlockEntity.this.setProgress(value);
-                case 1 -> InfusionAltarBlockEntity.this.setMaxProgress(value);
-            }
-        }
-
-        @Override
-        public int getCount() {
-            return 2;
-        }
-    };
 
     public InfusionAltarBlockEntity(BlockEntityType<? extends InfusionAltarBlockEntity> entityType, BlockPos pos, BlockState blockState, long mana) {
         super(entityType, pos, blockState, mana);
@@ -423,11 +393,6 @@ public class InfusionAltarBlockEntity extends ManaMachineBlockEntity implements 
     @Override
     public CompoundTag getUpdateTag(HolderLookup.Provider pRegistries) {
         return saveWithoutMetadata(pRegistries);
-    }
-
-    @Override
-    public AbstractContainerMenu createMenu(int containerId, Inventory inventory, Player player) {
-        return new InfusionAltarMenu(containerId, inventory, ContainerLevelAccess.create(level, this.getBlockPos()), this.dataAccess);
     }
 
     @Override

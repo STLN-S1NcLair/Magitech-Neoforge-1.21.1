@@ -68,7 +68,7 @@ public class SquareParticles {
 
     public static ParticleEffectSpawner squareShrinkParticle(Level level, Vec3 pos, Element element) {
         ParticleEffectSpawner spawner = squareParticle(level, pos, element);
-        PresetHelper.modify(spawner, builder -> builder.modifyScaleData(genericParticleData -> builder.setScaleData(GenericParticleData.create(genericParticleData.middleValue, genericParticleData.endingValue))));
+        PresetHelper.shrink(spawner);
         return spawner;
     }
 

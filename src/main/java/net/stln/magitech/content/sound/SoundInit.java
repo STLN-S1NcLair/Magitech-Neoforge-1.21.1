@@ -1,9 +1,11 @@
 package net.stln.magitech.content.sound;
 
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import net.stln.magitech.Magitech;
 
 import java.util.function.Supplier;
@@ -90,6 +92,8 @@ public class SoundInit {
     public static final Supplier<SoundEvent> INFUSION_ALTAR = registerSoundEvent("infusion_altar");
     public static final Supplier<SoundEvent> INFUSION_ALTAR_CRAFT = registerSoundEvent("infusion_altar_craft");
     public static final Supplier<SoundEvent> MANA_PARCEL = registerSoundEvent("mana_parcel");
+    public static final Supplier<SoundEvent> BURNER = registerSoundEvent("burner");
+    public static final Supplier<SoundEvent> CHILLER = registerSoundEvent("chiller");
 
     public static final Supplier<SoundEvent> CRYSTAL_BREAK = registerSoundEvent("crystal_break");
     public static final Supplier<SoundEvent> CRYSTAL_PLACE = registerSoundEvent("crystal_place");
@@ -107,7 +111,15 @@ public class SoundInit {
     public static final Supplier<SoundEvent> WEAVER_DEATH = registerSoundEvent("weaver_death");
 
 
-    private static Supplier<SoundEvent> registerSoundEvent(String name) {
+    public static DeferredHolder<SoundEvent, SoundEvent> holder(Supplier<SoundEvent> sound) {
+        return (DeferredHolder<SoundEvent, SoundEvent>) sound;
+    }
+
+    public static ResourceLocation id(Supplier<SoundEvent> sound) {
+        return holder(sound).getId();
+    }
+
+    private static DeferredHolder<SoundEvent, SoundEvent> registerSoundEvent(String name) {
         return SOUND_EVENTS.register(name, SoundEvent::createVariableRangeEvent);
     }
 

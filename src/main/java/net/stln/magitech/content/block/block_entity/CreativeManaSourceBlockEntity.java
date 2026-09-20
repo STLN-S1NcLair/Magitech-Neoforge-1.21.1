@@ -3,17 +3,10 @@ package net.stln.magitech.content.block.block_entity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.stln.magitech.content.block.BlockInit;
 import net.stln.magitech.content.block.ManaVesselBlock;
-import net.stln.magitech.content.gui.CreativeManaSourceMenu;
-import net.stln.magitech.content.gui.EnhancedManaVesselMenu;
-import net.stln.magitech.content.gui.ManaVesselMenu;
 import net.stln.magitech.core.api.mana.flow.ManaFlowRule;
 
 public class CreativeManaSourceBlockEntity extends AbstractManaVesselBlockEntity {
@@ -30,11 +23,6 @@ public class CreativeManaSourceBlockEntity extends AbstractManaVesselBlockEntity
     public void tick(Level level, BlockPos pos, BlockState state) {
         super.tick(level, pos, state);
         this.getManaHandler(null).setMana(this.maxMana);
-    }
-
-    @Override
-    public AbstractContainerMenu createMenu(int containerId, Inventory inventory, Player player) {
-        return new CreativeManaSourceMenu(containerId, inventory, this, ContainerLevelAccess.create(level, this.getBlockPos()), this.dataAccess);
     }
 
     @Override

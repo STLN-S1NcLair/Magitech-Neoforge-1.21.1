@@ -6,6 +6,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.effect.visual.Section;
 import net.stln.magitech.effect.visual.spawner.PowerupParticles;
+import net.stln.magitech.effect.visual.spawner.SquareParticles;
 import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.feature.tool.trait.Trait;
 import net.stln.magitech.helper.EffectHelper;
@@ -43,5 +44,14 @@ public class EntityVFX {
                 spawner.spawnParticles();
             }
         }
+    }
+
+    public static void fieldEffectProcessing(Level level, Color primary, Color secondary, Entity entity) {
+        if (!level.isClientSide) return;
+        Vec3 randomBody = EffectHelper.getRandomBody(entity, Section.cover());
+        ParticleEffectSpawner spawner = SquareParticles.squareParticleColored(level, randomBody, primary, secondary);
+        PresetHelper.longer(spawner, 8.0F);
+        PresetHelper.modify(spawner, builder -> builder.setMotion(new Vec3(0.0D, 0.01D, 0.0D)));
+        spawner.spawnParticles();
     }
 }

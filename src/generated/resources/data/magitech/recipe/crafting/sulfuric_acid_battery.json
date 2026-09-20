@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "type": "neoforge:components",
+      "components": {
+        "magitech:material_component": "magitech:copper"
+      },
+      "items": "magitech:reinforced_rod",
+      "strict": true
+    },
+    "S": {
+      "item": "magitech:sulfuric_acid_flask"
+    },
+    "Z": {
+      "type": "neoforge:components",
+      "components": {
+        "magitech:material_component": "magitech:zinc"
+      },
+      "items": "magitech:reinforced_rod",
+      "strict": true
+    }
+  },
+  "pattern": [
+    "C ",
+    "SZ"
+  ],
+  "result": {
+    "count": 1,
+    "id": "magitech:sulfuric_acid_battery"
+  }
+}

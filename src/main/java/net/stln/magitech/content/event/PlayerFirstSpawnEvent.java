@@ -12,6 +12,7 @@ import net.stln.magitech.Magitech;
 import net.stln.magitech.MagitechRegistries;
 import net.stln.magitech.content.item.ItemInit;
 import net.stln.magitech.content.item.component.SpellComponent;
+import net.stln.magitech.content.loot.RandomThreadPageFunction;
 import net.stln.magitech.feature.magic.spell.ISpell;
 import net.stln.magitech.feature.magic.spell.SpellInit;
 import net.stln.magitech.helper.ComponentHelper;
@@ -39,8 +40,8 @@ public class PlayerFirstSpawnEvent {
         if (!persisted.getBoolean("hasReceivedInitialItems")) {
             ItemStack stack = new ItemStack(ItemInit.GLISTENING_LEXICON.get());
             var enercrux = SpellInit.ENERCRUX;
-            List<Holder.Reference<ISpell>> list = new java.util.ArrayList<>(MagitechRegistries.SPELL.holders()
-                    .filter(holder -> !holder.is(enercrux)).toList());
+            List<Holder<ISpell>> list = new java.util.ArrayList<>(RandomThreadPageFunction.getAllSpells().stream()
+                    .filter(holder -> !holder.value().equals(enercrux.asSpell())).toList());
             Collections.shuffle(list);
             if (!list.isEmpty()) {
                 ISpell spell = list.getFirst().value();

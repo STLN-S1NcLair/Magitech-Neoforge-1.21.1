@@ -1,0 +1,13 @@
+{
+  "type": "magitech:crushing",
+  "ingredient": {
+    "count": 4,
+    "ingredient": {
+      "item": "magitech:quartz_plant"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "magitech:restraint_quartz_dust"
+  }
+}

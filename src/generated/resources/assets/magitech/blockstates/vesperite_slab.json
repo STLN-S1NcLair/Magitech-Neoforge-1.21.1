@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "magitech:block/vesperite_slab"
+    },
+    "type=double": {
+      "model": "magitech:block/vesperite"
+    },
+    "type=top": {
+      "model": "magitech:block/vesperite_slab_top"
+    }
+  }
+}

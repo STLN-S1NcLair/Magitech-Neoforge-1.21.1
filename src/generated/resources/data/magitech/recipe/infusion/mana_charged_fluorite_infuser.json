@@ -1,0 +1,14 @@
+{
+  "type": "magitech:infusion",
+  "base": {
+    "count": 1,
+    "ingredient": {
+      "tag": "c:gems/fluorite"
+    }
+  },
+  "mana": 4000,
+  "result": {
+    "count": 1,
+    "id": "magitech:mana_charged_fluorite"
+  }
+}

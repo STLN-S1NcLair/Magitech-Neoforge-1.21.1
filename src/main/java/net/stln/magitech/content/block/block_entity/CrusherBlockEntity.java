@@ -13,10 +13,6 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.Containers;
 import net.minecraft.world.SimpleContainer;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
@@ -27,11 +23,9 @@ import net.stln.magitech.Magitech;
 import net.stln.magitech.content.block.BlockInit;
 import net.stln.magitech.content.block.BlockStatePropertyInit;
 import net.stln.magitech.content.block.CrusherBlock;
-import net.stln.magitech.content.gui.CrusherMenu;
 import net.stln.magitech.content.recipe.CrushingRecipe;
 import net.stln.magitech.content.recipe.RecipeInit;
 import net.stln.magitech.core.api.mana.flow.ManaFlowRule;
-import net.stln.magitech.helper.LongContainerData;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
@@ -43,11 +37,11 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.Optional;
 
-public class CrusherBlockEntity extends ManaMachineBlockEntity implements GeoBlockEntity {
+public class CrusherBlockEntity extends ManaMachineBlockEntity implements GeoBlockEntity, IItemHandlerBlockEntity {
     public static final int INPUT = 0;
     public static final int OUTPUT = 1;
     public static final int MAX_PROGRESS = 100;
-    public static final long MANA_PER_TICK = 500;
+    public static final long MANA_PER_TICK = 250;
     private static final int ACTIVE_ANIMATION_TICKS = 40;
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
@@ -70,38 +64,25 @@ public class CrusherBlockEntity extends ManaMachineBlockEntity implements GeoBlo
 
     public CrusherBlockEntity(BlockPos pos, BlockState blockState, long mana) {
         super(BlockInit.CRUSHER_ENTITY.get(), pos, blockState, mana);
-        this.dataAccess = new LongContainerData() {
-
-            @Override
-            public long getLong(int index) {
-                return switch (index) {
-                    case 0 -> CrusherBlockEntity.this.getMana();
-                    case 1 -> CrusherBlockEntity.this.getMaxMana();
-                    case 2 -> CrusherBlockEntity.this.getFlowRate();
-                    case 3 -> CrusherBlockEntity.this.getMaxFlow();
-                    case 4 -> CrusherBlockEntity.this.getProductionRate();
-                    case 5 -> CrusherBlockEntity.this.getConsumptionRate();
-                    case 6 -> CrusherBlockEntity.this.getProgress();
-                    default -> 0;
-                };
-            }
-
-            @Override
-            public void setLong(int index, long value) {
-                if (index == 0) {
-                    CrusherBlockEntity.this.mana = Math.clamp(value, 0, CrusherBlockEntity.this.maxMana);
-                }
-            }
-
-            @Override
-            public int getLongCount() {
-                return 7;
-            }
-        };
     }
 
     public CrusherBlockEntity(BlockPos pos, BlockState blockState) {
         this(pos, blockState, 0);
+    }
+
+    @Override
+    public ItemStackHandler getItemHandler() {
+        return inventory;
+    }
+
+    @Override
+    public int getInputSlot() {
+        return INPUT;
+    }
+
+    @Override
+    public int getOutputSlot() {
+        return OUTPUT;
     }
 
     @Override
@@ -344,11 +325,6 @@ public class CrusherBlockEntity extends ManaMachineBlockEntity implements GeoBlo
     @Override
     public CompoundTag getUpdateTag(HolderLookup.Provider pRegistries) {
         return saveWithoutMetadata(pRegistries);
-    }
-
-    @Override
-    public AbstractContainerMenu createMenu(int containerId, Inventory inventory, Player player) {
-        return new CrusherMenu(containerId, inventory, this, ContainerLevelAccess.create(level, this.getBlockPos()), this.dataAccess);
     }
 
     @Override

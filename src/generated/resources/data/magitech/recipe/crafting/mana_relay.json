@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "M": {
+      "item": "magitech:mystwood_planks"
+    },
+    "N": {
+      "item": "magitech:mana_node"
+    },
+    "V": {
+      "item": "magitech:vesperite"
+    }
+  },
+  "pattern": [
+    " N ",
+    "MVM"
+  ],
+  "result": {
+    "count": 1,
+    "id": "magitech:mana_relay"
+  }
+}

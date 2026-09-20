@@ -1,0 +1,20 @@
+{
+  "type": "magitech:zardius_crucible",
+  "fluid_ingredient": {
+    "amount": 1000,
+    "fluid": "minecraft:water"
+  },
+  "fluid_result": {
+    "amount": 1000,
+    "id": "magitech:mana_potion"
+  },
+  "ingredients": [
+    {
+      "count": 2,
+      "ingredient": {
+        "item": "magitech:mana_berries"
+      }
+    }
+  ],
+  "mana": 20000
+}

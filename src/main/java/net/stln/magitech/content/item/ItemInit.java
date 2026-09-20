@@ -14,14 +14,18 @@ import net.neoforged.neoforge.common.DeferredSpawnEggItem;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.stln.magitech.Magitech;
+import net.stln.magitech.api.machine.inspection.MachineInspectionApi;
 import net.stln.magitech.content.block.BlockInit;
 import net.stln.magitech.content.entity.EntityInit;
 import net.stln.magitech.content.entity.status.AttributeInit;
 import net.stln.magitech.content.item.armor.AetherLifterItem;
 import net.stln.magitech.content.item.armor.FlamglideStriderItem;
+import net.stln.magitech.content.item.armor.SpectaclesOfInspectionItem;
+import net.stln.magitech.content.item.armor.SpectaclesOfInspectionCurioRenderer;
 import net.stln.magitech.content.item.energy.ManaChargedFluoriteItem;
 import net.stln.magitech.content.item.energy.ManaContainerItem;
 import net.stln.magitech.content.item.fluid.AlchemicalFlaskItem;
+import net.stln.magitech.content.item.debug.FieldInfluenceDebugItem;
 import net.stln.magitech.content.item.fluid.potion.*;
 import net.stln.magitech.content.item.tool.ToolBeltItem;
 import net.stln.magitech.content.item.tool.partitem.*;
@@ -31,6 +35,7 @@ import net.stln.magitech.content.item.tooltip_item.TooltipTextBoatItem;
 import net.stln.magitech.content.item.tooltip_item.TooltipTextItem;
 import net.stln.magitech.content.item.tooltip_item.TooltipTextPlaceableItem;
 import net.stln.magitech.feature.element.Element;
+import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
 
 import java.util.Map;
 
@@ -39,6 +44,9 @@ public class ItemInit {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Magitech.MOD_ID);
 
     public static final ResourceLocation THREADBOUND_ID = Magitech.id("threadbound");
+
+    public static final DeferredItem<Item> FIELD_INFLUENCE_DEBUG_ITEM = ITEMS.registerItem("field_influence_debug_item", FieldInfluenceDebugItem::new, new Item.Properties().stacksTo(1));
+
 
     public static final DeferredItem<GlisteningLexiconItem> GLISTENING_LEXICON = ITEMS.registerItem("glistening_lexicon",
             (properties) -> new GlisteningLexiconItem(properties).attributeModifier(Map.of(
@@ -212,6 +220,11 @@ public class ItemInit {
             (properties) -> new FlamglideStriderItem(ArmorMaterials.IRON, ArmorItem.Type.BOOTS, properties),
             new Item.Properties().durability(314).attributes(ItemAttributeModifiers.builder().add(Attributes.SAFE_FALL_DISTANCE, new AttributeModifier(Magitech.id("flamglide_strider"), 3, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.FEET).build())
     );
+    public static final DeferredItem<SpectaclesOfInspectionItem> SPECTACLES_OF_INSPECTION = ITEMS.registerItem(
+            "spectacles_of_inspection",
+            (properties) -> new SpectaclesOfInspectionItem(ArmorMaterials.LEATHER, ArmorItem.Type.HELMET, properties),
+            new Item.Properties().stacksTo(1)
+    );
     public static final DeferredItem<Item> THREAD_PAGE = ITEMS.registerItem("thread_page", ThreadPageItem::new, new Item.Properties().component(DataComponents.MAX_STACK_SIZE, 1));
     public static final DeferredItem<Item> ALCHAEFABRIC = ITEMS.registerItem("alchaefabric", TooltipTextItem::new);
     public static final DeferredItem<Item> AEGIS_WEAVE = ITEMS.registerItem("aegis_weave", TooltipTextItem::new);
@@ -308,6 +321,11 @@ public class ItemInit {
 
     public static void registerItems(IEventBus eventBus) {
         Magitech.LOGGER.info("Registering Items for" + Magitech.MOD_ID);
+        MachineInspectionApi.registerDisplayCondition(SpectaclesOfInspectionItem::isInspectionEnabled);
         ITEMS.register(eventBus);
+    }
+
+    public static void registerItemRenderers() {
+        CuriosRendererRegistry.register(SPECTACLES_OF_INSPECTION.get(), SpectaclesOfInspectionCurioRenderer::new);
     }
 }

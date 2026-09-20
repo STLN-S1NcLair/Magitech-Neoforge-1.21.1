@@ -1,0 +1,7 @@
+{
+  "parent": "magitech:block/heat_burner_bottom",
+  "textures": {
+    "0": "magitech:block/heat_burner_lit",
+    "particle": "magitech:block/heat_burner_lit"
+  }
+}

@@ -22,14 +22,14 @@ public class StickyTrait extends Trait {
 
     @Override
     public void onBlockLooting(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties, BlockState blockState, BlockPos pos, List<ItemEntity> loots) {
-        addBlockBreakVFX(player, level, stack, blockState, pos, MaterialInit.SLIME);
+        addBlockBreakVFX(player, level, stack, blockState, pos);
         teleportToPlayer(player, level, loots);
     }
 
     @Override
     public void onEntityLooting(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties, List<ItemEntity> loots) {
         if (!loots.isEmpty()) {
-            addEntityKillVFX(player, level, stack, loots.getFirst().position(), MaterialInit.SLIME);
+            addEntityKillVFX(player, level, stack, loots.getFirst().position());
         }
         teleportToPlayer(player, level, loots);
     }

@@ -8,9 +8,17 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import net.stln.magitech.Magitech;
 
+/**
+ * ワールド tick ごとにマナネットワーク管理を更新します。
+ * Updates the mana-network manager on each world tick.
+ */
 @EventBusSubscriber(modid = Magitech.MOD_ID)
 public class ManaNetworkTicker {
 
+    /**
+     * サーバー側のマナネットワーク管理を更新します。
+     * Updates the server-side mana-network manager.
+     */
     @SubscribeEvent
     public static void tickNetworkManager(LevelTickEvent.Post event) {
         Level level = event.getLevel();

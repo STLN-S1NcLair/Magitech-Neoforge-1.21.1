@@ -2,6 +2,7 @@ package net.stln.magitech.capability;
 
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -9,6 +10,7 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.content.block.BlockInit;
+import net.stln.magitech.content.block.block_entity.IItemHandlerBlockEntity;
 import net.stln.magitech.content.block.block_entity.ManaContainerBlockEntity;
 import net.stln.magitech.content.item.ItemInit;
 import net.stln.magitech.content.item.energy.ManaContainerItem;
@@ -27,10 +29,12 @@ public class CapabilityInit {
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockInit.INFUSION_ALTAR_ENTITY.get(), (blockEntity, direction) -> blockEntity.inventory);
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockInit.ZARDIUS_CRUCIBLE_ENTITY.get(), (blockEntity, direction) -> blockEntity.inventory);
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, BlockInit.ZARDIUS_CRUCIBLE_ENTITY.get(), (blockEntity, direction) -> blockEntity.tank);
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockInit.ENTANGLER_ENTITY.get(), (blockEntity, direction) -> blockEntity.inventory);
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockInit.EMBER_SMELTER_ENTITY.get(), (blockEntity, direction) -> blockEntity.inventory);
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockInit.CRUSHER_ENTITY.get(), (blockEntity, direction) -> blockEntity.inventory);
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockInit.COMPRESSOR_ENTITY.get(), (blockEntity, direction) -> blockEntity.inventory);
+        registerItemHandlerBlockEntity(event, BlockInit.ENTANGLER_ENTITY.get());
+        registerItemHandlerBlockEntity(event, BlockInit.CRUSHER_ENTITY.get());
+        registerItemHandlerBlockEntity(event, BlockInit.COMPRESSOR_ENTITY.get());
+        registerItemHandlerBlockEntity(event, BlockInit.CHILLER_ENTITY.get());
+        registerItemHandlerBlockEntity(event, BlockInit.HEAT_BURNER_ENTITY.get());
+        registerItemHandlerBlockEntity(event, BlockInit.THERMAL_MANA_FURNACE_ENTITY.get());
 
         // ブロックエンティティへの登録
         registerManaContainerBlockEntity(event, BlockInit.MANA_VESSEL_ENTITY.get());
@@ -45,9 +49,11 @@ public class CapabilityInit {
         registerManaContainerBlockEntity(event, BlockInit.CREATIVE_MANA_SOURCE_ENTITY.get());
         registerManaContainerBlockEntity(event, BlockInit.CREATIVE_MANA_SINK_ENTITY.get());
         registerManaContainerBlockEntity(event, BlockInit.ZARDIUS_CRUCIBLE_ENTITY.get());
-        registerManaContainerBlockEntity(event, BlockInit.EMBER_SMELTER_ENTITY.get());
         registerManaContainerBlockEntity(event, BlockInit.CRUSHER_ENTITY.get());
         registerManaContainerBlockEntity(event, BlockInit.COMPRESSOR_ENTITY.get());
+        registerManaContainerBlockEntity(event, BlockInit.CHILLER_ENTITY.get());
+        registerManaContainerBlockEntity(event, BlockInit.HEAT_BURNER_ENTITY.get());
+        registerManaContainerBlockEntity(event, BlockInit.THERMAL_MANA_FURNACE_ENTITY.get());
 
         // アイテムへの登録
         registerManaContainerItem(event, (ManaContainerItem) ItemInit.MANA_CELL.get());
@@ -82,6 +88,17 @@ public class CapabilityInit {
                     }
                     return null;
                 }
+        );
+    }
+
+    private static <T extends BlockEntity & IItemHandlerBlockEntity> void registerItemHandlerBlockEntity(
+            RegisterCapabilitiesEvent event,
+            BlockEntityType<T> type
+    ) {
+        event.registerBlockEntity(
+                Capabilities.ItemHandler.BLOCK,
+                type,
+                (blockEntity, direction) -> blockEntity.getCapabilityItemHandler()
         );
     }
 }

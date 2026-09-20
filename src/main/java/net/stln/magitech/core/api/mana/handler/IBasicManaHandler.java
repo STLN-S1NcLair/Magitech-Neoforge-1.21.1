@@ -2,6 +2,10 @@ package net.stln.magitech.core.api.mana.handler;
 
 import net.stln.magitech.core.api.mana.flow.ManaFlowRule;
 
+/**
+ * 充填率バイアスを持つ基本マナハンドラーの API です。
+ * API for basic mana handlers that support a fill-ratio bias.
+ */
 public interface IBasicManaHandler extends IManaHandler {
 
     /**
@@ -16,6 +20,7 @@ public interface IBasicManaHandler extends IManaHandler {
 
     /**
      * バイアス込みの「実効充填率」を計算するヘルパー
+     * Calculates the effective fill ratio including the bias.
      */
     default double getEffectiveFillRatio() {
         return fillRatio() + getManaFlowRule().flowBias();
@@ -24,9 +29,11 @@ public interface IBasicManaHandler extends IManaHandler {
     /**
      * バイアス込みの「実効マナ量」
      * ネットワーク計算用。Entanglerなら満タンでも 0 になる。
+     * Calculates the effective mana amount including the bias.
+     * Used for network calculations; an Entangler may report zero even when full.
      */
     default long getEffectiveMana() {
-        // 実効マナ = 現在量 + (最大容量 * バイアス)
+        // 実効マナ = 現在量 + (最大容量 * バイアス) / Effective mana = current amount + (maximum capacity * bias)
         long biasAmount = (long) (getMaxMana() * getManaFlowRule().flowBias());
 
         long effective;
@@ -36,8 +43,8 @@ public interface IBasicManaHandler extends IManaHandler {
             effective = biasAmount >= 0 ? Long.MAX_VALUE : Long.MIN_VALUE;
         }
 
-        // 負の値になると総量計算がおかしくなるため、0以上にする
-        // (逆に上限突破は許容する)
+        // 負の値になると総量計算がおかしくなるため、0以上にする / Clamp to zero because negative totals break network calculations
+        // (逆に上限突破は許容する) / Values above the maximum are intentionally allowed
         return Math.max(0, effective);
     }
 }

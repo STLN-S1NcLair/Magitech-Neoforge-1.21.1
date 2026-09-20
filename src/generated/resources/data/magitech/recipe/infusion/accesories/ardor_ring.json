@@ -1,0 +1,22 @@
+{
+  "type": "magitech:infusion",
+  "base": {
+    "count": 1,
+    "ingredient": {
+      "item": "magitech:fluxium_ring"
+    }
+  },
+  "ingredients": [
+    {
+      "count": 4,
+      "ingredient": {
+        "item": "magitech:ember_crystal"
+      }
+    }
+  ],
+  "mana": 40000,
+  "result": {
+    "count": 1,
+    "id": "magitech:ardor_ring"
+  }
+}

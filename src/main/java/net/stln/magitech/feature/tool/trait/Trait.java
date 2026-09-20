@@ -1,10 +1,14 @@
 package net.stln.magitech.feature.tool.trait;
 
+import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -19,6 +23,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.PacketDistributor;
+import net.stln.magitech.MagitechRegistries;
 import net.stln.magitech.content.network.TraitActionPayload;
 import net.stln.magitech.content.network.TraitBlockBreakVFXPayload;
 import net.stln.magitech.content.network.TraitEntityKillVFXPayload;
@@ -31,6 +36,7 @@ import net.stln.magitech.feature.tool.material.ToolMaterialLike;
 import net.stln.magitech.feature.tool.property.ToolProperties;
 import net.stln.magitech.feature.tool.property.modifier.ToolPropertyModifier;
 import net.stln.magitech.helper.ComponentHelper;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -38,7 +44,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public abstract class Trait {
+public abstract class Trait implements TraitLike {
+    public static final Codec<Trait> CODEC = MagitechRegistries.TRAIT.byNameCodec();
+    public static final StreamCodec<RegistryFriendlyByteBuf, Trait> STREAM_CODEC = ByteBufCodecs.registry(MagitechRegistries.Keys.TRAIT);
 
     public List<ToolPropertyModifier> modifyProperty(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties) {
         return new ArrayList<>();
@@ -67,16 +75,16 @@ public abstract class Trait {
         }
     }
 
-    public void addBlockBreakVFX(Player player, Level level, ItemStack stack, BlockState blockState, BlockPos pos, ToolMaterialLike material) {
+    public void addBlockBreakVFX(Player player, Level level, ItemStack stack, BlockState blockState, BlockPos pos) {
         if (!level.isClientSide) {
-            TraitBlockBreakVFXPayload payload = new TraitBlockBreakVFXPayload(pos, player.getUUID(), material.asToolMaterial());
+            TraitBlockBreakVFXPayload payload = new TraitBlockBreakVFXPayload(pos, player.getUUID(), this);
             PacketDistributor.sendToAllPlayers(payload);
         }
     }
 
-    public void addEntityKillVFX(Player player, Level level, ItemStack stack, Vec3 pos, ToolMaterialLike material) {
+    public void addEntityKillVFX(Player player, Level level, ItemStack stack, Vec3 pos) {
         if (!level.isClientSide) {
-            TraitEntityKillVFXPayload payload = new TraitEntityKillVFXPayload(pos.toVector3f(), player.getUUID(), material.asToolMaterial());
+            TraitEntityKillVFXPayload payload = new TraitEntityKillVFXPayload(pos.toVector3f(), player.getUUID(), this);
             PacketDistributor.sendToAllPlayers(payload);
         }
     }
@@ -186,5 +194,10 @@ public abstract class Trait {
 
     public int getMaxLevel() {
         return -1;
+    }
+
+    @Override
+    public @NotNull Trait asTrait() {
+        return this;
     }
 }

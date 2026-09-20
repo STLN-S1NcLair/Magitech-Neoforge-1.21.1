@@ -1,0 +1,7 @@
+{
+  "parent": "magitech:block/thermal_mana_furnace_top",
+  "textures": {
+    "0": "magitech:block/thermal_mana_furnace_lit",
+    "particle": "magitech:block/thermal_mana_furnace_lit"
+  }
+}

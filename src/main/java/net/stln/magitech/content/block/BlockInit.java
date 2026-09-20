@@ -153,14 +153,6 @@ public class BlockInit {
             BLOCK_ENITIES.register("item_collector", () -> BlockEntityType.Builder.of(
                     ItemCollectorBlockEntity::new, BlockInit.ITEM_COLLECTOR.get()).build(null));
 
-    public static final DeferredBlock<EmberSmelterBlock> EMBER_SMELTER = BLOCKS.registerBlock("ember_smelter",
-            properties -> new EmberSmelterBlock(properties, 1000000, 5000),
-            BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(SoundType.NETHERITE_BLOCK).lightLevel((blockState) -> 5).noOcclusion());
-    public static final DeferredItem<BlockItem> EMBER_SMELTER_ITEM = ItemInit.ITEMS.register("ember_smelter", key -> new HintTooltipTextManaContainerBlockItem(EMBER_SMELTER.get(), new Item.Properties()));
-    public static final Supplier<BlockEntityType<EmberSmelterBlockEntity>> EMBER_SMELTER_ENTITY =
-            BLOCK_ENITIES.register("ember_smelter", () -> BlockEntityType.Builder.of(
-                    EmberSmelterBlockEntity::new, BlockInit.EMBER_SMELTER.get()).build(null));
-
     public static final DeferredBlock<CrusherBlock> CRUSHER = BLOCKS.registerBlock("crusher",
             properties -> new CrusherBlock(properties, 500000, 5000),
             BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(SoundType.NETHERITE_BLOCK).lightLevel((blockState) -> 5).noOcclusion());
@@ -176,6 +168,39 @@ public class BlockInit {
     public static final Supplier<BlockEntityType<CompressorBlockEntity>> COMPRESSOR_ENTITY =
             BLOCK_ENITIES.register("compressor", () -> BlockEntityType.Builder.of(
                     CompressorBlockEntity::new, BlockInit.COMPRESSOR.get()).build(null));
+
+    public static final DeferredBlock<ChillerBlock> CHILLER = BLOCKS.registerBlock("chiller",
+            properties -> new ChillerBlock(properties, 500000, 5000),
+            BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(SoundType.NETHERITE_BLOCK).noOcclusion().requiresCorrectToolForDrops());
+    public static final DeferredItem<BlockItem> CHILLER_ITEM = ItemInit.ITEMS.register("chiller", key -> new HintTooltipTextManaContainerBlockItem(CHILLER.get(), new Item.Properties()));
+    public static final Supplier<BlockEntityType<ChillerBlockEntity>> CHILLER_ENTITY =
+            BLOCK_ENITIES.register("chiller", () -> BlockEntityType.Builder.of(
+                    ChillerBlockEntity::new, BlockInit.CHILLER.get()).build(null));
+
+    public static final DeferredBlock<HeatBurnerBlock> HEAT_BURNER = BLOCKS.registerBlock("heat_burner",
+            properties -> new HeatBurnerBlock(properties, 500000, 5000),
+            BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(SoundType.NETHERITE_BLOCK).noOcclusion().requiresCorrectToolForDrops());
+    public static final DeferredItem<BlockItem> HEAT_BURNER_ITEM = ItemInit.ITEMS.register("heat_burner", key -> new HintTooltipTextManaContainerBlockItem(HEAT_BURNER.get(), new Item.Properties()));
+    public static final Supplier<BlockEntityType<HeatBurnerBlockEntity>> HEAT_BURNER_ENTITY =
+            BLOCK_ENITIES.register("heat_burner", () -> BlockEntityType.Builder.of(
+                    HeatBurnerBlockEntity::new, BlockInit.HEAT_BURNER.get()).build(null));
+
+    public static final DeferredBlock<EnvirometerBlock> ENVIROMETER = BLOCKS.registerBlock("envirometer",
+            EnvirometerBlock::new,
+            BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(SoundType.NETHERITE_BLOCK).noOcclusion());
+    public static final DeferredItem<BlockItem> ENVIROMETER_ITEM = ItemInit.ITEMS.register("envirometer",
+            key -> new HintTooltipTextBlockItem(ENVIROMETER.get(), new Item.Properties()));
+    public static final Supplier<BlockEntityType<EnvirometerBlockEntity>> ENVIROMETER_ENTITY =
+            BLOCK_ENITIES.register("envirometer", () -> BlockEntityType.Builder.of(
+                    EnvirometerBlockEntity::new, BlockInit.ENVIROMETER.get()).build(null));
+
+    public static final DeferredBlock<ThermalManaFurnaceBlock> THERMAL_MANA_FURNACE = BLOCKS.registerBlock("thermal_mana_furnace",
+            properties -> new ThermalManaFurnaceBlock(properties, 1000000, 5000),
+            BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(SoundType.NETHERITE_BLOCK).noOcclusion().requiresCorrectToolForDrops().lightLevel((blockState) -> blockState.getValue(ThermalManaFurnaceBlock.LIT) ? 7 : 0));
+    public static final DeferredItem<BlockItem> THERMAL_MANA_FURNACE_ITEM = ItemInit.ITEMS.register("thermal_mana_furnace", key -> new HintTooltipTextManaContainerBlockItem(THERMAL_MANA_FURNACE.get(), new Item.Properties()));
+    public static final Supplier<BlockEntityType<ThermalManaFurnaceBlockEntity>> THERMAL_MANA_FURNACE_ENTITY =
+            BLOCK_ENITIES.register("thermal_mana_furnace", () -> BlockEntityType.Builder.of(
+                    ThermalManaFurnaceBlockEntity::new, BlockInit.THERMAL_MANA_FURNACE.get()).build(null));
 
     // マナ輸送
 

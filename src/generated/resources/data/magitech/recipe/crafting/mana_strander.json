@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "magitech:enhanced_mana_node"
+    },
+    "A": {
+      "item": "magitech:alchecrysite"
+    },
+    "I": {
+      "item": "magitech:fluxium_ingot"
+    },
+    "N": {
+      "item": "minecraft:gold_nugget"
+    }
+  },
+  "pattern": [
+    " # ",
+    "IAI",
+    "ANA"
+  ],
+  "result": {
+    "count": 1,
+    "id": "magitech:mana_strander"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "type": "magitech:zardius_crucible",
+  "fluid_ingredient": {
+    "amount": 1000,
+    "fluid": "magitech:mana_potion"
+  },
+  "fluid_result": {
+    "amount": 1000,
+    "id": "magitech:ember_potion"
+  },
+  "ingredients": [
+    {
+      "count": 1,
+      "ingredient": {
+        "item": "magitech:aggregated_fluxia"
+      }
+    },
+    {
+      "count": 1,
+      "ingredient": {
+        "item": "magitech:ember_crystal"
+      }
+    },
+    {
+      "count": 1,
+      "ingredient": {
+        "tag": "minecraft:coals"
+      }
+    },
+    {
+      "count": 1,
+      "ingredient": {
+        "tag": "c:gems/citrine"
+      }
+    }
+  ],
+  "mana": 10000
+}

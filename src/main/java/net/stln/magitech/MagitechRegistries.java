@@ -6,6 +6,8 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.NewRegistryEvent;
 import net.neoforged.neoforge.registries.RegistryBuilder;
 import net.stln.magitech.content.item.fluid.FluidContainerMatcher;
+import net.stln.magitech.core.api.field_effect.FieldInfluenceType;
+import net.stln.magitech.core.api.field_effect.FieldEffectType;
 import net.stln.magitech.feature.magic.spell.ISpell;
 import net.stln.magitech.feature.tool.material.ToolMaterial;
 import net.stln.magitech.feature.tool.part.ToolPart;
@@ -22,7 +24,10 @@ public final class MagitechRegistries {
     public static final Registry<ToolType> TOOL_TYPE = new RegistryBuilder<>(Keys.TOOL_TYPE).sync(true).create();
     public static final Registry<IToolProperty<?>> TOOL_PROPERTY = new RegistryBuilder<>(Keys.TOOL_PROPERTY).sync(true).create();
     public static final Registry<ToolMaterial> TOOL_MATERIAL = new RegistryBuilder<>(Keys.TOOL_MATERIAL).sync(true).create();
+    public static final Registry<Trait> TRAIT = new RegistryBuilder<>(Keys.TRAIT).sync(true).create();
     public static final Registry<Upgrade> UPGRADE = new RegistryBuilder<>(Keys.UPGRADE).sync(true).create();
+    public static final Registry<FieldInfluenceType> FIELD_INFLUENCE_TYPE = new RegistryBuilder<>(Keys.FIELD_INFLUENCE_TYPE).sync(true).create();
+    public static final Registry<FieldEffectType> FIELD_EFFECT_TYPE = new RegistryBuilder<>(Keys.FIELD_EFFECT_TYPE).sync(true).create();
     public static final Registry<FluidContainerMatcher> FLUID_CONTAINER_MATCHER = new RegistryBuilder<>(Keys.FLUID_CONTAINER_MATCHER).sync(true).create();
 
     private MagitechRegistries() {
@@ -36,10 +41,13 @@ public final class MagitechRegistries {
             event.register(TOOL_TYPE);
             event.register(TOOL_PROPERTY);
             event.register(TOOL_MATERIAL);
+            event.register(TRAIT);
             event.register(UPGRADE);
+            event.register(FIELD_INFLUENCE_TYPE);
+            event.register(FIELD_EFFECT_TYPE);
             event.register(FLUID_CONTAINER_MATCHER);
         });
-        Magitech.LOGGER.info("Registering Spells for" + Magitech.MOD_ID);
+        Magitech.LOGGER.info("Registering Registries for" + Magitech.MOD_ID);
     }
 
     public static final class Keys {
@@ -49,7 +57,10 @@ public final class MagitechRegistries {
         public static final ResourceKey<? extends Registry<ToolType>> TOOL_TYPE = ResourceKey.createRegistryKey(Magitech.id("tool_type"));
         public static final ResourceKey<? extends Registry<IToolProperty<?>>> TOOL_PROPERTY = ResourceKey.createRegistryKey(Magitech.id("tool_property"));
         public static final ResourceKey<? extends Registry<ToolMaterial>> TOOL_MATERIAL = ResourceKey.createRegistryKey(Magitech.id("tool_material"));
+        public static final ResourceKey<? extends Registry<Trait>> TRAIT = ResourceKey.createRegistryKey(Magitech.id("trait"));
         public static final ResourceKey<? extends Registry<Upgrade>> UPGRADE = ResourceKey.createRegistryKey(Magitech.id("upgrade"));
+        public static final ResourceKey<? extends Registry<FieldInfluenceType>> FIELD_INFLUENCE_TYPE = ResourceKey.createRegistryKey(Magitech.id("field_influence_type"));
+        public static final ResourceKey<? extends Registry<FieldEffectType>> FIELD_EFFECT_TYPE = ResourceKey.createRegistryKey(Magitech.id("field_effect_type"));
         public static final ResourceKey<? extends Registry<FluidContainerMatcher>> FLUID_CONTAINER_MATCHER = ResourceKey.createRegistryKey(Magitech.id("alchemical_flask_containable"));
 
         private Keys() {

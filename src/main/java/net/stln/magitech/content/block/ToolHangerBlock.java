@@ -26,6 +26,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.content.block.block_entity.ToolHangerBlockEntity;
 import net.stln.magitech.content.item.ItemTagKeys;
+import net.stln.magitech.helper.MachinePlacementHelper;
 import net.stln.magitech.helper.VoxelShapeHelper;
 
 import javax.annotation.Nullable;
@@ -75,7 +76,7 @@ public class ToolHangerBlock extends BaseEntityBlock {
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+        return this.defaultBlockState().setValue(FACING, MachinePlacementHelper.getFacing(context, context.getHorizontalDirection()));
     }
 
     /* BLOCK ENTITY */

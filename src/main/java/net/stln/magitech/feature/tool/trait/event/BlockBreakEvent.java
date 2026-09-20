@@ -9,6 +9,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
@@ -23,6 +24,7 @@ import net.stln.magitech.content.item.tool.toolitem.SynthesisedToolItem;
 import net.stln.magitech.content.network.BreakBlockPayload;
 import net.stln.magitech.content.network.TraitBlockBreakVFXPayload;
 import net.stln.magitech.feature.tool.tool_type.ToolType;
+import net.stln.magitech.feature.tool.trait.Trait;
 import net.stln.magitech.feature.tool.trait.TraitHelper;
 import net.stln.magitech.feature.tool.trait.TraitInstance;
 import net.stln.magitech.helper.ComponentHelper;
@@ -50,7 +52,7 @@ public class BlockBreakEvent {
 
             List<TraitInstance> instances = TraitHelper.getTrait(tool);
             Set<BlockPos> finalBlockList = new HashSet<>();
-            List<Set<BlockPos>> additionalBlockList = new ArrayList<>();
+            Map<Trait, Set<BlockPos>> additionalBlockList = new LinkedHashMap<>();
             Direction breakDirection = SynthesisedToolItem.getBreakDirection(player.blockInteractionRange(), pos, player);
             ToolType toolType = partToolItem.getToolType();
             Set<BlockPos> blockList = new HashSet<>(toolType.additionalMine().apply(player, tool, pos, breakDirection));
@@ -60,46 +62,53 @@ public class BlockBreakEvent {
             blockList.forEach(pos1 -> instances.forEach((instance) -> {
                 Set<BlockPos> additionalBlocks = new HashSet<>();
                 instance.trait().additionalBlockBreak(player, event.getPlayer().level(), tool, instance.level(), partToolItem.getAppliedProperties(player, event.getPlayer().level(), tool), event.getLevel().getBlockState(pos1), pos1, additionalBlocks, 1, breakDirection, false);
-                additionalBlockList.add(additionalBlocks);
+                additionalBlockList.computeIfAbsent(instance.trait(), ignored -> new HashSet<>()).addAll(additionalBlocks);
                 finalBlockList.addAll(additionalBlocks);
             }));
             BROKEN_BLOCKS.addAll(finalBlockList);
-            if (finalBlockList.size() < 2) {
-                BROKEN_BLOCKS.removeAll(finalBlockList);
-            }
-            finalBlockList.forEach(pos1 -> {
-                final boolean[] flag = {true};
-                instances.forEach((instance) -> {
-                    if (!blockList.contains(pos1)) {
-                        BreakBlockPayload payload = new BreakBlockPayload(pos1, pos, player.getUUID(), flag[0]);
-                        PacketDistributor.sendToAllPlayers(payload);
-                        if (flag[0]) {
-                            instance.trait().onBreakBlock(player, event.getPlayer().level(), tool, instance.level(), partToolItem.getAppliedProperties(player, event.getPlayer().level(), tool), event.getLevel().getBlockState(pos1), pos1, 1, false);
+            try {
+                finalBlockList.forEach(pos1 -> {
+                    final boolean[] flag = {true};
+                    instances.forEach((instance) -> {
+                        if (!pos1.equals(pos)) {
+                            boolean traitBreak = !blockList.contains(pos1);
+                            BreakBlockPayload payload = new BreakBlockPayload(pos1, pos, player.getUUID(), flag[0] && traitBreak);
+                            PacketDistributor.sendToAllPlayers(payload);
+                            if (flag[0]) {
+                                BlockState blockState = event.getLevel().getBlockState(pos1);
+                                if (traitBreak) {
+                                    instance.trait().onBreakBlock(player, event.getPlayer().level(), tool, instance.level(), partToolItem.getAppliedProperties(player, event.getPlayer().level(), tool), blockState, pos1, 1, false);
+                                }
 
-                            if (player instanceof ServerPlayer serverPlayer) {
-                                serverPlayer.gameMode.destroyBlock(pos1);
+                                boolean destroyed = true;
+                                if (player instanceof ServerPlayer serverPlayer) {
+                                    destroyed = serverPlayer.gameMode.destroyBlock(pos1);
+                                }
+                                if (!traitBreak && destroyed && !blockState.isAir()) {
+                                    event.getLevel().levelEvent(null, 2001, pos1, Block.getId(blockState));
+                                }
+                                flag[0] = false;
                             }
-                            flag[0] = false;
+                        } else {
+                            BreakBlockPayload payload = new BreakBlockPayload(pos1, pos, player.getUUID(), flag[0]);
+                            PacketDistributor.sendToAllPlayers(payload);
+                            if (flag[0]) {
+                                instance.trait().onBreakBlock(player, event.getPlayer().level(), tool, instance.level(), partToolItem.getAppliedProperties(player, event.getPlayer().level(), tool), state, pos1, 1, true);
+                                flag[0] = false;
+                            }
                         }
-                    } else {
-                        BreakBlockPayload payload = new BreakBlockPayload(pos1, pos, player.getUUID(), flag[0]);
-                        PacketDistributor.sendToAllPlayers(payload);
-                        if (flag[0]) {
-                            instance.trait().onBreakBlock(player, event.getPlayer().level(), tool, instance.level(), partToolItem.getAppliedProperties(player, event.getPlayer().level(), tool), state, pos1, 1, true);
-                            flag[0] = false;
-                        }
-                    }
+                    });
                 });
-            });
-            int index = 0;
-            for (Set<BlockPos> blockPos : additionalBlockList) {
-                for (BlockPos pos2 : blockPos) {
-                    if (pos2.equals(pos)) continue;
+                for (Map.Entry<Trait, Set<BlockPos>> additionalBlock : additionalBlockList.entrySet()) {
+                    for (BlockPos pos2 : additionalBlock.getValue()) {
+                        if (pos2.equals(pos) || blockList.contains(pos2)) continue;
 
-                    TraitBlockBreakVFXPayload payload = new TraitBlockBreakVFXPayload(pos2, player.getUUID(), ComponentHelper.getPartMaterials(tool).get(index));
-                    PacketDistributor.sendToAllPlayers(payload);
+                        TraitBlockBreakVFXPayload payload = new TraitBlockBreakVFXPayload(pos2, player.getUUID(), additionalBlock.getKey());
+                        PacketDistributor.sendToAllPlayers(payload);
+                    }
                 }
-                index++;
+            } finally {
+                BROKEN_BLOCKS.removeAll(finalBlockList);
             }
         }
     }

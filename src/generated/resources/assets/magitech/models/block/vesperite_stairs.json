@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "bottom": "magitech:block/vesperite",
+    "side": "magitech:block/vesperite",
+    "top": "magitech:block/vesperite"
+  }
+}

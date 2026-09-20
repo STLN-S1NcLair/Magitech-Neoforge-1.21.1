@@ -1,0 +1,44 @@
+{
+  "type": "magitech:zardius_crucible",
+  "fluid_ingredient": {
+    "amount": 250,
+    "fluid": "magitech:hollow_potion"
+  },
+  "ingredients": [
+    {
+      "count": 1,
+      "ingredient": {
+        "item": "minecraft:ender_pearl"
+      }
+    },
+    {
+      "count": 2,
+      "ingredient": {
+        "item": "minecraft:iron_ingot"
+      }
+    },
+    {
+      "count": 1,
+      "ingredient": {
+        "item": "minecraft:gold_ingot"
+      }
+    },
+    {
+      "count": 1,
+      "ingredient": {
+        "item": "minecraft:copper_ingot"
+      }
+    },
+    {
+      "count": 1,
+      "ingredient": {
+        "item": "magitech:hollow_crystal"
+      }
+    }
+  ],
+  "mana": 50000,
+  "result": {
+    "count": 5,
+    "id": "magitech:ender_metal_ingot"
+  }
+}

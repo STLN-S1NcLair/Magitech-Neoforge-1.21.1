@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "minecraft:book"
+    },
+    "L": {
+      "tag": "c:stripped_logs"
+    },
+    "P": {
+      "type": "neoforge:components",
+      "components": {
+        "magitech:material_component": "magitech:stone"
+      },
+      "items": "magitech:plate"
+    },
+    "S": {
+      "type": "neoforge:components",
+      "components": {
+        "magitech:material_component": "magitech:iron"
+      },
+      "items": "magitech:reinforced_rod"
+    }
+  },
+  "pattern": [
+    "PLP",
+    "SBS",
+    "PLP"
+  ],
+  "result": {
+    "count": 1,
+    "id": "magitech:materials_and_toolcraft_design"
+  }
+}

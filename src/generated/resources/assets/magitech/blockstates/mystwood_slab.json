@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "magitech:block/mystwood_slab"
+    },
+    "type=double": {
+      "model": "magitech:block/mystwood_planks"
+    },
+    "type=top": {
+      "model": "magitech:block/mystwood_slab_top"
+    }
+  }
+}

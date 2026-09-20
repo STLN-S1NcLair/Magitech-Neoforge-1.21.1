@@ -154,4 +154,8 @@ public enum Element implements StringRepresentable, IExtensibleEnum {
     public static net.neoforged.fml.common.asm.enumextension.ExtensionInfo getExtensionInfo() {
         return net.neoforged.fml.common.asm.enumextension.ExtensionInfo.nonExtended(Element.class);
     }
+
+    public int pria() {
+        return 0;
+    }
 }

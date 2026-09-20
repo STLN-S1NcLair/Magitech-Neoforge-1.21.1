@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/glass",
+  "render_type": "minecraft:translucent",
+  "textures": {
+    "all": "magitech:block/mana_insulating_glass"
+  }
+}

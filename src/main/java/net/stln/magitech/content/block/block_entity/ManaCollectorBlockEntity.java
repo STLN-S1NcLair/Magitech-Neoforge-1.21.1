@@ -11,10 +11,6 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -24,7 +20,6 @@ import net.minecraft.world.phys.Vec3;
 import net.stln.magitech.content.block.BlockInit;
 import net.stln.magitech.content.block.ManaCollectorBlock;
 import net.stln.magitech.content.block.ManaStranderBlock;
-import net.stln.magitech.content.gui.ManaCollectorMenu;
 import net.stln.magitech.core.api.mana.flow.ManaFlowRule;
 import net.stln.magitech.core.api.mana.handler.MachineBlockEntityManaHandler;
 import net.stln.magitech.effect.visual.preset.PointVFX;
@@ -105,11 +100,6 @@ public class ManaCollectorBlockEntity extends ManaMachineBlockEntity {
         // マナ収集
         long collect = collectionRate / collectorCount;
         handler.produceMana(collect);
-    }
-
-    @Override
-    public AbstractContainerMenu createMenu(int containerId, Inventory inventory, Player player) {
-        return new ManaCollectorMenu(containerId, inventory, ContainerLevelAccess.create(level, this.getBlockPos()), this.dataAccess);
     }
 
     @Override

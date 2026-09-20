@@ -7,9 +7,7 @@ import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
-import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -34,6 +32,8 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.stln.magitech.content.block.block_entity.ZardiusCrucibleBlockEntity;
+import net.stln.magitech.helper.MachineInteractionHelper;
+import net.stln.magitech.helper.MachinePlacementHelper;
 import net.stln.magitech.helper.TickScheduler;
 
 import javax.annotation.Nullable;
@@ -83,7 +83,7 @@ public class ZardiusCrucibleBlock extends ManaContainerBlock {
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
         boolean flag = fluidstate.getType() == Fluids.WATER;
-        return this.defaultBlockState().setValue(LIT, Boolean.valueOf(false)).setValue(FACING, context.getHorizontalDirection().getOpposite());
+        return this.defaultBlockState().setValue(LIT, Boolean.valueOf(false)).setValue(FACING, MachinePlacementHelper.getFacing(context, context.getHorizontalDirection()));
     }
 
     @Override
@@ -154,19 +154,6 @@ public class ZardiusCrucibleBlock extends ManaContainerBlock {
     }
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        if (level.isClientSide) {
-            return InteractionResult.SUCCESS;
-        } else {
-            BlockEntity blockentity = level.getBlockEntity(pos);
-            if (blockentity instanceof ZardiusCrucibleBlockEntity) {
-                player.openMenu((MenuProvider) blockentity);
-            }
-            return InteractionResult.CONSUME;
-        }
-    }
-
-    @Override
     protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
         if (state.getBlock() != newState.getBlock()) {
             if (level.getBlockEntity(pos) instanceof ZardiusCrucibleBlockEntity pylonBlockEntity) {
@@ -180,11 +167,8 @@ public class ZardiusCrucibleBlock extends ManaContainerBlock {
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
                                               Player player, InteractionHand hand, BlockHitResult hitResult) {
-        BlockEntity entity = level.getBlockEntity(pos);
-        if (entity instanceof ZardiusCrucibleBlockEntity zardiusCrucibleBlockEntity) {
-            ItemStack itemInHand = player.getItemInHand(hand);
-            zardiusCrucibleBlockEntity.addItem(player, itemInHand, itemInHand.getCount());
-            return ItemInteractionResult.SUCCESS;
+        if (level.getBlockEntity(pos) instanceof ZardiusCrucibleBlockEntity crucible) {
+            return MachineInteractionHelper.interact(stack, level, pos, player, hand, crucible);
         }
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }

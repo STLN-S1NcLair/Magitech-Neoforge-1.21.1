@@ -9,6 +9,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.feature.tool.material.ToolMaterial;
+import net.stln.magitech.feature.tool.trait.Trait;
 import net.stln.magitech.helper.VectorHelper;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
@@ -16,7 +17,7 @@ import org.joml.Vector3f;
 import java.util.UUID;
 
 public record TraitEntityKillVFXPayload(Vector3f pos, UUID uuid,
-                                        ToolMaterial material) implements CustomPacketPayload {
+                                        Trait trait) implements CustomPacketPayload {
     public static final ResourceLocation PAYLOAD_ID = Magitech.id("trait_entity_kill_vfx");
     public static final Type<TraitEntityKillVFXPayload> TYPE = new Type<>(PAYLOAD_ID);
     public static final StreamCodec<RegistryFriendlyByteBuf, TraitEntityKillVFXPayload> STREAM_CODEC = StreamCodec.composite(
@@ -24,8 +25,8 @@ public record TraitEntityKillVFXPayload(Vector3f pos, UUID uuid,
             TraitEntityKillVFXPayload::pos,
             UUIDUtil.STREAM_CODEC,
             TraitEntityKillVFXPayload::uuid,
-            ToolMaterial.STREAM_CODEC,
-            TraitEntityKillVFXPayload::material,
+            Trait.STREAM_CODEC,
+            TraitEntityKillVFXPayload::trait,
             TraitEntityKillVFXPayload::new
     );
 

@@ -1,0 +1,44 @@
+{
+  "type": "magitech:zardius_crucible",
+  "fluid_ingredient": {
+    "amount": 2000,
+    "fluid": "minecraft:water"
+  },
+  "ingredients": [
+    {
+      "count": 1,
+      "ingredient": {
+        "item": "minecraft:book"
+      }
+    },
+    {
+      "count": 1,
+      "ingredient": {
+        "item": "minecraft:gold_ingot"
+      }
+    },
+    {
+      "count": 8,
+      "ingredient": {
+        "tag": "c:gems/fluorite"
+      }
+    },
+    {
+      "count": 8,
+      "ingredient": {
+        "item": "magitech:alchecrysite"
+      }
+    },
+    {
+      "count": 1,
+      "ingredient": {
+        "tag": "c:gems/tourmaline"
+      }
+    }
+  ],
+  "mana": 40000,
+  "result": {
+    "count": 1,
+    "id": "magitech:the_fire_that_thinks"
+  }
+}

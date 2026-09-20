@@ -1,0 +1,13 @@
+{
+  "type": "magitech:compressing",
+  "ingredient": {
+    "count": 4,
+    "ingredient": {
+      "item": "magitech:restraint_quartz_dust"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "magitech:restraint_quartz"
+  }
+}

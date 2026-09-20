@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.0,
+  "group": "misc",
+  "ingredient": {
+    "item": "magitech:raw_zinc"
+  },
+  "result": {
+    "count": 1,
+    "id": "magitech:zinc_ingot"
+  }
+}

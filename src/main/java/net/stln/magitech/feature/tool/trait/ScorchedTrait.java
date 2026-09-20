@@ -38,14 +38,14 @@ public class ScorchedTrait extends Trait {
     }
     @Override
     public void onBlockLooting(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties, BlockState blockState, BlockPos pos, List<ItemEntity> loots) {
-        addBlockBreakVFX(player, level, stack, blockState, pos, MaterialInit.NETHER_BRICK);
+        addBlockBreakVFX(player, level, stack, blockState, pos);
         smeltLoot(level, loots);
     }
 
     @Override
     public void onEntityLooting(Player player, Level level, ItemStack stack, int traitLevel, ToolProperties properties, List<ItemEntity> loots) {
         if (!loots.isEmpty()) {
-            addEntityKillVFX(player, level, stack, loots.getFirst().position(), MaterialInit.NETHER_BRICK);
+            addEntityKillVFX(player, level, stack, loots.getFirst().position());
         }
         smeltLoot(level, loots);
     }

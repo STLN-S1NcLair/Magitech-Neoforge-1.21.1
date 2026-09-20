@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "magitech:alchecrysite"
+    },
+    "C": {
+      "tag": "c:ingots/copper"
+    },
+    "F": {
+      "item": "magitech:high_purity_fluorite"
+    },
+    "I": {
+      "item": "magitech:fluxium_ingot"
+    },
+    "N": {
+      "item": "minecraft:gold_nugget"
+    },
+    "U": {
+      "item": "magitech:fluxium_nugget"
+    }
+  },
+  "pattern": [
+    "ICI",
+    "UFU",
+    "ANA"
+  ],
+  "result": {
+    "count": 1,
+    "id": "magitech:mana_collector"
+  }
+}

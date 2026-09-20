@@ -2,6 +2,7 @@ package net.stln.magitech.effect.visual.preset;
 
 import team.lodestar.lodestone.systems.particle.ParticleEffectSpawner;
 import team.lodestar.lodestone.systems.particle.builder.WorldParticleBuilder;
+import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
 
 import java.util.function.Consumer;
 
@@ -18,6 +19,10 @@ public class PresetHelper {
     public static ParticleEffectSpawner modifyBloomTransparency(ParticleEffectSpawner spawner, float value) {
         spawner.getBloomBuilder().modifyTransparencyData(genericParticleData -> genericParticleData.multiplyValue(value));
         return spawner;
+    }
+
+    public static ParticleEffectSpawner shrink(ParticleEffectSpawner spawner) {
+        return PresetHelper.modify(spawner, builder -> builder.modifyScaleData(genericParticleData -> builder.setScaleData(GenericParticleData.create(genericParticleData.middleValue, genericParticleData.endingValue))));
     }
 
     public static ParticleEffectSpawner bigger(ParticleEffectSpawner spawner, float value) {

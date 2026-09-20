@@ -34,7 +34,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class EntanglerBlockEntity extends BlockEntity {
+public class EntanglerBlockEntity extends BlockEntity implements IItemHandlerBlockEntity {
 
     // ItemStackHandlerの変更を監視してサーバ側で同期を取る
     public final ItemStackHandler inventory = new ItemStackHandler(1) {
@@ -52,6 +52,16 @@ public class EntanglerBlockEntity extends BlockEntity {
 
     public EntanglerBlockEntity(BlockPos pos, BlockState blockState) {
         super(BlockInit.ENTANGLER_ENTITY.get(), pos, blockState);
+    }
+
+    @Override
+    public ItemStackHandler getItemHandler() {
+        return inventory;
+    }
+
+    @Override
+    public int getInputSlot() {
+        return 0;
     }
 
     public static void clientTicker(Level level, BlockPos pos, BlockState state, EntanglerBlockEntity blockEntity) {
@@ -93,6 +103,7 @@ public class EntanglerBlockEntity extends BlockEntity {
         if (level.getGameTime() % 5 == 0) {
             Direction direction = state.getValue(BlockStateProperties.FACING).getOpposite();
             BlockPos targetPos = pos.offset(direction.getNormal());
+            if (level.getBlockState(targetPos).getBlock() == BlockInit.ENTANGLER.get()) return; // 連鎖しないようにする
             IItemHandler handler = level.getCapability(Capabilities.ItemHandler.BLOCK, targetPos, direction);
             if (handler == null) return;
             if (!level.isClientSide) {

@@ -1,0 +1,7 @@
+{
+  "parent": "magitech:block/chiller_top",
+  "textures": {
+    "0": "magitech:block/chiller_lit",
+    "particle": "magitech:block/chiller_lit"
+  }
+}

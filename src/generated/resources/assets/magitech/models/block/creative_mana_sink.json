@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "magitech:block/creative_connector",
+    "side": "magitech:block/creative_mana_sink"
+  }
+}

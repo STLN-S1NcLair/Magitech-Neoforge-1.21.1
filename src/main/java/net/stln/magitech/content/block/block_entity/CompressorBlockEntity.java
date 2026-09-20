@@ -13,10 +13,6 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.Containers;
 import net.minecraft.world.SimpleContainer;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
@@ -28,12 +24,10 @@ import net.stln.magitech.Magitech;
 import net.stln.magitech.content.block.BlockInit;
 import net.stln.magitech.content.block.BlockStatePropertyInit;
 import net.stln.magitech.content.block.CompressorBlock;
-import net.stln.magitech.content.gui.CompressorMenu;
 import net.stln.magitech.content.network.CompressorCraftPayload;
 import net.stln.magitech.content.recipe.CompressingRecipe;
 import net.stln.magitech.content.recipe.RecipeInit;
 import net.stln.magitech.core.api.mana.flow.ManaFlowRule;
-import net.stln.magitech.helper.LongContainerData;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
@@ -45,11 +39,11 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.Optional;
 
-public class CompressorBlockEntity extends ManaMachineBlockEntity implements GeoBlockEntity {
+public class CompressorBlockEntity extends ManaMachineBlockEntity implements GeoBlockEntity, IItemHandlerBlockEntity {
     public static final int INPUT = 0;
     public static final int OUTPUT = 1;
     public static final int MAX_PROGRESS = 100;
-    public static final long MANA_PER_TICK = 500;
+    public static final long MANA_PER_TICK = 250;
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
     private static final RawAnimation ACTIVE = RawAnimation.begin().thenPlay("active");
@@ -70,38 +64,25 @@ public class CompressorBlockEntity extends ManaMachineBlockEntity implements Geo
 
     public CompressorBlockEntity(BlockPos pos, BlockState blockState, long mana) {
         super(BlockInit.COMPRESSOR_ENTITY.get(), pos, blockState, mana);
-        this.dataAccess = new LongContainerData() {
-
-            @Override
-            public long getLong(int index) {
-                return switch (index) {
-                    case 0 -> CompressorBlockEntity.this.getMana();
-                    case 1 -> CompressorBlockEntity.this.getMaxMana();
-                    case 2 -> CompressorBlockEntity.this.getFlowRate();
-                    case 3 -> CompressorBlockEntity.this.getMaxFlow();
-                    case 4 -> CompressorBlockEntity.this.getProductionRate();
-                    case 5 -> CompressorBlockEntity.this.getConsumptionRate();
-                    case 6 -> CompressorBlockEntity.this.getProgress();
-                    default -> 0;
-                };
-            }
-
-            @Override
-            public void setLong(int index, long value) {
-                if (index == 0) {
-                    CompressorBlockEntity.this.mana = Math.clamp(value, 0, CompressorBlockEntity.this.maxMana);
-                }
-            }
-
-            @Override
-            public int getLongCount() {
-                return 7;
-            }
-        };
     }
 
     public CompressorBlockEntity(BlockPos pos, BlockState blockState) {
         this(pos, blockState, 0);
+    }
+
+    @Override
+    public ItemStackHandler getItemHandler() {
+        return inventory;
+    }
+
+    @Override
+    public int getInputSlot() {
+        return INPUT;
+    }
+
+    @Override
+    public int getOutputSlot() {
+        return OUTPUT;
     }
 
     @Override
@@ -359,11 +340,6 @@ public class CompressorBlockEntity extends ManaMachineBlockEntity implements Geo
     @Override
     public CompoundTag getUpdateTag(HolderLookup.Provider pRegistries) {
         return saveWithoutMetadata(pRegistries);
-    }
-
-    @Override
-    public AbstractContainerMenu createMenu(int containerId, Inventory inventory, Player player) {
-        return new CompressorMenu(containerId, inventory, this, ContainerLevelAccess.create(level, this.getBlockPos()), this.dataAccess);
     }
 
     @Override
