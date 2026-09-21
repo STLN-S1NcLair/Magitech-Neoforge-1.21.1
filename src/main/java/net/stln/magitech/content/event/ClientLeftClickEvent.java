@@ -28,7 +28,7 @@ public class ClientLeftClickEvent {
             if (callOnLeftClick(player) == InteractionResult.SUCCESS) {
                 event.setCanceled(true);
             } else {
-                Magitech.LOGGER.info("Left click event passed through for player: " + player.getName().getString());
+                Magitech.LOGGER.info("Left click event passed through for player: {}", player.getName().getString());
             }
         }
     }

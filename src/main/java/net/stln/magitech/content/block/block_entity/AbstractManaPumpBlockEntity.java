@@ -6,30 +6,13 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.world.Containers;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.neoforged.neoforge.items.ItemStackHandler;
 import net.stln.magitech.content.block.AbstractManaPumpBlock;
-import net.stln.magitech.content.block.ManaVesselBlock;
-import net.stln.magitech.core.api.mana.ManaCapabilities;
 import net.stln.magitech.core.api.mana.flow.ManaFlowRule;
-import net.stln.magitech.core.api.mana.flow.ManaTransferHelper;
-import net.stln.magitech.core.api.mana.handler.IBasicManaHandler;
-import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.animatable.GeoBlockEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.util.GeckoLibUtil;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class AbstractManaPumpBlockEntity extends ManaContainerBlockEntity {
 
@@ -37,27 +20,21 @@ public abstract class AbstractManaPumpBlockEntity extends ManaContainerBlockEnti
         super(type, pos, blockState, mana);
     }
 
-    @Nullable
     @Override
-    public Packet<ClientGamePacketListener> getUpdatePacket() {
-        return ClientboundBlockEntityDataPacket.create(this);
-    }
-
-    @Override
-    public CompoundTag getUpdateTag(HolderLookup.Provider pRegistries) {
+    public @NotNull CompoundTag getUpdateTag(HolderLookup.@NotNull Provider pRegistries) {
         return saveWithoutMetadata(pRegistries);
     }
 
     @Override
-    protected abstract Component getDefaultName();
+    protected abstract @NotNull Component getDefaultName();
 
     @Override
-    protected NonNullList<ItemStack> getItems() {
+    protected @NotNull NonNullList<ItemStack> getItems() {
         return NonNullList.withSize(0, ItemStack.EMPTY);
     }
 
     @Override
-    protected void setItems(NonNullList<ItemStack> items) {
+    protected void setItems(@NotNull NonNullList<ItemStack> items) {
     }
 
     public int getContainerSize() {

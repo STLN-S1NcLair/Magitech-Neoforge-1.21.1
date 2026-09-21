@@ -17,7 +17,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public class ClientHelper {
+public final class ClientHelper {
+    private ClientHelper() {}
+    
     // Player
     @OnlyIn(Dist.CLIENT)
     public static @Nullable Player getPlayer() {

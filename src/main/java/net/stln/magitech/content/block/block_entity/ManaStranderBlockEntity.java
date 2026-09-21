@@ -6,12 +6,8 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
@@ -28,7 +24,7 @@ import net.stln.magitech.content.sound.SoundInit;
 import net.stln.magitech.core.api.mana.flow.ManaFlowRule;
 import net.stln.magitech.core.api.mana.handler.MachineBlockEntityManaHandler;
 import net.stln.magitech.effect.sound.SoundHelper;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
 public class ManaStranderBlockEntity extends ManaMachineBlockEntity {
 
@@ -41,15 +37,8 @@ public class ManaStranderBlockEntity extends ManaMachineBlockEntity {
     public ManaStranderBlockEntity(BlockPos pos, BlockState blockState) {
         this(pos, blockState, 0);
     }
-
-    @Nullable
     @Override
-    public Packet<ClientGamePacketListener> getUpdatePacket() {
-        return ClientboundBlockEntityDataPacket.create(this);
-    }
-
-    @Override
-    public CompoundTag getUpdateTag(HolderLookup.Provider pRegistries) {
+    public @NotNull CompoundTag getUpdateTag(HolderLookup.@NotNull Provider pRegistries) {
         return saveWithoutMetadata(pRegistries);
     }
 

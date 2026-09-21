@@ -55,17 +55,17 @@ public class DefaultComponentInit {
         event.modify(ItemInit.ALCHEMICAL_FLASK, builder -> builder.set(ComponentInit.FLUID_CONTENT_COMPONENT.get(), SimpleFluidContent.EMPTY).build());
         setFluidContentComponent(event, ItemInit.WATER_FLASK, new FluidStack(Fluids.WATER, 250));
         setFluidContentComponent(event, ItemInit.LAVA_FLASK, new FluidStack(Fluids.LAVA, 250));
-        setFluidContentComponent(event, ItemInit.SULFURIC_ACID_FLASK, new FluidStack(FluidInit.SULFURIC_ACID, 250));
-        setFluidContentComponent(event, ItemInit.MANA_POTION_FLASK, new FluidStack(FluidInit.MANA_POTION, 250));
-        setFluidContentComponent(event, ItemInit.HEALING_POTION_FLASK, new FluidStack(FluidInit.HEALING_POTION, 250));
-        setFluidContentComponent(event, ItemInit.EMBER_POTION_FLASK, new FluidStack(FluidInit.EMBER_POTION, 250));
-        setFluidContentComponent(event, ItemInit.GLACE_POTION_FLASK, new FluidStack(FluidInit.GLACE_POTION, 250));
-        setFluidContentComponent(event, ItemInit.SURGE_POTION_FLASK, new FluidStack(FluidInit.SURGE_POTION, 250));
-        setFluidContentComponent(event, ItemInit.PHANTOM_POTION_FLASK, new FluidStack(FluidInit.PHANTOM_POTION, 250));
-        setFluidContentComponent(event, ItemInit.TREMOR_POTION_FLASK, new FluidStack(FluidInit.TREMOR_POTION, 250));
-        setFluidContentComponent(event, ItemInit.MAGIC_POTION_FLASK, new FluidStack(FluidInit.MAGIC_POTION, 250));
-        setFluidContentComponent(event, ItemInit.FLOW_POTION_FLASK, new FluidStack(FluidInit.FLOW_POTION, 250));
-        setFluidContentComponent(event, ItemInit.HOLLOW_POTION_FLASK, new FluidStack(FluidInit.HOLLOW_POTION, 250));
+        setFluidContentComponent(event, ItemInit.SULFURIC_ACID_FLASK, FluidInit.SULFURIC_ACID.toStack(250));
+        setFluidContentComponent(event, ItemInit.MANA_POTION_FLASK, FluidInit.MANA_POTION.toStack(250));
+        setFluidContentComponent(event, ItemInit.HEALING_POTION_FLASK, FluidInit.HEALING_POTION.toStack(250));
+        setFluidContentComponent(event, ItemInit.EMBER_POTION_FLASK, FluidInit.EMBER_POTION.toStack(250));
+        setFluidContentComponent(event, ItemInit.GLACE_POTION_FLASK, FluidInit.GLACE_POTION.toStack(250));
+        setFluidContentComponent(event, ItemInit.SURGE_POTION_FLASK, FluidInit.SURGE_POTION.toStack(250));
+        setFluidContentComponent(event, ItemInit.PHANTOM_POTION_FLASK, FluidInit.PHANTOM_POTION.toStack(250));
+        setFluidContentComponent(event, ItemInit.TREMOR_POTION_FLASK, FluidInit.TREMOR_POTION.toStack(250));
+        setFluidContentComponent(event, ItemInit.MAGIC_POTION_FLASK, FluidInit.MAGIC_POTION.toStack(250));
+        setFluidContentComponent(event, ItemInit.FLOW_POTION_FLASK, FluidInit.FLOW_POTION.toStack(250));
+        setFluidContentComponent(event, ItemInit.HOLLOW_POTION_FLASK, FluidInit.HOLLOW_POTION.toStack(250));
 
         setManaContainerComponent(event, ItemInit.MANA_CELL, 500000L, 5000L);
     }

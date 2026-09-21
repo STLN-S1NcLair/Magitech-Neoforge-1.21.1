@@ -2,14 +2,15 @@ package net.stln.magitech.helper;
 
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.IItemHandler;
+import org.jetbrains.annotations.NotNull;
 
 public class ItemHelper {
 
-    public static ItemStack extractStack(IItemHandler handler, int maxAmount, boolean simulate) {
+    public static @NotNull ItemStack extractStack(@NotNull IItemHandler handler, int maxAmount, boolean simulate) {
         return extractStack(ItemStack.EMPTY, handler, maxAmount, simulate);
     }
 
-    public static ItemStack extractStack(ItemStack defaultStack, IItemHandler handler, int maxAmount, boolean simulate) {
+    public static @NotNull ItemStack extractStack(@NotNull ItemStack defaultStack, @NotNull IItemHandler handler, int maxAmount, boolean simulate) {
         int leftCount = maxAmount - defaultStack.getCount();
         ItemStack stack = defaultStack.copy();
         for (int i = 0; i < handler.getSlots(); i++) {

@@ -4,8 +4,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.stln.magitech.MagitechRegistries;
-import net.stln.magitech.feature.magic.spell.ISpell;
-import net.stln.magitech.feature.magic.spell.SpellLike;
 import net.stln.magitech.feature.tool.trait.Trait;
 import net.stln.magitech.feature.tool.trait.TraitLike;
 import org.jetbrains.annotations.NotNull;

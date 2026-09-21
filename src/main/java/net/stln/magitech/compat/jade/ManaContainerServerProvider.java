@@ -5,6 +5,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.core.api.mana.flow.ManaTransferHelper;
 import net.stln.magitech.core.api.mana.handler.IBlockManaHandler;
+import org.jetbrains.annotations.NotNull;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.IServerDataProvider;
 
@@ -17,7 +18,7 @@ public enum ManaContainerServerProvider implements IServerDataProvider<BlockAcce
     }
 
     @Override
-    public void appendServerData(CompoundTag data, BlockAccessor accessor) {
+    public void appendServerData(@NotNull CompoundTag data, @NotNull BlockAccessor accessor) {
         // サーバー側でBlockEntityを取得
         if (ManaTransferHelper.getManaContainer(accessor.getLevel(), accessor.getPosition(), null) instanceof IBlockManaHandler handler) {
             // 現在の値をNBTに保存

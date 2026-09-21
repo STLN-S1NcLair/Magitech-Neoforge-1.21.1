@@ -15,6 +15,7 @@ import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.MagitechRegistries;
 import net.stln.magitech.content.recipe.FieldEffectRecipe;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +64,7 @@ public abstract class RecipeFieldEffectType<I extends RecipeInput, R extends Rec
 
         return Optional.of(new FieldEffectRecipe(
                 "",
-                new SizedIngredient(ingredients.get(0), 1),
+                new SizedIngredient(ingredients.getFirst(), 1),
                 this,
                 List.of(result)
         ));
@@ -78,7 +79,7 @@ public abstract class RecipeFieldEffectType<I extends RecipeInput, R extends Rec
     }
 
     @Override
-    public boolean canProcess(Level level, List<ItemStack> inputs) {
+    public boolean canProcess(@NotNull Level level, @NotNull List<ItemStack> inputs) {
         for (ItemStack stack : combineInputs(inputs)) {
             if (findFieldEffectRecipe(level, stack).isPresent() || findRecipe(level, stack).isPresent()) {
                 return true;
@@ -88,7 +89,7 @@ public abstract class RecipeFieldEffectType<I extends RecipeInput, R extends Rec
     }
 
     @Override
-    public boolean canProcess(Level level, BlockPos pos) {
+    public boolean canProcess(@NotNull Level level, @NotNull BlockPos pos) {
         if (findFieldEffectBlockRecipe(level, pos).isPresent()) {
             return true;
         }
@@ -97,7 +98,7 @@ public abstract class RecipeFieldEffectType<I extends RecipeInput, R extends Rec
     }
 
     @Override
-    public List<ItemStack> processItem(Level level, List<ItemStack> inputs) {
+    public @NotNull List<ItemStack> processItem(@NotNull Level level, @NotNull List<ItemStack> inputs) {
         List<ItemStack> results = new ArrayList<>();
         for (ItemStack stack : combineInputs(inputs)) {
             Optional<FieldEffectRecipe> fieldEffectRecipe = findFieldEffectRecipe(level, stack);
@@ -134,7 +135,7 @@ public abstract class RecipeFieldEffectType<I extends RecipeInput, R extends Rec
     }
 
     @Override
-    public List<ItemStack> processBlock(Level level, BlockPos pos) {
+    public @NotNull List<ItemStack> processBlock(@NotNull Level level, @NotNull BlockPos pos) {
         Optional<FieldEffectRecipe> fieldEffectRecipe = findFieldEffectBlockRecipe(level, pos);
         if (fieldEffectRecipe.isPresent()) {
             return processFieldEffectBlock(level, pos, fieldEffectRecipe.get());

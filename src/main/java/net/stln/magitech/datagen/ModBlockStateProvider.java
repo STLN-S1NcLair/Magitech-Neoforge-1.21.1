@@ -46,9 +46,9 @@ public class ModBlockStateProvider extends BlockStateProvider {
         handModeledBlockWithInventoryModelItem(BlockInit.CRUSHER.get());
         handModeledBlockWithInventoryModelItem(BlockInit.COMPRESSOR.get());
         handModeledBlockWithItem(BlockInit.MANA_JUNCTION.get());
-         handModeledBlockWithItem(BlockInit.INFUSION_ALTAR.get());
-         directionalHandModeledBlockWithItem(BlockInit.ENVIROMETER.get());
-         directionalHandModeledBlockWithItem(BlockInit.ENHANCED_MANA_NODE.get());
+        handModeledBlockWithItem(BlockInit.INFUSION_ALTAR.get());
+        directionalHandModeledBlockWithItem(BlockInit.ENVIROMETER.get());
+        directionalHandModeledBlockWithItem(BlockInit.ENHANCED_MANA_NODE.get());
         directionalHandModeledBlockWithItem(BlockInit.ENHANCED_MANA_RELAY.get());
         axisHandModeledBlockWithInventoryModelItem(BlockInit.ENHANCED_MANA_VESSEL.get());
         directionalPoweredHandModeledBlockWithItem(BlockInit.MANA_PUMP.get());
@@ -178,13 +178,13 @@ public class ModBlockStateProvider extends BlockStateProvider {
     }
 
     private void directionalHandModeledBlockWithItem(Block block) {
-        directionalBlock(block, new ModelFile.ExistingModelFile(blockTexture(block), this.models().existingFileHelper));
+        directionalBlock(block, this.models().getExistingFile(blockTexture(block)));
         blockItem(block);
     }
 
     private void directionalPoweredHandModeledBlockWithItem(Block block) {
-        ModelFile.ExistingModelFile defaultModel = new ModelFile.ExistingModelFile(blockTexture(block), this.models().existingFileHelper);
-        ModelFile.ExistingModelFile poweredModel = new ModelFile.ExistingModelFile(blockTexture(block).withSuffix("_powered"), this.models().existingFileHelper);
+        ModelFile.ExistingModelFile defaultModel = this.models().getExistingFile(blockTexture(block));
+        ModelFile.ExistingModelFile poweredModel = this.models().getExistingFile(blockTexture(block).withSuffix("_powered"));
         getVariantBuilder(block).forAllStates(state -> {
             Direction direction = state.getValue(BlockStateProperties.FACING);
             boolean powered = state.getValue(BlockStateProperties.POWERED);
@@ -207,8 +207,8 @@ public class ModBlockStateProvider extends BlockStateProvider {
     }
 
     private void horizontalActiveHandModeledBlockWithItem(Block block) {
-        ModelFile.ExistingModelFile defaultModel = new ModelFile.ExistingModelFile(blockTexture(block), this.models().existingFileHelper);
-        ModelFile.ExistingModelFile activeModel = new ModelFile.ExistingModelFile(blockTexture(block).withSuffix("_active"), this.models().existingFileHelper);
+        ModelFile.ExistingModelFile defaultModel = this.models().getExistingFile(blockTexture(block));
+        ModelFile.ExistingModelFile activeModel = this.models().getExistingFile(blockTexture(block).withSuffix("_active"));
         getVariantBuilder(block).forAllStates(state -> {
             Direction direction = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
             boolean active = state.getValue(BlockStatePropertyInit.ACTIVE);
@@ -229,8 +229,8 @@ public class ModBlockStateProvider extends BlockStateProvider {
     }
 
     private void activeHandModeledBlockWithItem(Block block) {
-        ModelFile.ExistingModelFile defaultModel = new ModelFile.ExistingModelFile(blockTexture(block), this.models().existingFileHelper);
-        ModelFile.ExistingModelFile activeModel = new ModelFile.ExistingModelFile(blockTexture(block).withSuffix("_active"), this.models().existingFileHelper);
+        ModelFile.ExistingModelFile defaultModel = this.models().getExistingFile(blockTexture(block));
+        ModelFile.ExistingModelFile activeModel = this.models().getExistingFile(blockTexture(block).withSuffix("_active"));
         getVariantBuilder(block).forAllStates(state -> {
             boolean active = state.getValue(BlockStatePropertyInit.ACTIVE);
             ModelFile model = active ? activeModel : defaultModel;
@@ -242,13 +242,13 @@ public class ModBlockStateProvider extends BlockStateProvider {
     }
 
     private void axisHandModeledBlockWithItem(Block block) {
-        ModelFile.ExistingModelFile existingModelFile = new ModelFile.ExistingModelFile(blockTexture(block), this.models().existingFileHelper);
+        ModelFile.ExistingModelFile existingModelFile = this.models().getExistingFile(blockTexture(block));
         axisBlock(block, existingModelFile);
         blockItem(block);
     }
 
     private void axisHandModeledBlockWithInventoryModelItem(Block block) {
-        ModelFile.ExistingModelFile existingModelFile = new ModelFile.ExistingModelFile(blockTexture(block), this.models().existingFileHelper);
+        ModelFile.ExistingModelFile existingModelFile = this.models().getExistingFile(blockTexture(block));
         axisBlock(block, existingModelFile);
         simpleBlockItem(block, new ModelFile.UncheckedModelFile(blockTexture(block).withSuffix("_inventory")));
     }
@@ -270,7 +270,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
 
     private void horizontalHandModeledBlockWithItem(Block block) {
-        horizontalBlock(block, new ModelFile.ExistingModelFile(blockTexture(block), this.models().existingFileHelper));
+        horizontalBlock(block, this.models().getExistingFile(blockTexture(block)));
         blockItem(block);
     }
 
@@ -280,7 +280,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
     }
 
     private void woodBlockWithItem(Block block) {
-        ResourceLocation resourceLocation = ResourceLocation.parse(blockTexture(block).toString().replace("_wood", "_log"));
+        ResourceLocation resourceLocation = blockTexture(block).withPath(path -> path.replace("_wood", "_log"));
         axisBlock((RotatedPillarBlock) block, resourceLocation, resourceLocation);
         blockItem(block);
     }
@@ -331,7 +331,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
     private void leavesBlockWithItem(Block block) {
         simpleBlockWithItem(block,
-                models().singleTexture(getName(block), ResourceLocation.parse("minecraft:block/leaves"),
+                models().singleTexture(getName(block), ResourceLocation.withDefaultNamespace("block/leaves"),
                         "all", blockTexture(block)));
         blockItem(block);
     }
@@ -361,7 +361,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
     private void crystalClusterBlock(Block block) {
         ModelFile[] stages = new ModelFile[3];
         for (int index = 0; index < stages.length; index++) {
-            stages[index] = new ModelFile.ExistingModelFile(blockTexture(block).withSuffix("_" + index), this.models().existingFileHelper);
+            stages[index] = this.models().getExistingFile(blockTexture(block).withSuffix("_" + index));
         }
         getVariantBuilder(block).forAllStatesExcept(state -> {
             Direction direction = state.getValue(BlockStateProperties.FACING);
@@ -383,12 +383,12 @@ public class ModBlockStateProvider extends BlockStateProvider {
     }
 
     private void luminousShardBlock(Block block) {
-        simpleBlock(block, new ModelFile.ExistingModelFile(blockTexture(block), this.models().existingFileHelper));
+        simpleBlock(block, this.models().getExistingFile(blockTexture(block)));
     }
 
     private void mistaliaPetalsBlock(Block block) {
         for (int amount = 1; amount <= 4; amount++) {
-            ModelFile model = new ModelFile.ExistingModelFile(blockTexture(block).withSuffix("_" + amount), this.models().existingFileHelper);
+            ModelFile model = this.models().getExistingFile(blockTexture(block).withSuffix("_" + amount));
             Integer[] amounts = new Integer[5 - amount];
             for (int index = amount; index <= 4; index++) {
                 amounts[index - amount] = index;
@@ -410,8 +410,8 @@ public class ModBlockStateProvider extends BlockStateProvider {
     }
 
     private void trapHatchBlock(Block block) {
-        ModelFile closed = new ModelFile.ExistingModelFile(blockTexture(block), this.models().existingFileHelper);
-        ModelFile opened = new ModelFile.ExistingModelFile(blockTexture(block).withSuffix("_open"), this.models().existingFileHelper);
+        ModelFile closed = this.models().getExistingFile(blockTexture(block));
+        ModelFile opened = this.models().getExistingFile(blockTexture(block).withSuffix("_open"));
         getVariantBuilder(block).forAllStatesExcept(state -> ConfiguredModel.builder()
                 .modelFile(state.getValue(TrapHatchBlock.OPENED) ? opened : closed)
                 .build(), BlockStateProperties.WATERLOGGED);
@@ -419,10 +419,10 @@ public class ModBlockStateProvider extends BlockStateProvider {
     }
 
     private void fieldEffectMachineBlock(Block block) {
-        ModelFile lower = new ModelFile.ExistingModelFile(blockTexture(block).withSuffix("_bottom"), this.models().existingFileHelper);
-        ModelFile upper = new ModelFile.ExistingModelFile(blockTexture(block).withSuffix("_top"), this.models().existingFileHelper);
-        ModelFile lowerLit = new ModelFile.ExistingModelFile(blockTexture(block).withSuffix("_bottom_lit"), this.models().existingFileHelper);
-        ModelFile upperLit = new ModelFile.ExistingModelFile(blockTexture(block).withSuffix("_top_lit"), this.models().existingFileHelper);
+        ModelFile lower = this.models().getExistingFile(blockTexture(block).withSuffix("_bottom"));
+        ModelFile upper = this.models().getExistingFile(blockTexture(block).withSuffix("_top"));
+        ModelFile lowerLit = this.models().getExistingFile(blockTexture(block).withSuffix("_bottom_lit"));
+        ModelFile upperLit = this.models().getExistingFile(blockTexture(block).withSuffix("_top_lit"));
         getVariantBuilder(block).forAllStates(state -> ConfiguredModel.builder()
                 .modelFile(state.getValue(BlockStateProperties.DOUBLE_BLOCK_HALF).name().equals("LOWER")
                         ? (state.getValue(BlockStateProperties.LIT) ? lowerLit : lower)
@@ -433,12 +433,12 @@ public class ModBlockStateProvider extends BlockStateProvider {
     }
 
     private void thermalManaFurnaceBlock(Block block) {
-        ModelFile lower = new ModelFile.ExistingModelFile(blockTexture(block).withSuffix("_bottom"), this.models().existingFileHelper);
-        ModelFile middle = new ModelFile.ExistingModelFile(blockTexture(block).withSuffix("_middle"), this.models().existingFileHelper);
-        ModelFile upper = new ModelFile.ExistingModelFile(blockTexture(block).withSuffix("_top"), this.models().existingFileHelper);
-        ModelFile lowerLit = new ModelFile.ExistingModelFile(blockTexture(block).withSuffix("_bottom_lit"), this.models().existingFileHelper);
-        ModelFile middleLit = new ModelFile.ExistingModelFile(blockTexture(block).withSuffix("_middle_lit"), this.models().existingFileHelper);
-        ModelFile upperLit = new ModelFile.ExistingModelFile(blockTexture(block).withSuffix("_top_lit"), this.models().existingFileHelper);
+        ModelFile lower = this.models().getExistingFile(blockTexture(block).withSuffix("_bottom"));
+        ModelFile middle = this.models().getExistingFile(blockTexture(block).withSuffix("_middle"));
+        ModelFile upper = this.models().getExistingFile(blockTexture(block).withSuffix("_top"));
+        ModelFile lowerLit = this.models().getExistingFile(blockTexture(block).withSuffix("_bottom_lit"));
+        ModelFile middleLit = this.models().getExistingFile(blockTexture(block).withSuffix("_middle_lit"));
+        ModelFile upperLit = this.models().getExistingFile(blockTexture(block).withSuffix("_top_lit"));
         getVariantBuilder(block).forAllStates(state -> {
             ThermalManaFurnaceBlock.Part part = state.getValue(ThermalManaFurnaceBlock.PART);
             boolean lit = state.getValue(ThermalManaFurnaceBlock.LIT);
@@ -468,7 +468,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
     }
 
     private void glassBlockWithItem(Block block) {
-        ModelFile.ExistingModelFile glassParent = new ModelFile.ExistingModelFile(ResourceLocation.parse("minecraft:block/glass"), this.models().existingFileHelper);
+        ModelFile.ExistingModelFile glassParent = this.models().getExistingFile(ResourceLocation.withDefaultNamespace("block/glass"));
         simpleBlockWithItem(block, models().getBuilder(getName(block))
                 .parent(glassParent)
                 .texture("all", blockTexture(block))

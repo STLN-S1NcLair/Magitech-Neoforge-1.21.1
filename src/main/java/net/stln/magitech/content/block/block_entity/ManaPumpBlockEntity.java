@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.state.BlockState;
 import net.stln.magitech.content.block.BlockInit;
+import org.jetbrains.annotations.NotNull;
 
 public class ManaPumpBlockEntity extends AbstractManaPumpBlockEntity {
 
@@ -16,7 +17,7 @@ public class ManaPumpBlockEntity extends AbstractManaPumpBlockEntity {
     }
 
     @Override
-    protected Component getDefaultName() {
+    protected @NotNull Component getDefaultName() {
         return Component.translatable("block.magitech.mana_pump");
     }
 }

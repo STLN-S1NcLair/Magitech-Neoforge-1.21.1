@@ -3,12 +3,7 @@ package net.stln.magitech.datagen;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.RecipeOutput;
-import net.minecraft.data.recipes.RecipeProvider;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
-import net.minecraft.data.recipes.ShapelessRecipeBuilder;
-import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
+import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -28,6 +23,7 @@ import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.content.block.BlockInit;
 import net.stln.magitech.content.field_effect.effect.FieldEffectInit;
+import net.stln.magitech.content.fluid.FluidInit;
 import net.stln.magitech.content.item.ItemInit;
 import net.stln.magitech.content.item.ItemTagKeys;
 import net.stln.magitech.content.item.component.ComponentInit;
@@ -41,7 +37,6 @@ import net.stln.magitech.content.recipe.SpellConversionRecipe;
 import net.stln.magitech.content.recipe.ToolAssemblyRecipe;
 import net.stln.magitech.content.recipe.ToolMaterialRecipe;
 import net.stln.magitech.content.recipe.ZardiusCrucibleRecipe;
-import net.stln.magitech.content.fluid.FluidInit;
 import net.stln.magitech.core.api.field_effect.FieldEffectType;
 import net.stln.magitech.datagen.recipe.StoneRecipeGenerator;
 import net.stln.magitech.datagen.recipe.BlockSetRecipeGenerator;
@@ -49,10 +44,15 @@ import net.stln.magitech.datagen.recipe.VanillaSimpleRecipeGenerator;
 import net.stln.magitech.datagen.recipe.WoodRecipeGenerator;
 import net.stln.magitech.feature.magic.spell.SpellInit;
 import net.stln.magitech.feature.tool.material.MaterialInit;
+import net.stln.magitech.feature.tool.material.ToolMaterial;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 public class ModRecipeProvider extends RecipeProvider {
     public ModRecipeProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
@@ -60,7 +60,7 @@ public class ModRecipeProvider extends RecipeProvider {
     }
 
     @Override
-    protected void buildRecipes(RecipeOutput output) {
+    protected void buildRecipes(@NotNull RecipeOutput output) {
         StoneRecipeGenerator.buildStoneRecipesWithPolishedAndBrick(output,
                 BlockInit.ALCHECRYSITE_ITEM.get(), BlockInit.ALCHECRYSITE_SLAB_ITEM.get(), BlockInit.ALCHECRYSITE_STAIRS_ITEM.get(), BlockInit.ALCHECRYSITE_WALL_ITEM.get(),
                 BlockInit.POLISHED_ALCHECRYSITE_ITEM.get(), BlockInit.POLISHED_ALCHECRYSITE_SLAB_ITEM.get(), BlockInit.POLISHED_ALCHECRYSITE_STAIRS_ITEM.get(), BlockInit.POLISHED_ALCHECRYSITE_WALL_ITEM.get(),
@@ -337,19 +337,19 @@ public class ModRecipeProvider extends RecipeProvider {
         crucible(output, List.of(s(ItemInit.AGGREGATED_NOCTIS.get(), 1), s(ItemInit.TREMOR_CRYSTAL.get(), 1), s(Items.DEEPSLATE, 1), s(tag(ItemTagKeys.GEMS_LAPIS), 1)), FluidInit.MANA_POTION.get(), 1000, 10000, ItemStack.EMPTY, Optional.of(new FluidStack(FluidInit.TREMOR_POTION.get(), 1000)));
     }
 
-    private static void shaped(RecipeOutput output, ItemLike result, int count, java.util.Map<Character, Ingredient> keys, String... pattern) {
+    private static void shaped(RecipeOutput output, ItemLike result, int count, Map<Character, Ingredient> keys, String... pattern) {
         shaped(output, result, "", count, RecipeCategory.MISC, "", keys, pattern);
     }
 
-    private static void shaped(RecipeOutput output, ItemLike result, String suffix, int count, java.util.Map<Character, Ingredient> keys, String... pattern) {
+    private static void shaped(RecipeOutput output, ItemLike result, String suffix, int count, Map<Character, Ingredient> keys, String... pattern) {
         shaped(output, result, suffix, count, RecipeCategory.MISC, "", keys, pattern);
     }
 
-    private static void shaped(RecipeOutput output, ItemLike result, int count, RecipeCategory category, String group, java.util.Map<Character, Ingredient> keys, String... pattern) {
+    private static void shaped(RecipeOutput output, ItemLike result, int count, RecipeCategory category, String group, Map<Character, Ingredient> keys, String... pattern) {
         shaped(output, result, "", count, category, group, keys, pattern);
     }
 
-    private static void shaped(RecipeOutput output, ItemLike result, String suffix, int count, RecipeCategory category, String group, java.util.Map<Character, Ingredient> keys, String... pattern) {
+    private static void shaped(RecipeOutput output, ItemLike result, String suffix, int count, RecipeCategory category, String group, Map<Character, Ingredient> keys, String... pattern) {
         var builder = new ShapedRecipeBuilder(category, new ItemStack(result, count)).group(group);
         for (String row : pattern) builder.pattern(row);
         keys.forEach(builder::define);
@@ -435,7 +435,7 @@ public class ModRecipeProvider extends RecipeProvider {
     }
 
     private static ResourceLocation fieldEffectId(FluidStack input, ItemStack... results) {
-        return Magitech.id("field_effect/" + net.minecraft.core.registries.BuiltInRegistries.FLUID.getKey(input.getFluid()).getPath() + "_to_" + resultId(results));
+        return Magitech.id("field_effect/" + BuiltInRegistries.FLUID.getKey(input.getFluid()).getPath() + "_to_" + resultId(results));
     }
 
     private static String itemId(ItemStack stack) {
@@ -443,7 +443,7 @@ public class ModRecipeProvider extends RecipeProvider {
     }
 
     private static String resultId(ItemStack... results) {
-        return java.util.Arrays.stream(results).map(ModRecipeProvider::itemId).distinct().collect(java.util.stream.Collectors.joining("_and_"));
+        return Arrays.stream(results).map(ModRecipeProvider::itemId).distinct().collect(Collectors.joining("_and_"));
     }
 
     private static void custom(RecipeOutput output, String folder, ItemLike result, Recipe<?> recipe) {
@@ -459,7 +459,7 @@ public class ModRecipeProvider extends RecipeProvider {
     }
 
     private static ResourceLocation recipeId(String folder, ItemLike result) {
-        return Magitech.id(folder + "/" + net.minecraft.data.recipes.RecipeBuilder.getDefaultRecipeId(result).getPath());
+        return Magitech.id(folder + "/" + RecipeBuilder.getDefaultRecipeId(result).getPath());
     }
 
     private static ResourceLocation recipeId(String folder, ItemLike result, String suffix) {
@@ -467,7 +467,7 @@ public class ModRecipeProvider extends RecipeProvider {
     }
 
     private static ResourceLocation recipeId(String folder, Fluid result) {
-        return Magitech.id(folder + "/" + net.minecraft.core.registries.BuiltInRegistries.FLUID.getKey(result).getPath());
+        return Magitech.id(folder + "/" + BuiltInRegistries.FLUID.getKey(result).getPath());
     }
 
     private static Ingredient i(ItemLike item) {
@@ -494,7 +494,7 @@ public class ModRecipeProvider extends RecipeProvider {
         return new SizedIngredient(ingredient, count);
     }
 
-    private static Ingredient component(ItemLike item, net.stln.magitech.feature.tool.material.ToolMaterial material, boolean strict) {
+    private static Ingredient component(ItemLike item, ToolMaterial material, boolean strict) {
         return DataComponentIngredient.of(strict, ComponentInit.MATERIAL_COMPONENT, new MaterialComponent(material), item);
     }
 
@@ -506,7 +506,7 @@ public class ModRecipeProvider extends RecipeProvider {
         return BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath(namespace, path));
     }
 
-    private static java.util.Map<Character, Ingredient> keys(Object... values) {
+    private static Map<Character, Ingredient> keys(Object... values) {
         var result = new java.util.HashMap<Character, Ingredient>();
         for (int index = 0; index < values.length; index += 2) {
             result.put((Character) values[index], ingredient(values[index + 1]));

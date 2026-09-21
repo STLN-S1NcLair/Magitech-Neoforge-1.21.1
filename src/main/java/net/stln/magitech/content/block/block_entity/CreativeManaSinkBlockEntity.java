@@ -8,6 +8,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.stln.magitech.content.block.BlockInit;
 import net.stln.magitech.content.block.ManaVesselBlock;
 import net.stln.magitech.core.api.mana.flow.ManaFlowRule;
+import org.jetbrains.annotations.NotNull;
 
 public class CreativeManaSinkBlockEntity extends AbstractManaVesselBlockEntity {
 
@@ -39,7 +40,7 @@ public class CreativeManaSinkBlockEntity extends AbstractManaVesselBlockEntity {
     }
 
     @Override
-    protected Component getDefaultName() {
+    protected @NotNull Component getDefaultName() {
         return Component.translatable("block.magitech.creative_mana_sink");
     }
 }

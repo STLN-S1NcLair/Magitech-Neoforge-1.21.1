@@ -1,146 +1,106 @@
 package net.stln.magitech.content.fluid;
 
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.material.Fluid;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
+import net.neoforged.neoforge.common.SoundActions;
 import net.neoforged.neoforge.fluids.FluidType;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
-import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.stln.magitech.Magitech;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.function.Supplier;
+import java.util.function.Consumer;
 
 @EventBusSubscriber
-public class FluidInit {
-
-    public static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(NeoForgeRegistries.FLUID_TYPES, Magitech.MOD_ID);
-
-    public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(Registries.FLUID, Magitech.MOD_ID);
-
-    public static final DeferredHolder<FluidType, FluidType> SULFURIC_ACID_TYPE = registerFluidType("sulfuric_acid", new FluidType(
-            FluidType.Properties.create()
-    ));
-
-    public static final DeferredHolder<FluidType, FluidType> MANA_SOLUTION_TYPE = registerFluidType("mana_solution", new FluidType(
-            FluidType.Properties.create()
-    ));
-
-    public static final DeferredHolder<FluidType, FluidType> MANA_POTION_TYPE = registerFluidType("mana_potion", new FluidType(
-            FluidType.Properties.create()
-    ));
-
-    public static final DeferredHolder<FluidType, FluidType> HEALING_POTION_TYPE = registerFluidType("healing_potion", new FluidType(
-            FluidType.Properties.create()
-    ));
-
-    public static final DeferredHolder<FluidType, FluidType> EMBER_POTION_TYPE = registerFluidType("ember_potion", new FluidType(
-            FluidType.Properties.create()
-    ));
-
-    public static final DeferredHolder<FluidType, FluidType> GLACE_POTION_TYPE = registerFluidType("glace_potion", new FluidType(
-            FluidType.Properties.create()
-    ));
-
-    public static final DeferredHolder<FluidType, FluidType> SURGE_POTION_TYPE = registerFluidType("surge_potion", new FluidType(
-            FluidType.Properties.create()
-    ));
-
-    public static final DeferredHolder<FluidType, FluidType> PHANTOM_POTION_TYPE = registerFluidType("phantom_potion", new FluidType(
-            FluidType.Properties.create()
-    ));
-
-    public static final DeferredHolder<FluidType, FluidType> TREMOR_POTION_TYPE = registerFluidType("tremor_potion", new FluidType(
-            FluidType.Properties.create()
-    ));
-
-    public static final DeferredHolder<FluidType, FluidType> MAGIC_POTION_TYPE = registerFluidType("magic_potion", new FluidType(
-            FluidType.Properties.create()
-    ));
-
-    public static final DeferredHolder<FluidType, FluidType> FLOW_POTION_TYPE = registerFluidType("flow_potion", new FluidType(
-            FluidType.Properties.create()
-    ));
-
-    public static final DeferredHolder<FluidType, FluidType> HOLLOW_POTION_TYPE = registerFluidType("hollow_potion", new FluidType(
-            FluidType.Properties.create()
-    ));
-
-    public static final DeferredHolder<Fluid, Fluid> SULFURIC_ACID = registerFluid("sulfuric_acid", SulfuricAcidFluid::new);
-
-    public static final DeferredHolder<Fluid, Fluid> MANA_SOLUTION = registerFluid("mana_solution", ManaSolutionFluid::new);
-
-    public static final DeferredHolder<Fluid, Fluid> MANA_POTION = registerFluid("mana_potion", ManaPotionFluid::new);
-
-    public static final DeferredHolder<Fluid, Fluid> HEALING_POTION = registerFluid("healing_potion", HealingPotionFluid::new);
-
-    public static final DeferredHolder<Fluid, Fluid> EMBER_POTION = registerFluid("ember_potion", EmberPotionFluid::new);
-
-    public static final DeferredHolder<Fluid, Fluid> GLACE_POTION = registerFluid("glace_potion", GlacePotionFluid::new);
-
-    public static final DeferredHolder<Fluid, Fluid> SURGE_POTION = registerFluid("surge_potion", SurgePotionFluid::new);
-
-    public static final DeferredHolder<Fluid, Fluid> PHANTOM_POTION = registerFluid("phantom_potion", PhantomPotionFluid::new);
-
-    public static final DeferredHolder<Fluid, Fluid> TREMOR_POTION = registerFluid("tremor_potion", TremorPotionFluid::new);
-
-    public static final DeferredHolder<Fluid, Fluid> MAGIC_POTION = registerFluid("magic_potion", MagicPotionFluid::new);
-
-    public static final DeferredHolder<Fluid, Fluid> FLOW_POTION = registerFluid("flow_potion", FlowPotionFluid::new);
-
-    public static final DeferredHolder<Fluid, Fluid> HOLLOW_POTION = registerFluid("hollow_potion", HollowPotionFluid::new);
-
-    private static <S extends FluidType> DeferredHolder<FluidType, S> registerFluidType(String name, S type) {
-        return FLUID_TYPES.register(name, () -> type);
+public final class FluidInit {
+    private FluidInit() {
     }
 
-    private static <S extends Fluid> DeferredHolder<Fluid, S> registerFluid(String name, Supplier<S> type) {
-        return FLUIDS.register(name, type);
+    public static final FluidContentRegister REGISTER = new FluidContentRegister(Magitech.MOD_ID);
+
+    private static final Consumer<FluidContentRegister.VirtualBuilder> DEFAULT_BUILDER = builder -> {
+        builder.properties = liquid();
+        builder.bucketFactory = null;
+    };
+
+    public static final FluidContent.Virtual SULFURIC_ACID = REGISTER.registerVirtual("sulfuric_acid", DEFAULT_BUILDER);
+
+    public static final FluidContent.Virtual MANA_SOLUTION = REGISTER.registerVirtual("mana_solution", DEFAULT_BUILDER);
+
+    public static final FluidContent.Virtual MANA_POTION = REGISTER.registerVirtual("mana_potion", DEFAULT_BUILDER);
+
+    public static final FluidContent.Virtual HEALING_POTION = REGISTER.registerVirtual("healing_potion", DEFAULT_BUILDER);
+
+    public static final FluidContent.Virtual EMBER_POTION = REGISTER.registerVirtual("ember_potion", DEFAULT_BUILDER);
+
+    public static final FluidContent.Virtual GLACE_POTION = REGISTER.registerVirtual("glace_potion", DEFAULT_BUILDER);
+
+    public static final FluidContent.Virtual SURGE_POTION = REGISTER.registerVirtual("surge_potion", DEFAULT_BUILDER);
+
+    public static final FluidContent.Virtual PHANTOM_POTION = REGISTER.registerVirtual("phantom_potion", DEFAULT_BUILDER);
+
+    public static final FluidContent.Virtual TREMOR_POTION = REGISTER.registerVirtual("tremor_potion", DEFAULT_BUILDER);
+
+    public static final FluidContent.Virtual MAGIC_POTION = REGISTER.registerVirtual("magic_potion", DEFAULT_BUILDER);
+
+    public static final FluidContent.Virtual FLOW_POTION = REGISTER.registerVirtual("flow_potion", DEFAULT_BUILDER);
+
+    public static final FluidContent.Virtual HOLLOW_POTION = REGISTER.registerVirtual("hollow_potion", DEFAULT_BUILDER);
+
+    private static @NotNull FluidType.Properties create(@NotNull SoundEvent fill, @NotNull SoundEvent empty) {
+        return FluidType.Properties
+                .create()
+                .sound(SoundActions.BUCKET_FILL, fill)
+                .sound(SoundActions.BUCKET_EMPTY, empty);
     }
 
-    public static void registerFluids(IEventBus eventBus) {
+    private static @NotNull FluidType.Properties liquid() {
+        return create(SoundEvents.BUCKET_FILL, SoundEvents.BUCKET_EMPTY);
+    }
+
+    public static void registerFluids(@NotNull IEventBus eventBus) {
         Magitech.LOGGER.info("Registering Fluids for" + Magitech.MOD_ID);
-        FLUID_TYPES.register(eventBus);
-        FLUIDS.register(eventBus);
+        REGISTER.register(eventBus);
     }
 
     @SubscribeEvent
     public static void registerIClientFluidExtensions(RegisterClientExtensionsEvent event) {
         Magitech.LOGGER.info("Registering IClientFluidExtensions for" + Magitech.MOD_ID);
-        registerIClientFluidExtension(event, "block/sulfuric_acid_still", SULFURIC_ACID_TYPE);
-        registerIClientFluidExtension(event, "block/mana_solution_still", MANA_SOLUTION_TYPE);
-        registerIClientFluidExtension(event, "block/mana_potion_still", MANA_POTION_TYPE);
-        registerIClientFluidExtension(event, "block/healing_potion_still", HEALING_POTION_TYPE);
-        registerIClientFluidExtension(event, "block/ember_potion_still", EMBER_POTION_TYPE);
-        registerIClientFluidExtension(event, "block/glace_potion_still", GLACE_POTION_TYPE);
-        registerIClientFluidExtension(event, "block/surge_potion_still", SURGE_POTION_TYPE);
-        registerIClientFluidExtension(event, "block/phantom_potion_still", PHANTOM_POTION_TYPE);
-        registerIClientFluidExtension(event, "block/tremor_potion_still", TREMOR_POTION_TYPE);
-        registerIClientFluidExtension(event, "block/magic_potion_still", MAGIC_POTION_TYPE);
-        registerIClientFluidExtension(event, "block/flow_potion_still", FLOW_POTION_TYPE);
-        registerIClientFluidExtension(event, "block/hollow_potion_still", HOLLOW_POTION_TYPE);
+        registerIClientFluidExtension(event, "block/sulfuric_acid_still", SULFURIC_ACID);
+        registerIClientFluidExtension(event, "block/mana_solution_still", MANA_SOLUTION);
+        registerIClientFluidExtension(event, "block/mana_potion_still", MANA_POTION);
+        registerIClientFluidExtension(event, "block/healing_potion_still", HEALING_POTION);
+        registerIClientFluidExtension(event, "block/ember_potion_still", EMBER_POTION);
+        registerIClientFluidExtension(event, "block/glace_potion_still", GLACE_POTION);
+        registerIClientFluidExtension(event, "block/surge_potion_still", SURGE_POTION);
+        registerIClientFluidExtension(event, "block/phantom_potion_still", PHANTOM_POTION);
+        registerIClientFluidExtension(event, "block/tremor_potion_still", TREMOR_POTION);
+        registerIClientFluidExtension(event, "block/magic_potion_still", MAGIC_POTION);
+        registerIClientFluidExtension(event, "block/flow_potion_still", FLOW_POTION);
+        registerIClientFluidExtension(event, "block/hollow_potion_still", HOLLOW_POTION);
     }
 
-    private static void registerIClientFluidExtension(RegisterClientExtensionsEvent event, String s, DeferredHolder<FluidType, FluidType> sulfuricAcidType) {
+    private static void registerIClientFluidExtension(@NotNull RegisterClientExtensionsEvent event, @NotNull String name, @NotNull FluidContent content) {
         event.registerFluidType(new IClientFluidTypeExtensions() {
-            private final ResourceLocation stillTexture = Magitech.id(s);
+            private final ResourceLocation stillTexture = Magitech.id(name);
 
             @Override
-            public ResourceLocation getStillTexture() {
+            public @NotNull ResourceLocation getStillTexture() {
                 return stillTexture;
             }
 
-        }, sulfuricAcidType);
+            @Override
+            public @NotNull ResourceLocation getFlowingTexture() {
+                return stillTexture;
+            }
+        }, content.fluidType());
     }
 
-    public static void registerFluidRenderTypes() {
+    /*public static void registerFluidRenderTypes() {
         Magitech.LOGGER.info("Registering Fluid Render Types for" + Magitech.MOD_ID);
         setRenderLayerTranslucent(SULFURIC_ACID);
         setRenderLayerTranslucent(MANA_SOLUTION);
@@ -158,6 +118,5 @@ public class FluidInit {
 
     private static void setRenderLayerTranslucent(DeferredHolder<Fluid, Fluid> fluid) {
         ItemBlockRenderTypes.setRenderLayer(fluid.get(), RenderType.translucent());
-    }
-
+    }*/
 }

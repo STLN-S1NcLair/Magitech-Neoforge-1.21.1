@@ -6,9 +6,6 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Containers;
@@ -20,19 +17,20 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.items.ItemStackHandler;
+import net.stln.magitech.api.machine.inspection.IMachineInspectionTarget;
+import net.stln.magitech.api.machine.inspection.MachineInspectionData;
 import net.stln.magitech.content.block.BlockInit;
 import net.stln.magitech.content.block.HeatBurnerBlock;
 import net.stln.magitech.content.block.ThermalManaFurnaceBlock;
 import net.stln.magitech.content.sound.SoundInit;
-import net.stln.magitech.api.machine.inspection.IMachineInspectionTarget;
-import net.stln.magitech.api.machine.inspection.MachineInspectionData;
 import net.stln.magitech.core.api.mana.container.IManaMachineBlockEntity;
 import net.stln.magitech.core.api.mana.flow.ManaFlowRule;
-import net.stln.magitech.core.api.mana.handler.MachineBlockEntityManaHandler;
 import net.stln.magitech.core.api.mana.handler.IBlockManaHandler;
+import net.stln.magitech.core.api.mana.handler.MachineBlockEntityManaHandler;
 import net.stln.magitech.effect.visual.preset.PointVFX;
 import net.stln.magitech.effect.visual.spawner.ElementParticles;
 import net.stln.magitech.feature.element.Element;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -301,12 +299,12 @@ public class ThermalManaFurnaceBlockEntity extends ManaMachineBlockEntity implem
     }
 
     @Override
-    public ItemStack getItem(int index) {
+    public @NotNull ItemStack getItem(int index) {
         return getItemHandler().getStackInSlot(index);
     }
 
     @Override
-    public ItemStack removeItem(int index, int count) {
+    public @NotNull ItemStack removeItem(int index, int count) {
         ItemStack result = getItemHandler().extractItem(index, count, false);
         if (!result.isEmpty()) {
             onInventoryChanged();
@@ -315,7 +313,7 @@ public class ThermalManaFurnaceBlockEntity extends ManaMachineBlockEntity implem
     }
 
     @Override
-    public ItemStack removeItemNoUpdate(int index) {
+    public @NotNull ItemStack removeItemNoUpdate(int index) {
         ItemStack result = getItemHandler().getStackInSlot(index);
         if (!result.isEmpty()) {
             getItemHandler().setStackInSlot(index, ItemStack.EMPTY);
@@ -325,7 +323,7 @@ public class ThermalManaFurnaceBlockEntity extends ManaMachineBlockEntity implem
     }
 
     @Override
-    protected NonNullList<ItemStack> getItems() {
+    protected @NotNull NonNullList<ItemStack> getItems() {
         NonNullList<ItemStack> items = NonNullList.withSize(getContainerSize(), ItemStack.EMPTY);
         for (int index = 0; index < getContainerSize(); index++) {
             items.set(index, getItem(index));
@@ -334,7 +332,7 @@ public class ThermalManaFurnaceBlockEntity extends ManaMachineBlockEntity implem
     }
 
     @Override
-    protected void setItems(NonNullList<ItemStack> items) {
+    protected void setItems(@NotNull NonNullList<ItemStack> items) {
         for (int index = 0; index < getContainerSize() && index < items.size(); index++) {
             getItemHandler().setStackInSlot(index, items.get(index));
         }
@@ -372,7 +370,7 @@ public class ThermalManaFurnaceBlockEntity extends ManaMachineBlockEntity implem
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+    protected void saveAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider registries) {
         super.saveAdditional(tag, registries);
         tag.put("inventory", inventory.serializeNBT(registries));
         tag.putInt("burn_time", burnTime);
@@ -380,7 +378,7 @@ public class ThermalManaFurnaceBlockEntity extends ManaMachineBlockEntity implem
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+    protected void loadAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider registries) {
         super.loadAdditional(tag, registries);
         if (tag.contains("inventory")) {
             inventory.deserializeNBT(registries, tag.getCompound("inventory"));
@@ -389,19 +387,13 @@ public class ThermalManaFurnaceBlockEntity extends ManaMachineBlockEntity implem
         burnDuration = Math.max(0, tag.getInt("burn_duration"));
     }
 
-    @Nullable
     @Override
-    public Packet<ClientGamePacketListener> getUpdatePacket() {
-        return ClientboundBlockEntityDataPacket.create(this);
-    }
-
-    @Override
-    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+    public @NotNull CompoundTag getUpdateTag(HolderLookup.@NotNull Provider registries) {
         return saveWithoutMetadata(registries);
     }
 
     @Override
-    protected Component getDefaultName() {
+    protected @NotNull Component getDefaultName() {
         return Component.translatable("block.magitech.thermal_mana_furnace");
     }
 }

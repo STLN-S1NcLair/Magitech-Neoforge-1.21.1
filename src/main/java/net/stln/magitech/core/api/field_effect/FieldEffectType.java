@@ -8,7 +8,6 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.stln.magitech.MagitechRegistries;
@@ -31,19 +30,19 @@ public abstract class FieldEffectType implements FieldEffectTypeLike {
      * アイテム入力に対して処理可能か判定します。
      * Determines whether the effect can process item inputs.
      */
-    public abstract boolean canProcess(Level level, List<ItemStack> inputs);
+    public abstract boolean canProcess(@NotNull Level level, @NotNull List<ItemStack> inputs);
 
     /**
      * ブロック位置に対して処理可能か判定します。
      * Determines whether the effect can process a block position.
      */
-    public abstract boolean canProcess(Level level, BlockPos pos);
+    public abstract boolean canProcess(@NotNull Level level, @NotNull BlockPos pos);
 
     /**
      * アイテム処理の間隔を tick 単位で返します。
      * Returns the item-processing interval in ticks.
      */
-    public int getProcessTime(Level level, List<ItemStack> inputs) {
+    public int getProcessTime(@NotNull Level level, @NotNull List<ItemStack> inputs) {
         int total = 0;
         for (ItemStack stack : inputs) {
             total += stack.getCount();
@@ -55,7 +54,7 @@ public abstract class FieldEffectType implements FieldEffectTypeLike {
      * ブロック処理の間隔を tick 単位で返します。
      * Returns the block-processing interval in ticks.
      */
-    public int getProcessTime(Level level, BlockPos pos) {
+    public int getProcessTime(@NotNull Level level, @NotNull BlockPos pos) {
         return 100;
     }
 
@@ -63,7 +62,7 @@ public abstract class FieldEffectType implements FieldEffectTypeLike {
      * アイテム入力に対する処理を実行します。
      * Processes item inputs.
      */
-    public List<ItemStack> processItem(Level level, List<ItemStack> inputs) {
+    public @NotNull List<ItemStack> processItem(@NotNull Level level, @NotNull List<ItemStack> inputs) {
         return inputs;
     }
 
@@ -78,7 +77,7 @@ public abstract class FieldEffectType implements FieldEffectTypeLike {
      * @param input 処理前のアイテム / item before processing
      * @return 処理後のアイテム、空になった場合は空スタック / processed item, or an empty stack when consumed
      */
-    public List<ItemStack> processItem(Level level, ItemStack input) {
+    public @NotNull List<ItemStack> processItem(@NotNull Level level, @NotNull ItemStack input) {
         List<ItemStack> inputs = new ArrayList<>(1);
         inputs.add(input.copy());
         return processItem(level, inputs);
@@ -88,7 +87,7 @@ public abstract class FieldEffectType implements FieldEffectTypeLike {
      * ブロック位置に対する処理を実行します。
      * Processes a block position.
      */
-    public List<ItemStack> processBlock(Level level, BlockPos pos) {
+    public @NotNull List<ItemStack> processBlock(@NotNull Level level, @NotNull BlockPos pos) {
         return List.of(level.getBlockState(pos).getBlock().asItem().getDefaultInstance());
     }
 
@@ -96,7 +95,7 @@ public abstract class FieldEffectType implements FieldEffectTypeLike {
      * 範囲内のエンティティに効果を適用します。
      * Applies the effect to an entity inside the field.
      */
-    public void affectEntity(Entity entity) {
+    public void affectEntity(@NotNull Entity entity) {
 
     }
 
@@ -104,7 +103,7 @@ public abstract class FieldEffectType implements FieldEffectTypeLike {
      * この効果が要求する影響条件を返します。
      * Returns the influence condition required by this effect.
      */
-    public abstract FieldInfluenceInstance getCondition();
+    public abstract @NotNull FieldInfluenceInstance getCondition();
 
     /**
      * この効果のGUIアイコンテクスチャを返します。
@@ -126,7 +125,7 @@ public abstract class FieldEffectType implements FieldEffectTypeLike {
      * この効果の表示名を返します。
      * Returns the display name of this effect.
      */
-    public Component getDisplayName() {
+    public @NotNull Component getDisplayName() {
         ResourceLocation key = MagitechRegistries.FIELD_EFFECT_TYPE.getKey(this);
         return key == null
                 ? Component.empty()
@@ -139,7 +138,7 @@ public abstract class FieldEffectType implements FieldEffectTypeLike {
      *
      * @return 主色 / primary color
      */
-    public Color getPrimary() {
+    public @NotNull Color getPrimary() {
         return Color.WHITE;
     }
 
@@ -149,7 +148,7 @@ public abstract class FieldEffectType implements FieldEffectTypeLike {
      *
      * @return 副色 / secondary color
      */
-    public Color getSecondary() {
+    public @NotNull Color getSecondary() {
         return Color.WHITE;
     }
 
@@ -157,7 +156,7 @@ public abstract class FieldEffectType implements FieldEffectTypeLike {
      * 指定位置にこの効果の視覚効果を描画します。
      * Renders this effect's visual effect at the specified position.
      */
-    public abstract void renderVFX(Level level, BlockPos pos);
+    public abstract void renderVFX(@NotNull Level level, @NotNull BlockPos pos);
 
     /**
      * このオブジェクトをフィールド効果タイプとして返します。

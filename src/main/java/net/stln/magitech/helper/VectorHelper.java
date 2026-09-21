@@ -3,13 +3,14 @@ package net.stln.magitech.helper;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 public class VectorHelper {
 
     // 一様分布なxz平面上のベクトルを取得
-    public static Vec3 randomXZ(RandomSource rand) {
+    public static @NotNull Vec3 randomXZ(@NotNull RandomSource rand) {
         double theta = Mth.randomBetween(rand, 0, Mth.TWO_PI);
         double x = Math.sin(theta);
         double z = Math.cos(theta);
@@ -17,7 +18,7 @@ public class VectorHelper {
     }
 
     // 一様分布な3次元ベクトルを取得
-    public static Vec3 random(RandomSource rand) {
+    public static @NotNull Vec3 random(@NotNull RandomSource rand) {
         double theta = Mth.randomBetween(rand, 0, Mth.TWO_PI);
         double x = Mth.randomBetween(rand, -1, 1);
         double length = Math.sqrt(1 - x * x);
@@ -27,16 +28,16 @@ public class VectorHelper {
     }
 
     // 内部まで密な3次元ベクトル
-    public static Vec3 randScaledRandom(RandomSource rand) {
+    public static @NotNull Vec3 randScaledRandom(@NotNull RandomSource rand) {
         return random(rand).scale(Math.pow(rand.nextFloat(), 1.0F / 3.0F));
     }
 
     // 爆発用ランダムvector
-    public static Vec3 blastRandom(RandomSource rand) {
+    public static @NotNull Vec3 blastRandom(@NotNull RandomSource rand) {
         return random(rand).lerp(randScaledRandom(rand), 0.5F);
     }
 
-    public static Vec3 randomInCube(RandomSource rand) {
+    public static @NotNull Vec3 randomInCube(@NotNull RandomSource rand) {
         double x = Mth.randomBetween(rand, -0.5F, 0.5F);
         double y = Mth.randomBetween(rand, -0.5F, 0.5F);
         double z = Mth.randomBetween(rand, -0.5F, 0.5F);
@@ -51,7 +52,7 @@ public class VectorHelper {
      * @param angleDegrees 回転角度（度単位）
      * @return 回転後のベクトル
      */
-    public static Vec3 rotateVector(Vec3 vector, Vec3 axis, double angleDegrees) {
+    public static @NotNull Vec3 rotateVector(@NotNull Vec3 vector, @NotNull Vec3 axis, double angleDegrees) {
         // 角度をラジアンに変換
         double angleRadians = org.joml.Math.toRadians(angleDegrees);
 

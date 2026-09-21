@@ -12,6 +12,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.TooltipFlag;
 import net.stln.magitech.MagitechRegistries;
 import net.stln.magitech.effect.visual.FieldEffectIconRenderer;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Objects;
@@ -20,7 +22,7 @@ import java.util.Objects;
  * JEIでフィールド効果をアイテム風の材料として扱うingredientです。
  * A JEI ingredient that represents a field effect as an item-like material.
  */
-public record FieldEffectIngredient(ResourceLocation id) {
+public record FieldEffectIngredient(@NotNull ResourceLocation id) {
     public static final IIngredientType<FieldEffectIngredient> TYPE =
             () -> FieldEffectIngredient.class;
     public static final Codec<FieldEffectIngredient> CODEC = ResourceLocation.CODEC.xmap(
@@ -30,27 +32,28 @@ public record FieldEffectIngredient(ResourceLocation id) {
 
     public static final IIngredientHelper<FieldEffectIngredient> HELPER = new IIngredientHelper<>() {
         @Override
-        public IIngredientType<FieldEffectIngredient> getIngredientType() {
+        public @NotNull IIngredientType<FieldEffectIngredient> getIngredientType() {
             return TYPE;
         }
 
         @Override
-        public String getDisplayName(FieldEffectIngredient ingredient) {
+        public @NotNull String getDisplayName(FieldEffectIngredient ingredient) {
             return FieldEffectIconRenderer.getDisplayName(ingredient.id()).getString();
         }
 
+        @SuppressWarnings("removal")
         @Override
-        public String getUniqueId(FieldEffectIngredient ingredient, UidContext context) {
+        public @NotNull String getUniqueId(FieldEffectIngredient ingredient, @NotNull UidContext context) {
             return ingredient.id().toString();
         }
 
         @Override
-        public ResourceLocation getResourceLocation(FieldEffectIngredient ingredient) {
+        public @NotNull ResourceLocation getResourceLocation(FieldEffectIngredient ingredient) {
             return ingredient.id();
         }
 
         @Override
-        public FieldEffectIngredient copyIngredient(FieldEffectIngredient ingredient) {
+        public @NotNull FieldEffectIngredient copyIngredient(FieldEffectIngredient ingredient) {
             return new FieldEffectIngredient(ingredient.id());
         }
 
@@ -60,19 +63,20 @@ public record FieldEffectIngredient(ResourceLocation id) {
         }
 
         @Override
-        public String getErrorInfo(FieldEffectIngredient ingredient) {
-            return "Unknown field effect: " + ingredient.id();
+        public @NotNull String getErrorInfo(@Nullable FieldEffectIngredient ingredient) {
+            return "Unknown field effect: " + (ingredient != null ? ingredient.id() : "null");
         }
     };
 
     public static final IIngredientRenderer<FieldEffectIngredient> RENDERER = new IIngredientRenderer<>() {
         @Override
-        public void render(GuiGraphics guiGraphics, FieldEffectIngredient ingredient) {
+        public void render(@NotNull GuiGraphics guiGraphics, @NotNull FieldEffectIngredient ingredient) {
             FieldEffectIconRenderer.render(guiGraphics, ingredient.id(), 0, 0, 16, 1.0F, 1.0F);
         }
 
+        @SuppressWarnings("removal")
         @Override
-        public List<Component> getTooltip(FieldEffectIngredient ingredient, TooltipFlag tooltipFlag) {
+        public @NotNull List<Component> getTooltip(@NotNull FieldEffectIngredient ingredient, @NotNull TooltipFlag tooltipFlag) {
             return List.of(
                     FieldEffectIconRenderer.getDisplayName(ingredient.id()),
                     Component.translatable("gui.magitech.field_effect").withColor(0x808080)

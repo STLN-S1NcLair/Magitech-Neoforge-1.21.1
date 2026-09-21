@@ -5,6 +5,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.helper.EnergyFormatter;
+import org.jetbrains.annotations.NotNull;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.IBlockComponentProvider;
 import snownee.jade.api.ITooltip;
@@ -18,7 +19,7 @@ public enum ManaContainerJadeProvider implements IBlockComponentProvider {
     public static final ResourceLocation TEXTURE = Magitech.id("mana");
 
     @Override
-    public void appendTooltip(ITooltip tooltip, BlockAccessor accessor, IPluginConfig config) {
+    public void appendTooltip(@NotNull ITooltip tooltip, @NotNull BlockAccessor accessor, @NotNull IPluginConfig config) {
         // サーバーから送られてきたデータがあるか確認
         // (まだ届いていない一瞬の間は false になることがある)
         if (accessor.getServerData().contains("mana")) {
