@@ -1,13 +1,14 @@
 package net.stln.magitech.helper;
 
 import net.minecraft.util.Mth;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
 import java.awt.*;
 
-public class ColorHelper {
+public final class ColorHelper {
 
-    public static Vector3f getVectorColor(Color color) {
+    public static @NotNull Vector3f getVectorColor(@NotNull Color color) {
         return new Vector3f(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F);
     }
 
@@ -119,7 +120,7 @@ public class ColorHelper {
     }
 
     private static int clamp(int val) {
-        return Math.max(0, Math.min(255, val));
+        return Math.clamp(val, 0, 255);
     }
 
     /**

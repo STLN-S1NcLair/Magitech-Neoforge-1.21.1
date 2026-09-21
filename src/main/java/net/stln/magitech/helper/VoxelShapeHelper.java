@@ -5,13 +5,15 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Unmodifiable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class VoxelShapeHelper {
 
-    public static VoxelShape rotateShape(VoxelShape shape, Direction from, Direction to) {
+    public static @NotNull VoxelShape rotateShape(@NotNull VoxelShape shape, @NotNull Direction from, @NotNull Direction to) {
         if (from == to) return shape;
 
         // parent → NORTH（逆回転）
@@ -21,17 +23,17 @@ public class VoxelShapeHelper {
         return rotateFromNorth(toNorth, to);
     }
 
-    private static VoxelShape rotateToNorth(VoxelShape shape, Direction from) {
+    private static @NotNull VoxelShape rotateToNorth(@NotNull VoxelShape shape, @NotNull Direction from) {
         // parent から NORTH に戻す = parent の逆回転
         return rotateShapeInternal(shape, getInverseRotation(from));
     }
 
-    private static VoxelShape rotateFromNorth(VoxelShape shape, Direction to) {
+    private static @NotNull VoxelShape rotateFromNorth(@NotNull VoxelShape shape, @NotNull Direction to) {
         // NORTH から child に回す
         return rotateShapeInternal(shape, getModelRotation(to));
     }
 
-    private static VoxelShape rotateShapeInternal(VoxelShape shape, RotationAngles rotation) {
+    private static @NotNull VoxelShape rotateShapeInternal(@NotNull VoxelShape shape, @NotNull RotationAngles rotation) {
         List<AABB> rotatedBoxes = new ArrayList<>();
         for (AABB box : shape.toAabbs()) {
             List<Vec3> corners = getCorners(box);
@@ -47,7 +49,7 @@ public class VoxelShapeHelper {
                 .reduce(Shapes.empty(), Shapes::or);
     }
 
-    private static Vec3 applyRotation(Vec3 point, RotationAngles rot) {
+    private static @NotNull Vec3 applyRotation(@NotNull Vec3 point, @NotNull RotationAngles rot) {
         double x = point.x - 0.5;
         double y = point.y - 0.5;
         double z = point.z - 0.5;
@@ -69,7 +71,7 @@ public class VoxelShapeHelper {
         return new Vec3(x + 0.5, y + 0.5, z + 0.5);
     }
 
-    private static List<Vec3> getCorners(AABB box) {
+    private static @NotNull @Unmodifiable List<Vec3> getCorners(@NotNull AABB box) {
         return List.of(
                 new Vec3(box.minX, box.minY, box.minZ),
                 new Vec3(box.minX, box.minY, box.maxZ),
@@ -82,7 +84,7 @@ public class VoxelShapeHelper {
         );
     }
 
-    private static AABB buildAABB(List<Vec3> points) {
+    private static @NotNull AABB buildAABB(@NotNull List<Vec3> points) {
         double minX = Double.POSITIVE_INFINITY, minY = Double.POSITIVE_INFINITY, minZ = Double.POSITIVE_INFINITY;
         double maxX = Double.NEGATIVE_INFINITY, maxY = Double.NEGATIVE_INFINITY, maxZ = Double.NEGATIVE_INFINITY;
 
@@ -98,7 +100,7 @@ public class VoxelShapeHelper {
         return new AABB(minX, minY, minZ, maxX, maxY, maxZ);
     }
 
-    private static RotationAngles getModelRotation(Direction direction) {
+    private static @NotNull RotationAngles getModelRotation(@NotNull Direction direction) {
         // based on your blockstate rotation settings
         return switch (direction) {
             case DOWN -> new RotationAngles(180, 0);
@@ -110,7 +112,7 @@ public class VoxelShapeHelper {
         };
     }
 
-    private static RotationAngles getInverseRotation(Direction direction) {
+    private static @NotNull RotationAngles getInverseRotation(@NotNull Direction direction) {
         RotationAngles rot = getModelRotation(direction);
         return new RotationAngles((360 - rot.x) % 360, (360 - rot.y) % 360);
     }

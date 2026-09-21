@@ -35,9 +35,7 @@ public class SparkTrait extends Trait {
             chain(player, level, traitLevel, target);
         }
         if (!level.isClientSide) {
-            TickScheduler.schedule(1, () -> {
-            TraitMobEffectHelper.applyTraitMobEffect(player, MobEffectInit.CHARGE, 40, 0);
-            }, level.isClientSide);
+            TickScheduler.schedule(1, () -> TraitMobEffectHelper.applyTraitMobEffect(player, MobEffectInit.CHARGE, 40, 0), level.isClientSide);
         }
     }
 

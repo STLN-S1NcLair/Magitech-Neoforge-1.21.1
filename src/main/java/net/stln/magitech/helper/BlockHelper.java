@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.Queue;
 import java.util.Set;
 
-public class BlockHelper {
+public final class BlockHelper {
 
     public static Set<BlockPos> getConnectedBlocks(Level level, BlockPos startPos, Block targetBlock, int limit) {
         Set<BlockPos> visited = new HashSet<>();

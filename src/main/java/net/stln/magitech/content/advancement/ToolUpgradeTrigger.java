@@ -16,12 +16,12 @@ public class ToolUpgradeTrigger extends SimpleCriterionTrigger<ToolUpgradeTrigge
         return ToolUpgradeTrigger.TriggerInstance.CODEC;
     }
 
-    public void trigger(ServerPlayer player, ItemStack item, int tier) {
+    public void trigger(@NotNull ServerPlayer player, @NotNull ItemStack item, int tier) {
         this.trigger(player, p_27675_ -> p_27675_.matches(item, tier));
     }
 
-    public record TriggerInstance(Optional<ContextAwarePredicate> player, Optional<ItemPredicate> item,
-                                  MinMaxBounds.Ints tier)
+    public record TriggerInstance(@NotNull Optional<ContextAwarePredicate> player,
+                                  @NotNull Optional<ItemPredicate> item, @NotNull MinMaxBounds.Ints tier)
             implements SimpleCriterionTrigger.SimpleInstance {
         public static final Codec<ToolUpgradeTrigger.TriggerInstance> CODEC = RecordCodecBuilder.create(
                 p_337356_ -> p_337356_.group(
@@ -36,7 +36,7 @@ public class ToolUpgradeTrigger extends SimpleCriterionTrigger<ToolUpgradeTrigge
             return CriterionInit.TOOL_UPGRADE.get().createCriterion(new ToolUpgradeTrigger.TriggerInstance(Optional.empty(), Optional.empty(), MinMaxBounds.Ints.ANY));
         }
 
-        public boolean matches(ItemStack stack, int tier) {
+        public boolean matches(@NotNull ItemStack stack, int tier) {
             return (item.isEmpty() || item.get().test(stack)) && this.tier.matches(tier);
         }
     }

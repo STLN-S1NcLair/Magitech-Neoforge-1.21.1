@@ -11,9 +11,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-public class DataMapHelper {
-    public static @NotNull Optional<ElementAffinity> getElementAffinity(Entity target, @NotNull Element element) {
-        if (target == null) return Optional.empty();
+public final class DataMapHelper {
+    private DataMapHelper() {}
+    
+    public static @NotNull Optional<ElementAffinity> getElementAffinity(@NotNull Entity target, @NotNull Element element) {
         EntityElementData elementData = BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(target.getType()).getData(DataMapTypeInit.ENTITY_ELEMENT);
         if (elementData != null) {
             var targetElement = elementData.element();
@@ -22,7 +23,7 @@ public class DataMapHelper {
         return Optional.empty();
     }
 
-    public static float getElementMultiplier(Entity target, @NotNull Element element) {
+    public static float getElementMultiplier(@NotNull Entity target, @NotNull Element element) {
         return getElementAffinity(target, element).map(ElementAffinity::getMultiplier).orElse(1f);
     }
 }
