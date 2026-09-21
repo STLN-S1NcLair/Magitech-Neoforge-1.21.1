@@ -2,7 +2,7 @@ plugins {
     id 'idea'
     id 'java-library'
     id 'maven-publish'
-    id 'net.neoforged.moddev' version '2.0.78'
+    id 'net.neoforged.moddev' version '2.0.147'
     id 'eclipse'
 }
 
@@ -20,6 +20,8 @@ group = mod_group_id
 
 java {
     withSourcesJar()
+    // Mojang ships Java 21 to end users starting in 1.20.5, so mods should target Java 21.
+    toolchain.languageVersion = JavaLanguageVersion.of(21)
     sourceCompatibility = JavaVersion.VERSION_21
     targetCompatibility = JavaVersion.VERSION_21
 }
@@ -69,9 +71,6 @@ repositories {
 base {
     archivesName = mod_id
 }
-
-// Mojang ships Java 21 to end users starting in 1.20.5, so mods should target Java 21.
-java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 neoForge {
     // Specify the version of NeoForge to use.
