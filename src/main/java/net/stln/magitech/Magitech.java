@@ -143,7 +143,7 @@ public class Magitech {
             ItemPropertyInit.registerItemProperties();
             ItemInit.registerItemRenderers();
             PageInit.registerRenderers();
-            FluidInit.registerFluidRenderTypes();
+            // FluidInit.registerFluidRenderTypes();
         }
 
         @SubscribeEvent

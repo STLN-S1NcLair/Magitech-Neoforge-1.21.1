@@ -6,9 +6,12 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.content.block.BlockInit;
+import net.stln.magitech.content.fluid.FluidContent;
+import net.stln.magitech.content.fluid.FluidInit;
 import net.stln.magitech.content.item.ItemInit;
 import net.stln.magitech.content.item.ItemTagKeys;
 import org.jetbrains.annotations.NotNull;
@@ -92,5 +95,13 @@ public class ModItemTagsProvider extends HolderTagsProvider<Item> {
         tag(ItemTagKeys.STRIPPED_WOODS).add(BlockInit.STRIPPED_CELIFERN_WOOD_ITEM, BlockInit.STRIPPED_CHARCOAL_BIRCH_WOOD_ITEM, BlockInit.STRIPPED_MYSTWOOD_WOOD_ITEM);
         tag(ItemTagKeys.ORES_IN_GROUND_STONE).add(BlockInit.FLUORITE_ORE_ITEM, BlockInit.TOURMALINE_ORE_ITEM, BlockInit.ZINC_ORE_ITEM);
         tag(ItemTagKeys.ORES_IN_GROUND_DEEPSLATE).add(BlockInit.DEEPSLATE_FLUORITE_ORE_ITEM, BlockInit.DEEPSLATE_TOURMALINE_ORE_ITEM, BlockInit.DEEPSLATE_ZINC_ORE_ITEM);
+        // Fluid Buckets if present
+        for (FluidContent content : FluidInit.REGISTER.getContents()) {
+            content.bucketHolder().ifPresent(bucketHolder -> {
+                var bucketTag = content.bucketTag();
+                tag(Tags.Items.BUCKETS).addTag(bucketTag);
+                tag(bucketTag).add(bucketHolder);
+            });
+        }
     }
 }
