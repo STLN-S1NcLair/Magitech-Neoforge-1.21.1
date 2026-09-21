@@ -2,15 +2,18 @@ package net.stln.magitech.datagen;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.ItemLike;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.content.item.ItemInit;
 import net.stln.magitech.content.item.ItemTagKeys;
 import net.stln.magitech.content.item.component.ComponentInit;
 import net.stln.magitech.feature.magic.spell.SpellInit;
+import org.jetbrains.annotations.NotNull;
 
 import java.nio.file.Path;
 import java.util.concurrent.CompletableFuture;
@@ -24,7 +27,7 @@ public class ModComponentRecipeProvider implements DataProvider {
     }
 
     @Override
-    public CompletableFuture<?> run(CachedOutput cache) {
+    public @NotNull CompletableFuture<?> run(@NotNull CachedOutput cache) {
         JsonObject recipe = new JsonObject();
         recipe.addProperty("type", "minecraft:crafting_shapeless");
         recipe.addProperty("category", "misc");
@@ -51,13 +54,13 @@ public class ModComponentRecipeProvider implements DataProvider {
     }
 
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return "Component recipes: " + Magitech.MOD_ID;
     }
 
-    private static JsonObject item(net.minecraft.world.level.ItemLike itemLike) {
+    private static JsonObject item(ItemLike itemLike) {
         JsonObject item = new JsonObject();
-        item.addProperty("item", net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(itemLike.asItem()).toString());
+        item.addProperty("item", BuiltInRegistries.ITEM.getKey(itemLike.asItem()).toString());
         return item;
     }
 }

@@ -1,4 +1,4 @@
-package net.stln.magitech.datagen;
+package net.stln.magitech.datagen.tag;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
@@ -8,6 +8,7 @@ import net.minecraft.data.tags.BiomeTagsProvider;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.content.biome.BiomeInit;
 import net.stln.magitech.content.biome.BiomeTagKeys;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -17,7 +18,7 @@ public class ModBiomeTagsProvider extends BiomeTagsProvider {
     }
 
     @Override
-    protected void addTags(HolderLookup.Provider provider) {
+    protected void addTags(HolderLookup.@NotNull Provider provider) {
         tag(BiomeTagKeys.HAS_CELIFERN_FOREST).add(BiomeInit.MISTJADE_FOREST);
         tag(BiomeTagKeys.HAS_CHARCOAL_BIRCH_FOREST).add(BiomeInit.SCORCHED_PLAINS);
         tag(BiomeTagKeys.HAS_MANA_BERRY_BUSH).add(BiomeInit.MISTJADE_FOREST);
