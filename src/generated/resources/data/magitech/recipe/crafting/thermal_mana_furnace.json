@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "magitech:alchecrysite"
+    },
+    "F": {
+      "item": "minecraft:blast_furnace"
+    },
+    "I": {
+      "item": "magitech:fluxium_ingot"
+    },
+    "L": {
+      "item": "magitech:high_purity_fluorite"
+    }
+  },
+  "pattern": [
+    "ILI",
+    "AFA",
+    "IAI"
+  ],
+  "result": {
+    "count": 1,
+    "id": "magitech:thermal_mana_furnace"
+  }
+}

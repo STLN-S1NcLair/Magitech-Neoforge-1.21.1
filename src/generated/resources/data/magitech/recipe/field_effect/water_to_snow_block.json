@@ -1,0 +1,14 @@
+{
+  "type": "magitech:field_effect",
+  "field_effect": "magitech:thermal_shock",
+  "fluid_ingredient": {
+    "amount": 1000,
+    "fluid": "minecraft:water"
+  },
+  "results": [
+    {
+      "count": 1,
+      "id": "minecraft:snow_block"
+    }
+  ]
+}

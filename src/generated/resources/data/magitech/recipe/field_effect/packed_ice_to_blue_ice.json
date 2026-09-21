@@ -1,0 +1,16 @@
+{
+  "type": "magitech:field_effect",
+  "field_effect": "magitech:freezing",
+  "ingredient": {
+    "count": 1,
+    "ingredient": {
+      "item": "minecraft:packed_ice"
+    }
+  },
+  "results": [
+    {
+      "count": 1,
+      "id": "minecraft:blue_ice"
+    }
+  ]
+}

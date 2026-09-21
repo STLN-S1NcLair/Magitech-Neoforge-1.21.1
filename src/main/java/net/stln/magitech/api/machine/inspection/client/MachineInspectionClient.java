@@ -11,6 +11,7 @@ public final class MachineInspectionClient {
     private static final float FADE_IN_STEP = 1.0F / FADE_IN_TICKS;
     private static final float FADE_OUT_STEP = 1.0F / FADE_OUT_TICKS;
     private static @Nullable MachineInspectionData data;
+    private static @Nullable BlockPos currentTargetPosition;
     private static @Nullable BlockPos currentDisplayPosition;
     private static int dataAge = MAX_DATA_AGE + 1;
     private static float fadeAlpha;
@@ -20,9 +21,13 @@ public final class MachineInspectionClient {
     }
 
     public static void accept(MachineInspectionData nextData) {
-        if (targetActive && currentDisplayPosition != null
-                && !currentDisplayPosition.equals(nextData.displayPosition())) {
-            return;
+        if (targetActive) {
+            if (currentTargetPosition != null && !currentTargetPosition.equals(nextData.targetPosition())) {
+                return;
+            }
+            if (currentDisplayPosition != null && !currentDisplayPosition.equals(nextData.displayPosition())) {
+                return;
+            }
         }
 
         boolean displayChanged = data == null
@@ -35,8 +40,13 @@ public final class MachineInspectionClient {
     }
 
     public static void updateTarget(BlockPos displayPosition) {
+        updateTarget(displayPosition, displayPosition);
+    }
+
+    public static void updateTarget(BlockPos targetPosition, BlockPos displayPosition) {
         targetActive = true;
-        currentDisplayPosition = displayPosition.immutable();
+        currentTargetPosition = targetPosition.immutable();
+        currentDisplayPosition = (displayPosition == null ? targetPosition : displayPosition).immutable();
     }
 
     public static void tick() {
@@ -56,6 +66,7 @@ public final class MachineInspectionClient {
 
     public static void clear() {
         targetActive = false;
+        currentTargetPosition = null;
         currentDisplayPosition = null;
     }
 

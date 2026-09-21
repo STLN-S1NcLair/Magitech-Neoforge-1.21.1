@@ -1,0 +1,16 @@
+{
+  "type": "magitech:field_effect",
+  "field_effect": "magitech:cold",
+  "ingredient": {
+    "count": 1,
+    "ingredient": {
+      "item": "minecraft:glowstone"
+    }
+  },
+  "results": [
+    {
+      "count": 1,
+      "id": "minecraft:amethyst_block"
+    }
+  ]
+}

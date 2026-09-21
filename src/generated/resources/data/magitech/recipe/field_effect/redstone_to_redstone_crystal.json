@@ -1,0 +1,16 @@
+{
+  "type": "magitech:field_effect",
+  "field_effect": "magitech:freezing",
+  "ingredient": {
+    "count": 4,
+    "ingredient": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "results": [
+    {
+      "count": 1,
+      "id": "magitech:redstone_crystal"
+    }
+  ]
+}

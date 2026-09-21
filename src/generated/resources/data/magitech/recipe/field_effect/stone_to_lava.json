@@ -1,0 +1,15 @@
+{
+  "type": "magitech:field_effect",
+  "field_effect": "magitech:scorching",
+  "fluid_result": {
+    "amount": 1000,
+    "id": "minecraft:lava"
+  },
+  "ingredient": {
+    "count": 1,
+    "ingredient": {
+      "item": "minecraft:stone"
+    }
+  },
+  "results": []
+}

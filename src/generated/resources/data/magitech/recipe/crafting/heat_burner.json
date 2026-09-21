@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "magitech:alchecrysite"
+    },
+    "E": {
+      "item": "magitech:ember_crystal"
+    },
+    "I": {
+      "item": "magitech:fluxium_ingot"
+    }
+  },
+  "pattern": [
+    "IEI",
+    "IAI",
+    "EAE"
+  ],
+  "result": {
+    "count": 1,
+    "id": "magitech:heat_burner"
+  }
+}

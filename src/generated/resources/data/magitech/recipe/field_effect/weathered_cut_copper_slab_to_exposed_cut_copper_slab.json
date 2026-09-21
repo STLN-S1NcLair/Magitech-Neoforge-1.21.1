@@ -1,0 +1,16 @@
+{
+  "type": "magitech:field_effect",
+  "field_effect": "magitech:thermal_shock",
+  "ingredient": {
+    "count": 1,
+    "ingredient": {
+      "item": "minecraft:weathered_cut_copper_slab"
+    }
+  },
+  "results": [
+    {
+      "count": 1,
+      "id": "minecraft:exposed_cut_copper_slab"
+    }
+  ]
+}

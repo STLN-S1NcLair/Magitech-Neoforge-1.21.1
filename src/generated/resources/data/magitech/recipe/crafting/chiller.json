@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "magitech:alchecrysite"
+    },
+    "G": {
+      "item": "magitech:glace_crystal"
+    },
+    "I": {
+      "item": "magitech:fluxium_ingot"
+    }
+  },
+  "pattern": [
+    "IGI",
+    "IAI",
+    "GAG"
+  ],
+  "result": {
+    "count": 1,
+    "id": "magitech:chiller"
+  }
+}

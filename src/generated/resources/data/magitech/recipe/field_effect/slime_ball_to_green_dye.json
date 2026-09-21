@@ -1,0 +1,16 @@
+{
+  "type": "magitech:field_effect",
+  "field_effect": "magitech:heated",
+  "ingredient": {
+    "count": 1,
+    "ingredient": {
+      "item": "minecraft:slime_ball"
+    }
+  },
+  "results": [
+    {
+      "count": 1,
+      "id": "minecraft:green_dye"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "magitech:alchecrysite"
+    },
+    "C": {
+      "tag": "c:ingots/copper"
+    },
+    "I": {
+      "item": "magitech:fluxium_ingot"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "pattern": [
+    "ICI",
+    "RAR"
+  ],
+  "result": {
+    "count": 1,
+    "id": "magitech:envirometer"
+  }
+}

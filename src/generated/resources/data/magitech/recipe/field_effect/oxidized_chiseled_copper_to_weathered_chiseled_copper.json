@@ -1,0 +1,16 @@
+{
+  "type": "magitech:field_effect",
+  "field_effect": "magitech:thermal_shock",
+  "ingredient": {
+    "count": 1,
+    "ingredient": {
+      "item": "minecraft:oxidized_chiseled_copper"
+    }
+  },
+  "results": [
+    {
+      "count": 1,
+      "id": "minecraft:weathered_chiseled_copper"
+    }
+  ]
+}

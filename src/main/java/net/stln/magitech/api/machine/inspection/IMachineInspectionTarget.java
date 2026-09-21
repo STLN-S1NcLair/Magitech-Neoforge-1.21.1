@@ -1,7 +1,6 @@
 package net.stln.magitech.api.machine.inspection;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.stln.magitech.core.api.mana.container.IManaMachineBlockEntity;
 import net.stln.magitech.core.api.mana.handler.IBlockManaHandler;

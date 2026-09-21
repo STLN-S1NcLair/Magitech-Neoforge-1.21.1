@@ -1,116 +1,45 @@
 package net.stln.magitech.api.machine.inspection;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.BufferUploader;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.Util;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
-import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ItemDisplayContext;
-import net.neoforged.neoforge.client.ClientHooks;
 import net.neoforged.neoforge.client.event.RegisterShadersEvent;
-import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.MagitechRegistries;
-import net.stln.magitech.effect.visual.FieldEffectIconRenderer;
-import net.stln.magitech.feature.element.Element;
-import net.stln.magitech.helper.EnergyFormatter;
+import net.stln.magitech.api.machine.inspection.client.render.MachineInspectionDistortedFrameRenderer;
+import net.stln.magitech.api.machine.inspection.client.render.MachineInspectionDistortedItemRenderer;
+import net.stln.magitech.api.machine.inspection.client.render.MachineInspectionDistortedTextRenderer;
 import net.stln.magitech.core.api.field_effect.FieldEffectType;
 import net.stln.magitech.core.api.field_effect.FieldInfluence;
 import net.stln.magitech.core.api.field_effect.FieldInfluenceInstance;
 import net.stln.magitech.core.api.field_effect.FieldInfluenceType;
-import team.lodestar.lodestone.registry.client.LodestoneRenderTypes;
-import team.lodestar.lodestone.systems.rendering.LodestoneBufferWrapper;
-import team.lodestar.lodestone.systems.rendering.VFXBuilders;
-import team.lodestar.lodestone.systems.rendering.rendeertype.RenderTypeProvider;
-import team.lodestar.lodestone.systems.rendering.shader.ExtendedShaderInstance;
-import team.lodestar.lodestone.systems.rendering.shader.ShaderHolder;
+import net.stln.magitech.effect.visual.FieldEffectIconRenderer;
+import net.stln.magitech.feature.element.Element;
+import net.stln.magitech.helper.EnergyFormatter;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.function.Function;
 
 /**
  * 機械情報表示の共通 HUD 描画処理を提供します。
  * Provides shared HUD rendering for machine inspection data.
  */
 public final class MachineInspectionRenderer {
-    private static final ResourceLocation INSPECTION_MANA =
-            Magitech.id("textures/gui/inspection_mana.png");
-    private static final ResourceLocation MANA_DISTORTED =
-            Magitech.id("textures/gui/mana_distorted.png");
     private static final ResourceLocation INSPECTION_BACKGROUND =
             Magitech.id("textures/gui/inspection_background.png");
-    private static final ResourceLocation INSPECTION_BORDER =
-            Magitech.id("textures/gui/inspection_border.png");
     private static final int INSPECTION_BACKGROUND_TEXTURE_SIZE = 32;
     private static final int INSPECTION_BACKGROUND_TEXTURE_BORDER = 8;
     private static final int INSPECTION_BACKGROUND_TILE_SIZE = 16;
-    private static final int INSPECTION_BORDER_TEXTURE_SIZE = 64;
-    private static final int INSPECTION_BORDER_TEXTURE_BORDER = 16;
-    private static final int INSPECTION_BORDER_TEXTURE_TILE_SIZE = 32;
     private static final int INSPECTION_BORDER_DRAW_TILE_SIZE = 32;
     private static final int INSPECTION_BORDER_INSET = 6;
-    private static final float INSPECTION_BORDER_PIXEL_SCALE = 0.5F;
-    private static final float INSPECTION_BORDER_DISTORTION_INTENSITY = 120.0F;
-    private static final int INSPECTION_BORDER_DISTORTION_MARGIN_MIN = 4;
-    private static final int INSPECTION_MANA_TEXTURE_WIDTH = 256;
-    private static final int INSPECTION_MANA_TEXTURE_HEIGHT = 32;
-    private static final int INSPECTION_MANA_DRAW_WIDTH = 128;
-    private static final int INSPECTION_MANA_DRAW_HEIGHT = 16;
-    private static final int INSPECTION_MANA_DRAW_BORDER = 4;
-    private static final int INSPECTION_MANA_DRAW_INNER_HEIGHT =
-            INSPECTION_MANA_DRAW_HEIGHT - INSPECTION_MANA_DRAW_BORDER * 2;
-    private static final int MANA_DISTORTED_TEXTURE_SIZE = 16;
-    private static final int MANA_DISTORTED_FRAME_COUNT = 16;
-    private static final float MANA_DISTORTED_FRAME_TIME = 2.0F;
-    private static final float TEXT_DISTORTION_SPEED = 2400F;
-    private static final float TEXT_DISTORTION_AMPLITUDE = 1.25F;
     private static final int ICON_CELL_SIZE = 16;
-    private static final int ICON_DRAW_SIZE = 12;
-    private static final int ICON_DRAW_OFFSET = (ICON_CELL_SIZE - ICON_DRAW_SIZE) / 2;
-    private static final float ITEM_ICON_ADDITIVE_Z = 175.0F;
-    private static final float ITEM_ICON_ADDITIVE_Z_STEP = 5.0F;
-    private static final ShaderHolder VERTEX_DISTORTED_TEXT_SHADER = new ShaderHolder(
-            Magitech.id("inspection_text"),
-            DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP
-    );
-    private static final ShaderHolder DISTORTED_INSPECTION_BORDER_SHADER = new ShaderHolder(
-            Magitech.id("inspection_border"),
-            DefaultVertexFormat.POSITION_TEX_COLOR
-    );
-    private static final ShaderHolder VERTEX_DISTORTED_ITEM_SHADER = new ShaderHolder(
-            Magitech.id("inspection_item"),
-            DefaultVertexFormat.NEW_ENTITY
-    );
-    private static final RenderTypeProvider DISTORTED_TEXT = new RenderTypeProvider(
-            token -> LodestoneRenderTypes.createAdditiveRenderType(
-                    "magitech_distorted_text",
-                    token,
-                    VERTEX_DISTORTED_TEXT_SHADER
-            )
-    );
-    private static final Function<GuiGraphics, LodestoneBufferWrapper> ADDITIVE_TEXT_BUFFER =
-            Util.memoize(guiGraphics -> new LodestoneBufferWrapper(LodestoneRenderTypes.ADDITIVE_TEXT, guiGraphics.bufferSource()));
-    private static final Function<GuiGraphics, LodestoneBufferWrapper> DISTORTED_TEXT_BUFFER =
-            Util.memoize(guiGraphics -> new LodestoneBufferWrapper(DISTORTED_TEXT, guiGraphics.bufferSource()));
     private static final int PANEL_PADDING = 8;
     private static final int PANEL_HORIZONTAL_PADDING = 12;
     private static final int TEXT_HORIZONTAL_MARGIN = 0;
@@ -124,7 +53,7 @@ public final class MachineInspectionRenderer {
     private static final int MANA_GAUGE_HEIGHT = 8;
     private static final int MANA_GAUGE_VERTICAL_MARGIN = 4;
     private static final int MANA_GAUGE_ROW_HEIGHT =
-            INSPECTION_MANA_DRAW_HEIGHT + MANA_GAUGE_VERTICAL_MARGIN * 2;
+            MachineInspectionDistortedFrameRenderer.MANA_DRAW_HEIGHT + MANA_GAUGE_VERTICAL_MARGIN * 2;
     private static final int PANEL_OFFSET_X = 32;
     private static final int PANEL_OFFSET_Y = -24;
 
@@ -136,9 +65,9 @@ public final class MachineInspectionRenderer {
      * Registers the vertex-distortion shader used by the inspection HUD text.
      */
     public static void registerShaders(RegisterShadersEvent event) {
-        VERTEX_DISTORTED_TEXT_SHADER.register(event);
-        DISTORTED_INSPECTION_BORDER_SHADER.register(event);
-        VERTEX_DISTORTED_ITEM_SHADER.register(event);
+        MachineInspectionDistortedTextRenderer.registerShaders(event);
+        MachineInspectionDistortedFrameRenderer.registerShaders(event);
+        MachineInspectionDistortedItemRenderer.registerShaders(event);
     }
 
     /**
@@ -296,12 +225,12 @@ public final class MachineInspectionRenderer {
         int borderY = backgroundY + INSPECTION_BORDER_INSET;
 
         renderInspectionBackground(guiGraphics, backgroundX, backgroundY, backgroundWidth, backgroundHeight, fadeAlpha);
-        renderDistortedInspectionBorder(guiGraphics, borderX, borderY, borderWidth, borderHeight, fadeAlpha);
+        MachineInspectionDistortedFrameRenderer.renderBorder(guiGraphics, borderX, borderY, borderWidth, borderHeight, fadeAlpha);
 
         int contentX = borderX + PANEL_HORIZONTAL_PADDING;
         int y = borderY + PANEL_PADDING;
         if (!icon.isEmpty()) {
-            renderDistortedItemIcon(guiGraphics, minecraft, icon, contentX, y + 1, 0.0F, fadeAlpha);
+            MachineInspectionDistortedItemRenderer.renderDistortedItemIcon(guiGraphics, minecraft, icon, contentX, y + 1, 0.0F, fadeAlpha);
         }
         int titleX = contentX + (icon.isEmpty() ? 0 : ICON_CELL_SIZE);
         int textColor = Element.MANA.getTextColor().getRGB() + 0xFF000000;
@@ -314,10 +243,10 @@ public final class MachineInspectionRenderer {
         int fieldEffectGlow = fieldEffectPrimary.getRGB() + 0xFF000000;
         int fieldEffectDark = fieldEffectSecondary.getRGB() + 0xFF000000;
         int fieldEffectDarker = fieldEffectSecondary.getRGB() + 0xFF000000;
-        drawWavyText(guiGraphics, minecraft, title, titleX, y + 5, textColor, glow, dark, darker, 0xFF, animationPhase, 0.0F, fadeAlpha);
+        MachineInspectionDistortedTextRenderer.draw(guiGraphics, minecraft, title, titleX, y + 5, textColor, glow, dark, darker, 0xFF, animationPhase, 0.0F, fadeAlpha);
         y += TITLE_HEIGHT;
         if (hasMana) {
-            renderManaGauge(
+            MachineInspectionDistortedFrameRenderer.renderManaGauge(
                     guiGraphics,
                     contentX,
                     y + MANA_GAUGE_VERTICAL_MARGIN,
@@ -328,16 +257,16 @@ public final class MachineInspectionRenderer {
             );
             y += MANA_GAUGE_ROW_HEIGHT;
 
-            drawWavyText(guiGraphics, minecraft, manaText, contentX + TEXT_HORIZONTAL_MARGIN, y, textColor, glow, dark, darker, 0xFF, animationPhase, 0.7F, fadeAlpha);
+            MachineInspectionDistortedTextRenderer.draw(guiGraphics, minecraft, manaText, contentX + TEXT_HORIZONTAL_MARGIN, y, textColor, glow, dark, darker, 0xFF, animationPhase, 0.7F, fadeAlpha);
             y += 10;
 
-            drawWavyText(guiGraphics, minecraft, flowText, contentX + TEXT_HORIZONTAL_MARGIN, y, textColor, glow, dark, darker, 0xFF, animationPhase, 1.4F, fadeAlpha);
+            MachineInspectionDistortedTextRenderer.draw(guiGraphics, minecraft, flowText, contentX + TEXT_HORIZONTAL_MARGIN, y, textColor, glow, dark, darker, 0xFF, animationPhase, 1.4F, fadeAlpha);
             y += 11;
         }
 
         for (int index = 0; index < infoLines.size(); index++) {
             Component line = infoLines.get(index);
-            drawWavyText(
+            MachineInspectionDistortedTextRenderer.draw(
                     guiGraphics,
                     minecraft,
                     line,
@@ -364,7 +293,7 @@ public final class MachineInspectionRenderer {
             double timeRatio = timeGauge.durationTicks() > 0
                     ? (double) timeGauge.remainingTicks() / timeGauge.durationTicks()
                     : 0.0D;
-            renderManaGauge(
+            MachineInspectionDistortedFrameRenderer.renderManaGauge(
                     guiGraphics,
                     contentX,
                     y + MANA_GAUGE_VERTICAL_MARGIN,
@@ -375,7 +304,7 @@ public final class MachineInspectionRenderer {
                     fadeAlpha
             );
             y += MANA_GAUGE_ROW_HEIGHT;
-            drawWavyText(
+            MachineInspectionDistortedTextRenderer.draw(
                     guiGraphics,
                     minecraft,
                     remainingTimeText,
@@ -391,7 +320,7 @@ public final class MachineInspectionRenderer {
                     fadeAlpha
             );
             y += 10;
-            drawWavyText(
+            MachineInspectionDistortedTextRenderer.draw(
                     guiGraphics,
                     minecraft,
                     totalRemainingTimeText,
@@ -411,7 +340,7 @@ public final class MachineInspectionRenderer {
 
         if (!visibleItems.isEmpty()) {
             y += 3;
-            drawWavyText(
+            MachineInspectionDistortedTextRenderer.draw(
                     guiGraphics,
                     minecraft,
                     Component.translatable("gui.magitech.contents"),
@@ -435,7 +364,7 @@ public final class MachineInspectionRenderer {
 
         if (fieldEffectText != null) {
             y += 3;
-            drawWavyText(
+            MachineInspectionDistortedTextRenderer.draw(
                     guiGraphics,
                     minecraft,
                     Component.translatable("gui.magitech.field_effect"),
@@ -452,7 +381,7 @@ public final class MachineInspectionRenderer {
             );
             y += 11;
             FieldEffectIconRenderer.render(guiGraphics, fieldEffectId, contentX, y, ICON_CELL_SIZE, fadeAlpha);
-            drawWavyText(
+            MachineInspectionDistortedTextRenderer.draw(
                     guiGraphics,
                     minecraft,
                     fieldEffectText,
@@ -610,7 +539,7 @@ public final class MachineInspectionRenderer {
                     ITEM_TEXT_OFFSET + ITEM_NAME_RIGHT_PADDING + minecraft.font.width(fieldEffectText.getString())
             );
         }
-        return Math.max(INSPECTION_MANA_DRAW_WIDTH, width);
+        return Math.max(MachineInspectionDistortedFrameRenderer.MANA_DRAW_WIDTH, width);
     }
 
     private static int[] calculateItemColumnWidths(Minecraft minecraft, List<ItemStack> items) {
@@ -653,8 +582,8 @@ public final class MachineInspectionRenderer {
     }
 
     /**
-     * inspection_mana のフレームと mana_distorted のアニメーションでマナゲージを描画します。
-     * Renders the mana gauge with the inspection_mana frame and animated mana_distorted texture.
+     * inspection_manaのゲージを歪み描画込みで描画します。
+     * Renders the inspection mana gauge with distorted rendering.
      */
     public static void renderManaGauge(
             GuiGraphics guiGraphics,
@@ -664,350 +593,19 @@ public final class MachineInspectionRenderer {
             int height,
             double ratio
     ) {
-        renderManaGauge(
+        MachineInspectionDistortedFrameRenderer.renderManaGauge(
                 guiGraphics,
                 x,
                 y,
+                width,
                 height,
                 ratio
         );
     }
 
-    private static void renderManaGauge(
-            GuiGraphics guiGraphics,
-            int x,
-            int y,
-            int height,
-            double ratio
-    ) {
-        Minecraft minecraft = Minecraft.getInstance();
-        renderManaGauge(
-                guiGraphics,
-                x,
-                y,
-                height,
-                ratio,
-                minecraft.getTimer().getGameTimeDeltaPartialTick(false)
-        );
-    }
-
-    private static void renderManaGauge(
-            GuiGraphics guiGraphics,
-            int x,
-            int y,
-            int height,
-            double ratio,
-            float partialTick
-    ) {
-        renderManaGauge(guiGraphics, x, y, height, ratio, partialTick, Element.MANA, 1.0F);
-    }
-
-    private static void renderManaGauge(
-            GuiGraphics guiGraphics,
-            int x,
-            int y,
-            int height,
-            double ratio,
-            float partialTick,
-            float fadeAlpha
-    ) {
-        renderManaGauge(guiGraphics, x, y, height, ratio, partialTick, Element.MANA, fadeAlpha);
-    }
-
-    private static void renderManaGauge(
-            GuiGraphics guiGraphics,
-            int x,
-            int y,
-            int height,
-            double ratio,
-            float partialTick,
-            Element element
-    ) {
-        renderManaGauge(guiGraphics, x, y, height, ratio, partialTick, element, 1.0F);
-    }
-
-    private static void renderManaGauge(
-            GuiGraphics guiGraphics,
-            int x,
-            int y,
-            int height,
-            double ratio,
-            float partialTick,
-            Element element,
-            float fadeAlpha
-    ) {
-        double clampedRatio = Math.clamp(ratio, 0.0D, 1.0D);
-        int gaugeWidth = INSPECTION_MANA_DRAW_WIDTH;
-        int fillHeight = Math.min(MANA_GAUGE_HEIGHT, Math.max(0, height));
-        int innerWidth = Math.max(0, gaugeWidth - INSPECTION_MANA_DRAW_BORDER * 2);
-        float currentWidth = (float) (innerWidth * clampedRatio);
-        renderManaFrame(guiGraphics, x, y, element, fadeAlpha);
-        if (currentWidth > 0 && fillHeight > 0) {
-            renderDistortedManaFill(
-                    guiGraphics,
-                    x + INSPECTION_MANA_DRAW_BORDER,
-                    y + INSPECTION_MANA_DRAW_BORDER
-                            + (INSPECTION_MANA_DRAW_INNER_HEIGHT - fillHeight) / 2,
-                    element.getPrimary(),
-                    fadeAlpha,
-                    currentWidth,
-                    fillHeight,
-                    partialTick,
-                    0.0F
-            );
-            renderDistortedManaFill(
-                    guiGraphics,
-                    x + INSPECTION_MANA_DRAW_BORDER,
-                    y + INSPECTION_MANA_DRAW_BORDER
-                            + (INSPECTION_MANA_DRAW_INNER_HEIGHT - fillHeight) / 2,
-                    element.getSecondary(),
-                    0.5F * fadeAlpha,
-                    currentWidth,
-                    fillHeight,
-                    partialTick,
-                    1000.0F
-            );
-            renderDistortedManaFill(
-                    guiGraphics,
-                    x + INSPECTION_MANA_DRAW_BORDER,
-                    y + INSPECTION_MANA_DRAW_BORDER
-                            + (INSPECTION_MANA_DRAW_INNER_HEIGHT - fillHeight) / 2,
-                    element.getDark(),
-                    0.5F * fadeAlpha,
-                    currentWidth,
-                    fillHeight,
-                    partialTick,
-                    2000.0F
-            );
-        }
-    }
-
-    private static void renderManaFrame(GuiGraphics guiGraphics, int x, int y) {
-        renderManaFrame(guiGraphics, x, y, Element.MANA);
-    }
-
-    private static void renderManaFrame(GuiGraphics guiGraphics, int x, int y, Element element) {
-        renderManaFrame(guiGraphics, x, y, element, 1.0F);
-    }
-
-    private static void renderManaFrame(GuiGraphics guiGraphics, int x, int y, Element element, float fadeAlpha) {
-        ExtendedShaderInstance shader = DISTORTED_INSPECTION_BORDER_SHADER.getShaderInstance();
-        if (shader == null) {
-            guiGraphics.setColor(1.0F, 1.0F, 1.0F, fadeAlpha);
-            try {
-                guiGraphics.blit(
-                        INSPECTION_MANA,
-                        x,
-                        y,
-                        INSPECTION_MANA_DRAW_WIDTH,
-                        INSPECTION_MANA_DRAW_HEIGHT,
-                        0,
-                        0,
-                        INSPECTION_MANA_TEXTURE_WIDTH,
-                        INSPECTION_MANA_TEXTURE_HEIGHT,
-                        INSPECTION_MANA_TEXTURE_WIDTH,
-                        INSPECTION_MANA_TEXTURE_HEIGHT
-                );
-            } finally {
-                guiGraphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
-            }
-            return;
-        }
-
-        int width = INSPECTION_MANA_DRAW_WIDTH;
-        int height = INSPECTION_MANA_DRAW_HEIGHT;
-        int marginX = Math.max(
-                INSPECTION_BORDER_DISTORTION_MARGIN_MIN,
-                Mth.ceil(width / INSPECTION_BORDER_DISTORTION_INTENSITY) + 1
-        );
-        int marginY = Math.max(
-                INSPECTION_BORDER_DISTORTION_MARGIN_MIN,
-                Mth.ceil(height / INSPECTION_BORDER_DISTORTION_INTENSITY) + 1
-        );
-        float textureBorder = INSPECTION_MANA_DRAW_BORDER / INSPECTION_BORDER_PIXEL_SCALE;
-        float tileWidth = INSPECTION_MANA_TEXTURE_WIDTH - textureBorder * 2.0F;
-        float tileHeight = INSPECTION_MANA_TEXTURE_HEIGHT - textureBorder * 2.0F;
-
-        RenderSystem.enableBlend();
-        RenderSystem.enableDepthTest();
-        RenderSystem.blendFunc(770, 1);
-        try {
-            renderManaFramePass(
-                    guiGraphics,
-                    shader,
-                    x,
-                    y,
-                    width,
-                    height,
-                    marginX,
-                    marginY,
-                    tileWidth,
-                    tileHeight,
-                    element.getPrimary(),
-                    0.7F * fadeAlpha,
-                    0.0F
-            );
-            renderManaFramePass(
-                    guiGraphics,
-                    shader,
-                    x,
-                    y,
-                    width,
-                    height,
-                    marginX,
-                    marginY,
-                    tileWidth,
-                    tileHeight,
-                    element.getSecondary(),
-                    0.5F * fadeAlpha,
-                    1000.0F
-            );
-            renderManaFramePass(
-                    guiGraphics,
-                    shader,
-                    x,
-                    y,
-                    width,
-                    height,
-                    marginX,
-                    marginY,
-                    tileWidth,
-                    tileHeight,
-                    element.getDark(),
-                    0.5F * fadeAlpha,
-                    2000.0F
-            );
-        } finally {
-            shader.setUniformDefaults();
-            RenderSystem.defaultBlendFunc();
-            RenderSystem.disableDepthTest();
-            RenderSystem.disableBlend();
-        }
-    }
-
-    private static void renderManaFramePass(
-            GuiGraphics guiGraphics,
-            ExtendedShaderInstance shader,
-            int x,
-            int y,
-            int width,
-            int height,
-            int marginX,
-            int marginY,
-            float tileWidth,
-            float tileHeight,
-            Color color,
-            float alpha,
-            float phaseOffset
-    ) {
-        setInspectionTextureShaderUniforms(
-                shader,
-                width,
-                height,
-                marginX,
-                marginY,
-                INSPECTION_MANA_TEXTURE_WIDTH,
-                INSPECTION_MANA_TEXTURE_HEIGHT,
-                INSPECTION_MANA_DRAW_BORDER / INSPECTION_BORDER_PIXEL_SCALE,
-                tileWidth,
-                tileHeight,
-                1.0F,
-                0,
-                0.0F,
-                phaseOffset
-        );
-        shader.safeGetUniform("Speed").set(420.0F);
-        VFXBuilders.createScreen()
-                .setShader(shader)
-                .setTexture(INSPECTION_MANA)
-                .setColor(color, alpha)
-                .setUVWithWidth(0.0F, 0.0F, 1.0F, 1.0F)
-                .setPositionWithWidth(
-                        x - marginX,
-                        y - marginY,
-                        width + marginX * 2,
-                        height + marginY * 2
-                )
-                .blit(guiGraphics.pose());
-        guiGraphics.bufferSource().endBatch();
-    }
-
-    private static void renderDistortedManaFill(
-            GuiGraphics guiGraphics,
-            int x,
-            int y,
-            Color color,
-            float alpha,
-            float width,
-            int height,
-            float partialTick,
-            float phaseOffset
-    ) {
-        ExtendedShaderInstance shader = DISTORTED_INSPECTION_BORDER_SHADER.getShaderInstance();
-        if (shader == null || width <= 0 || height <= 0) {
-            return;
-        }
-
-        int marginX = Math.max(
-                INSPECTION_BORDER_DISTORTION_MARGIN_MIN,
-                Mth.ceil(width / INSPECTION_BORDER_DISTORTION_INTENSITY) + 1
-        );
-        int marginY = Math.max(
-                INSPECTION_BORDER_DISTORTION_MARGIN_MIN,
-                Mth.ceil(height / INSPECTION_BORDER_DISTORTION_INTENSITY) + 1
-        );
-        double animationFrame = getManaAnimationFrame(partialTick);
-        long animationFrameIndex = (long) Math.floor(animationFrame);
-        int frameIndex = (int) Math.floorMod(
-                animationFrameIndex,
-                (long) MANA_DISTORTED_FRAME_COUNT
-        );
-        float frameBlend = (float) (animationFrame - animationFrameIndex);
-        setInspectionTextureShaderUniforms(
-                shader,
-                width,
-                height,
-                marginX,
-                marginY,
-                MANA_DISTORTED_TEXTURE_SIZE,
-                MANA_DISTORTED_TEXTURE_SIZE,
-                0.0F,
-                MANA_DISTORTED_TEXTURE_SIZE,
-                MANA_DISTORTED_TEXTURE_SIZE,
-                MANA_DISTORTED_FRAME_COUNT,
-                frameIndex,
-                frameBlend,
-                phaseOffset
-        );
-        Minecraft.getInstance().getTextureManager()
-                .getTexture(MANA_DISTORTED)
-                .setFilter(true, false);
-        RenderSystem.enableBlend();
-        RenderSystem.blendFunc(770, 1);
-        try {
-            VFXBuilders.createScreen()
-                    .setShader(shader)
-                    .setTexture(MANA_DISTORTED)
-                    .setColor(color, alpha)
-                    .setUVWithWidth(0.0F, 0.0F, 1.0F, 1.0F)
-                    .setPositionWithWidth(
-                            x - marginX,
-                            y - marginY,
-                            width + marginX * 2,
-                            height + marginY * 2
-                    )
-                    .blit(guiGraphics.pose());
-            guiGraphics.bufferSource().endBatch();
-        } finally {
-            shader.setUniformDefaults();
-            RenderSystem.defaultBlendFunc();
-            RenderSystem.disableBlend();
-        }
-    }
-
     /**
-     * 後方互換用に色引数を受け取るマナゲージ描画メソッドです。色はテクスチャとエフェクトで決まります。
-     * Compatibility overload accepting a color argument; the textures and effects determine the displayed color.
+     * 後方互換用に色引数を受け取るゲージ描画メソッドです。
+     * Compatibility overload accepting a legacy color argument.
      */
     public static void renderManaGauge(
             GuiGraphics guiGraphics,
@@ -1018,7 +616,15 @@ public final class MachineInspectionRenderer {
             double ratio,
             int ignoredFillColor
     ) {
-        renderManaGauge(guiGraphics, x, y, width, height, ratio);
+        MachineInspectionDistortedFrameRenderer.renderManaGauge(
+                guiGraphics,
+                x,
+                y,
+                width,
+                height,
+                ratio,
+                ignoredFillColor
+        );
     }
 
     /**
@@ -1065,7 +671,7 @@ public final class MachineInspectionRenderer {
             }
             int itemY = y + row * ITEM_ROW_HEIGHT;
 
-            renderDistortedItemIcon(guiGraphics, minecraft, stack, itemX, itemY, index * 7.0F, fadeAlpha);
+            MachineInspectionDistortedItemRenderer.renderDistortedItemIcon(guiGraphics, minecraft, stack, itemX, itemY, index * 7.0F, fadeAlpha);
             guiGraphics.setColor(1.0F, 1.0F, 1.0F, fadeAlpha);
             try {
                 guiGraphics.renderItemDecorations(minecraft.font, stack, itemX, itemY, "");
@@ -1083,7 +689,7 @@ public final class MachineInspectionRenderer {
             int glow = Element.MANA.getPrimary().getRGB() + 0xFF000000;
             int dark = Element.MANA.getSecondary().getRGB() + 0xFF000000;
             int darker = Element.MANA.getDark().getRGB() + 0xFF000000;
-            drawWavyText(
+            MachineInspectionDistortedTextRenderer.draw(
                     guiGraphics,
                     minecraft,
                     Component.literal(itemName),
@@ -1131,7 +737,7 @@ public final class MachineInspectionRenderer {
             }
             int fluidY = y + row * ITEM_ROW_HEIGHT;
 
-            renderDistortedFluidIcon(guiGraphics, minecraft, fluid, fluidX, fluidY, index * 7.0F, fadeAlpha);
+            MachineInspectionDistortedItemRenderer.renderDistortedFluidIcon(guiGraphics, minecraft, fluid, fluidX, fluidY, index * 7.0F, fadeAlpha);
 
             String fluidName = getFluidDisplayName(fluid);
             int textWidth = fluidColumnWidths[column] - ITEM_TEXT_OFFSET - ITEM_NAME_RIGHT_PADDING;
@@ -1143,7 +749,7 @@ public final class MachineInspectionRenderer {
             int glow = Element.MANA.getPrimary().getRGB() + 0xFF000000;
             int dark = Element.MANA.getSecondary().getRGB() + 0xFF000000;
             int darker = Element.MANA.getDark().getRGB() + 0xFF000000;
-            drawWavyText(
+            MachineInspectionDistortedTextRenderer.draw(
                     guiGraphics,
                     minecraft,
                     Component.literal(fluidName),
@@ -1161,267 +767,7 @@ public final class MachineInspectionRenderer {
         }
     }
 
-    private static void renderDistortedFluidIcon(
-            GuiGraphics guiGraphics,
-            Minecraft minecraft,
-            FluidStack fluid,
-            int x,
-            int y,
-            float phaseOffset,
-            float fadeAlpha
-    ) {
-        renderFluidIcon(guiGraphics, minecraft, fluid, x, y, fadeAlpha);
 
-        ExtendedShaderInstance shader = VERTEX_DISTORTED_ITEM_SHADER.getShaderInstance();
-        if (shader == null) {
-            return;
-        }
-
-        IClientFluidTypeExtensions extensions = IClientFluidTypeExtensions.of(fluid.getFluid());
-        ResourceLocation stillTexture = extensions.getStillTexture(fluid);
-        TextureAtlasSprite sprite = minecraft.getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(stillTexture);
-        int tint = extensions.getTintColor(fluid);
-        Color fluidColor = new Color(tint | 0xFF000000, true);
-
-        renderDistortedFluidIconPass(
-                guiGraphics,
-                sprite,
-                x,
-                y,
-                fluidColor,
-                shader,
-                0.2F * fadeAlpha,
-                phaseOffset,
-                ITEM_ICON_ADDITIVE_Z
-        );
-        renderDistortedFluidIconPass(
-                guiGraphics,
-                sprite,
-                x,
-                y,
-                fluidColor,
-                shader,
-                0.05F * fadeAlpha,
-                phaseOffset + 5000.0F,
-                ITEM_ICON_ADDITIVE_Z + ITEM_ICON_ADDITIVE_Z_STEP
-        );
-        renderDistortedFluidIconPass(
-                guiGraphics,
-                sprite,
-                x,
-                y,
-                fluidColor,
-                shader,
-                0.05F * fadeAlpha,
-                phaseOffset + 10000.0F,
-                ITEM_ICON_ADDITIVE_Z + ITEM_ICON_ADDITIVE_Z_STEP * 2.0F
-        );
-    }
-
-    private static void renderFluidIcon(
-            GuiGraphics guiGraphics,
-            Minecraft minecraft,
-            FluidStack fluid,
-            int x,
-            int y,
-            float fadeAlpha
-    ) {
-        IClientFluidTypeExtensions extensions = IClientFluidTypeExtensions.of(fluid.getFluid());
-        ResourceLocation stillTexture = extensions.getStillTexture(fluid);
-        TextureAtlasSprite sprite = minecraft.getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(stillTexture);
-        int tint = extensions.getTintColor(fluid);
-        float red = ((tint >> 16) & 0xFF) / 255.0F;
-        float green = ((tint >> 8) & 0xFF) / 255.0F;
-        float blue = (tint & 0xFF) / 255.0F;
-        guiGraphics.setColor(red, green, blue, fadeAlpha);
-        try {
-            guiGraphics.blit(x + ICON_DRAW_OFFSET, y + ICON_DRAW_OFFSET, 0, ICON_DRAW_SIZE, ICON_DRAW_SIZE, sprite);
-        } finally {
-            guiGraphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
-        }
-    }
-
-    private static void renderDistortedFluidIconPass(
-            GuiGraphics guiGraphics,
-            TextureAtlasSprite sprite,
-            int x,
-            int y,
-            Color fluidColor,
-            ExtendedShaderInstance shader,
-            float alpha,
-            float phaseOffset,
-            float zOffset
-    ) {
-        setInspectionItemShaderUniforms(shader, alpha, phaseOffset);
-
-        RenderSystem.enableBlend();
-        RenderSystem.blendFunc(770, 1);
-        PoseStack pose = guiGraphics.pose();
-        pose.pushPose();
-        try {
-            pose.translate(x + ICON_CELL_SIZE / 2.0F, y + ICON_CELL_SIZE / 2.0F, zOffset);
-            pose.scale(ICON_DRAW_SIZE, -ICON_DRAW_SIZE, ICON_DRAW_SIZE);
-            pose.translate(-0.5F, -0.5F, -0.5F);
-
-            BufferBuilder buffer = Tesselator.getInstance().begin(
-                    VertexFormat.Mode.QUADS,
-                    DefaultVertexFormat.NEW_ENTITY
-            );
-            addFluidIconVertex(buffer, pose, 0.0F, 0.0F, 0.0F, sprite.getU0(), sprite.getV1(), fluidColor);
-            addFluidIconVertex(buffer, pose, 1.0F, 0.0F, 0.0F, sprite.getU1(), sprite.getV1(), fluidColor);
-            addFluidIconVertex(buffer, pose, 1.0F, 1.0F, 0.0F, sprite.getU1(), sprite.getV0(), fluidColor);
-            addFluidIconVertex(buffer, pose, 0.0F, 1.0F, 0.0F, sprite.getU0(), sprite.getV0(), fluidColor);
-
-            RenderSystem.setShader(() -> shader);
-            RenderSystem.setShaderTexture(0, sprite.atlasLocation());
-            BufferUploader.drawWithShader(buffer.buildOrThrow());
-        } finally {
-            pose.popPose();
-            shader.setUniformDefaults();
-            RenderSystem.defaultBlendFunc();
-            RenderSystem.disableBlend();
-        }
-    }
-
-    private static void addFluidIconVertex(
-            BufferBuilder buffer,
-            PoseStack pose,
-            float x,
-            float y,
-            float z,
-            float u,
-            float v,
-            Color fluidColor
-    ) {
-        buffer.addVertex(pose.last(), x, y, z)
-                .setColor(fluidColor.getRGB())
-                .setUv(u, v)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setLight(15728880)
-                .setNormal(pose.last(), 0.0F, 0.0F, 1.0F);
-    }
-
-    private static void renderDistortedItemIcon(
-            GuiGraphics guiGraphics,
-            Minecraft minecraft,
-            ItemStack stack,
-            int x,
-            int y,
-            float phaseOffset,
-            float fadeAlpha
-    ) {
-        PoseStack pose = guiGraphics.pose();
-        pose.pushPose();
-        guiGraphics.setColor(1.0F, 1.0F, 1.0F, fadeAlpha);
-        try {
-            float centerX = x + ICON_CELL_SIZE / 2.0F;
-            float centerY = y + ICON_CELL_SIZE / 2.0F;
-            float scale = ICON_DRAW_SIZE / (float) ICON_CELL_SIZE;
-            pose.translate(centerX, centerY, 0.0F);
-            pose.scale(scale, scale, 1.0F);
-            pose.translate(-centerX, -centerY, 0.0F);
-            guiGraphics.renderItem(stack, x, y);
-        } finally {
-            pose.popPose();
-            guiGraphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
-        }
-
-        ExtendedShaderInstance shader = VERTEX_DISTORTED_ITEM_SHADER.getShaderInstance();
-        BakedModel model = minecraft.getItemRenderer().getModel(stack, minecraft.level, null, 0);
-        if (shader == null || model.isCustomRenderer()) {
-            return;
-        }
-
-        renderDistortedItemIconPass(
-                guiGraphics,
-                minecraft,
-                stack,
-                model,
-                x,
-                y,
-                shader,
-                0.2F * fadeAlpha,
-                phaseOffset,
-                ITEM_ICON_ADDITIVE_Z
-        );
-        renderDistortedItemIconPass(
-                guiGraphics,
-                minecraft,
-                stack,
-                model,
-                x,
-                y,
-                shader,
-                0.05F * fadeAlpha,
-                phaseOffset + 5000.0F,
-                ITEM_ICON_ADDITIVE_Z + ITEM_ICON_ADDITIVE_Z_STEP
-        );
-        renderDistortedItemIconPass(
-                guiGraphics,
-                minecraft,
-                stack,
-                model,
-                x,
-                y,
-                shader,
-                0.05F * fadeAlpha,
-                phaseOffset + 10000.0F,
-                ITEM_ICON_ADDITIVE_Z + ITEM_ICON_ADDITIVE_Z_STEP * 2.0F
-        );
-    }
-
-    private static void renderDistortedItemIconPass(
-            GuiGraphics guiGraphics,
-            Minecraft minecraft,
-            ItemStack stack,
-            BakedModel model,
-            int x,
-            int y,
-            ExtendedShaderInstance shader,
-            float additiveAlpha,
-            float phaseOffset,
-            float zOffset
-    ) {
-        setInspectionItemShaderUniforms(shader, additiveAlpha, phaseOffset);
-
-        RenderSystem.enableBlend();
-        RenderSystem.blendFunc(770, 1);
-        PoseStack pose = guiGraphics.pose();
-        pose.pushPose();
-        try {
-            pose.translate(x + ICON_CELL_SIZE / 2.0F, y + ICON_CELL_SIZE / 2.0F, zOffset);
-            pose.scale(ICON_DRAW_SIZE, -ICON_DRAW_SIZE, ICON_DRAW_SIZE);
-            model = ClientHooks.handleCameraTransforms(pose, model, ItemDisplayContext.GUI, false);
-            pose.translate(-0.5F, -0.5F, -0.5F);
-            TextureAtlasSprite sprite = model.getParticleIcon();
-            BufferBuilder buffer = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.NEW_ENTITY);
-            minecraft.getItemRenderer().renderModelLists(
-                    model,
-                    stack,
-                    15728880,
-                    OverlayTexture.NO_OVERLAY,
-                    pose,
-                    buffer
-            );
-            RenderSystem.setShader(() -> shader);
-            RenderSystem.setShaderTexture(0, sprite.atlasLocation());
-            BufferUploader.drawWithShader(buffer.buildOrThrow());
-        } finally {
-            pose.popPose();
-            shader.setUniformDefaults();
-            RenderSystem.defaultBlendFunc();
-            RenderSystem.disableBlend();
-        }
-    }
-
-    private static double getManaAnimationFrame(float partialTick) {
-        Minecraft minecraft = Minecraft.getInstance();
-        if (minecraft.level == null) {
-            return 0.0D;
-        }
-        return (minecraft.level.getGameTime() + (double) partialTick)
-                / MANA_DISTORTED_FRAME_TIME;
-    }
 
     private static float getAnimationPhase(Minecraft minecraft, float partialTick) {
         return minecraft.level == null
@@ -1429,74 +775,7 @@ public final class MachineInspectionRenderer {
                 : minecraft.level.getGameTime() + partialTick;
     }
 
-    private static void drawWavyText(
-            GuiGraphics guiGraphics,
-            Minecraft minecraft,
-            Component text,
-            int x,
-            int y,
-            int color,
-            int glowColor,
-            int darkColor,
-            int darkerColor,
-            int baseAlpha,
-            float animationPhase,
-            float phaseOffset,
-            float fadeAlpha
-    ) {
-        int fadedBaseAlpha = Mth.floor(baseAlpha * fadeAlpha);
-        guiGraphics.drawString(minecraft.font, text, x, y, color + (fadedBaseAlpha << 24), false);
 
-        float phase = animationPhase + phaseOffset;
-        int alpha = Mth.floor(255.0F * fadeAlpha
-                * (0.7F + Mth.abs(0.3F * Mth.sin((float) ((phase / 20.0F) % Math.TAU)))));
-        int base = (alpha << 24) | glowColor;
-        int dim = (base & 0xFFFFFF) | ((alpha / 3) << 24);
-        int baseDark = (alpha << 24) | darkColor;
-        int dimmer = (baseDark & 0xFFFFFF) | ((alpha / 4) << 24);
-        int baseDarker = (alpha << 24) | darkerColor;
-        int darkerDimmer = (baseDarker & 0xFFFFFF) | ((alpha / 4) << 24);
-        String textValue = text.getString();
-        ExtendedShaderInstance distortedShader = VERTEX_DISTORTED_TEXT_SHADER.getShaderInstance();
-        LodestoneBufferWrapper buffer = distortedShader == null
-                ? ADDITIVE_TEXT_BUFFER.apply(guiGraphics)
-                : DISTORTED_TEXT_BUFFER.apply(guiGraphics);
-        var pose = guiGraphics.pose().last().pose();
-        Font font = minecraft.font;
-        RenderSystem.enableBlend();
-        if (distortedShader != null) {
-            setTextVertexShaderUniforms(distortedShader, phaseOffset);
-            font.drawInBatch(textValue, x, y, dim, false, pose,
-                    buffer, Font.DisplayMode.NORMAL, 0, 15728880, font.isBidirectional());
-            guiGraphics.bufferSource().endBatch();
-            distortedShader.setUniformDefaults();
-
-            setTextVertexShaderUniforms(distortedShader, phaseOffset + 5000F);
-            font.drawInBatch(textValue, x, y, dimmer, false, pose,
-                    buffer, Font.DisplayMode.NORMAL, 0, 15728880, font.isBidirectional());
-            guiGraphics.bufferSource().endBatch();
-            distortedShader.setUniformDefaults();
-
-            setTextVertexShaderUniforms(distortedShader, phaseOffset + 10000F);
-            font.drawInBatch(textValue, x, y, darkerDimmer, false, pose,
-                    buffer, Font.DisplayMode.NORMAL, 0, 15728880, font.isBidirectional());
-            guiGraphics.bufferSource().endBatch();
-            distortedShader.setUniformDefaults();
-        } else {
-            float offsetMultiplier = Mth.sin((float) ((phase / 10.0F) % Math.TAU));
-            float xOffset = 2.0F * offsetMultiplier;
-            float yOffset = 1.0F * offsetMultiplier;
-            font.drawInBatch(textValue, x + xOffset, y, dim, false, pose,
-                    buffer, Font.DisplayMode.NORMAL, 0, 15728880, font.isBidirectional());
-            font.drawInBatch(textValue, x - xOffset, y, dimmer, false, pose,
-                    buffer, Font.DisplayMode.NORMAL, 0, 15728880, font.isBidirectional());
-            font.drawInBatch(textValue, x, y + yOffset, dim, false, pose,
-                    buffer, Font.DisplayMode.NORMAL, 0, 15728880, font.isBidirectional());
-            font.drawInBatch(textValue, x, y - yOffset, dimmer, false, pose,
-                    buffer, Font.DisplayMode.NORMAL, 0, 15728880, font.isBidirectional());
-        }
-        RenderSystem.defaultBlendFunc();
-    }
 
     private static void renderInspectionBackground(
             GuiGraphics guiGraphics,
@@ -1577,157 +856,14 @@ public final class MachineInspectionRenderer {
                 INSPECTION_BACKGROUND_TEXTURE_SIZE, INSPECTION_BACKGROUND_TEXTURE_SIZE);
     }
 
-    private static void renderDistortedInspectionBorder(
-            GuiGraphics guiGraphics,
-            int x,
-            int y,
-            int width,
-            int height,
-            float fadeAlpha
-    ) {
-        ExtendedShaderInstance shader = DISTORTED_INSPECTION_BORDER_SHADER.getShaderInstance();
-        if (shader == null) {
-            return;
-        }
 
-        RenderSystem.enableBlend();
-        RenderSystem.enableDepthTest();
-        RenderSystem.blendFunc(770, 1);
-        try {
-            int marginX = Math.max(
-                    INSPECTION_BORDER_DISTORTION_MARGIN_MIN,
-                    Mth.ceil(width / INSPECTION_BORDER_DISTORTION_INTENSITY) + 1
-            );
-            int marginY = Math.max(
-                    INSPECTION_BORDER_DISTORTION_MARGIN_MIN,
-                    Mth.ceil(height / INSPECTION_BORDER_DISTORTION_INTENSITY) + 1
-            );
-            setInspectionBorderShaderUniforms(shader, width, height, marginX, marginY, 0.0F);
-            VFXBuilders.createScreen()
-                    .setShader(shader)
-                    .setTexture(INSPECTION_BORDER)
-                    .setColor(Element.MANA.getPrimary(), 0.7F * fadeAlpha)
-                    .setUVWithWidth(0.0F, 0.0F, 1.0F, 1.0F)
-                    .setPositionWithWidth(x - marginX, y - marginY, width + marginX * 2, height + marginY * 2)
-                    .blit(guiGraphics.pose());
-            guiGraphics.bufferSource().endBatch();
-
-            setInspectionBorderShaderUniforms(shader, width, height, marginX, marginY, 1000.0F);
-            VFXBuilders.createScreen()
-                    .setShader(shader)
-                    .setTexture(INSPECTION_BORDER)
-                    .setColor(Element.MANA.getSecondary(), 0.5F * fadeAlpha)
-                    .setUVWithWidth(0.0F, 0.0F, 1.0F, 1.0F)
-                    .setPositionWithWidth(x - marginX, y - marginY, width + marginX * 2, height + marginY * 2)
-                    .blit(guiGraphics.pose());
-            guiGraphics.bufferSource().endBatch();
-
-            setInspectionBorderShaderUniforms(shader, width, height, marginX, marginY, 2000.0F);
-            VFXBuilders.createScreen()
-                    .setShader(shader)
-                    .setTexture(INSPECTION_BORDER)
-                    .setColor(Element.MANA.getDark(), 0.5F * fadeAlpha)
-                    .setUVWithWidth(0.0F, 0.0F, 1.0F, 1.0F)
-                    .setPositionWithWidth(x - marginX, y - marginY, width + marginX * 2, height + marginY * 2)
-                    .blit(guiGraphics.pose());
-            guiGraphics.bufferSource().endBatch();
-        } finally {
-            shader.setUniformDefaults();
-            RenderSystem.defaultBlendFunc();
-            RenderSystem.disableDepthTest();
-            RenderSystem.disableBlend();
-        }
-    }
-
-    private static void setInspectionBorderShaderUniforms(
-            ExtendedShaderInstance shader,
-            int width,
-            int height,
-            int marginX,
-            int marginY,
-            float phaseOffset
-    ) {
-        setInspectionTextureShaderUniforms(
-                shader,
-                width,
-                height,
-                marginX,
-                marginY,
-                INSPECTION_BORDER_TEXTURE_SIZE,
-                INSPECTION_BORDER_TEXTURE_SIZE,
-                INSPECTION_BORDER_TEXTURE_BORDER,
-                INSPECTION_BORDER_TEXTURE_TILE_SIZE,
-                INSPECTION_BORDER_TEXTURE_TILE_SIZE,
-                1.0F,
-                0.0F,
-                0.0F,
-                phaseOffset
-        );
-    }
-
-    private static void setInspectionTextureShaderUniforms(
-            ExtendedShaderInstance shader,
-            float width,
-            int height,
-            int marginX,
-            int marginY,
-            float textureWidth,
-            float textureHeight,
-            float borderSize,
-            float tileWidth,
-            float tileHeight,
-            float frameCount,
-            float frameIndex,
-            float frameBlend,
-            float phaseOffset
-    ) {
-        shader.safeGetUniform("Width").set((float) width);
-        shader.safeGetUniform("Height").set((float) height);
-        shader.safeGetUniform("MarginX").set((float) marginX);
-        shader.safeGetUniform("MarginY").set((float) marginY);
-        shader.safeGetUniform("BorderSize").set(borderSize);
-        shader.safeGetUniform("TileWidth").set(tileWidth);
-        shader.safeGetUniform("TileHeight").set(tileHeight);
-        shader.safeGetUniform("TextureSize").set(textureWidth);
-        shader.safeGetUniform("TextureWidth").set(textureWidth);
-        shader.safeGetUniform("TextureHeight").set(textureHeight);
-        shader.safeGetUniform("PixelScale").set(INSPECTION_BORDER_PIXEL_SCALE);
-        shader.safeGetUniform("Speed").set(420.0F);
-        shader.safeGetUniform("Intensity").set(INSPECTION_BORDER_DISTORTION_INTENSITY);
-        shader.safeGetUniform("YFrequency").set(5.0F);
-        shader.safeGetUniform("XFrequency").set(5.0F);
-        shader.safeGetUniform("FrameCount").set(frameCount);
-        shader.safeGetUniform("FrameIndex").set(frameIndex);
-        shader.safeGetUniform("FrameBlend").set(frameBlend);
-        shader.safeGetUniform("TimeOffset").set(phaseOffset);
-    }
-
-    private static void setInspectionItemShaderUniforms(
-            ExtendedShaderInstance shader,
-            float additiveAlpha,
-            float phaseOffset
-    ) {
-        shader.safeGetUniform("Alpha").set(additiveAlpha);
-        shader.safeGetUniform("Speed").set(TEXT_DISTORTION_SPEED);
-        shader.safeGetUniform("TimeOffset").set(phaseOffset);
-        shader.safeGetUniform("XFrequency").set(0.10F);
-        shader.safeGetUniform("YFrequency").set(0.08F);
-        shader.safeGetUniform("Amplitude").set(0.85F);
-    }
 
     private static int roundUpToMultiple(int value, int multiple) {
         return Math.max(multiple, ((value + multiple - 1) / multiple) * multiple);
     }
 
-    private static void setTextVertexShaderUniforms(
-            ExtendedShaderInstance shader,
-            float phaseOffset
-    ) {
-        shader.safeGetUniform("Speed").set(TEXT_DISTORTION_SPEED);
-        shader.safeGetUniform("TimeOffset").set(phaseOffset);
-        shader.safeGetUniform("XFrequency").set(0.10F);
-        shader.safeGetUniform("YFrequency").set(0.08F);
-        shader.safeGetUniform("Amplitude").set(TEXT_DISTORTION_AMPLITUDE);
-    }
+
 
 }
+
+

@@ -1,0 +1,40 @@
+{
+  "type": "magitech:infusion",
+  "base": {
+    "count": 2,
+    "ingredient": {
+      "item": "magitech:mana_insulating_glass"
+    }
+  },
+  "ingredients": [
+    {
+      "count": 4,
+      "ingredient": {
+        "item": "magitech:high_purity_fluorite"
+      }
+    },
+    {
+      "count": 4,
+      "ingredient": {
+        "item": "minecraft:leather"
+      }
+    },
+    {
+      "count": 4,
+      "ingredient": {
+        "item": "magitech:fluxium_ingot"
+      }
+    },
+    {
+      "count": 1,
+      "ingredient": {
+        "item": "magitech:phantom_crystal"
+      }
+    }
+  ],
+  "mana": 500000,
+  "result": {
+    "count": 1,
+    "id": "magitech:spectacles_of_inspection"
+  }
+}
