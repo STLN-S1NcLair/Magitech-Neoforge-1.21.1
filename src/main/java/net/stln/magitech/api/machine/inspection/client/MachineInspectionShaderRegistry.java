@@ -7,7 +7,7 @@ import net.neoforged.neoforge.client.event.RegisterShadersEvent;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.api.machine.inspection.MachineInspectionRenderer;
 
-@EventBusSubscriber(modid = Magitech.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = Magitech.MOD_ID, value = Dist.CLIENT)
 public final class MachineInspectionShaderRegistry {
     private MachineInspectionShaderRegistry() {
     }

@@ -1,9 +1,11 @@
 package net.stln.magitech.core.api.field_effect;
 
 import com.mojang.serialization.Codec;
+import net.minecraft.core.Holder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.RegistryFixedCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.stln.magitech.MagitechRegistries;
 import org.jetbrains.annotations.NotNull;
@@ -22,11 +24,16 @@ public class FieldInfluenceType implements FieldInfluenceTypeLike {
      * Persistent-data Codec based on registry names.
      */
     public static final Codec<FieldInfluenceType> CODEC = MagitechRegistries.FIELD_INFLUENCE_TYPE.byNameCodec();
+    
+    public static final Codec<Holder<FieldInfluenceType>> HOLDER_CODEC = RegistryFixedCodec.create(MagitechRegistries.Keys.FIELD_INFLUENCE_TYPE);
+    
     /**
      * レジストリ値を使うネットワーク用 StreamCodec です。
      * Network StreamCodec based on registry values.
      */
     public static final StreamCodec<RegistryFriendlyByteBuf, FieldInfluenceType> STREAM_CODEC = ByteBufCodecs.registry(MagitechRegistries.Keys.FIELD_INFLUENCE_TYPE);
+    
+    public static final StreamCodec<RegistryFriendlyByteBuf, Holder<FieldInfluenceType>> HOLDER_STREAM_CODEC = ByteBufCodecs.holderRegistry(MagitechRegistries.Keys.FIELD_INFLUENCE_TYPE);
 
     /**
      * この影響のGUIアイコンテクスチャを返します。

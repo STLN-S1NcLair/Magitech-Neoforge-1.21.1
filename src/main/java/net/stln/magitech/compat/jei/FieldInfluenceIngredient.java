@@ -15,9 +15,11 @@ import net.stln.magitech.MagitechRegistries;
 import net.stln.magitech.core.api.field_effect.FieldInfluence;
 import net.stln.magitech.core.api.field_effect.FieldInfluenceType;
 import net.stln.magitech.effect.visual.FieldEffectIconRenderer;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 public final class FieldInfluenceIngredient {
@@ -26,48 +28,49 @@ public final class FieldInfluenceIngredient {
 
     public static final IIngredientHelper<FieldInfluence> HELPER = new IIngredientHelper<>() {
         @Override
-        public IIngredientType<FieldInfluence> getIngredientType() {
+        public @NotNull IIngredientType<FieldInfluence> getIngredientType() {
             return TYPE;
         }
 
         @Override
-        public String getDisplayName(FieldInfluence ingredient) {
+        public @NotNull String getDisplayName(@NotNull FieldInfluence ingredient) {
             return getTypeName(ingredient).getString();
         }
 
+        @SuppressWarnings("removal")
         @Override
-        public String getUniqueId(FieldInfluence ingredient, UidContext context) {
+        public @NotNull String getUniqueId(@NotNull FieldInfluence ingredient, @NotNull UidContext context) {
             ResourceLocation id = getIngredientId(ingredient);
             return id == null ? "unknown" : id.toString();
         }
 
         @Override
-        public ResourceLocation getResourceLocation(FieldInfluence ingredient) {
-            return getIngredientId(ingredient);
+        public @NotNull ResourceLocation getResourceLocation(@NotNull FieldInfluence ingredient) {
+            return Objects.requireNonNull(getIngredientId(ingredient), "Field Influence has no key in the registry, %s".formatted(getErrorInfo(ingredient)));
         }
 
         @Override
-        public FieldInfluence copyIngredient(FieldInfluence ingredient) {
+        public @NotNull FieldInfluence copyIngredient(FieldInfluence ingredient) {
             return new FieldInfluence(ingredient.type(), ingredient.intensity());
         }
 
         @Override
-        public boolean isValidIngredient(FieldInfluence ingredient) {
-            return ingredient != null && ingredient.type() != null && ingredient.intensity() > 0 && getTypeId(ingredient) != null;
+        public boolean isValidIngredient(@NotNull FieldInfluence ingredient) {
+            return ingredient.intensity() > 0 && getTypeId(ingredient) != null;
         }
 
         @Override
-        public String getErrorInfo(FieldInfluence ingredient) {
+        public @NotNull String getErrorInfo(FieldInfluence ingredient) {
             return "Unknown field influence: " + ingredient;
         }
     };
 
     public static final IIngredientRenderer<FieldInfluence> RENDERER = new IIngredientRenderer<>() {
         @Override
-        public void render(GuiGraphics guiGraphics, FieldInfluence ingredient) {
-            FieldInfluenceType type = ingredient == null ? null : ingredient.type();
-            ResourceLocation texture = type == null ? null : type.getIconTexture();
-            if (texture != null && type != null) {
+        public void render(@NotNull GuiGraphics guiGraphics, @NotNull FieldInfluence ingredient) {
+            FieldInfluenceType type = ingredient.type();
+            ResourceLocation texture = type.getIconTexture();
+            if (texture != null) {
                 FieldEffectIconRenderer.renderTexture(
                         guiGraphics,
                         texture,
@@ -98,8 +101,9 @@ public final class FieldInfluenceIngredient {
             }
         }
 
+        @SuppressWarnings("removal")
         @Override
-        public List<Component> getTooltip(FieldInfluence ingredient, TooltipFlag tooltipFlag) {
+        public @NotNull List<Component> getTooltip(@NotNull FieldInfluence ingredient, @NotNull TooltipFlag tooltipFlag) {
             return List.of(
                     getTypeName(ingredient),
                     Component.translatable("gui.magitech.field_influence").withColor(0x808080)
@@ -123,7 +127,7 @@ public final class FieldInfluenceIngredient {
     }
 
     private static ResourceLocation getTypeId(FieldInfluence influence) {
-        return influence == null || influence.type() == null
+        return influence == null
                 ? null
                 : MagitechRegistries.FIELD_INFLUENCE_TYPE.getKey(influence.type());
     }

@@ -5,13 +5,13 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.stln.magitech.MagitechRegistries;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * 1種類のフィールド影響とその強度を表します。
  * Represents one field influence and its intensity.
  */
-public record FieldInfluence(FieldInfluenceType type, int intensity) {
+public record FieldInfluence(@NotNull FieldInfluenceType type,  int intensity) {
     /**
      * 保存形式用の Codec です。
      * Codec used for persistent data serialization.

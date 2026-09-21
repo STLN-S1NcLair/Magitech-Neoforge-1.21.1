@@ -5,6 +5,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Set;
@@ -13,7 +14,7 @@ import java.util.Set;
  * 同時に適用されるフィールド影響の集合です。
  * A set of field influences applied together.
  */
-public record FieldInfluenceInstance(Set<FieldInfluence> fieldInfluences) {
+public record FieldInfluenceInstance(@NotNull Set<FieldInfluence> fieldInfluences) {
 
     /**
      * 保存形式用の Codec です。
@@ -37,7 +38,7 @@ public record FieldInfluenceInstance(Set<FieldInfluence> fieldInfluences) {
      * 影響のリストからインスタンスを生成します。
      * Creates an instance from a list of influences.
      */
-    public FieldInfluenceInstance(List<FieldInfluence> fieldEffects) {
+    public FieldInfluenceInstance(@NotNull List<FieldInfluence> fieldEffects) {
         this(Set.copyOf(fieldEffects));
     }
 
@@ -45,7 +46,7 @@ public record FieldInfluenceInstance(Set<FieldInfluence> fieldInfluences) {
      * 可変長引数から影響インスタンスを生成します。
      * Creates an influence instance from varargs.
      */
-    public static FieldInfluenceInstance of(FieldInfluence... fieldEffects) {
+    public static FieldInfluenceInstance of(@NotNull FieldInfluence... fieldEffects) {
         return new FieldInfluenceInstance(Set.of(fieldEffects));
     }
 

@@ -7,14 +7,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.item.crafting.SmeltingRecipe;
-import net.minecraft.world.level.Level;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.content.field_effect.influence.FieldInfluenceInit;
 import net.stln.magitech.core.api.field_effect.FieldInfluence;
 import net.stln.magitech.core.api.field_effect.FieldInfluenceInstance;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
-import java.util.List;
 
 public class HeatedEffectType extends RecipeFieldEffectType<SingleRecipeInput, SmeltingRecipe> {
 
@@ -29,7 +28,7 @@ public class HeatedEffectType extends RecipeFieldEffectType<SingleRecipeInput, S
     }
 
     @Override
-    public FieldInfluenceInstance getCondition() {
+    public @NotNull FieldInfluenceInstance getCondition() {
         return FieldInfluenceInstance.of(new FieldInfluence(FieldInfluenceInit.HEAT.get(), 1));
     }
 
@@ -39,19 +38,19 @@ public class HeatedEffectType extends RecipeFieldEffectType<SingleRecipeInput, S
     }
 
     @Override
-    public void affectEntity(Entity entity) {
+    public void affectEntity(@NotNull Entity entity) {
         if (entity instanceof LivingEntity && !entity.fireImmune() && !entity.isOnFire()) {
             entity.setRemainingFireTicks(20);
         }
     }
 
     @Override
-    public Color getPrimary() {
+    public @NotNull Color getPrimary() {
         return new Color(0xFFCD44);
     }
 
     @Override
-    public Color getSecondary() {
+    public @NotNull Color getSecondary() {
         return new Color(0xFF4400);
     }
 

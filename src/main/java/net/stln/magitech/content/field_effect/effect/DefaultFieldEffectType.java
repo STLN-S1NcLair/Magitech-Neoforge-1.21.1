@@ -9,40 +9,41 @@ import net.stln.magitech.core.api.field_effect.FieldEffectType;
 import net.stln.magitech.core.api.field_effect.FieldInfluence;
 import net.stln.magitech.core.api.field_effect.FieldInfluenceInstance;
 import net.stln.magitech.effect.visual.preset.BlockVFX;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 public abstract class DefaultFieldEffectType extends FieldEffectType {
 
     @Override
-    public boolean canProcess(Level level, List<ItemStack> inputs) {
+    public boolean canProcess(@NotNull Level level, @NotNull List<ItemStack> inputs) {
         return inputs.stream().anyMatch(input -> FieldEffectRecipe.findItemRecipe(level, this, input).isPresent());
     }
 
     @Override
-    public boolean canProcess(Level level, BlockPos pos) {
+    public boolean canProcess(@NotNull Level level, @NotNull BlockPos pos) {
         return FieldEffectRecipe.findBlockRecipe(level, pos, this).isPresent();
     }
 
     @Override
-    public List<ItemStack> processItem(Level level, List<ItemStack> inputs) {
+    public @NotNull List<ItemStack> processItem(@NotNull Level level, @NotNull List<ItemStack> inputs) {
         return FieldEffectRecipe.processItem(level, this, inputs);
     }
 
     @Override
-    public List<ItemStack> processBlock(Level level, BlockPos pos) {
+    public @NotNull List<ItemStack> processBlock(@NotNull Level level, @NotNull BlockPos pos) {
         return FieldEffectRecipe.findBlockRecipe(level, pos, this)
                 .map(recipe -> FieldEffectRecipe.processBlock(level, pos, recipe))
                 .orElseGet(List::of);
     }
 
     @Override
-    public FieldInfluenceInstance getCondition() {
+    public @NotNull FieldInfluenceInstance getCondition() {
         return FieldInfluenceInstance.of(new FieldInfluence(FieldInfluenceInit.COOLING.get(), 1));
     }
 
     @Override
-    public void renderVFX(Level level, BlockPos pos) {
+    public void renderVFX(@NotNull Level level, @NotNull BlockPos pos) {
         BlockVFX.fieldEffect(level, getPrimary(), getSecondary(), pos, 0.02F);
     }
 }

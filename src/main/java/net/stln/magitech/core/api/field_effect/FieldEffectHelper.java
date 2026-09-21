@@ -49,14 +49,13 @@ public class FieldEffectHelper {
      */
     public static FieldEffectType getFieldEffect(Level level, FieldInfluenceInstance instance) {
         FieldEffectType exactType = findExactFieldEffect(instance);
-        if (exactType != null || instance == null || instance.fieldInfluences() == null
-                || instance.fieldInfluences().isEmpty()) {
+        if (exactType != null || instance == null || instance.fieldInfluences().isEmpty()) {
             return exactType;
         }
 
         int maximumIntensity = Integer.MIN_VALUE;
         for (FieldInfluence influence : instance.fieldInfluences()) {
-            if (influence != null && influence.type() != null) {
+            if (influence != null) {
                 maximumIntensity = Math.max(maximumIntensity, influence.intensity());
             }
         }
@@ -66,7 +65,7 @@ public class FieldEffectHelper {
 
         Set<FieldInfluenceType> strongestTypes = new HashSet<>();
         for (FieldInfluence influence : instance.fieldInfluences()) {
-            if (influence != null && influence.type() != null && influence.intensity() == maximumIntensity) {
+            if (influence != null && influence.intensity() == maximumIntensity) {
                 strongestTypes.add(influence.type());
             }
         }
@@ -137,7 +136,7 @@ public class FieldEffectHelper {
     }
 
     private static boolean isStrictlyLowerCondition(FieldInfluenceInstance higher, FieldInfluenceInstance lower) {
-        if (higher == null || lower == null || lower.fieldInfluences() == null || lower.fieldInfluences().isEmpty()) {
+        if (higher == null || lower == null || lower.fieldInfluences().isEmpty()) {
             return false;
         }
 
@@ -156,9 +155,9 @@ public class FieldEffectHelper {
 
     private static Map<FieldInfluenceType, Integer> toIntensityMap(FieldInfluenceInstance instance) {
         Map<FieldInfluenceType, Integer> intensities = new HashMap<>();
-        if (instance != null && instance.fieldInfluences() != null) {
+        if (instance != null) {
             for (FieldInfluence influence : instance.fieldInfluences()) {
-                if (influence != null && influence.type() != null) {
+                if (influence != null) {
                     intensities.merge(influence.type(), influence.intensity(), Integer::sum);
                 }
             }
