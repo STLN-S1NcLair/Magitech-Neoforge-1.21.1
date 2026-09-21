@@ -2,12 +2,14 @@ package net.stln.magitech.helper;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.text.DecimalFormat;
 
-public class EnergyFormatter {
+public final class EnergyFormatter {
+    private EnergyFormatter() {}
 
     // 小数点以下2桁まで表示するフォーマッタ
     private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0.0");
@@ -24,24 +26,24 @@ public class EnergyFormatter {
      * 例: 2000 kJ -> "2 MJ"
      * 1500 kJ -> "1.5 MJ"
      */
-    public static MutableComponent formatEnergy(long energy, long maxEnergy) {
+    public static @NotNull MutableComponent formatEnergy(long energy, long maxEnergy) {
         // 現在値と最大値をそれぞれフォーマットして "現在の値 / 最大値 単位" の形式にする場合
         // ここではシンプルに「現在の値 単位」を返すロジックを中心に記述します
         return Component.literal(formatValue(energy) + " / " + formatValue(maxEnergy));
     }
 
     // 流量のフォーマット
-    public static MutableComponent formatFlow(long flow, long maxFlow) {
+    public static @NotNull MutableComponent formatFlow(long flow, long maxFlow) {
         return Component.literal((flow > 0 ? "+" : "") + formatAverage(flow).getString() + " / " + formatAverage(maxFlow).getString());
     }
 
     // 平均表示のフォーマット
-    public static MutableComponent formatAverage(long value) {
+    public static @NotNull MutableComponent formatAverage(long value) {
         return Component.literal(formatValue(value) + "/t");
     }
 
     // 単体の値をフォーマットするメソッド
-    public static String formatValue(long val) {
+    public static @NotNull String formatValue(long val) {
         if (val == Long.MAX_VALUE || val == Long.MIN_VALUE) {
             return "∞ J";
         }

@@ -7,6 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec2;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 import snownee.jade.api.ui.Element;
 import snownee.jade.overlay.WailaTickHandler;
 import snownee.jade.track.ProgressTrackInfo;
@@ -16,9 +17,9 @@ import javax.annotation.Nullable;
 @OnlyIn(Dist.CLIENT)
 public class TexturedProgressElement extends Element {
     private final float ratio;
-    private final Component text;
-    private final ResourceLocation textureLocation;
-    private final Vec2 size;
+    private final @NotNull Component text;
+    private final @NotNull ResourceLocation textureLocation;
+    private final @NotNull Vec2 size;
     private @Nullable ProgressTrackInfo track;
 
     /**
@@ -26,8 +27,8 @@ public class TexturedProgressElement extends Element {
      * @param text            表示テキスト
      * @param textureLocation テクスチャのパス (例: "minecraft:block/water_still")
      */
-    public TexturedProgressElement(float ratio, Component text, ResourceLocation textureLocation) {
-        this.ratio = Math.max(0, Math.min(1, ratio));
+    public TexturedProgressElement(float ratio, @NotNull Component text, @NotNull ResourceLocation textureLocation) {
+        this.ratio = Math.clamp(ratio, 0, 1);
         this.text = text;
         this.textureLocation = textureLocation;
         // エネルギーバーなどの標準的なサイズ (幅は可変、高さ14px)
@@ -35,7 +36,7 @@ public class TexturedProgressElement extends Element {
     }
 
     @Override
-    public Vec2 getSize() {
+    public @NotNull Vec2 getSize() {
         return size;
     }
 
@@ -105,19 +106,17 @@ public class TexturedProgressElement extends Element {
 
         // --- 3. テキストの描画 ---
         // Jadeの標準的なテキスト描画（中央揃え、影付き）
-        if (text != null) {
-            Minecraft mc = Minecraft.getInstance();
-            int textWidth = mc.font.width(text);
+        Minecraft mc = Minecraft.getInstance();
+        int textWidth = mc.font.width(text);
 
-            // 座標計算
-            float textX = x + 4;
-            float textY = y + (height - mc.font.lineHeight) / 2.0f + 2;
+        // 座標計算
+        float textX = x + 4;
+        float textY = y + (height - mc.font.lineHeight) / 2.0f + 2;
 
-            // Zオーダーを少し上げて手前に表示
-            gui.pose().pushPose();
-            gui.pose().translate(0, 0, 100);
-            gui.drawString(mc.font, text, (int) textX, (int) textY, 0xFFFFFFFF, true);
-            gui.pose().popPose();
-        }
+        // Zオーダーを少し上げて手前に表示
+        gui.pose().pushPose();
+        gui.pose().translate(0, 0, 100);
+        gui.drawString(mc.font, text, (int) textX, (int) textY, 0xFFFFFFFF, true);
+        gui.pose().popPose();
     }
 }

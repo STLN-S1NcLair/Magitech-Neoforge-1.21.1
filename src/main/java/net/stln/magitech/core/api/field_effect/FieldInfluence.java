@@ -32,4 +32,8 @@ public record FieldInfluence(@NotNull FieldInfluenceType type,  int intensity) {
             FieldInfluence::intensity,
             FieldInfluence::new
     );
+
+    public FieldInfluence(@NotNull FieldInfluenceTypeLike like, int intensity) {
+        this(like.asFieldEffectType(), intensity);
+    }
 }

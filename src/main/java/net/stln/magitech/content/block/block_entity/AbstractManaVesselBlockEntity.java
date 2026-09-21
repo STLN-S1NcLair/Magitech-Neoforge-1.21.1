@@ -6,9 +6,6 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.Containers;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
@@ -21,7 +18,7 @@ import net.stln.magitech.core.api.mana.ManaCapabilities;
 import net.stln.magitech.core.api.mana.flow.ManaFlowRule;
 import net.stln.magitech.core.api.mana.flow.ManaTransferHelper;
 import net.stln.magitech.core.api.mana.handler.IBasicManaHandler;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
@@ -104,12 +101,12 @@ public abstract class AbstractManaVesselBlockEntity extends ManaContainerBlockEn
     }
 
     @Override
-    public ItemStack getItem(int index) {
+    public @NotNull ItemStack getItem(int index) {
         return this.inventory.getStackInSlot(index);
     }
 
     @Override
-    public ItemStack removeItem(int index, int count) {
+    public @NotNull ItemStack removeItem(int index, int count) {
         ItemStack stack = this.inventory.extractItem(index, count, false);
         if (!stack.isEmpty()) {
             this.onInventoryChanged();
@@ -118,7 +115,7 @@ public abstract class AbstractManaVesselBlockEntity extends ManaContainerBlockEn
     }
 
     @Override
-    public ItemStack removeItemNoUpdate(int index) {
+    public @NotNull ItemStack removeItemNoUpdate(int index) {
         ItemStack stack = this.inventory.getStackInSlot(index);
         if (stack.isEmpty()) {
             return ItemStack.EMPTY;
@@ -129,7 +126,7 @@ public abstract class AbstractManaVesselBlockEntity extends ManaContainerBlockEn
     }
 
     @Override
-    protected NonNullList<ItemStack> getItems() {
+    protected @NotNull NonNullList<ItemStack> getItems() {
         NonNullList<ItemStack> stacks = NonNullList.withSize(inventory.getSlots(), ItemStack.EMPTY);
         for (int i = 0; i < inventory.getSlots(); i++) {
             stacks.set(i, inventory.getStackInSlot(i));
@@ -138,7 +135,7 @@ public abstract class AbstractManaVesselBlockEntity extends ManaContainerBlockEn
     }
 
     @Override
-    protected void setItems(NonNullList<ItemStack> items) {
+    protected void setItems(@NotNull NonNullList<ItemStack> items) {
         for (int i = 0; i < inventory.getSlots(); i++) {
             inventory.setStackInSlot(i, items.get(i));
         }
@@ -159,30 +156,24 @@ public abstract class AbstractManaVesselBlockEntity extends ManaContainerBlockEn
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+    protected void saveAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider registries) {
         super.saveAdditional(tag, registries);
         tag.put("inventory", inventory.serializeNBT(registries));
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+    protected void loadAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider registries) {
         super.loadAdditional(tag, registries);
         inventory.deserializeNBT(registries, tag.getCompound("inventory"));
     }
 
-    @Nullable
     @Override
-    public Packet<ClientGamePacketListener> getUpdatePacket() {
-        return ClientboundBlockEntityDataPacket.create(this);
-    }
-
-    @Override
-    public CompoundTag getUpdateTag(HolderLookup.Provider pRegistries) {
+    public @NotNull CompoundTag getUpdateTag(HolderLookup.@NotNull Provider pRegistries) {
         return saveWithoutMetadata(pRegistries);
     }
 
     @Override
-    protected abstract Component getDefaultName();
+    protected abstract @NotNull Component getDefaultName();
 
 
     @Override

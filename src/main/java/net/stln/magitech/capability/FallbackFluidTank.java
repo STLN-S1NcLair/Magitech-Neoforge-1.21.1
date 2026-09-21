@@ -1,5 +1,6 @@
 package net.stln.magitech.capability;
 
+import com.google.common.base.Predicates;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -7,6 +8,7 @@ import net.minecraft.nbt.Tag;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,14 +18,14 @@ public class FallbackFluidTank implements IFluidHandler {
 
     int maxTanks;
     int capacity;
-    List<FluidTank> tanks = new ArrayList<>();
+    @NotNull List<FluidTank> tanks = new ArrayList<>();
     protected Predicate<FluidStack> validator;
 
     public FallbackFluidTank(int maxTanks, int capacity) {
-        this(maxTanks, capacity, stack -> true);
+        this(maxTanks, capacity, Predicates.alwaysTrue());
     }
 
-    public FallbackFluidTank(int maxTanks, int capacity, Predicate<FluidStack> validator) {
+    public FallbackFluidTank(int maxTanks, int capacity, @NotNull Predicate<FluidStack> validator) {
         this.maxTanks = maxTanks;
         this.capacity = capacity;
         this.validator = validator;
@@ -35,7 +37,7 @@ public class FallbackFluidTank implements IFluidHandler {
     }
 
     @Override
-    public FluidStack getFluidInTank(int tank) {
+    public @NotNull FluidStack getFluidInTank(int tank) {
         if (getTanks() <= tank) {
             return FluidStack.EMPTY;
         }
@@ -46,7 +48,7 @@ public class FallbackFluidTank implements IFluidHandler {
         if (tanks.isEmpty()) {
             return FluidStack.EMPTY;
         }
-        return tanks.get(tanks.size() - 1).getFluid();
+        return tanks.getLast().getFluid();
     }
 
     @Override
@@ -59,7 +61,7 @@ public class FallbackFluidTank implements IFluidHandler {
     }
 
     @Override
-    public boolean isFluidValid(int tank, FluidStack stack) {
+    public boolean isFluidValid(int tank, @NotNull FluidStack stack) {
         return validator.test(stack);
     }
 
@@ -68,7 +70,7 @@ public class FallbackFluidTank implements IFluidHandler {
     }
 
     @Override
-    public int fill(FluidStack resource, FluidAction action) {
+    public int fill(@NotNull FluidStack resource, @NotNull FluidAction action) {
         if (resource.isEmpty() || resource.getAmount() <= 0 || !validator.test(resource)) {
             return 0;
         }
@@ -117,7 +119,7 @@ public class FallbackFluidTank implements IFluidHandler {
     }
 
     @Override
-    public FluidStack drain(FluidStack resource, FluidAction action) {
+    public @NotNull FluidStack drain(@NotNull FluidStack resource, @NotNull FluidAction action) {
         if (resource.isEmpty() || resource.getAmount() <= 0) {
             return FluidStack.EMPTY;
         }
@@ -140,7 +142,7 @@ public class FallbackFluidTank implements IFluidHandler {
     }
 
     @Override
-    public FluidStack drain(int maxDrain, FluidAction action) {
+    public @NotNull FluidStack drain(int maxDrain, @NotNull FluidAction action) {
         if (maxDrain <= 0) {
             return FluidStack.EMPTY;
         }
@@ -160,7 +162,7 @@ public class FallbackFluidTank implements IFluidHandler {
         return FluidStack.EMPTY;
     }
 
-    public FallbackFluidTank load(HolderLookup.Provider lookupProvider, CompoundTag nbt) {
+    public @NotNull FallbackFluidTank load(@NotNull HolderLookup.Provider lookupProvider, @NotNull CompoundTag nbt) {
         this.tanks.clear();
 
         if (nbt.contains("Tanks", Tag.TAG_LIST)) {
@@ -184,7 +186,7 @@ public class FallbackFluidTank implements IFluidHandler {
         return this;
     }
 
-    public CompoundTag save(HolderLookup.Provider lookupProvider, CompoundTag nbt) {
+    public void save(@NotNull HolderLookup.Provider lookupProvider, @NotNull CompoundTag nbt) {
         ListTag tankList = new ListTag();
         for (FluidTank tank : this.tanks) {
             tankList.add(tank.writeToNBT(lookupProvider, new CompoundTag()));
@@ -196,8 +198,6 @@ public class FallbackFluidTank implements IFluidHandler {
             nbt.remove("Tanks");
         }
         nbt.remove("Fluid");
-
-        return nbt;
     }
 
     protected void onContentsChanged() {}

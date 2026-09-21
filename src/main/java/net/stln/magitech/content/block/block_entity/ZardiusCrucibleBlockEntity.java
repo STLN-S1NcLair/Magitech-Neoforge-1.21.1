@@ -1,14 +1,12 @@
 package net.stln.magitech.content.block.block_entity;
 
+import com.google.common.collect.ImmutableList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -46,8 +44,8 @@ import net.stln.magitech.effect.visual.preset.PointVFX;
 import net.stln.magitech.effect.visual.spawner.SquareParticles;
 import net.stln.magitech.feature.element.Element;
 import net.stln.magitech.helper.MachineInteractionHelper;
-import org.jetbrains.annotations.Nullable;
-import org.joml.Vector3f;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Unmodifiable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -112,17 +110,14 @@ public class ZardiusCrucibleBlockEntity extends ManaMachineBlockEntity implement
         return ItemInteractionResult.SUCCESS;
     }
 
-    public NonNullList<ItemStack> getRenderStack() {
-        NonNullList<ItemStack> stack = NonNullList.create();
+    public @Unmodifiable List<ItemStack> getRenderStack() {
+        ImmutableList.Builder<ItemStack> builder = ImmutableList.builder();
         for (int i = 0; i < inventory.getSlots(); i++) {
             if (!this.inventory.getStackInSlot(i).isEmpty()) {
-                stack.add(this.inventory.getStackInSlot(i));
+                builder.add(this.inventory.getStackInSlot(i).copy());
             }
         }
-        if (stack.isEmpty()) {
-            stack.add(ItemStack.EMPTY);
-        }
-        return stack;
+        return builder.build();
     }
 
     private FluidStack lastFluid() {
@@ -790,12 +785,12 @@ public class ZardiusCrucibleBlockEntity extends ManaMachineBlockEntity implement
     }
 
     @Override
-    public Component getDefaultName() {
+    public @NotNull Component getDefaultName() {
         return Component.translatable("block.magitech.zardius_crucible");
     }
 
     @Override
-    protected NonNullList<ItemStack> getItems() {
+    protected @NotNull NonNullList<ItemStack> getItems() {
         NonNullList<ItemStack> stacks = NonNullList.withSize(inventory.getSlots(), ItemStack.EMPTY);
         for (int i = 0; i < inventory.getSlots(); i++) {
             stacks.set(i, inventory.getStackInSlot(i));
@@ -804,7 +799,7 @@ public class ZardiusCrucibleBlockEntity extends ManaMachineBlockEntity implement
     }
 
     @Override
-    protected void setItems(NonNullList<ItemStack> items) {
+    protected void setItems(@NotNull NonNullList<ItemStack> items) {
         for (int i = 0; i < inventory.getSlots(); i++) {
             inventory.setStackInSlot(i, items.get(i));
         }
@@ -816,7 +811,7 @@ public class ZardiusCrucibleBlockEntity extends ManaMachineBlockEntity implement
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+    protected void saveAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider registries) {
         super.saveAdditional(tag, registries);
         tag.put("inventory", inventory.serializeNBT(registries));
         tank.save(registries, tag);
@@ -825,7 +820,7 @@ public class ZardiusCrucibleBlockEntity extends ManaMachineBlockEntity implement
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+    protected void loadAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider registries) {
         super.loadAdditional(tag, registries);
         inventory.deserializeNBT(registries, tag.getCompound("inventory"));
         tank.load(registries, tag);
@@ -833,14 +828,8 @@ public class ZardiusCrucibleBlockEntity extends ManaMachineBlockEntity implement
         maxCraftingTime = tag.getInt("max_crafting_time");
     }
 
-    @Nullable
     @Override
-    public Packet<ClientGamePacketListener> getUpdatePacket() {
-        return ClientboundBlockEntityDataPacket.create(this);
-    }
-
-    @Override
-    public CompoundTag getUpdateTag(HolderLookup.Provider pRegistries) {
+    public @NotNull CompoundTag getUpdateTag(HolderLookup.@NotNull Provider pRegistries) {
         return saveWithoutMetadata(pRegistries);
     }
 

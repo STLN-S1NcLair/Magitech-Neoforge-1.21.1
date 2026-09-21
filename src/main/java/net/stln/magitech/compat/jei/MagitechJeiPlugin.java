@@ -7,13 +7,13 @@ import mezz.jei.api.registration.IModIngredientRegistration;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.MagitechRegistries;
 import net.stln.magitech.content.block.BlockInit;
-import net.stln.magitech.content.field_effect.effect.FieldEffectInit;
 import net.stln.magitech.content.field_effect.effect.RecipeFieldEffectType;
 import net.stln.magitech.content.field_effect.influence.FieldInfluenceInit;
 import net.stln.magitech.content.gui.PartCuttingScreen;
@@ -29,6 +29,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 @JeiPlugin
 public class MagitechJeiPlugin implements IModPlugin {
@@ -40,13 +41,13 @@ public class MagitechJeiPlugin implements IModPlugin {
     }
 
     @Override
-    public void registerIngredients(IModIngredientRegistration registration) {
+    public void registerIngredients(@NotNull IModIngredientRegistration registration) {
         FieldEffectIngredient.register(registration);
         FieldInfluenceIngredient.register(registration);
     }
 
     @Override
-    public void registerCategories(IRecipeCategoryRegistration registration) {
+    public void registerCategories(@NotNull IRecipeCategoryRegistration registration) {
         var guiHelper = registration.getJeiHelpers().getGuiHelper();
         registration.addRecipeCategories(
                 new PartCuttingRecipeCategory(guiHelper),
@@ -75,7 +76,7 @@ public class MagitechJeiPlugin implements IModPlugin {
         List<RecipeHolder<FieldEffectRecipe>> fieldEffectRecipes = new ArrayList<>(ClientHelper.getAllRecipes(RecipeInit.FIELD_EFFECT_TYPE));
         Level level = ClientHelper.getLevel();
         if (level != null) {
-            for (var fieldEffectType : MagitechRegistries.FIELD_EFFECT_TYPE) {
+            for (FieldEffectType fieldEffectType : MagitechRegistries.FIELD_EFFECT_TYPE) {
                 if (fieldEffectType instanceof RecipeFieldEffectType<?, ?> recipeFieldEffectType) {
                     fieldEffectRecipes.addAll(recipeFieldEffectType.getRuntimeFieldEffectRecipes(level));
                 }
@@ -88,21 +89,21 @@ public class MagitechJeiPlugin implements IModPlugin {
 
     private static List<FieldEffectCompositionJeiRecipe> createFieldEffectCompositionRecipes() {
         List<FieldEffectCompositionJeiRecipe> recipes = new ArrayList<>();
-        for (FieldEffectType fieldEffect : MagitechRegistries.FIELD_EFFECT_TYPE) {
-            ResourceLocation fieldEffectId = MagitechRegistries.FIELD_EFFECT_TYPE.getKey(fieldEffect);
-            if (fieldEffectId == null || fieldEffect.getCondition() == null || fieldEffect.getCondition().fieldInfluences().isEmpty()) {
+        for (Map.Entry<ResourceKey<FieldEffectType>, FieldEffectType> entry : MagitechRegistries.FIELD_EFFECT_TYPE.entrySet()) {
+            ResourceLocation key = entry.getKey().location();
+            FieldEffectType fieldEffectType = entry.getValue();
+            if (fieldEffectType.getCondition().fieldInfluences().isEmpty()) {
                 continue;
             }
-
-            List<FieldInfluence> influences = fieldEffect.getCondition().fieldInfluences().stream()
+            List<FieldInfluence> influences = fieldEffectType.getCondition().fieldInfluences().stream()
                     .sorted(Comparator.<FieldInfluence, String>comparing(influence -> {
                         ResourceLocation influenceId = MagitechRegistries.FIELD_INFLUENCE_TYPE.getKey(influence.type());
                         return influenceId == null ? "" : influenceId.toString();
                     }).thenComparingInt(FieldInfluence::intensity))
                     .toList();
             recipes.add(new FieldEffectCompositionJeiRecipe(
-                    Magitech.id("field_effect/composition/" + fieldEffectId.getNamespace() + "/" + fieldEffectId.getPath()),
-                    fieldEffect,
+                    Magitech.id("field_effect/composition/" + key.getNamespace() + "/" + key.getPath()),
+                    fieldEffectType,
                     influences
             ));
         }
@@ -114,12 +115,12 @@ public class MagitechJeiPlugin implements IModPlugin {
                 new FieldInfluenceSourceJeiRecipe(
                         Magitech.id("field_influence_source/heat_burner"),
                         BlockInit.HEAT_BURNER_ITEM.toStack(),
-                        new FieldInfluence(FieldInfluenceInit.HEAT.get(), 1)
+                        new FieldInfluence(FieldInfluenceInit.HEAT, 1)
                 ),
                 new FieldInfluenceSourceJeiRecipe(
                         Magitech.id("field_influence_source/chiller"),
                         BlockInit.CHILLER_ITEM.toStack(),
-                        new FieldInfluence(FieldInfluenceInit.COOLING.get(), 1)
+                        new FieldInfluence(FieldInfluenceInit.COOLING, 1)
                 )
         );
     }

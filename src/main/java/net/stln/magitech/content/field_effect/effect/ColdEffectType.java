@@ -13,7 +13,7 @@ public class ColdEffectType extends DefaultFieldEffectType {
 
     @Override
     public @NotNull FieldInfluenceInstance getCondition() {
-        return FieldInfluenceInstance.of(new FieldInfluence(FieldInfluenceInit.COOLING.get(), 1));
+        return FieldInfluenceInstance.of(new FieldInfluence(FieldInfluenceInit.COOLING, 1));
     }
 
     @Override

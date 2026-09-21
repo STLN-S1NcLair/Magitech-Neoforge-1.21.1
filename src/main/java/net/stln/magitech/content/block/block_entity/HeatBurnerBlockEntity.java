@@ -8,7 +8,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Containers;
@@ -21,14 +20,14 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.items.ItemStackHandler;
+import net.stln.magitech.api.machine.inspection.IMachineInspectionTarget;
+import net.stln.magitech.api.machine.inspection.MachineInspectionData;
 import net.stln.magitech.content.block.BlockInit;
 import net.stln.magitech.content.block.HeatBurnerBlock;
 import net.stln.magitech.content.field_effect.effect.FieldEffectInit;
 import net.stln.magitech.content.field_effect.influence.FieldInfluenceInit;
 import net.stln.magitech.content.item.ItemInit;
 import net.stln.magitech.content.sound.SoundInit;
-import net.stln.magitech.api.machine.inspection.IMachineInspectionTarget;
-import net.stln.magitech.api.machine.inspection.MachineInspectionData;
 import net.stln.magitech.core.api.field_effect.FieldEffectType;
 import net.stln.magitech.core.api.field_effect.FieldInfluence;
 import net.stln.magitech.core.api.field_effect.FieldInfluenceInstance;
@@ -43,6 +42,7 @@ import net.stln.magitech.effect.visual.preset.PresetHelper;
 import net.stln.magitech.effect.visual.spawner.ElementParticles;
 import net.stln.magitech.effect.visual.spawner.SquareParticles;
 import net.stln.magitech.feature.element.Element;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import team.lodestar.lodestone.systems.particle.ParticleEffectSpawner;
 
@@ -440,14 +440,14 @@ public class HeatBurnerBlockEntity extends ManaMachineBlockEntity implements IIt
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+    protected void saveAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider registries) {
         super.saveAdditional(tag, registries);
         tag.put("inventory", inventory.serializeNBT(registries));
         tag.putInt("expansion_ticks_remaining", expansionTicksRemaining);
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+    protected void loadAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider registries) {
         super.loadAdditional(tag, registries);
         if (tag.contains("inventory")) {
             inventory.deserializeNBT(registries, tag.getCompound("inventory"));
@@ -455,14 +455,8 @@ public class HeatBurnerBlockEntity extends ManaMachineBlockEntity implements IIt
         expansionTicksRemaining = Math.clamp(tag.getInt("expansion_ticks_remaining"), 0, EXPANSION_DURATION_TICKS);
     }
 
-    @Nullable
     @Override
-    public Packet<ClientGamePacketListener> getUpdatePacket() {
-        return ClientboundBlockEntityDataPacket.create(this);
-    }
-
-    @Override
-    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+    public @NotNull CompoundTag getUpdateTag(HolderLookup.@NotNull Provider registries) {
         return saveWithoutMetadata(registries);
     }
 

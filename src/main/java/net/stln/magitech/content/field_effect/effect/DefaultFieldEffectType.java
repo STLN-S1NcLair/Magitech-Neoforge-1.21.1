@@ -39,7 +39,7 @@ public abstract class DefaultFieldEffectType extends FieldEffectType {
 
     @Override
     public @NotNull FieldInfluenceInstance getCondition() {
-        return FieldInfluenceInstance.of(new FieldInfluence(FieldInfluenceInit.COOLING.get(), 1));
+        return FieldInfluenceInstance.of(new FieldInfluence(FieldInfluenceInit.COOLING, 1));
     }
 
     @Override

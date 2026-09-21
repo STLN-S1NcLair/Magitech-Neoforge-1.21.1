@@ -13,7 +13,7 @@ public class FreezingEffectType extends DefaultFieldEffectType {
 
     @Override
     public @NotNull FieldInfluenceInstance getCondition() {
-        return FieldInfluenceInstance.of(new FieldInfluence(FieldInfluenceInit.COOLING.get(), 2));
+        return FieldInfluenceInstance.of(new FieldInfluence(FieldInfluenceInit.COOLING, 2));
     }
 
     @Override

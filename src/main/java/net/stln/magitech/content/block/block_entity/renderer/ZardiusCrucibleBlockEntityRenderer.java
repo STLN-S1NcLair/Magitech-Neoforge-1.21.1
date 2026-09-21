@@ -13,7 +13,6 @@ import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.inventory.InventoryMenu;
@@ -29,6 +28,8 @@ import net.stln.magitech.capability.FallbackFluidTank;
 import net.stln.magitech.content.block.ZardiusCrucibleBlock;
 import net.stln.magitech.content.block.block_entity.ZardiusCrucibleBlockEntity;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public class ZardiusCrucibleBlockEntityRenderer implements BlockEntityRenderer<ZardiusCrucibleBlockEntity> {
     private static final float SURFACE_MIN = 0.125f;
@@ -160,9 +161,9 @@ public class ZardiusCrucibleBlockEntityRenderer implements BlockEntityRenderer<Z
 
     @Override
     public void render(ZardiusCrucibleBlockEntity blockEntity, float partialTick, @NotNull PoseStack poseStack, @NotNull MultiBufferSource bufferSource, int pPackedLight, int pPackedOverlay) {
-        NonNullList<ItemStack> itemStack = blockEntity.getRenderStack();
+        List<ItemStack> itemStacks = blockEntity.getRenderStack();
         FallbackFluidTank fluidTank = blockEntity.tank;
-        int leng = itemStack.size();
+        int leng = itemStacks.size();
 
         Level level = blockEntity.getLevel();
         if (level == null) {
@@ -204,15 +205,15 @@ public class ZardiusCrucibleBlockEntityRenderer implements BlockEntityRenderer<Z
                 floatOffset *= 2;
             }
             double rotation = Math.toRadians((double) (i * 360) / leng);
-            double Yoffset = totalAmount <= 0 ? 0.375 : normalizedHeight * 0.75f + 0.1875f + (Math.sin(floatOffset * Math.PI) / 50) + randomizer1 / 2;
+            double yOffset = totalAmount <= 0 ? 0.375 : normalizedHeight * 0.75f + 0.1875f + (Math.sin(floatOffset * Math.PI) / 50) + randomizer1 / 2;
 
             poseStack.pushPose();
-            poseStack.translate(Math.sin(rotation) * 0.3 + 0.5 + randomizer0, Yoffset, Math.cos(rotation) * 0.3 + 0.5 + randomizer2);
+            poseStack.translate(Math.sin(rotation) * 0.3 + 0.5 + randomizer0, yOffset, Math.cos(rotation) * 0.3 + 0.5 + randomizer2);
             poseStack.scale(0.35f, 0.35f, 0.35f);
             poseStack.mulPose(Axis.YN.rotation((float) -rotation + randomizer0 * 5));
             poseStack.mulPose(Axis.XP.rotationDegrees((25 + randomizer1 * 300)));
 
-            itemRenderer.renderStatic(itemStack.get(i), ItemDisplayContext.FIXED, getLightLevel(level, pos), OverlayTexture.NO_OVERLAY, poseStack, bufferSource, level, 1);
+            itemRenderer.renderStatic(itemStacks.get(i), ItemDisplayContext.FIXED, getLightLevel(level, pos), OverlayTexture.NO_OVERLAY, poseStack, bufferSource, level, 1);
             poseStack.popPose();
         }
 

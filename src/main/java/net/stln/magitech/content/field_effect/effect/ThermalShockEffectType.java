@@ -11,7 +11,7 @@ public class ThermalShockEffectType extends DefaultFieldEffectType {
 
     @Override
     public @NotNull FieldInfluenceInstance getCondition() {
-        return FieldInfluenceInstance.of(new FieldInfluence(FieldInfluenceInit.HEAT.get(), 1), new FieldInfluence(FieldInfluenceInit.COOLING.get(), 1));
+        return FieldInfluenceInstance.of(new FieldInfluence(FieldInfluenceInit.HEAT, 1), new FieldInfluence(FieldInfluenceInit.COOLING, 1));
     }
 
     @Override
