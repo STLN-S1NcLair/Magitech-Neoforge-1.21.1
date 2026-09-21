@@ -2,6 +2,7 @@ package net.stln.magitech.datagen;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.EntityLootSubProvider;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.level.storage.loot.IntRange;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -11,8 +12,12 @@ import net.minecraft.world.level.storage.loot.functions.EnchantedCountIncreaseFu
 import net.minecraft.world.level.storage.loot.predicates.TimeCheck;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import net.stln.magitech.content.entity.EntityInit;
 import net.stln.magitech.content.item.ItemInit;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.stream.Stream;
 
 public class ModEntityLootTableProvider extends EntityLootSubProvider {
     protected ModEntityLootTableProvider(HolderLookup.Provider registries) {
@@ -51,5 +56,10 @@ public class ModEntityLootTableProvider extends EntityLootSubProvider {
                                 .apply(EnchantedCountIncreaseFunction.lootingMultiplier(this.registries, UniformGenerator.between(0.0F, 1.0F)))
                         )
         );
+    }
+
+    @Override
+    protected @NotNull Stream<EntityType<?>> getKnownEntityTypes() {
+        return EntityInit.ENTITY_TYPES.getEntries().stream().map(DeferredHolder::get);
     }
 }
