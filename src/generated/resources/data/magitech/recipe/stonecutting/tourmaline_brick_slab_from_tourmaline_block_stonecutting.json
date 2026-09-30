@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "magitech:tourmaline_block"
+  },
+  "result": {
+    "count": 8,
+    "id": "magitech:tourmaline_brick_slab"
+  }
+}

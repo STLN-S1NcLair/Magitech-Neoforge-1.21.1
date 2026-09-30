@@ -1,5 +1,7 @@
 {
   "values": [
-    "magitech:raw_zinc_block"
+    "magitech:raw_zinc_block",
+    "magitech:zinc_block",
+    "magitech:fluxium_block"
   ]
 }

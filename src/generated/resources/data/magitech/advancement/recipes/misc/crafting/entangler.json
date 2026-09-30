@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": "magitech:alchecrysite"
+            "items": "minecraft:redstone"
           }
         ]
       },

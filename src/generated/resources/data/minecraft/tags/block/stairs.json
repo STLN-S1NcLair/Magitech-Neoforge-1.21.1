@@ -3,6 +3,11 @@
     "magitech:alchecrysite_stairs",
     "magitech:polished_alchecrysite_stairs",
     "magitech:alchecrysite_brick_stairs",
-    "magitech:fluorite_brick_stairs"
+    "magitech:vesperite_stairs",
+    "magitech:polished_vesperite_stairs",
+    "magitech:vesperite_brick_stairs",
+    "magitech:cut_vesperite_stairs",
+    "magitech:fluorite_brick_stairs",
+    "magitech:tourmaline_brick_stairs"
   ]
 }

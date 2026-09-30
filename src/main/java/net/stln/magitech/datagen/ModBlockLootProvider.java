@@ -97,7 +97,10 @@ public class ModBlockLootProvider extends BlockLootSubProvider {
                 block -> createOreDrop(BlockInit.ZINC_ORE.get(), ItemInit.RAW_ZINC.get()));
         add(BlockInit.DEEPSLATE_ZINC_ORE.get(),
                 block -> createOreDrop(BlockInit.DEEPSLATE_ZINC_ORE.get(), ItemInit.RAW_ZINC.get()));
-        dropSelf(BlockInit.RAW_ZINC_BLOCK.get());
+         dropSelf(BlockInit.RAW_ZINC_BLOCK.get());
+         dropSelf(BlockInit.ZINC_BLOCK.get());
+         dropSelf(BlockInit.FLUXIUM_BLOCK.get());
+         dropSelf(BlockInit.FLUXIUM_ENCLOSURE.get());
         add(BlockInit.FLUORITE_CRYSTAL_CLUSTER.get(),
                 block -> createMultipleOreDrops(BlockInit.FLUORITE_CRYSTAL_CLUSTER.get(), ItemInit.FLUORITE.get(), 1, 2));
         add(BlockInit.REDSTONE_CRYSTAL_CLUSTER.get(),
@@ -126,13 +129,34 @@ public class ModBlockLootProvider extends BlockLootSubProvider {
         add(BlockInit.VESPERITE_SLAB.get(),
                 block -> createSlabItemTable(BlockInit.VESPERITE_SLAB.get()));
         dropSelf(BlockInit.VESPERITE_WALL.get());
+        dropSelf(BlockInit.POLISHED_VESPERITE.get());
+        dropSelf(BlockInit.POLISHED_VESPERITE_STAIRS.get());
+        add(BlockInit.POLISHED_VESPERITE_SLAB.get(),
+                block -> createSlabItemTable(BlockInit.POLISHED_VESPERITE_SLAB.get()));
+        dropSelf(BlockInit.POLISHED_VESPERITE_WALL.get());
+        dropSelf(BlockInit.VESPERITE_BRICKS.get());
+        dropSelf(BlockInit.VESPERITE_BRICK_STAIRS.get());
+        add(BlockInit.VESPERITE_BRICK_SLAB.get(),
+                block -> createSlabItemTable(BlockInit.VESPERITE_BRICK_SLAB.get()));
+        dropSelf(BlockInit.VESPERITE_BRICK_WALL.get());
+        dropSelf(BlockInit.CUT_VESPERITE.get());
+        dropSelf(BlockInit.CUT_VESPERITE_STAIRS.get());
+        add(BlockInit.CUT_VESPERITE_SLAB.get(),
+                block -> createSlabItemTable(BlockInit.CUT_VESPERITE_SLAB.get()));
+        dropSelf(BlockInit.CUT_VESPERITE_WALL.get());
         dropSelf(BlockInit.FLUORITE_BLOCK.get());
         dropSelf(BlockInit.FLUORITE_BRICKS.get());
         dropSelf(BlockInit.FLUORITE_BRICK_STAIRS.get());
-        add(BlockInit.FLUORITE_BRICK_SLAB.get(),
-                block -> createSlabItemTable(BlockInit.FLUORITE_BRICK_SLAB.get()));
-        dropSelf(BlockInit.FLUORITE_BRICK_WALL.get());
-        dropSelf(BlockInit.MANA_INSULATING_GLASS.get());
+         add(BlockInit.FLUORITE_BRICK_SLAB.get(),
+                 block -> createSlabItemTable(BlockInit.FLUORITE_BRICK_SLAB.get()));
+         dropSelf(BlockInit.FLUORITE_BRICK_WALL.get());
+         dropSelf(BlockInit.TOURMALINE_BLOCK.get());
+         dropSelf(BlockInit.TOURMALINE_BRICKS.get());
+         dropSelf(BlockInit.TOURMALINE_BRICK_STAIRS.get());
+         add(BlockInit.TOURMALINE_BRICK_SLAB.get(),
+                 block -> createSlabItemTable(BlockInit.TOURMALINE_BRICK_SLAB.get()));
+         dropSelf(BlockInit.TOURMALINE_BRICK_WALL.get());
+         dropSelf(BlockInit.MANA_INSULATING_GLASS.get());
         dropSelf(BlockInit.CELIFERN_LOG.get());
         dropSelf(BlockInit.CELIFERN_WOOD.get());
         dropSelf(BlockInit.STRIPPED_CELIFERN_LOG.get());
@@ -179,10 +203,11 @@ public class ModBlockLootProvider extends BlockLootSubProvider {
         dropSelf(BlockInit.CHARCOAL_BIRCH_WALL_HANGING_SIGN.get());
         dropSelf(BlockInit.MYSTWOOD_LOG.get());
         dropSelf(BlockInit.MYSTWOOD_WOOD.get());
-        dropSelf(BlockInit.STRIPPED_MYSTWOOD_LOG.get());
-        dropSelf(BlockInit.STRIPPED_MYSTWOOD_WOOD.get());
-        dropSelf(BlockInit.MYSTWOOD_PLANKS.get());
-        dropSelf(BlockInit.MYSTWOOD_STAIRS.get());
+         dropSelf(BlockInit.STRIPPED_MYSTWOOD_LOG.get());
+         dropSelf(BlockInit.STRIPPED_MYSTWOOD_WOOD.get());
+         dropSelf(BlockInit.MYSTWOOD_PLANKS.get());
+         dropSelf(BlockInit.MYSTWOOD_ENCLOSURE.get());
+         dropSelf(BlockInit.MYSTWOOD_STAIRS.get());
         add(BlockInit.MYSTWOOD_SLAB.get(),
                 block -> createSlabItemTable(BlockInit.MYSTWOOD_SLAB.get()));
         dropSelf(BlockInit.MYSTWOOD_FENCE.get());

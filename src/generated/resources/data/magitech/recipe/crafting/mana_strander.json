@@ -8,17 +8,20 @@
     "A": {
       "item": "magitech:alchecrysite"
     },
-    "I": {
-      "item": "magitech:fluxium_ingot"
+    "E": {
+      "item": "magitech:fluxium_enclosure"
     },
     "N": {
       "item": "minecraft:gold_nugget"
+    },
+    "R": {
+      "item": "minecraft:redstone"
     }
   },
   "pattern": [
     " # ",
-    "IAI",
-    "ANA"
+    "NEN",
+    "RAR"
   ],
   "result": {
     "count": 1,

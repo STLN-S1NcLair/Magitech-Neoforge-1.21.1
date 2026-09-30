@@ -8,16 +8,13 @@
     "M": {
       "item": "magitech:mystwood_planks"
     },
-    "N": {
-      "item": "minecraft:gold_nugget"
-    },
     "V": {
       "item": "magitech:vesperite"
     }
   },
   "pattern": [
     "VFV",
-    "NMN",
+    " M ",
     "MVM"
   ],
   "result": {

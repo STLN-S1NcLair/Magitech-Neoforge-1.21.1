@@ -3,6 +3,11 @@
     "magitech:alchecrysite_slab",
     "magitech:polished_alchecrysite_slab",
     "magitech:alchecrysite_brick_slab",
-    "magitech:fluorite_brick_slab"
+    "magitech:vesperite_slab",
+    "magitech:polished_vesperite_slab",
+    "magitech:vesperite_brick_slab",
+    "magitech:cut_vesperite_slab",
+    "magitech:fluorite_brick_slab",
+    "magitech:tourmaline_brick_slab"
   ]
 }

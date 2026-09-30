@@ -11,13 +11,10 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.stln.magitech.content.block.block_entity.ManaPumpBlockEntity;
-import net.stln.magitech.content.block.block_entity.ManaVesselBlockEntity;
 import net.stln.magitech.helper.VoxelShapeHelper;
 
 import javax.annotation.Nullable;
@@ -26,9 +23,9 @@ public class ManaPumpBlock extends AbstractManaPumpBlock {
     public static final MapCodec<ManaPumpBlock> CODEC = simpleCodec(ManaPumpBlock::new);
 
     public static final VoxelShape SHAPE_UP = Shapes.or(
-            Block.box(0, 0, 0, 16, 3, 16),
-            Block.box(0, 13, 0, 16, 16, 16),
-            Block.box(1, 3, 1, 15, 13, 15)
+            Block.box(2, 0, 2, 14, 5, 14),
+            Block.box(4, 5, 4, 12, 14, 12),
+            Block.box(3, 14, 3, 13, 16, 13)
     );
     public static final VoxelShape SHAPE_DOWN = VoxelShapeHelper.rotateShape(SHAPE_UP, Direction.UP, Direction.DOWN);
     public static final VoxelShape SHAPE_NORTH = VoxelShapeHelper.rotateShape(SHAPE_UP, Direction.UP, Direction.NORTH);

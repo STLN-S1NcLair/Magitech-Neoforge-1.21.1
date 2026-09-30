@@ -2,6 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
+    "E": {
+      "item": "magitech:mystwood_enclosure"
+    },
     "F": {
       "item": "magitech:fluorite_block"
     },
@@ -10,18 +13,15 @@
     },
     "N": {
       "item": "minecraft:gold_nugget"
-    },
-    "V": {
-      "item": "magitech:vesperite"
     }
   },
   "pattern": [
-    "VMV",
+    "MEM",
     "NFN",
-    "VMV"
+    "MEM"
   ],
   "result": {
-    "count": 1,
+    "count": 2,
     "id": "magitech:mana_vessel"
   }
 }

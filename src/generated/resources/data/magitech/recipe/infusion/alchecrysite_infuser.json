@@ -8,27 +8,27 @@
   },
   "ingredients": [
     {
-      "count": 4,
+      "count": 2,
       "ingredient": {
         "item": "magitech:high_purity_fluorite"
       }
     },
     {
-      "count": 2,
+      "count": 1,
       "ingredient": {
         "tag": "c:gems/citrine"
       }
     },
     {
-      "count": 4,
+      "count": 2,
       "ingredient": {
         "tag": "c:gems/tourmaline"
       }
     },
     {
-      "count": 1,
+      "count": 6,
       "ingredient": {
-        "item": "minecraft:gold_ingot"
+        "item": "minecraft:gold_nugget"
       }
     }
   ],

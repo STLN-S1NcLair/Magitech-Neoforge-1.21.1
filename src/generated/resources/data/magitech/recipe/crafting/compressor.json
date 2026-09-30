@@ -8,17 +8,17 @@
     "C": {
       "item": "minecraft:iron_block"
     },
-    "I": {
-      "item": "magitech:fluxium_ingot"
+    "E": {
+      "item": "magitech:fluxium_enclosure"
     },
-    "U": {
+    "I": {
       "item": "magitech:fluxium_nugget"
     }
   },
   "pattern": [
-    "IAI",
-    "UCU",
-    "IAI"
+    " A ",
+    "ICI",
+    " E "
   ],
   "result": {
     "count": 1,

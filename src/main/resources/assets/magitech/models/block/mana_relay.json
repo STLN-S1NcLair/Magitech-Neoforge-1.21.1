@@ -4,8 +4,8 @@
 	"render_type": "minecraft:cutout",
 	"textures": {
 		"0": "magitech:block/fluorite_crystal_cluster",
-		"1": "magitech:block/mana_node",
-		"2": "magitech:block/mana_relay",
+		"1": "magitech:block/machine/mystwood/mana_node",
+		"2": "magitech:block/machine/mystwood/mana_relay",
 		"particle": "magitech:block/fluorite_crystal_cluster"
 	},
 	"elements": [

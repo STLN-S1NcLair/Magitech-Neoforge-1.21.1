@@ -2,11 +2,11 @@
 	"format_version": "1.9.0",
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "magitech:block/infusion_altar_side",
-		"1": "magitech:block/infusion_altar_top",
-		"2": "magitech:block/mystwood_connector",
-		"3": "magitech:block/infusion_altar_bottom",
-		"particle": "magitech:block/infusion_altar_side"
+		"0": "magitech:block/machine/mystwood/infusion_altar_side",
+		"1": "magitech:block/machine/mystwood/infusion_altar_top",
+		"2": "magitech:block/machine/mystwood/mystwood_mana_port",
+		"3": "magitech:block/machine/mystwood/infusion_altar_bottom",
+		"particle": "magitech:block/machine/mystwood/infusion_altar_side"
 	},
 	"elements": [
 		{

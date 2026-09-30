@@ -5,6 +5,9 @@
     "A": {
       "item": "magitech:alchecrysite"
     },
+    "E": {
+      "item": "magitech:fluxium_enclosure"
+    },
     "F": {
       "item": "minecraft:blast_furnace"
     },
@@ -18,7 +21,7 @@
   "pattern": [
     "ILI",
     "AFA",
-    "IAI"
+    "IEI"
   ],
   "result": {
     "count": 1,

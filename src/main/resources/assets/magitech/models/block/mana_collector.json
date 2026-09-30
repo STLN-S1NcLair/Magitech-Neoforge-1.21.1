@@ -3,12 +3,12 @@
 	"credit": "Made with Blockbench",
 	"render_type": "minecraft:cutout",
 	"textures": {
-		"0": "magitech:block/mana_collector",
-		"1": "magitech:block/mana_collector_top",
-		"2": "magitech:block/mana_collector_inside",
-		"3": "magitech:block/alchecrysite_connector",
-		"4": "magitech:block/fluxium_connector",
-		"particle": "magitech:block/mana_collector"
+		"0": "magitech:block/machine/fluxium/mana_collector_side",
+		"1": "magitech:block/machine/fluxium/mana_collector_top",
+		"2": "magitech:block/machine/fluxium/mana_collector_inside",
+		"3": "magitech:block/machine/fluxium/fluxium_mana_port",
+		"4": "magitech:block/machine/fluxium/enhanced_mana_vessel_inside",
+		"particle": "magitech:block/machine/fluxium/mana_collector_side"
 	},
 	"elements": [
 		{

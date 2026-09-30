@@ -8,17 +8,14 @@
     "C": {
       "tag": "c:ingots/iron"
     },
-    "G": {
-      "item": "magitech:mana_insulating_glass"
-    },
-    "I": {
-      "item": "magitech:fluxium_ingot"
+    "E": {
+      "item": "magitech:fluxium_enclosure"
     }
   },
   "pattern": [
-    "IAI",
-    "CGC",
-    "IAI"
+    " A ",
+    "CEC",
+    " A "
   ],
   "result": {
     "count": 1,

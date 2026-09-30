@@ -2,16 +2,15 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "A": {
-      "item": "magitech:alchecrysite"
+    "E": {
+      "item": "magitech:fluxium_enclosure"
     },
     "I": {
       "item": "magitech:fluxium_ingot"
     }
   },
   "pattern": [
-    "IAI",
-    "IAI"
+    "IEI"
   ],
   "result": {
     "count": 2,

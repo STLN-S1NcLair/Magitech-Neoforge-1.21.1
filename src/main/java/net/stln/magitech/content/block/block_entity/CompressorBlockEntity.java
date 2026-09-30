@@ -20,6 +20,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import net.stln.magitech.content.block.BlockInit;
 import net.stln.magitech.content.block.BlockStatePropertyInit;
 import net.stln.magitech.content.block.CompressorBlock;
+import net.stln.magitech.content.network.CompressorAnimationPayload;
 import net.stln.magitech.content.network.CompressorCraftPayload;
 import net.stln.magitech.content.recipe.CompressingRecipe;
 import net.stln.magitech.content.recipe.RecipeInit;
@@ -49,7 +50,6 @@ public class CompressorBlockEntity extends ManaMachineBlockEntity implements Geo
     // animation control flags
     private boolean animationRequested = false;
     private boolean animationInProgress = false;
-    private int lastClientProgress = 0;
     // ItemStackHandlerの変更を監視してサーバ側で同期を取る
     public final ItemStackHandler inventory = new ItemStackHandler(2) {
         @Override
@@ -100,13 +100,13 @@ public class CompressorBlockEntity extends ManaMachineBlockEntity implements Geo
 
             // While animation is in progress, keep the controller running until it naturally finishes
             if (animationInProgress) {
-                if (controllerState.getAnimationTick() > 0) {
+                if (!controllerState.getController().hasAnimationFinished()) {
                     return PlayState.CONTINUE;
-                } else {
-                    // animation finished
-                    animationInProgress = false;
-                    return PlayState.STOP;
                 }
+
+                // animation finished
+                animationInProgress = false;
+                return PlayState.STOP;
             }
 
             return PlayState.STOP;
@@ -136,6 +136,7 @@ public class CompressorBlockEntity extends ManaMachineBlockEntity implements Geo
                         if (progress == 40 && this.level != null && !this.level.isClientSide) {
                             this.setChanged();
                             this.level.sendBlockUpdated(this.worldPosition, this.getBlockState(), this.getBlockState(), 3);
+                            PacketDistributor.sendToAllPlayers(new CompressorAnimationPayload(worldPosition));
                         }
                         getManaHandler(null).consumeMana(MANA_PER_TICK);
                     }
@@ -168,17 +169,8 @@ public class CompressorBlockEntity extends ManaMachineBlockEntity implements Geo
         }
     }
 
-    @Override
-    public void clientTick(Level level, BlockPos pos, BlockState state) {
-        super.clientTick(level, pos, state);
-        if (state.getValue(BlockStatePropertyInit.ACTIVE) && this.lastClientProgress < 40 && this.progress >= 40) {
-            animationRequested = true;
-        }
-        if (!state.getValue(BlockStatePropertyInit.ACTIVE)) {
-            this.lastClientProgress = 0;
-        } else {
-            this.lastClientProgress = this.progress;
-        }
+    public void requestAnimation() {
+        this.animationRequested = true;
     }
 
     @Override

@@ -135,6 +135,11 @@ public class NetworkInit {
                 CompressorCraftPayLoadHandler::handleDataOnMainS2C
         );
         registrar.playToClient(
+                CompressorAnimationPayload.TYPE,
+                CompressorAnimationPayload.STREAM_CODEC,
+                CompressorAnimationPayLoadHandler::handleDataOnMainS2C
+        );
+        registrar.playToClient(
                 TraitBlockBreakVFXPayload.TYPE,
                 TraitBlockBreakVFXPayload.STREAM_CODEC,
                 TraitBlockBreakVFXPayloadHandler::handleDataOnMainS2C

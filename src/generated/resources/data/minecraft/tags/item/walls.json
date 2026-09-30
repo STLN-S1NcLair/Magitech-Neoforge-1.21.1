@@ -3,6 +3,11 @@
     "magitech:alchecrysite_wall",
     "magitech:polished_alchecrysite_wall",
     "magitech:alchecrysite_brick_wall",
-    "magitech:fluorite_brick_wall"
+    "magitech:vesperite_wall",
+    "magitech:polished_vesperite_wall",
+    "magitech:vesperite_brick_wall",
+    "magitech:cut_vesperite_wall",
+    "magitech:fluorite_brick_wall",
+    "magitech:tourmaline_brick_wall"
   ]
 }

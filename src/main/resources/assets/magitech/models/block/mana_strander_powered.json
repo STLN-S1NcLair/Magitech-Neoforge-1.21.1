@@ -2,6 +2,6 @@
 	"parent": "magitech:block/mana_strander",
 	"textures": {
 		"1": "magitech:block/mana_strander_powered",
-		"particle": "magitech:block/mana_strander_powered"
+		"particle": "magitech:block/machine/fluxium/mana_strander_side_powered"
 	}
 }

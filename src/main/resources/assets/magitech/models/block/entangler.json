@@ -3,10 +3,10 @@
 	"credit": "Made with Blockbench",
 	"render_type": "minecraft:cutout",
 	"textures": {
-		"0": "magitech:block/fluxium_machine_frame",
-		"1": "magitech:block/entangler",
-		"2": "magitech:block/alchecrysite_item_connector",
-		"particle": "magitech:block/fluxium_machine_frame"
+		"0": "magitech:block/machine/fluxium/fluxium_frame_full",
+		"1": "magitech:block/machine/fluxium/entangler",
+		"2": "magitech:block/machine/fluxium/fluxium_item_port",
+		"particle": "magitech:block/machine/fluxium/fluxium_frame_full"
 	},
 	"elements": [
 		{

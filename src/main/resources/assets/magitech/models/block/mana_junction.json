@@ -2,8 +2,8 @@
 	"format_version": "1.9.0",
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "magitech:block/alchecrysite_connector",
-		"particle": "magitech:block/alchecrysite_connector"
+		"0": "magitech:block/machine/fluxium/fluxium_mana_port",
+		"particle": "magitech:block/machine/fluxium/fluxium_mana_port"
 	},
 	"elements": [
 		{

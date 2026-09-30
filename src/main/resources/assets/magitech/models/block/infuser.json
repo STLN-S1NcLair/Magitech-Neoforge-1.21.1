@@ -1,10 +1,10 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "magitech:block/infuser_side",
-		"1": "magitech:block/infuser_top",
-		"2": "magitech:block/alchecrysite_connector",
-		"particle": "magitech:block/infuser_side"
+		"0": "magitech:block/machine/fluxium/infuser_side",
+		"1": "magitech:block/machine/fluxium/infuser_top",
+		"2": "magitech:block/machine/fluxium/fluxium_mana_port",
+		"particle": "magitech:block/machine/fluxium/infuser_side"
 	},
 	"elements": [
 		{

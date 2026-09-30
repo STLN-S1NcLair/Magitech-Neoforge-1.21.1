@@ -107,7 +107,7 @@ public class BlockInit {
 
     public static final DeferredBlock<InfuserBlock> INFUSER = BLOCKS.registerBlock("infuser",
             properties -> new InfuserBlock(properties, 1000000, 5000),
-            BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(ALCHECRYSITE_SOUND));
+            BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(SoundType.NETHERITE_BLOCK));
     public static final DeferredItem<BlockItem> INFUSER_ITEM = ItemInit.ITEMS.register("infuser", key -> new HintTooltipTextManaContainerBlockItem(INFUSER.get(), new Item.Properties()));
     public static final Supplier<BlockEntityType<InfuserBlockEntity>> INFUSER_ENTITY =
             BLOCK_ENITIES.register("infuser", () -> BlockEntityType.Builder.of(
@@ -241,7 +241,7 @@ public class BlockInit {
 
     public static final DeferredBlock<ManaJunctionBlock> MANA_JUNCTION = BLOCKS.registerBlock("mana_junction",
             ManaJunctionBlock::new,
-            BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(ALCHECRYSITE_SOUND).lightLevel((blockState) -> 5).noOcclusion());
+            BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(SoundType.NETHERITE_BLOCK).lightLevel((blockState) -> 5).noOcclusion());
     public static final DeferredItem<BlockItem> MANA_JUNCTION_ITEM = ItemInit.ITEMS.register("mana_junction", key -> new HintTooltipTextBlockItem(MANA_JUNCTION.get(), new Item.Properties()));
 
     public static final DeferredBlock<ManaNodeBlock> ENHANCED_MANA_NODE = BLOCKS.registerBlock("enhanced_mana_node",
@@ -358,6 +358,21 @@ public class BlockInit {
                     BlockBehaviour.Properties.ofFullCopy(Blocks.RAW_COPPER_BLOCK).mapColor(MapColor.TERRACOTTA_GREEN)
             ));
     public static final DeferredItem<BlockItem> RAW_ZINC_BLOCK_ITEM = ItemInit.ITEMS.register("raw_zinc_block", key -> new TooltipTextBlockItem(RAW_ZINC_BLOCK.get(), new Item.Properties()));
+    public static final DeferredBlock<Block> ZINC_BLOCK = BLOCKS.registerBlock("zinc_block",
+            (properties) -> new Block(
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK).mapColor(MapColor.COLOR_GREEN)
+            ));
+    public static final DeferredItem<BlockItem> ZINC_BLOCK_ITEM = ItemInit.ITEMS.register("zinc_block", key -> new TooltipTextBlockItem(ZINC_BLOCK.get(), new Item.Properties()));
+    public static final DeferredBlock<Block> FLUXIUM_BLOCK = BLOCKS.registerBlock("fluxium_block",
+            (properties) -> new Block(
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK).mapColor(MapColor.COLOR_CYAN)
+            ));
+    public static final DeferredItem<BlockItem> FLUXIUM_BLOCK_ITEM = ItemInit.ITEMS.register("fluxium_block", key -> new TooltipTextBlockItem(FLUXIUM_BLOCK.get(), new Item.Properties()));
+    public static final DeferredBlock<Block> FLUXIUM_ENCLOSURE = BLOCKS.registerBlock("fluxium_enclosure",
+            (properties) -> new Block(
+                    BlockBehaviour.Properties.ofFullCopy(FLUXIUM_BLOCK.get()).sound(SoundType.NETHERITE_BLOCK)
+            ));
+    public static final DeferredItem<BlockItem> FLUXIUM_ENCLOSURE_ITEM = ItemInit.ITEMS.register("fluxium_enclosure", key -> new TooltipTextBlockItem(FLUXIUM_ENCLOSURE.get(), new Item.Properties()));
     public static final DeferredBlock<FluoriteCrystalClusterBlock> FLUORITE_CRYSTAL_CLUSTER = BLOCKS.registerBlock("fluorite_crystal_cluster",
             (properties) -> new FluoriteCrystalClusterBlock(UniformInt.of(0, 2), properties),
             BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_CYAN)
@@ -486,6 +501,66 @@ public class BlockInit {
                     BlockBehaviour.Properties.ofFullCopy(BlockInit.ALCHECRYSITE_WALL.get())
             ));
     public static final DeferredItem<BlockItem> VESPERITE_WALL_ITEM = ItemInit.ITEMS.register("vesperite_wall", key -> new TooltipTextBlockItem(VESPERITE_WALL.get(), new Item.Properties()));
+    public static final DeferredBlock<Block> POLISHED_VESPERITE = BLOCKS.registerBlock("polished_vesperite",
+            (properties) -> new Block(
+                    BlockBehaviour.Properties.ofFullCopy(BlockInit.POLISHED_ALCHECRYSITE.get())
+            ));
+    public static final DeferredItem<BlockItem> POLISHED_VESPERITE_ITEM = ItemInit.ITEMS.register("polished_vesperite", key -> new TooltipTextBlockItem(POLISHED_VESPERITE.get(), new Item.Properties()));
+    public static final DeferredBlock<Block> POLISHED_VESPERITE_STAIRS = BLOCKS.registerBlock("polished_vesperite_stairs",
+            (properties) -> new StairBlock(
+                    POLISHED_VESPERITE.get().defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(BlockInit.POLISHED_ALCHECRYSITE_STAIRS.get())
+            ));
+    public static final DeferredItem<BlockItem> POLISHED_VESPERITE_STAIRS_ITEM = ItemInit.ITEMS.register("polished_vesperite_stairs", key -> new TooltipTextBlockItem(POLISHED_VESPERITE_STAIRS.get(), new Item.Properties()));
+    public static final DeferredBlock<Block> POLISHED_VESPERITE_SLAB = BLOCKS.registerBlock("polished_vesperite_slab",
+            (properties) -> new SlabBlock(
+                    BlockBehaviour.Properties.ofFullCopy(BlockInit.POLISHED_ALCHECRYSITE_SLAB.get())
+            ));
+    public static final DeferredItem<BlockItem> POLISHED_VESPERITE_SLAB_ITEM = ItemInit.ITEMS.register("polished_vesperite_slab", key -> new TooltipTextBlockItem(POLISHED_VESPERITE_SLAB.get(), new Item.Properties()));
+    public static final DeferredBlock<Block> POLISHED_VESPERITE_WALL = BLOCKS.registerBlock("polished_vesperite_wall",
+            (properties) -> new WallBlock(
+                    BlockBehaviour.Properties.ofFullCopy(BlockInit.POLISHED_ALCHECRYSITE_WALL.get())
+            ));
+    public static final DeferredItem<BlockItem> POLISHED_VESPERITE_WALL_ITEM = ItemInit.ITEMS.register("polished_vesperite_wall", key -> new TooltipTextBlockItem(POLISHED_VESPERITE_WALL.get(), new Item.Properties()));
+    public static final DeferredBlock<Block> VESPERITE_BRICKS = BLOCKS.registerBlock("vesperite_bricks",
+            (properties) -> new Block(
+                    BlockBehaviour.Properties.ofFullCopy(BlockInit.ALCHECRYSITE_BRICKS.get())
+            ));
+    public static final DeferredItem<BlockItem> VESPERITE_BRICKS_ITEM = ItemInit.ITEMS.register("vesperite_bricks", key -> new TooltipTextBlockItem(VESPERITE_BRICKS.get(), new Item.Properties()));
+    public static final DeferredBlock<Block> VESPERITE_BRICK_STAIRS = BLOCKS.registerBlock("vesperite_brick_stairs",
+            (properties) -> new StairBlock(
+                    VESPERITE_BRICKS.get().defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(BlockInit.ALCHECRYSITE_BRICK_STAIRS.get())
+            ));
+    public static final DeferredItem<BlockItem> VESPERITE_BRICK_STAIRS_ITEM = ItemInit.ITEMS.register("vesperite_brick_stairs", key -> new TooltipTextBlockItem(VESPERITE_BRICK_STAIRS.get(), new Item.Properties()));
+    public static final DeferredBlock<Block> VESPERITE_BRICK_SLAB = BLOCKS.registerBlock("vesperite_brick_slab",
+            (properties) -> new SlabBlock(
+                    BlockBehaviour.Properties.ofFullCopy(BlockInit.ALCHECRYSITE_BRICK_SLAB.get())
+            ));
+    public static final DeferredItem<BlockItem> VESPERITE_BRICK_SLAB_ITEM = ItemInit.ITEMS.register("vesperite_brick_slab", key -> new TooltipTextBlockItem(VESPERITE_BRICK_SLAB.get(), new Item.Properties()));
+    public static final DeferredBlock<Block> VESPERITE_BRICK_WALL = BLOCKS.registerBlock("vesperite_brick_wall",
+            (properties) -> new WallBlock(
+                    BlockBehaviour.Properties.ofFullCopy(BlockInit.ALCHECRYSITE_BRICK_WALL.get())
+            ));
+    public static final DeferredItem<BlockItem> VESPERITE_BRICK_WALL_ITEM = ItemInit.ITEMS.register("vesperite_brick_wall", key -> new TooltipTextBlockItem(VESPERITE_BRICK_WALL.get(), new Item.Properties()));
+    public static final DeferredBlock<Block> CUT_VESPERITE = BLOCKS.registerBlock("cut_vesperite",
+            (properties) -> new Block(
+                    BlockBehaviour.Properties.ofFullCopy(BlockInit.ALCHECRYSITE.get())
+            ));
+    public static final DeferredItem<BlockItem> CUT_VESPERITE_ITEM = ItemInit.ITEMS.register("cut_vesperite", key -> new TooltipTextBlockItem(CUT_VESPERITE.get(), new Item.Properties()));
+    public static final DeferredBlock<Block> CUT_VESPERITE_STAIRS = BLOCKS.registerBlock("cut_vesperite_stairs",
+            (properties) -> new StairBlock(
+                    CUT_VESPERITE.get().defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(BlockInit.ALCHECRYSITE_STAIRS.get())
+            ));
+    public static final DeferredItem<BlockItem> CUT_VESPERITE_STAIRS_ITEM = ItemInit.ITEMS.register("cut_vesperite_stairs", key -> new TooltipTextBlockItem(CUT_VESPERITE_STAIRS.get(), new Item.Properties()));
+    public static final DeferredBlock<Block> CUT_VESPERITE_SLAB = BLOCKS.registerBlock("cut_vesperite_slab",
+            (properties) -> new SlabBlock(
+                    BlockBehaviour.Properties.ofFullCopy(BlockInit.ALCHECRYSITE_SLAB.get())
+            ));
+    public static final DeferredItem<BlockItem> CUT_VESPERITE_SLAB_ITEM = ItemInit.ITEMS.register("cut_vesperite_slab", key -> new TooltipTextBlockItem(CUT_VESPERITE_SLAB.get(), new Item.Properties()));
+    public static final DeferredBlock<Block> CUT_VESPERITE_WALL = BLOCKS.registerBlock("cut_vesperite_wall",
+            (properties) -> new WallBlock(
+                    BlockBehaviour.Properties.ofFullCopy(BlockInit.ALCHECRYSITE_WALL.get())
+            ));
+    public static final DeferredItem<BlockItem> CUT_VESPERITE_WALL_ITEM = ItemInit.ITEMS.register("cut_vesperite_wall", key -> new TooltipTextBlockItem(CUT_VESPERITE_WALL.get(), new Item.Properties()));
 
 
     public static final DeferredBlock<Block> FLUORITE_BLOCK = BLOCKS.registerBlock("fluorite_block",
@@ -514,6 +589,32 @@ public class BlockInit {
             BlockBehaviour.Properties.ofFullCopy(Blocks.STONE_BRICK_WALL).sound(CRYSTAL_SOUND)
     ));
     public static final DeferredItem<BlockItem> FLUORITE_BRICK_WALL_ITEM = ItemInit.ITEMS.register("fluorite_brick_wall", key -> new TooltipTextBlockItem(FLUORITE_BRICK_WALL.get(), new Item.Properties()));
+    public static final DeferredBlock<Block> TOURMALINE_BLOCK = BLOCKS.registerBlock("tourmaline_block",
+            (properties) -> new Block(
+                    BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PINK)
+                            .sound(CRYSTAL_SOUND)
+                            .requiresCorrectToolForDrops()
+                            .strength(1.5F, 2.0F)
+            ));
+    public static final DeferredItem<BlockItem> TOURMALINE_BLOCK_ITEM = ItemInit.ITEMS.register("tourmaline_block", key -> new TooltipTextBlockItem(TOURMALINE_BLOCK.get(), new Item.Properties()));
+    public static final DeferredBlock<Block> TOURMALINE_BRICKS = BLOCKS.registerBlock("tourmaline_bricks",
+            (properties) -> new Block(
+                    BlockBehaviour.Properties.ofFullCopy(BlockInit.TOURMALINE_BLOCK.get())
+            ));
+    public static final DeferredItem<BlockItem> TOURMALINE_BRICKS_ITEM = ItemInit.ITEMS.register("tourmaline_bricks", key -> new TooltipTextBlockItem(TOURMALINE_BRICKS.get(), new Item.Properties()));
+    public static final DeferredBlock<Block> TOURMALINE_BRICK_STAIRS = BLOCKS.register("tourmaline_brick_stairs", key -> new StairBlock(
+            TOURMALINE_BRICKS.get().defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.STONE_BRICK_STAIRS).sound(CRYSTAL_SOUND)
+    ));
+    public static final DeferredItem<BlockItem> TOURMALINE_BRICK_STAIRS_ITEM = ItemInit.ITEMS.register("tourmaline_brick_stairs", key -> new TooltipTextBlockItem(TOURMALINE_BRICK_STAIRS.get(), new Item.Properties()));
+    public static final BlockSetType TOURMALINE_BRICK_SET_TYPE = BlockSetType.register(new BlockSetType("magitech:tourmaline_brick"));
+    public static final DeferredBlock<Block> TOURMALINE_BRICK_SLAB = BLOCKS.register("tourmaline_brick_slab", key -> new SlabBlock(
+            BlockBehaviour.Properties.ofFullCopy(Blocks.STONE_BRICK_STAIRS).sound(CRYSTAL_SOUND)
+    ));
+    public static final DeferredItem<BlockItem> TOURMALINE_BRICK_SLAB_ITEM = ItemInit.ITEMS.register("tourmaline_brick_slab", key -> new TooltipTextBlockItem(TOURMALINE_BRICK_SLAB.get(), new Item.Properties()));
+    public static final DeferredBlock<Block> TOURMALINE_BRICK_WALL = BLOCKS.register("tourmaline_brick_wall", key -> new WallBlock(
+            BlockBehaviour.Properties.ofFullCopy(Blocks.STONE_BRICK_WALL).sound(CRYSTAL_SOUND)
+    ));
+    public static final DeferredItem<BlockItem> TOURMALINE_BRICK_WALL_ITEM = ItemInit.ITEMS.register("tourmaline_brick_wall", key -> new TooltipTextBlockItem(TOURMALINE_BRICK_WALL.get(), new Item.Properties()));
     public static final DeferredBlock<Block> MANA_INSULATING_GLASS = BLOCKS.register("mana_insulating_glass", key -> new TransparentBlock(
             BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).sound(CRYSTAL_SOUND)
     ));
@@ -729,6 +830,10 @@ public class BlockInit {
             BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).sound(SoundType.CHERRY_WOOD)
     ));
     public static final DeferredItem<BlockItem> MYSTWOOD_PLANKS_ITEM = ItemInit.ITEMS.register("mystwood_planks", key -> new TooltipTextBlockItem(MYSTWOOD_PLANKS.get(), new Item.Properties()));
+    public static final DeferredBlock<Block> MYSTWOOD_ENCLOSURE = BLOCKS.register("mystwood_enclosure", key -> new Block(
+            BlockBehaviour.Properties.ofFullCopy(MYSTWOOD_PLANKS.get())
+    ));
+    public static final DeferredItem<BlockItem> MYSTWOOD_ENCLOSURE_ITEM = ItemInit.ITEMS.register("mystwood_enclosure", key -> new TooltipTextBlockItem(MYSTWOOD_ENCLOSURE.get(), new Item.Properties()));
     public static final DeferredBlock<Block> MYSTWOOD_STAIRS = BLOCKS.register("mystwood_stairs", key -> new StairBlock(
             MYSTWOOD_PLANKS.get().defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_STAIRS).sound(SoundType.CHERRY_WOOD)
     ));

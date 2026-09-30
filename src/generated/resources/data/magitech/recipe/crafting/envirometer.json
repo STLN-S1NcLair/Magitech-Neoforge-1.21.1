@@ -8,16 +8,20 @@
     "C": {
       "tag": "c:ingots/copper"
     },
-    "I": {
-      "item": "magitech:fluxium_ingot"
+    "E": {
+      "item": "magitech:fluxium_enclosure"
+    },
+    "F": {
+      "item": "magitech:high_purity_fluorite"
     },
     "R": {
       "item": "minecraft:redstone"
     }
   },
   "pattern": [
-    "ICI",
-    "RAR"
+    " F ",
+    "CAC",
+    "RER"
   ],
   "result": {
     "count": 1,

@@ -2,9 +2,9 @@
 	"format_version": "1.9.0",
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "magitech:block/trap_hatch",
-		"1": "magitech:block/trap_hatch_side",
-		"particle": "magitech:block/trap_hatch"
+		"0": "magitech:block/machine/fluxium/trap_hatch",
+		"1": "magitech:block/machine/fluxium/trap_hatch_side",
+		"particle": "magitech:block/machine/fluxium/trap_hatch"
 	},
 	"elements": [
 		{

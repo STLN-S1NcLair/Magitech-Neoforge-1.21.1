@@ -5,17 +5,20 @@
     "A": {
       "item": "magitech:alchecrysite"
     },
+    "E": {
+      "item": "magitech:fluxium_enclosure"
+    },
     "G": {
       "item": "magitech:glace_crystal"
     },
     "I": {
-      "item": "magitech:fluxium_ingot"
+      "item": "magitech:fluxium_nugget"
     }
   },
   "pattern": [
-    "IGI",
-    "IAI",
-    "GAG"
+    "GAG",
+    "IEI",
+    "IAI"
   ],
   "result": {
     "count": 1,

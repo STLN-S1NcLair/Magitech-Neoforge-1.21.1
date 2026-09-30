@@ -8,19 +8,19 @@
   },
   "ingredients": [
     {
-      "count": 8,
+      "count": 2,
       "ingredient": {
         "item": "magitech:high_purity_fluorite"
       }
     },
     {
-      "count": 4,
+      "count": 1,
       "ingredient": {
         "item": "magitech:alchecrysite"
       }
     },
     {
-      "count": 8,
+      "count": 2,
       "ingredient": {
         "item": "magitech:fluxium_ingot"
       }

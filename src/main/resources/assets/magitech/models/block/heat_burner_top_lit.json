@@ -1,7 +1,7 @@
 {
   "parent": "magitech:block/heat_burner_top",
   "textures": {
-    "0": "magitech:block/heat_burner_lit",
-    "particle": "magitech:block/heat_burner_lit"
+    "0": "magitech:block/machine/fluxium/heat_burner_lit",
+    "particle": "magitech:block/machine/fluxium/heat_burner_lit"
   }
 }

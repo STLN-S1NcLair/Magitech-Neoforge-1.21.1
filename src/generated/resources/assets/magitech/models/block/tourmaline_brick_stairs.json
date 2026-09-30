@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "bottom": "magitech:block/tourmaline_bricks",
+    "side": "magitech:block/tourmaline_bricks",
+    "top": "magitech:block/tourmaline_bricks"
+  }
+}

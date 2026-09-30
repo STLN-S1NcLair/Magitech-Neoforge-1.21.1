@@ -25,7 +25,7 @@
     },
     {
       "type": "magitech:infusion_recipe",
-      "recipe_id_1": "magitech:infusion/accesories/spectacles_of_inspection"
+      "recipe_id_1": "magitech:infusion/spectacles_of_inspection_infuser"
     },
     {
       "type": "modonomicon:text",
@@ -33,6 +33,7 @@
     },
     {
       "type": "modonomicon:crafting_recipe",
+      "text": "book.magitech.glistening_lexicon.potential_control_of_mana_mechanism.magic_accesories.3.text",
       "recipe_id_1": "magitech:crafting/fluxium_ring"
     },
     {

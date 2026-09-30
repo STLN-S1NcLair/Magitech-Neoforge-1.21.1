@@ -14,8 +14,8 @@ public class StoneRecipeGenerator {
         polishingRecipe(output, stone, polished, "_stonecutting");
         VanillaSimpleRecipeGenerator.twoByTwo(output, Ingredient.of(polished), new ItemStack(brick, 4));
         buildStoneRecipes(output, brick, brickSlab, brickStairs, brickWall, true);
-        stonecutting(output, stone, brick, 4, "_from_" + RecipeBuilder.getDefaultRecipeId(stone).getPath() + "_stonecutting");
-        stonecutting(output, polished, brick, 4, "_from_" + RecipeBuilder.getDefaultRecipeId(polished).getPath() + "_stonecutting");
+        stonecutting(output, stone, brick, 1, "_from_" + RecipeBuilder.getDefaultRecipeId(stone).getPath() + "_stonecutting");
+        stonecutting(output, polished, brick, 1, "_from_" + RecipeBuilder.getDefaultRecipeId(polished).getPath() + "_stonecutting");
         stonecutting(output, stone, brickSlab, 2, "_from_" + RecipeBuilder.getDefaultRecipeId(stone).getPath() + "_stonecutting");
         stonecutting(output, polished, brickSlab, 2, "_from_" + RecipeBuilder.getDefaultRecipeId(polished).getPath() + "_stonecutting");
         stonecutting(output, stone, brickStairs, 1, "_from_" + RecipeBuilder.getDefaultRecipeId(stone).getPath() + "_stonecutting");

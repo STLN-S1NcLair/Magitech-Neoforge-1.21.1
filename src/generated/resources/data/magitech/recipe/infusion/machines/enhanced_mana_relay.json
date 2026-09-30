@@ -1,7 +1,7 @@
 {
   "type": "magitech:infusion",
   "base": {
-    "count": 1,
+    "count": 2,
     "ingredient": {
       "item": "magitech:mana_relay"
     }
@@ -28,7 +28,7 @@
   ],
   "mana": 100000,
   "result": {
-    "count": 1,
+    "count": 2,
     "id": "magitech:enhanced_mana_relay"
   }
 }

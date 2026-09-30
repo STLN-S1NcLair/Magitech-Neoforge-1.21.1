@@ -1,0 +1,14 @@
+{
+  "type": "magitech:infusion",
+  "base": {
+    "count": 1,
+    "ingredient": {
+      "tag": "c:stones"
+    }
+  },
+  "mana": 2000,
+  "result": {
+    "count": 1,
+    "id": "magitech:vesperite"
+  }
+}

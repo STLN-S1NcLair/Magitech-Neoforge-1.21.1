@@ -3,9 +3,9 @@
 	"credit": "Made with Blockbench",
 	"render_type": "minecraft:cutout",
 	"textures": {
-		"1": "magitech:block/enhanced_mana_node",
-		"2": "magitech:block/enhanced_mana_relay",
-		"particle": "magitech:block/enhanced_mana_node"
+		"1": "magitech:block/machine/fluxium/enhanced_mana_node",
+		"2": "magitech:block/machine/fluxium/enhanced_mana_relay",
+		"particle": "magitech:block/machine/fluxium/enhanced_mana_node"
 	},
 	"elements": [
 		{

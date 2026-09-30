@@ -3,11 +3,11 @@
 	"credit": "Made with Blockbench",
 	"render_type": "minecraft:cutout",
 	"textures": {
-		"0": "magitech:block/fluxium_machine_frame",
-		"1": "magitech:block/detangler",
-		"2": "magitech:block/alchecrysite_item_connector",
-		"3": "magitech:block/detangler_inside",
-		"particle": "magitech:block/fluxium_machine_frame"
+		"0": "magitech:block/machine/fluxium/fluxium_frame_full",
+		"1": "magitech:block/machine/fluxium/entangler",
+		"2": "magitech:block/machine/fluxium/fluxium_item_port",
+		"3": "magitech:block/machine/fluxium/detangler_inside",
+		"particle": "magitech:block/machine/fluxium/fluxium_frame_full"
 	},
 	"elements": [
 		{

@@ -4,10 +4,10 @@
 	"ambientocclusion": false,
 	"render_type": "minecraft:cutout",
 	"textures": {
-		"0": "magitech:block/mana_vessel",
-		"1": "magitech:block/vesperite_connector",
-		"2": "magitech:block/mystwood_connector",
-		"particle": "magitech:block/mana_vessel"
+		"0": "magitech:block/machine/mystwood/mana_vessel",
+		"1": "magitech:block/machine/mystwood/mana_vessel_inside",
+		"2": "magitech:block/machine/mystwood/mystwood_mana_port",
+		"particle": "magitech:block/machine/mystwood/mana_vessel"
 	},
 	"elements": [
 		{

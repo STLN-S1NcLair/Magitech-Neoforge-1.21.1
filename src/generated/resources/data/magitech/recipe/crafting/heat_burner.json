@@ -6,16 +6,19 @@
       "item": "magitech:alchecrysite"
     },
     "E": {
+      "item": "magitech:fluxium_enclosure"
+    },
+    "G": {
       "item": "magitech:ember_crystal"
     },
     "I": {
-      "item": "magitech:fluxium_ingot"
+      "item": "magitech:fluxium_nugget"
     }
   },
   "pattern": [
+    "GAG",
     "IEI",
-    "IAI",
-    "EAE"
+    "IAI"
   ],
   "result": {
     "count": 1,

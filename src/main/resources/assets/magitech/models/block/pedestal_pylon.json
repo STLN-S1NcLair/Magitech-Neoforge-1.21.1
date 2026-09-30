@@ -2,10 +2,10 @@
 	"format_version": "1.9.0",
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "magitech:block/pedestal_pylon_side",
-		"1": "magitech:block/pedestal_pylon_top",
-		"3": "magitech:block/pedestal_pylon_bottom",
-		"particle": "magitech:block/pedestal_pylon_side"
+		"0": "magitech:block/machine/mystwood/pedestal_pylon_side",
+		"1": "magitech:block/machine/mystwood/pedestal_pylon_top",
+		"3": "magitech:block/machine/mystwood/pedestal_pylon_bottom",
+		"particle": "magitech:block/machine/mystwood/pedestal_pylon_side"
 	},
 	"elements": [
 		{

@@ -1,6 +1,6 @@
 {
 	"parent": "magitech:block/entangler",
 	"textures": {
-		"1": "magitech:block/entangler_powered"
+		"1": "magitech:block/machine/fluxium/entangler_powered"
 	}
 }

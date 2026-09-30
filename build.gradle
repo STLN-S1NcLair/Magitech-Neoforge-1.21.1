@@ -185,9 +185,9 @@ dependencies {
 //    runtimeOnly "maven.modrinth:emi-ores:1jY6MIrK"
 
     runtimeOnly "maven.modrinth:emi:ouSj7NfF"
-    runtimeOnly "maven.modrinth:create:n7NADxiG"
+    implementation "maven.modrinth:LNytGWDc:UjX6dr61"
     runtimeOnly "maven.modrinth:oWaK0Q19:44pLdPGg"
-    runtimeOnly "maven.modrinth:sable:ZYLSN31S"
+    implementation "maven.modrinth:T9PomCSv:U678xqle"
 //    runtimeOnly "maven.modrinth:sodium:Pb3OXVqC"
 //    runtimeOnly "maven.modrinth:iris:t3ruzodq"
 
@@ -200,6 +200,9 @@ dependencies {
     runtimeOnly "maven.modrinth:OFVYKsAk:a6gl7srE"
     runtimeOnly "maven.modrinth:artifacts:rGPw090r"
     runtimeOnly "maven.modrinth:Adega8YN:PQzuABde"
+    runtimeOnly "maven.modrinth:L3Jv0QZI:czVeSmZo"
+    runtimeOnly "maven.modrinth:kjZCvAn6:bcszfrVc"
+    runtimeOnly "maven.modrinth:iGEl6Crx:EAjbdreT"
 
 //    runtimeOnly("curse.maven:selene-499980:6818413")
 //    runtimeOnly("curse.maven:cloth-config-348521:5729127")
@@ -271,6 +274,15 @@ publishing {
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
+}
+
+neoForge {
+    runs {
+        client {
+            client()
+            devLogin = true
+        }
+    }
 }
 
 // IDEA no longer automatically downloads sources/javadoc jars for dependencies, so we need to explicitly enable the behavior.

@@ -1,7 +1,7 @@
 {
   "type": "magitech:infusion",
   "base": {
-    "count": 4,
+    "count": 8,
     "ingredient": {
       "item": "minecraft:iron_ingot"
     }
@@ -20,9 +20,9 @@
       }
     }
   ],
-  "mana": 10000,
+  "mana": 40000,
   "result": {
-    "count": 8,
+    "count": 16,
     "id": "magitech:fluxium_ingot"
   }
 }

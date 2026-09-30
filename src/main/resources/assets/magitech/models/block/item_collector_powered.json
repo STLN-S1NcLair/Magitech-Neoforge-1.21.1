@@ -2,6 +2,6 @@
 	"parent": "magitech:block/item_collector",
 	"textures": {
 		"1": "magitech:block/item_collector_powered",
-		"particle": "magitech:block/item_collector_powered"
+		"particle": "magitech:block/machine/fluxium/item_collector_side_powered"
 	}
 }

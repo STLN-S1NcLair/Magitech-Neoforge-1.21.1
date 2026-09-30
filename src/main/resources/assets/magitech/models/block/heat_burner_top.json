@@ -4,8 +4,8 @@
 	"render_type": "minecraft:cutout",
 	"texture_size": [32, 32],
 	"textures": {
-		"0": "magitech:block/heat_burner",
-		"particle": "magitech:block/heat_burner"
+		"0": "magitech:block/machine/fluxium/heat_burner",
+		"particle": "magitech:block/machine/fluxium/heat_burner"
 	},
 	"elements": [
 		{

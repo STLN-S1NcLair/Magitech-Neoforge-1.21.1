@@ -4,9 +4,9 @@
 	"render_type": "minecraft:cutout",
 	"texture_size": [32, 32],
 	"textures": {
-		"0": "magitech:block/heat_burner",
-		"1": "magitech:block/alchecrysite_machine_case",
-		"particle": "magitech:block/heat_burner"
+		"0": "magitech:block/machine/fluxium/heat_burner",
+		"1": "magitech:block/machine/fluxium/fluxium_enclosure",
+		"particle": "magitech:block/machine/fluxium/heat_burner"
 	},
 	"elements": [
 		{

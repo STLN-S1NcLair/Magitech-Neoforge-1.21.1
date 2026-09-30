@@ -3,9 +3,9 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [32, 32],
 	"textures": {
-		"0": "magitech:block/chiller",
-		"1": "magitech:block/alchecrysite_machine_case",
-		"particle": "magitech:block/chiller"
+		"0": "magitech:block/machine/fluxium/chiller",
+		"1": "magitech:block/machine/fluxium/fluxium_enclosure",
+		"particle": "magitech:block/machine/fluxium/chiller"
 	},
 	"elements": [
 		{

@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "magitech:block/polished_vesperite_slab"
+    },
+    "type=double": {
+      "model": "magitech:block/polished_vesperite"
+    },
+    "type=top": {
+      "model": "magitech:block/polished_vesperite_slab_top"
+    }
+  }
+}

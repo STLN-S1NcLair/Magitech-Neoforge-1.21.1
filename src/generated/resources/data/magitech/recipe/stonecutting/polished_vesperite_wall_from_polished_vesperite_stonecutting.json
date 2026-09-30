@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "magitech:polished_vesperite"
+  },
+  "result": {
+    "count": 1,
+    "id": "magitech:polished_vesperite_wall"
+  }
+}

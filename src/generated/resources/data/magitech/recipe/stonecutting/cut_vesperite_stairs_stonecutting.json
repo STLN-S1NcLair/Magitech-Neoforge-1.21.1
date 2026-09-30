@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "magitech:cut_vesperite"
+  },
+  "result": {
+    "count": 1,
+    "id": "magitech:cut_vesperite_stairs"
+  }
+}

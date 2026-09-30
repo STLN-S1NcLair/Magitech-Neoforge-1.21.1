@@ -24,7 +24,7 @@ public class ModBlockTagsProvider extends HolderTagsProvider<Block> {
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
         tag(Tags.Blocks.ORES).add(BlockInit.FLUORITE_ORE, BlockInit.DEEPSLATE_FLUORITE_ORE, BlockInit.TOURMALINE_ORE, BlockInit.DEEPSLATE_TOURMALINE_ORE, BlockInit.ZINC_ORE, BlockInit.DEEPSLATE_ZINC_ORE);
-        tag(Tags.Blocks.STORAGE_BLOCKS).add(BlockInit.RAW_ZINC_BLOCK);
+        tag(Tags.Blocks.STORAGE_BLOCKS).add(BlockInit.RAW_ZINC_BLOCK, BlockInit.ZINC_BLOCK, BlockInit.FLUXIUM_BLOCK, BlockInit.FLUORITE_BLOCK, BlockInit.TOURMALINE_BLOCK);
         tag(BlockTags.LOGS).add(BlockInit.CELIFERN_LOG, BlockInit.CELIFERN_WOOD, BlockInit.STRIPPED_CELIFERN_LOG, BlockInit.STRIPPED_CELIFERN_WOOD, BlockInit.CHARCOAL_BIRCH_LOG, BlockInit.CHARCOAL_BIRCH_WOOD, BlockInit.STRIPPED_CHARCOAL_BIRCH_LOG, BlockInit.STRIPPED_CHARCOAL_BIRCH_WOOD, BlockInit.MYSTWOOD_LOG, BlockInit.MYSTWOOD_WOOD, BlockInit.STRIPPED_MYSTWOOD_LOG, BlockInit.STRIPPED_MYSTWOOD_WOOD);
         tag(BlockTags.LOGS_THAT_BURN).add(BlockInit.CELIFERN_LOG, BlockInit.CELIFERN_WOOD, BlockInit.STRIPPED_CELIFERN_LOG, BlockInit.STRIPPED_CELIFERN_WOOD, BlockInit.CHARCOAL_BIRCH_LOG, BlockInit.CHARCOAL_BIRCH_WOOD, BlockInit.STRIPPED_CHARCOAL_BIRCH_LOG, BlockInit.STRIPPED_CHARCOAL_BIRCH_WOOD, BlockInit.MYSTWOOD_LOG, BlockInit.MYSTWOOD_WOOD, BlockInit.STRIPPED_MYSTWOOD_LOG, BlockInit.STRIPPED_MYSTWOOD_WOOD);
         tag(BlockTags.PLANKS).add(BlockInit.CELIFERN_PLANKS, BlockInit.CHARCOAL_BIRCH_PLANKS, BlockInit.MYSTWOOD_PLANKS);
@@ -38,11 +38,173 @@ public class ModBlockTagsProvider extends HolderTagsProvider<Block> {
         tag(BlockTags.WOODEN_SLABS).add(BlockInit.CELIFERN_SLAB, BlockInit.CHARCOAL_BIRCH_SLAB, BlockInit.MYSTWOOD_SLAB);
         tag(BlockTags.WOODEN_STAIRS).add(BlockInit.CELIFERN_STAIRS, BlockInit.CHARCOAL_BIRCH_STAIRS, BlockInit.MYSTWOOD_STAIRS);
         tag(BlockTags.WOODEN_TRAPDOORS).add(BlockInit.CELIFERN_TRAPDOOR, BlockInit.CHARCOAL_BIRCH_TRAPDOOR, BlockInit.MYSTWOOD_TRAPDOOR);
-        tag(BlockTags.SLABS).add(BlockInit.ALCHECRYSITE_SLAB, BlockInit.POLISHED_ALCHECRYSITE_SLAB, BlockInit.ALCHECRYSITE_BRICK_SLAB, BlockInit.FLUORITE_BRICK_SLAB);
-        tag(BlockTags.STAIRS).add(BlockInit.ALCHECRYSITE_STAIRS, BlockInit.POLISHED_ALCHECRYSITE_STAIRS, BlockInit.ALCHECRYSITE_BRICK_STAIRS, BlockInit.FLUORITE_BRICK_STAIRS);
-        tag(BlockTags.WALLS).add(BlockInit.ALCHECRYSITE_WALL, BlockInit.POLISHED_ALCHECRYSITE_WALL, BlockInit.ALCHECRYSITE_BRICK_WALL, BlockInit.FLUORITE_BRICK_WALL);
-        tag(BlockTags.MINEABLE_WITH_AXE).add(BlockInit.ENGINEERING_WORKBENCH, BlockInit.ASSEMBLY_WORKBENCH, BlockInit.REPAIRING_WORKBENCH, BlockInit.UPGRADE_WORKBENCH, BlockInit.INFUSION_ALTAR, BlockInit.PEDESTAL_PYLON, BlockInit.MANA_NODE, BlockInit.MANA_RELAY, BlockInit.MANA_VESSEL, BlockInit.CELIFERN_LOG, BlockInit.CELIFERN_WOOD, BlockInit.STRIPPED_CELIFERN_LOG, BlockInit.STRIPPED_CELIFERN_WOOD, BlockInit.CELIFERN_PLANKS, BlockInit.CELIFERN_SLAB, BlockInit.CELIFERN_STAIRS, BlockInit.CELIFERN_DOOR, BlockInit.CELIFERN_TRAPDOOR, BlockInit.CELIFERN_FENCE, BlockInit.CELIFERN_FENCE_GATE, BlockInit.CELIFERN_PRESSURE_PLATE, BlockInit.CELIFERN_BUTTON, BlockInit.CELIFERN_SIGN, BlockInit.CELIFERN_WALL_SIGN, BlockInit.CELIFERN_HANGING_SIGN, BlockInit.CELIFERN_WALL_HANGING_SIGN, BlockInit.CHARCOAL_BIRCH_LOG, BlockInit.CHARCOAL_BIRCH_WOOD, BlockInit.STRIPPED_CHARCOAL_BIRCH_LOG, BlockInit.STRIPPED_CHARCOAL_BIRCH_WOOD, BlockInit.CHARCOAL_BIRCH_PLANKS, BlockInit.CHARCOAL_BIRCH_SLAB, BlockInit.CHARCOAL_BIRCH_STAIRS, BlockInit.CHARCOAL_BIRCH_DOOR, BlockInit.CHARCOAL_BIRCH_TRAPDOOR, BlockInit.CHARCOAL_BIRCH_FENCE, BlockInit.CHARCOAL_BIRCH_FENCE_GATE, BlockInit.CHARCOAL_BIRCH_PRESSURE_PLATE, BlockInit.CHARCOAL_BIRCH_BUTTON, BlockInit.CHARCOAL_BIRCH_SIGN, BlockInit.CHARCOAL_BIRCH_WALL_SIGN, BlockInit.CHARCOAL_BIRCH_HANGING_SIGN, BlockInit.CHARCOAL_BIRCH_WALL_HANGING_SIGN, BlockInit.MYSTWOOD_LOG, BlockInit.MYSTWOOD_WOOD, BlockInit.STRIPPED_MYSTWOOD_LOG, BlockInit.STRIPPED_MYSTWOOD_WOOD, BlockInit.MYSTWOOD_PLANKS, BlockInit.MYSTWOOD_SLAB, BlockInit.MYSTWOOD_STAIRS, BlockInit.MYSTWOOD_DOOR, BlockInit.MYSTWOOD_TRAPDOOR, BlockInit.MYSTWOOD_FENCE, BlockInit.MYSTWOOD_FENCE_GATE, BlockInit.MYSTWOOD_PRESSURE_PLATE, BlockInit.MYSTWOOD_BUTTON, BlockInit.MYSTWOOD_SIGN, BlockInit.MYSTWOOD_WALL_SIGN, BlockInit.MYSTWOOD_HANGING_SIGN, BlockInit.MYSTWOOD_WALL_HANGING_SIGN);
-        tag(BlockTags.MINEABLE_WITH_PICKAXE).add(BlockInit.ENGINEERING_WORKBENCH, BlockInit.ASSEMBLY_WORKBENCH, BlockInit.REPAIRING_WORKBENCH, BlockInit.UPGRADE_WORKBENCH, BlockInit.INFUSION_ALTAR, BlockInit.PEDESTAL_PYLON, BlockInit.MANA_NODE, BlockInit.MANA_RELAY, BlockInit.MANA_VESSEL, BlockInit.MANA_STRANDER, BlockInit.MANA_RECEIVER, BlockInit.MANA_COLLECTOR, BlockInit.INFUSER, BlockInit.ENVIROMETER, BlockInit.CRUSHER, BlockInit.COMPRESSOR, BlockInit.ITEM_COLLECTOR, BlockInit.MANA_JUNCTION, BlockInit.ENTANGLER, BlockInit.DETANGLER, BlockInit.MANA_PUMP, BlockInit.ENHANCED_MANA_NODE, BlockInit.ENHANCED_MANA_RELAY, BlockInit.ENHANCED_MANA_VESSEL, BlockInit.CHILLER, BlockInit.HEAT_BURNER, BlockInit.THERMAL_MANA_FURNACE, BlockInit.ZARDIUS_CRUCIBLE, BlockInit.FLUORITE_ORE, BlockInit.DEEPSLATE_FLUORITE_ORE, BlockInit.TOURMALINE_ORE, BlockInit.DEEPSLATE_TOURMALINE_ORE, BlockInit.ZINC_ORE, BlockInit.DEEPSLATE_ZINC_ORE, BlockInit.RAW_ZINC_BLOCK, BlockInit.FLUORITE_CRYSTAL_CLUSTER, BlockInit.REDSTONE_CRYSTAL_CLUSTER, BlockInit.SULFUR_CRYSTAL_CLUSTER, BlockInit.SULFUR_BLOCK, BlockInit.VESPERITE, BlockInit.VESPERITE_STAIRS, BlockInit.VESPERITE_SLAB, BlockInit.VESPERITE_WALL, BlockInit.ALCHECRYSITE, BlockInit.ALCHECRYSITE_STAIRS, BlockInit.ALCHECRYSITE_SLAB, BlockInit.ALCHECRYSITE_WALL, BlockInit.POLISHED_ALCHECRYSITE, BlockInit.POLISHED_ALCHECRYSITE_STAIRS, BlockInit.POLISHED_ALCHECRYSITE_SLAB, BlockInit.POLISHED_ALCHECRYSITE_WALL, BlockInit.ALCHECRYSITE_BRICKS, BlockInit.ALCHECRYSITE_BRICK_STAIRS, BlockInit.ALCHECRYSITE_BRICK_SLAB, BlockInit.ALCHECRYSITE_BRICK_WALL, BlockInit.ALCHECRYSITE_TILES, BlockInit.FLUORITE_BLOCK, BlockInit.FLUORITE_BRICKS, BlockInit.FLUORITE_BRICK_STAIRS, BlockInit.FLUORITE_BRICK_SLAB, BlockInit.FLUORITE_BRICK_WALL);
+         tag(BlockTags.SLABS).add(BlockInit.ALCHECRYSITE_SLAB, BlockInit.POLISHED_ALCHECRYSITE_SLAB, BlockInit.ALCHECRYSITE_BRICK_SLAB, BlockInit.VESPERITE_SLAB, BlockInit.POLISHED_VESPERITE_SLAB, BlockInit.VESPERITE_BRICK_SLAB, BlockInit.CUT_VESPERITE_SLAB, BlockInit.FLUORITE_BRICK_SLAB, BlockInit.TOURMALINE_BRICK_SLAB);
+         tag(BlockTags.STAIRS).add(BlockInit.ALCHECRYSITE_STAIRS, BlockInit.POLISHED_ALCHECRYSITE_STAIRS, BlockInit.ALCHECRYSITE_BRICK_STAIRS, BlockInit.VESPERITE_STAIRS, BlockInit.POLISHED_VESPERITE_STAIRS, BlockInit.VESPERITE_BRICK_STAIRS, BlockInit.CUT_VESPERITE_STAIRS, BlockInit.FLUORITE_BRICK_STAIRS, BlockInit.TOURMALINE_BRICK_STAIRS);
+         tag(BlockTags.WALLS).add(BlockInit.ALCHECRYSITE_WALL, BlockInit.POLISHED_ALCHECRYSITE_WALL, BlockInit.ALCHECRYSITE_BRICK_WALL, BlockInit.VESPERITE_WALL, BlockInit.POLISHED_VESPERITE_WALL, BlockInit.VESPERITE_BRICK_WALL, BlockInit.CUT_VESPERITE_WALL, BlockInit.FLUORITE_BRICK_WALL, BlockInit.TOURMALINE_BRICK_WALL);
+         tag(BlockTags.MINEABLE_WITH_AXE).add(
+                 BlockInit.ENGINEERING_WORKBENCH,
+                 BlockInit.ASSEMBLY_WORKBENCH,
+                 BlockInit.REPAIRING_WORKBENCH,
+                 BlockInit.UPGRADE_WORKBENCH,
+                 BlockInit.INFUSION_ALTAR,
+                 BlockInit.PEDESTAL_PYLON,
+                 BlockInit.MANA_NODE,
+                 BlockInit.MANA_RELAY,
+                 BlockInit.MANA_VESSEL,
+                 BlockInit.MANA_STRANDER,
+                 BlockInit.MANA_RECEIVER,
+                 BlockInit.MANA_COLLECTOR,
+                 BlockInit.INFUSER,
+                 BlockInit.ENVIROMETER,
+                 BlockInit.CRUSHER,
+                 BlockInit.COMPRESSOR,
+                 BlockInit.ITEM_COLLECTOR,
+                 BlockInit.MANA_JUNCTION,
+                 BlockInit.ENTANGLER,
+                 BlockInit.DETANGLER,
+                 BlockInit.MANA_PUMP,
+                 BlockInit.ENHANCED_MANA_NODE,
+                 BlockInit.ENHANCED_MANA_RELAY,
+                 BlockInit.ENHANCED_MANA_VESSEL,
+                 BlockInit.CHILLER,
+                 BlockInit.HEAT_BURNER,
+                 BlockInit.THERMAL_MANA_FURNACE,
+                 BlockInit.FLUXIUM_ENCLOSURE,
+                 BlockInit.CELIFERN_LOG,
+                 BlockInit.CELIFERN_WOOD,
+                 BlockInit.STRIPPED_CELIFERN_LOG,
+                 BlockInit.STRIPPED_CELIFERN_WOOD,
+                 BlockInit.CELIFERN_PLANKS,
+                 BlockInit.CELIFERN_SLAB,
+                 BlockInit.CELIFERN_STAIRS,
+                 BlockInit.CELIFERN_DOOR,
+                 BlockInit.CELIFERN_TRAPDOOR,
+                 BlockInit.CELIFERN_FENCE,
+                 BlockInit.CELIFERN_FENCE_GATE,
+                 BlockInit.CELIFERN_PRESSURE_PLATE,
+                 BlockInit.CELIFERN_BUTTON,
+                 BlockInit.CELIFERN_SIGN,
+                 BlockInit.CELIFERN_WALL_SIGN,
+                 BlockInit.CELIFERN_HANGING_SIGN,
+                 BlockInit.CELIFERN_WALL_HANGING_SIGN,
+                 BlockInit.CHARCOAL_BIRCH_LOG,
+                 BlockInit.CHARCOAL_BIRCH_WOOD,
+                 BlockInit.STRIPPED_CHARCOAL_BIRCH_LOG,
+                 BlockInit.STRIPPED_CHARCOAL_BIRCH_WOOD,
+                 BlockInit.CHARCOAL_BIRCH_PLANKS,
+                 BlockInit.CHARCOAL_BIRCH_SLAB,
+                 BlockInit.CHARCOAL_BIRCH_STAIRS,
+                 BlockInit.CHARCOAL_BIRCH_DOOR,
+                 BlockInit.CHARCOAL_BIRCH_TRAPDOOR,
+                 BlockInit.CHARCOAL_BIRCH_FENCE,
+                 BlockInit.CHARCOAL_BIRCH_FENCE_GATE,
+                 BlockInit.CHARCOAL_BIRCH_PRESSURE_PLATE,
+                 BlockInit.CHARCOAL_BIRCH_BUTTON,
+                 BlockInit.CHARCOAL_BIRCH_SIGN,
+                 BlockInit.CHARCOAL_BIRCH_WALL_SIGN,
+                 BlockInit.CHARCOAL_BIRCH_HANGING_SIGN,
+                 BlockInit.CHARCOAL_BIRCH_WALL_HANGING_SIGN,
+                 BlockInit.MYSTWOOD_LOG,
+                 BlockInit.MYSTWOOD_WOOD,
+                 BlockInit.STRIPPED_MYSTWOOD_LOG,
+                 BlockInit.STRIPPED_MYSTWOOD_WOOD,
+                 BlockInit.MYSTWOOD_PLANKS,
+                 BlockInit.MYSTWOOD_ENCLOSURE,
+                 BlockInit.MYSTWOOD_SLAB,
+                 BlockInit.MYSTWOOD_STAIRS,
+                 BlockInit.MYSTWOOD_DOOR,
+                 BlockInit.MYSTWOOD_TRAPDOOR,
+                 BlockInit.MYSTWOOD_FENCE,
+                 BlockInit.MYSTWOOD_FENCE_GATE,
+                 BlockInit.MYSTWOOD_PRESSURE_PLATE,
+                 BlockInit.MYSTWOOD_BUTTON,
+                 BlockInit.MYSTWOOD_SIGN,
+                 BlockInit.MYSTWOOD_WALL_SIGN,
+                 BlockInit.MYSTWOOD_HANGING_SIGN,
+                 BlockInit.MYSTWOOD_WALL_HANGING_SIGN);
+         tag(BlockTags.MINEABLE_WITH_PICKAXE).add(
+                 BlockInit.ENGINEERING_WORKBENCH,
+                 BlockInit.ASSEMBLY_WORKBENCH,
+                 BlockInit.REPAIRING_WORKBENCH,
+                 BlockInit.UPGRADE_WORKBENCH,
+                 BlockInit.INFUSION_ALTAR,
+                 BlockInit.PEDESTAL_PYLON,
+                 BlockInit.MANA_NODE,
+                 BlockInit.MANA_RELAY,
+                 BlockInit.MANA_VESSEL,
+                 BlockInit.MANA_STRANDER,
+                 BlockInit.MANA_RECEIVER,
+                 BlockInit.MANA_COLLECTOR,
+                 BlockInit.INFUSER,
+                 BlockInit.ENVIROMETER,
+                 BlockInit.CRUSHER,
+                 BlockInit.COMPRESSOR,
+                 BlockInit.ITEM_COLLECTOR,
+                 BlockInit.MANA_JUNCTION,
+                 BlockInit.ENTANGLER,
+                 BlockInit.DETANGLER,
+                 BlockInit.MANA_PUMP,
+                 BlockInit.ENHANCED_MANA_NODE,
+                 BlockInit.ENHANCED_MANA_RELAY,
+                 BlockInit.ENHANCED_MANA_VESSEL,
+                 BlockInit.CHILLER,
+                 BlockInit.HEAT_BURNER,
+                 BlockInit.THERMAL_MANA_FURNACE,
+                 BlockInit.ZARDIUS_CRUCIBLE,
+                 BlockInit.FLUORITE_ORE,
+                 BlockInit.DEEPSLATE_FLUORITE_ORE,
+                 BlockInit.TOURMALINE_ORE,
+                 BlockInit.DEEPSLATE_TOURMALINE_ORE,
+                 BlockInit.ZINC_ORE,
+                 BlockInit.DEEPSLATE_ZINC_ORE,
+                 BlockInit.RAW_ZINC_BLOCK,
+                 BlockInit.ZINC_BLOCK,
+                 BlockInit.FLUXIUM_BLOCK,
+                 BlockInit.FLUXIUM_ENCLOSURE,
+                 BlockInit.FLUORITE_CRYSTAL_CLUSTER,
+                 BlockInit.REDSTONE_CRYSTAL_CLUSTER,
+                 BlockInit.SULFUR_CRYSTAL_CLUSTER,
+                 BlockInit.SULFUR_BLOCK,
+                 BlockInit.VESPERITE,
+                 BlockInit.VESPERITE_STAIRS,
+                 BlockInit.VESPERITE_SLAB,
+                 BlockInit.VESPERITE_WALL,
+                 BlockInit.POLISHED_VESPERITE,
+                 BlockInit.POLISHED_VESPERITE_STAIRS,
+                 BlockInit.POLISHED_VESPERITE_SLAB,
+                 BlockInit.POLISHED_VESPERITE_WALL,
+                 BlockInit.VESPERITE_BRICKS,
+                 BlockInit.VESPERITE_BRICK_STAIRS,
+                 BlockInit.VESPERITE_BRICK_SLAB,
+                 BlockInit.VESPERITE_BRICK_WALL,
+                 BlockInit.CUT_VESPERITE,
+                 BlockInit.CUT_VESPERITE_STAIRS,
+                 BlockInit.CUT_VESPERITE_SLAB,
+                 BlockInit.CUT_VESPERITE_WALL,
+                 BlockInit.ALCHECRYSITE,
+                 BlockInit.ALCHECRYSITE_STAIRS,
+                 BlockInit.ALCHECRYSITE_SLAB,
+                 BlockInit.ALCHECRYSITE_WALL,
+                 BlockInit.POLISHED_ALCHECRYSITE,
+                 BlockInit.POLISHED_ALCHECRYSITE_STAIRS,
+                 BlockInit.POLISHED_ALCHECRYSITE_SLAB,
+                 BlockInit.POLISHED_ALCHECRYSITE_WALL,
+                 BlockInit.ALCHECRYSITE_BRICKS,
+                 BlockInit.ALCHECRYSITE_BRICK_STAIRS,
+                 BlockInit.ALCHECRYSITE_BRICK_SLAB,
+                 BlockInit.ALCHECRYSITE_BRICK_WALL,
+                 BlockInit.ALCHECRYSITE_TILES,
+                 BlockInit.FLUORITE_BLOCK,
+                 BlockInit.FLUORITE_BRICKS,
+                 BlockInit.FLUORITE_BRICK_STAIRS,
+                 BlockInit.FLUORITE_BRICK_SLAB,
+                 BlockInit.FLUORITE_BRICK_WALL,
+                 BlockInit.TOURMALINE_BLOCK,
+                 BlockInit.TOURMALINE_BRICKS,
+                 BlockInit.TOURMALINE_BRICK_STAIRS,
+                 BlockInit.TOURMALINE_BRICK_SLAB,
+                 BlockInit.TOURMALINE_BRICK_WALL
+         );
         tag(BlockTags.MINEABLE_WITH_SHOVEL).add(BlockInit.SCORCHED_GRASS_SOIL, BlockInit.SCORCHED_SOIL);
         tag(BlockTagKeys.MINABLE_WITH_SWORD).add(Blocks.COBWEB.builtInRegistryHolder());
         tag(BlockTagKeys.STRIPPED_LOGS).add(BlockInit.STRIPPED_CELIFERN_LOG, BlockInit.STRIPPED_CHARCOAL_BIRCH_LOG, BlockInit.STRIPPED_MYSTWOOD_LOG);
@@ -53,8 +215,12 @@ public class ModBlockTagsProvider extends HolderTagsProvider<Block> {
         tag(BlockTagKeys.ORES_IN_GROUND_STONE).add(BlockInit.FLUORITE_ORE, BlockInit.TOURMALINE_ORE, BlockInit.ZINC_ORE);
         tag(BlockTagKeys.ORES_IN_GROUND_DEEPSLATE).add(BlockInit.DEEPSLATE_FLUORITE_ORE, BlockInit.DEEPSLATE_TOURMALINE_ORE, BlockInit.DEEPSLATE_ZINC_ORE);
         tag(BlockTagKeys.STORAGE_BLOCKS_RAW_ZINC).add(BlockInit.RAW_ZINC_BLOCK);
-        tag(BlockTags.NEEDS_STONE_TOOL).add(BlockInit.MANA_NODE, BlockInit.MANA_RELAY, BlockInit.MANA_VESSEL, BlockInit.MANA_STRANDER, BlockInit.MANA_RECEIVER, BlockInit.MANA_COLLECTOR, BlockInit.INFUSER, BlockInit.ENVIROMETER, BlockInit.CRUSHER, BlockInit.COMPRESSOR, BlockInit.ITEM_COLLECTOR, BlockInit.MANA_JUNCTION, BlockInit.ENTANGLER, BlockInit.DETANGLER, BlockInit.MANA_PUMP, BlockInit.ENHANCED_MANA_NODE, BlockInit.ENHANCED_MANA_RELAY, BlockInit.ENHANCED_MANA_VESSEL, BlockInit.CHILLER, BlockInit.HEAT_BURNER, BlockInit.THERMAL_MANA_FURNACE, BlockInit.FLUORITE_CRYSTAL_CLUSTER, BlockInit.REDSTONE_CRYSTAL_CLUSTER, BlockInit.FLUORITE_ORE, BlockInit.DEEPSLATE_FLUORITE_ORE);
+        tag(BlockTags.NEEDS_STONE_TOOL).add(
+                BlockInit.FLUORITE_CRYSTAL_CLUSTER,
+                BlockInit.REDSTONE_CRYSTAL_CLUSTER,
+                BlockInit.FLUORITE_ORE,
+                BlockInit.DEEPSLATE_FLUORITE_ORE);
         tag(BlockTags.REPLACEABLE_BY_TREES).add(BlockInit.CELIFERN_LEAVES, BlockInit.CHARCOAL_BIRCH_LEAVES);
-        tag(BlockTags.SWORD_EFFICIENT).add(BlockInit.CELIFERN_LEAVES);
+        tag(BlockTags.SWORD_EFFICIENT).add(BlockInit.CELIFERN_LEAVES, BlockInit.CHARCOAL_BIRCH_LEAVES);
     }
 }

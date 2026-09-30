@@ -2,26 +2,20 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "A": {
-      "item": "magitech:alchecrysite"
+    "E": {
+      "item": "magitech:fluxium_enclosure"
     },
-    "F": {
-      "item": "magitech:high_purity_fluorite"
-    },
-    "I": {
-      "item": "magitech:fluxium_ingot"
-    },
-    "N": {
-      "item": "minecraft:gold_nugget"
+    "R": {
+      "item": "minecraft:redstone"
     },
     "U": {
       "item": "magitech:fluxium_nugget"
     }
   },
   "pattern": [
-    "IUI",
-    "UNU",
-    "FAF"
+    " U ",
+    "U U",
+    "RER"
   ],
   "result": {
     "count": 1,
