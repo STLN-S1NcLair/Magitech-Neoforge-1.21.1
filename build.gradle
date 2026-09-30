@@ -2,29 +2,50 @@ plugins {
     id 'idea'
     id 'java-library'
     id 'maven-publish'
-    id 'net.neoforged.moddev' version '2.0.147'
     id 'eclipse'
+    alias(libs.plugins.neo.moddev)
 }
 
-tasks.named('wrapper', Wrapper).configure {
-    // Define wrapper values here so as to not have to always do so when updating gradlew.properties.
-    // Switching this to Wrapper.DistributionType.ALL will download the full gradle sources that comes with
-    // documentation attached on cursor hover of gradle classes and methods. However, this comes with increased
-    // file size for Gradle. If you do switch this to ALL, run the Gradle wrapper task twice afterwards.
-    // (Verify by checking gradle/wrapper/gradle-wrapper.properties to see if distributionUrl now points to `-all`)
-    distributionType = Wrapper.DistributionType.BIN
+String modId = 'magitech'
+
+base {
+    archivesName = modId
+    group = 'net.stln.magitech'
+    version = libs.versions.magitech.get()
 }
 
-version = mod_version
-group = mod_group_id
-
-java {
-    withSourcesJar()
-    // Mojang ships Java 21 to end users starting in 1.20.5, so mods should target Java 21.
-    toolchain.languageVersion = JavaLanguageVersion.of(21)
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
+// This block of code expands all declared replace properties in the specified resource targets.
+// A missing property will result in an error. Properties are expanded using ${} Groovy notation.
+TaskProvider<ProcessResources> generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
+    var replaceProperties = [
+            // minecraft_version      : minecraft_version,
+            // minecraft_version_range: minecraft_version_range,
+            // neo_version            : neo_version,
+            // neo_version_range      : neo_version_range,
+            // loader_version_range   : loader_version_range,
+            mod_id     : modId,
+            // mod_name               : mod_name,
+            // mod_license            : mod_license,
+            mod_version: rootProject.version,
+            // mod_authors            : mod_authors,
+            // mod_description        : mod_description
+    ]
+    inputs.properties replaceProperties
+    expand replaceProperties
+    from "src/main/templates"
+    into "build/generated/sources/modMetadata"
 }
+
+SourceSet mainModule = sourceSets.named("main") {
+    resources {
+        srcDirs("src/generated/resources", generateModMetadata.get().outputs.files)
+        exclude("**/.cache/**")
+    }
+}.get()
+SourceSet integrationModule = sourceSets.register("integration") {
+    compileClasspath += mainModule.output + mainModule.compileClasspath
+    runtimeClasspath += mainModule.output + mainModule.runtimeClasspath
+}.get()
 
 repositories {
     mavenLocal()
@@ -68,17 +89,12 @@ repositories {
     maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
 }
 
-base {
-    archivesName = mod_id
-}
-
 neoForge {
-    // Specify the version of NeoForge to use.
-    version = project.neo_version
+    version = libs.versions.neo.version.get()
 
     parchment {
-        mappingsVersion = project.parchment_mappings_version
-        minecraftVersion = project.parchment_minecraft_version
+        minecraftVersion = '1.21.1'
+        mappingsVersion = '2024.11.17'
     }
 
     // This line is optional. Access Transformers are automatically detected
@@ -91,13 +107,22 @@ neoForge {
             client()
 
             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+            systemProperty('neoforge.enabledGameTestNamespaces', modId)
+            devLogin = true
+        }
+
+        integration {
+            client()
+            sourceSet = integrationModule
+
+            systemProperty('neoforge.enabledGameTestNamespaces', modId)
+            devLogin = true
         }
 
         server {
             server()
-            programArgument '--nogui'
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+            programArguments.add('--nogui')
+            systemProperty('neoforge.enabledGameTestNamespaces', modId)
         }
 
         // This run config launches GameTestServer and runs all registered gametests, then exits.
@@ -105,7 +130,7 @@ neoForge {
         // The gametest system is also enabled by default for other run configs under the /test command.
         gameTestServer {
             type = "gameTestServer"
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+            systemProperty('neoforge.enabledGameTestNamespaces', modId)
         }
 
         data {
@@ -115,7 +140,12 @@ neoForge {
             // gameDirectory = project.file('run-data')
 
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-            programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
+            programArguments.addAll(
+                    '--mod', modId,
+                    '--all',
+                    '--output', file('src/generated/resources/').getAbsolutePath(),
+                    '--existing', file('src/main/resources/').getAbsolutePath()
+            )
         }
 
         // applies to all the run configs above
@@ -125,7 +155,7 @@ neoForge {
             // "SCAN": For mods scan.
             // "REGISTRIES": For firing of registry events.
             // "REGISTRYDUMP": For getting the contents of all registries.
-            systemProperty 'forge.logging.markers', 'REGISTRIES'
+            systemProperty('forge.logging.markers', 'REGISTRIES')
 
             // Recommended logging level for the console
             // You can set various levels here.
@@ -139,21 +169,22 @@ neoForge {
         // these are used to tell the game which sources are for which mod
         // mostly optional in a single mod project
         // but multi mod projects should define one per mod
-        "${mod_id}" {
-            sourceSet(sourceSets.main)
+        create(modId) {
+            sourceSet(mainModule)
+            sourceSet(integrationModule)
         }
     }
-}
 
-// Include resources generated by data generators.
-sourceSets.main.resources { srcDir 'src/generated/resources' }
+    ideSyncTask(generateModMetadata)
+}
 
 // Sets up a dependency configuration called 'localRuntime'.
 // This configuration should be used instead of 'runtimeOnly' to declare
 // a dependency that will be present for runtime testing but that is
 // "optional", meaning it will not be pulled by dependents of this mod.
 configurations {
-    runtimeClasspath.extendsFrom localRuntime
+    runtimeClasspath.extendsFrom(localRuntime)
+    compileClasspath.extendsFrom(integrationCompileClasspath)
 }
 
 dependencies {
@@ -231,64 +262,31 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 }
 
-// This block of code expands all declared replace properties in the specified resource targets.
-// A missing property will result in an error. Properties are expanded using ${} Groovy notation.
-var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
-    var replaceProperties = [
-            minecraft_version      : minecraft_version,
-            minecraft_version_range: minecraft_version_range,
-            neo_version            : neo_version,
-            neo_version_range      : neo_version_range,
-            loader_version_range   : loader_version_range,
-            mod_id                 : mod_id,
-            mod_name               : mod_name,
-            mod_license            : mod_license,
-            mod_version            : mod_version,
-            mod_authors            : mod_authors,
-            mod_description        : mod_description
-    ]
-    inputs.properties replaceProperties
-    expand replaceProperties
-    from "src/main/templates"
-    into "build/generated/sources/modMetadata"
-}
-// Include the output of "generateModMetadata" as an input directory for the build
-// this works with both building through Gradle and the IDE.
-sourceSets.main.resources.srcDir generateModMetadata
-// To avoid having to run "generateModMetadata" manually, make it run on every project reload
-neoForge.ideSyncTask generateModMetadata
-
-// Example configuration to allow publishing using the maven-publish plugin
-publishing {
-    publications {
-        register('mavenJava', MavenPublication) {
-            from components.java
-        }
-    }
-    repositories {
-        maven {
-            url "file://${project.projectDir}/repo"
-        }
-    }
-}
-
-tasks.withType(JavaCompile).configureEach {
-    options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
-}
-
-neoForge {
-    runs {
-        client {
-            client()
-            devLogin = true
-        }
-    }
-}
-
-// IDEA no longer automatically downloads sources/javadoc jars for dependencies, so we need to explicitly enable the behavior.
 idea {
     module {
         downloadSources = true
         downloadJavadoc = true
+    }
+}
+
+int jdkVersion = 25
+
+java {
+    withSourcesJar()
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(jdkVersion)
+    }
+    JavaVersion javaVersion = JavaVersion.toVersion(jdkVersion)
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+}
+
+tasks {
+    compileJava {
+        options.encoding = 'UTF-8'
+    }
+
+    jar {
+        from(integrationModule.output)
     }
 }

@@ -1,0 +1,26 @@
+[versions]
+minecraft = "1.21.1"
+
+neo-moddev = "2.0.147"
+neo-version = "21.1.250"
+magitech = "2.4.0"
+
+[libraries]
+
+[bundles]
+
+common-impl = []
+
+common-compile = []
+
+common-runtime = []
+
+integration-impl = []
+
+integration-compile = []
+
+integration-runtime = []
+
+[plugins]
+
+neo-moddev = { id = "net.neoforged.moddev", version.ref = "neo-moddev" }

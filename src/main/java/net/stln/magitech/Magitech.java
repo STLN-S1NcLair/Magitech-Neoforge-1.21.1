@@ -59,8 +59,6 @@ public class Magitech {
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public Magitech(IEventBus modEventBus, ModContainer modContainer) {
-        MagitechRegistries.register(modEventBus);
-
         modEventBus.addListener(this::commonSetup);
 
         // Item
