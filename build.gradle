@@ -2,83 +2,105 @@ plugins {
     id 'idea'
     id 'java-library'
     id 'maven-publish'
-    id 'net.neoforged.moddev' version '2.0.147'
     id 'eclipse'
+    alias(libs.plugins.neo.moddev)
 }
 
-tasks.named('wrapper', Wrapper).configure {
-    // Define wrapper values here so as to not have to always do so when updating gradlew.properties.
-    // Switching this to Wrapper.DistributionType.ALL will download the full gradle sources that comes with
-    // documentation attached on cursor hover of gradle classes and methods. However, this comes with increased
-    // file size for Gradle. If you do switch this to ALL, run the Gradle wrapper task twice afterwards.
-    // (Verify by checking gradle/wrapper/gradle-wrapper.properties to see if distributionUrl now points to `-all`)
-    distributionType = Wrapper.DistributionType.BIN
+// MagitechのMOD ID
+String modId = 'magitech'
+
+base {
+    archivesName = modId // jarのファイル名
+    group = 'net.stln.magitech'
+    version = libs.versions.magitech.get() // Magitechのバージョン
 }
 
-version = mod_version
-group = mod_group_id
-
-java {
-    withSourcesJar()
-    // Mojang ships Java 21 to end users starting in 1.20.5, so mods should target Java 21.
-    toolchain.languageVersion = JavaLanguageVersion.of(21)
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
+// This block of code expands all declared replace properties in the specified resource targets.
+// A missing property will result in an error. Properties are expanded using ${} Groovy notation.
+TaskProvider<ProcessResources> generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
+    var replaceProperties = [
+            // minecraft_version      : minecraft_version,
+            // minecraft_version_range: minecraft_version_range,
+            // neo_version            : neo_version,
+            // neo_version_range      : neo_version_range,
+            // loader_version_range   : loader_version_range,
+            mod_id     : modId,
+            // mod_name               : mod_name,
+            // mod_license            : mod_license,
+            mod_version: rootProject.version,
+            // mod_authors            : mod_authors,
+            // mod_description        : mod_description
+    ]
+    inputs.properties replaceProperties
+    expand replaceProperties
+    from "src/main/templates"
+    into "build/generated/sources/modMetadata"
 }
+
+// mainモジュールの定義
+SourceSet mainModule = sourceSets.named("main") {
+    resources {
+        // データ生成の出力先もリソースに含める
+        srcDirs("src/generated/resources", generateModMetadata.get().outputs.files)
+        // ただし.cache配下のファイルは含めない
+        exclude("**/.cache/**")
+    }
+}.get()
 
 repositories {
     mavenLocal()
     maven {
-        url "https://www.cursemaven.com"
+        url = "https://www.cursemaven.com"
         content {
-            includeGroup "curse.maven"
+            includeGroup("curse.maven")
         }
     }
     maven {
-        name = "Modrinth"
         url = "https://api.modrinth.com/maven"
-    }
-    maven {
-        name = 'GeckoLib'
-        url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
         content {
-            includeGroup("software.bernie.geckolib")
+            includeGroup("maven.modrinth")
         }
     }
-    maven {
-        url "https://maven.su5ed.dev/releases"
-    }
-    maven {
-        // location of the maven that hosts JEI files since January 2023
-        name = "Jared's maven"
-        url = "https://maven.blamejared.com/"
-    }
-    maven {
-        url "https://dl.cloudsmith.io/public/klikli-dev/mods/maven/"
-        content {
-            includeGroup "com.klikli_dev"
-        }
-    }
-    maven {
-        // location of a maven mirror for JEI files, as a fallback
-        name = "ModMaven"
-        url = "https://modmaven.dev"
-    }
-    maven { url = 'https://maven.minecraftforge.net/' }
-    maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
-}
 
-base {
-    archivesName = mod_id
+    maven { url = "https://maven.architectury.dev/" } // Arch
+    maven { url = "https://maven.blamejared.com/" } // Patchouli, Ars
+    maven { url = "https://maven.createmod.net" } // Create, Flywheel
+    maven { url = "https://maven.ftb.dev/" } // FTB
+    maven { url = "https://maven.shedaniel.me" } // Cloth Config
+    maven { url = "https://maven.minecraftforge.net" } // TerraBlender
+    maven { url = "https://maven.rover656.dev/releases" } // EIO
+    maven { url = "https://maven.ryanhcode.dev/releases" } // Create Aeronautics
+    maven { url = "https://maven.ryanhcode.dev/snapshots" } // Sable
+    maven { url = "https://maven.saps.dev/releases" } // AA
+    maven { url = "https://maven.shadowsoffire.dev/releases" } // HNN
+    maven { url = "https://maven.su5ed.dev/releases" } // FFAPI
+    maven { url = "https://maven.tamaized.com/releases" } // Twilight
+    maven { url = "https://maven.teamresourceful.com/repository/maven-public/" } // Athena
+    maven { url = "https://maven.theillusivec4.top/" } // Curios
+    maven { url = "https://maven.wispforest.io/releases" } // Accessories
+    maven { url = "https://modmaven.dev/" } // AU, Mekanism, MI, PnC, Oritech
+    maven { url = "https://mvn.devos.one/snapshots" } // Registrate
+    maven { url = "https://registry.somethingcatchy.net/repository/maven-releases/" } // Moonlight
+    maven { url = "https://repo.sleeping.town/" } // EMI
+
+    maven {
+        url = "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/"
+        content { includeGroup("software.bernie.geckolib") } // GeckoLib
+    }
+    maven {
+        url = "https://dl.cloudsmith.io/public/klikli-dev/mods/maven/"
+        content { includeGroup("com.klikli_dev") } // Theurgy
+    }
 }
 
 neoForge {
-    // Specify the version of NeoForge to use.
-    version = project.neo_version
+    // NeoForgeのバージョン
+    version = libs.versions.neo.version.get()
 
+    // Parchment MCのバージョン
     parchment {
-        mappingsVersion = project.parchment_mappings_version
-        minecraftVersion = project.parchment_minecraft_version
+        minecraftVersion = '1.21.1'
+        mappingsVersion = '2024.11.17'
     }
 
     // This line is optional. Access Transformers are automatically detected
@@ -87,17 +109,19 @@ neoForge {
     // Default run configurations.
     // These can be tweaked, removed, or duplicated as needed.
     runs {
+        // runClient ではJEIやJadeなどの最低限のmodのみを含める
         client {
             client()
 
             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+            systemProperty('neoforge.enabledGameTestNamespaces', modId)
+            devLogin = true
         }
 
         server {
             server()
-            programArgument '--nogui'
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+            programArguments.add('--nogui')
+            systemProperty('neoforge.enabledGameTestNamespaces', modId)
         }
 
         // This run config launches GameTestServer and runs all registered gametests, then exits.
@@ -105,7 +129,7 @@ neoForge {
         // The gametest system is also enabled by default for other run configs under the /test command.
         gameTestServer {
             type = "gameTestServer"
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+            systemProperty('neoforge.enabledGameTestNamespaces', modId)
         }
 
         data {
@@ -115,7 +139,12 @@ neoForge {
             // gameDirectory = project.file('run-data')
 
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-            programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
+            programArguments.addAll(
+                    '--mod', modId,
+                    '--all',
+                    '--output', file('src/generated/resources/').getAbsolutePath(),
+                    '--existing', file('src/main/resources/').getAbsolutePath()
+            )
         }
 
         // applies to all the run configs above
@@ -125,7 +154,7 @@ neoForge {
             // "SCAN": For mods scan.
             // "REGISTRIES": For firing of registry events.
             // "REGISTRYDUMP": For getting the contents of all registries.
-            systemProperty 'forge.logging.markers', 'REGISTRIES'
+            systemProperty('forge.logging.markers', 'REGISTRIES')
 
             // Recommended logging level for the console
             // You can set various levels here.
@@ -139,156 +168,87 @@ neoForge {
         // these are used to tell the game which sources are for which mod
         // mostly optional in a single mod project
         // but multi mod projects should define one per mod
-        "${mod_id}" {
-            sourceSet(sourceSets.main)
+        create(modId) {
+            sourceSet(mainModule)
         }
     }
-}
 
-// Include resources generated by data generators.
-sourceSets.main.resources { srcDir 'src/generated/resources' }
+    ideSyncTask(generateModMetadata)
+}
 
 // Sets up a dependency configuration called 'localRuntime'.
 // This configuration should be used instead of 'runtimeOnly' to declare
 // a dependency that will be present for runtime testing but that is
 // "optional", meaning it will not be pulled by dependents of this mod.
 configurations {
-    runtimeClasspath.extendsFrom localRuntime
+    runtimeClasspath.extendsFrom(localRuntime)
 }
 
 dependencies {
-    compileOnly "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}"
-    runtimeOnly "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
-    implementation "maven.modrinth:jade:${jade_id}"
-    implementation "curse.maven:curios-309927:${curiosapi_id}"
-    implementation "curse.maven:playeranimator-658587:${playeranimator_id}"
-    implementation ("com.klikli_dev:modonomicon-${minecraft_version}-neoforge:${modonomicon_version}"){transitive=false}
-    implementation "com.github.glitchfiend:TerraBlender-neoforge:1.21.1-4.1.0.8"
-    implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_id}"
-    compileOnlyApi "team.lodestar.lodestone:lodestone:${minecraft_version}-${lodestone_version}"
-    runtimeOnly "team.lodestar.lodestone:lodestone:${minecraft_version}-${lodestone_version}"
+    implementation(libs.bundles.impl)
+    implementation(libs.modonomicon) { transitive = false }
+    compileOnly(libs.bundles.compile)
+    localRuntime(libs.bundles.runtime)
 
-//    implementation "org.spongepowered:mixin:0.7-SNAPSHOT"
+    // runtimeOnly "curse.maven:appleskin-248787:${appleskin_id}"
+    // runtimeOnly "curse.maven:auth-me-356643:6177873"
+    // runtimeOnly "maven.modrinth:xaeros-world-map:arbQPyvf"
+    // runtimeOnly "maven.modrinth:open-parties-and-claims:c2oTZgsF"
+    // runtimeOnly "maven.modrinth:xaeros-minimap:CatMvRfN"
+    // runtimeOnly "curse.maven:advancements-reloaded-1113876:5835520"
+    // runtimeOnly "maven.modrinth:cloth-config:izKINKFg"
 
-    runtimeOnly "curse.maven:appleskin-248787:${appleskin_id}"
-    runtimeOnly "curse.maven:auth-me-356643:6177873"
-    runtimeOnly "maven.modrinth:xaeros-world-map:arbQPyvf"
-    runtimeOnly "maven.modrinth:open-parties-and-claims:c2oTZgsF"
-    runtimeOnly "maven.modrinth:xaeros-minimap:CatMvRfN"
-    runtimeOnly "curse.maven:advancements-reloaded-1113876:5835520"
-    runtimeOnly "maven.modrinth:cloth-config:izKINKFg"
+    // runtimeOnly clientModulesOnly("maven.modrinth:emixx:sdRUQHCL")
+    // runtimeOnly "maven.modrinth:emiffect:S6Q6duUj"
+    // runtimeOnly "maven.modrinth:emi-loot:QXkODMCT"
+    // runtimeOnly "maven.modrinth:emi-enchanting:ZyJ6TKvh"
+    // runtimeOnly "maven.modrinth:emi-ores:1jY6MIrK"
 
-//    runtimeOnly clientModulesOnly("maven.modrinth:emixx:sdRUQHCL")
-//    runtimeOnly "maven.modrinth:emiffect:S6Q6duUj"
-//    runtimeOnly "maven.modrinth:emi-loot:QXkODMCT"
-//    runtimeOnly "maven.modrinth:emi-enchanting:ZyJ6TKvh"
-//    runtimeOnly "maven.modrinth:emi-ores:1jY6MIrK"
+    // runtimeOnly "maven.modrinth:emi:ouSj7NfF"
+    // implementation "maven.modrinth:LNytGWDc:UjX6dr61"
+    // runtimeOnly "maven.modrinth:oWaK0Q19:44pLdPGg"
+    // implementation "maven.modrinth:T9PomCSv:U678xqle"
+    // runtimeOnly "maven.modrinth:sodium:Pb3OXVqC"
+    // runtimeOnly "maven.modrinth:iris:t3ruzodq"
 
-    runtimeOnly "maven.modrinth:emi:ouSj7NfF"
-    implementation "maven.modrinth:LNytGWDc:UjX6dr61"
-    runtimeOnly "maven.modrinth:oWaK0Q19:44pLdPGg"
-    implementation "maven.modrinth:T9PomCSv:U678xqle"
-//    runtimeOnly "maven.modrinth:sodium:Pb3OXVqC"
-//    runtimeOnly "maven.modrinth:iris:t3ruzodq"
-
-    runtimeOnly "maven.modrinth:mekanism:5KzzycBT"
-    runtimeOnly "maven.modrinth:malum:BIbVs1fo"
-    runtimeOnly "maven.modrinth:ars-nouveau:jQHRV6Y0"
-    runtimeOnly "maven.modrinth:irons-spells-n-spellbooks:Cu7ovsnN"
-    runtimeOnly "maven.modrinth:supplementaries:i5gsy1xF"
-    implementation "maven.modrinth:twkfQtEc:uPJlV3eS"
-    runtimeOnly "maven.modrinth:OFVYKsAk:a6gl7srE"
-    runtimeOnly "maven.modrinth:artifacts:rGPw090r"
-    runtimeOnly "maven.modrinth:Adega8YN:PQzuABde"
-    runtimeOnly "maven.modrinth:L3Jv0QZI:czVeSmZo"
-    runtimeOnly "maven.modrinth:kjZCvAn6:bcszfrVc"
-    runtimeOnly "maven.modrinth:iGEl6Crx:EAjbdreT"
-
-//    runtimeOnly("curse.maven:selene-499980:6818413")
-//    runtimeOnly("curse.maven:cloth-config-348521:5729127")
-//    runtimeOnly("curse.maven:create-328085:6641610")
-
-    // Example optional mod dependency with JEI
-    // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
-    // compileOnly "mezz.jei:jei-${mc_version}-common-api:${jei_version}"
-    // compileOnly "mezz.jei:jei-${mc_version}-neoforge-api:${jei_version}"
-    // We add the full version to localRuntime, not runtimeOnly, so that we do not publish a dependency on it
-    // localRuntime "mezz.jei:jei-${mc_version}-neoforge:${jei_version}"
-
-    // Example mod dependency using a mod jar from ./libs with a flat dir repository
-    // This maps to ./libs/coolmod-${mc_version}-${coolmod_version}.jar
-    // The group id is ignored when searching -- in this case, it is "blank"
-    // implementation "blank:coolmod-${mc_version}:${coolmod_version}"
-
-    // Example mod dependency using a file as dependency
-    // implementation files("libs/coolmod-${mc_version}-${coolmod_version}.jar")
-
-    // Example project dependency using a sister or child project:
-    // implementation project(":myproject")
-
-    // For more info:
-    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
-    // http://www.gradle.org/docs/current/userguide/dependency_management.html
+    // runtimeOnly "maven.modrinth:mekanism:5KzzycBT"
+    // runtimeOnly "maven.modrinth:malum:BIbVs1fo"
+    // runtimeOnly "maven.modrinth:ars-nouveau:jQHRV6Y0"
+    // runtimeOnly "maven.modrinth:irons-spells-n-spellbooks:Cu7ovsnN"
+    // runtimeOnly "maven.modrinth:supplementaries:i5gsy1xF"
+    // implementation "maven.modrinth:twkfQtEc:uPJlV3eS"
+    // runtimeOnly "maven.modrinth:OFVYKsAk:a6gl7srE"
+    // runtimeOnly "maven.modrinth:artifacts:rGPw090r"
+    // runtimeOnly "maven.modrinth:Adega8YN:PQzuABde"
+    // runtimeOnly "maven.modrinth:L3Jv0QZI:czVeSmZo"
+    // runtimeOnly "maven.modrinth:kjZCvAn6:bcszfrVc"
+    // runtimeOnly "maven.modrinth:iGEl6Crx:EAjbdreT"
 }
 
-// This block of code expands all declared replace properties in the specified resource targets.
-// A missing property will result in an error. Properties are expanded using ${} Groovy notation.
-var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
-    var replaceProperties = [
-            minecraft_version      : minecraft_version,
-            minecraft_version_range: minecraft_version_range,
-            neo_version            : neo_version,
-            neo_version_range      : neo_version_range,
-            loader_version_range   : loader_version_range,
-            mod_id                 : mod_id,
-            mod_name               : mod_name,
-            mod_license            : mod_license,
-            mod_version            : mod_version,
-            mod_authors            : mod_authors,
-            mod_description        : mod_description
-    ]
-    inputs.properties replaceProperties
-    expand replaceProperties
-    from "src/main/templates"
-    into "build/generated/sources/modMetadata"
-}
-// Include the output of "generateModMetadata" as an input directory for the build
-// this works with both building through Gradle and the IDE.
-sourceSets.main.resources.srcDir generateModMetadata
-// To avoid having to run "generateModMetadata" manually, make it run on every project reload
-neoForge.ideSyncTask generateModMetadata
-
-// Example configuration to allow publishing using the maven-publish plugin
-publishing {
-    publications {
-        register('mavenJava', MavenPublication) {
-            from components.java
-        }
-    }
-    repositories {
-        maven {
-            url "file://${project.projectDir}/repo"
-        }
-    }
-}
-
-tasks.withType(JavaCompile).configureEach {
-    options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
-}
-
-neoForge {
-    runs {
-        client {
-            client()
-            devLogin = true
-        }
-    }
-}
-
-// IDEA no longer automatically downloads sources/javadoc jars for dependencies, so we need to explicitly enable the behavior.
 idea {
     module {
         downloadSources = true
         downloadJavadoc = true
+    }
+}
+
+// このプロジェクトが使用するJavaのバージョン
+int jdkVersion = 21
+
+java {
+    // source.jarの生成を有効か
+    withSourcesJar()
+    // 使用するJavaのバージョンを指定
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(jdkVersion)
+    }
+    JavaVersion javaVersion = JavaVersion.toVersion(jdkVersion)
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+}
+
+tasks {
+    compileJava {
+        options.encoding = 'UTF-8'
     }
 }
