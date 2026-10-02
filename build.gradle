@@ -46,12 +46,6 @@ SourceSet mainModule = sourceSets.named("main") {
         exclude("**/.cache/**")
     }
 }.get()
-// integrationモジュールの定義
-SourceSet integrationModule = sourceSets.register("integration") {
-    // ここでmainモジュールのコードや依存関係にアクセスできるようにしている
-    compileClasspath += mainModule.output + mainModule.compileClasspath
-    runtimeClasspath += mainModule.output + mainModule.runtimeClasspath
-}.get()
 
 repositories {
     mavenLocal()
@@ -69,22 +63,25 @@ repositories {
     }
 
     maven { url = "https://maven.architectury.dev/" } // Arch
-    maven { url = "https://maven.blamejared.com/" } // Patchouli, Ars, JEI
+    maven { url = "https://maven.blamejared.com/" } // Patchouli, Ars
     maven { url = "https://maven.createmod.net" } // Create, Flywheel
     maven { url = "https://maven.ftb.dev/" } // FTB
+    maven { url = "https://maven.shedaniel.me" } // Cloth Config
     maven { url = "https://maven.minecraftforge.net" } // TerraBlender
     maven { url = "https://maven.rover656.dev/releases" } // EIO
+    maven { url = "https://maven.ryanhcode.dev/releases" } // Create Aeronautics
+    maven { url = "https://maven.ryanhcode.dev/snapshots" } // Sable
     maven { url = "https://maven.saps.dev/releases" } // AA
     maven { url = "https://maven.shadowsoffire.dev/releases" } // HNN
     maven { url = "https://maven.su5ed.dev/releases" } // FFAPI
     maven { url = "https://maven.tamaized.com/releases" } // Twilight
     maven { url = "https://maven.teamresourceful.com/repository/maven-public/" } // Athena
-    maven { url = "https://maven.terraformersmc.com/" } // EMI
     maven { url = "https://maven.theillusivec4.top/" } // Curios
     maven { url = "https://maven.wispforest.io/releases" } // Accessories
     maven { url = "https://modmaven.dev/" } // AU, Mekanism, MI, PnC, Oritech
     maven { url = "https://mvn.devos.one/snapshots" } // Registrate
     maven { url = "https://registry.somethingcatchy.net/repository/maven-releases/" } // Moonlight
+    maven { url = "https://repo.sleeping.town/" } // EMI
 
     maven {
         url = "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/"
@@ -117,17 +114,6 @@ neoForge {
             client()
 
             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
-            systemProperty('neoforge.enabledGameTestNamespaces', modId)
-            devLogin = true
-        }
-
-        // ここで runIntegration という起動構成が追加される
-        // runIntegration で起動すると連携modが読み込まれた状態でプレイできる
-        integration {
-            client()
-            // 参照するモジュールをintegrationに変更
-            sourceSet = integrationModule
-
             systemProperty('neoforge.enabledGameTestNamespaces', modId)
             devLogin = true
         }
@@ -184,7 +170,6 @@ neoForge {
         // but multi mod projects should define one per mod
         create(modId) {
             sourceSet(mainModule)
-            sourceSet(integrationModule)
         }
     }
 
@@ -197,40 +182,47 @@ neoForge {
 // "optional", meaning it will not be pulled by dependents of this mod.
 configurations {
     runtimeClasspath.extendsFrom(localRuntime)
-    compileClasspath.extendsFrom(integrationCompileClasspath)
 }
 
 dependencies {
-    implementation(libs.bundles.common.impl)
+    implementation(libs.bundles.impl)
     implementation(libs.modonomicon) { transitive = false }
-    compileOnly(libs.bundles.common.compile)
-    localRuntime(libs.bundles.common.runtime)
+    compileOnly(libs.bundles.compile)
+    localRuntime(libs.bundles.runtime)
 
-    runtimeOnly "curse.maven:appleskin-248787:${appleskin_id}"
-    runtimeOnly "curse.maven:auth-me-356643:6177873"
-    runtimeOnly "maven.modrinth:xaeros-world-map:arbQPyvf"
-    runtimeOnly "maven.modrinth:open-parties-and-claims:c2oTZgsF"
-    runtimeOnly "maven.modrinth:xaeros-minimap:CatMvRfN"
-    runtimeOnly "curse.maven:advancements-reloaded-1113876:5835520"
-    runtimeOnly "maven.modrinth:cloth-config:izKINKFg"
+    // runtimeOnly "curse.maven:appleskin-248787:${appleskin_id}"
+    // runtimeOnly "curse.maven:auth-me-356643:6177873"
+    // runtimeOnly "maven.modrinth:xaeros-world-map:arbQPyvf"
+    // runtimeOnly "maven.modrinth:open-parties-and-claims:c2oTZgsF"
+    // runtimeOnly "maven.modrinth:xaeros-minimap:CatMvRfN"
+    // runtimeOnly "curse.maven:advancements-reloaded-1113876:5835520"
+    // runtimeOnly "maven.modrinth:cloth-config:izKINKFg"
 
-    runtimeOnly "maven.modrinth:emi:ouSj7NfF"
-    implementation "maven.modrinth:LNytGWDc:UjX6dr61"
-    runtimeOnly "maven.modrinth:oWaK0Q19:44pLdPGg"
-    implementation "maven.modrinth:T9PomCSv:U678xqle"
+    // runtimeOnly clientModulesOnly("maven.modrinth:emixx:sdRUQHCL")
+    // runtimeOnly "maven.modrinth:emiffect:S6Q6duUj"
+    // runtimeOnly "maven.modrinth:emi-loot:QXkODMCT"
+    // runtimeOnly "maven.modrinth:emi-enchanting:ZyJ6TKvh"
+    // runtimeOnly "maven.modrinth:emi-ores:1jY6MIrK"
 
-    runtimeOnly "maven.modrinth:mekanism:5KzzycBT"
-    runtimeOnly "maven.modrinth:malum:BIbVs1fo"
-    runtimeOnly "maven.modrinth:ars-nouveau:jQHRV6Y0"
-    runtimeOnly "maven.modrinth:irons-spells-n-spellbooks:Cu7ovsnN"
-    runtimeOnly "maven.modrinth:supplementaries:i5gsy1xF"
-    implementation "maven.modrinth:twkfQtEc:uPJlV3eS"
-    runtimeOnly "maven.modrinth:OFVYKsAk:a6gl7srE"
-    runtimeOnly "maven.modrinth:artifacts:rGPw090r"
-    runtimeOnly "maven.modrinth:Adega8YN:PQzuABde"
-    runtimeOnly "maven.modrinth:L3Jv0QZI:czVeSmZo"
-    runtimeOnly "maven.modrinth:kjZCvAn6:bcszfrVc"
-    runtimeOnly "maven.modrinth:iGEl6Crx:EAjbdreT"
+    // runtimeOnly "maven.modrinth:emi:ouSj7NfF"
+    // implementation "maven.modrinth:LNytGWDc:UjX6dr61"
+    // runtimeOnly "maven.modrinth:oWaK0Q19:44pLdPGg"
+    // implementation "maven.modrinth:T9PomCSv:U678xqle"
+    // runtimeOnly "maven.modrinth:sodium:Pb3OXVqC"
+    // runtimeOnly "maven.modrinth:iris:t3ruzodq"
+
+    // runtimeOnly "maven.modrinth:mekanism:5KzzycBT"
+    // runtimeOnly "maven.modrinth:malum:BIbVs1fo"
+    // runtimeOnly "maven.modrinth:ars-nouveau:jQHRV6Y0"
+    // runtimeOnly "maven.modrinth:irons-spells-n-spellbooks:Cu7ovsnN"
+    // runtimeOnly "maven.modrinth:supplementaries:i5gsy1xF"
+    // implementation "maven.modrinth:twkfQtEc:uPJlV3eS"
+    // runtimeOnly "maven.modrinth:OFVYKsAk:a6gl7srE"
+    // runtimeOnly "maven.modrinth:artifacts:rGPw090r"
+    // runtimeOnly "maven.modrinth:Adega8YN:PQzuABde"
+    // runtimeOnly "maven.modrinth:L3Jv0QZI:czVeSmZo"
+    // runtimeOnly "maven.modrinth:kjZCvAn6:bcszfrVc"
+    // runtimeOnly "maven.modrinth:iGEl6Crx:EAjbdreT"
 }
 
 idea {
@@ -258,10 +250,5 @@ java {
 tasks {
     compileJava {
         options.encoding = 'UTF-8'
-    }
-
-    jar {
-        // jarを出力する時にintegrationモジュールも含めるようにする
-        from(integrationModule.output)
     }
 }

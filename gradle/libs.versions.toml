@@ -6,22 +6,17 @@ neo-moddev = "2.0.147"
 neo-version = "21.1.250"
 magitech = "2.4.0"
 
-# main
 curios = "9.5.1+1.21.1"
 geckolib = "4.7.5.1"
 jade = "15.10.6+neoforge"
 jei = "19.57.0.450"
 modonomicon = "1.115.1"
-lodestone = "1.21.1-1.8.3.850"
+lodestone = "1.21.1-1.8.2.524" # 最新版は8.3.850 
 playeranimator = "2.0.4+1.21.1-forge"
 terrablender = "1.21.1-4.1.0.8"
 
-# integration
-
 [libraries]
 # ここより下で存関係を定義します
-
-# main
 curios = { group = "top.theillusivec4.curios", name = "curios-neoforge", version.ref = "curios" }
 geckolib = { group = "software.bernie.geckolib", name = "geckolib-neoforge-1.21.1", version.ref = "geckolib" }
 jade = { group = "maven.modrinth", name = "jade", version.ref = "jade" }
@@ -32,12 +27,10 @@ lodestone = { group = "team.lodestar.lodestone", name = "lodestone", version.ref
 playeranimator = { group = "maven.modrinth", name = "playeranimator", version.ref = "playeranimator" }
 terrablender = { group = "com.github.glitchfiend", name = "TerraBlender-neoforge", version.ref = "terrablender" }
 
-# integration
-
 [bundles]
 # ここでは[libraries]で定義した依存関係のグループを定義します
 
-common-impl = [
+impl = [
     "curios",
     "geckolib",
     "jade",
@@ -46,19 +39,13 @@ common-impl = [
     "lodestone"
 ]
 
-common-compile = [
+compile = [
     "jei-api"
 ]
 
-common-runtime = [
+runtime = [
     "jei"
 ]
-
-integration-impl = []
-
-integration-compile = []
-
-integration-runtime = []
 
 [plugins]
 # ここはGralde Plugin関係の定義置き場
