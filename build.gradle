@@ -6,12 +6,13 @@ plugins {
     alias(libs.plugins.neo.moddev)
 }
 
+// MagitechのMOD ID
 String modId = 'magitech'
 
 base {
-    archivesName = modId
+    archivesName = modId // jarのファイル名
     group = 'net.stln.magitech'
-    version = libs.versions.magitech.get()
+    version = libs.versions.magitech.get() // Magitechのバージョン
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
@@ -36,13 +37,18 @@ TaskProvider<ProcessResources> generateModMetadata = tasks.register("generateMod
     into "build/generated/sources/modMetadata"
 }
 
+// mainモジュールの定義
 SourceSet mainModule = sourceSets.named("main") {
     resources {
+        // データ生成の出力先もリソースに含める
         srcDirs("src/generated/resources", generateModMetadata.get().outputs.files)
+        // ただし.cache配下のファイルは含めない
         exclude("**/.cache/**")
     }
 }.get()
+// integrationモジュールの定義
 SourceSet integrationModule = sourceSets.register("integration") {
+    // ここでmainモジュールのコードや依存関係にアクセスできるようにしている
     compileClasspath += mainModule.output + mainModule.compileClasspath
     runtimeClasspath += mainModule.output + mainModule.runtimeClasspath
 }.get()
@@ -50,48 +56,51 @@ SourceSet integrationModule = sourceSets.register("integration") {
 repositories {
     mavenLocal()
     maven {
-        url "https://www.cursemaven.com"
+        url = "https://www.cursemaven.com"
         content {
-            includeGroup "curse.maven"
+            includeGroup("curse.maven")
         }
     }
     maven {
-        name = "Modrinth"
         url = "https://api.modrinth.com/maven"
-    }
-    maven {
-        name = 'GeckoLib'
-        url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
         content {
-            includeGroup("software.bernie.geckolib")
+            includeGroup("maven.modrinth")
         }
     }
+
+    maven { url = "https://maven.architectury.dev/" } // Arch
+    maven { url = "https://maven.blamejared.com/" } // Patchouli, Ars, JEI
+    maven { url = "https://maven.createmod.net" } // Create, Flywheel
+    maven { url = "https://maven.ftb.dev/" } // FTB
+    maven { url = "https://maven.minecraftforge.net" } // TerraBlender
+    maven { url = "https://maven.rover656.dev/releases" } // EIO
+    maven { url = "https://maven.saps.dev/releases" } // AA
+    maven { url = "https://maven.shadowsoffire.dev/releases" } // HNN
+    maven { url = "https://maven.su5ed.dev/releases" } // FFAPI
+    maven { url = "https://maven.tamaized.com/releases" } // Twilight
+    maven { url = "https://maven.teamresourceful.com/repository/maven-public/" } // Athena
+    maven { url = "https://maven.terraformersmc.com/" } // EMI
+    maven { url = "https://maven.theillusivec4.top/" } // Curios
+    maven { url = "https://maven.wispforest.io/releases" } // Accessories
+    maven { url = "https://modmaven.dev/" } // AU, Mekanism, MI, PnC, Oritech
+    maven { url = "https://mvn.devos.one/snapshots" } // Registrate
+    maven { url = "https://registry.somethingcatchy.net/repository/maven-releases/" } // Moonlight
+
     maven {
-        url "https://maven.su5ed.dev/releases"
+        url = "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/"
+        content { includeGroup("software.bernie.geckolib") } // GeckoLib
     }
     maven {
-        // location of the maven that hosts JEI files since January 2023
-        name = "Jared's maven"
-        url = "https://maven.blamejared.com/"
+        url = "https://dl.cloudsmith.io/public/klikli-dev/mods/maven/"
+        content { includeGroup("com.klikli_dev") } // Theurgy
     }
-    maven {
-        url "https://dl.cloudsmith.io/public/klikli-dev/mods/maven/"
-        content {
-            includeGroup "com.klikli_dev"
-        }
-    }
-    maven {
-        // location of a maven mirror for JEI files, as a fallback
-        name = "ModMaven"
-        url = "https://modmaven.dev"
-    }
-    maven { url = 'https://maven.minecraftforge.net/' }
-    maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
 }
 
 neoForge {
+    // NeoForgeのバージョン
     version = libs.versions.neo.version.get()
 
+    // Parchment MCのバージョン
     parchment {
         minecraftVersion = '1.21.1'
         mappingsVersion = '2024.11.17'
@@ -103,6 +112,7 @@ neoForge {
     // Default run configurations.
     // These can be tweaked, removed, or duplicated as needed.
     runs {
+        // runClient ではJEIやJadeなどの最低限のmodのみを含める
         client {
             client()
 
@@ -111,8 +121,11 @@ neoForge {
             devLogin = true
         }
 
+        // ここで runIntegration という起動構成が追加される
+        // runIntegration で起動すると連携modが読み込まれた状態でプレイできる
         integration {
             client()
+            // 参照するモジュールをintegrationに変更
             sourceSet = integrationModule
 
             systemProperty('neoforge.enabledGameTestNamespaces', modId)
@@ -188,18 +201,10 @@ configurations {
 }
 
 dependencies {
-    compileOnly "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}"
-    runtimeOnly "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
-    implementation "maven.modrinth:jade:${jade_id}"
-    implementation "curse.maven:curios-309927:${curiosapi_id}"
-    implementation "curse.maven:playeranimator-658587:${playeranimator_id}"
-    implementation ("com.klikli_dev:modonomicon-${minecraft_version}-neoforge:${modonomicon_version}"){transitive=false}
-    implementation "com.github.glitchfiend:TerraBlender-neoforge:1.21.1-4.1.0.8"
-    implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_id}"
-    compileOnlyApi "team.lodestar.lodestone:lodestone:${minecraft_version}-${lodestone_version}"
-    runtimeOnly "team.lodestar.lodestone:lodestone:${minecraft_version}-${lodestone_version}"
-
-//    implementation "org.spongepowered:mixin:0.7-SNAPSHOT"
+    implementation(libs.bundles.common.impl)
+    implementation(libs.modonomicon) { transitive = false }
+    compileOnly(libs.bundles.common.compile)
+    localRuntime(libs.bundles.common.runtime)
 
     runtimeOnly "curse.maven:appleskin-248787:${appleskin_id}"
     runtimeOnly "curse.maven:auth-me-356643:6177873"
@@ -209,18 +214,10 @@ dependencies {
     runtimeOnly "curse.maven:advancements-reloaded-1113876:5835520"
     runtimeOnly "maven.modrinth:cloth-config:izKINKFg"
 
-//    runtimeOnly clientModulesOnly("maven.modrinth:emixx:sdRUQHCL")
-//    runtimeOnly "maven.modrinth:emiffect:S6Q6duUj"
-//    runtimeOnly "maven.modrinth:emi-loot:QXkODMCT"
-//    runtimeOnly "maven.modrinth:emi-enchanting:ZyJ6TKvh"
-//    runtimeOnly "maven.modrinth:emi-ores:1jY6MIrK"
-
     runtimeOnly "maven.modrinth:emi:ouSj7NfF"
     implementation "maven.modrinth:LNytGWDc:UjX6dr61"
     runtimeOnly "maven.modrinth:oWaK0Q19:44pLdPGg"
     implementation "maven.modrinth:T9PomCSv:U678xqle"
-//    runtimeOnly "maven.modrinth:sodium:Pb3OXVqC"
-//    runtimeOnly "maven.modrinth:iris:t3ruzodq"
 
     runtimeOnly "maven.modrinth:mekanism:5KzzycBT"
     runtimeOnly "maven.modrinth:malum:BIbVs1fo"
@@ -234,32 +231,6 @@ dependencies {
     runtimeOnly "maven.modrinth:L3Jv0QZI:czVeSmZo"
     runtimeOnly "maven.modrinth:kjZCvAn6:bcszfrVc"
     runtimeOnly "maven.modrinth:iGEl6Crx:EAjbdreT"
-
-//    runtimeOnly("curse.maven:selene-499980:6818413")
-//    runtimeOnly("curse.maven:cloth-config-348521:5729127")
-//    runtimeOnly("curse.maven:create-328085:6641610")
-
-    // Example optional mod dependency with JEI
-    // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
-    // compileOnly "mezz.jei:jei-${mc_version}-common-api:${jei_version}"
-    // compileOnly "mezz.jei:jei-${mc_version}-neoforge-api:${jei_version}"
-    // We add the full version to localRuntime, not runtimeOnly, so that we do not publish a dependency on it
-    // localRuntime "mezz.jei:jei-${mc_version}-neoforge:${jei_version}"
-
-    // Example mod dependency using a mod jar from ./libs with a flat dir repository
-    // This maps to ./libs/coolmod-${mc_version}-${coolmod_version}.jar
-    // The group id is ignored when searching -- in this case, it is "blank"
-    // implementation "blank:coolmod-${mc_version}:${coolmod_version}"
-
-    // Example mod dependency using a file as dependency
-    // implementation files("libs/coolmod-${mc_version}-${coolmod_version}.jar")
-
-    // Example project dependency using a sister or child project:
-    // implementation project(":myproject")
-
-    // For more info:
-    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
-    // http://www.gradle.org/docs/current/userguide/dependency_management.html
 }
 
 idea {
@@ -269,10 +240,13 @@ idea {
     }
 }
 
-int jdkVersion = 25
+// このプロジェクトが使用するJavaのバージョン
+int jdkVersion = 21
 
 java {
+    // source.jarの生成を有効か
     withSourcesJar()
+    // 使用するJavaのバージョンを指定
     toolchain {
         languageVersion = JavaLanguageVersion.of(jdkVersion)
     }
@@ -287,6 +261,7 @@ tasks {
     }
 
     jar {
+        // jarを出力する時にintegrationモジュールも含めるようにする
         from(integrationModule.output)
     }
 }

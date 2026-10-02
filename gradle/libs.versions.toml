@@ -1,19 +1,58 @@
 [versions]
+# ここより下に依存関係などのバージョンを書く
 minecraft = "1.21.1"
 
 neo-moddev = "2.0.147"
 neo-version = "21.1.250"
 magitech = "2.4.0"
 
+# main
+curios = "9.5.1+1.21.1"
+geckolib = "4.7.5.1"
+jade = "15.10.6+neoforge"
+jei = "19.57.0.450"
+modonomicon = "1.115.1"
+lodestone = "1.21.1-1.8.3.850"
+playeranimator = "2.0.4+1.21.1-forge"
+terrablender = "1.21.1-4.1.0.8"
+
+# integration
+
 [libraries]
+# ここより下で存関係を定義します
+
+# main
+curios = { group = "top.theillusivec4.curios", name = "curios-neoforge", version.ref = "curios" }
+geckolib = { group = "software.bernie.geckolib", name = "geckolib-neoforge-1.21.1", version.ref = "geckolib" }
+jade = { group = "maven.modrinth", name = "jade", version.ref = "jade" }
+jei = { group = "mezz.jei", name = "jei-1.21.1-neoforge", version.ref = "jei" }
+jei-api = { group = "mezz.jei", name = "jei-1.21.1-neoforge-api", version.ref = "jei" }
+modonomicon = { group = "com.klikli_dev", name = "modonomicon-1.21.1-neoforge", version.ref = "modonomicon" }
+lodestone = { group = "team.lodestar.lodestone", name = "lodestone", version.ref = "lodestone" }
+playeranimator = { group = "maven.modrinth", name = "playeranimator", version.ref = "playeranimator" }
+terrablender = { group = "com.github.glitchfiend", name = "TerraBlender-neoforge", version.ref = "terrablender" }
+
+# integration
 
 [bundles]
+# ここでは[libraries]で定義した依存関係のグループを定義します
 
-common-impl = []
+common-impl = [
+    "curios",
+    "geckolib",
+    "jade",
+    "playeranimator",
+    "terrablender",
+    "lodestone"
+]
 
-common-compile = []
+common-compile = [
+    "jei-api"
+]
 
-common-runtime = []
+common-runtime = [
+    "jei"
+]
 
 integration-impl = []
 
@@ -22,5 +61,5 @@ integration-compile = []
 integration-runtime = []
 
 [plugins]
-
+# ここはGralde Plugin関係の定義置き場
 neo-moddev = { id = "net.neoforged.moddev", version.ref = "neo-moddev" }
