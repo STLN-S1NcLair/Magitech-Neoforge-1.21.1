@@ -26,7 +26,7 @@
     {
       "type": "magitech:spell_conversion_recipe",
       "text": "book.magitech.glistening_lexicon.spark_of_technology.spell_conversion.2.text",
-      "recipe_id_1": "magitech:spell_conversion/mystwood"
+      "recipe_id_1": "magitech:spell_conversion/mystwood_Log"
     },
     {
       "type": "magitech:spell_conversion_recipe",

@@ -89,6 +89,7 @@ public class ModRecipeProvider extends RecipeProvider {
         shaped(output, BlockInit.ASSEMBLY_WORKBENCH_ITEM.get(), 1, keys('#', tag(ItemTagKeys.STRIPPED_LOGS), 'S', tag(ItemTagKeys.STONES), 'P', ItemTags.PLANKS), "SSS", "#P#", "SPS");
         shaped(output, BlockInit.ENGINEERING_WORKBENCH_ITEM.get(), 1, keys('#', tag(ItemTagKeys.STRIPPED_LOGS), 'S', tag(ItemTagKeys.STONES), 'P', ItemTags.PLANKS), "SSS", "#P#", "#S#");
         shaped(output, BlockInit.REPAIRING_WORKBENCH_ITEM.get(), 1, keys('#', tag(ItemTagKeys.STRIPPED_LOGS), 'S', tag(ItemTagKeys.STONES), 'P', ItemTags.PLANKS), "SSS", "#S#", "SPS");
+        shaped(output, BlockInit.UPGRADE_WORKBENCH_ITEM.get(), 1, keys('#', tag(ItemTagKeys.STRIPPED_LOGS), 'S', tag(ItemTagKeys.STONES), 'I', i(Items.IRON_INGOT),'P', ItemTags.PLANKS), "SSS", "#I#", "SPS");
         shaped(output, BlockInit.MYSTWOOD_ENCLOSURE_ITEM.get(), 4, keys('#', i(BlockInit.MYSTWOOD_PLANKS_ITEM), 'V', i(BlockInit.VESPERITE_ITEM)), " # ", "#V#", " # ");
         shaped(output, BlockInit.FLUXIUM_ENCLOSURE_ITEM.get(), 4, keys('#', i(BlockInit.MYSTWOOD_PLANKS_ITEM), 'F', i(ItemInit.FLUXIUM_INGOT)), " # ", "#F#", " # ");
         shaped(output, BlockInit.COMPRESSOR_ITEM.get(), 1, keys('E', i(BlockInit.FLUXIUM_ENCLOSURE_ITEM.get()), 'I', i(ItemInit.FLUXIUM_NUGGET), 'C', i(Items.IRON_BLOCK), 'A', i(BlockInit.ALCHECRYSITE_ITEM.get())), " A ", "ICI", " E ");
