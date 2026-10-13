@@ -369,10 +369,10 @@ public abstract class SynthesisedToolItem extends Item implements LeftClickOverr
         List<ToolMaterial> materials = ComponentHelper.getPartMaterials(stack);
         if (stack.getItem() instanceof SynthesisedToolItem partToolItem) {
             ToolType toolType = partToolItem.getToolType();
-            var firstMaterial = materials.getFirst();
-            var secondMaterial = materials.get(1);
             ResourceLocation key = MagitechRegistries.TOOL_TYPE.getKey(toolType);
-            if (materials.size() == toolType.parts().size() && firstMaterial != null && secondMaterial != null) {
+            if (materials.size() == toolType.parts().size() && materials.size() >= 2) {
+                var firstMaterial = materials.getFirst();
+                var secondMaterial = materials.get(1);
                 if (Objects.equals(firstMaterial, secondMaterial)) {
                     component.append(Component.translatable("item." + key.getNamespace() + "." + key.getPath() + ".simple", firstMaterial.getDescription()));
                 } else {
