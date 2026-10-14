@@ -6,6 +6,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -68,6 +69,10 @@ public enum Element implements StringRepresentable, IExtensibleEnum {
     }
 
     public String get() {
+        ResourceLocation resourceLocation = ResourceLocation.tryParse(this.id);
+        if (resourceLocation != null) {
+            return resourceLocation.getNamespace() + "_" + resourceLocation.getPath();
+        }
         return this.id;
     }
 
@@ -153,9 +158,5 @@ public enum Element implements StringRepresentable, IExtensibleEnum {
 
     public static net.neoforged.fml.common.asm.enumextension.ExtensionInfo getExtensionInfo() {
         return net.neoforged.fml.common.asm.enumextension.ExtensionInfo.nonExtended(Element.class);
-    }
-
-    public int pria() {
-        return 0;
     }
 }
