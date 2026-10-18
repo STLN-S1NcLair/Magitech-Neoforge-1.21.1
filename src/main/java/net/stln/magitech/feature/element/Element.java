@@ -71,6 +71,9 @@ public enum Element implements StringRepresentable, IExtensibleEnum {
     public String get() {
         ResourceLocation resourceLocation = ResourceLocation.tryParse(this.id);
         if (resourceLocation != null) {
+            if ("minecraft".equals(resourceLocation.getNamespace())) {
+                return resourceLocation.getPath();
+            }
             return resourceLocation.getNamespace() + "_" + resourceLocation.getPath();
         }
         return this.id;
