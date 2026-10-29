@@ -4,7 +4,7 @@ minecraft = "1.21.1"
 
 neo-moddev = "2.0.147"
 neo-version = "21.1.250"
-magitech = "2.4.5"
+magitech = "2.4.6"
 
 curios = "9.5.1+1.21.1"
 geckolib = "4.7.5.1"

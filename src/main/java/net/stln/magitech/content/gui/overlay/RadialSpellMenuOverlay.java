@@ -106,22 +106,10 @@ public class RadialSpellMenuOverlay extends Screen {
                     guiGraphics.blit(spell.getIconId(), (int) (x + sin - size * 16), (int) (y + cos + (size * 16) - mulHeight), (int) (size * 32), mulHeight, 0, 32 - shadeHeight, 32, shadeHeight, 32, 32);
 
                     guiGraphics.setColor(1F, 1F, 1F, 1F);
-                    guiGraphics.blit(TEXTURE, (int) (x + sin - size * 16), (int) (y + cos - size * 16), (int) (size * 32), (int) (size * 32), 48, 96, 32, 32, 256, 256);
+                    guiGraphics.blit(TEXTURE, (int) (x + sin - size * 16), (int) (y + cos - size * 16), (int) (size * 32), (int) (size * 32), 0, 80, 32, 32, 256, 256);
                     Element element = spell.getConfig().element();
-                    int offset = switch (element) {
-                        case NONE -> 0;
-                        case MANA -> 0;
-                        case EMBER -> 1;
-                        case GLACE -> 2;
-                        case SURGE -> 3;
-                        case PHANTOM -> 4;
-                        case TREMOR -> 5;
-                        case MAGIC -> 6;
-                        case FLOW -> 7;
-                        case HOLLOW -> 8;
-                        case LOGOS -> 9;
-                    } * 16;
-                    guiGraphics.blit(TEXTURE, (int) (x + sin - size * 8), (int) (y + cos - size * 8), (int) (size * 16), (int) (size * 16), 72 + offset, 24, 16, 16, 256, 256);
+                    ResourceLocation cdTex = Magitech.id("textures/gui/spell/" + element.get() + "_spell_cooldown.png");
+                    guiGraphics.blit(cdTex, (int) (x + sin - size * 8), (int) (y + cos - size * 8), (int) (size * 16), (int) (size * 16), 0, 0, 16, 16, 16, 16);
 
                     Font font = Minecraft.getInstance().font;
                     String text = MathHelper.round((double) cooldown.remaining() / 20, 1) + "s";
