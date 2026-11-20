@@ -5,6 +5,9 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.SimpleContainer;
@@ -84,7 +87,7 @@ public class EntanglerBlockEntity extends BlockEntity implements IItemHandlerBlo
             if (entity instanceof ManaParcelEntity manaParcel) {
                 if (manaParcel.getStack().isEmpty() && !isEmpty()) {
                     if (!level.isClientSide) {
-                        ItemStack stack = this.getItem(0).split(16);
+                        ItemStack stack = inventory.extractItem(0, 16, false);
                         manaParcel.setStack(stack);
                         SoundHelper.broadcastSound(level, pos.getCenter(), SoundInit.MANA_PARCEL.get(), SoundSource.BLOCKS);
                         PacketDistributor.sendToAllPlayers(new EntanglerEntanglePayload(pos));
@@ -216,5 +219,10 @@ public class EntanglerBlockEntity extends BlockEntity implements IItemHandlerBlo
     @Override
     public CompoundTag getUpdateTag(HolderLookup.Provider pRegistries) {
         return saveWithoutMetadata(pRegistries);
+    }
+
+    @Override
+    public Packet<ClientGamePacketListener> getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
     }
 }

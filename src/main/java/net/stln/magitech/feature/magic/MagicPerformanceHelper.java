@@ -2,14 +2,19 @@ package net.stln.magitech.feature.magic;
 
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.stats.Stats;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.stln.magitech.MagitechRegistries;
 import net.stln.magitech.content.entity.status.AttributeInit;
 import net.stln.magitech.content.item.tool.toolitem.SpellCasterItem;
 import net.stln.magitech.feature.element.Element;
@@ -17,23 +22,72 @@ import net.stln.magitech.feature.magic.spell.ISpell;
 import net.stln.magitech.feature.magic.spell.SpellConfig;
 import net.stln.magitech.feature.magic.spell.property.SpellProperty;
 import net.stln.magitech.feature.magic.spell.property.SpellPropertyInit;
+import net.stln.magitech.feature.tool.property.AttributeToolProperty;
+import net.stln.magitech.feature.tool.property.IToolProperty;
+import net.stln.magitech.feature.tool.property.ToolProperties;
 import net.stln.magitech.helper.CombatHelper;
+import net.stln.magitech.helper.ComponentHelper;
 import net.stln.magitech.helper.DataMapHelper;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 public class MagicPerformanceHelper {
+
+    private static double getSpellAttributeValue(LivingEntity caster, @Nullable ItemStack wand, Holder<Attribute> attribute) {
+        double value = caster.getAttributeValue(attribute);
+        if (!(caster instanceof Player player) || wand == null) return value;
+
+        ItemStack mainHand = player.getItemInHand(InteractionHand.MAIN_HAND);
+        ItemStack offHand = player.getItemInHand(InteractionHand.OFF_HAND);
+        ItemStack activeWand = mainHand.getItem() instanceof SpellCasterItem ? mainHand
+                : offHand.getItem() instanceof SpellCasterItem ? offHand
+                : ItemStack.EMPTY;
+        if (activeWand.isEmpty() || (!mainHand.equals(wand) && !offHand.equals(wand))) return value;
+
+        AttributeInstance attributeInstance = caster.getAttribute(attribute);
+        if (attributeInstance == null) return value;
+
+        Set<ResourceLocation> handledModifiers = new HashSet<>();
+        for (ItemStack heldStack : List.of(mainHand, offHand)) {
+            if (!(heldStack.getItem() instanceof SpellCasterItem spellCasterItem)) continue;
+
+            ToolProperties properties = spellCasterItem.getAppliedProperties(player, player.level(), heldStack);
+            ResourceLocation toolTypeKey = MagitechRegistries.TOOL_TYPE.getKey(spellCasterItem.getToolType());
+            for (Map.Entry<IToolProperty<?>, Object> propertyEntry : properties.getValues().entrySet()) {
+                if (!(propertyEntry.getKey() instanceof AttributeToolProperty<?> attributeToolProperty)
+                        || !attributeToolProperty.getAttribute(properties).equals(attribute)) {
+                    continue;
+                }
+
+                ResourceLocation propertyKey = MagitechRegistries.TOOL_PROPERTY.getKey(attributeToolProperty);
+                ResourceLocation modifierId = propertyKey.withPrefix(toolTypeKey.getPath() + "_");
+                if (!handledModifiers.add(modifierId)) continue;
+
+                AttributeModifier appliedModifier = attributeInstance.getModifier(modifierId);
+                if (appliedModifier != null) value -= appliedModifier.amount();
+
+                if (heldStack == activeWand && !ComponentHelper.isBroken(heldStack)) {
+                    value += attributeToolProperty.apply(properties);
+                }
+            }
+        }
+        return value;
+    }
 
     // Warning: 引数costはデフォルトマナコストを入れる
     // 除算で求める速度系(チャージ速度、クールダウン速度)、マナ効率などに使用
     public static float getEffectiveSpellPropertyWithDivide(LivingEntity caster, @Nullable ItemStack wand, float cost, float value, Holder<Attribute> speedAttribute) {
-        double coefficient = caster.getAttributeValue(speedAttribute);
+        double coefficient = getSpellAttributeValue(caster, wand, speedAttribute);
         return (float) (value / coefficient);
     }
 
     public static float getEffectiveSpellProperty(LivingEntity caster, @Nullable ItemStack wand, float cost, float value, Holder<Attribute> coefficientAttribute) {
-        double coefficient = caster.getAttributeValue(coefficientAttribute);
+        double coefficient = getSpellAttributeValue(caster, wand, coefficientAttribute);
         return (float) (value * coefficient);
     }
 
@@ -61,9 +115,9 @@ public class MagicPerformanceHelper {
 
     // 魔法威力を考慮した出力ダメージ値(EFFECT_STRENGTHなどでも使用する)
     public static float getOutgoingMagicDamage(LivingEntity caster, @Nullable ItemStack wand, float cost, float damage, Element element) {
-        double power = caster.getAttributeValue(AttributeInit.SPELL_POWER);
+        double power = getSpellAttributeValue(caster, wand, AttributeInit.SPELL_POWER);
         double elementPower = 0;
-        elementPower += element.getPowerAttribute().map((caster::getAttributeValue)).orElse(1.0);
+        elementPower += element.getPowerAttribute().map(attribute -> getSpellAttributeValue(caster, wand, attribute)).orElse(1.0);
         return (float) (damage * power + damage * (elementPower - 1));
     }
 

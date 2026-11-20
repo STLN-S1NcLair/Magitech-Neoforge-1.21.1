@@ -277,16 +277,22 @@ public abstract class SynthesisedToolItem extends Item implements LeftClickOverr
         ToolProperties appliedProperties = getAppliedProperties(player, level, stack);
 
         stack.set(ComponentInit.BROKEN_COMPONENT, stack.getDamageValue() + 1 >= stack.getMaxDamage());
+        boolean isOffhandSpellCaster = this instanceof SpellCasterItem && player.getItemInHand(InteractionHand.OFF_HAND) == stack;
+        boolean hasMainHandSpellCaster = player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof SpellCasterItem;
+        boolean suppressOffhandSpellCasterAttributes = isOffhandSpellCaster && hasMainHandSpellCaster;
 
         // 壊れていなければAttributeを変化させる
-        if (!ComponentHelper.isBroken(stack)) {
+        if (!ComponentHelper.isBroken(stack) && !suppressOffhandSpellCasterAttributes) {
             for (Map.Entry<IToolProperty<?>, Object> propVal : appliedProperties.getValues().entrySet()) {
                 IToolProperty<?> property = propVal.getKey();
                 if (property instanceof AttributeToolProperty<?> attributeToolProperty) {
                     Holder<Attribute> attribute = attributeToolProperty.getAttribute(appliedProperties);
                     ResourceLocation typeKey = MagitechRegistries.TOOL_TYPE.getKey(this.getToolType());
                     ResourceLocation key = MagitechRegistries.TOOL_PROPERTY.getKey(attributeToolProperty);
-                    entries.add(new ItemAttributeModifiers.Entry(attribute, new AttributeModifier(key.withPrefix(typeKey.getPath() + "_"), attributeToolProperty.apply(appliedProperties), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND));
+                    EquipmentSlotGroup slotGroup = isOffhandSpellCaster && !hasMainHandSpellCaster
+                            ? EquipmentSlotGroup.OFFHAND
+                            : EquipmentSlotGroup.MAINHAND;
+                    entries.add(new ItemAttributeModifiers.Entry(attribute, new AttributeModifier(key.withPrefix(typeKey.getPath() + "_"), attributeToolProperty.apply(appliedProperties), AttributeModifier.Operation.ADD_VALUE), slotGroup));
                 }
             }
 

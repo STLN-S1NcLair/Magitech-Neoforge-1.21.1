@@ -4,8 +4,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.Container;
-import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.Containers;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Player;
@@ -72,6 +74,11 @@ public abstract class PedestalBlockEntity extends BlockEntity implements IPedest
         return saveWithoutMetadata(pRegistries);
     }
 
+    @Override
+    public Packet<ClientGamePacketListener> getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
+    }
+
     protected NonNullList<ItemStack> getItems() {
         NonNullList<ItemStack> stacks = NonNullList.withSize(inventory.getSlots(), ItemStack.EMPTY);
         for (int i = 0; i < inventory.getSlots(); i++) {
@@ -92,33 +99,36 @@ public abstract class PedestalBlockEntity extends BlockEntity implements IPedest
 
     @Override
     public boolean isEmpty() {
-        return false;
+        for (int slot = 0; slot < inventory.getSlots(); slot++) {
+            if (!inventory.getStackInSlot(slot).isEmpty()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
     public @NotNull ItemStack getItem(int slot) {
-        return this.getItems().get(slot);
+        return inventory.getStackInSlot(slot);
     }
 
     @Override
     public @NotNull ItemStack removeItem(int slot, int amount) {
-        ItemStack itemstack = ContainerHelper.removeItem(this.getItems(), slot, amount);
-        if (!itemstack.isEmpty()) {
-            this.setChanged();
-        }
-        return itemstack;
+        return inventory.extractItem(slot, amount, false);
     }
 
     @Override
     public @NotNull ItemStack removeItemNoUpdate(int slot) {
-        return ContainerHelper.takeItem(this.getItems(), slot);
+        ItemStack stack = inventory.getStackInSlot(slot).copy();
+        if (!stack.isEmpty()) {
+            inventory.setStackInSlot(slot, ItemStack.EMPTY);
+        }
+        return stack;
     }
 
     @Override
     public void setItem(int slot, @NotNull ItemStack stack) {
-        this.getItems().set(slot, stack);
-        stack.limitSize(this.getMaxStackSize(stack));
-        this.setChanged();
+        inventory.setStackInSlot(slot, stack.copyWithCount(Math.min(stack.getCount(), this.getMaxStackSize(stack))));
     }
 
     @Override
@@ -138,6 +148,6 @@ public abstract class PedestalBlockEntity extends BlockEntity implements IPedest
 
     @Override
     public void clearContent() {
-        this.getItems().clear();
+        clearContents();
     }
 }
