@@ -25,8 +25,8 @@ public class ModBlockTagsProvider extends HolderTagsProvider<Block> {
     protected void addTags(HolderLookup.@NotNull Provider provider) {
         tag(Tags.Blocks.ORES).add(BlockInit.FLUORITE_ORE, BlockInit.DEEPSLATE_FLUORITE_ORE, BlockInit.TOURMALINE_ORE, BlockInit.DEEPSLATE_TOURMALINE_ORE, BlockInit.ZINC_ORE, BlockInit.DEEPSLATE_ZINC_ORE);
         tag(Tags.Blocks.STORAGE_BLOCKS).add(BlockInit.RAW_ZINC_BLOCK, BlockInit.ZINC_BLOCK, BlockInit.FLUXIUM_BLOCK, BlockInit.FLUORITE_BLOCK, BlockInit.TOURMALINE_BLOCK);
-        tag(BlockTags.LOGS).add(BlockInit.CELIFERN_LOG, BlockInit.CELIFERN_WOOD, BlockInit.STRIPPED_CELIFERN_LOG, BlockInit.STRIPPED_CELIFERN_WOOD, BlockInit.CHARCOAL_BIRCH_LOG, BlockInit.CHARCOAL_BIRCH_WOOD, BlockInit.STRIPPED_CHARCOAL_BIRCH_LOG, BlockInit.STRIPPED_CHARCOAL_BIRCH_WOOD, BlockInit.MYSTWOOD_LOG, BlockInit.MYSTWOOD_WOOD, BlockInit.STRIPPED_MYSTWOOD_LOG, BlockInit.STRIPPED_MYSTWOOD_WOOD);
-        tag(BlockTags.LOGS_THAT_BURN).add(BlockInit.CELIFERN_LOG, BlockInit.CELIFERN_WOOD, BlockInit.STRIPPED_CELIFERN_LOG, BlockInit.STRIPPED_CELIFERN_WOOD, BlockInit.CHARCOAL_BIRCH_LOG, BlockInit.CHARCOAL_BIRCH_WOOD, BlockInit.STRIPPED_CHARCOAL_BIRCH_LOG, BlockInit.STRIPPED_CHARCOAL_BIRCH_WOOD, BlockInit.MYSTWOOD_LOG, BlockInit.MYSTWOOD_WOOD, BlockInit.STRIPPED_MYSTWOOD_LOG, BlockInit.STRIPPED_MYSTWOOD_WOOD);
+        tag(BlockTags.LOGS).add(BlockInit.CELIFERN_LOG, BlockInit.CELIFERN_WOOD, BlockInit.STRIPPED_CELIFERN_LOG, BlockInit.STRIPPED_CELIFERN_WOOD, BlockInit.CHARCOAL_BIRCH_LOG, BlockInit.CHARCOAL_BIRCH_WOOD, BlockInit.STRIPPED_CHARCOAL_BIRCH_LOG, BlockInit.STRIPPED_CHARCOAL_BIRCH_WOOD, BlockInit.MYSTWOOD_LOG, BlockInit.MYSTWOOD_WOOD, BlockInit.STRIPPED_MYSTWOOD_LOG, BlockInit.CONDUCTIVE_STRIPPED_MYSTWOOD_LOG, BlockInit.STRIPPED_MYSTWOOD_WOOD);
+        tag(BlockTags.LOGS_THAT_BURN).add(BlockInit.CELIFERN_LOG, BlockInit.CELIFERN_WOOD, BlockInit.STRIPPED_CELIFERN_LOG, BlockInit.STRIPPED_CELIFERN_WOOD, BlockInit.CHARCOAL_BIRCH_LOG, BlockInit.CHARCOAL_BIRCH_WOOD, BlockInit.STRIPPED_CHARCOAL_BIRCH_LOG, BlockInit.STRIPPED_CHARCOAL_BIRCH_WOOD, BlockInit.MYSTWOOD_LOG, BlockInit.MYSTWOOD_WOOD, BlockInit.STRIPPED_MYSTWOOD_LOG, BlockInit.CONDUCTIVE_STRIPPED_MYSTWOOD_LOG, BlockInit.STRIPPED_MYSTWOOD_WOOD);
         tag(BlockTags.PLANKS).add(BlockInit.CELIFERN_PLANKS, BlockInit.CHARCOAL_BIRCH_PLANKS, BlockInit.MYSTWOOD_PLANKS);
         tag(BlockTags.LEAVES).add(BlockInit.CELIFERN_LEAVES, BlockInit.CHARCOAL_BIRCH_LEAVES);
         tag(BlockTags.SAPLINGS).add(BlockInit.CELIFERN_SAPLING, BlockInit.CHARCOAL_BIRCH_SAPLING);
@@ -68,6 +68,7 @@ public class ModBlockTagsProvider extends HolderTagsProvider<Block> {
                  BlockInit.ENHANCED_MANA_VESSEL,
                  BlockInit.CHILLER,
                  BlockInit.HEAT_BURNER,
+                 BlockInit.SHOCK_BLASTER,
                  BlockInit.THERMAL_MANA_FURNACE,
                  BlockInit.FLUXIUM_ENCLOSURE,
                  BlockInit.CELIFERN_LOG,
@@ -107,6 +108,7 @@ public class ModBlockTagsProvider extends HolderTagsProvider<Block> {
                  BlockInit.MYSTWOOD_LOG,
                  BlockInit.MYSTWOOD_WOOD,
                  BlockInit.STRIPPED_MYSTWOOD_LOG,
+                 BlockInit.CONDUCTIVE_STRIPPED_MYSTWOOD_LOG,
                  BlockInit.STRIPPED_MYSTWOOD_WOOD,
                  BlockInit.MYSTWOOD_PLANKS,
                  BlockInit.MYSTWOOD_ENCLOSURE,
@@ -151,6 +153,7 @@ public class ModBlockTagsProvider extends HolderTagsProvider<Block> {
                  BlockInit.HEAT_BURNER,
                  BlockInit.THERMAL_MANA_FURNACE,
                  BlockInit.ZARDIUS_CRUCIBLE,
+                 BlockInit.MANA_LANTERN,
                  BlockInit.FLUORITE_ORE,
                  BlockInit.DEEPSLATE_FLUORITE_ORE,
                  BlockInit.TOURMALINE_ORE,
@@ -195,6 +198,7 @@ public class ModBlockTagsProvider extends HolderTagsProvider<Block> {
                  BlockInit.ALCHECRYSITE_BRICK_WALL,
                  BlockInit.ALCHECRYSITE_TILES,
                  BlockInit.FLUORITE_BLOCK,
+                 BlockInit.FLUORITE_PILLAR,
                  BlockInit.FLUORITE_BRICKS,
                  BlockInit.FLUORITE_BRICK_STAIRS,
                  BlockInit.FLUORITE_BRICK_SLAB,
@@ -207,7 +211,7 @@ public class ModBlockTagsProvider extends HolderTagsProvider<Block> {
          );
         tag(BlockTags.MINEABLE_WITH_SHOVEL).add(BlockInit.SCORCHED_GRASS_SOIL, BlockInit.SCORCHED_SOIL);
         tag(BlockTagKeys.MINABLE_WITH_SWORD).add(Blocks.COBWEB.builtInRegistryHolder());
-        tag(BlockTagKeys.STRIPPED_LOGS).add(BlockInit.STRIPPED_CELIFERN_LOG, BlockInit.STRIPPED_CHARCOAL_BIRCH_LOG, BlockInit.STRIPPED_MYSTWOOD_LOG);
+        tag(BlockTagKeys.STRIPPED_LOGS).add(BlockInit.STRIPPED_CELIFERN_LOG, BlockInit.STRIPPED_CHARCOAL_BIRCH_LOG, BlockInit.STRIPPED_MYSTWOOD_LOG, BlockInit.CONDUCTIVE_STRIPPED_MYSTWOOD_LOG);
         tag(BlockTagKeys.STRIPPED_WOODS).add(BlockInit.STRIPPED_CELIFERN_WOOD, BlockInit.STRIPPED_CHARCOAL_BIRCH_WOOD, BlockInit.STRIPPED_MYSTWOOD_WOOD);
         tag(BlockTagKeys.ORES_FLUORITE).add(BlockInit.FLUORITE_ORE, BlockInit.DEEPSLATE_FLUORITE_ORE);
         tag(BlockTagKeys.ORES_TOURMALINE).add(BlockInit.TOURMALINE_ORE, BlockInit.DEEPSLATE_TOURMALINE_ORE);

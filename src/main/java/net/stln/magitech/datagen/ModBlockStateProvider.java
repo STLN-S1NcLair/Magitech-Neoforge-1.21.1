@@ -9,9 +9,12 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.SweetBerryBushBlock;
 import net.minecraft.world.level.block.PinkPetalsBlock;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
+import net.neoforged.neoforge.client.model.generators.BlockModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
+import net.neoforged.neoforge.client.model.generators.ModelBuilder.FaceRotation;
 import net.neoforged.neoforge.client.model.generators.ModelProvider;
+import net.neoforged.neoforge.client.model.generators.loaders.CompositeModelBuilder;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.stln.magitech.Magitech;
 import net.stln.magitech.content.block.BlockInit;
@@ -39,6 +42,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         axisHandModeledBlockWithInventoryModelItem(BlockInit.MANA_VESSEL.get());
         directionalPoweredHandModeledBlockWithItem(BlockInit.MANA_STRANDER.get());
         directionalPoweredHandModeledBlockWithItem(BlockInit.MANA_RECEIVER.get());
+        directionalPoweredHandModeledBlockWithItem(BlockInit.SHOCK_BLASTER.get());
         directionalPoweredHandModeledBlockWithItem(BlockInit.MANA_COLLECTOR.get());
         directionalPoweredHandModeledBlockWithItem(BlockInit.ENTANGLER.get());
         directionalPoweredHandModeledBlockWithItem(BlockInit.DETANGLER.get());
@@ -95,6 +99,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         slabBlockWithItem(BlockInit.CUT_VESPERITE_SLAB.get(), BlockInit.CUT_VESPERITE.get());
         wallBlockWithItem(BlockInit.CUT_VESPERITE_WALL.get(), BlockInit.CUT_VESPERITE.get());
         blockWithItem(BlockInit.FLUORITE_BLOCK.get());
+        axisHandModeledBlockWithItem(BlockInit.FLUORITE_PILLAR.get());
         blockWithItem(BlockInit.FLUORITE_BRICKS.get());
          stairsBlockWithItem(BlockInit.FLUORITE_BRICK_STAIRS.get(), BlockInit.FLUORITE_BRICKS.get());
          slabBlockWithItem(BlockInit.FLUORITE_BRICK_SLAB.get(), BlockInit.FLUORITE_BRICKS.get());
@@ -142,6 +147,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
          logBlockWithItem(BlockInit.MYSTWOOD_LOG.get());
          woodBlockWithItem(BlockInit.MYSTWOOD_WOOD.get());
          logBlockWithItem(BlockInit.STRIPPED_MYSTWOOD_LOG.get());
+         conductiveLogBlockWithItem(BlockInit.CONDUCTIVE_STRIPPED_MYSTWOOD_LOG.get());
          woodBlockWithItem(BlockInit.STRIPPED_MYSTWOOD_WOOD.get());
          blockWithItem(BlockInit.MYSTWOOD_PLANKS.get());
          simpleBlockWithItem(BlockInit.MYSTWOOD_ENCLOSURE.get(), models().cubeAll("mystwood_enclosure", Magitech.id("block/machine/mystwood/mystwood_enclosure")));
@@ -163,6 +169,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         crystalClusterBlock(BlockInit.REDSTONE_CRYSTAL_CLUSTER.get());
         crystalClusterBlock(BlockInit.SULFUR_CRYSTAL_CLUSTER.get());
         luminousShardBlock(BlockInit.LUMINOUS_SHARD.get());
+        manaLanternBlock(BlockInit.MANA_LANTERN.get());
         mistaliaPetalsBlock(BlockInit.MISTALIA_PETALS.get());
         trapHatchBlock(BlockInit.TRAP_HATCH.get());
         fieldEffectMachineBlock(BlockInit.CHILLER.get());
@@ -300,6 +307,72 @@ public class ModBlockStateProvider extends BlockStateProvider {
         blockItem(block);
     }
 
+    private void conductiveLogBlockWithItem(RotatedPillarBlock block) {
+        String name = getName(block);
+        ResourceLocation sideTexture = blockTexture(block);
+        ResourceLocation endTexture = sideTexture.withSuffix("_top");
+        ResourceLocation sideGlowmap = sideTexture.withSuffix("_glowmap");
+        ResourceLocation endGlowmap = endTexture.withSuffix("_glowmap");
+
+        BlockModelBuilder base = models().withExistingParent(name + "_base", ResourceLocation.withDefaultNamespace("block/cube_column"))
+                .texture("side", sideTexture)
+                .texture("end", endTexture)
+                .texture("particle", sideTexture);
+        BlockModelBuilder horizontalBase = models().withExistingParent(name + "_horizontal_base", ResourceLocation.withDefaultNamespace("block/cube_column_horizontal"))
+                .texture("side", sideTexture)
+                .texture("end", endTexture)
+                .texture("particle", sideTexture);
+
+        BlockModelBuilder verticalGlowmap = glowmapCube(name + "_glowmap", sideGlowmap, endGlowmap, sideTexture, false);
+        BlockModelBuilder horizontalGlowmap = glowmapCube(name + "_horizontal_glowmap", sideGlowmap, endGlowmap, sideTexture, true);
+
+        BlockModelBuilder verticalModel = models().getBuilder(name)
+                .parent(models().getExistingFile(ResourceLocation.withDefaultNamespace("block/block")))
+                .texture("particle", sideTexture);
+        verticalModel.customLoader(CompositeModelBuilder::begin)
+                .child("base", base)
+                .child("glowmap", verticalGlowmap);
+
+        BlockModelBuilder horizontalModel = models().getBuilder(name + "_horizontal")
+                .parent(models().getExistingFile(ResourceLocation.withDefaultNamespace("block/block")))
+                .texture("particle", sideTexture);
+        horizontalModel.customLoader(CompositeModelBuilder::begin)
+                .child("base", horizontalBase)
+                .child("glowmap", horizontalGlowmap);
+
+        axisBlock(block, verticalModel, horizontalModel);
+        blockItem(block);
+    }
+
+    private BlockModelBuilder glowmapCube(String modelName, ResourceLocation sideGlowmap, ResourceLocation endGlowmap,
+                                          ResourceLocation particleTexture, boolean horizontal) {
+        BlockModelBuilder model = models().getBuilder(modelName)
+                .texture("side", sideGlowmap)
+                .texture("end", endGlowmap)
+                .texture("particle", particleTexture)
+                .renderType("cutout");
+        BlockModelBuilder.ElementBuilder element = model.element().from(0, 0, 0).to(16, 16, 16);
+        emissiveFace(element, Direction.DOWN, "#end", false);
+        emissiveFace(element, Direction.UP, "#end", horizontal);
+        emissiveFace(element, Direction.NORTH, "#side", false);
+        emissiveFace(element, Direction.EAST, "#side", false);
+        emissiveFace(element, Direction.SOUTH, "#side", false);
+        emissiveFace(element, Direction.WEST, "#side", false);
+        element.end();
+        return model;
+    }
+
+    private void emissiveFace(BlockModelBuilder.ElementBuilder element, Direction direction, String texture, boolean upsideDown) {
+        BlockModelBuilder.ElementBuilder.FaceBuilder face = element.face(direction)
+                .texture(texture)
+                .cullface(direction)
+                .emissivity(15, 15);
+        if (upsideDown) {
+            face.rotation(FaceRotation.UPSIDE_DOWN);
+        }
+        face.end();
+    }
+
     private void woodBlockWithItem(Block block) {
         ResourceLocation resourceLocation = blockTexture(block).withPath(path -> path.replace("_wood", "_log"));
         axisBlock((RotatedPillarBlock) block, resourceLocation, resourceLocation);
@@ -405,6 +478,15 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
     private void luminousShardBlock(Block block) {
         simpleBlock(block, this.models().getExistingFile(blockTexture(block)));
+    }
+
+    private void manaLanternBlock(Block block) {
+        ModelFile normal = models().getExistingFile(blockTexture(block));
+        ModelFile hanging = models().getExistingFile(blockTexture(block).withSuffix("_hanging"));
+        getVariantBuilder(block).forAllStatesExcept(state -> ConfiguredModel.builder()
+                .modelFile(state.getValue(LanternBlock.HANGING) ? hanging : normal)
+                .build(), LanternBlock.WATERLOGGED);
+        simpleBlockItem(block, normal);
     }
 
     private void mistaliaPetalsBlock(Block block) {

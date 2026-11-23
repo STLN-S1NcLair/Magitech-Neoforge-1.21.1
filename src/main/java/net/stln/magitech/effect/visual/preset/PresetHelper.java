@@ -48,4 +48,19 @@ public class PresetHelper {
     public static ParticleEffectSpawner friction(ParticleEffectSpawner spawner, float friction) {
         return modify(spawner, builder -> builder.setFriction(friction));
     }
+
+    public static ParticleEffectSpawner noClip(ParticleEffectSpawner spawner) {
+        return modify(spawner, WorldParticleBuilder::enableNoClip);
+    }
+
+    public static ParticleEffectSpawner noClip(ParticleEffectSpawner spawner, int ticks) {
+        if (ticks <= 0) {
+            return modify(spawner, WorldParticleBuilder::disableNoClip);
+        }
+        return modify(spawner, builder -> builder.enableNoClip().addTickActor(particle -> {
+            if (particle.getAge() >= ticks) {
+                particle.hasPhysics = true;
+            }
+        }));
+    }
 }

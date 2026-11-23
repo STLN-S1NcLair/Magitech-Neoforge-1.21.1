@@ -1,0 +1,7 @@
+{
+	"parent": "magitech:block/shock_blaster",
+	"textures": {
+		"1": "magitech:block/machine/fluxium/shock_blaster_powered",
+		"particle": "magitech:block/machine/fluxium/shock_blaster_powered"
+	}
+}

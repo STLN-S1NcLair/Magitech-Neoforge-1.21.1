@@ -53,6 +53,7 @@ public class CapabilityInit {
         registerManaContainerBlockEntity(event, BlockInit.COMPRESSOR_ENTITY.get());
         registerManaContainerBlockEntity(event, BlockInit.CHILLER_ENTITY.get());
         registerManaContainerBlockEntity(event, BlockInit.HEAT_BURNER_ENTITY.get());
+        registerManaContainerBlockEntity(event, BlockInit.SHOCK_BLASTER_ENTITY.get());
         registerManaContainerBlockEntity(event, BlockInit.THERMAL_MANA_FURNACE_ENTITY.get());
 
         // アイテムへの登録

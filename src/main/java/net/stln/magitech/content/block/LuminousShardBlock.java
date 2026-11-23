@@ -31,6 +31,10 @@ public class LuminousShardBlock extends Block {
 
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+        spawnParticles(level, pos);
+    }
+
+    public static void spawnParticles(Level level, BlockPos pos) {
         PointVFX.spray(level, pos.getCenter(), Element.PHANTOM, ((level1, vec3, element) -> PresetHelper.bigger(PresetHelper.longer(PresetHelper.friction(SquareParticles.squareParticle(level1, vec3, element), 0.98F)))), new Vec3(0, 1, 0), 1, 0.02F, 0F);
     }
 }

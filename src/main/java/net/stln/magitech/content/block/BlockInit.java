@@ -185,6 +185,14 @@ public class BlockInit {
             BLOCK_ENITIES.register("heat_burner", () -> BlockEntityType.Builder.of(
                     HeatBurnerBlockEntity::new, BlockInit.HEAT_BURNER.get()).build(null));
 
+    public static final DeferredBlock<ShockBlasterBlock> SHOCK_BLASTER = BLOCKS.registerBlock("shock_blaster",
+            properties -> new ShockBlasterBlock(properties, 500000, 5000),
+            BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(SoundType.NETHERITE_BLOCK).noOcclusion().requiresCorrectToolForDrops());
+    public static final DeferredItem<BlockItem> SHOCK_BLASTER_ITEM = ItemInit.ITEMS.register("shock_blaster", key -> new HintTooltipTextManaContainerBlockItem(SHOCK_BLASTER.get(), new Item.Properties()));
+    public static final Supplier<BlockEntityType<ShockBlasterBlockEntity>> SHOCK_BLASTER_ENTITY =
+            BLOCK_ENITIES.register("shock_blaster", () -> BlockEntityType.Builder.of(
+                    ShockBlasterBlockEntity::new, BlockInit.SHOCK_BLASTER.get()).build(null));
+
     public static final DeferredBlock<EnvirometerBlock> ENVIROMETER = BLOCKS.registerBlock("envirometer",
             EnvirometerBlock::new,
             BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE).sound(SoundType.NETHERITE_BLOCK).noOcclusion());
@@ -571,6 +579,18 @@ public class BlockInit {
                             .strength(1.5F, 2.0F)
             ));
     public static final DeferredItem<BlockItem> FLUORITE_BLOCK_ITEM = ItemInit.ITEMS.register("fluorite_block", key -> new TooltipTextBlockItem(FLUORITE_BLOCK.get(), new Item.Properties()));
+    public static final DeferredBlock<FluoritePillarBlock> FLUORITE_PILLAR = BLOCKS.registerBlock("fluorite_pillar",
+            FluoritePillarBlock::new,
+            BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_CYAN)
+                    .sound(CRYSTAL_SOUND)
+                    .requiresCorrectToolForDrops()
+                    .strength(1.5F, 2.0F)
+                    .lightLevel(state -> 15)
+                    .noOcclusion());
+    public static final DeferredItem<BlockItem> FLUORITE_PILLAR_ITEM = ItemInit.ITEMS.register("fluorite_pillar", key -> new TooltipTextBlockItem(FLUORITE_PILLAR.get(), new Item.Properties()));
+    public static final Supplier<BlockEntityType<FluoritePillarBlockEntity>> FLUORITE_PILLAR_ENTITY =
+            BLOCK_ENITIES.register("fluorite_pillar", () -> BlockEntityType.Builder.of(
+                    FluoritePillarBlockEntity::new, FLUORITE_PILLAR.get()).build(null));
     public static final DeferredBlock<Block> FLUORITE_BRICKS = BLOCKS.registerBlock("fluorite_bricks",
             (properties) -> new Block(
                     BlockBehaviour.Properties.ofFullCopy(BlockInit.FLUORITE_BLOCK.get())
@@ -811,6 +831,11 @@ public class BlockInit {
                     .mapColor(MapColor.COLOR_GREEN)
     ));
     public static final DeferredItem<BlockItem> STRIPPED_MYSTWOOD_LOG_ITEM = ItemInit.ITEMS.register("stripped_mystwood_log", key -> new TooltipTextBlockItem(STRIPPED_MYSTWOOD_LOG.get(), new Item.Properties()));
+    public static final DeferredBlock<RotatedPillarBlock> CONDUCTIVE_STRIPPED_MYSTWOOD_LOG = BLOCKS.register("conductive_stripped_mystwood_log", key -> new RotatedPillarBlock(
+            BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_LOG)
+                    .mapColor(MapColor.COLOR_GREEN)
+    ));
+    public static final DeferredItem<BlockItem> CONDUCTIVE_STRIPPED_MYSTWOOD_LOG_ITEM = ItemInit.ITEMS.register("conductive_stripped_mystwood_log", key -> new TooltipTextBlockItem(CONDUCTIVE_STRIPPED_MYSTWOOD_LOG.get(), new Item.Properties()));
     public static final DeferredBlock<LodestoneLogBlock> MYSTWOOD_LOG = BLOCKS.register("mystwood_log", key -> new LodestoneLogBlock(
             BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LOG).sound(SoundType.CHERRY_WOOD)
                     .mapColor(p_152624_ -> p_152624_.getValue(LodestoneLogBlock.AXIS) == Direction.Axis.Y ? MapColor.COLOR_GREEN : MapColor.TERRACOTTA_GREEN)
@@ -897,6 +922,14 @@ public class BlockInit {
                     BlockBehaviour.Properties.of().replaceable().noCollission().noLootTable().noTerrainParticles().pushReaction(PushReaction.DESTROY).lightLevel((blockState) -> 15)
             )
     );
+
+    public static final DeferredBlock<ManaLanternBlock> MANA_LANTERN = BLOCKS.registerBlock("mana_lantern",
+            ManaLanternBlock::new,
+            BlockBehaviour.Properties.ofFullCopy(Blocks.LANTERN));
+    public static final DeferredItem<BlockItem> MANA_LANTERN_ITEM = ItemInit.ITEMS.register("mana_lantern", key -> new TooltipTextBlockItem(MANA_LANTERN.get(), new Item.Properties()));
+    public static final Supplier<BlockEntityType<ManaLanternBlockEntity>> MANA_LANTERN_ENTITY =
+            BLOCK_ENITIES.register("mana_lantern", () -> BlockEntityType.Builder.of(
+                    ManaLanternBlockEntity::new, MANA_LANTERN.get()).build(null));
 
     public static void registerBlocks(IEventBus eventBus) {
         Magitech.LOGGER.info("Registering Blocks for" + Magitech.MOD_ID);

@@ -49,6 +49,7 @@ public class ModBlockLootProvider extends BlockLootSubProvider {
         dropSelf(BlockInit.MANA_VESSEL.get());
         dropSelf(BlockInit.MANA_STRANDER.get());
         dropSelf(BlockInit.MANA_RECEIVER.get());
+        dropSelf(BlockInit.SHOCK_BLASTER.get());
         dropSelf(BlockInit.MANA_COLLECTOR.get());
         dropSelf(BlockInit.ENTANGLER.get());
         dropSelf(BlockInit.DETANGLER.get());
@@ -145,6 +146,7 @@ public class ModBlockLootProvider extends BlockLootSubProvider {
                 block -> createSlabItemTable(BlockInit.CUT_VESPERITE_SLAB.get()));
         dropSelf(BlockInit.CUT_VESPERITE_WALL.get());
         dropSelf(BlockInit.FLUORITE_BLOCK.get());
+        dropSelf(BlockInit.FLUORITE_PILLAR.get());
         dropSelf(BlockInit.FLUORITE_BRICKS.get());
         dropSelf(BlockInit.FLUORITE_BRICK_STAIRS.get());
          add(BlockInit.FLUORITE_BRICK_SLAB.get(),
@@ -204,6 +206,7 @@ public class ModBlockLootProvider extends BlockLootSubProvider {
         dropSelf(BlockInit.MYSTWOOD_LOG.get());
         dropSelf(BlockInit.MYSTWOOD_WOOD.get());
          dropSelf(BlockInit.STRIPPED_MYSTWOOD_LOG.get());
+         dropSelf(BlockInit.CONDUCTIVE_STRIPPED_MYSTWOOD_LOG.get());
          dropSelf(BlockInit.STRIPPED_MYSTWOOD_WOOD.get());
          dropSelf(BlockInit.MYSTWOOD_PLANKS.get());
          dropSelf(BlockInit.MYSTWOOD_ENCLOSURE.get());
@@ -224,6 +227,7 @@ public class ModBlockLootProvider extends BlockLootSubProvider {
         add(BlockInit.SCORCHED_GRASS_SOIL.get(),
                 block -> createSingleItemTableWithSilkTouch(block, BlockInit.SCORCHED_SOIL));
         dropSelf(BlockInit.SCORCHED_SOIL.get());
+        dropSelf(BlockInit.MANA_LANTERN.get());
         add(BlockInit.MISTALIA_PETALS.get(),
                 block -> createPetalsDrops(BlockInit.MISTALIA_PETALS.get()));
         add(BlockInit.MANA_BERRY_BUSH.get(), block -> createBushDrops(BlockInit.MANA_BERRY_BUSH.get(), ItemInit.MANA_BERRIES.get()));

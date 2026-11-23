@@ -141,6 +141,7 @@ public class CreativeTabInit {
                 output.accept(BlockInit.SULFUR_CRYSTAL_CLUSTER_ITEM.get());
                 output.accept(BlockInit.SULFUR_BLOCK_ITEM.get());
                 output.accept(BlockInit.MISTALIA_PETALS_ITEM.get());
+                output.accept(BlockInit.MANA_LANTERN_ITEM.get());
                 output.accept(BlockInit.ALCHECRYSITE_ITEM.get());
                 output.accept(BlockInit.ALCHECRYSITE_STAIRS_ITEM.get());
                 output.accept(BlockInit.ALCHECRYSITE_SLAB_ITEM.get());
@@ -171,6 +172,7 @@ public class CreativeTabInit {
                 output.accept(BlockInit.CUT_VESPERITE_SLAB_ITEM.get());
                 output.accept(BlockInit.CUT_VESPERITE_WALL_ITEM.get());
                 output.accept(BlockInit.FLUORITE_BLOCK_ITEM.get());
+                output.accept(BlockInit.FLUORITE_PILLAR_ITEM.get());
                 output.accept(BlockInit.FLUORITE_BRICKS_ITEM.get());
                 output.accept(BlockInit.FLUORITE_BRICK_STAIRS_ITEM.get());
                 output.accept(BlockInit.FLUORITE_BRICK_SLAB_ITEM.get());
@@ -218,6 +220,7 @@ public class CreativeTabInit {
                 output.accept(BlockInit.MYSTWOOD_LOG_ITEM.get());
                 output.accept(BlockInit.MYSTWOOD_WOOD_ITEM.get());
                 output.accept(BlockInit.STRIPPED_MYSTWOOD_LOG_ITEM.get());
+                output.accept(BlockInit.CONDUCTIVE_STRIPPED_MYSTWOOD_LOG_ITEM.get());
                 output.accept(BlockInit.STRIPPED_MYSTWOOD_WOOD_ITEM.get());
                 output.accept(BlockInit.MYSTWOOD_PLANKS_ITEM.get());
                 output.accept(BlockInit.MYSTWOOD_ENCLOSURE_ITEM.get());
@@ -254,6 +257,7 @@ public class CreativeTabInit {
                 output.accept(BlockInit.COMPRESSOR_ITEM.get());
                 output.accept(BlockInit.CHILLER_ITEM.get());
                 output.accept(BlockInit.HEAT_BURNER_ITEM.get());
+                output.accept(BlockInit.SHOCK_BLASTER_ITEM.get());
                 output.accept(BlockInit.ENVIROMETER_ITEM.get());
                 output.accept(BlockInit.THERMAL_MANA_FURNACE_ITEM.get());
                 output.accept(BlockInit.ITEM_COLLECTOR_ITEM.get());
