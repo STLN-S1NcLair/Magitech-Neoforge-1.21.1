@@ -41,19 +41,20 @@ public class ManaWispEntity extends SpellProjectileEntity {
     private static final double FLIGHT_SPEED = 0.16;
     private static final double DOCK_DISTANCE = 0.32;
     private static final double WANDER_ARRIVAL_DISTANCE = 0.55;
-    private static final double STEERING_RESPONSE = 0.18;
+    private static final double STEERING_RESPONSE = 0.12;
     private static final double OBSTACLE_LOOK_AHEAD = 1.4;
+    private static final double WANDER_FORWARD_DISTANCE = 3.0;
+    private static final double WANDER_FORWARD_VARIATION = 0.5;
+    private static final double WANDER_SIDE_VARIATION = 0.8;
+    private static final double WANDER_HEIGHT_VARIATION = 0.5;
 
     private final double avoidanceSide;
     private long remainingMana = MANA_AMOUNT;
     @Nullable
     private BlockPos targetPos;
     @Nullable
-    private Vec3 wanderOrigin;
-    @Nullable
     private Vec3 wanderTarget;
     private int targetSearchCooldown;
-    private int nextWanderTick;
     private boolean docked;
 
     public ManaWispEntity(EntityType<? extends SpellProjectileEntity> entityType, Level level) {
@@ -67,7 +68,6 @@ public class ManaWispEntity extends SpellProjectileEntity {
         this(EntityInit.MANA_WISP_ENTITY.get(), level);
         this.setOwner(owner);
         this.setPos(position);
-        this.wanderOrigin = position;
         this.setDeltaMovement(initialMotion);
     }
 
@@ -94,9 +94,6 @@ public class ManaWispEntity extends SpellProjectileEntity {
                 return;
             }
 
-            if (this.wanderOrigin == null) {
-                this.wanderOrigin = this.position();
-            }
             this.updateTarget();
 
             if (this.targetPos != null) {
@@ -115,13 +112,7 @@ public class ManaWispEntity extends SpellProjectileEntity {
                 this.docked = false;
                 this.updateWanderTarget();
                 if (this.wanderTarget != null) {
-                    if (this.position().distanceToSqr(this.wanderTarget) <= WANDER_ARRIVAL_DISTANCE * WANDER_ARRIVAL_DISTANCE
-                            && this.tickCount < this.nextWanderTick) {
-                        Vec3 slowedVelocity = this.getDeltaMovement().scale(0.75);
-                        this.setDeltaMovement(slowedVelocity.lengthSqr() < 1.0E-4 ? Vec3.ZERO : slowedVelocity);
-                    } else {
-                        this.setDeltaMovement(this.steerToward(this.wanderTarget));
-                    }
+                    this.setDeltaMovement(this.steerToward(this.wanderTarget));
                 }
             }
         }
@@ -228,31 +219,43 @@ public class ManaWispEntity extends SpellProjectileEntity {
 
     private void updateWanderTarget() {
         if (this.wanderTarget != null) {
-            if (this.position().distanceToSqr(this.wanderTarget) > WANDER_ARRIVAL_DISTANCE * WANDER_ARRIVAL_DISTANCE
-                    || this.tickCount < this.nextWanderTick) {
+            if (this.position().distanceToSqr(this.wanderTarget)
+                    > WANDER_ARRIVAL_DISTANCE * WANDER_ARRIVAL_DISTANCE) {
                 return;
             }
         }
+
+        Vec3 velocity = this.getDeltaMovement();
+        Vec3 forward = velocity.lengthSqr() > 1.0E-6
+                ? velocity.normalize()
+                : new Vec3(this.getRandom().nextDouble() - 0.5,
+                        this.getRandom().nextDouble() - 0.5,
+                        this.getRandom().nextDouble() - 0.5).normalize();
+        if (forward.lengthSqr() < 1.0E-6) {
+            forward = new Vec3(1.0, 0.0, 0.0);
+        }
+        Vec3 lateral = new Vec3(-forward.z, 0.0, forward.x);
+        if (lateral.lengthSqr() < 1.0E-6) {
+            lateral = new Vec3(1.0, 0.0, 0.0);
+        }
+        lateral = lateral.normalize();
 
         for (int attempt = 0; attempt < 8; attempt++) {
-            Vec3 candidate = this.wanderOrigin.add(
-                    this.getRandom().nextDouble() * 6.0 - 3.0,
-                    this.getRandom().nextDouble() * 4.0 - 2.0,
-                    this.getRandom().nextDouble() * 6.0 - 3.0
-            );
+            double forwardDistance = WANDER_FORWARD_DISTANCE
+                    + (this.getRandom().nextDouble() * 2.0 - 1.0) * WANDER_FORWARD_VARIATION;
+            double sideOffset = (this.getRandom().nextDouble() * 2.0 - 1.0) * WANDER_SIDE_VARIATION;
+            double heightOffset = (this.getRandom().nextDouble() * 2.0 - 1.0) * WANDER_HEIGHT_VARIATION;
+            Vec3 candidate = this.position()
+                    .add(forward.scale(forwardDistance))
+                    .add(lateral.scale(sideOffset))
+                    .add(0.0, heightOffset, 0.0);
             if (this.level().noCollision(this, this.getBoundingBox().move(candidate.x - this.getX(), candidate.y - this.getY(), candidate.z - this.getZ()))) {
                 this.wanderTarget = candidate;
-                this.nextWanderTick = this.tickCount + this.getRandom().nextInt(20, 41);
                 return;
             }
         }
 
-        this.wanderTarget = this.position().add(
-                this.getRandom().nextDouble() - 0.5,
-                this.getRandom().nextDouble() - 0.5,
-                this.getRandom().nextDouble() - 0.5
-        );
-        this.nextWanderTick = this.tickCount + TARGET_SCAN_INTERVAL;
+        this.wanderTarget = this.position().add(forward.scale(WANDER_FORWARD_DISTANCE));
     }
 
     private Vec3 steerToward(Vec3 destination) {
@@ -367,11 +370,6 @@ public class ManaWispEntity extends SpellProjectileEntity {
         if (this.targetPos != null) {
             compound.putLong("mana_wisp_target", this.targetPos.asLong());
         }
-        if (this.wanderOrigin != null) {
-            compound.putDouble("mana_wisp_origin_x", this.wanderOrigin.x);
-            compound.putDouble("mana_wisp_origin_y", this.wanderOrigin.y);
-            compound.putDouble("mana_wisp_origin_z", this.wanderOrigin.z);
-        }
     }
 
     @Override
@@ -379,15 +377,6 @@ public class ManaWispEntity extends SpellProjectileEntity {
         super.readAdditionalSaveData(compound);
         this.remainingMana = compound.contains("mana_wisp_remaining") ? compound.getLong("mana_wisp_remaining") : MANA_AMOUNT;
         this.targetPos = compound.contains("mana_wisp_target") ? BlockPos.of(compound.getLong("mana_wisp_target")) : null;
-        if (compound.contains("mana_wisp_origin_x") && compound.contains("mana_wisp_origin_y") && compound.contains("mana_wisp_origin_z")) {
-            this.wanderOrigin = new Vec3(
-                    compound.getDouble("mana_wisp_origin_x"),
-                    compound.getDouble("mana_wisp_origin_y"),
-                    compound.getDouble("mana_wisp_origin_z")
-            );
-        } else {
-            this.wanderOrigin = this.position();
-        }
     }
 
     private record TargetCandidate(BlockPos position, double distanceSqr) {

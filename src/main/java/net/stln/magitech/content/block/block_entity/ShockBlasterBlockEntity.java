@@ -15,6 +15,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.CollisionContext;
 import net.stln.magitech.content.block.BlockInit;
 import net.stln.magitech.content.block.ShockBlasterBlock;
 import net.stln.magitech.content.damage.DamageTypeInit;
@@ -96,7 +97,7 @@ public class ShockBlasterBlockEntity extends ManaMachineBlockEntity {
             Vec3 targetBodyPos = CombatHelper.getBodyPos(target);
             Vec3 blastSurfacePoint = getBlastSurfacePoint(origin, targetBodyPos);
             if (level.clip(new ClipContext(targetBodyPos, blastSurfacePoint,
-                    ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, (Entity) null)).getType() == HitResult.Type.BLOCK) {
+                    ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, CollisionContext.empty())).getType() == HitResult.Type.BLOCK) {
                 continue;
             }
 

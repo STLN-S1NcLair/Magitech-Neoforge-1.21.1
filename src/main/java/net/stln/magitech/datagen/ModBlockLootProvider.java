@@ -85,6 +85,7 @@ public class ModBlockLootProvider extends BlockLootSubProvider {
         ));
 //        dropSelf(BlockInit.CREATIVE_MANA_SOURCE.get());
 //        dropSelf(BlockInit.CREATIVE_MANA_SINK.get());
+        dropSelf(BlockInit.RIFT_SPAWNER.get());
         dropSelf(BlockInit.TRAP_HATCH.get());
         add(BlockInit.FLUORITE_ORE.get(),
                 block -> createOreDrop(BlockInit.FLUORITE_ORE.get(), ItemInit.FLUORITE.get()));

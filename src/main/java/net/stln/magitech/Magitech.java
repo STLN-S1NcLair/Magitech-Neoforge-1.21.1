@@ -19,6 +19,7 @@ import net.stln.magitech.compat.modonomicon.PageInit;
 import net.stln.magitech.content.advancement.CriterionInit;
 import net.stln.magitech.content.biome.BiomeInit;
 import net.stln.magitech.content.block.BlockInit;
+import net.stln.magitech.content.block.spawn_table.SpawnTableRegistry;
 import net.stln.magitech.content.entity.EntityInit;
 import net.stln.magitech.content.entity.mob_effect.MobEffectInit;
 import net.stln.magitech.content.entity.status.AttributeInit;
@@ -60,6 +61,7 @@ public class Magitech {
 
     public Magitech(IEventBus modEventBus, ModContainer modContainer) {
         modEventBus.addListener(this::commonSetup);
+        modEventBus.addListener(SpawnTableRegistry::register);
 
         // Item
         ComponentInit.registerComponents(modEventBus);

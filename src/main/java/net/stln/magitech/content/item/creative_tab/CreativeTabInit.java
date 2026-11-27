@@ -269,6 +269,7 @@ public class CreativeTabInit {
                 output.accept(BlockInit.ENHANCED_MANA_NODE_ITEM.get());
                 output.accept(BlockInit.ENHANCED_MANA_RELAY_ITEM.get());
                 output.accept(BlockInit.ENHANCED_MANA_VESSEL_ITEM.get());
+                output.accept(BlockInit.RIFT_SPAWNER_ITEM.get());
                 output.accept(BlockInit.TRAP_HATCH_ITEM.get());
                 output.accept(BlockInit.CREATIVE_MANA_SOURCE_ITEM.get());
                 output.accept(BlockInit.CREATIVE_MANA_SINK_ITEM.get());

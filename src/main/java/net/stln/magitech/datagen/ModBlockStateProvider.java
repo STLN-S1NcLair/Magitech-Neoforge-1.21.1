@@ -171,6 +171,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         luminousShardBlock(BlockInit.LUMINOUS_SHARD.get());
         manaLanternBlock(BlockInit.MANA_LANTERN.get());
         mistaliaPetalsBlock(BlockInit.MISTALIA_PETALS.get());
+        riftSpawnerBlock(BlockInit.RIFT_SPAWNER.get());
         trapHatchBlock(BlockInit.TRAP_HATCH.get());
         fieldEffectMachineBlock(BlockInit.CHILLER.get());
         fieldEffectMachineBlock(BlockInit.HEAT_BURNER.get());
@@ -510,6 +511,15 @@ public class ModBlockStateProvider extends BlockStateProvider {
                         .end();
             }
         }
+    }
+
+    private void riftSpawnerBlock(Block block) {
+        ModelFile idle = models().cubeAll("rift_spawner", Magitech.id("block/machine/fluxium/fluxium_enclosure"));
+        ModelFile active = models().cubeAll("rift_spawner_active", Magitech.id("block/machine/fluxium/chiller_lit"));
+        getVariantBuilder(block).forAllStates(state -> ConfiguredModel.builder()
+                .modelFile(state.getValue(BlockStatePropertyInit.ACTIVE) ? active : idle)
+                .build());
+        simpleBlockItem(block, idle);
     }
 
     private void trapHatchBlock(Block block) {

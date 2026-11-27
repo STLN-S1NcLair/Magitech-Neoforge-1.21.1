@@ -128,6 +128,7 @@
   "block.magitech.thermal_mana_furnace": "Thermal Mana Furnace",
   "block.magitech.creative_mana_source": "Creative Mana Source",
   "block.magitech.creative_mana_sink": "Creative Mana Sink",
+  "block.magitech.rift_spawner": "Rift Spawner",
   "block.magitech.trap_hatch": "Trap Hatch",
   "block.magitech.fluorite_ore": "Fluorite Ore",
   "block.magitech.deepslate_fluorite_ore": "Deepslate Fluorite Ore",
@@ -249,7 +250,8 @@
   "block.magitech.mistalia_petals": "Mistalia Petals",
   "block.magitech.scorched_grass_soil": "Scorched Grass Soil",
   "block.magitech.scorched_soil": "Scorched Soil",
-  "block.magitech.luminous_shard": "Luminous Shard",
+  "block.magitech.luminous_shard": "Luminous Shard",
+
   "block.magitech.mana_lantern": "Mana Lantern",
   "field_influence.magitech.heat": "Heat",
   "field_influence.magitech.cooling": "Cooling",

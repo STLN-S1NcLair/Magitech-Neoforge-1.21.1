@@ -307,11 +307,20 @@ public class BlockInit {
 
     // トラップデバイス
 
+    public static final DeferredBlock<RiftSpawnerBlock> RIFT_SPAWNER = BLOCKS.registerBlock("rift_spawner",
+            RiftSpawnerBlock::new,
+            BlockBehaviour.Properties.ofFullCopy(Blocks.SPAWNER).sound(SoundType.NETHERITE_BLOCK)
+                    .lightLevel(state -> state.getValue(RiftSpawnerBlock.ACTIVE) ? 8 : 0).noOcclusion());
+    public static final DeferredItem<BlockItem> RIFT_SPAWNER_ITEM = ItemInit.ITEMS.register("rift_spawner",
+            key -> new BlockItem(RIFT_SPAWNER.get(), new Item.Properties()));
+    public static final Supplier<BlockEntityType<RiftSpawnerBlockEntity>> RIFT_SPAWNER_ENTITY =
+            BLOCK_ENITIES.register("rift_spawner", () -> BlockEntityType.Builder.of(
+                    RiftSpawnerBlockEntity::new, RIFT_SPAWNER.get()).build(null));
+
     public static final DeferredBlock<TrapHatchBlock> TRAP_HATCH = BLOCKS.registerBlock("trap_hatch",
             TrapHatchBlock::new,
             BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_TRAPDOOR).sound(SoundType.NETHERITE_BLOCK));
     public static final DeferredItem<BlockItem> TRAP_HATCH_ITEM = ItemInit.ITEMS.register("trap_hatch", key -> new HintTooltipTextBlockItem(TRAP_HATCH.get(), new Item.Properties()));
-
 
     // Normal Blocks
 
