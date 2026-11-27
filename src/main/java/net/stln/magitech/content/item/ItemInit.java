@@ -278,6 +278,7 @@ public class ItemInit {
     public static final DeferredItem<Item> FLOW_POTION_FLASK = ITEMS.registerItem("flow_potion_flask", FlowPotionFlaskItem::new);
     public static final DeferredItem<Item> HOLLOW_POTION_FLASK = ITEMS.registerItem("hollow_potion_flask", HollowPotionFlaskItem::new);
     public static final DeferredItem<Item> WEAVER_SPAWN_EGG = ITEMS.registerItem("weaver_spawn_egg", (properties) -> new DeferredSpawnEggItem(EntityInit.WEAVER_ENTITY, 0x2F2E30, 0xB1F3CC, properties));
+    public static final DeferredItem<Item> MANAPHOR_SPAWN_EGG = ITEMS.registerItem("manaphor_spawn_egg", properties -> new DeferredSpawnEggItem(EntityInit.MANAPHOR_ENTITY, 0xA0FFA0, 0x00F0D0, properties));
     private static final Item.Properties TOOL_PROPERTIES = new Item.Properties().setNoRepair().stacksTo(1);
     public static final DeferredItem<Item> DAGGER = ITEMS.registerItem("dagger", DaggerItem::new, TOOL_PROPERTIES);
     public static final DeferredItem<Item> LIGHT_SWORD = ITEMS.registerItem("light_sword", LightSwordItem::new, TOOL_PROPERTIES);

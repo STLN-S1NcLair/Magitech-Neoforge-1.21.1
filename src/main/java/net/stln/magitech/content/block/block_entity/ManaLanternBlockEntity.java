@@ -13,8 +13,7 @@ public class ManaLanternBlockEntity extends BlockEntity {
     }
 
     public void clientTick(Level level, BlockPos pos) {
-
         double hangingOffset = getBlockState().getValue(ManaLanternBlock.HANGING) ? 0.125 : 0.0;
-        ManaLanternBlock.spawnParticles(level, pos, hangingOffset, level.getGameTime() % 2 == 0);
+        ManaLanternBlock.spawnParticles(level, pos, hangingOffset, level.getGameTime());
     }
 }

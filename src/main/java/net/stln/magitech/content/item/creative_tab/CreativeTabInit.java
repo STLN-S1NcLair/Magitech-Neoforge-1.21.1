@@ -114,6 +114,7 @@ public class CreativeTabInit {
                 output.accept(ItemInit.MYSTWOOD_BOAT.get());
                 output.accept(ItemInit.MYSTWOOD_CHEST_BOAT.get());
                 output.accept(ItemInit.WEAVER_SPAWN_EGG.get());
+                output.accept(ItemInit.MANAPHOR_SPAWN_EGG.get());
             }).build());
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MAGITECH_BLOCK_TAB = CREATIVE_MODE_TABS.register("magitech_block_tab", () -> CreativeModeTab.builder()

@@ -24,6 +24,7 @@ public class ParticleInit {
     public static final DeferredHolder<ParticleType<?>, LodestoneWorldParticleType> RING = PARTICLE_TYPES.register("ring", LodestoneWorldParticleType::new);
     public static final DeferredHolder<ParticleType<?>, LodestoneWorldParticleType> RING_REVERSED = PARTICLE_TYPES.register("ring_reversed", LodestoneWorldParticleType::new);
     public static final DeferredHolder<ParticleType<?>, LodestoneWorldParticleType> LD_POWERUP = PARTICLE_TYPES.register("powerup", LodestoneWorldParticleType::new);
+    public static final DeferredHolder<ParticleType<?>, LodestoneWorldParticleType> STAR = PARTICLE_TYPES.register("star", LodestoneWorldParticleType::new);
     public static final DeferredHolder<ParticleType<?>, LodestoneWorldParticleType> RAY = PARTICLE_TYPES.register("ray", LodestoneWorldParticleType::new);
     public static final DeferredHolder<ParticleType<?>, LodestoneWorldParticleType> SMOKE = PARTICLE_TYPES.register("smoke", LodestoneWorldParticleType::new);
     public static final DeferredHolder<ParticleType<?>, LodestoneWorldParticleType> SNOW = PARTICLE_TYPES.register("snow", LodestoneWorldParticleType::new);
@@ -44,6 +45,7 @@ public class ParticleInit {
         event.registerSpriteSet(RING.get(), LodestoneWorldParticleType.Factory::new);
         event.registerSpriteSet(RING_REVERSED.get(), LodestoneWorldParticleType.Factory::new);
         event.registerSpriteSet(LD_POWERUP.get(), LodestoneWorldParticleType.Factory::new);
+        event.registerSpriteSet(STAR.get(), LodestoneWorldParticleType.Factory::new);
         event.registerSpriteSet(RAY.get(), LodestoneWorldParticleType.Factory::new);
         event.registerSpriteSet(SMOKE.get(), LodestoneWorldParticleType.Factory::new);
         event.registerSpriteSet(SNOW.get(), LodestoneWorldParticleType.Factory::new);

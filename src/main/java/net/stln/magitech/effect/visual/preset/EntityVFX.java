@@ -1,5 +1,6 @@
 package net.stln.magitech.effect.visual.preset;
 
+import com.mojang.datafixers.util.Function3;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
@@ -38,6 +39,20 @@ public class EntityVFX {
             if (i != Mth.floor(amount) || level.random.nextFloat() < amount - i) {
                 Vec3 randomBody = EffectHelper.getRandomBody(entity, heightSection);
                 ParticleEffectSpawner spawner = PowerupParticles.powerupParticle(level, randomBody, primary, secondary);
+                PresetHelper.modify(spawner, builder -> {
+                    builder.addTickActor(BehaviorPreset.toDestination(entity, 0.995F, 0.0F, 1.0F, false));
+                });
+                spawner.spawnParticles();
+            }
+        }
+    }
+
+    public static void aura(Level level, Element element, Function3<Level, Vec3, Element, ParticleEffectSpawner> supplier, Entity entity, Section heightSection, float concentration, float amount) {
+        if (!level.isClientSide) return;
+        for (int i = 0; i < amount; i++) {
+            if (i != Mth.floor(amount) || level.random.nextFloat() < amount - i) {
+                Vec3 randomBody = EffectHelper.getRandomBody(entity, heightSection).scale(1 - concentration).add(entity.position().add(0, entity.getBbHeight() / 2, 0).scale(concentration));
+                ParticleEffectSpawner spawner = supplier.apply(level, randomBody, element);
                 PresetHelper.modify(spawner, builder -> {
                     builder.addTickActor(BehaviorPreset.toDestination(entity, 0.995F, 0.0F, 1.0F, false));
                 });

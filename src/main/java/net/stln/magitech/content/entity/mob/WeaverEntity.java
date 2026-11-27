@@ -129,7 +129,7 @@ public class WeaverEntity extends Monster implements GeoEntity, RangedAttackMob 
             case 1 -> addFrostBeam(level, target);
             case 2 -> addFireBall(level, target);
         }
-        this.triggerAnim("controller", "spell");
+        this.triggerAnim("action_controller", "spell");
     }
 
     private void addLightning(Level level, LivingEntity target) {
@@ -227,7 +227,7 @@ public class WeaverEntity extends Monster implements GeoEntity, RangedAttackMob 
     public boolean hurt(DamageSource source, float amount) {
         boolean result = super.hurt(source, amount);
         if (result && amount > 0) {
-            this.triggerAnim("controller", "damage");
+            this.triggerAnim("action_controller", "damage");
         }
         return result;
     }
@@ -244,7 +244,7 @@ public class WeaverEntity extends Monster implements GeoEntity, RangedAttackMob 
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "controller", 0, state -> {
+        controllers.add(new AnimationController<>(this, "movement_controller", 0, state -> {
             if (this.isAggressive()) {
                 if (state.isMoving()) {
                     state.setAndContinue(WALK_CHARGE);
@@ -257,7 +257,10 @@ public class WeaverEntity extends Monster implements GeoEntity, RangedAttackMob 
                 state.setAndContinue(IDLE);
             }
             return PlayState.CONTINUE;
-        }).triggerableAnim("damage", DAMAGE).triggerableAnim("spell", SPELL));
+        }));
+        controllers.add(new AnimationController<>(this, "action_controller", 0, state -> PlayState.STOP)
+                .triggerableAnim("damage", DAMAGE)
+                .triggerableAnim("spell", SPELL));
     }
 
     @Override

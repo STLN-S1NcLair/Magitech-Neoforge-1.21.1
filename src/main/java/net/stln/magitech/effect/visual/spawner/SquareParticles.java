@@ -42,9 +42,9 @@ public class SquareParticles {
                 .setForceSpawn(true)
                 .setLifetime(lifetime);
         WorldParticleBuilder bloomBuilder = WorldParticleBuilder.create(bloomOptions)
-                .setScaleData(GenericParticleData.create(0.01F, Mth.randomBetween(random, 0.2F, 0.3F), 0F))
+                .setScaleData(GenericParticleData.create(0.01F, Mth.randomBetween(random, 0.15F, 0.25F), 0F))
                 .setColorData(bloomColorParticleData)
-                .setTransparencyData(GenericParticleData.create(0.5F, 0F))
+                .setTransparencyData(GenericParticleData.create(0.4F, 0F))
                 .setFriction(0.95F)
                 .setSpinData(spinParticleData)
                 .setForceSpawn(true)

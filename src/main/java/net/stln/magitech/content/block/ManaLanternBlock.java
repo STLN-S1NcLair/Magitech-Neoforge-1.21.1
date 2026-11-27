@@ -19,6 +19,7 @@ import net.stln.magitech.content.block.block_entity.ManaLanternBlockEntity;
 import net.stln.magitech.effect.visual.preset.PointVFX;
 import net.stln.magitech.effect.visual.preset.PresetHelper;
 import net.stln.magitech.effect.visual.spawner.SquareParticles;
+import net.stln.magitech.effect.visual.spawner.StarParticles;
 import net.stln.magitech.feature.element.Element;
 
 public class ManaLanternBlock extends LanternBlock implements EntityBlock {
@@ -68,7 +69,13 @@ public class ManaLanternBlock extends LanternBlock implements EntityBlock {
         };
     }
 
-    public static void spawnParticles(Level level, BlockPos pos, double verticalOffset, boolean floats) {
-        PointVFX.spray(level, pos.getCenter().add(0, -0.2 + verticalOffset + 0.02 * (floats ? 1 : -1), 0), Element.MANA, ((level1, vec3, element) -> PresetHelper.noClip(PresetHelper.smaller(SquareParticles.squareShrinkParticle(level1, vec3, element)))), new Vec3(0, 1, 0), 1, 0.02F * (floats ? 1 : -1), 0.01F);
+    public static void spawnParticles(Level level, BlockPos pos, double verticalOffset, long tick) {
+        if (tick % 4 != 0) {
+            return;
+        }
+        Vec3 center = pos.getCenter().add(0, -0.2 + verticalOffset, 0);
+        PointVFX.spray(level, center, Element.MANA, ((level1, vec3, element) -> PresetHelper.noClip(PresetHelper.smaller(SquareParticles.squareShrinkParticle(level1, vec3, element)))), new Vec3(0, 1, 0), 1, 0.02F * (tick % 8 == 0 ? 1 : -1), 0.01F);
+
+        PointVFX.spray(level, center, Element.MANA, StarParticles::starParticle, new Vec3(0, 0, 0), 1, 0.0F, 0.001F);
     }
 }

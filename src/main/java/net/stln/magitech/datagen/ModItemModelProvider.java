@@ -162,6 +162,7 @@ public class ModItemModelProvider extends ItemModelProvider {
                 .transform(ItemDisplayContext.FIRST_PERSON_RIGHT_HAND).rotation(0, -90, 25).translation(1.13f, 3.2f, 1.13f).scale(1.2f).end()
                 .transform(ItemDisplayContext.FIRST_PERSON_LEFT_HAND).rotation(0, 90, -25).translation(1.13f, 3.2f, 1.13f).scale(1.2f).end();
         spawnEggItem(ItemInit.WEAVER_SPAWN_EGG.get());
+        spawnEggItem(ItemInit.MANAPHOR_SPAWN_EGG.get());
 
         basicItem(BlockInit.CELIFERN_DOOR_ITEM.get());
         saplingItem(BlockInit.CELIFERN_SAPLING_ITEM);

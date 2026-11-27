@@ -32,11 +32,12 @@ public class ShockBlasterBlock extends ManaContainerBlock {
 
     private static final VoxelShape SHAPE_UP = Shapes.or(
             Block.box(0, 0, 0, 16, 4, 16),
-            Block.box(3, 4, 3, 13, 16, 13),
-            Block.box(2, 4, 2, 3, 16, 14),
-            Block.box(13, 4, 2, 14, 16, 14),
-            Block.box(2, 4, 2, 14, 16, 3),
-            Block.box(2, 4, 13, 14, 16, 14)
+            Block.box(3, 4, 3, 13, 13, 13),
+            Block.box(13, 4, 1, 15, 13, 3),
+            Block.box(1, 4, 1, 3, 13, 3),
+            Block.box(1, 4, 13, 3, 13, 15),
+            Block.box(1, 13, 1, 15, 16, 15),
+            Block.box(13, 4, 13, 15, 13, 15)
     );
     private static final VoxelShape SHAPE_DOWN = VoxelShapeHelper.rotateShape(SHAPE_UP, Direction.UP, Direction.DOWN);
     private static final VoxelShape SHAPE_NORTH = VoxelShapeHelper.rotateShape(SHAPE_UP, Direction.UP, Direction.NORTH);
