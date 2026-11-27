@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "hanging=false": {
+      "model": "magitech:block/mana_lantern"
+    },
+    "hanging=true": {
+      "model": "magitech:block/mana_lantern_hanging"
+    }
+  }
+}

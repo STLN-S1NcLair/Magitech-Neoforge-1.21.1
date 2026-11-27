@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_column_horizontal",
+  "textures": {
+    "end": "magitech:block/conductive_stripped_mystwood_log_top",
+    "particle": "magitech:block/conductive_stripped_mystwood_log",
+    "side": "magitech:block/conductive_stripped_mystwood_log"
+  }
+}

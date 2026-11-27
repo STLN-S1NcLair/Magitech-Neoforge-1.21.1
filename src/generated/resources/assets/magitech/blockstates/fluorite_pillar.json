@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "magitech:block/fluorite_pillar",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "magitech:block/fluorite_pillar"
+    },
+    "axis=z": {
+      "model": "magitech:block/fluorite_pillar",
+      "x": 90
+    }
+  }
+}
